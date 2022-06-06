@@ -6,7 +6,6 @@ import {RootState} from '@store/rootReducer';
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import testIDs from 'test/e2e/testIDs';
 
 export const Home = () => {
   const {email} = useSelector((state: RootState) => state.auth.userData);
@@ -15,10 +14,8 @@ export const Home = () => {
     dispatch(AuthActions.SIGN_OUT.START.create());
   };
   return (
-    <View style={styles.container} testID={testIDs.screens.home.screen}>
-      <Text style={styles.email} testID="hello">
-        {email}
-      </Text>
+    <View style={styles.container}>
+      <Text style={styles.email}>{email}</Text>
       <PrimaryButton text="Log out" onPress={logOutPress} />
     </View>
   );
