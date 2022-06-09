@@ -10,4 +10,8 @@ export const Images = {
     welcome6: require('./welcome/welcome6.png'),
     logoIcon: require('./logo-icon.png'),
   },
+  tabbar: {
+    itemBackground: require('./tabbar/item-background.png'),
+    miningBackground: require('./tabbar/mining-background.png'),
+  },
 };

@@ -1,17 +1,28 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {useInitialRouteName} from '@hooks/useInitialRouteName';
+import {useInitialRouteName} from '@navigation/hooks/useInitialRouteName';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
-import {CheckEmail} from '@screens/AuthFlow/CheckEmail';
 import {ClaimNickname} from '@screens/AuthFlow/ClaimNickname';
-import {Intro} from '@screens/AuthFlow/Intro';
-import {Invite} from '@screens/AuthFlow/Invite';
 import {SignIn} from '@screens/AuthFlow/SignIn';
 import {Welcome} from '@screens/AuthFlow/Welcome';
 import {WebView} from '@screens/WebView';
 import React from 'react';
 
-const Stack = createStackNavigator();
+export type AuthStackParamList = {
+  Signup: undefined;
+  WebView: undefined;
+};
+
+export type SignUpStackParamList = {
+  Intro: undefined;
+  ClaimNickname: undefined;
+  Invite: undefined;
+  Welcome: undefined;
+  SignIn: undefined;
+};
+
+const AuthStack = createStackNavigator<AuthStackParamList>();
+const SignUpStack = createStackNavigator<SignUpStackParamList>();
 
 const screenOptions = {
   headerShown: false,
@@ -21,40 +32,28 @@ const screenOptions = {
   ...TransitionPresets.SlideFromRightIOS,
 };
 
-export type SignUpStackParamList = {
-  Intro: undefined;
-  CheckEmail: undefined;
-  ClaimNickname: undefined;
-  Invite: undefined;
-  Welcome: undefined;
-  SignIn: undefined;
-};
-
 function Signup() {
   const initialRouteName = useInitialRouteName();
   return (
-    <Stack.Navigator
+    <SignUpStack.Navigator
       screenOptions={screenOptions}
       initialRouteName={initialRouteName}>
-      <Stack.Screen name="Intro" component={Intro} />
-      <Stack.Screen name="CheckEmail" component={CheckEmail} />
-      <Stack.Screen name="ClaimNickname" component={ClaimNickname} />
-      <Stack.Screen name="Invite" component={Invite} />
-      <Stack.Screen name="Welcome" component={Welcome} />
-      <Stack.Screen name="SignIn" component={SignIn} />
-    </Stack.Navigator>
+      <SignUpStack.Screen name="ClaimNickname" component={ClaimNickname} />
+      <SignUpStack.Screen name="Welcome" component={Welcome} />
+      <SignUpStack.Screen name="SignIn" component={SignIn} />
+    </SignUpStack.Navigator>
   );
 }
 
 export function AuthNavigator() {
   return (
-    <Stack.Navigator
+    <AuthStack.Navigator
       screenOptions={{
         ...screenOptions,
         ...TransitionPresets.ModalSlideFromBottomIOS,
       }}>
-      <Stack.Screen name="Signup" component={Signup} />
-      <Stack.Screen name="WebView" component={WebView} />
-    </Stack.Navigator>
+      <AuthStack.Screen name="Signup" component={Signup} />
+      <AuthStack.Screen name="WebView" component={WebView} />
+    </AuthStack.Navigator>
   );
 }
