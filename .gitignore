@@ -88,4 +88,4 @@ configuration/
 
 #
 *.dSYM.zip
-!/src/translations/translations.json
+/src/translations/translations.json
