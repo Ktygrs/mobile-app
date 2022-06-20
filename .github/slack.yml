@@ -24,6 +24,12 @@ fields:
   - title: Git Ref
     value: "<{{refUrl}}|`{{ref}}`> ({{refType}})"
     short: true
+  - title: Environment
+    value: "`{{env.APP_ENV}}`"
+    short: true
+  - title: Deployment
+    value: "`{{env.DEPLOY_TARGET }}`"
+    short: true
   - title: Workflow
     value: "<{{workflowUrl}}|{{workflow}}>"
     short: true
@@ -39,9 +45,6 @@ fields:
     short: true
   - title: Commits
     value: "{{#if payload.commits}}{{#each payload.commits}}<{{this.url}}|`{{truncate this.id 8}}`> - {{this.message}}\n{{/each}}{{/if}}"
-    short: false
-  - title: Job Steps
-    value: "{{#ifneq jobStatus 'SUCCESS'}}{{#each jobSteps}}{{icon this.outcome}} {{@key}}\n{{/each}}{{/ifneq}}"
     short: false
 
 footer: >-

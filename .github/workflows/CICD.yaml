@@ -88,7 +88,6 @@ jobs:
         with:
           config: main-repo/.github/slack.yml
           status: ${{ job.status }}
-          steps: ${{ toJson(steps) }}
   ios-e2e-test:
     needs: [react-native]
     name: iOS -- E2E test
@@ -139,7 +138,6 @@ jobs:
         with:
           config: main-repo/.github/slack.yml
           status: ${{ job.status }}
-          steps: ${{ toJson(steps) }}
   android-e2e-test:
     needs: [react-native]
     name: Android -- E2E test
@@ -199,7 +197,6 @@ jobs:
         with:
           config: main-repo/.github/slack.yml
           status: ${{ job.status }}
-          steps: ${{ toJson(steps) }}
   ios-cicd:
     name: iOS -- build, deploy
     # TODO: uncomment this when we start testing.
@@ -265,11 +262,10 @@ jobs:
         uses: act10ns/slack@v1
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.FRONTEND_SLACK_WEBHOOK }}
-          SLACK_MESSAGE_TITLE: Deploying `{{env.APP_ENV}}` iOS App to `{{env.DEPLOY_TARGET }}`
+          SLACK_MESSAGE_TITLE: iOS App Deployment
         with:
           config: main-repo/.github/slack.yml
           status: ${{ job.status }}
-          steps: ${{ toJson(steps) }}
   android-cicd:
     name: Android -- build, deploy
     # TODO: uncomment this after android-e2e-test gets fixed.
@@ -342,8 +338,7 @@ jobs:
         uses: act10ns/slack@v1
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.FRONTEND_SLACK_WEBHOOK }}
-          SLACK_MESSAGE_TITLE: Deploying `{{env.APP_ENV}}` Android App to `{{env.DEPLOY_TARGET }}`
+          SLACK_MESSAGE_TITLE: Android App Deployment
         with:
           config: main-repo/.github/slack.yml
           status: ${{ job.status }}
-          steps: ${{ toJson(steps) }}
