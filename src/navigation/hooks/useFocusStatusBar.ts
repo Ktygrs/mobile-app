@@ -13,5 +13,5 @@ export const useFocusStatusBar = ({style, animated}: Props) =>
   useFocusEffect(
     useCallback(() => {
       StatusBar.setBarStyle(style, animated);
-    }, [style, animated]),
+    }, [animated, style]),
   );
