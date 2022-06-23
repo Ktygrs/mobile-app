@@ -321,9 +321,9 @@ PODS:
   - React-jsinspector (0.68.0)
   - React-logger (0.68.0):
     - glog
-  - react-native-config (1.4.5):
-    - react-native-config/App (= 1.4.5)
-  - react-native-config/App (1.4.5):
+  - react-native-config (1.4.6):
+    - react-native-config/App (= 1.4.6)
+  - react-native-config/App (1.4.6):
     - React-Core
   - react-native-flipper (0.142.0):
     - React-Core
@@ -748,7 +748,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 010a66edf644339f6da72b34208b070089680415
   React-jsinspector: 90f0bfd5d04e0b066c29216a110ffb9a6c34f23f
   React-logger: 8474fefa09d05f573a13c044cb0dfd751d4e52e3
-  react-native-config: 6502b1879f97ed5ac570a029961fc35ea606cd14
+  react-native-config: 7cd105e71d903104e8919261480858940a6b9c0e
   react-native-flipper: 6504d02aadad2cce9083b6437fc1927f8e2083bb
   react-native-netinfo: 3671b091c4843fda5e153612866ef4024b8f5d62
   react-native-pager-view: b1914469643f40042e65d78cbf3d3dfebd6fb0d9
@@ -788,6 +788,6 @@ SPEC CHECKSUMS:
   Yoga: 6671cf077f614314c22fd09ddf87d7abeee64e96
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 2178e6b6b488f0906203396074f252f717638e59
+PODFILE CHECKSUM: 64b002d4b52f585c564a1f695e89acf7f63e5b23
 
 COCOAPODS: 1.11.3

@@ -1,8 +1,12 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 apply plugin: "com.android.application"
-apply from: '../../node_modules/react-native-unimodules/gradle.groovy'
+
+// https://github.com/luggit/react-native-config#extra-step-for-android
+project.ext.defaultEnvFile = ".env.app"
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
+
+apply from: '../../node_modules/react-native-unimodules/gradle.groovy'
 
 import com.android.build.OutputFile
 
@@ -147,6 +151,10 @@ android {
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
         testBuildType System.getProperty('testBuildType', 'releasestagingE2E')
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+
+        // https://github.com/luggit/react-native-config#advanced-android-setup
+        resValue "string", "build_config_package", "io.ice.app"
+
         if (isNewArchitectureEnabled()) {
             // We configure the NDK build only if you decide to opt-in for the New Architecture.
             externalNativeBuild {
