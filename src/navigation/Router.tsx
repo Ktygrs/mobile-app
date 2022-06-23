@@ -3,35 +3,25 @@
 import {Initialization} from '@components/Initialization';
 import {theme} from '@navigation/theme';
 import {NavigationContainer} from '@react-navigation/native';
-import {magicLink} from '@services/magicLink';
-import {AuthActions} from '@store/modules/Auth/actions';
-import {isSignUpCompletedSelector} from '@store/modules/Auth/selectors';
-import {RootState} from '@store/rootReducer';
+import {AppCommonActions} from '@store/modules/AppCommon/actions';
+import {
+  isInitializedSelector,
+  isSignUpCompletedSelector,
+} from '@store/modules/Auth/selectors';
 import React, {useEffect} from 'react';
 import {Linking} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 
-// import selectors from '@store/selectors';
 import {AuthNavigator} from './Auth';
 import {Main} from './Main';
 
 function ActiveNavigator() {
   const dispatch = useDispatch();
-  const initialization = useSelector(
-    (state: RootState) => state.auth.initialization,
-  );
+  const initialization = useSelector(isInitializedSelector);
   const isSignUpCompleted = useSelector(isSignUpCompletedSelector);
+
   useEffect(() => {
-    const getUserData = async () => {
-      const {email, phoneNumber} = await magicLink.checkUser();
-      dispatch(
-        AuthActions.STORE_USER_DATA.STATE.create({
-          email: email ? email.toLowerCase() : null,
-          phoneNumber,
-        }),
-      );
-    };
-    getUserData();
+    dispatch(AppCommonActions.APP_LOADED.STATE.create());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

@@ -10,7 +10,7 @@ import {useDispatch, useSelector} from 'react-redux';
 export const Home = () => {
   const {email} = useSelector((state: RootState) => state.auth.userData);
   const dispatch = useDispatch();
-  const logOutPress = () => {
+  const logOutPress = async () => {
     dispatch(AuthActions.SIGN_OUT.START.create());
   };
   return (
