@@ -3,14 +3,16 @@
 import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
 import {useMemo} from 'react';
 import {StyleSheet} from 'react-native';
+import {rem} from 'rn-units';
 
 type Params = {
   extraOffset?: number;
 };
 
-export const useBottomTabBarOffsetStyle = (params?: Params) => {
+export const useBottomTabBarOffsetStyle = ({
+  extraOffset = rem(64),
+}: Params = {}) => {
   const tabBarHeight = useBottomTabBarHeight();
-  const extraOffset = params?.extraOffset ?? 0;
   return useMemo(
     () =>
       StyleSheet.create({
