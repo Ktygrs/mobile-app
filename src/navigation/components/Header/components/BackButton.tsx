@@ -12,6 +12,12 @@ type Props = {
 
 export const BackButton = ({containerStyle, color}: Props = {}) => {
   const navigation = useNavigation();
+
+  // navigation.canGoBack also takes in account tabs, but getState().routes contains only stack routes
+  if (navigation.getState().routes.length === 1) {
+    return null;
+  }
+
   return (
     <View style={containerStyle}>
       <TouchableOpacity onPress={navigation.goBack} hitSlop={buttonHitSlop}>
