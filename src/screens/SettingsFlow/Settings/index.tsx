@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Avatar} from '@components/Avatar';
 import {COLORS} from '@constants/colors';
 import {commonStyles} from '@constants/styles';
 import {useScrollShadow} from '@hooks/useScrollShadow';
@@ -7,8 +8,10 @@ import {Header} from '@navigation/components/Header';
 import {LangButton} from '@navigation/components/Header/components/LangButton';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
 import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
+import {ProfileTabStackParamList} from '@navigation/Main';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {AppVersion} from '@screens/SettingsFlow/Settings/components/AppVersion';
-import {Avatar} from '@screens/SettingsFlow/Settings/components/Avatar';
 import {
   MenuItem,
   MenuItemSeparator,
@@ -33,6 +36,8 @@ export const Settings = memo(() => {
   useFocusStatusBar({style: 'light-content'});
   const bottomOffset = useBottomTabBarOffsetStyle();
   const {scrollHandler, shadowStyle} = useScrollShadow();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<ProfileTabStackParamList>>();
 
   return (
     <View style={styles.container}>
@@ -48,11 +53,11 @@ export const Settings = memo(() => {
         scrollEventThrottle={16}
         contentContainerStyle={bottomOffset.current}
         showsVerticalScrollIndicator={false}>
-        <View style={styles.card}>
+        <View style={[styles.card, commonStyles.baseSubScreen]}>
           <Avatar
             showPen
             uri="https://media.istockphoto.com/photos/millennial-male-team-leader-organize-virtual-workshop-with-employees-picture-id1300972574?b=1&k=20&m=1300972574&s=170667a&w=0&h=2nBGC7tr0kWIU8zRQ3dMg-C5JLo9H2sNUuDjQ5mlYfo="
-            style={[styles.avatar, commonStyles.shadow]}
+            style={styles.avatar}
           />
           <SectionTitle text={t('settings.profile').toUpperCase()} />
           <SectionCard>
@@ -60,7 +65,7 @@ export const Settings = memo(() => {
               title={t('settings.personal_information_title')}
               description={t('settings.personal_information_description')}
               renderIcon={PersonIcon}
-              onPress={() => {}}
+              onPress={() => navigation.navigate('PersonalInformation')}
             />
             <MenuItemSeparator />
             <MenuItem
@@ -145,9 +150,6 @@ const styles = StyleSheet.create({
   card: {
     marginTop: rem(80),
     paddingTop: rem(12),
-    borderTopLeftRadius: rem(20),
-    borderTopRightRadius: rem(20),
-    backgroundColor: COLORS.white,
     // make bottom overscroll area white, otherwise it'd be of container color
     paddingBottom: 2000,
     marginBottom: -2000,

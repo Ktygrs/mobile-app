@@ -13,6 +13,9 @@ import {News} from '@screens/News';
 import {MyBadges} from '@screens/ProfileFlow/MyBadges';
 import {MyRoles} from '@screens/ProfileFlow/MyRoles';
 import {Profile} from '@screens/ProfileFlow/Profile';
+import {ConfirmNewPhone} from '@screens/SettingsFlow/ConfirmNewPhone';
+import {ConfirmPhoneCode} from '@screens/SettingsFlow/ConfirmPhoneCode';
+import {PersonalInformation} from '@screens/SettingsFlow/PersonalInformation';
 import {Settings} from '@screens/SettingsFlow/Settings';
 import {Team} from '@screens/Team';
 import {WebView} from '@screens/WebView';
@@ -51,6 +54,9 @@ export type ProfileTabStackParamList = {
   MyRoles: undefined;
   MyBadges?: {category?: BadgeCategory};
   Settings: undefined;
+  PersonalInformation: undefined;
+  ConfirmNewPhone: undefined;
+  ConfirmPhoneCode: undefined;
 };
 
 const Tabs = createBottomTabNavigator<MainTabsParamList>();
@@ -114,11 +120,25 @@ const ProfileTabStackNavigator = () => (
       options={myBadgesOptions}
     />
     <ProfileTabStack.Screen name="Settings" component={Settings} />
+    <ProfileTabStack.Screen
+      name="PersonalInformation"
+      component={PersonalInformation}
+    />
+    <ProfileTabStack.Screen
+      name="ConfirmNewPhone"
+      component={ConfirmNewPhone}
+    />
+    <ProfileTabStack.Screen
+      name="ConfirmPhoneCode"
+      component={ConfirmPhoneCode}
+    />
   </ProfileTabStack.Navigator>
 );
 
 const MainTabs = () => (
-  <Tabs.Navigator screenOptions={tabOptions} tabBar={MainTabBar}>
+  <Tabs.Navigator
+    screenOptions={tabOptions}
+    tabBar={props => <MainTabBar {...props} />}>
     <Tabs.Screen
       name="HomeTab"
       component={HomeTabStackNavigator}

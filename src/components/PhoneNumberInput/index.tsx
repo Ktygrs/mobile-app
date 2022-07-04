@@ -4,7 +4,9 @@ import {COLORS} from '@constants/colors';
 import {ICountryCode} from '@constants/countries';
 import {FONTS} from '@constants/fonts';
 import {ArrowDownIcon} from '@svg/ArrowDownIcon';
+import {t} from '@translations/i18n';
 import * as React from 'react';
+import {forwardRef, Ref} from 'react';
 import {
   StyleProp,
   StyleSheet,
@@ -24,37 +26,43 @@ interface PhoneNumberInputProps {
   onValueChange: (v: string) => void;
 }
 
-export const PhoneNumberInput = ({
-  selectedCountry,
-  containerStyle,
-  showCountryCodeSearch,
-  value,
-  onValueChange,
-}: PhoneNumberInputProps) => {
-  return (
-    <View style={[styles.container, containerStyle]}>
-      <TouchableOpacity
-        style={styles.countryIconContainer}
-        onPress={showCountryCodeSearch}>
-        <View style={styles.countryCodeWrapper}>
-          <Text style={styles.countryIcon}>{selectedCountry.flag}</Text>
+export const PhoneNumberInput = forwardRef(
+  (
+    {
+      selectedCountry,
+      containerStyle,
+      showCountryCodeSearch,
+      value,
+      onValueChange,
+    }: PhoneNumberInputProps,
+    forwardedRef: Ref<TextInput>,
+  ) => {
+    return (
+      <View style={[styles.container, containerStyle]}>
+        <TouchableOpacity
+          style={styles.countryIconContainer}
+          onPress={showCountryCodeSearch}>
+          <View style={styles.countryCodeWrapper}>
+            <Text style={styles.countryIcon}>{selectedCountry.flag}</Text>
 
-          <ArrowDownIcon />
-        </View>
-      </TouchableOpacity>
+            <ArrowDownIcon />
+          </View>
+        </TouchableOpacity>
 
-      <Text style={styles.code}>{selectedCountry.iddCode}</Text>
+        <Text style={styles.code}>{selectedCountry.iddCode}</Text>
 
-      <TextInput
-        placeholder={'| Phone Number'}
-        keyboardType={'phone-pad'}
-        style={styles.phone}
-        value={value}
-        onChangeText={onValueChange}
-      />
-    </View>
-  );
-};
+        <TextInput
+          placeholder={`| ${t('global.phone_number')}`}
+          keyboardType={'phone-pad'}
+          style={styles.phone}
+          value={value}
+          onChangeText={onValueChange}
+          ref={forwardedRef}
+        />
+      </View>
+    );
+  },
+);
 
 const styles = StyleSheet.create({
   container: {
@@ -87,6 +95,7 @@ const styles = StyleSheet.create({
     fontSize: font(15),
     fontFamily: FONTS.primary.regular,
     color: COLORS.darkBlue,
+    flex: 1,
   },
   countryCodeWrapper: {
     alignItems: 'center',
