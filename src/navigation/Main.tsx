@@ -31,8 +31,6 @@ export type MainTabsParamList = {
 export type MainStackParamList = {
   Main: undefined;
   WebView: undefined;
-  MyRoles: undefined;
-  MyBadges: undefined;
 };
 
 export type HomeTabStackParamList = {
@@ -44,9 +42,6 @@ export type HomeTabStackParamList = {
 
 export type TeamTabStackParamList = {
   Team: undefined;
-  Profile: undefined;
-  MyRoles: undefined;
-  MyBadges: undefined;
 };
 
 export type ProfileTabStackParamList = {
@@ -100,13 +95,6 @@ const HomeTabStackNavigator = () => (
 const TeamTabStackNavigator = () => (
   <TeamTabStack.Navigator screenOptions={screenOptions}>
     <TeamTabStack.Screen name="Team" component={Team} />
-    <TeamTabStack.Screen name="Profile" component={Profile} />
-    <TeamTabStack.Screen name="MyRoles" component={MyRoles} />
-    <TeamTabStack.Screen
-      name="MyBadges"
-      component={MyBadges}
-      options={myBadgesOptions}
-    />
   </TeamTabStack.Navigator>
 );
 

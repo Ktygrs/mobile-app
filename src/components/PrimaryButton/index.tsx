@@ -2,19 +2,37 @@
 
 import {COLORS} from '@constants/colors';
 import {FONTS} from '@constants/fonts';
-import React from 'react';
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import React, {ReactNode} from 'react';
+import {
+  FlexStyle,
+  StyleProp,
+  StyleSheet,
+  Text,
+  TextStyle,
+  TouchableOpacity,
+  ViewStyle,
+} from 'react-native';
 import {font, rem} from 'rn-units';
 
 interface PrimaryButtonProps {
   onPress: () => void;
   text: string;
+  style?: StyleProp<ViewStyle | FlexStyle>;
+  textStyle?: StyleProp<TextStyle>;
+  icon?: ReactNode;
 }
 
-export const PrimaryButton = ({onPress, text}: PrimaryButtonProps) => {
+export const PrimaryButton = ({
+  onPress,
+  text,
+  style = {},
+  textStyle = {},
+  icon,
+}: PrimaryButtonProps) => {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.button}>
-      <Text style={styles.text}>{text}</Text>
+    <TouchableOpacity onPress={onPress} style={[styles.button, style]}>
+      {icon ? icon : null}
+      <Text style={[styles.text, textStyle]}>{text}</Text>
     </TouchableOpacity>
   );
 };

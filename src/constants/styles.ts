@@ -2,7 +2,11 @@
 
 import {COLORS} from '@constants/colors';
 import {StyleSheet} from 'react-native';
-import {rem} from 'rn-units';
+import {rem, screenHeight} from 'rn-units';
+
+const DESIGN_SCREEN_HEIGHT = 812;
+
+export const IS_SMALL_SCREEN = DESIGN_SCREEN_HEIGHT > screenHeight;
 
 export const SCREEN_SIDE_OFFSET = rem(23);
 
