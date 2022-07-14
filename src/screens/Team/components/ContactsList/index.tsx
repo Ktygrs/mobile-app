@@ -18,6 +18,7 @@ import {
 } from '@store/modules/Team/selectors';
 import {WhiteLogoSvg} from '@svg/WhiteLogo';
 import {t} from '@translations/i18n';
+import {hapticFeedback} from '@utils/hapticFeedback';
 import React, {useCallback} from 'react';
 import {SectionList, StyleSheet, Text, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
@@ -38,7 +39,8 @@ export const ContactsList = ({}: ContactsListProps) => {
 
   const invite = useCallback(
     (id: string) => {
-      dispatch(TeamActions.INVITE_CONTACT.STATE.create(id));
+      hapticFeedback();
+      dispatch(TeamActions.INVITE_CONTACT.START.create(id));
     },
     [dispatch],
   );
@@ -80,13 +82,16 @@ export const ContactsList = ({}: ContactsListProps) => {
             )
           }
           rightSideButton={
-            isFriend ? null : (
-              <ContactsInviteButton
-                text={'invite'}
-                icon={<TeamContactInvite />}
-                onPress={() => invite(contact.id)}
-              />
-            )
+            <ContactsInviteButton
+              text={t('team.contacts_list.invite')}
+              icon={
+                <TeamContactInvite
+                  fill={isFriend ? COLORS.cadetBlue : COLORS.darkBlue}
+                />
+              }
+              onPress={() => invite(contact.id)}
+              disabled={isFriend}
+            />
           }
           indicatorContent={
             isIceSection && isFriend ? (
