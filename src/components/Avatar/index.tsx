@@ -12,7 +12,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import {rem} from 'rn-units';
+import {isAndroid, isIOS, rem} from 'rn-units';
 
 const AVATAR_SIZE = rem(86);
 const PEN_SIZE = rem(22);
@@ -26,8 +26,8 @@ type Props = {
 
 export const Avatar = ({uri, style, showPen, onPenPress}: Props) => {
   return (
-    <View style={style}>
-      <View style={[styles.avatarWrapper, commonStyles.shadow]}>
+    <View style={[style, isIOS && commonStyles.shadow]}>
+      <View style={[styles.avatarWrapper, isAndroid && commonStyles.shadow]}>
         <Image source={{uri}} style={styles.image} />
       </View>
       {showPen && (

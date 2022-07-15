@@ -7,18 +7,15 @@ export type NotificationChannel = {
   sms: boolean;
 };
 
-export type NotificationChannelType =
-  | 'additionalProp1'
-  | 'additionalProp2'
-  | 'additionalProp3';
+export type NotificationSettings = {
+  [key: string]: NotificationChannel;
+};
 
 export type DeviceSettings = {
   deviceUniqueId: string;
   disableAllNotifications: boolean;
   language: string;
-  notificationSettings: {
-    [key in NotificationChannelType]: NotificationChannel;
-  };
+  notificationSettings: NotificationSettings;
   updatedAt: string;
   userId: string;
 };

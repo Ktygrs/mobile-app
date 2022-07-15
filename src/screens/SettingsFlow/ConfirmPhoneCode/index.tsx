@@ -2,6 +2,7 @@
 
 import {Avatar} from '@components/Avatar';
 import {CommonInput} from '@components/CommonInput';
+import {KeyboardDismiss, stopPropagination} from '@components/KeyboardDismiss';
 import {COLORS} from '@constants/colors';
 import {FONTS} from '@constants/fonts';
 import {commonStyles} from '@constants/styles';
@@ -15,26 +16,23 @@ import {t} from '@translations/i18n';
 import React, {memo} from 'react';
 import {
   Image,
-  Keyboard,
   KeyboardAvoidingView,
-  Platform,
   StyleSheet,
   Text,
-  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {font, rem} from 'rn-units';
+import {font, isIOS, rem} from 'rn-units';
 
 export const ConfirmPhoneCode = memo(() => {
   useFocusStatusBar({style: 'light-content'});
   const bottomOffset = useBottomTabBarOffsetStyle();
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+    <KeyboardDismiss>
       <KeyboardAvoidingView
         style={styles.container}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+        behavior={isIOS ? 'padding' : undefined}>
         <Header
           color={COLORS.white}
           title={t('personal_information.title')}
@@ -67,10 +65,7 @@ export const ConfirmPhoneCode = memo(() => {
               <Text style={styles.noteText}>
                 {t('team.confirm_code.description')}
               </Text>
-              <View
-                style={styles.controlWrapper}
-                onStartShouldSetResponder={_ => true}
-                onTouchEnd={e => e.stopPropagation()}>
+              <View style={styles.controlWrapper} {...stopPropagination}>
                 <CommonInput
                   icon={<TicketIconSvg />}
                   placeholder={t('team.confirm_code.placeholder')}
@@ -85,7 +80,7 @@ export const ConfirmPhoneCode = memo(() => {
           </View>
         </View>
       </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+    </KeyboardDismiss>
   );
 });
 

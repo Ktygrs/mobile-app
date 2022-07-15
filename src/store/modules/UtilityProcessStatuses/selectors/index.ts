@@ -13,7 +13,7 @@ interface Action {
 const processStatusesRootSelector = (state: RootState) =>
   state.utilityProcessStatuses;
 
-export const getProcessStatusForActionSelector = (
+export const processStatusForActionSelector = (
   state: RootState,
   action: Action,
 ): ActionData | undefined =>
@@ -22,73 +22,63 @@ export const getProcessStatusForActionSelector = (
     action.id ? `${action.majorType}.${action.id}` : `${action.majorType}`,
   ) as ActionData;
 
-const isLoadingSelector = (state: RootState, action: Action) => {
-  const requestData = getProcessStatusForActionSelector(state, action);
+export const isLoadingSelector = (action: Action, state: RootState) => {
+  const requestData = processStatusForActionSelector(state, action);
 
   return !!(requestData && requestData.status === ActionSubtype.START);
 };
 
-const isSuccessSelector = (state: RootState, action: Action) => {
-  const requestData = getProcessStatusForActionSelector(state, action);
+export const isSuccessSelector = (action: Action, state: RootState) => {
+  const requestData = processStatusForActionSelector(state, action);
 
   return !!(requestData && requestData.status === ActionSubtype.SUCCESS);
 };
 
-const isFailedSelector = (state: RootState, action: Action) => {
-  const requestData = getProcessStatusForActionSelector(state, action);
+export const isFailedSelector = (action: Action, state: RootState) => {
+  const requestData = processStatusForActionSelector(state, action);
 
   return !!(requestData && requestData.status === ActionSubtype.FAILED);
 };
 
-const getActionPayloadSelector = (state: RootState, action: Action) => {
-  const requestData = getProcessStatusForActionSelector(state, action);
+export const actionPayloadSelector = (action: Action, state: RootState) => {
+  const requestData = processStatusForActionSelector(state, action);
 
   return lodashGet(requestData, 'payload');
 };
 
-const getActionTimestampSelector = (
-  state: RootState,
+export const actionTimestampSelector = (
   action: Action,
+  state: RootState,
 ): number => {
-  const requestData = getProcessStatusForActionSelector(state, action);
+  const requestData = processStatusForActionSelector(state, action);
 
   return lodashGet(requestData, 'timestamp', 0);
 };
 
-const getSuccessActionTimestampSelector = (
-  state: RootState,
+export const successActionTimestampSelector = (
   action: Action,
+  state: RootState,
 ): number => {
-  const isSuccess = isSuccessSelector(state, action);
+  const isSuccess = isSuccessSelector(action, state);
 
   if (isSuccess) {
-    return getActionTimestampSelector(state, action);
+    return actionTimestampSelector(action, state);
   }
 
   return 0;
 };
 
-const getFailedReasonSelector = (
-  state: RootState,
+export const failedReasonSelector = (
   action: Action,
+  state: RootState,
 ): string | undefined => {
-  const isFailed = isFailedSelector(state, action);
+  const isFailed = isFailedSelector(action, state);
 
   if (isFailed) {
-    const requestData = getProcessStatusForActionSelector(state, action);
+    const requestData = processStatusForActionSelector(state, action);
 
     return lodashGet(requestData?.payload, 'errorMessage');
   }
 
   return undefined;
 };
-
-export const UtilsProcessStatusSelectors = Object.freeze({
-  getActionPayloadSelector,
-  getActionTimestampSelector,
-  getFailedReasonSelector,
-  getSuccessActionTimestampSelector,
-  isFailedSelector,
-  isLoadingSelector,
-  isSuccessSelector,
-});

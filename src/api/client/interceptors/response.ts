@@ -2,13 +2,6 @@
 
 import {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios';
 
-// import StoreConfig from 'src/configureStore'; //TODO: configure redux store
-// import AuthSelectors from 'src/modules/Auth/selectors'; //TODO: configure redux store
-
-function onFulfilled(response: AxiosResponse) {
-  return response.data;
-}
-
 function onRejected(instance: AxiosInstance) {
   return async (error: {
     message: string;
@@ -19,9 +12,6 @@ function onRejected(instance: AxiosInstance) {
     };
     isAxiosError: boolean;
   }) => {
-    const errorData =
-      error?.response?.data || error.message || error?.response?.statusText;
-
     switch (error.response?.status) {
       case 401:
         {
@@ -49,8 +39,8 @@ function onRejected(instance: AxiosInstance) {
         break;
     }
 
-    return Promise.reject(errorData || error);
+    return Promise.reject(error);
   };
 }
 
-export const responseInterceptor = {onFulfilled, onRejected};
+export const responseInterceptor = {onRejected};

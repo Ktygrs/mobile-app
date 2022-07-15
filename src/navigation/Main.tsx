@@ -7,7 +7,11 @@ import {NewsIcon} from '@navigation/components/MainTabBar/components/Icons/NewsI
 import {ProfileIcon} from '@navigation/components/MainTabBar/components/Icons/ProfileIcon';
 import {TeamIcon} from '@navigation/components/MainTabBar/components/Icons/TeamIcon';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {
+  createNativeStackNavigator,
+  NativeStackNavigationOptions,
+} from '@react-navigation/native-stack';
+import {Confirm, ConfirmButton} from '@screens/Dialogs/Confirm';
 import {Home} from '@screens/Home';
 import {News} from '@screens/News';
 import {MyBadges} from '@screens/ProfileFlow/MyBadges';
@@ -15,6 +19,7 @@ import {MyRoles} from '@screens/ProfileFlow/MyRoles';
 import {Profile} from '@screens/ProfileFlow/Profile';
 import {ConfirmNewPhone} from '@screens/SettingsFlow/ConfirmNewPhone';
 import {ConfirmPhoneCode} from '@screens/SettingsFlow/ConfirmPhoneCode';
+import {NotificationSettings} from '@screens/SettingsFlow/NotificationSettings';
 import {PersonalInformation} from '@screens/SettingsFlow/PersonalInformation';
 import {Settings} from '@screens/SettingsFlow/Settings';
 import {Team} from '@screens/Team';
@@ -31,6 +36,11 @@ export type MainTabsParamList = {
 export type MainStackParamList = {
   Main: undefined;
   WebView: undefined;
+  Confirm: {
+    title?: string;
+    subtitle?: string;
+    buttons?: ConfirmButton[];
+  };
 };
 
 export type HomeTabStackParamList = {
@@ -52,6 +62,7 @@ export type ProfileTabStackParamList = {
   PersonalInformation: undefined;
   ConfirmNewPhone: undefined;
   ConfirmPhoneCode: undefined;
+  NotificationSettings: undefined;
 };
 
 const Tabs = createBottomTabNavigator<MainTabsParamList>();
@@ -69,8 +80,9 @@ const screenOptions = {
   headerShown: false,
 };
 
-const modalOptions = {
-  presentation: 'fullScreenModal',
+const modalOptions: NativeStackNavigationOptions = {
+  presentation: 'transparentModal',
+  animation: 'fade',
 } as const;
 
 /**
@@ -120,6 +132,10 @@ const ProfileTabStackNavigator = () => (
       name="ConfirmPhoneCode"
       component={ConfirmPhoneCode}
     />
+    <ProfileTabStack.Screen
+      name="NotificationSettings"
+      component={NotificationSettings}
+    />
   </ProfileTabStack.Navigator>
 );
 
@@ -150,7 +166,7 @@ const MainTabs = () => (
   </Tabs.Navigator>
 );
 
-export function Main() {
+export function MainNavigator() {
   return (
     <MainStack.Navigator screenOptions={screenOptions}>
       <MainStack.Screen name="Main" component={MainTabs} />
@@ -158,6 +174,11 @@ export function Main() {
         name="WebView"
         options={modalOptions}
         component={WebView}
+      />
+      <MainStack.Screen
+        name="Confirm"
+        options={modalOptions}
+        component={Confirm}
       />
     </MainStack.Navigator>
   );

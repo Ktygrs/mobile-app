@@ -4,7 +4,11 @@ import {RootState} from '@store/rootReducer';
 
 export const userDataSelector = (state: RootState) => state.auth.userData;
 
-export const isInitializedSelector = (state: RootState) =>
+export const userIdSelector = (state: RootState) => state.auth.userData!.userId;
+
+export const isAuthorizedSelector = (state: RootState) => !!state.auth.userData;
+
+export const isAuthInitializedSelector = (state: RootState) =>
   state.auth.isInitialized;
 
 export const isWelcomeSeenSelector = (state: RootState) =>
