@@ -1,11 +1,15 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {ClaimNickname} from '@screens/AuthFlow/ClaimNickname';
-import {SignIn} from '@screens/AuthFlow/SignIn';
-import {Welcome} from '@screens/AuthFlow/Welcome';
+import {SignIn} from '@screens/UserRegistrationFlow/SignIn';
+import {UserRegistration} from '@screens/UserRegistrationFlow/UserRegistration';
+import {Welcome} from '@screens/UserRegistrationFlow/Welcome';
 import {WebView} from '@screens/WebView';
-import {userDataSelector} from '@store/modules/Auth/selectors';
+import {
+  isWelcomeSeenSelector,
+  magicUserSelector,
+  profileSelector,
+} from '@store/modules/Auth/selectors';
 import React from 'react';
 import {useSelector} from 'react-redux';
 
@@ -16,7 +20,7 @@ export type AuthStackParamList = {
 
 export type SignUpStackParamList = {
   Intro: undefined;
-  ClaimNickname: undefined;
+  UserRegistration: undefined;
   Invite: undefined;
   Welcome: undefined;
   SignIn: undefined;
@@ -37,12 +41,27 @@ const modalOptions = {
 } as const;
 
 function Signup() {
-  const userData = useSelector(userDataSelector);
+  const magicUser = useSelector(magicUserSelector);
+  const profile = useSelector(profileSelector);
+  const isWelcomeSeen = useSelector(isWelcomeSeenSelector);
+
+  const initialAuthRoute = () => {
+    if (!isWelcomeSeen && magicUser) {
+      return 'Welcome';
+    } else if (magicUser && (!profile || !profile.username)) {
+      return 'UserRegistration';
+    }
+    return 'SignIn';
+  };
+
   return (
     <SignUpStack.Navigator
       screenOptions={screenOptions}
-      initialRouteName={userData ? 'Welcome' : 'SignIn'}>
-      <SignUpStack.Screen name="ClaimNickname" component={ClaimNickname} />
+      initialRouteName={initialAuthRoute()}>
+      <SignUpStack.Screen
+        name="UserRegistration"
+        component={UserRegistration}
+      />
       <SignUpStack.Screen name="Welcome" component={Welcome} />
       <SignUpStack.Screen name="SignIn" component={SignIn} />
     </SignUpStack.Navigator>

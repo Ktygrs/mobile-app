@@ -34,7 +34,7 @@ export interface DeviceMetadata {
   carrier: string | null;
   codename: string | null;
   device: string | null;
-  deviceId: string | null;
+  deviceId: string;
   deviceName: string | null;
   deviceType: string | null;
   deviceUniqueId: string;

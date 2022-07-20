@@ -1,12 +1,17 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {UserProfile} from '@api/user/types';
 import {OAuthProvider} from '@magic-ext/react-native-oauth';
 import {createAction} from '@store/utils/actions/createAction';
 
 type SignInResult = {
-  userData: {phoneNumber: string | null; email: string | null; userId: string};
-  token: string;
+  magicUser: {phoneNumber: string | null; email: string | null; userId: string};
+  profile: UserProfile | null;
 };
+
+const SET_TOKEN = createAction('SET_TOKEN', {
+  STATE: token => ({token}),
+});
 
 const STORE_WELCOME_SEEN = createAction('STORE_WELCOME_SEEN', {
   STATE: () => {},
@@ -14,13 +19,29 @@ const STORE_WELCOME_SEEN = createAction('STORE_WELCOME_SEEN', {
 
 const LOAD_USER = createAction('LOAD_USER', {
   STATE: (
-    token?: string,
-    userData?: {
+    magicUser?: {
       email: string | null;
       phoneNumber: string | null;
       userId: string;
     },
-  ) => ({token, userData}),
+    profile?: UserProfile,
+  ) => ({magicUser, profile}),
+});
+
+const CREATE_USER = createAction('CREATE_USER', {
+  START: () => {},
+  SUCCESS: (result: UserProfile) => ({result}),
+  FAILED: (errorMessage: string) => ({
+    errorMessage,
+  }),
+});
+
+const FETCH_USER_PROFILE = createAction('FETCH_USER_PROFILE', {
+  START: () => {},
+  SUCCESS: (result: UserProfile) => ({result}),
+  FAILED: (errorMessage: string) => ({
+    errorMessage,
+  }),
 });
 
 const SIGN_OUT = createAction('SIGN_OUT', {
@@ -60,7 +81,7 @@ const SET_CODE_VERIFIED = createAction('SET_CODE_VERIFIED', {
 });
 
 const DELETE_ACCOUNT = createAction('DELETE_ACCOUNT', {
-  START: (userId: string) => ({userId}),
+  START: true,
   SUCCESS: true,
   FAILED: (errorMessage: string) => ({
     errorMessage,
@@ -68,7 +89,9 @@ const DELETE_ACCOUNT = createAction('DELETE_ACCOUNT', {
 });
 
 export const AuthActions = Object.freeze({
+  SET_TOKEN,
   LOAD_USER,
+  FETCH_USER_PROFILE,
   STORE_WELCOME_SEEN,
   SIGN_IN_EMAIL,
   SIGN_IN_PHONE,
@@ -77,4 +100,5 @@ export const AuthActions = Object.freeze({
   SET_PHONE_NUMBER_VERIFIED,
   SET_CODE_VERIFIED,
   DELETE_ACCOUNT,
+  CREATE_USER,
 });

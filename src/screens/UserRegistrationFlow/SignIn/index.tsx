@@ -9,10 +9,13 @@ import {countriesCode} from '@constants/countries';
 import {FONTS} from '@constants/fonts';
 import {SignUpStackParamList} from '@navigation/Auth';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {BorderedButton} from '@screens/AuthFlow/SignIn/components/BorderedButton';
+import {BorderedButton} from '@screens/UserRegistrationFlow/SignIn/components/BorderedButton';
 import {AuthActions} from '@store/modules/Auth/actions';
 import {isAuthorizedSelector} from '@store/modules/Auth/selectors';
-import {deviceSettingsSelector} from '@store/modules/Devices/selectors';
+import {
+  deviceLocationSelector,
+  deviceSettingsSelector,
+} from '@store/modules/Devices/selectors';
 import {EmailIconSvg} from '@svg/EmailIcon';
 import {LogoSvg} from '@svg/Logo';
 import {MagicIconSvg} from '@svg/MagicIcon';
@@ -49,14 +52,27 @@ export const SignIn = ({navigation}: Props) => {
   const dispatch = useDispatch();
   const isAuthorized = useSelector(isAuthorizedSelector);
   const deviceSettings = useSelector(deviceSettingsSelector);
+  const location = useSelector(deviceLocationSelector);
 
   const phoneNumber = `${selectedCountry.iddCode}${phone}`;
 
   useEffect(() => {
     if (isAuthorized && deviceSettings) {
-      navigation.navigate('ClaimNickname');
+      navigation.navigate('UserRegistration');
     }
   }, [navigation, isAuthorized, deviceSettings]);
+
+  useEffect(() => {
+    if (location) {
+      const countries = countriesCode;
+      const currentCountry = countries.find(country => {
+        return country.isoCode.toLowerCase() === location.country.toLowerCase();
+      });
+      if (currentCountry) {
+        setSelectedCountry(currentCountry);
+      }
+    }
+  }, [location]);
 
   const onSignIn = async () => {
     Keyboard.dismiss();

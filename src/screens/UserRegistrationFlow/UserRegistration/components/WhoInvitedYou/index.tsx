@@ -15,6 +15,9 @@ import {font, rem, screenHeight} from 'rn-units';
 interface WhoInvitedYouProps {
   inputValue: string;
   onInputChange: (v: string) => void;
+  onSkip: () => void;
+  onFocus: () => void;
+  errorText: string;
 }
 
 const h = (screenHeight * 275) / 811;
@@ -23,14 +26,20 @@ const w = (h * 236) / 275;
 export const WhoInvitedYou = ({
   inputValue,
   onInputChange,
+  onSkip,
+  onFocus,
+  errorText,
 }: WhoInvitedYouProps) => {
   const [isTipVisible, setTipVisibility] = useState(false);
+
   const showTip = () => {
     setTipVisibility(true);
   };
+
   const hideTip = () => {
     setTipVisibility(false);
   };
+
   return (
     <View style={styles.container}>
       <WhoInvitedYouSvg width={h} height={w} />
@@ -46,6 +55,8 @@ export const WhoInvitedYou = ({
           onChangeText={onInputChange}
           icon={<TicketIconSvg />}
           containerStyle={styles.input}
+          errorText={errorText}
+          onFocus={onFocus}
         />
 
         <View style={styles.dontHaveCodeContainer}>
@@ -55,8 +66,7 @@ export const WhoInvitedYou = ({
           <Text style={styles.dontHaveCodeText}>
             {translate('whoInvitedYou.dontHaveInvitationCode')}
           </Text>
-
-          <TouchableOpacity>
+          <TouchableOpacity onPress={onSkip}>
             <Text style={styles.tapHere}>
               {translate('whoInvitedYou.tapHere')}
             </Text>
