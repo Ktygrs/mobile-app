@@ -1,66 +1,48 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {Images} from '@images';
-import {LottieAnimations} from '@lottie';
 import {MAIN_TAB_BAR_HEIGHT} from '@navigation/components/MainTabBar';
+import {MiningAnimation} from '@navigation/components/MainTabBar/components/TabBarMiningItem/components/MiningAnimation';
+import {MiningTooltip} from '@navigation/components/MainTabBar/components/TabBarMiningItem/components/MiningTooltip';
+import {useFadeLottie} from '@navigation/components/MainTabBar/components/TabBarMiningItem/hooks/useFadeLottie';
+import {MainStackParamList} from '@navigation/Main';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {MiningInactiveIcon} from '@svg/TabBar/MiningInactiveIcon';
 import LottieView from 'lottie-react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {
   Animated,
-  AppState,
   ImageBackground,
   StyleSheet,
   TouchableOpacity,
+  View,
 } from 'react-native';
 import {rem} from 'rn-units';
 
 export const TabBarMiningItem = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<MainStackParamList>>();
   const [miningActive, setMiningActive] = useState(false);
-  const staticIconFadeAnim = useRef(new Animated.Value(1)).current;
-  const lottieFadeAnim = useRef(new Animated.Value(1)).current;
+
   const lottieRef = useRef<LottieView>(null);
+  const lottieWrapperRef = useRef<View>(null);
+  const {animatedOpacity} = useFadeLottie(miningActive, lottieRef);
 
-  /**
-   * Fade in / out of inactive icon overlay above the mining animation
-   * If the mining is not active -> stop the animation
-   */
-  useEffect(() => {
-    Animated.parallel([
-      Animated.timing(lottieFadeAnim, {
-        toValue: miningActive ? 1 : 0,
-        duration: 300,
-        useNativeDriver: true,
-      }),
-      Animated.timing(staticIconFadeAnim, {
-        toValue: miningActive ? 0 : 1,
-        duration: 300,
-        useNativeDriver: true,
-      }),
-    ]).start(({finished}) => {
-      if (finished) {
-        if (miningActive) {
-          lottieRef.current?.play();
-        } else {
-          lottieRef.current?.pause();
-        }
-      }
-    });
-  }, [miningActive, staticIconFadeAnim, lottieFadeAnim]);
-
-  /**
-   * Lottie stops playing if the app goes background so we resume it manually
-   */
-  useEffect(() => {
+  const onButtonPress = () => {
     if (miningActive) {
-      const listener = AppState.addEventListener('change', nextAppState => {
-        if (nextAppState === 'active') {
-          lottieRef.current?.play();
-        }
+      navigation.navigate('Tooltip', {
+        descriptionPosition: 'above',
+        targetRef: lottieWrapperRef,
+        descriptionOffset: rem(30),
+        targetCircleSize: rem(92),
+        TargetComponent: () => <MiningAnimation />,
+        DescriptionComponent: () => <MiningTooltip />,
       });
-      return listener.remove;
+    } else {
+      setMiningActive(state => !state);
     }
-  }, [miningActive]);
+  };
 
   return (
     <ImageBackground
@@ -70,18 +52,22 @@ export const TabBarMiningItem = () => {
         accessibilityRole="button"
         style={styles.button}
         activeOpacity={1}
-        onPress={() => setMiningActive(state => !state)}>
-        <Animated.View style={{opacity: lottieFadeAnim}}>
-          <LottieView
-            style={styles.animation}
-            source={LottieAnimations.minings}
-            autoPlay={true}
-            loop={true}
-            ref={lottieRef}
-          />
+        onPress={onButtonPress}>
+        <Animated.View
+          style={{opacity: animatedOpacity}}
+          ref={lottieWrapperRef}>
+          <MiningAnimation />
         </Animated.View>
         <Animated.View
-          style={[styles.inactiveIcon, {opacity: staticIconFadeAnim}]}>
+          style={[
+            styles.inactiveIcon,
+            {
+              opacity: animatedOpacity.interpolate({
+                inputRange: [0, 1],
+                outputRange: [1, 0],
+              }),
+            },
+          ]}>
           <MiningInactiveIcon size={rem(79)} />
         </Animated.View>
       </TouchableOpacity>
@@ -103,10 +89,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
-  },
-  animation: {
-    width: rem(67),
-    height: rem(67),
   },
   inactiveIcon: {
     position: 'absolute',
