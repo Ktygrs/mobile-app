@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {get} from '@api/client';
-import {ReferralAcquisition} from '@api/referrals/types';
+import {ReferralHistoryRecord} from '@api/referrals/types';
 
 interface Params {
   userId: string;
@@ -13,7 +13,7 @@ interface Params {
  */
 
 export function getReferralsHistoryByUserId({userId}: Params) {
-  return get<ReferralAcquisition>(
+  return get<ReferralHistoryRecord[]>(
     `/users/${userId}/referral-acquisition-history`,
   );
 }

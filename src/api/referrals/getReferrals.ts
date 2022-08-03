@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {get} from '@api/client';
-import {Referrals, ReferralType} from '@api/referrals/types';
+import {Referrals} from '@api/referrals/types';
+import {ReferralType} from '@api/user/types';
 
 interface Params {
   userId: string;
-  type: ReferralType;
+  referralType: ReferralType;
   limit?: number;
   offset?: number;
 }
@@ -14,6 +15,15 @@ interface Params {
  * Returns the referrals of an user.
  */
 
-export function getReferrals({userId, type}: Params) {
-  return get<Referrals>(`/users/${userId}/referrals?type=${type}`);
+export function getReferrals({
+  userId,
+  referralType,
+  limit = 10,
+  offset = 0,
+}: Params) {
+  return get<Referrals>(`/users/${userId}/referrals`, {
+    type: referralType,
+    limit,
+    offset,
+  });
 }

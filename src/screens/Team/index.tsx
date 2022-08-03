@@ -5,12 +5,12 @@ import {COLORS} from '@constants/colors';
 import {commonStyles} from '@constants/styles';
 import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
 import {Header} from '@screens/Team/components/Header';
-import {Tiers} from '@screens/Team/components/Tiers';
-import React, {useState} from 'react';
+import {SegmentedContent} from '@screens/Team/components/SegmentedContent';
+import React, {memo, useState} from 'react';
 import {KeyboardAvoidingView, StyleSheet, View} from 'react-native';
 import {isIOS} from 'rn-units';
 
-export const Team = () => {
+export const Team = memo(() => {
   useFocusStatusBar({style: 'light-content'});
   const [isCountryCodeSearchVisible, setCountryCodeSearchVisibility] =
     useState<boolean>(false);
@@ -22,7 +22,7 @@ export const Team = () => {
         <View style={styles.container}>
           <Header />
           <View style={commonStyles.baseSubScreen}>
-            <Tiers
+            <SegmentedContent
               showCountriesList={setCountryCodeSearchVisibility}
               isCountriesVisible={isCountryCodeSearchVisible}
             />
@@ -31,7 +31,7 @@ export const Team = () => {
       </KeyboardAvoidingView>
     </KeyboardDismiss>
   );
-};
+});
 
 const styles = StyleSheet.create({
   wrapper: {

@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {Initialization} from '@components/Initialization';
-import {useIsAppInitialized} from '@navigation/hooks/useIsAppInitialized';
 import {theme} from '@navigation/theme';
 import {NavigationContainer} from '@react-navigation/native';
 import {useAppLoadedDispatcher} from '@store/modules/AppCommon/hooks/useAppLoadedDispatcher';
 import {useAppStateListener} from '@store/modules/AppCommon/hooks/useAppStateListener';
+import {isAppInitializedSelector} from '@store/modules/AppCommon/selectors';
 import {
   isWelcomeSeenSelector,
-  profileSelector,
+  userSelector,
 } from '@store/modules/Auth/selectors';
 import React from 'react';
 import {LogBox} from 'react-native';
@@ -28,14 +28,14 @@ import {AuthNavigator} from './Auth';
 import {MainNavigator} from './Main';
 
 function ActiveNavigator() {
-  const {isAppInitialized} = useIsAppInitialized();
+  const isAppInitialized = useSelector(isAppInitializedSelector);
   const isWelcomeSeen = useSelector(isWelcomeSeenSelector);
-  const profile = useSelector(profileSelector);
+  const user = useSelector(userSelector);
 
   if (!isAppInitialized) {
     return <Initialization />;
   }
-  if (profile && isWelcomeSeen) {
+  if (user && isWelcomeSeen) {
     return <MainNavigator />;
   }
   return <AuthNavigator />;

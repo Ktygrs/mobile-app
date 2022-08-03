@@ -1,35 +1,44 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {ConfirmCode} from '@screens/Team/components/ConfirmCode';
-import {ConfirmPhone} from '@screens/Team/components/ConfirmPhone';
-import {ContactsList} from '@screens/Team/components/ContactsList';
-import {ContactsPermissions} from '@screens/Team/components/ContactsPermissions';
+import {ConfirmPhoneNumber} from '@components/ConfirmPhoneNumber';
+import {ModifyPhoneNumber} from '@components/ModifyPhoneNumber';
+import {COLORS} from '@constants/colors';
+import {ContactsList} from '@screens/Team/components/Contacts/components/ContactsList';
+import {ContactsPermissions} from '@screens/Team/components/Contacts/components/ContactsPermissions';
 import {AuthActions} from '@store/modules/Auth/actions';
-import {
-  isPhoneNumberVerifiedSelector,
-  phoneVerificationStepSelector,
-} from '@store/modules/Auth/selectors';
+import {isPhoneNumberVerifiedSelector} from '@store/modules/Auth/selectors';
 import {PermissionsActions} from '@store/modules/Permissions/actions';
 import {permissionSelector} from '@store/modules/Permissions/selectors';
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import {isLoadingSelector} from '@store/modules/UtilityProcessStatuses/selectors';
+import {ValidationActions} from '@store/modules/Validation/actions';
+import {phoneVerificationStepSelector} from '@store/modules/Validation/selectors';
+import {RootState} from '@store/rootReducer';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {ActivityIndicator, Animated, StyleSheet} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 
 type TContactsFlow =
   | 'ContactsPermissions'
-  | 'ConfirmPhone'
-  | 'ConfirmCode'
+  | 'ModifyPhoneNumber'
+  | 'ConfirmPhoneNumber'
   | 'ContactsList';
+
 type ContactsProps = {
   showCountriesList: (t: boolean) => void;
   isCountriesVisible: boolean;
+  focused: boolean;
 };
 
 export const Contacts = ({
   showCountriesList,
   isCountriesVisible,
+  focused,
 }: ContactsProps) => {
-  const [isLoading, setLoading] = useState(false);
+  const isLoading = useSelector(
+    (state: RootState) =>
+      isLoadingSelector(AuthActions.UPDATE_ACCOUNT, state) ||
+      isLoadingSelector(ValidationActions.PHONE_VALIDATION, state),
+  );
 
   const dispatch = useDispatch();
 
@@ -37,25 +46,19 @@ export const Contacts = ({
   const isPhoneNumberVerified = useSelector(isPhoneNumberVerifiedSelector);
   const phoneVerificationStep = useSelector(phoneVerificationStepSelector);
 
-  const getCurrentScreen = useCallback(() => {
-    if (hasContactsPermissions) {
-      if (isPhoneNumberVerified) {
-        return 'ContactsList';
-      } else {
-        if (phoneVerificationStep === 'phone') {
-          return 'ConfirmPhone';
-        } else {
-          return 'ConfirmCode';
-        }
-      }
-    } else {
+  const currentScreen = useMemo(() => {
+    if (!hasContactsPermissions) {
       return 'ContactsPermissions';
+    } else if (isPhoneNumberVerified) {
+      return 'ContactsList';
+    } else if (phoneVerificationStep === 'phone') {
+      return 'ModifyPhoneNumber';
+    } else {
+      return 'ConfirmPhoneNumber';
     }
   }, [hasContactsPermissions, isPhoneNumberVerified, phoneVerificationStep]);
 
-  const [visibleFlow, setVisibleFlow] = useState<TContactsFlow>(
-    getCurrentScreen(),
-  );
+  const [visibleFlow, setVisibleFlow] = useState<TContactsFlow>(currentScreen);
 
   const fadeAnimation = useRef(new Animated.Value(1)).current;
 
@@ -87,23 +90,15 @@ export const Contacts = ({
   );
 
   useEffect(() => {
-    setScreen(getCurrentScreen());
-  }, [getCurrentScreen, setScreen]);
+    setScreen(currentScreen);
+  }, [currentScreen, setScreen]);
 
-  const confirmPhonePress = (phone: string) => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      dispatch(AuthActions.SET_PHONE_NUMBER_VERIFIED.STATE.create(phone));
-    }, 1500);
+  const onModifyPhonePress = (phone: string) => {
+    dispatch(AuthActions.UPDATE_ACCOUNT.START.create({phoneNumber: phone}));
   };
 
-  const confirmCodePress = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      dispatch(AuthActions.SET_CODE_VERIFIED.STATE.create());
-    }, 1500);
+  const onConfirmPhonePress = (code: string) => {
+    dispatch(ValidationActions.PHONE_VALIDATION.START.create(code));
   };
 
   const requestContactsAccessPermissionPress = async () => {
@@ -119,17 +114,17 @@ export const Contacts = ({
           }
         />
       )}
-      {visibleFlow === 'ConfirmPhone' && (
-        <ConfirmPhone
+      {visibleFlow === 'ModifyPhoneNumber' && (
+        <ModifyPhoneNumber
           showCountriesList={showCountriesList}
           isCountriesVisible={isCountriesVisible}
-          confirmPhonePress={confirmPhonePress}
+          onSubmitPress={onModifyPhonePress}
         />
       )}
-      {visibleFlow === 'ConfirmCode' && (
-        <ConfirmCode confirmCodePress={confirmCodePress} />
+      {visibleFlow === 'ConfirmPhoneNumber' && (
+        <ConfirmPhoneNumber onSubmitPress={onConfirmPhonePress} />
       )}
-      {visibleFlow === 'ContactsList' && <ContactsList />}
+      {visibleFlow === 'ContactsList' && <ContactsList focused={focused} />}
 
       {isLoading ? (
         <ActivityIndicator
@@ -146,6 +141,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   loading: {
-    backgroundColor: 'rgba(0,0,0,0.2)',
+    backgroundColor: COLORS.black02opacity,
   },
 });

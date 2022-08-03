@@ -1,70 +1,43 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {User} from '@api/user/types';
 import {AuthActions} from '@store/modules/Auth/actions';
-import {PermissionsActions} from '@store/modules/Permissions/actions';
 import {TeamActions} from '@store/modules/Team/actions';
-import {IFormattedContact} from '@store/modules/Team/sagas/getContactsSaga';
 import produce from 'immer';
-import {persistReducer} from 'redux-persist';
+import {Contact} from 'react-native-contacts';
 
-export interface ContactById {
-  [id: string]: IFormattedContact & {
-    isActive: boolean;
-    backgroundColor: string;
-  };
-}
 export interface State {
-  isPhoneNumberVerified: boolean;
-  iceFriends: string[];
-  contactsByIds: ContactById;
-  contactsIds: string[];
+  search: User[];
+  contacts: Contact[];
 }
 
 type Actions = ReturnType<
-  | typeof TeamActions.INVITE_CONTACT.SUCCESS.create
-  | typeof TeamActions.SET_CONTACTS_BY_IDS.STATE.create
-  | typeof TeamActions.SET_CONTACTS_IDS.STATE.create
+  | typeof TeamActions.SYNC_CONTACTS.SUCCESS.create
   | typeof AuthActions.SIGN_OUT.SUCCESS.create
-  | typeof PermissionsActions.GET_PERMISSIONS.SUCCESS.create
+  | typeof TeamActions.SEARCH_USERS.SUCCESS.create
 >;
 
 const INITIAL_STATE: State = {
-  isPhoneNumberVerified: false,
-  iceFriends: [],
-  contactsByIds: {},
-  contactsIds: [],
+  search: [],
+  contacts: [],
 };
 
 function reducer(state = INITIAL_STATE, action: Actions): State {
   return produce(state, draft => {
     switch (action.type) {
-      case TeamActions.SET_CONTACTS_BY_IDS.STATE.type: {
-        draft.contactsByIds = action.payload.contactsByIds;
+      case TeamActions.SYNC_CONTACTS.SUCCESS.type: {
+        draft.contacts = action.payload.contacts;
         break;
       }
-      case TeamActions.SET_CONTACTS_IDS.STATE.type: {
-        draft.contactsIds = action.payload.contactsIds;
-        break;
-      }
-      case TeamActions.INVITE_CONTACT.SUCCESS.type: {
-        draft.iceFriends = [...draft.iceFriends, action.payload.id];
+      case TeamActions.SEARCH_USERS.SUCCESS.type: {
+        draft.search = action.payload.contacts;
         break;
       }
       case AuthActions.SIGN_OUT.SUCCESS.type: {
-        return {
-          ...INITIAL_STATE,
-        };
+        return {...INITIAL_STATE};
       }
     }
   });
 }
 
-const persistConfig = {
-  key: 'team',
-  storage: AsyncStorage,
-  timeout: 120000,
-  blacklist: ['contactsByIds, contactsIds'],
-};
-
-export const teamReducer = persistReducer(persistConfig, reducer);
+export const teamReducer = reducer;

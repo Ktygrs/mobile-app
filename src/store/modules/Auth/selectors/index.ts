@@ -13,15 +13,15 @@ export const isAuthorizedSelector = (state: RootState) =>
 export const isAuthInitializedSelector = (state: RootState) =>
   state.auth.isInitialized;
 
+export const userPhoneNumberSelector = (state: RootState) =>
+  state.auth.magicUser!.phoneNumber;
+
 export const isWelcomeSeenSelector = (state: RootState) =>
   state.auth.isWelcomeSeen;
 
 export const authTokenSelector = (state: RootState) => state.auth.token;
 
+export const userSelector = (state: RootState) => state.auth.user;
+
 export const isPhoneNumberVerifiedSelector = (state: RootState) =>
-  state.auth.isPhoneNumberVerified;
-
-export const phoneVerificationStepSelector = (state: RootState) =>
-  state.auth.phoneVerificationStep;
-
-export const profileSelector = (state: RootState) => state.auth.profile;
+  state.auth.user?.phoneNumber;

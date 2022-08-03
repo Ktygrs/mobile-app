@@ -1,26 +1,15 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {UserProfile} from '@api/user/types';
+import {User} from '@api/user/types';
 
-export type ReferralType = 'CONTACTS' | 'T1' | 'T2';
-
-export interface Referral extends UserProfile {
-  active: boolean;
-  pingAllowed: boolean;
-}
-
-export interface RelatableUserProfile extends Referral {
-  referralType: ReferralType;
-}
-
-export interface Referrals {
+export type Referrals = {
   active: number;
-  referrals: [Referral];
+  referrals: User[];
   total: number;
-}
+};
 
-export interface ReferralAcquisition {
+export type ReferralHistoryRecord = {
   date: string;
   t1: number;
   t2: number;
-}
+};

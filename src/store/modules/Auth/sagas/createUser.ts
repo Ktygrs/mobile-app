@@ -2,7 +2,7 @@
 
 import {isApiError} from '@api/client/utils';
 import {Api} from '@api/index';
-import {UserProfile} from '@api/user/types';
+import {User} from '@api/user/types';
 import {AuthActions} from '@store/modules/Auth/actions';
 import {magicUserSelector} from '@store/modules/Auth/selectors';
 import {
@@ -10,7 +10,7 @@ import {
   usernameSelector,
 } from '@store/modules/Validation/selectors';
 import {t} from '@translations/i18n';
-import {sha256} from 'react-native-sha256';
+import {e164PhoneNumber, hashPhoneNumber} from '@utils/phoneNumber';
 import {call, put, select} from 'redux-saga/effects';
 
 export function* createUserSaga() {
@@ -18,39 +18,26 @@ export function* createUserSaga() {
     const magicUser: ReturnType<typeof magicUserSelector> = yield select(
       magicUserSelector,
     );
-
     const username: ReturnType<typeof usernameSelector> = yield select(
       usernameSelector,
     );
-
     const refUser: ReturnType<typeof refUserSelector> = yield select(
       refUserSelector,
     );
 
-    let phoneNumber = null;
+    let phoneNumber: string | null = null;
     let phoneNumberHash: string | null = null;
-    let email = null;
-    let refUserId = null;
-
-    if (magicUser) {
-      phoneNumber = magicUser.phoneNumber;
-      email = magicUser.email;
-
-      if (phoneNumber) {
-        phoneNumberHash = yield call(sha256, phoneNumber);
-      }
+    if (magicUser?.phoneNumber) {
+      phoneNumber = e164PhoneNumber(magicUser.phoneNumber);
+      phoneNumberHash = yield call(hashPhoneNumber, phoneNumber);
     }
 
-    if (refUser && refUser.id) {
-      refUserId = refUser.id;
-    }
-
-    const createdUser: UserProfile = yield call(Api.user.createUser, {
+    const createdUser: User = yield call(Api.user.createUser, {
       username: username,
-      email: email,
+      email: magicUser?.email,
       phoneNumber: phoneNumber,
       phoneNumberHash: phoneNumberHash,
-      referredBy: refUserId,
+      referredBy: refUser?.id,
     });
     yield put(AuthActions.CREATE_USER.SUCCESS.create(createdUser));
   } catch (error) {
@@ -60,7 +47,7 @@ export function* createUserSaga() {
       if (response?.data?.data?.field === 'username') {
         localizedError = t('error.user_exist');
       } else if (response?.data?.data?.field === 'id') {
-        yield put(AuthActions.FETCH_USER_PROFILE.START.create());
+        yield put(AuthActions.FETCH_USER.START.create());
       }
     } else if (isApiError(error, 400)) {
       localizedError = t('errors.validation_error');

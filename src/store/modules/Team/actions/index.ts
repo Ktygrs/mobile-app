@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {ContactById} from '@store/modules/Team/reducer';
-import {IFormattedContact} from '@store/modules/Team/sagas/getContactsSaga';
+import {User} from '@api/user/types';
 import {createAction} from '@store/utils/actions/createAction';
+import {Contact} from 'react-native-contacts';
 
 const INVITE_CONTACT = createAction('INVITE_CONTACT', {
   START: (id: string) => ({id}),
@@ -12,16 +12,17 @@ const INVITE_CONTACT = createAction('INVITE_CONTACT', {
   }),
 });
 
-const SET_CONTACTS_BY_IDS = createAction('SET_CONTACTS_BY_IDS', {
-  STATE: (contactsByIds: ContactById) => ({contactsByIds}),
-});
-const SET_CONTACTS_IDS = createAction('SET_CONTACTS_IDS', {
-  STATE: (contactsIds: string[]) => ({contactsIds}),
+const SYNC_CONTACTS = createAction('SYNC_CONTACTS', {
+  START: true,
+  SUCCESS: (contacts: Contact[]) => ({contacts}),
+  FAILED: (errorMessage: string) => ({
+    errorMessage,
+  }),
 });
 
-const GET_CONTACTS = createAction('GET_CONTACTS', {
-  START: true,
-  SUCCESS: (contacts: IFormattedContact[]) => ({contacts}),
+const SEARCH_USERS = createAction('SEARCH_USERS', {
+  START: (query: string) => ({query}),
+  SUCCESS: (contacts: User[]) => ({contacts}),
   FAILED: (errorMessage: string) => ({
     errorMessage,
   }),
@@ -29,7 +30,6 @@ const GET_CONTACTS = createAction('GET_CONTACTS', {
 
 export const TeamActions = Object.freeze({
   INVITE_CONTACT,
-  SET_CONTACTS_BY_IDS,
-  SET_CONTACTS_IDS,
-  GET_CONTACTS,
+  SYNC_CONTACTS,
+  SEARCH_USERS,
 });

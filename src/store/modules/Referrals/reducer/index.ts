@@ -1,35 +1,52 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Referrals} from '@api/referrals/types';
+import {ReferralType} from '@api/user/types';
 import {AuthActions} from '@store/modules/Auth/actions';
 import {ReferralsActions} from '@store/modules/Referrals/actions';
 import produce from 'immer';
-import {persistReducer} from 'redux-persist';
-
-export type ReferralHistory = {
-  date: string;
-  t1: number;
-  t2: number;
-};
 
 export interface State {
-  history: ReferralHistory[];
+  data: {
+    [userId: string]: {
+      [key in ReferralType]?: Referrals;
+    };
+  };
 }
 
+const getReferralsActionCreator =
+  ReferralsActions.GET_REFERRALS(null).SUCCESS.create;
 type Actions = ReturnType<
-  | typeof ReferralsActions.GET_REFERRALS_HISTORY_BY_USER_ID.SUCCESS.create
-  | typeof AuthActions.SIGN_OUT.SUCCESS.create
+  typeof getReferralsActionCreator | typeof AuthActions.SIGN_OUT.SUCCESS.create
 >;
 
 const INITIAL_STATE: State = {
-  history: [],
+  data: {},
 };
 
 function reducer(state = INITIAL_STATE, action: Actions): State {
   return produce(state, draft => {
     switch (action.type) {
-      case ReferralsActions.GET_REFERRALS_HISTORY_BY_USER_ID.SUCCESS.type:
-        draft.history = action.payload.history;
+      case ReferralsActions.GET_REFERRALS(null).SUCCESS.type:
+        const {userId, referralType, offset, result} = action.payload;
+        if (offset === 0) {
+          draft.data[userId] = {
+            ...state.data[userId],
+            [referralType]: result,
+          };
+        } else {
+          draft.data[userId] = {
+            ...state.data[userId],
+            [referralType]: {
+              active: result.active,
+              total: result.total,
+              referrals: [
+                ...(state.data[userId][referralType]?.referrals ?? []),
+                ...result.referrals,
+              ],
+            },
+          };
+        }
         break;
       case AuthActions.SIGN_OUT.SUCCESS.type: {
         return {
@@ -40,11 +57,4 @@ function reducer(state = INITIAL_STATE, action: Actions): State {
   });
 }
 
-const persistConfig = {
-  key: 'referrals',
-  storage: AsyncStorage,
-  timeout: 120000,
-  whitelist: ['usersInfo'],
-};
-
-export const referralsReducer = persistReducer(persistConfig, reducer);
+export const referralsReducer = reducer;

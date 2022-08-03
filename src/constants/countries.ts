@@ -7,7 +7,7 @@ export interface ICountryCode {
   iddCode: string;
 }
 
-export const countriesCode = [
+export const countriesCode: ICountryCode[] = [
   {
     name: 'Andorra',
     flag: '🇦🇩',
