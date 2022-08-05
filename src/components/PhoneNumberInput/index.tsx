@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
-import {ICountryCode} from '@constants/countries';
+import {Country} from '@constants/countries';
 import {FONTS} from '@constants/fonts';
 import {ArrowDownIcon} from '@svg/ArrowDownIcon';
 import {t} from '@translations/i18n';
@@ -20,7 +20,7 @@ import {
 import {font, rem} from 'rn-units';
 
 interface PhoneNumberInputProps extends TextInputProps {
-  selectedCountry: ICountryCode;
+  selectedCountry: Country;
   containerStyle?: StyleProp<ViewStyle>;
   showCountryCodeSearch: () => void;
   onValueChange: (v: string) => void;
@@ -70,7 +70,6 @@ const styles = StyleSheet.create({
     borderWidth: rem(1.5),
     borderRadius: 13,
     borderColor: COLORS.greyBorder,
-    alignItems: 'center',
     minHeight: rem(46),
   },
   countryIcon: {
@@ -78,7 +77,6 @@ const styles = StyleSheet.create({
     paddingRight: 7,
   },
   countryIconContainer: {
-    height: '100%',
     borderRightWidth: rem(1.5),
     borderRightColor: COLORS.greyBorder,
     paddingLeft: 15,
@@ -90,6 +88,7 @@ const styles = StyleSheet.create({
     paddingRight: 5,
     fontFamily: FONTS.primary.black,
     paddingLeft: 9,
+    alignSelf: 'center',
   },
   phone: {
     fontSize: font(15),

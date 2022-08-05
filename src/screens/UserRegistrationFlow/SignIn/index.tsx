@@ -5,7 +5,6 @@ import {PhoneNumberInput} from '@components/PhoneNumberInput';
 import {PhoneNumberSearch} from '@components/PhoneNumberSearch';
 import {PrimaryButton} from '@components/PrimaryButton';
 import {COLORS} from '@constants/colors';
-import {countriesCode} from '@constants/countries';
 import {FONTS} from '@constants/fonts';
 import {SignUpStackParamList} from '@navigation/Auth';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -13,7 +12,6 @@ import {BorderedButton} from '@screens/UserRegistrationFlow/SignIn/components/Bo
 import {AuthActions} from '@store/modules/Auth/actions';
 import {isAuthorizedSelector} from '@store/modules/Auth/selectors';
 import {
-  deviceCountrySelector,
   deviceLocationSelector,
   deviceSettingsSelector,
 } from '@store/modules/Devices/selectors';
@@ -22,6 +20,7 @@ import {LogoSvg} from '@svg/Logo';
 import {MagicIconSvg} from '@svg/MagicIcon';
 import {PhoneIconSvg} from '@svg/PhoneIcon';
 import {translate} from '@translations/i18n';
+import {getCountryByCode} from '@utils/country';
 import React, {useCallback, useEffect, useState} from 'react';
 import {
   Keyboard,
@@ -43,10 +42,13 @@ type Props = {
 };
 
 export const SignIn = ({navigation}: Props) => {
-  const deviceCountry = useSelector(deviceCountrySelector);
+  const deviceLocation = useSelector(deviceLocationSelector);
+  const deviceCountry = getCountryByCode(deviceLocation?.country);
   const [email, onChangeEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [selectedCountry, setSelectedCountry] = useState(deviceCountry);
+  const [selectedCountry, setSelectedCountry] = useState(
+    deviceCountry.current ?? deviceCountry.default,
+  );
   const [inputType, setInputType] = useState<'email' | 'phone'>('email');
   const [isCountryCodeSearchVisible, setCountryCodeSearchVisibility] =
     useState(false);
@@ -66,22 +68,19 @@ export const SignIn = ({navigation}: Props) => {
 
   useEffect(() => {
     if (location) {
-      const countries = countriesCode;
-      const currentCountry = countries.find(country => {
-        return country.isoCode.toLowerCase() === location.country.toLowerCase();
-      });
-      if (currentCountry) {
-        setSelectedCountry(currentCountry);
+      const country = getCountryByCode(location.country);
+      if (country.current) {
+        setSelectedCountry(country.current);
       }
     }
   }, [location]);
 
-  const onSignIn = async () => {
+  const onSignIn = () => {
     Keyboard.dismiss();
     if (inputType === 'email') {
-      await dispatch(AuthActions.SIGN_IN_EMAIL.START.create(email));
+      dispatch(AuthActions.SIGN_IN_EMAIL.START.create(email));
     } else {
-      await dispatch(AuthActions.SIGN_IN_PHONE.START.create(phoneNumber));
+      dispatch(AuthActions.SIGN_IN_PHONE.START.create(phoneNumber));
     }
   };
   const onPhonePress = () => {
@@ -91,16 +90,16 @@ export const SignIn = ({navigation}: Props) => {
       setInputType('email');
     }
   };
-  const onSocialSignInPress = async (type: ESocialType) => {
+  const onSocialSignInPress = (type: ESocialType) => {
     switch (type) {
       case ESocialType.apple:
-        await dispatch(AuthActions.SIGN_IN_SOCIAL.START.create('apple'));
+        dispatch(AuthActions.SIGN_IN_SOCIAL.START.create('apple'));
         break;
       case ESocialType.facebook:
-        await dispatch(AuthActions.SIGN_IN_SOCIAL.START.create('facebook'));
+        dispatch(AuthActions.SIGN_IN_SOCIAL.START.create('facebook'));
         break;
       case ESocialType.google:
-        await dispatch(AuthActions.SIGN_IN_SOCIAL.START.create('google'));
+        dispatch(AuthActions.SIGN_IN_SOCIAL.START.create('google'));
         break;
       case ESocialType.twitter:
         break;

@@ -21,7 +21,7 @@ export function* inviteContactSaga(action: ReturnType<typeof actionCreator>) {
     }
     const text = `${t('team.contacts_list.invitation_text', {
       name: getContactName(contact),
-    })}}`;
+    })}`;
     const [{number}] = contact.phoneNumbers;
     openSMS(number, text);
 

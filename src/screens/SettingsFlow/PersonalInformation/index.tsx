@@ -2,8 +2,9 @@
 
 import {Avatar} from '@components/Avatar';
 import {KeyboardDismiss, stopPropagination} from '@components/KeyboardDismiss';
+import {PrimaryButton} from '@components/PrimaryButton';
 import {COLORS} from '@constants/colors';
-import {countriesCode, ICountryCode} from '@constants/countries';
+import {Country} from '@constants/countries';
 import {commonStyles, SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {Header} from '@navigation/components/Header';
 import {LangButton} from '@navigation/components/Header/components/LangButton';
@@ -16,51 +17,71 @@ import {ListControlAction} from '@screens/SettingsFlow/PersonalInformation/compo
 import {ListControlSeparator} from '@screens/SettingsFlow/PersonalInformation/components/ListControls/ListControlBase';
 import {ListControlCountry} from '@screens/SettingsFlow/PersonalInformation/components/ListControls/ListControlCountry';
 import {ListControlInput} from '@screens/SettingsFlow/PersonalInformation/components/ListControls/ListControlInput';
-import {SaveButton} from '@screens/SettingsFlow/PersonalInformation/components/SaveButton';
 import {useKeyboardAnimatedStyles} from '@screens/SettingsFlow/PersonalInformation/hooks/useKeyboardAnimatedStyles';
-import {deviceCountrySelector} from '@store/modules/Devices/selectors';
+import {useUserDraft} from '@screens/SettingsFlow/PersonalInformation/hooks/useUserDraft';
+import {AuthActions} from '@store/modules/Auth/actions';
+import {isLoadingSelector} from '@store/modules/UtilityProcessStatuses/selectors';
 import {t} from '@translations/i18n';
+import {getCountryByCode} from '@utils/country';
 import React, {memo, useCallback, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {Keyboard, StyleSheet, View} from 'react-native';
 import Animated from 'react-native-reanimated';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {rem} from 'rn-units';
-
-const mockUser = {
-  name: 'Johnny Alexander',
-  surname: 'Smithsonian',
-  country: countriesCode[0],
-  city: 'Beverly Hills',
-};
 
 export const PersonalInformation = memo(() => {
   useFocusStatusBar({style: 'light-content'});
   const bottomOffset = useBottomTabBarOffsetStyle();
+  const dispatch = useDispatch();
   const navigation =
     useNavigation<NativeStackNavigationProp<ProfileTabStackParamList>>();
+  const isLoading = useSelector(
+    isLoadingSelector.bind(null, AuthActions.UPDATE_ACCOUNT),
+  );
 
-  const deviceCountry = useSelector(deviceCountrySelector);
+  const {user, userDraft, setUserDraft, hasChanges} = useUserDraft();
 
-  const [hasChanges, setHasChanges] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState(deviceCountry);
+  const userCountry = getCountryByCode(user.country);
+  const [selectedCountry, setSelectedCountry] = useState(
+    userCountry.current ?? userCountry.default,
+  );
   const [isCountrySearchVisible, setCountrySearchVisibility] = useState(false);
+
+  const {animatedCardStyle, animatedAvatarStyle, animatedBodyStyle} =
+    useKeyboardAnimatedStyles();
 
   const onChangePhonePress = useCallback(
     () => navigation.navigate('ModifyPhoneNumber'),
     [navigation],
   );
 
-  const onCountrySelect = useCallback((country: ICountryCode) => {
-    setSelectedCountry(country);
-    setHasChanges(true);
-  }, []);
+  const onCountrySelect = useCallback(
+    (country: Country) => {
+      setSelectedCountry(country);
+      setUserDraft(draft => ({...draft, country: country.isoCode}));
+    },
+    [setUserDraft],
+  );
 
-  const onChangeSomething = useCallback((_: string) => {
-    setHasChanges(true);
-  }, []);
+  const onChangeFirstName = useCallback(
+    (firstName: string) => setUserDraft(draft => ({...draft, firstName})),
+    [setUserDraft],
+  );
 
-  const {animatedCardStyle, animatedAvatarStyle, animatedBodyStyle} =
-    useKeyboardAnimatedStyles();
+  const onChangeLastName = useCallback(
+    (lastName: string) => setUserDraft(draft => ({...draft, lastName})),
+    [setUserDraft],
+  );
+
+  const onChangeCity = useCallback(
+    (city: string) => setUserDraft(draft => ({...draft, city})),
+    [setUserDraft],
+  );
+
+  const onSubmitChanges = () => {
+    Keyboard.dismiss();
+    dispatch(AuthActions.UPDATE_ACCOUNT.START.create(userDraft));
+  };
 
   return (
     <KeyboardDismiss onDismiss={() => setCountrySearchVisibility(false)}>
@@ -82,30 +103,35 @@ export const PersonalInformation = memo(() => {
           <Animated.View
             style={[styles.body, animatedBodyStyle, commonStyles.shadow]}
             {...stopPropagination}>
-            {
-              // place button here with absolute positioning so it'd be underneath phone country select
-              hasChanges && (
-                <SaveButton style={styles.buttonPosition} onPress={() => {}} />
-              )
-            }
+            {hasChanges && (
+              // The button is here with absolute positioning so it'd be underneath phone country select
+              <PrimaryButton
+                text={t('button.save')}
+                style={styles.buttonPosition}
+                onPress={onSubmitChanges}
+                loading={isLoading}
+              />
+            )}
             <ListControlInput
               label={t('personal_information.first_name')}
               textContentType="name"
-              defaultValue={mockUser.name}
-              onChangeText={onChangeSomething}
+              defaultValue={userDraft.firstName ?? ''}
+              onChangeText={onChangeFirstName}
+              editable={!isLoading}
             />
             <ListControlSeparator />
             <ListControlInput
               label={t('personal_information.last_name')}
               textContentType="familyName"
-              defaultValue={mockUser.surname}
-              onChangeText={onChangeSomething}
+              defaultValue={userDraft.lastName ?? ''}
+              onChangeText={onChangeLastName}
+              editable={!isLoading}
             />
             <ListControlSeparator />
             <ListControlAction
               label={t('personal_information.phone')}
               action={t('button.change').toUpperCase()}
-              value={'+1 0712 345 678'}
+              value={user.phoneNumber ?? ''}
               onPress={onChangePhonePress}
             />
             <ListControlSeparator />
@@ -115,13 +141,15 @@ export const PersonalInformation = memo(() => {
               isCountrySearchVisible={isCountrySearchVisible}
               setCountrySearchVisibility={setCountrySearchVisibility}
               onCountrySelect={onCountrySelect}
+              editable={!isLoading}
             />
             <ListControlSeparator />
             <ListControlInput
               label={t('personal_information.city')}
               textContentType="addressCity"
-              defaultValue={mockUser.city}
-              onChangeText={onChangeSomething}
+              defaultValue={userDraft.city ?? ''}
+              onChangeText={onChangeCity}
+              editable={!isLoading}
             />
           </Animated.View>
         </Animated.View>
@@ -156,6 +184,8 @@ const styles = StyleSheet.create({
   buttonPosition: {
     position: 'absolute',
     right: 0,
+    paddingHorizontal: rem(30),
+    height: rem(40),
     bottom: -rem(60),
   },
 });

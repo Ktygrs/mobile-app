@@ -11,17 +11,38 @@ import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
 import {ProfileTabStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {AuthActions} from '@store/modules/Auth/actions';
+import {isLoadingSelector} from '@store/modules/UtilityProcessStatuses/selectors';
+import {phoneVerificationStepSelector} from '@store/modules/Validation/selectors';
 import {t} from '@translations/i18n';
-import React, {memo, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {KeyboardAvoidingView, StyleSheet, View} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import {isIOS, rem} from 'rn-units';
 
 export const ModifyPhoneNumber = memo(() => {
   useFocusStatusBar({style: 'light-content'});
 
+  const dispatch = useDispatch();
   const navigation =
     useNavigation<NativeStackNavigationProp<ProfileTabStackParamList>>();
   const [isCountrySearchVisible, setCountrySearchVisibility] = useState(false);
+
+  const phoneVerificationStep = useSelector(phoneVerificationStepSelector);
+
+  const isLoading = useSelector(
+    isLoadingSelector.bind(null, AuthActions.UPDATE_ACCOUNT),
+  );
+
+  useEffect(() => {
+    if (phoneVerificationStep === 'code') {
+      navigation.navigate('ConfirmPhoneNumber');
+    }
+  }, [navigation, phoneVerificationStep]);
+
+  const onSubmitPress = (phone: string) => {
+    dispatch(AuthActions.UPDATE_ACCOUNT.START.create({phoneNumber: phone}));
+  };
 
   return (
     <KeyboardDismiss onDismiss={() => setCountrySearchVisibility(false)}>
@@ -43,7 +64,8 @@ export const ModifyPhoneNumber = memo(() => {
           <ModifyPhoneNumberComponent
             showCountriesList={setCountrySearchVisibility}
             isCountriesVisible={isCountrySearchVisible}
-            onSubmitPress={() => navigation.navigate('ConfirmPhoneNumber')}
+            onSubmitPress={onSubmitPress}
+            loading={isLoading}
           />
         </View>
       </KeyboardAvoidingView>

@@ -77,6 +77,7 @@ function reducer(state = INITIAL_STATE, action: Actions): AuthState {
           email: action.payload.result.email,
           phoneNumber: action.payload.result.phoneNumber,
         };
+        draft.user = action.payload.result;
         break;
       case AuthActions.SIGN_OUT.SUCCESS.type: {
         return {

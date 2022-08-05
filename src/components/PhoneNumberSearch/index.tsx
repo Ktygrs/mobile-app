@@ -5,7 +5,7 @@ import {
   CountryListItem,
 } from '@components/PhoneNumberSearch/components/CountryListItem';
 import {COLORS} from '@constants/colors';
-import {countriesCode, ICountryCode} from '@constants/countries';
+import {countries, Country} from '@constants/countries';
 import {FONTS} from '@constants/fonts';
 import {IS_SMALL_SCREEN} from '@constants/styles';
 import {CloseIconSvg} from '@svg/CloseIcon';
@@ -27,12 +27,12 @@ import {FlatList} from 'react-native-gesture-handler';
 import {font, rem} from 'rn-units';
 
 interface PhoneNumberSearchProps extends TextInputProps {
-  selectedCountry: ICountryCode;
+  selectedCountry: Country;
   containerStyle?: StyleProp<ViewStyle>;
   headerStyle?: StyleProp<ViewStyle>;
   showCode?: boolean;
   close: () => void;
-  setCountryCode: (v: ICountryCode) => void;
+  setCountryCode: (v: Country) => void;
 }
 
 export const PhoneNumberSearch = ({
@@ -44,16 +44,16 @@ export const PhoneNumberSearch = ({
   setCountryCode,
   ...textInputProps
 }: PhoneNumberSearchProps) => {
-  const [countriesCodeItems, setCountriesCodeItems] = useState(countriesCode);
+  const [countriesCodeItems, setCountriesCodeItems] = useState(countries);
 
   const setSearchValue = debounce((searchValue: string) => {
     if (!isNaN(+searchValue)) {
       setCountriesCodeItems(
-        countriesCode.filter(v => v.iddCode.includes(searchValue)),
+        countries.filter(v => v.iddCode.includes(searchValue)),
       );
     } else {
       setCountriesCodeItems(
-        countriesCode.filter(v =>
+        countries.filter(v =>
           v.name.toLowerCase().startsWith(searchValue.toLowerCase()),
         ),
       );
@@ -61,7 +61,7 @@ export const PhoneNumberSearch = ({
   }, 500);
 
   const onCountryPress = useCallback(
-    (country: ICountryCode) => {
+    (country: Country) => {
       setCountryCode(country);
       close();
     },
@@ -69,7 +69,7 @@ export const PhoneNumberSearch = ({
   );
 
   const renderCountry = useCallback(
-    ({item}: {item: ICountryCode}) => {
+    ({item}: {item: Country}) => {
       return (
         <CountryListItem
           onPress={onCountryPress}

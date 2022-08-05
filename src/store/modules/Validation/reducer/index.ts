@@ -21,6 +21,7 @@ type Actions = ReturnType<
   | typeof ValidationActions.RESET_VALIDATION_ERRORS.STATE.create
   | typeof AuthActions.UPDATE_ACCOUNT.SUCCESS.create
   | typeof AuthActions.SIGN_OUT.SUCCESS.create
+  | typeof ValidationActions.PHONE_VALIDATION.SUCCESS.create
 >;
 
 const INITIAL_STATE: State = {
@@ -54,6 +55,9 @@ function reducer(state = INITIAL_STATE, action: Actions): State {
         if (action.payload.result.phoneNumber) {
           draft.phoneVerificationStep = 'code';
         }
+        break;
+      case ValidationActions.PHONE_VALIDATION.SUCCESS.type:
+        draft.phoneVerificationStep = 'phone';
         break;
       case AuthActions.SIGN_OUT.SUCCESS.type: {
         return {

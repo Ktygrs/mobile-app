@@ -7,8 +7,9 @@ import {FONTS} from '@constants/fonts';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {Images} from '@images';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
-import {deviceCountrySelector} from '@store/modules/Devices/selectors';
+import {deviceLocationSelector} from '@store/modules/Devices/selectors';
 import {t} from '@translations/i18n';
+import {getCountryByCode} from '@utils/country';
 import {formatPhoneNumber} from '@utils/phoneNumber';
 import React, {useRef, useState} from 'react';
 import {Image, StyleSheet, Text, TextInput, View} from 'react-native';
@@ -19,18 +20,23 @@ type Props = {
   onSubmitPress: (phone: string) => void;
   showCountriesList: (t: boolean) => void;
   isCountriesVisible: boolean;
+  loading?: boolean;
 };
 
 export function ModifyPhoneNumber({
   onSubmitPress,
   showCountriesList,
   isCountriesVisible,
+  loading = false,
 }: Props) {
-  const deviceCountry = useSelector(deviceCountrySelector);
+  const deviceLocation = useSelector(deviceLocationSelector);
+  const deviceCountry = getCountryByCode(deviceLocation?.country);
 
   const [phone, setPhone] = useState('');
   const [focused, setFocused] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState(deviceCountry);
+  const [selectedCountry, setSelectedCountry] = useState(
+    deviceCountry.current ?? deviceCountry.default,
+  );
 
   const phoneNumberInputRef = useRef<TextInput | null>(null);
 
@@ -80,11 +86,13 @@ export function ModifyPhoneNumber({
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         ref={phoneNumberInputRef}
+        editable={!loading}
       />
       <PrimaryButton
         text={t('team.confirm_phone.button')}
         onPress={handleOnPress}
         style={styles.allowAccessButton}
+        loading={loading}
       />
       {isCountriesVisible && (
         <PhoneNumberSearch

@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
-import {ICountryCode} from '@constants/countries';
+import {Country} from '@constants/countries';
 import {FONTS} from '@constants/fonts';
 import React, {memo} from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {font, rem} from 'rn-units';
 
 type Props = {
-  onPress: (country: ICountryCode) => void;
-  country: ICountryCode;
+  onPress: (country: Country) => void;
+  country: Country;
   showCode: boolean;
 };
 

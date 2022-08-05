@@ -2,7 +2,7 @@
 
 import {PhoneNumberSearch} from '@components/PhoneNumberSearch';
 import {COLORS} from '@constants/colors';
-import {ICountryCode} from '@constants/countries';
+import {Country} from '@constants/countries';
 import {FONTS} from '@constants/fonts';
 import {ListControlBase} from '@screens/SettingsFlow/PersonalInformation/components/ListControls/ListControlBase';
 import React, {memo} from 'react';
@@ -12,10 +12,11 @@ import {font, rem} from 'rn-units';
 
 type Props = {
   label: string;
-  selectedCountry: ICountryCode;
+  selectedCountry: Country;
   isCountrySearchVisible: boolean;
   setCountrySearchVisibility: (visible: boolean) => void;
-  onCountrySelect: (country: ICountryCode) => void;
+  onCountrySelect: (country: Country) => void;
+  editable?: boolean;
 };
 
 export const ListControlCountry = memo(
@@ -25,10 +26,13 @@ export const ListControlCountry = memo(
     isCountrySearchVisible,
     setCountrySearchVisibility,
     onCountrySelect,
+    editable = true,
   }: Props) => {
     return (
       <>
-        <TouchableOpacity onPress={() => setCountrySearchVisibility(true)}>
+        <TouchableOpacity
+          onPress={() => setCountrySearchVisibility(true)}
+          disabled={!editable}>
           <ListControlBase label={label}>
             <Text style={styles.countryText}>{selectedCountry.name}</Text>
           </ListControlBase>

@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-export interface ICountryCode {
+export interface Country {
   name: string;
   flag: string;
   isoCode: string;
   iddCode: string;
 }
 
-export const countriesCode: ICountryCode[] = [
+export const countries: Country[] = [
   {
     name: 'Andorra',
     flag: '🇦🇩',

@@ -4,7 +4,6 @@ import {CommonInput} from '@components/CommonInput';
 import {PrimaryButton} from '@components/PrimaryButton';
 import {FONTS} from '@constants/fonts';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
-import useIsKeyboardShown from '@hooks/useIsKeyboardShown';
 import {Images} from '@images';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
 import {TicketIconSvg} from '@svg/Ticket';
@@ -15,16 +14,12 @@ import {font, rem} from 'rn-units';
 
 type Props = {
   onSubmitPress: (code: string) => void;
-  hideBodyOnKeyboardOpen?: boolean;
+  loading?: boolean;
 };
 
-export function ConfirmPhoneNumber({
-  onSubmitPress,
-  hideBodyOnKeyboardOpen = false,
-}: Props) {
+export function ConfirmPhoneNumber({onSubmitPress, loading = false}: Props) {
   const [code, onCodeChange] = useState('');
   const [focused, setFocused] = useState(false);
-  const isKeyboardShown = useIsKeyboardShown();
 
   const handleOnPress = () => {
     onSubmitPress(code);
@@ -34,22 +29,18 @@ export function ConfirmPhoneNumber({
 
   return (
     <View style={[styles.container, tabbarOffest.current]}>
-      {(!isKeyboardShown || !hideBodyOnKeyboardOpen) && (
-        <>
-          {!focused && (
-            <Image
-              source={Images.phone.confirmPhoneNumber}
-              style={styles.image}
-              resizeMode="contain"
-            />
-          )}
-          <Text style={styles.title}>{t('team.confirm_code.title')}</Text>
-          {!focused && (
-            <Text style={styles.description}>
-              {t('team.confirm_code.description')}
-            </Text>
-          )}
-        </>
+      {!focused && (
+        <Image
+          source={Images.phone.confirmPhoneNumber}
+          style={styles.image}
+          resizeMode="contain"
+        />
+      )}
+      <Text style={styles.title}>{t('team.confirm_code.title')}</Text>
+      {!focused && (
+        <Text style={styles.description}>
+          {t('team.confirm_code.description')}
+        </Text>
       )}
       <CommonInput
         placeholder={t('team.confirm_code.placeholder')}
@@ -63,11 +54,13 @@ export function ConfirmPhoneNumber({
         containerStyle={styles.input}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
+        editable={!loading}
       />
       <PrimaryButton
         text={t('team.confirm_code.button')}
         onPress={handleOnPress}
         style={styles.allowAccessButton}
+        loading={loading}
       />
     </View>
   );

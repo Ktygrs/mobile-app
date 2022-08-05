@@ -4,6 +4,7 @@ import {COLORS} from '@constants/colors';
 import {FONTS} from '@constants/fonts';
 import React, {ReactNode} from 'react';
 import {
+  ActivityIndicator,
   FlexStyle,
   StyleProp,
   StyleSheet,
@@ -20,6 +21,7 @@ interface PrimaryButtonProps {
   style?: StyleProp<ViewStyle | FlexStyle>;
   textStyle?: StyleProp<TextStyle>;
   icon?: ReactNode;
+  loading?: boolean;
 }
 
 export const PrimaryButton = ({
@@ -28,11 +30,13 @@ export const PrimaryButton = ({
   style = {},
   textStyle = {},
   icon,
+  loading = false,
 }: PrimaryButtonProps) => {
   return (
     <TouchableOpacity onPress={onPress} style={[styles.button, style]}>
       {icon ? icon : null}
       <Text style={[styles.text, textStyle]}>{text}</Text>
+      {loading && <ActivityIndicator style={styles.activityIndicator} />}
     </TouchableOpacity>
   );
 };
@@ -52,5 +56,11 @@ const styles = StyleSheet.create({
     fontSize: font(14),
     lineHeight: rem(16.8),
     marginHorizontal: rem(10),
+  },
+  activityIndicator: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    right: rem(10),
   },
 });
