@@ -37,7 +37,6 @@ export interface DeviceMetadata {
   deviceId: string;
   deviceName: string | null;
   deviceType: string | null;
-  deviceUniqueId: string;
   emulator: boolean;
   fingerprint: string | null;
   firstInstallTime: number;
@@ -56,7 +55,6 @@ export interface DeviceMetadata {
   tags: string | null;
   type: string | null;
   userAgent: string | null;
-  userId: string;
 }
 
 export interface DeviceId {

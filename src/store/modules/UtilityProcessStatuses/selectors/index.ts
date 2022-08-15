@@ -2,7 +2,6 @@
 
 import {ActionData} from '@store/modules/UtilityProcessStatuses/reducer';
 import {RootState} from '@store/rootReducer';
-import {ActionSubtype} from '@store/utils/actions/subtypes';
 import lodashGet from 'lodash/get';
 
 interface Action {
@@ -25,19 +24,19 @@ export const processStatusForActionSelector = (
 export const isLoadingSelector = (action: Action, state: RootState) => {
   const requestData = processStatusForActionSelector(state, action);
 
-  return !!(requestData && requestData.status === ActionSubtype.START);
+  return !!(requestData && requestData.status === 'START');
 };
 
 export const isSuccessSelector = (action: Action, state: RootState) => {
   const requestData = processStatusForActionSelector(state, action);
 
-  return !!(requestData && requestData.status === ActionSubtype.SUCCESS);
+  return !!(requestData && requestData.status === 'SUCCESS');
 };
 
 export const isFailedSelector = (action: Action, state: RootState) => {
   const requestData = processStatusForActionSelector(state, action);
 
-  return !!(requestData && requestData.status === ActionSubtype.FAILED);
+  return !!(requestData && requestData.status === 'FAILED');
 };
 
 export const actionPayloadSelector = (action: Action, state: RootState) => {

@@ -16,6 +16,15 @@ const UPDATE_SETTINGS = createAction('SET_SETTINGS', {
   FAILED: (errorMessage: string) => ({errorMessage}),
 });
 
+const UPDATE_DEVICE_METADATA = createAction('SET_DEVICE_METADATA', {
+  START: () => {},
+  SUCCESS: () => {},
+  FAILED: (errorMessage: string, errorCode?: string) => ({
+    errorMessage,
+    errorCode,
+  }),
+});
+
 const INIT_DEVICE = createAction('INIT_DEVICE', {
   STATE: (deviceUniqueId: string, settings: DeviceSettings | null) => ({
     deviceUniqueId,
@@ -34,4 +43,5 @@ export const DeviceActions = Object.freeze({
   UPDATE_SETTINGS,
   INIT_DEVICE,
   UPDATE_DEVICE_LOCATION,
+  UPDATE_DEVICE_METADATA,
 });

@@ -6,6 +6,7 @@ import {DeviceActions} from '@store/modules/Devices/actions';
 import {getOrCreateDeviceSettingsSaga} from '@store/modules/Devices/sagas/getOrCreateDeviceSettings';
 import {initDeviceSaga} from '@store/modules/Devices/sagas/initDevice';
 import {updateDeviceLocationSaga} from '@store/modules/Devices/sagas/updateDeviceLocation';
+import {updateDeviceMetadataSaga} from '@store/modules/Devices/sagas/updateDeviceMetadata';
 import {watchUpdateDeviceSettings} from '@store/modules/Devices/sagas/updateDeviceSettings';
 import {all, fork, takeLatest} from 'redux-saga/effects';
 
@@ -24,6 +25,16 @@ export function* rootDevicesSaga() {
     takeLatest(
       AppCommonActions.APP_LOADED.STATE.type,
       updateDeviceLocationSaga,
+    ),
+    takeLatest(
+      [
+        AuthActions.SIGN_IN_SOCIAL.SUCCESS.type,
+        AuthActions.SIGN_IN_EMAIL.SUCCESS.type,
+        AuthActions.SIGN_IN_PHONE.SUCCESS.type,
+        AppCommonActions.APP_STATE_CHANGE.STATE.type,
+        AppCommonActions.APP_INITIALIZED.STATE.type,
+      ],
+      updateDeviceMetadataSaga,
     ),
     fork(watchUpdateDeviceSettings),
   ]);

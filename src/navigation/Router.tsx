@@ -44,6 +44,7 @@ function ActiveNavigator() {
 export function Router() {
   useAppLoadedDispatcher();
   useAppStateListener();
+
   return (
     <NavigationContainer theme={theme} onReady={RNBootSplash.hide}>
       <ActiveNavigator />

@@ -10,7 +10,7 @@ import {ShareSvg} from '@svg/Share';
 import {TaskCompletedSvg} from '@svg/TaskCompleted';
 import {TaskNotCompletedSvg} from '@svg/TaskNotCompleted';
 import {TelegramSvg} from '@svg/Telegram';
-import {TwitterSvg} from '@svg/Twitter';
+import {TwitterIconSvg} from '@svg/TwitterIcon';
 import {UserCircleSvg} from '@svg/UserCircle';
 import {VerifiedUserSvg} from '@svg/VerifiedUser';
 import {translate} from '@translations/i18n';
@@ -88,7 +88,7 @@ export const TaskItem = ({task}: TaskItemProps) => {
 
       case 'followUsTwitter':
         return {
-          Icon: <TwitterSvg />,
+          Icon: <TwitterIconSvg />,
           iconBackground: styles.followTwitterBC,
           title: translate('home.steps.step_four.title'),
           description: translate('home.steps.step_four.description'),

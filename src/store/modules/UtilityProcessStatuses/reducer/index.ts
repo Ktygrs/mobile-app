@@ -6,7 +6,7 @@ import lodashLast from 'lodash/last';
 // TODO: connect auth actions
 // import AuthActions from '../Auth/actions';
 
-type ProcessingActionStatus = 'START' | 'SUCCESS' | 'FAILED';
+export type ProcessingActionStatus = 'START' | 'SUCCESS' | 'FAILED' | 'CLEAR';
 
 interface Action {
   type: string;
@@ -69,6 +69,7 @@ export function processStatusesReducer(state = INITIAL_STATE, action: Action) {
     case 'START':
     case 'SUCCESS':
     case 'FAILED':
+    case 'CLEAR':
       return {
         ...state,
         [majorType]: reduceAction(

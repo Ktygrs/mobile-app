@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 apply plugin: "com.android.application"
+apply plugin: 'com.google.gms.google-services'
 
 // https://github.com/luggit/react-native-config#extra-step-for-android
 project.ext.defaultEnvFile = ".env.app"

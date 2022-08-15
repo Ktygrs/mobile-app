@@ -15,6 +15,7 @@ import {
   deviceLocationSelector,
   deviceSettingsSelector,
 } from '@store/modules/Devices/selectors';
+import {isLoadingSelector} from '@store/modules/UtilityProcessStatuses/selectors';
 import {EmailIconSvg} from '@svg/EmailIcon';
 import {LogoSvg} from '@svg/Logo';
 import {MagicIconSvg} from '@svg/MagicIcon';
@@ -23,6 +24,7 @@ import {translate} from '@translations/i18n';
 import {getCountryByCode} from '@utils/country';
 import React, {useCallback, useEffect, useState} from 'react';
 import {
+  ActivityIndicator,
   Keyboard,
   KeyboardAvoidingView,
   ScrollView,
@@ -52,6 +54,19 @@ export const SignIn = ({navigation}: Props) => {
   const [inputType, setInputType] = useState<'email' | 'phone'>('email');
   const [isCountryCodeSearchVisible, setCountryCodeSearchVisibility] =
     useState(false);
+
+  const isEmailSignInLoading = useSelector(
+    isLoadingSelector.bind(null, AuthActions.SIGN_IN_EMAIL),
+  );
+  const isPhoneSignInLoading = useSelector(
+    isLoadingSelector.bind(null, AuthActions.SIGN_IN_PHONE),
+  );
+  const isSocialSignInLoading = useSelector(
+    isLoadingSelector.bind(null, AuthActions.SIGN_IN_SOCIAL),
+  );
+
+  const isLoading =
+    isEmailSignInLoading || isPhoneSignInLoading || isSocialSignInLoading;
 
   const dispatch = useDispatch();
   const isAuthorized = useSelector(isAuthorizedSelector);
@@ -94,13 +109,20 @@ export const SignIn = ({navigation}: Props) => {
       case ESocialType.apple:
         dispatch(AuthActions.SIGN_IN_SOCIAL.START.create('apple'));
         break;
-      case ESocialType.facebook:
-        dispatch(AuthActions.SIGN_IN_SOCIAL.START.create('facebook'));
-        break;
       case ESocialType.google:
         dispatch(AuthActions.SIGN_IN_SOCIAL.START.create('google'));
         break;
+      case ESocialType.discord:
+        dispatch(AuthActions.SIGN_IN_SOCIAL.START.create('discord'));
+        break;
+      case ESocialType.facebook:
+        dispatch(AuthActions.SIGN_IN_SOCIAL.START.create('facebook'));
+        break;
+      case ESocialType.microsoft:
+        dispatch(AuthActions.SIGN_IN_SOCIAL.START.create('microsoft'));
+        break;
       case ESocialType.twitter:
+        dispatch(AuthActions.SIGN_IN_SOCIAL.START.create('twitter'));
         break;
     }
   };
@@ -186,6 +208,12 @@ export const SignIn = ({navigation}: Props) => {
         </Text>
         <MagicIconSvg />
       </View>
+      {isLoading ? (
+        <ActivityIndicator
+          style={[StyleSheet.absoluteFill, styles.loading]}
+          size={'large'}
+        />
+      ) : null}
     </SafeAreaView>
   );
 };
@@ -200,6 +228,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     flex: 1,
+    alignItems: 'center',
   },
   input: {
     marginBottom: rem(21),
@@ -244,5 +273,8 @@ const styles = StyleSheet.create({
   },
   button: {
     width: rem(247),
+  },
+  loading: {
+    backgroundColor: COLORS.black02opacity,
   },
 });

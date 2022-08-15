@@ -13,3 +13,6 @@ export const isDevicesInitializedSelector = (state: RootState) =>
 
 export const deviceLocationSelector = (state: RootState) =>
   state.devices.location;
+
+export const lastMetadataUpdateSelector = (state: RootState) =>
+  state.devices.lastMetadataUpdateAt;

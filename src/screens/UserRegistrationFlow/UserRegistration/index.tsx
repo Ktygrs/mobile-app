@@ -5,13 +5,10 @@ import {SignUpStackParamList} from '@navigation/Auth';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {NavigationPanel} from '@screens/UserRegistrationFlow/Welcome/components/NavigationPanel';
-import {userSelector} from '@store/modules/Auth/selectors';
+import {magicUserSelector, userSelector} from '@store/modules/Auth/selectors';
+import {failedReasonSelector} from '@store/modules/UtilityProcessStatuses/selectors';
 import {ValidationActions} from '@store/modules/Validation/actions';
-import {
-  refUsernameValidationErrorSelector,
-  usernameSelector,
-  usernameValidationErrorSelector,
-} from '@store/modules/Validation/selectors';
+import {usernameSelector} from '@store/modules/Validation/selectors';
 import {t} from '@translations/i18n';
 import React, {useEffect, useRef, useState} from 'react';
 import {
@@ -37,40 +34,45 @@ type Props = {
 
 export const UserRegistration = ({}: Props) => {
   const pagerViewRef = useRef<PagerView>(null);
-  const [myNickname, setMyNickname] = useState('');
+  const magicUser = useSelector(magicUserSelector);
+  const nickNameToPrefill =
+    magicUser && magicUser.email
+      ? magicUser.email.split('@')[0].replace(/[^a-zA-Z0-9-_.]/g, '')
+      : '';
+  const [myNickname, setMyNickname] = useState(
+    magicUser?.preferredUsername
+      ? magicUser.preferredUsername
+      : nickNameToPrefill,
+  );
   const [invitedNickname, setInvitedNickname] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
   const user = useSelector(userSelector);
   const dispatch = useDispatch();
   const navigation =
     useNavigation<NativeStackNavigationProp<SignUpStackParamList>>();
-  const [claimError, setClaimError] = useState<string>('');
-  const [refError, setRefError] = useState<string>('');
   const username = useSelector(usernameSelector);
-  const claimValidationError = useSelector(usernameValidationErrorSelector);
-  const refValidationError = useSelector(refUsernameValidationErrorSelector);
+
+  const claimValidationError = useSelector(
+    failedReasonSelector.bind(null, ValidationActions.USERNAME_VALIDATION),
+  );
+
+  const refValidationError = useSelector(
+    failedReasonSelector.bind(null, ValidationActions.REF_USERNAME_VALIDATION),
+  );
 
   useEffect(() => {
-    if (claimValidationError) {
-      setClaimError(claimValidationError);
+    if (claimValidationError && currentPage === 1) {
+      navigation.goBack();
     }
-  }, [claimValidationError]);
-
-  useEffect(() => {
-    if (refValidationError) {
-      setRefError(refValidationError);
-    }
-  }, [refValidationError]);
+  }, [claimValidationError, currentPage, navigation]);
 
   const wipeErrors = () => {
-    if (claimValidationError || refValidationError) {
-      dispatch(ValidationActions.RESET_VALIDATION_ERRORS.STATE.create());
+    if (claimValidationError) {
+      dispatch(ValidationActions.USERNAME_VALIDATION.CLEAR.create());
     }
-    if (claimError) {
-      setClaimError('');
-    }
-    if (refError) {
-      setRefError('');
+
+    if (refValidationError) {
+      dispatch(ValidationActions.REF_USERNAME_VALIDATION.CLEAR.create());
     }
   };
 
@@ -137,7 +139,7 @@ export const UserRegistration = ({}: Props) => {
                 <ClaimNickName
                   inputValue={myNickname}
                   onInputChange={onMyNicknameChange}
-                  errorText={claimError}
+                  errorText={claimValidationError || ''}
                   onFocus={wipeErrors}
                 />
               </ScrollView>
@@ -148,7 +150,7 @@ export const UserRegistration = ({}: Props) => {
                   inputValue={invitedNickname}
                   onInputChange={setInvitedNickname}
                   onSkip={skipRefInvitation}
-                  errorText={refError}
+                  errorText={refValidationError || ''}
                   onFocus={wipeErrors}
                 />
               </ScrollView>
@@ -163,7 +165,7 @@ export const UserRegistration = ({}: Props) => {
         nextPress={onNextPress}
         lastPageButtonText={t('button.complete')}
         yesPleasePress={onComplete}
-        withError={!!claimError || !!refError}
+        withError={!!claimValidationError || !!refValidationError}
         isButtonActive={isNextButtonActive}
       />
     </SafeAreaView>

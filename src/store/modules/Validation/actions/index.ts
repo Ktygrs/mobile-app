@@ -9,6 +9,7 @@ const USERNAME_VALIDATION = createAction('USERNAME_VALIDATION', {
   FAILED: (errorMessage: string) => ({
     errorMessage,
   }),
+  CLEAR: false,
 });
 
 const REF_USERNAME_VALIDATION = createAction('REF_USERNAME_VALIDATION', {
@@ -20,6 +21,7 @@ const REF_USERNAME_VALIDATION = createAction('REF_USERNAME_VALIDATION', {
   FAILED: (errorMessage: string) => ({
     errorMessage,
   }),
+  CLEAR: false,
 });
 
 const PHONE_VALIDATION = createAction('PHONE_VALIDATION', {
@@ -32,13 +34,8 @@ const PHONE_VALIDATION = createAction('PHONE_VALIDATION', {
   }),
 });
 
-const RESET_VALIDATION_ERRORS = createAction('RESET_VALIDATION_ERRORS', {
-  STATE: () => {},
-});
-
 export const ValidationActions = Object.freeze({
   USERNAME_VALIDATION,
   REF_USERNAME_VALIDATION,
   PHONE_VALIDATION,
-  RESET_VALIDATION_ERRORS,
 });

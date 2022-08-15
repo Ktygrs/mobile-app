@@ -6,6 +6,7 @@ import {HomeIcon} from '@navigation/components/MainTabBar/components/Icons/HomeI
 import {NewsIcon} from '@navigation/components/MainTabBar/components/Icons/NewsIcon';
 import {ProfileIcon} from '@navigation/components/MainTabBar/components/Icons/ProfileIcon';
 import {TeamIcon} from '@navigation/components/MainTabBar/components/Icons/TeamIcon';
+import {useUpdateRequiredListener} from '@navigation/hooks/useUpdateRequiredListener';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
   createNativeStackNavigator,
@@ -16,6 +17,7 @@ import {Confirm, ConfirmButton} from '@screens/Dialogs/Confirm';
 import {Home} from '@screens/Home';
 import {ImageView} from '@screens/ImageView';
 import {News} from '@screens/News';
+import {UpdateRequired} from '@screens/PopUps/UpdateRequired';
 import {MyBadges} from '@screens/ProfileFlow/MyBadges';
 import {MyRoles} from '@screens/ProfileFlow/MyRoles';
 import {Profile} from '@screens/ProfileFlow/Profile';
@@ -71,6 +73,7 @@ export type MainStackParamList = {
       onPress: () => void;
     }[];
   };
+  UpdateRequired: undefined;
 };
 
 export type HomeTabStackParamList = {
@@ -202,6 +205,7 @@ const MainTabs = () => (
 );
 
 export function MainNavigator() {
+  useUpdateRequiredListener();
   return (
     <MainStack.Navigator screenOptions={screenOptions}>
       <MainStack.Screen name="MainTabs" component={MainTabs} />
@@ -231,6 +235,11 @@ export function MainNavigator() {
         component={ActionSheet}
       />
       <MainStack.Screen name="Staking" component={Staking} />
+      <MainStack.Screen
+        name="UpdateRequired"
+        component={UpdateRequired}
+        options={modalOptions}
+      />
     </MainStack.Navigator>
   );
 }

@@ -13,6 +13,7 @@ export interface AuthState {
     userId: string;
     email?: string | null;
     username?: string | null;
+    preferredUsername?: string | null;
   } | null;
   token: string | null;
   isInitialized: boolean;
@@ -82,7 +83,7 @@ function reducer(state = INITIAL_STATE, action: Actions): AuthState {
         return {
           ...INITIAL_STATE,
           isInitialized: true,
-          welcomeSeen: true,
+          isWelcomeSeen: true,
         };
       }
     }

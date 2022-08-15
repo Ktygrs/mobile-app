@@ -12,6 +12,7 @@ export interface State {
   deviceUniqueId: string | null;
   isInitialized: boolean;
   location: DeviceLocation | null;
+  lastMetadataUpdateAt: string | null;
 }
 
 type Actions = ReturnType<
@@ -22,6 +23,7 @@ type Actions = ReturnType<
   | typeof DeviceActions.UPDATE_SETTINGS.FAILED.create
   | typeof AuthActions.SIGN_OUT.SUCCESS.create
   | typeof DeviceActions.UPDATE_DEVICE_LOCATION.SUCCESS.create
+  | typeof DeviceActions.UPDATE_DEVICE_METADATA.SUCCESS.create
 >;
 
 const INITIAL_STATE: State = {
@@ -30,9 +32,10 @@ const INITIAL_STATE: State = {
   deviceUniqueId: null,
   isInitialized: false,
   location: null,
+  lastMetadataUpdateAt: null,
 };
 
-export function devicesReducer(state = INITIAL_STATE, action: Actions): State {
+function reducer(state = INITIAL_STATE, action: Actions): State {
   return produce(state, draft => {
     switch (action.type) {
       case DeviceActions.GET_OR_CREATE_SETTINGS.SUCCESS.type:
@@ -59,6 +62,9 @@ export function devicesReducer(state = INITIAL_STATE, action: Actions): State {
       case DeviceActions.UPDATE_DEVICE_LOCATION.SUCCESS.type:
         draft.location = action.payload;
         break;
+      case DeviceActions.UPDATE_DEVICE_METADATA.SUCCESS.type:
+        draft.lastMetadataUpdateAt = new Date().toISOString();
+        break;
       case AuthActions.SIGN_OUT.SUCCESS.type:
         return {
           ...INITIAL_STATE,
@@ -69,3 +75,5 @@ export function devicesReducer(state = INITIAL_STATE, action: Actions): State {
     }
   });
 }
+
+export const devicesReducer = reducer;
