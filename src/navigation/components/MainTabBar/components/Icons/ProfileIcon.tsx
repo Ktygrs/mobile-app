@@ -1,37 +1,29 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Avatar} from '@components/Avatar/Avatar';
 import {COLORS} from '@constants/colors';
-import {ProfileActiveIcon} from '@svg/TabBar/ProfileActiveIcon';
-import {ProfileInactiveIcon} from '@svg/TabBar/ProfileInactiveIcon';
+import {userSelector} from '@store/modules/Auth/selectors';
 import React from 'react';
-import {Image, StyleSheet, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
+import {useSelector} from 'react-redux';
+import {rem} from 'rn-units';
 
 type Props = {
   focused: boolean;
 };
 
-const PROFILE_IMAGE_SIZE = 22;
-const DEV_PROFILE_IMAGE =
-  'https://static.independent.co.uk/s3fs-public/thumbnails/image/2016/08/26/13/mr-bean.jpg';
-
 export const ProfileIcon = ({focused}: Props) => {
-  const noAvatar = true;
+  const user = useSelector(userSelector);
   return (
-    <View>
-      {noAvatar ? (
-        focused ? (
-          <ProfileActiveIcon />
-        ) : (
-          <ProfileInactiveIcon />
-        )
-      ) : (
-        <View
-          style={[
-            styles.imageBorder,
-            focused ? styles.imageBorderFocused : null,
-          ]}>
-          <Image source={{uri: DEV_PROFILE_IMAGE}} style={styles.image} />
-        </View>
+    <View
+      style={[styles.imageBorder, focused ? styles.imageBorderFocused : null]}>
+      {user?.profilePictureUrl && (
+        <Avatar
+          uri={user.profilePictureUrl}
+          size={rem(22)}
+          borderRadius={rem(11)}
+          allowFullScreen={false}
+        />
       )}
     </View>
   );
@@ -47,10 +39,5 @@ const styles = StyleSheet.create({
   },
   imageBorderFocused: {
     borderColor: COLORS.persianBlue,
-  },
-  image: {
-    width: PROFILE_IMAGE_SIZE,
-    height: PROFILE_IMAGE_SIZE,
-    borderRadius: PROFILE_IMAGE_SIZE / 2,
   },
 });

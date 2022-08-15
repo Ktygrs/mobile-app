@@ -157,6 +157,9 @@ android {
         // https://github.com/luggit/react-native-config#advanced-android-setup
         resValue "string", "build_config_package", "io.ice.app"
 
+        // https://github.com/ivpusic/react-native-image-crop-picker/tree/master#android
+        vectorDrawables.useSupportLibrary = true
+
         if (isNewArchitectureEnabled()) {
             // We configure the NDK build only if you decide to opt-in for the New Architecture.
             externalNativeBuild {

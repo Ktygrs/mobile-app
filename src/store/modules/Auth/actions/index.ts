@@ -76,10 +76,6 @@ const SIGN_IN_SOCIAL = createAction('SIGN_IN_SOCIAL', {
   FAILED: true,
 });
 
-const SET_CODE_VERIFIED = createAction('SET_CODE_VERIFIED', {
-  STATE: () => {},
-});
-
 const DELETE_ACCOUNT = createAction('DELETE_ACCOUNT', {
   START: true,
   SUCCESS: true,
@@ -105,7 +101,6 @@ export const AuthActions = Object.freeze({
   SIGN_IN_PHONE,
   SIGN_IN_SOCIAL,
   SIGN_OUT,
-  SET_CODE_VERIFIED,
   DELETE_ACCOUNT,
   CREATE_USER,
   UPDATE_ACCOUNT,

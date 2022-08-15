@@ -7,7 +7,7 @@ import {FONTS} from '@constants/fonts';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {Images} from '@images';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
-import {deviceLocationSelector} from '@store/modules/Devices/selectors';
+import {userSelector} from '@store/modules/Auth/selectors';
 import {t} from '@translations/i18n';
 import {getCountryByCode} from '@utils/country';
 import {formatPhoneNumber} from '@utils/phoneNumber';
@@ -29,8 +29,8 @@ export function ModifyPhoneNumber({
   isCountriesVisible,
   loading = false,
 }: Props) {
-  const deviceLocation = useSelector(deviceLocationSelector);
-  const deviceCountry = getCountryByCode(deviceLocation?.country);
+  const user = useSelector(userSelector);
+  const deviceCountry = getCountryByCode(user?.country);
 
   const [phone, setPhone] = useState('');
   const [focused, setFocused] = useState(false);

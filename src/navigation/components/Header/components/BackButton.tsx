@@ -1,16 +1,30 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {COLORS} from '@constants/colors';
+import {FONTS} from '@constants/fonts';
 import {useNavigation} from '@react-navigation/native';
 import {BackButtonArrow} from '@svg/BackButtonIcon';
 import React from 'react';
-import {StyleProp, TouchableOpacity, View, ViewStyle} from 'react-native';
+import {
+  StyleProp,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  ViewStyle,
+} from 'react-native';
+import {font, rem} from 'rn-units';
 
 type Props = {
   containerStyle?: StyleProp<ViewStyle>;
   color?: string;
+  label?: string;
 };
 
-export const BackButton = ({containerStyle, color}: Props = {}) => {
+export const BackButton = ({
+  containerStyle,
+  color = COLORS.white,
+  label,
+}: Props = {}) => {
   const navigation = useNavigation();
 
   // navigation.canGoBack also takes in account tabs, but getState().routes contains only stack routes
@@ -19,12 +33,26 @@ export const BackButton = ({containerStyle, color}: Props = {}) => {
   }
 
   return (
-    <View style={containerStyle}>
-      <TouchableOpacity onPress={navigation.goBack} hitSlop={buttonHitSlop}>
-        <BackButtonArrow fill={color} />
-      </TouchableOpacity>
-    </View>
+    <TouchableOpacity
+      onPress={navigation.goBack}
+      hitSlop={buttonHitSlop}
+      style={[styles.container, containerStyle]}>
+      <BackButtonArrow fill={color} />
+      {label && <Text style={[styles.labelText, {color}]}>{label}</Text>}
+    </TouchableOpacity>
   );
 };
 
 const buttonHitSlop = {top: 15, left: 15, bottom: 15, right: 15};
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  labelText: {
+    fontFamily: FONTS.primary.regular,
+    fontSize: font(18),
+    marginLeft: rem(12),
+  },
+});

@@ -11,8 +11,10 @@ import {
   createNativeStackNavigator,
   NativeStackNavigationOptions,
 } from '@react-navigation/native-stack';
+import {ActionSheet} from '@screens/Dialogs/ActionSheet';
 import {Confirm, ConfirmButton} from '@screens/Dialogs/Confirm';
 import {Home} from '@screens/Home';
+import {ImageView} from '@screens/ImageView';
 import {News} from '@screens/News';
 import {MyBadges} from '@screens/ProfileFlow/MyBadges';
 import {MyRoles} from '@screens/ProfileFlow/MyRoles';
@@ -28,7 +30,8 @@ import {Team} from '@screens/Team';
 import {Tooltip} from '@screens/Tooltip';
 import {WebView} from '@screens/WebView';
 import React, {ComponentType, RefObject} from 'react';
-import {View} from 'react-native';
+import {Image, View} from 'react-native';
+import {SvgProps} from 'react-native-svg';
 
 export type MainTabsParamList = {
   HomeTab: undefined;
@@ -54,6 +57,20 @@ export type MainStackParamList = {
     descriptionOffset?: number;
   };
   Staking: undefined;
+  ImageView: {
+    imageRef: RefObject<Image>;
+    uri: string;
+    size: number;
+    borderRadius?: number;
+  };
+  ActionSheet: {
+    title: string;
+    buttons: {
+      icon: (props: SvgProps) => JSX.Element;
+      label: string;
+      onPress: () => void;
+    }[];
+  };
 };
 
 export type HomeTabStackParamList = {
@@ -202,6 +219,16 @@ export function MainNavigator() {
         name="Tooltip"
         options={modalOptions}
         component={Tooltip}
+      />
+      <MainStack.Screen
+        name="ImageView"
+        options={modalOptions}
+        component={ImageView}
+      />
+      <MainStack.Screen
+        name="ActionSheet"
+        options={modalOptions}
+        component={ActionSheet}
       />
       <MainStack.Screen name="Staking" component={Staking} />
     </MainStack.Navigator>

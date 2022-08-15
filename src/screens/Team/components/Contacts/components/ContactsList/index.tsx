@@ -12,7 +12,7 @@ import {
   useGetContactSegments,
 } from '@screens/Team/components/Contacts/components/ContactsList/hooks/useGetContactSegments';
 import {TeamActions} from '@store/modules/Team/actions';
-import {hapticFeedback} from '@utils/hapticFeedback';
+import {hapticFeedback} from '@utils/device';
 import React, {useCallback} from 'react';
 import {
   ActivityIndicator,

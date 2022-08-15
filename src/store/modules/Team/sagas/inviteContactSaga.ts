@@ -3,7 +3,7 @@
 import {TeamActions} from '@store/modules/Team/actions';
 import {t} from '@translations/i18n';
 import {getContactName} from '@utils/contacts';
-import {openSMS} from '@utils/openSms';
+import {openSMS} from '@utils/device';
 import {Contact, getContactById} from 'react-native-contacts';
 import {call, put} from 'redux-saga/effects';
 

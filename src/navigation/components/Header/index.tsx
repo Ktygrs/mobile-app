@@ -14,14 +14,14 @@ type Props = {
   color?: string;
   backgroundColor?: string;
   title?: string;
-  hasBackButton?: boolean;
+  backLabel?: string;
   titleOffset?: number;
   renderRightButtons?: () => ReactNode;
   containerStyle?: StyleProp<ViewStyle>;
   titlePreset?: 'small' | 'big';
 };
 
-const HEADER_HEIGHT = rem(54);
+export const HEADER_HEIGHT = rem(54);
 
 /**
  * Using absolute positioned View to make "elevation" display properly
@@ -30,6 +30,7 @@ const HEADER_HEIGHT = rem(54);
 export const Header = memo(
   ({
     title,
+    backLabel,
     renderRightButtons,
     color = COLORS.darkBlue,
     backgroundColor = COLORS.persianBlue,
@@ -69,7 +70,11 @@ export const Header = memo(
               numberOfLines={2}>
               {title}
             </Text>
-            <BackButton containerStyle={styles.backButton} color={color} />
+            <BackButton
+              containerStyle={styles.backButton}
+              color={color}
+              label={backLabel}
+            />
             {Boolean(renderRightButtons) && (
               <View style={styles.rightButtons}>{renderRightButtons?.()}</View>
             )}

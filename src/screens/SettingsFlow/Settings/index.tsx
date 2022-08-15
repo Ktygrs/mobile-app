@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {Avatar} from '@components/Avatar';
+import {User} from '@api/user/types';
+import {Avatar} from '@components/Avatar/Avatar';
 import {COLORS} from '@constants/colors';
 import {commonStyles} from '@constants/styles';
 import {useScrollShadow} from '@hooks/useScrollShadow';
@@ -19,6 +20,7 @@ import {
 import {SectionCard} from '@screens/SettingsFlow/Settings/components/SectionCard.tsx';
 import {SectionTitle} from '@screens/SettingsFlow/Settings/components/SectionTitle';
 import {AuthActions} from '@store/modules/Auth/actions';
+import {userSelector} from '@store/modules/Auth/selectors';
 import {EraseIcon} from '@svg/EraseIcon';
 import {FeedbackIcon} from '@svg/FeedbackIcon';
 import {InviteIcon} from '@svg/InviteIcon';
@@ -31,7 +33,7 @@ import {t} from '@translations/i18n';
 import React, {memo} from 'react';
 import {StyleSheet, View} from 'react-native';
 import Animated from 'react-native-reanimated';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
 export const Settings = memo(() => {
@@ -41,6 +43,7 @@ export const Settings = memo(() => {
   const {scrollHandler, shadowStyle} = useScrollShadow();
   const navigation =
     useNavigation<NativeStackNavigationProp<ProfileTabStackParamList>>();
+  const user = useSelector(userSelector) as User;
 
   const deleteAccount = () => {
     dispatch(AuthActions.DELETE_ACCOUNT.START);
@@ -61,11 +64,9 @@ export const Settings = memo(() => {
         contentContainerStyle={bottomOffset.current}
         showsVerticalScrollIndicator={false}>
         <View style={[styles.card, commonStyles.baseSubScreen]}>
-          <Avatar
-            showPen
-            uri="https://media.istockphoto.com/photos/millennial-male-team-leader-organize-virtual-workshop-with-employees-picture-id1300972574?b=1&k=20&m=1300972574&s=170667a&w=0&h=2nBGC7tr0kWIU8zRQ3dMg-C5JLo9H2sNUuDjQ5mlYfo="
-            style={styles.avatar}
-          />
+          <View style={[styles.avatarWrapper, commonStyles.shadow]}>
+            <Avatar uri={user.profilePictureUrl} style={styles.avatarImage} />
+          </View>
           <SectionTitle text={t('settings.profile').toUpperCase()} />
           <SectionCard>
             <MenuItem
@@ -134,8 +135,8 @@ export const Settings = memo(() => {
               title={t('settings.logout_title')}
               description={t('settings.logout_description')}
               renderIcon={LogOutIcon}
-              onPress={async () => {
-                await dispatch(AuthActions.SIGN_OUT.START.create());
+              onPress={() => {
+                dispatch(AuthActions.SIGN_OUT.START.create());
               }}
               confirmation={{
                 title: t('settings.logout_confirmation_title'),
@@ -163,10 +164,15 @@ const styles = StyleSheet.create({
     paddingBottom: 2000,
     marginBottom: -2000,
   },
-  avatar: {
+  avatarWrapper: {
     position: 'absolute',
     top: -rem(43),
     left: '50%',
     marginLeft: -rem(43),
+    borderRadius: rem(25),
+  },
+  avatarImage: {
+    borderWidth: 2,
+    borderColor: COLORS.white,
   },
 });

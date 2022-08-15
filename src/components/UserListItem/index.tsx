@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {User} from '@api/user/types';
+import {Avatar} from '@components/Avatar/Avatar';
 import {stopPropagination} from '@components/KeyboardDismiss';
-import {RemoteImage} from '@components/RemoteImage';
 import {COLORS} from '@constants/colors';
 import {FONTS} from '@constants/fonts';
 import {t} from '@translations/i18n';
@@ -22,10 +22,10 @@ export const UserListItem = ({
     <View style={styles.container} {...stopPropagination}>
       <View style={styles.imageContainer}>
         {user.profilePictureUrl && (
-          <RemoteImage
+          <Avatar
             uri={user.profilePictureUrl}
-            width={rem(46)}
-            style={styles.image}
+            size={rem(46)}
+            borderRadius={rem(16)}
           />
         )}
         <View
@@ -73,11 +73,6 @@ const styles = StyleSheet.create({
     width: rem(46),
     height: rem(46),
     marginRight: rem(14),
-  },
-  image: {
-    width: rem(46),
-    height: rem(46),
-    borderRadius: rem(16),
   },
   indicator: {
     width: rem(15),

@@ -56,7 +56,6 @@ export const SignIn = ({navigation}: Props) => {
   const dispatch = useDispatch();
   const isAuthorized = useSelector(isAuthorizedSelector);
   const deviceSettings = useSelector(deviceSettingsSelector);
-  const location = useSelector(deviceLocationSelector);
 
   const phoneNumber = `${selectedCountry.iddCode}${phone}`;
 
@@ -67,13 +66,13 @@ export const SignIn = ({navigation}: Props) => {
   }, [navigation, isAuthorized, deviceSettings]);
 
   useEffect(() => {
-    if (location) {
-      const country = getCountryByCode(location.country);
+    if (deviceLocation) {
+      const country = getCountryByCode(deviceLocation.country);
       if (country.current) {
         setSelectedCountry(country.current);
       }
     }
-  }, [location]);
+  }, [deviceLocation]);
 
   const onSignIn = () => {
     Keyboard.dismiss();

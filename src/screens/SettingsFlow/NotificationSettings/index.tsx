@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {Avatar} from '@components/Avatar';
+import {User} from '@api/user/types';
+import {Avatar} from '@components/Avatar/Avatar';
 import {COLORS} from '@constants/colors';
 import {FONTS} from '@constants/fonts';
 import {commonStyles, SCREEN_SIDE_OFFSET} from '@constants/styles';
@@ -13,6 +14,7 @@ import {
   NotificationControls,
   NotificationControlsSkeleton,
 } from '@screens/SettingsFlow/NotificationSettings/components/NotificationControls';
+import {userSelector} from '@store/modules/Auth/selectors';
 import {DeviceActions} from '@store/modules/Devices/actions';
 import {deviceSettingsSelector} from '@store/modules/Devices/selectors';
 import {isLoadingSelector} from '@store/modules/UtilityProcessStatuses/selectors';
@@ -34,6 +36,7 @@ export const NotificationSettings = memo(() => {
   }, [dispatch]);
 
   const deviceSettings = useSelector(deviceSettingsSelector);
+  const user = useSelector(userSelector) as User;
   const isLoading = useSelector(
     isLoadingSelector.bind(null, DeviceActions.GET_OR_CREATE_SETTINGS),
   );
@@ -53,11 +56,9 @@ export const NotificationSettings = memo(() => {
         contentContainerStyle={[bottomOffset.current, styles.scrollContent]}
         showsVerticalScrollIndicator={false}>
         <View style={[styles.card, commonStyles.baseSubScreen]}>
-          <Avatar
-            showPen
-            uri="https://media.istockphoto.com/photos/millennial-male-team-leader-organize-virtual-workshop-with-employees-picture-id1300972574?b=1&k=20&m=1300972574&s=170667a&w=0&h=2nBGC7tr0kWIU8zRQ3dMg-C5JLo9H2sNUuDjQ5mlYfo="
-            style={styles.avatar}
-          />
+          <View style={[styles.avatarWrapper, commonStyles.shadow]}>
+            <Avatar uri={user.profilePictureUrl} style={styles.avatarImage} />
+          </View>
           <Text style={styles.titleText}>
             {t('settings.notifications_title').toUpperCase()}
           </Text>
@@ -91,11 +92,15 @@ const styles = StyleSheet.create({
   scrollContent: {
     flexGrow: 1,
   },
-  avatar: {
+  avatarWrapper: {
     position: 'absolute',
     top: -rem(43),
     left: '50%',
     marginLeft: -rem(43),
+  },
+  avatarImage: {
+    borderWidth: 2,
+    borderColor: COLORS.white,
   },
   titleText: {
     fontSize: font(14),

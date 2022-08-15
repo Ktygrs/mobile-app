@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Avatar} from '@components/Avatar/Avatar';
 import {COLORS} from '@constants/colors';
 import {FONTS} from '@constants/fonts';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
-import {Avatar} from '@screens/ProfileFlow/Profile/components/UserInfo/components/Avatar';
 import {Level} from '@screens/ProfileFlow/Profile/components/UserInfo/components/Level';
 import {userSelector} from '@store/modules/Auth/selectors';
 import {t} from '@translations/i18n';
@@ -18,8 +18,10 @@ export const UserInfo = memo(() => {
     <View style={styles.container}>
       <View style={styles.body}>
         <Avatar
-          showPen
-          uri="https://media.istockphoto.com/photos/millennial-male-team-leader-organize-virtual-workshop-with-employees-picture-id1300972574?b=1&k=20&m=1300972574&s=170667a&w=0&h=2nBGC7tr0kWIU8zRQ3dMg-C5JLo9H2sNUuDjQ5mlYfo="
+          uri={user?.profilePictureUrl}
+          size={rem(112)}
+          borderRadius={rem(34)}
+          style={styles.avatarImage}
         />
         {user && (
           <Text style={styles.usernameText} numberOfLines={1}>
@@ -86,5 +88,9 @@ const styles = StyleSheet.create({
     fontSize: font(10),
     lineHeight: font(12),
     marginTop: rem(4),
+  },
+  avatarImage: {
+    borderWidth: 2,
+    borderColor: COLORS.white,
   },
 });

@@ -22,7 +22,6 @@ export interface AuthState {
 
 type Actions = ReturnType<
   | typeof AuthActions.SET_TOKEN.STATE.create
-  | typeof AuthActions.SET_CODE_VERIFIED.STATE.create
   | typeof AuthActions.STORE_WELCOME_SEEN.STATE.create
   | typeof AuthActions.SIGN_OUT.SUCCESS.create
   | typeof AuthActions.SIGN_IN_EMAIL.SUCCESS.create

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {Avatar} from '@components/Avatar';
+import {EditableAvatar} from '@components/Avatar/EditableAvatar';
 import {KeyboardDismiss, stopPropagination} from '@components/KeyboardDismiss';
 import {PrimaryButton} from '@components/PrimaryButton';
 import {COLORS} from '@constants/colors';
@@ -23,6 +23,7 @@ import {AuthActions} from '@store/modules/Auth/actions';
 import {isLoadingSelector} from '@store/modules/UtilityProcessStatuses/selectors';
 import {t} from '@translations/i18n';
 import {getCountryByCode} from '@utils/country';
+import {getFilenameFromPath} from '@utils/file';
 import React, {memo, useCallback, useState} from 'react';
 import {Keyboard, StyleSheet, View} from 'react-native';
 import Animated from 'react-native-reanimated';
@@ -58,9 +59,13 @@ export const PersonalInformation = memo(() => {
   const onCountrySelect = useCallback(
     (country: Country) => {
       setSelectedCountry(country);
-      setUserDraft(draft => ({...draft, country: country.isoCode}));
+      setUserDraft(draft => ({
+        ...draft,
+        country: country.isoCode,
+        city: user.country === country.isoCode ? user.city : '',
+      }));
     },
-    [setUserDraft],
+    [setUserDraft, user],
   );
 
   const onChangeFirstName = useCallback(
@@ -75,6 +80,19 @@ export const PersonalInformation = memo(() => {
 
   const onChangeCity = useCallback(
     (city: string) => setUserDraft(draft => ({...draft, city})),
+    [setUserDraft],
+  );
+
+  const onChangeProfileImage = useCallback(
+    image =>
+      setUserDraft(draft => ({
+        ...draft,
+        profilePicture: {
+          uri: image.path,
+          name: image.filename ?? getFilenameFromPath(image.path),
+          type: image.mime,
+        },
+      })),
     [setUserDraft],
   );
 
@@ -94,10 +112,16 @@ export const PersonalInformation = memo(() => {
         />
         <Animated.View
           style={[styles.card, animatedCardStyle, bottomOffset.current]}>
-          <Animated.View style={[styles.avatar, animatedAvatarStyle]}>
-            <Avatar
-              showPen
-              uri="https://media.istockphoto.com/photos/millennial-male-team-leader-organize-virtual-workshop-with-employees-picture-id1300972574?b=1&k=20&m=1300972574&s=170667a&w=0&h=2nBGC7tr0kWIU8zRQ3dMg-C5JLo9H2sNUuDjQ5mlYfo="
+          <Animated.View
+            style={[
+              styles.avatarWrapper,
+              commonStyles.shadow,
+              animatedAvatarStyle,
+            ]}>
+            <EditableAvatar
+              uri={user.profilePictureUrl}
+              onChange={onChangeProfileImage}
+              imageWrapperStyle={commonStyles.shadow}
             />
           </Animated.View>
           <Animated.View
@@ -170,7 +194,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     flex: 1,
   },
-  avatar: {
+  avatarWrapper: {
     position: 'absolute',
     top: -rem(43),
     left: '50%',
