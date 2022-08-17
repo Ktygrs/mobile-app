@@ -3,6 +3,7 @@
 import {Api} from '@api/index';
 import {AuthActions} from '@store/modules/Auth/actions';
 import {userIdSelector} from '@store/modules/Auth/selectors';
+import {getErrorMessage} from '@utils/errors';
 import {call, put, select} from 'redux-saga/effects';
 
 export function* deleteAccountSaga() {
@@ -15,10 +16,6 @@ export function* deleteAccountSaga() {
     yield put(AuthActions.DELETE_ACCOUNT.SUCCESS.create());
     yield put(AuthActions.SIGN_OUT.START.create());
   } catch (error) {
-    let errorMessage = 'Failed';
-    if (error instanceof Error) {
-      errorMessage = error.message;
-    }
-    yield put(AuthActions.DELETE_ACCOUNT.FAILED.create(errorMessage));
+    yield put(AuthActions.DELETE_ACCOUNT.FAILED.create(getErrorMessage(error)));
   }
 }

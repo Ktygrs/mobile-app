@@ -2,6 +2,7 @@
 
 import {Api} from '@api/index';
 import {ReferralsActions} from '@store/modules/Referrals/actions';
+import {getErrorMessage} from '@utils/errors';
 import {put, SagaReturnType} from 'redux-saga/effects';
 
 const actionCreator = ReferralsActions.GET_REFERRALS(null).START.create;
@@ -26,12 +27,10 @@ export function* getReferralsSaga(action: ReturnType<typeof actionCreator>) {
       ),
     );
   } catch (error) {
-    let errorMessage = 'Failed';
-    if (error instanceof Error) {
-      errorMessage = error.message;
-    }
     yield put(
-      ReferralsActions.GET_REFERRALS(referralType).FAILED.create(errorMessage),
+      ReferralsActions.GET_REFERRALS(referralType).FAILED.create(
+        getErrorMessage(error),
+      ),
     );
   }
 }

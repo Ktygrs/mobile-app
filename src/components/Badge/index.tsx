@@ -21,7 +21,7 @@ export const Badge = ({value, style}: Props) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: COLORS.pomegranate,
+    backgroundColor: COLORS.attentionDark,
     height: 16,
     minWidth: 16,
     borderRadius: 8,

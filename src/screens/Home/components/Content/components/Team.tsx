@@ -85,13 +85,13 @@ const styles = StyleSheet.create({
     fontSize: font(14),
     fontFamily: FONTS.primary.black,
     lineHeight: rem(14),
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
   },
   headerText: {
     fontSize: font(12),
     fontFamily: FONTS.primary.regular,
     lineHeight: rem(14),
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
   },
   viewTeam: {
     paddingHorizontal: rem(23),
@@ -103,14 +103,14 @@ const styles = StyleSheet.create({
   memberImage: {
     width: rem(60),
     height: rem(60),
-    backgroundColor: COLORS.greyText,
+    backgroundColor: COLORS.secondary,
     borderRadius: rem(20),
   },
   memberNickname: {
     fontSize: font(10),
     fontFamily: FONTS.primary.regular,
     lineHeight: rem(12),
-    color: COLORS.greyText,
+    color: COLORS.secondary,
     marginTop: rem(5),
   },
   separator: {
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     right: 0,
-    backgroundColor: COLORS.persianBlue,
+    backgroundColor: COLORS.primaryLight,
     width: rem(23),
     height: rem(23),
     justifyContent: 'center',

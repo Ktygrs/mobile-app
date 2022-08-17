@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     width: PEN_SIZE,
     height: PEN_SIZE,
     borderRadius: PEN_SIZE / 2,
-    backgroundColor: COLORS.darkBlue,
+    backgroundColor: COLORS.primaryDark,
     marginHorizontal: 10,
     marginVertical: 10,
     borderWidth: 2,

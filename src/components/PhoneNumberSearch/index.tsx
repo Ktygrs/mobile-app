@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
   container: {
     borderWidth: 1,
     borderRadius: rem(13),
-    borderColor: COLORS.greyBorder,
+    borderColor: COLORS.secondaryLight,
     height: IS_SMALL_SCREEN ? rem(240) : rem(311),
     backgroundColor: COLORS.white,
   },
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingLeft: rem(15),
     borderBottomWidth: 1,
-    borderBottomColor: COLORS.greyBorder,
+    borderBottomColor: COLORS.secondaryLight,
     paddingVertical: rem(8),
   },
   name: {
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.primary.regular,
     flex: 1,
     marginLeft: rem(4),
-    color: COLORS.greyText,
+    color: COLORS.secondary,
   },
   closeButton: {
     paddingHorizontal: rem(12),
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     paddingVertical: rem(10),
     fontSize: font(15),
     fontFamily: FONTS.primary.regular,
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
     flex: 1,
   },
 });

@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     fontSize: font(14),
     lineHeight: font(20),
     fontFamily: FONTS.primary.regular,
-    color: COLORS.linkWater,
+    color: COLORS.secondaryFaint,
     marginTop: rem(12),
   },
 });

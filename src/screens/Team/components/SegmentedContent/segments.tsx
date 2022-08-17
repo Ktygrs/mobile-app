@@ -15,8 +15,8 @@ export const SEGMENTS = [
      */
     renderText: (active: boolean) => (
       <>
-        <ContactsIcon fill={active ? COLORS.white : COLORS.darkBlue} />
-        <Text style={{color: active ? COLORS.white : COLORS.darkBlue}}>
+        <ContactsIcon fill={active ? COLORS.white : COLORS.primaryDark} />
+        <Text style={{color: active ? COLORS.white : COLORS.primaryDark}}>
           {t('team.contacts_tab')}
         </Text>
       </>
@@ -26,9 +26,9 @@ export const SEGMENTS = [
   {
     renderText: (active: boolean) => (
       <>
-        <TierOneIcon fill={active ? COLORS.white : COLORS.darkBlue} />
-        <Text style={{color: active ? COLORS.white : COLORS.darkBlue}}>
-          {t('team.tierOne_tab')}
+        <TierOneIcon fill={active ? COLORS.white : COLORS.primaryDark} />
+        <Text style={{color: active ? COLORS.white : COLORS.primaryDark}}>
+          {t('users.referralType.T1')}
         </Text>
       </>
     ),
@@ -37,9 +37,9 @@ export const SEGMENTS = [
   {
     renderText: (active: boolean) => (
       <>
-        <TierTwoIcon fill={active ? COLORS.white : COLORS.darkBlue} />
-        <Text style={{color: active ? COLORS.white : COLORS.darkBlue}}>
-          {t('team.tierTwo_tab')}
+        <TierTwoIcon fill={active ? COLORS.white : COLORS.primaryDark} />
+        <Text style={{color: active ? COLORS.white : COLORS.primaryDark}}>
+          {t('users.referralType.T2')}
         </Text>
       </>
     ),

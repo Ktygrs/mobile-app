@@ -7,6 +7,16 @@ import {User} from '@api/user/types';
  * Returns a list of user account based on the provided query parameters.
  */
 
-export async function searchUsers(query: string = '') {
-  return get<User[]>(`/users?keyword=${query}`);
+type Params = {
+  query: string;
+  limit?: number;
+  offset?: number;
+};
+
+export async function searchUsers({query, limit = 10, offset = 0}: Params) {
+  return get<User[]>('/users', {
+    keyword: encodeURIComponent(query),
+    limit,
+    offset,
+  });
 }

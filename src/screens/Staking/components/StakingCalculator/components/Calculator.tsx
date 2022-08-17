@@ -205,6 +205,6 @@ const styles = StyleSheet.create({
     fontSize: font(14),
     lineHeight: font(18),
     fontFamily: FONTS.primary.regular,
-    color: COLORS.linkWater,
+    color: COLORS.secondaryFaint,
   },
 });

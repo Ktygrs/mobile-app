@@ -80,7 +80,7 @@ export const Settings = memo(() => {
               title={t('settings.notifications_title')}
               description={t('settings.notifications_description')}
               renderIcon={() => (
-                <NotificationsIcon fill={COLORS.persianBlue} width={20} />
+                <NotificationsIcon fill={COLORS.primaryLight} width={20} />
               )}
               onPress={() => navigation.navigate('NotificationSettings')}
             />
@@ -114,7 +114,7 @@ export const Settings = memo(() => {
               title={t('settings.invite_title')}
               description={t('button.invite_friend.description')}
               renderIcon={() => (
-                <InviteIcon fill={COLORS.persianBlue} width={23} height={22} />
+                <InviteIcon fill={COLORS.primaryLight} width={23} height={22} />
               )}
               onPress={() => {}}
             />
@@ -155,7 +155,7 @@ export const Settings = memo(() => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.persianBlue,
+    backgroundColor: COLORS.primaryLight,
   },
   card: {
     marginTop: rem(80),

@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     marginTop: rem(20),
     fontFamily: FONTS.primary.bold,
     fontSize: font(20),
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
   },
   icon: {
     marginTop: rem(12),
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.primary.bold,
     fontSize: font(18),
     lineHeight: font(20),
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
     textAlign: 'center',
   },
   descriptionText: {
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.primary.regular,
     fontSize: font(14),
     lineHeight: font(20),
-    color: COLORS.greyText,
+    color: COLORS.secondary,
     textAlign: 'center',
   },
 });

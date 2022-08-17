@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {isApiError} from '@api/client/utils';
+import {isApiError} from '@api/client';
 import {DeviceMetadata} from '@api/devices/types';
 import {Api} from '@api/index';
 import messaging from '@react-native-firebase/messaging';
@@ -15,6 +15,7 @@ import {
   lastMetadataUpdateSelector,
 } from '@store/modules/Devices/selectors';
 import {hoursDiff} from '@utils/date';
+import {getErrorMessage} from '@utils/errors';
 import DeviceInfo from 'react-native-device-info';
 import {call, put, select} from 'redux-saga/effects';
 
@@ -140,10 +141,7 @@ export function* updateDeviceMetadataSaga() {
       );
     }
   } catch (error) {
-    let errorMessage = 'Failed';
-    if (error instanceof Error) {
-      errorMessage = error.message;
-    }
+    const errorMessage = getErrorMessage(error);
     if (isApiError(error, 400, 'UPDATE_REQUIRED')) {
       yield put(
         DeviceActions.UPDATE_DEVICE_METADATA.FAILED.create(

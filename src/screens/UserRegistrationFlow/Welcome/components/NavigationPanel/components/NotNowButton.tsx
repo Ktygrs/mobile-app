@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     paddingVertical: rem(12),
   },
   text: {
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
     fontFamily: FONTS.primary.medium,
   },
 });

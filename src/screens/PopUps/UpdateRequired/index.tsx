@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: font(24),
     lineHeight: font(29),
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
     fontFamily: FONTS.primary.black,
     textAlign: 'center',
   },
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     marginTop: rem(12),
     fontSize: font(14),
     lineHeight: font(24),
-    color: COLORS.greyText,
+    color: COLORS.secondary,
     fontFamily: FONTS.primary.medium,
     textAlign: 'center',
   },
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     borderRadius: rem(11),
     marginTop: rem(10),
     justifyContent: 'center',
-    backgroundColor: COLORS.persianBlue,
+    backgroundColor: COLORS.primaryLight,
     alignSelf: 'center',
   },
   buttonLabelText: {

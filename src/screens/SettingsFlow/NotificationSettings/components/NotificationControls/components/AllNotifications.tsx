@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   labelText: {
     fontSize: font(12),
     fontFamily: FONTS.primary.bold,
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
     flex: 1,
   },
   switch: {

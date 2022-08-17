@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.primary.regular,
     flex: 1,
     marginLeft: rem(4),
-    color: COLORS.greyText,
+    color: COLORS.secondary,
   },
   searchItem: {
     flexDirection: 'row',
@@ -48,6 +48,6 @@ const styles = StyleSheet.create({
     height: COUNTRY_ITEM_HEIGHT,
   },
   code: {
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
   },
 });

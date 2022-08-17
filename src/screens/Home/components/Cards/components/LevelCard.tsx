@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     fontSize: rem(12),
     lineHeight: rem(14),
     fontFamily: FONTS.primary.bold,
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
     marginLeft: 4,
   },
   level: {

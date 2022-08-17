@@ -13,7 +13,7 @@ const noop = () => null;
 
 const theme = {
   minimumTrackTintColor: COLORS.shamrock,
-  maximumTrackTintColor: COLORS.linkWater,
+  maximumTrackTintColor: COLORS.secondaryFaint,
 };
 
 export const Slider = (props: AwesomeSliderProps) => (

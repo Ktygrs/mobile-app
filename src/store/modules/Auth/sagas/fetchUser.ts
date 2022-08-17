@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {isApiError} from '@api/client/utils';
+import {isApiError} from '@api/client';
 import {Api} from '@api/index';
 import {User} from '@api/user/types';
 import {AuthActions} from '@store/modules/Auth/actions';
@@ -8,6 +8,7 @@ import {
   isAuthorizedSelector,
   userIdSelector,
 } from '@store/modules/Auth/selectors';
+import {getErrorMessage} from '@utils/errors';
 import {call, put, select} from 'redux-saga/effects';
 
 export function* fetchUserSaga() {
@@ -27,11 +28,7 @@ export function* fetchUserSaga() {
       yield put(AuthActions.FETCH_USER.FAILED.create('Not authorized'));
     }
   } catch (error) {
-    let errorMessage = 'Failed';
-    if (error instanceof Error) {
-      errorMessage = error.message;
-    }
-    yield put(AuthActions.FETCH_USER.FAILED.create(errorMessage));
+    yield put(AuthActions.FETCH_USER.FAILED.create(getErrorMessage(error)));
   }
 }
 

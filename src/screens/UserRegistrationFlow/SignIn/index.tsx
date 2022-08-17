@@ -240,14 +240,14 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: FONTS.primary.black,
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
     fontSize: font(28),
     lineHeight: rem(33.6),
     marginBottom: rem(42),
   },
   text: {
     fontFamily: FONTS.primary.regular,
-    color: COLORS.greyText,
+    color: COLORS.secondary,
     fontSize: font(10),
     lineHeight: rem(12),
     marginVertical: rem(14),
@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.primary.regular,
     fontSize: font(13),
     lineHeight: rem(16),
-    color: COLORS.greyBorder,
+    color: COLORS.secondaryLight,
   },
   phoneNumberSeatch: {
     position: 'absolute',

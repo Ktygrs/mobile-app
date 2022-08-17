@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
     borderWidth: 1,
-    borderColor: COLORS.darkBlue,
+    borderColor: COLORS.primaryDark,
     borderRadius: 9,
     paddingHorizontal: 11,
     paddingVertical: 2,
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: font(12),
     fontFamily: FONTS.primary.bold,
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
     paddingLeft: 3,
     textTransform: 'uppercase',
   },

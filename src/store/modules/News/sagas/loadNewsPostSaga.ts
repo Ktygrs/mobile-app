@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {NewsActions} from '@store/modules/News/actions';
+import {getErrorMessage} from '@utils/errors';
 import {put} from 'redux-saga/effects';
 // TODO: connect API
 // import Api from 'src/api';
@@ -21,7 +22,7 @@ export function* loadNewsPostSaga(action: ReturnType<typeof actionCreator>) {
   } catch (error) {
     yield put(
       NewsActions.NEWS_POST_LOAD(action.id).FAILED.create(
-        error instanceof Error ? error.message : '', // TODO::add error parse util
+        getErrorMessage(error),
       ),
     );
   }

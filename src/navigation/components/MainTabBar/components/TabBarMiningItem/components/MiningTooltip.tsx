@@ -81,7 +81,7 @@ export const MiningTooltip = ({}) => {
         hitSlop={SMALL_BUTTON_HIT_SLOP}
         style={styles.closeButton}
         onPress={navigation.goBack}>
-        <CloseIconSvg fill={COLORS.darkBlue} />
+        <CloseIconSvg fill={COLORS.primaryDark} />
       </TouchableOpacity>
     </View>
   );
@@ -90,7 +90,7 @@ export const MiningTooltip = ({}) => {
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: SCREEN_SIDE_OFFSET,
-    backgroundColor: COLORS.darkBlue,
+    backgroundColor: COLORS.primaryDark,
     borderRadius: rem(20),
     paddingTop: rem(24),
     paddingHorizontal: rem(25),

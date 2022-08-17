@@ -22,7 +22,7 @@ export const MyRoles = () => {
     <View style={styles.container}>
       <Header
         containerStyle={shadowStyle}
-        color={COLORS.darkBlue}
+        color={COLORS.primaryDark}
         backgroundColor={COLORS.white}
         renderRightButtons={FaqButton}
         title={t('my_roles.title')}

@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   },
   viewAllText: {
     fontSize: font(12),
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
     textAlign: 'center',
   },
   infoIcon: {

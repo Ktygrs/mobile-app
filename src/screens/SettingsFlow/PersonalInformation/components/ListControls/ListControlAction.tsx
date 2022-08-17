@@ -30,13 +30,13 @@ export const ListControlAction = memo(
 
 const styles = StyleSheet.create({
   valueText: {
-    color: COLORS.greyText,
+    color: COLORS.secondary,
     fontFamily: FONTS.primary.bold,
     fontSize: font(14),
     flex: 1,
   },
   actionText: {
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
     fontFamily: FONTS.primary.black,
     fontSize: font(10),
     marginHorizontal: rem(12),

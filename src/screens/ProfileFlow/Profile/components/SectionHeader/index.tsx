@@ -45,13 +45,13 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.primary.black,
     fontSize: font(14),
     lineHeight: font(17),
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
   },
   viewAllText: {
     fontFamily: FONTS.primary.regular,
     fontSize: font(12),
     lineHeight: font(15),
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
   },
 });
 

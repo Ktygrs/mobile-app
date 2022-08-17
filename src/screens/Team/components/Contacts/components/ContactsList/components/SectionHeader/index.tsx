@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     paddingBottom: rem(6),
   },
   title: {
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
     fontSize: font(14),
     fontFamily: FONTS.primary.semibold,
   },
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   },
   ice: {
     fontFamily: FONTS.primary.heavy,
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
     fontSize: font(14),
   },
 });

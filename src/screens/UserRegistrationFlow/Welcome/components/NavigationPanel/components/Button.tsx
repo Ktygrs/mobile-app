@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     lineHeight: rem(17),
   },
   disabled: {
-    backgroundColor: COLORS.greyBorder,
+    backgroundColor: COLORS.secondaryLight,
   },
   disabledText: {
     color: COLORS.white,

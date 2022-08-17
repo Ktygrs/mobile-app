@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.primary.bold,
     fontSize: font(14),
     lineHeight: font(17),
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
   },
   percLabelText: {
     fontFamily: FONTS.primary.regular,
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   progressBody: {
     height: rem(8),
     borderRadius: rem(4),
-    backgroundColor: COLORS.linkWater,
+    backgroundColor: COLORS.secondaryFaint,
     alignSelf: 'stretch',
     marginTop: rem(10),
   },

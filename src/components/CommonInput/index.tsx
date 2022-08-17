@@ -38,7 +38,7 @@ export const CommonInput = ({
         <TextInput
           style={styles.input}
           autoCapitalize="none"
-          placeholderTextColor={COLORS.greyBorder}
+          placeholderTextColor={COLORS.secondaryLight}
           {...props}
         />
         {errorText ? <Text style={styles.errorText}>{errorText}</Text> : null}
@@ -54,25 +54,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: rem(13),
     borderWidth: rem(1.5),
-    borderColor: COLORS.greyBorder,
+    borderColor: COLORS.secondaryLight,
     minHeight: rem(56),
   },
   input: {
     paddingLeft: rem(6),
     flex: 1,
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
     fontSize: font(16),
     lineHeight: rem(19),
     fontFamily: FONTS.primary.regular,
     height: rem(36),
   },
   inputError: {
-    borderColor: COLORS.error,
+    borderColor: COLORS.attention,
   },
   errorText: {
     position: 'absolute',
     bottom: 0,
-    color: COLORS.error,
+    color: COLORS.attention,
     fontSize: font(11),
     paddingLeft: rem(6),
     fontFamily: FONTS.primary.regular,

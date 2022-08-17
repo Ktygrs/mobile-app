@@ -25,6 +25,6 @@ const styles = StyleSheet.create({
     borderRadius: rem(22) / 2,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: COLORS.darkBlue,
+    backgroundColor: COLORS.primaryDark,
   },
 });

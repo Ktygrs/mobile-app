@@ -50,10 +50,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   termsLink: {
-    color: COLORS.persianBlue,
+    color: COLORS.primaryLight,
   },
   button: {
     marginTop: rem(14),
-    backgroundColor: COLORS.persianBlue,
+    backgroundColor: COLORS.primaryLight,
   },
 });

@@ -53,7 +53,7 @@ export const Switch = ({value, onValueChange, style}: SwitchProps) => {
       backgroundColor: interpolateColor(
         stateSharedValue.value,
         [0, 1],
-        [COLORS.darkBlue, COLORS.white],
+        [COLORS.primaryDark, COLORS.white],
       ),
     };
   });
@@ -63,7 +63,7 @@ export const Switch = ({value, onValueChange, style}: SwitchProps) => {
       backgroundColor: interpolateColor(
         stateSharedValue.value,
         [0, 1],
-        [COLORS.white, COLORS.darkBlue],
+        [COLORS.white, COLORS.primaryDark],
       ),
     };
   });
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     width: CONTAINER_WIDTH,
     height: CONTAINER_HEIGHT,
     borderWidth: CONTAINER_BORDER_WIDTH,
-    borderColor: COLORS.darkBlue,
+    borderColor: COLORS.primaryDark,
     borderRadius: CONTAINER_BORDER_RADIUS,
     justifyContent: 'center',
   },

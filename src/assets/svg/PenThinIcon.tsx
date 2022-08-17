@@ -11,7 +11,7 @@ type Props = {
 } & SvgProps;
 
 export const PenThinIcon = ({
-  color = COLORS.darkBlue,
+  color = COLORS.primaryDark,
   width = 13,
   height = 13,
   ...props

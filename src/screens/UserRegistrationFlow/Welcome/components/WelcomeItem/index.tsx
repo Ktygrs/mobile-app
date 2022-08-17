@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     lineHeight: font(34),
     textAlign: 'center',
     marginBottom: rem(MARGIN_TOP),
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
   },
   image: {width: IMAGE_WIDTH, height: IMAGE_HEIGHT},
 });

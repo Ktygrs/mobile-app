@@ -38,6 +38,6 @@ const styles = StyleSheet.create({
     borderColor: COLORS.gulfBlue,
   },
   imageBorderFocused: {
-    borderColor: COLORS.persianBlue,
+    borderColor: COLORS.primaryLight,
   },
 });

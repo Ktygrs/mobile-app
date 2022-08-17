@@ -54,7 +54,7 @@ export const ListControlCountry = memo(
 
 const styles = StyleSheet.create({
   countryText: {
-    color: COLORS.greyText,
+    color: COLORS.secondary,
     fontFamily: FONTS.primary.bold,
     fontSize: font(14),
     alignSelf: 'center',

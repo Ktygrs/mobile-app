@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     height: rem(45),
     borderRadius: 11,
     borderWidth: rem(1.5),
-    borderColor: COLORS.greyBorder,
+    borderColor: COLORS.secondaryLight,
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: FONTS.primary.black,
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
     fontSize: font(14),
     lineHeight: rem(16.8),
   },

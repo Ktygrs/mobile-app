@@ -2,14 +2,12 @@
 
 import {ReferralType, User} from '@api/user/types';
 import {UserListItem, UserListItemSkeleton} from '@components/UserListItem';
-import {UserListItemButton} from '@components/UserListItem/components/UserListItemButton';
-import {COLORS} from '@constants/colors';
+import {UserListPingButton} from '@components/UserListItem/components/UserListPingButton';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
 import {EmptyTier} from '@screens/Team/components/TierList/components/EmptyTier';
 import {ListHeader} from '@screens/Team/components/TierList/components/Header';
 import {useReferrals} from '@screens/Team/components/TierList/hooks/useReferrals';
-import {PingIcon} from '@svg/PingIcon';
 import {t} from '@translations/i18n';
 import React, {memo, useCallback, useMemo} from 'react';
 import {
@@ -31,27 +29,17 @@ type Props = {
 export const TierList = memo(
   ({referralType, emptyTitle, headerTitle, focused}: Props) => {
     const tabbarOffset = useBottomTabBarOffsetStyle();
-    const {referrals, error, loading, loadNext, refresh, refreshing} =
+    const {referrals, error, loadNext, loadNextLoading, refresh, refreshing} =
       useReferrals(referralType, focused);
 
     const renderItem = useCallback(({item}: {item: User}) => {
       return (
         <UserListItem
-          user={item}
-          rightButton={
-            item.pinged != null && (
-              <UserListItemButton
-                disabled={item.pinged}
-                icon={
-                  <PingIcon
-                    fill={item.pinged ? COLORS.cadetBlue : COLORS.darkBlue}
-                  />
-                }
-                text={t('users.ping')}
-                onPress={() => {}}
-              />
-            )
-          }
+          name={item.username}
+          note={item.active ? t('users.active') : t('users.inactive')}
+          profilePictureUrl={item.profilePictureUrl}
+          active={item.active}
+          AdditionalInfoComponent={<UserListPingButton pinged={item.pinged} />}
         />
       );
     }, []);
@@ -90,9 +78,7 @@ export const TierList = memo(
             showsVerticalScrollIndicator={false}
             contentContainerStyle={[tabbarOffset.current]}
             ListHeaderComponent={Header}
-            ListFooterComponent={
-              loading && !refreshing ? ActivityIndicator : null
-            }
+            ListFooterComponent={loadNextLoading ? ActivityIndicator : null}
             style={styles.userList}
             data={referrals.referrals}
             renderItem={renderItem}

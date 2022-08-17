@@ -52,7 +52,7 @@ export const Profile = memo(() => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.persianBlue,
+    backgroundColor: COLORS.primaryLight,
   },
   card: {
     marginTop: rem(16),

@@ -185,7 +185,7 @@ export const PersonalInformation = memo(() => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.persianBlue,
+    backgroundColor: COLORS.primaryLight,
   },
   card: {
     paddingTop: rem(12),

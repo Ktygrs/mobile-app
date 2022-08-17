@@ -176,6 +176,6 @@ const styles = StyleSheet.create({
     color: COLORS.white,
   },
   inactiveText: {
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
   },
 });

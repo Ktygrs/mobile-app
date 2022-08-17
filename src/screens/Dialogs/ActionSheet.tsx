@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: font(18),
     lineHeight: font(24),
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
     fontFamily: FONTS.primary.black,
   },
   buttons: {
@@ -132,14 +132,14 @@ const styles = StyleSheet.create({
     height: rem(50),
     borderRadius: rem(25),
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: COLORS.greyBorder,
+    borderColor: COLORS.secondaryLight,
     alignItems: 'center',
     justifyContent: 'center',
   },
   buttonLabelText: {
     fontSize: font(14),
     lineHeight: font(20),
-    color: COLORS.greyText,
+    color: COLORS.secondary,
     fontFamily: FONTS.primary.regular,
     marginTop: rem(5),
   },

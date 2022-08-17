@@ -23,7 +23,7 @@ type Props = {
 
 export const NotificationsButton = ({
   containerStyle,
-  color = COLORS.darkBlue,
+  color = COLORS.primaryDark,
 }: Props = {}) => {
   const navigation =
     useNavigation<BottomTabNavigationProp<MainTabsParamList>>();

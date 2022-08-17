@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     fontSize: font(16),
     lineHeight: font(19),
     fontFamily: FONTS.primary.bold,
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
   },
   descriptionText: {
     fontSize: font(12),

@@ -16,7 +16,7 @@ type Props = {
 
 export const SettingsButton = ({
   containerStyle,
-  color = COLORS.darkBlue,
+  color = COLORS.primaryDark,
 }: Props = {}) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<ProfileTabStackParamList>>();

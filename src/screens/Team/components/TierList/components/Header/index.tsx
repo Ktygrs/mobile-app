@@ -29,7 +29,7 @@ export const ListHeader = ({total, active, title}: Props) => {
 
 const styles = StyleSheet.create({
   title: {
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
     fontSize: font(14),
     fontFamily: FONTS.primary.regular,
   },

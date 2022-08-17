@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.primary.bold,
     fontSize: font(14),
     lineHeight: font(17),
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
     marginTop: rem(42),
     marginHorizontal: SCREEN_SIDE_OFFSET,
   },

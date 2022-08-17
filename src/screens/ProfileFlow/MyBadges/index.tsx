@@ -45,7 +45,7 @@ export const MyBadges = () => {
     <View style={styles.container} hitSlop={{left: -50}}>
       <Header
         containerStyle={shadowStyle}
-        color={COLORS.darkBlue}
+        color={COLORS.primaryDark}
         backgroundColor={COLORS.white}
         renderRightButtons={FaqButton}
         title={t('my_badges.title')}

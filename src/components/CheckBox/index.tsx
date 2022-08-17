@@ -24,7 +24,7 @@ export const CheckBox = ({value, onValueChange, style}: Props) => {
           <CheckMarkIcon
             width={rem(13)}
             height={rem(10)}
-            fill={COLORS.persianBlue}
+            fill={COLORS.primaryLight}
           />
         ) : null}
       </View>
@@ -39,6 +39,6 @@ const styles = StyleSheet.create({
     borderRadius: rem(9),
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: COLORS.linkWater,
+    backgroundColor: COLORS.secondaryFaint,
   },
 });

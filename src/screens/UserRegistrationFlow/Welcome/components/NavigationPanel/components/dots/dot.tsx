@@ -44,12 +44,12 @@ const styles = StyleSheet.create({
     borderRadius: rem(4),
     marginRight: rem(3),
     width: rem(5),
-    backgroundColor: COLORS.greyText,
+    backgroundColor: COLORS.secondary,
   },
   activeDot: {
-    backgroundColor: COLORS.darkBlue,
+    backgroundColor: COLORS.primaryDark,
   },
   error: {
-    backgroundColor: COLORS.error,
+    backgroundColor: COLORS.attention,
   },
 });

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 import {PermissionsActions} from '@store/modules/Permissions/actions';
+import {getErrorMessage} from '@utils/errors';
 import {Linking} from 'react-native';
 import {
   check,
@@ -68,10 +69,8 @@ export function* getPermissionsSaga(action: ReturnType<typeof actionCreator>) {
       throw new Error('Permission LIMITED or UNAVAILABLE');
     }
   } catch (error) {
-    let errorMessage = 'Failed';
-    if (error instanceof Error) {
-      errorMessage = error.message;
-    }
-    yield put(PermissionsActions.GET_PERMISSIONS.FAILED.create(errorMessage));
+    yield put(
+      PermissionsActions.GET_PERMISSIONS.FAILED.create(getErrorMessage(error)),
+    );
   }
 }

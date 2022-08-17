@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     marginHorizontal: SCREEN_SIDE_OFFSET,
     paddingHorizontal: rem(42),
     borderRadius: rem(15),
-    backgroundColor: COLORS.persianBlue,
+    backgroundColor: COLORS.primaryLight,
     paddingBottom: rem(42),
   },
   resultLabelText: {

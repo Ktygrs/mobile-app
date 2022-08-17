@@ -86,7 +86,7 @@ export const ContactItem = memo(
         </View>
         <UserListItemButton
           text={t('team.contacts_list.invite')}
-          icon={<TeamContactInvite fill={COLORS.darkBlue} />}
+          icon={<TeamContactInvite fill={COLORS.primaryDark} />}
           onPress={() => onInvite(contact.recordID)}
         />
       </View>
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
   name: {
     fontSize: font(16),
     fontFamily: FONTS.primary.bold,
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
     paddingBottom: rem(3),
     marginRight: rem(4),
   },

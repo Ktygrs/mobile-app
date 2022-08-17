@@ -68,7 +68,7 @@ export const MenuItem = ({
             </Text>
           </View>
           <ArrowDownIcon
-            fill={COLORS.persianBlue}
+            fill={COLORS.primaryLight}
             width={rem(11)}
             height={rem(8)}
             style={[
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     width: rem(36),
     height: rem(36),
     borderRadius: rem(12),
-    backgroundColor: COLORS.linkWater,
+    backgroundColor: COLORS.secondaryFaint,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -126,13 +126,13 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.primary.black,
     fontSize: font(14),
     lineHeight: font(17),
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
   },
   descriptionText: {
     fontFamily: FONTS.primary.regular,
     fontSize: font(12),
     lineHeight: font(15),
-    color: COLORS.greyText,
+    color: COLORS.secondary,
   },
   chevron: {
     marginLeft: rem(10),
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
   },
   separator: {
     height: 1,
-    backgroundColor: COLORS.linkWater,
+    backgroundColor: COLORS.secondaryFaint,
   },
   buttons: {
     flexDirection: 'row',
@@ -162,12 +162,12 @@ const styles = StyleSheet.create({
   },
   yesButton: {
     borderWidth: 1,
-    borderColor: COLORS.pomegranate,
+    borderColor: COLORS.attentionDark,
     borderRadius: rem(11),
   },
   yesText: {
     fontSize: font(12),
-    color: COLORS.pomegranate,
+    color: COLORS.attentionDark,
     fontFamily: FONTS.primary.black,
   },
   noButton: {

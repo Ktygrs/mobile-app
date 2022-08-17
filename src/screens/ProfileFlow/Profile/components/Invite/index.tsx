@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     fontSize: font(14),
     lineHeight: font(20),
     fontFamily: FONTS.primary.regular,
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
     textAlign: 'center',
   },
   container: {

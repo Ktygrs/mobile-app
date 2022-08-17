@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
   labelText: {
     flex: 28,
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
     fontFamily: FONTS.primary.bold,
     fontSize: font(14),
     marginLeft: rem(28),
@@ -43,6 +43,6 @@ const styles = StyleSheet.create({
   },
   separator: {
     height: 1,
-    backgroundColor: COLORS.linkWater,
+    backgroundColor: COLORS.secondaryFaint,
   },
 });

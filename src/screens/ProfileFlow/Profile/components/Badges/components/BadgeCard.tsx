@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.primary.bold,
     fontSize: font(14),
     lineHeight: font(17),
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
     marginTop: rem(16),
     marginHorizontal: rem(6),
   },
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.primary.regular,
     fontSize: font(12),
     lineHeight: font(14),
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
   },
   progressText: {
     fontFamily: FONTS.primary.regular,
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   progressBody: {
     height: rem(8),
     borderRadius: rem(4),
-    backgroundColor: COLORS.linkWater,
+    backgroundColor: COLORS.secondaryFaint,
     marginHorizontal: rem(12),
     alignSelf: 'stretch',
     marginTop: rem(4),

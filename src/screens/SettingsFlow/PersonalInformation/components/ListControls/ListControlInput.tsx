@@ -25,7 +25,7 @@ export const ListControlInput = memo(({label, ...inputProps}: Props) => {
 
 const styles = StyleSheet.create({
   input: {
-    color: COLORS.greyText,
+    color: COLORS.secondary,
     fontFamily: FONTS.primary.bold,
     fontSize: font(14),
     paddingLeft: 0,

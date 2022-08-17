@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: font(24),
     lineHeight: font(29),
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
     fontFamily: FONTS.primary.black,
     textAlign: 'center',
   },
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     marginTop: rem(14),
     fontSize: font(14),
     lineHeight: font(24),
-    color: COLORS.greyText,
+    color: COLORS.secondary,
     fontFamily: FONTS.primary.regular,
     textAlign: 'center',
   },
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
   button_destructive: {
     backgroundColor: COLORS.white,
     borderWidth: 1,
-    borderColor: COLORS.pomegranate,
+    borderColor: COLORS.attentionDark,
   },
   buttonLabelText: {
     fontSize: font(12),
@@ -143,6 +143,6 @@ const styles = StyleSheet.create({
     color: COLORS.white,
   },
   buttonLabelText_destructive: {
-    color: COLORS.pomegranate,
+    color: COLORS.attentionDark,
   },
 });

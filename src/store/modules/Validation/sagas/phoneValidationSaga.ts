@@ -6,6 +6,7 @@ import {
   userPhoneNumberSelector,
 } from '@store/modules/Auth/selectors';
 import {ValidationActions} from '@store/modules/Validation/actions';
+import {getErrorMessage} from '@utils/errors';
 import {hashPhoneNumber} from '@utils/phoneNumber';
 import {call, put, SagaReturnType, select} from 'redux-saga/effects';
 
@@ -27,10 +28,8 @@ export function* phoneValidationSaga(action: ReturnType<typeof actionCreator>) {
       });
     yield put(ValidationActions.PHONE_VALIDATION.SUCCESS.create(user));
   } catch (error) {
-    let errorMessage = 'Failed';
-    if (error instanceof Error) {
-      errorMessage = error.message;
-    }
-    yield put(ValidationActions.PHONE_VALIDATION.FAILED.create(errorMessage));
+    yield put(
+      ValidationActions.PHONE_VALIDATION.FAILED.create(getErrorMessage(error)),
+    );
   }
 }

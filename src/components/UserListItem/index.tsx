@@ -1,29 +1,33 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {User} from '@api/user/types';
 import {Avatar} from '@components/Avatar/Avatar';
 import {stopPropagination} from '@components/KeyboardDismiss';
 import {COLORS} from '@constants/colors';
 import {FONTS} from '@constants/fonts';
-import {t} from '@translations/i18n';
 import React, {ReactNode} from 'react';
 import {StyleProp, StyleSheet, Text, View, ViewStyle} from 'react-native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import {font, rem} from 'rn-units';
 
 export const UserListItem = ({
-  user,
-  rightButton,
+  name,
+  note,
+  profilePictureUrl,
+  active,
+  AdditionalInfoComponent,
 }: {
-  user: User;
-  rightButton?: ReactNode;
+  name?: string | null | ReactNode;
+  note?: string | null | ReactNode;
+  profilePictureUrl?: string | null;
+  active?: boolean;
+  AdditionalInfoComponent?: ReactNode;
 }) => {
   return (
     <View style={styles.container} {...stopPropagination}>
       <View style={styles.imageContainer}>
-        {user.profilePictureUrl && (
+        {profilePictureUrl && (
           <Avatar
-            uri={user.profilePictureUrl}
+            uri={profilePictureUrl}
             size={rem(46)}
             borderRadius={rem(16)}
           />
@@ -32,22 +36,18 @@ export const UserListItem = ({
           style={[
             styles.indicator,
             {
-              backgroundColor: user?.active
-                ? COLORS.shamrock
-                : COLORS.cadetBlue,
+              backgroundColor: active ? COLORS.shamrock : COLORS.cadetBlue,
             },
           ]}
         />
       </View>
       <View style={styles.body}>
-        <Text style={styles.name} numberOfLines={1}>
-          {user.username}
+        <Text style={styles.nameText} numberOfLines={1}>
+          {name}
         </Text>
-        <Text style={styles.status}>
-          {user.active ? t('users.active') : t('users.inactive')}
-        </Text>
+        {note && <Text style={styles.noteText}>{note}</Text>}
       </View>
-      {rightButton}
+      {AdditionalInfoComponent}
     </View>
   );
 };
@@ -84,13 +84,13 @@ const styles = StyleSheet.create({
     right: -2,
     bottom: -2,
   },
-  name: {
+  nameText: {
     fontSize: font(16),
     fontFamily: FONTS.primary.bold,
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
     paddingBottom: rem(3),
   },
-  status: {
+  noteText: {
     fontSize: font(13.5),
     fontFamily: FONTS.primary.medium,
     color: COLORS.emperor,

@@ -70,7 +70,7 @@ export const Home = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.persianBlue,
+    backgroundColor: COLORS.primaryLight,
   },
   content: {
     borderTopRightRadius: 20,

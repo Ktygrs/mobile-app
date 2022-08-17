@@ -81,7 +81,7 @@ export const NotificationSettings = memo(() => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.persianBlue,
+    backgroundColor: COLORS.primaryLight,
   },
   card: {
     marginTop: rem(80),
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     fontSize: font(14),
     lineHeight: font(17),
     fontFamily: FONTS.primary.bold,
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
     marginTop: rem(54),
     marginHorizontal: SCREEN_SIDE_OFFSET,
   },

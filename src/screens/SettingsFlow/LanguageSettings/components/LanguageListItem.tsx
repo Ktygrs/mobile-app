@@ -54,12 +54,12 @@ const styles = StyleSheet.create({
   languageText: {
     fontSize: font(12),
     fontFamily: FONTS.primary.bold,
-    color: COLORS.greyText,
+    color: COLORS.secondary,
     marginLeft: rem(28),
     flex: 1,
   },
   languageText_selected: {
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
   },
   checkbox: {
     marginHorizontal: rem(25),
@@ -69,6 +69,6 @@ const styles = StyleSheet.create({
   },
   separator: {
     height: 1,
-    backgroundColor: COLORS.linkWater,
+    backgroundColor: COLORS.secondaryFaint,
   },
 });

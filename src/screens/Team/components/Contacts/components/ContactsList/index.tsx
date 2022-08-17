@@ -2,6 +2,7 @@
 
 import {InviteButton} from '@components/InviteButton';
 import {UserListItem, UserListItemSkeleton} from '@components/UserListItem';
+import {UserListPingButton} from '@components/UserListItem/components/UserListPingButton';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
 import {ContactItem} from '@screens/Team/components/Contacts/components/ContactsList/components/ContactItem';
@@ -12,6 +13,7 @@ import {
   useGetContactSegments,
 } from '@screens/Team/components/Contacts/components/ContactsList/hooks/useGetContactSegments';
 import {TeamActions} from '@store/modules/Team/actions';
+import {t} from '@translations/i18n';
 import {hapticFeedback} from '@utils/device';
 import React, {useCallback} from 'react';
 import {
@@ -68,7 +70,17 @@ export const ContactsList = ({focused}: Props) => {
       } else if ('recordID' in item) {
         return <ContactItem contact={item} index={index} onInvite={invite} />;
       } else if ('id' in item) {
-        return <UserListItem user={item} />;
+        return (
+          <UserListItem
+            name={item.username}
+            note={item.active ? t('users.active') : t('users.inactive')}
+            profilePictureUrl={item.profilePictureUrl}
+            active={item.active}
+            AdditionalInfoComponent={
+              <UserListPingButton pinged={item.pinged} />
+            }
+          />
+        );
       }
       return null;
     },

@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderWidth: rem(1.5),
     borderRadius: 13,
-    borderColor: COLORS.greyBorder,
+    borderColor: COLORS.secondaryLight,
     minHeight: rem(46),
   },
   countryIcon: {
@@ -78,12 +78,12 @@ const styles = StyleSheet.create({
   },
   countryIconContainer: {
     borderRightWidth: rem(1.5),
-    borderRightColor: COLORS.greyBorder,
+    borderRightColor: COLORS.secondaryLight,
     paddingLeft: 15,
     paddingRight: 12,
   },
   code: {
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
     fontSize: font(14),
     paddingRight: 5,
     fontFamily: FONTS.primary.black,
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
   phone: {
     fontSize: font(15),
     fontFamily: FONTS.primary.regular,
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
     flex: 1,
   },
   countryCodeWrapper: {

@@ -52,12 +52,12 @@ const styles = StyleSheet.create({
     fontSize: font(14),
     textAlign: 'center',
     fontFamily: FONTS.primary.regular,
-    color: COLORS.greyText,
+    color: COLORS.secondary,
   },
   mediumText: {
     lineHeight: rem(24),
     fontFamily: isAndroid ? FONTS.primary.bold : FONTS.primary.medium,
     fontSize: font(14),
-    color: COLORS.greyText,
+    color: COLORS.secondary,
   },
 });

@@ -9,6 +9,7 @@ import {
 } from '@store/modules/Auth/selectors';
 import {permissionSelector} from '@store/modules/Permissions/selectors';
 import {TeamActions} from '@store/modules/Team/actions';
+import {getErrorMessage} from '@utils/errors';
 import {e164PhoneNumber, hashPhoneNumber} from '@utils/phoneNumber';
 import {getAllWithoutPhotos} from 'react-native-contacts';
 import {
@@ -76,10 +77,6 @@ export function* syncContactsSaga() {
 
     yield put(TeamActions.SYNC_CONTACTS.SUCCESS.create(contacts));
   } catch (error) {
-    let errorMessage = 'Failed';
-    if (error instanceof Error) {
-      errorMessage = error.message;
-    }
-    yield put(TeamActions.SYNC_CONTACTS.FAILED.create(errorMessage));
+    yield put(TeamActions.SYNC_CONTACTS.FAILED.create(getErrorMessage(error)));
   }
 }

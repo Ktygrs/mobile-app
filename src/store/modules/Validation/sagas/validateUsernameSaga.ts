@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {isApiError} from '@api/client/utils';
+import {isApiError} from '@api/client';
 import {Api} from '@api/index';
 import {ValidationActions} from '@store/modules/Validation/actions';
 import {t} from '@translations/i18n';

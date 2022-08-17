@@ -4,6 +4,7 @@ import {Api} from '@api/index';
 import {magicUserSelector} from '@store/modules/Auth/selectors';
 import {DeviceActions} from '@store/modules/Devices/actions';
 import {deviceUniqueIdSelector} from '@store/modules/Devices/selectors';
+import {getErrorMessage} from '@utils/errors';
 import {call, put, SagaReturnType, select} from 'redux-saga/effects';
 
 export function* updateDeviceLocationSaga() {
@@ -20,10 +21,10 @@ export function* updateDeviceLocationSaga() {
       });
     yield put(DeviceActions.UPDATE_DEVICE_LOCATION.SUCCESS.create(location));
   } catch (error) {
-    let errorMessage = 'Failed';
-    if (error instanceof Error) {
-      errorMessage = error.message;
-    }
-    yield put(DeviceActions.UPDATE_DEVICE_LOCATION.FAILED.create(errorMessage));
+    yield put(
+      DeviceActions.UPDATE_DEVICE_LOCATION.FAILED.create(
+        getErrorMessage(error),
+      ),
+    );
   }
 }

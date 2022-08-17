@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   labelText: {
     fontSize: font(12),
     fontFamily: FONTS.primary.bold,
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
     flex: 2,
   },
   section: {
@@ -84,13 +84,13 @@ const styles = StyleSheet.create({
   switchText: {
     fontSize: font(12),
     fontFamily: FONTS.primary.regular,
-    color: COLORS.greyText,
+    color: COLORS.secondary,
     flex: 1,
     marginRight: rem(10),
     textAlign: 'right',
   },
   separator: {
     height: 1,
-    backgroundColor: COLORS.linkWater,
+    backgroundColor: COLORS.secondaryFaint,
   },
 });

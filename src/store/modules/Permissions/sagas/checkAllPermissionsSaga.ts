@@ -3,6 +3,7 @@
 import {isAppActiveSelector} from '@store/modules/AppCommon/selectors';
 import {PermissionsActions} from '@store/modules/Permissions/actions';
 import {PERMISSIONS_LIST} from '@store/modules/Permissions/sagas/getPermissionsSaga';
+import {getErrorMessage} from '@utils/errors';
 import Permissions, {
   checkNotifications,
   PermissionStatus,
@@ -31,12 +32,10 @@ export function* checkAllPermissionsSaga() {
       );
     }
   } catch (error) {
-    let errorMessage = 'Failed';
-    if (error instanceof Error) {
-      errorMessage = error.message;
-    }
     yield put(
-      PermissionsActions.CHECK_ALL_PERMISSIONS.FAILED.create(errorMessage),
+      PermissionsActions.CHECK_ALL_PERMISSIONS.FAILED.create(
+        getErrorMessage(error),
+      ),
     );
   }
 }

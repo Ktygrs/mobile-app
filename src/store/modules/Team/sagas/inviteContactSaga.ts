@@ -4,6 +4,7 @@ import {TeamActions} from '@store/modules/Team/actions';
 import {t} from '@translations/i18n';
 import {getContactName} from '@utils/contacts';
 import {openSMS} from '@utils/device';
+import {getErrorMessage} from '@utils/errors';
 import {Contact, getContactById} from 'react-native-contacts';
 import {call, put} from 'redux-saga/effects';
 
@@ -27,10 +28,6 @@ export function* inviteContactSaga(action: ReturnType<typeof actionCreator>) {
 
     yield put(TeamActions.INVITE_CONTACT.SUCCESS.create(id));
   } catch (error) {
-    let errorMessage = 'Failed';
-    if (error instanceof Error) {
-      errorMessage = error.message;
-    }
-    yield put(TeamActions.INVITE_CONTACT.FAILED.create(errorMessage));
+    yield put(TeamActions.INVITE_CONTACT.FAILED.create(getErrorMessage(error)));
   }
 }

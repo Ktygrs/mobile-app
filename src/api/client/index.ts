@@ -2,7 +2,7 @@
 
 import {getHeaders} from '@api/client/getHeaders';
 import {ENV} from '@constants/env';
-import axios, {AxiosInstance} from 'axios';
+import axios, {AxiosError, AxiosInstance} from 'axios';
 import {backOff} from 'exponential-backoff';
 
 import {handleServiceError} from './ApiServiceErrors';
@@ -126,3 +126,15 @@ export async function del<TResponse>(
     throw error;
   }
 }
+
+export const isApiError = (
+  error: unknown,
+  expectedStatus?: number,
+  expectedCode?: string,
+): error is AxiosError => {
+  return (
+    axios.isAxiosError(error) &&
+    (!expectedStatus || error.response?.status === expectedStatus) &&
+    (!expectedCode || error.response?.data.code === expectedCode)
+  );
+};

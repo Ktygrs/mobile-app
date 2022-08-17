@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     fontSize: font(9),
     lineHeight: rem(11),
     fontFamily: FONTS.primary.bold,
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
   },
   amountTextSmall: {
     fontSize: font(6),
@@ -129,13 +129,13 @@ const styles = StyleSheet.create({
     fontSize: font(14),
     lineHeight: rem(17),
     fontFamily: FONTS.primary.black,
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
   },
   description: {
     fontSize: font(12),
     lineHeight: rem(14),
     fontFamily: FONTS.primary.regular,
-    color: COLORS.darkBlue,
+    color: COLORS.primaryDark,
   },
   finishedTasksLine: {
     position: 'absolute',

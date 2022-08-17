@@ -54,7 +54,7 @@ export const LanguageSettings = () => {
     <View style={styles.container}>
       <Header
         containerStyle={shadowStyle}
-        color={COLORS.darkBlue}
+        color={COLORS.primaryDark}
         backgroundColor={COLORS.white}
         title={t('settings.language_settings')}
       />

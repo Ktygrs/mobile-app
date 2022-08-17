@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     height: rem(64),
     borderRadius: rem(15),
     alignItems: 'center',
-    backgroundColor: COLORS.persianBlue,
+    backgroundColor: COLORS.primaryLight,
   },
   iconWrapper: {
     width: rem(36),

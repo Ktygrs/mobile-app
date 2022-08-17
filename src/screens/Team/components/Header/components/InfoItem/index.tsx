@@ -8,7 +8,7 @@ import {TeamHeaderReferralsIcon} from '@screens/Team/assets/svg/TeamHeaderReferr
 import {t} from '@translations/i18n';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {font, rem, screenWidth} from 'rn-units';
+import {font, rem} from 'rn-units';
 
 export enum InfoItemType {
   'referrals',
@@ -56,7 +56,7 @@ export function InfoItem({type}: InfoItemProps): React.ReactElement {
   return (
     <View style={styles.container}>
       {asset()}
-      <View style={styles.valuesContainer}>
+      <View>
         <Text text={title()} style={styles.title} />
         {value()}
       </View>
@@ -66,12 +66,8 @@ export function InfoItem({type}: InfoItemProps): React.ReactElement {
 
 const styles = StyleSheet.create({
   container: {
-    width: screenWidth / 2,
     flexDirection: 'row',
-    marginVertical: rem(30),
-  },
-  valuesContainer: {
-    flexDirection: 'column',
+    flex: 1,
   },
   title: {
     fontFamily: FONTS.primary.medium,
