@@ -13,7 +13,13 @@ export function* loadNewsPostSaga(action: ReturnType<typeof actionCreator>) {
   // const {postId} = action.payload;
   try {
     // const response: NewsPost = yield Api.news.getNewsPost(postId);
-    const response = {id: '1', title: '', description: '', placeholderUrl: ''};
+    const response = {
+      id: '1',
+      title: '',
+      description: '',
+      placeholderUrl: '',
+      illustration: null,
+    };
     yield put(
       NewsActions.NEWS_POST_LOAD(action.id).SUCCESS.create({
         newsPost: response,

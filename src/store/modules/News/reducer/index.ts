@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {NewsPost} from '@api/news/types';
 import {NewsActions} from '@store/modules/News/actions';
-import {NewsPost} from '@store/types';
 import produce from 'immer';
 
 export interface State {

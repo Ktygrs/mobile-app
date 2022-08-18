@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {NewsPost} from '@store/types';
+import {NewsPost} from '@api/news/types';
 import {createAction} from '@store/utils/actions/createAction';
 
 const NEWS_LOAD = createAction('NEWS_LOAD', {
