@@ -2,16 +2,16 @@
 
 import {BadgeCategory} from '@api/badges/types';
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {commonStyles} from '@constants/styles';
 import {ProfileTabStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {font} from '@utils/styles';
 import React, {memo} from 'react';
 import {Image, ImageSourcePropType, StyleSheet, Text, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 type Props = {
   title: string;
@@ -80,12 +80,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   titleText: {
-    fontFamily: FONTS.primary.bold,
-    fontSize: font(14),
-    lineHeight: font(17),
-    color: COLORS.primaryDark,
     marginTop: rem(16),
     marginHorizontal: rem(6),
+    ...font(14, 17, 'bold', 'primaryDark'),
   },
   progressHeader: {
     flexDirection: 'row',
@@ -98,16 +95,10 @@ const styles = StyleSheet.create({
   },
   categoryText: {
     flex: 1,
-    fontFamily: FONTS.primary.regular,
-    fontSize: font(12),
-    lineHeight: font(14),
-    color: COLORS.primaryDark,
+    ...font(12, 14, 'regular', 'primaryDark'),
   },
   progressText: {
-    fontFamily: FONTS.primary.regular,
-    fontSize: font(12),
-    lineHeight: font(14),
-    color: COLORS.periwinkleGray,
+    ...font(12, 14, 'regular', 'periwinkleGray'),
   },
   progressBody: {
     height: rem(8),

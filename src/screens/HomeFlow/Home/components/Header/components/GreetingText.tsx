@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: BUSL-1.1
+
+import {t} from '@translations/i18n';
+import {font} from '@utils/styles';
+import React from 'react';
+import {StyleSheet, Text} from 'react-native';
+
+export const GreetingText = () => {
+  const hours = new Date().getHours();
+  const greeting =
+    hours > 5 && hours < 12
+      ? t('general.good_morning')
+      : hours >= 12 && hours < 18
+      ? t('general.good_afternoon')
+      : t('general.good_evening');
+  return <Text style={styles.greetingsText}>{greeting},</Text>;
+};
+
+const styles = StyleSheet.create({
+  greetingsText: {
+    ...font(15, 18, 'regular', 'downriver'),
+  },
+});

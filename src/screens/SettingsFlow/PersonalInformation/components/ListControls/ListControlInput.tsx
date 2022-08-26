@@ -1,12 +1,10 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {ListControlBase} from '@screens/SettingsFlow/PersonalInformation/components/ListControls/ListControlBase';
+import {font} from '@utils/styles';
 import React, {memo, useRef} from 'react';
 import {StyleSheet, TextInputProps} from 'react-native';
 import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
-import {font} from 'rn-units';
 
 type Props = {
   label: string;
@@ -25,12 +23,10 @@ export const ListControlInput = memo(({label, ...inputProps}: Props) => {
 
 const styles = StyleSheet.create({
   input: {
-    color: COLORS.secondary,
-    fontFamily: FONTS.primary.bold,
-    fontSize: font(14),
     paddingLeft: 0,
     paddingTop: 0,
     paddingBottom: 0,
     flex: 1,
+    ...font(14, null, 'bold', 'secondary'),
   },
 });

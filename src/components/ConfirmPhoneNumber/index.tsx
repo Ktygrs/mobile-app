@@ -2,15 +2,15 @@
 
 import {CommonInput} from '@components/CommonInput';
 import {PrimaryButton} from '@components/PrimaryButton';
-import {FONTS} from '@constants/fonts';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {Images} from '@images';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
 import {TicketIconSvg} from '@svg/Ticket';
 import {t} from '@translations/i18n';
+import {font} from '@utils/styles';
 import React, {useState} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 type Props = {
   onSubmitPress: (code: string) => void;
@@ -78,19 +78,16 @@ const styles = StyleSheet.create({
     maxHeight: rem(200),
   },
   title: {
-    fontSize: font(24),
-    fontFamily: FONTS.primary.black,
     textAlign: 'center',
     marginHorizontal: SCREEN_SIDE_OFFSET,
     marginTop: rem(2),
+    ...font(24, 29, 'black', 'primaryDark'),
   },
   description: {
-    fontSize: font(14),
-    fontFamily: FONTS.primary.regular,
     textAlign: 'center',
     marginHorizontal: SCREEN_SIDE_OFFSET,
     marginTop: rem(7),
-    lineHeight: rem(24),
+    ...font(14, 24, 'regular', 'secondary'),
   },
   input: {
     marginTop: rem(20),

@@ -1,14 +1,24 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import * as React from 'react';
+import {StyleProp, ViewStyle} from 'react-native';
 import {Circle, Svg} from 'react-native-svg';
 
+type Props = {
+  progress: number;
+  radius: number;
+  strokeWidth: number;
+  color: string;
+  style?: StyleProp<ViewStyle>;
+};
+
 export const ProgressCircleSvg = ({
-  progress = 40,
-  radius = 18,
-  strokeWidth = 4,
-  color = '#35D487',
-}) => {
+  progress,
+  radius,
+  strokeWidth,
+  color,
+  style,
+}: Props) => {
   var c = Math.PI * (radius * 2);
   let val = progress;
   if (isNaN(val)) {
@@ -26,7 +36,7 @@ export const ProgressCircleSvg = ({
   const circumference = radius * 2 * Math.PI;
   return (
     <Svg
-      style={{transform: [{rotateZ: '-90deg'}]}}
+      style={[{transform: [{rotateZ: '-90deg'}]}, style]}
       width={radiusWithStroke * 2}
       height={radiusWithStroke * 2}
       viewBox={`0 0 ${radiusWithStroke * 2} ${radiusWithStroke * 2}`}>

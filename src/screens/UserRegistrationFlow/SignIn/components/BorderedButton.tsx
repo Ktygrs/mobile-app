@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
+import {font} from '@utils/styles';
 import React, {ReactNode} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 interface BorderedButtonProps {
   onPress: () => void;
@@ -41,9 +41,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   text: {
-    fontFamily: FONTS.primary.black,
-    color: COLORS.primaryDark,
-    fontSize: font(14),
-    lineHeight: rem(16.8),
+    ...font(14, 16.8, 'black', 'primaryDark'),
   },
 });

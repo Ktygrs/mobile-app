@@ -2,14 +2,14 @@
 
 import {NewsPost} from '@api/news/types';
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {SMALL_BUTTON_HIT_SLOP} from '@constants/styles';
 import {t} from '@translations/i18n';
+import {font} from '@utils/styles';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {font, rem, screenWidth} from 'rn-units';
+import {rem, screenWidth} from 'rn-units';
 
 dayjs.extend(relativeTime);
 
@@ -63,10 +63,7 @@ const styles = StyleSheet.create({
     width: screenWidth,
   },
   title: {
-    fontSize: font(28),
-    lineHeight: rem(33.6),
-    fontFamily: FONTS.primary.black,
-    color: COLORS.white,
+    ...font(28, 33.6, 'black'),
   },
   details: {
     flexDirection: 'row',
@@ -75,11 +72,8 @@ const styles = StyleSheet.create({
     marginVertical: rem(12),
   },
   updatedAt: {
-    fontSize: font(14.5),
-    lineHeight: rem(17.4),
-    fontFamily: FONTS.primary.medium,
-    color: COLORS.white,
     flex: 1,
+    ...font(14.5, 17.4, 'medium'),
   },
   readMore: {
     alignSelf: 'flex-end',
@@ -90,8 +84,6 @@ const styles = StyleSheet.create({
     borderRadius: rem(8),
   },
   readMoreText: {
-    fontSize: font(13),
-    fontFamily: FONTS.primary.medium,
-    color: COLORS.white,
+    ...font(13, null, 'medium'),
   },
 });

@@ -1,14 +1,13 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {PhoneNumberSearch} from '@components/PhoneNumberSearch';
-import {COLORS} from '@constants/colors';
 import {Country} from '@constants/countries';
-import {FONTS} from '@constants/fonts';
 import {ListControlBase} from '@screens/SettingsFlow/PersonalInformation/components/ListControls/ListControlBase';
+import {font} from '@utils/styles';
 import React, {memo} from 'react';
 import {StyleSheet, Text} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 type Props = {
   label: string;
@@ -54,10 +53,8 @@ export const ListControlCountry = memo(
 
 const styles = StyleSheet.create({
   countryText: {
-    color: COLORS.secondary,
-    fontFamily: FONTS.primary.bold,
-    fontSize: font(14),
     alignSelf: 'center',
+    ...font(14, null, 'bold', 'secondary'),
   },
   countrySearch: {
     position: 'absolute',

@@ -1,13 +1,12 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {InviteButton} from '@components/InviteButton';
-import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {t} from '@translations/i18n';
+import {font} from '@utils/styles';
 import React, {memo} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 export const Invite = memo(() => (
   <View style={styles.container}>
@@ -20,11 +19,8 @@ const styles = StyleSheet.create({
   text: {
     marginHorizontal: SCREEN_SIDE_OFFSET,
     marginTop: rem(28),
-    fontSize: font(14),
-    lineHeight: font(20),
-    fontFamily: FONTS.primary.regular,
-    color: COLORS.primaryDark,
     textAlign: 'center',
+    ...font(14, 20, 'regular', 'primaryDark'),
   },
   container: {
     marginTop: rem(38),

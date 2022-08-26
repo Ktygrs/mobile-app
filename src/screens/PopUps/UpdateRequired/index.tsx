@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {t} from '@translations/i18n';
+import {font} from '@utils/styles';
 import React, {useEffect} from 'react';
 import {BackHandler, Image, StyleSheet, Text, View} from 'react-native';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 const icon = require('./assets/images/updateRequiredPleaseUpdateGrafik.png');
 
@@ -52,19 +52,13 @@ const styles = StyleSheet.create({
     borderRadius: rem(20),
   },
   titleText: {
-    fontSize: font(24),
-    lineHeight: font(29),
-    color: COLORS.primaryDark,
-    fontFamily: FONTS.primary.black,
     textAlign: 'center',
+    ...font(24, 29, 'black', 'primaryDark'),
   },
   subtitleText: {
     marginTop: rem(12),
-    fontSize: font(14),
-    lineHeight: font(24),
-    color: COLORS.secondary,
-    fontFamily: FONTS.primary.medium,
     textAlign: 'center',
+    ...font(12, 14, 'medium', 'secondary'),
   },
   buttonContainer: {
     width: rem(145),
@@ -76,11 +70,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   buttonLabelText: {
-    fontSize: font(12),
-    lineHeight: font(15),
-    fontFamily: FONTS.primary.black,
     textAlign: 'center',
-    color: COLORS.white,
+    ...font(12, 15, 'black'),
   },
   icon: {
     width: rem(250),

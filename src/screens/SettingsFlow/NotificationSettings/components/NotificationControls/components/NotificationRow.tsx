@@ -3,11 +3,11 @@
 import {NotificationChannel} from '@api/devices/types';
 import {Switch} from '@components/Switch';
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {t} from '@translations/i18n';
+import {font} from '@utils/styles';
 import React, {memo} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 type Props = {
   channel: string;
@@ -66,10 +66,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   labelText: {
-    fontSize: font(12),
-    fontFamily: FONTS.primary.bold,
-    color: COLORS.primaryDark,
     flex: 2,
+    ...font(12, null, 'bold', 'primaryDark'),
   },
   section: {
     flex: 1,
@@ -82,12 +80,10 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   switchText: {
-    fontSize: font(12),
-    fontFamily: FONTS.primary.regular,
-    color: COLORS.secondary,
     flex: 1,
     marginRight: rem(10),
     textAlign: 'right',
+    ...font(12, null, 'regular', 'secondary'),
   },
   separator: {
     height: 1,

@@ -6,11 +6,10 @@ import {
 } from '@components/PhoneNumberSearch/components/CountryListItem';
 import {COLORS} from '@constants/colors';
 import {countries, Country} from '@constants/countries';
-import {FONTS} from '@constants/fonts';
-import {IS_SMALL_SCREEN} from '@constants/styles';
 import {CloseIconSvg} from '@svg/CloseIcon';
 import {SearchIconSvg} from '@svg/SearchIcon';
 import {t} from '@translations/i18n';
+import {font} from '@utils/styles';
 import {debounce} from 'lodash';
 import React, {useCallback, useState} from 'react';
 import {
@@ -24,7 +23,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 interface PhoneNumberSearchProps extends TextInputProps {
   selectedCountry: Country;
@@ -127,11 +126,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: rem(13),
     borderColor: COLORS.secondaryLight,
-    height: IS_SMALL_SCREEN ? rem(240) : rem(311),
+    height: rem(240),
     backgroundColor: COLORS.white,
   },
   countryIcon: {
-    fontSize: font(24),
+    fontSize: rem(24),
   },
   header: {
     flexDirection: 'row',
@@ -142,11 +141,9 @@ const styles = StyleSheet.create({
     paddingVertical: rem(8),
   },
   name: {
-    fontSize: font(15),
-    fontFamily: FONTS.primary.regular,
     flex: 1,
     marginLeft: rem(4),
-    color: COLORS.secondary,
+    ...font(15, null, 'regular', 'secondary'),
   },
   closeButton: {
     paddingHorizontal: rem(12),
@@ -161,9 +158,7 @@ const styles = StyleSheet.create({
   input: {
     paddingLeft: rem(9),
     paddingVertical: rem(10),
-    fontSize: font(15),
-    fontFamily: FONTS.primary.regular,
-    color: COLORS.primaryDark,
     flex: 1,
+    ...font(15, null, 'regular', 'primaryDark'),
   },
 });

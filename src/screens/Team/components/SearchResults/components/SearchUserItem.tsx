@@ -3,13 +3,11 @@
 import {User} from '@api/user/types';
 import {UserListItem} from '@components/UserListItem';
 import {UserListPingButton} from '@components/UserListItem/components/UserListPingButton';
-import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {t} from '@translations/i18n';
 import {getCountryByCode} from '@utils/country';
+import {font} from '@utils/styles';
 import React from 'react';
 import {StyleSheet, Text} from 'react-native';
-import {font} from 'rn-units';
 
 type Props = {
   user: User;
@@ -41,8 +39,6 @@ export const SearchUserItem = ({user}: Props) => {
 
 const styles = StyleSheet.create({
   referralTypeText: {
-    color: COLORS.emperor,
-    fontSize: font(13.5),
-    fontFamily: FONTS.primary.medium,
+    ...font(13.5, null, 'medium', 'emperor'),
   },
 });

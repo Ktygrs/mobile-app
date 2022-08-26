@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {useNavigation} from '@react-navigation/native';
 import {BackButtonArrow} from '@svg/BackButtonIcon';
+import {font} from '@utils/styles';
 import React from 'react';
 import {
   StyleProp,
@@ -12,7 +12,7 @@ import {
   TouchableOpacity,
   ViewStyle,
 } from 'react-native';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 type Props = {
   containerStyle?: StyleProp<ViewStyle>;
@@ -51,8 +51,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   labelText: {
-    fontFamily: FONTS.primary.regular,
-    fontSize: font(18),
     marginLeft: rem(12),
+    ...font(16, 20, 'regular'),
   },
 });

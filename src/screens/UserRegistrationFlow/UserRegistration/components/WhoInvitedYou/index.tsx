@@ -2,15 +2,15 @@
 
 import {CommonInput} from '@components/CommonInput';
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
-import {InfoIconSvg} from '@svg/InfoIcon';
+import {InfoIcon} from '@svg/InfoIcon';
 import {TicketIconSvg} from '@svg/Ticket';
 import {TipTriangleIconSvg} from '@svg/TipTriangle';
 import {WhoInvitedYouSvg} from '@svg/WhoInvitedYou';
 import {translate} from '@translations/i18n';
+import {font} from '@utils/styles';
 import React, {useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {font, rem, screenHeight} from 'rn-units';
+import {rem, screenHeight} from 'rn-units';
 
 interface WhoInvitedYouProps {
   inputValue: string;
@@ -61,7 +61,7 @@ export const WhoInvitedYou = ({
 
         <View style={styles.dontHaveCodeContainer}>
           <TouchableOpacity style={styles.infoButton} onPress={showTip}>
-            <InfoIconSvg />
+            <InfoIcon />
           </TouchableOpacity>
           <Text style={styles.dontHaveCodeText}>
             {translate('whoInvitedYou.dontHaveInvitationCode')}
@@ -107,17 +107,11 @@ const styles = StyleSheet.create({
   title: {
     marginTop: rem(24),
     marginBottom: rem(23),
-    fontFamily: FONTS.primary.black,
-    color: COLORS.primaryDark,
-    fontSize: font(28),
-    textAlign: 'center',
+    ...font(28, null, 'black', 'primaryDark'),
   },
   description: {
-    fontFamily: FONTS.primary.regular,
-    color: COLORS.secondary,
-    fontSize: font(14),
-    lineHeight: rem(24),
     textAlign: 'center',
+    ...font(14, 24, 'regular', 'secondary'),
   },
   input: {
     marginTop: rem(30),
@@ -131,23 +125,14 @@ const styles = StyleSheet.create({
     padding: rem(9),
   },
   dontHaveCodeText: {
-    fontFamily: FONTS.primary.regular,
-    color: COLORS.primaryDark,
-    fontSize: font(12.5),
-    lineHeight: rem(24),
+    ...font(12.5, 24, 'regular', 'primaryDark'),
   },
   tapHere: {
-    fontFamily: FONTS.primary.bold,
-    color: COLORS.primaryDark,
-    fontSize: font(12.5),
-    lineHeight: rem(24),
+    ...font(12.5, 24, 'bold', 'primaryDark'),
   },
   tipText: {
-    fontFamily: FONTS.primary.regular,
-    color: COLORS.white,
-    fontSize: font(11.5),
-    lineHeight: rem(18),
     textAlign: 'center',
+    ...font(11.5, 18, 'regular'),
   },
   tipContainer: {
     backgroundColor: COLORS.primaryDark,

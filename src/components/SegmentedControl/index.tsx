@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {commonStyles} from '@constants/styles';
+import {font} from '@utils/styles';
 import React, {
   forwardRef,
   ReactNode,
@@ -25,7 +25,6 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
-import {font} from 'rn-units';
 
 const DEFAULT_MARGIN = 8;
 const CONTROL_HEIGHT = 55;
@@ -169,8 +168,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   text: {
-    fontSize: font(16),
-    fontFamily: FONTS.primary.bold,
+    ...font(16, null, 'bold'),
   },
   activeText: {
     color: COLORS.white,

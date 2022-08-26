@@ -1,14 +1,13 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {CommonInput} from '@components/CommonInput';
-import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {ClaimNicknameSvg} from '@svg/ClaimNickname';
 import {ManIconSvg} from '@svg/ManIcon';
 import {translate} from '@translations/i18n';
+import {font} from '@utils/styles';
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {font, rem, screenHeight} from 'rn-units';
+import {rem, screenHeight} from 'rn-units';
 
 const h = (screenHeight * 291) / 811;
 const w = (h * 258) / 291;
@@ -57,17 +56,12 @@ const styles = StyleSheet.create({
   title: {
     marginTop: rem(24),
     marginBottom: rem(11),
-    fontFamily: FONTS.primary.black,
-    color: COLORS.primaryDark,
-    fontSize: font(28),
     textAlign: 'center',
+    ...font(28, null, 'black', 'primaryDark'),
   },
   description: {
-    fontFamily: FONTS.primary.regular,
-    color: COLORS.secondary,
-    fontSize: font(14),
-    lineHeight: rem(24),
     textAlign: 'center',
+    ...font(14, 24, 'regular', 'secondary'),
   },
   input: {
     marginTop: rem(30),

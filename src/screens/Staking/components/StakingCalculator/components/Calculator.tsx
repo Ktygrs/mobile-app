@@ -2,11 +2,11 @@
 
 import {Slider} from '@components/Slider';
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {commonStyles, SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {ChartIcon} from '@svg/ChartIcon';
 import {YearsIcon} from '@svg/YearsIcon';
 import {t} from '@translations/i18n';
+import {font} from '@utils/styles';
 import React, {memo, useEffect, useRef} from 'react';
 import {
   ActivityIndicator,
@@ -16,7 +16,7 @@ import {
   View,
 } from 'react-native';
 import {useSharedValue} from 'react-native-reanimated';
-import {font, isAndroid, rem} from 'rn-units';
+import {isAndroid, rem} from 'rn-units';
 
 const YEARS_MIN = 0;
 const YEARS_MAX = 10;
@@ -135,30 +135,21 @@ const styles = StyleSheet.create({
     paddingBottom: rem(16),
   },
   resultLabelText: {
-    fontSize: font(13),
-    lineHeight: font(24),
-    fontFamily: FONTS.primary.regular,
-    color: COLORS.periwinkleGray,
     marginTop: rem(34),
     textAlign: 'center',
+    ...font(13, 24, 'regular', 'periwinkleGray'),
   },
   resultValue: {
     height: rem(26),
     alignItems: 'center',
   },
   resultValueText: {
-    fontSize: font(22),
-    lineHeight: font(26),
-    fontFamily: FONTS.primary.bold,
-    color: COLORS.white,
     textAlign: 'center',
+    ...font(22, 26, 'bold'),
   },
   currentRateText: {
-    fontSize: font(13),
-    lineHeight: font(24),
-    fontFamily: FONTS.primary.bold,
-    color: COLORS.periwinkleGray,
     textAlign: 'center',
+    ...font(13, 24, 'bold', 'periwinkleGray'),
   },
   resultValueText_bonus: {
     color: COLORS.shamrock,
@@ -171,10 +162,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   checkboxLabelText: {
-    fontSize: font(13),
-    lineHeight: font(24),
-    fontFamily: FONTS.primary.regular,
-    color: COLORS.white,
+    ...font(13, 24, 'regular'),
   },
   sliderInfo: {
     marginTop: isAndroid ? rem(17) : rem(27),
@@ -188,23 +176,15 @@ const styles = StyleSheet.create({
     marginRight: rem(26),
   },
   sliderLabelText: {
-    fontSize: font(13),
-    lineHeight: font(24),
-    fontFamily: FONTS.primary.regular,
-    color: COLORS.white,
+    ...font(13, 24, 'regular'),
   },
   sliderValueText: {
     flex: 1,
-    fontSize: font(13),
-    fontFamily: FONTS.primary.bold,
-    color: COLORS.periwinkleGray,
     textAlign: 'right',
+    ...font(13, null, 'bold', 'periwinkleGray'),
   },
   descriptionText: {
     marginTop: rem(60),
-    fontSize: font(14),
-    lineHeight: font(18),
-    fontFamily: FONTS.primary.regular,
-    color: COLORS.secondaryFaint,
+    ...font(14, 18, 'regular', 'secondaryFaint'),
   },
 });

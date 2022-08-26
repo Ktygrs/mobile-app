@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
+import {font} from '@utils/styles';
 import React, {ReactNode} from 'react';
 import {
   ActivityIndicator,
@@ -13,7 +13,7 @@ import {
   TouchableOpacity,
   ViewStyle,
 } from 'react-native';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 interface PrimaryButtonProps {
   onPress: () => void;
@@ -51,11 +51,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   text: {
-    fontFamily: FONTS.primary.black,
-    color: COLORS.white,
-    fontSize: font(14),
-    lineHeight: rem(16.8),
     marginHorizontal: rem(10),
+    ...font(14, 16.8, 'black'),
   },
   activityIndicator: {
     position: 'absolute',

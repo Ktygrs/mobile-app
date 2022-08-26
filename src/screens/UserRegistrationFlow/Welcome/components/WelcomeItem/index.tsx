@@ -1,10 +1,9 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
+import {font} from '@utils/styles';
 import * as React from 'react';
 import {Image, ImageRequireSource, StyleSheet, Text, View} from 'react-native';
-import {font, isAndroid, rem, screenHeight} from 'rn-units';
+import {isAndroid, rem, screenHeight} from 'rn-units';
 
 import {WelcomeItemDescription} from './components/WelcomeItemDescription';
 
@@ -58,12 +57,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontFamily: FONTS.primary.black,
-    fontSize: font(28),
-    lineHeight: font(34),
     textAlign: 'center',
     marginBottom: rem(MARGIN_TOP),
-    color: COLORS.primaryDark,
+    ...font(28, 34, 'black', 'primaryDark'),
   },
   image: {width: IMAGE_WIDTH, height: IMAGE_HEIGHT},
 });

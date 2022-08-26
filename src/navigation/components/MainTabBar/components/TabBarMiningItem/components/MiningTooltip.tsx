@@ -2,7 +2,6 @@
 
 import {PrimaryButton} from '@components/PrimaryButton';
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {SCREEN_SIDE_OFFSET, SMALL_BUTTON_HIT_SLOP} from '@constants/styles';
 import {MainStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
@@ -11,9 +10,10 @@ import {IS_STAKING_ACTIVE} from '@screens/Staking/components/Footer';
 import {CloseIconSvg} from '@svg/CloseIcon';
 import {StakeIcon} from '@svg/StakeIcon';
 import {t} from '@translations/i18n';
+import {font} from '@utils/styles';
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 export const MiningTooltip = ({}) => {
   const navigation =
@@ -111,33 +111,21 @@ const styles = StyleSheet.create({
     height: rem(22),
   },
   headerLabelText: {
-    fontSize: font(10),
-    lineHeight: font(12),
-    color: COLORS.white,
-    fontFamily: FONTS.primary.regular,
+    ...font(10, 12, 'regular'),
   },
   headerValueText: {
     marginTop: rem(2),
-    fontSize: font(15),
-    lineHeight: font(18),
-    color: COLORS.shamrock,
-    fontFamily: FONTS.primary.bold,
+    ...font(15, 18, 'bold', 'shamrock'),
   },
   titleText: {
-    fontSize: font(18),
-    lineHeight: font(22),
-    color: COLORS.white,
-    fontFamily: FONTS.primary.black,
     textAlign: 'center',
     marginTop: rem(26),
+    ...font(18, 22, 'black'),
   },
   noteText: {
-    fontSize: font(12),
-    lineHeight: font(17),
-    color: COLORS.white,
-    fontFamily: FONTS.primary.regular,
     textAlign: 'center',
     marginTop: rem(6),
+    ...font(12, 17, 'regular'),
   },
   button: {
     marginTop: rem(26),
@@ -172,13 +160,10 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   bonusText: {
-    fontSize: font(10),
-    lineHeight: font(12),
-    color: COLORS.white,
-    fontFamily: FONTS.primary.regular,
     textAlign: 'center',
     marginTop: rem(10),
     marginBottom: rem(6),
+    ...font(10, 12, 'regular'),
   },
   bonusText_value: {
     color: COLORS.shamrock,

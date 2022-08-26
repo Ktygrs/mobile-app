@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {useSearchAnimation} from '@screens/Team/components/Header/components/Search/hooks/useSearchAnimation';
 import {SearchIconSvg} from '@svg/SearchIcon';
 import {t} from '@translations/i18n';
+import {font} from '@utils/styles';
 import React, {useMemo, useState} from 'react';
 import {
   ActivityIndicator,
@@ -18,7 +18,7 @@ import {
 } from 'react-native';
 import Animated, {SharedValue} from 'react-native-reanimated';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 type SearchProps = {
   searchShared: SharedValue<number>;
@@ -101,9 +101,9 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 0,
     backgroundColor: 'transparent',
-    fontSize: font(13),
     alignSelf: 'stretch',
     paddingLeft: rem(46),
+    ...font(13, null, 'regular', 'primaryDark'),
   },
   searchButton: {
     justifyContent: 'center',
@@ -123,8 +123,6 @@ const styles = StyleSheet.create({
     paddingLeft: rem(20),
   },
   cancelText: {
-    fontSize: font(16),
-    fontFamily: FONTS.primary.bold,
-    color: COLORS.white,
+    ...font(16, null, 'bold'),
   },
 });

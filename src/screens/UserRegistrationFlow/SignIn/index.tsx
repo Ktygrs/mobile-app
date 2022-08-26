@@ -5,7 +5,6 @@ import {PhoneNumberInput} from '@components/PhoneNumberInput';
 import {PhoneNumberSearch} from '@components/PhoneNumberSearch';
 import {PrimaryButton} from '@components/PrimaryButton';
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {SignUpStackParamList} from '@navigation/Auth';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {BorderedButton} from '@screens/UserRegistrationFlow/SignIn/components/BorderedButton';
@@ -22,6 +21,7 @@ import {MagicIconSvg} from '@svg/MagicIcon';
 import {PhoneIconSvg} from '@svg/PhoneIcon';
 import {translate} from '@translations/i18n';
 import {getCountryByCode} from '@utils/country';
+import {font} from '@utils/styles';
 import React, {useCallback, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
@@ -35,7 +35,7 @@ import {
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
-import {font, isIOS, rem} from 'rn-units';
+import {isIOS, rem} from 'rn-units';
 
 import {ESocialType, SocialSignIn} from './components/SocialSignIn';
 
@@ -239,20 +239,14 @@ const styles = StyleSheet.create({
     marginTop: rem(50),
   },
   title: {
-    fontFamily: FONTS.primary.black,
-    color: COLORS.primaryDark,
-    fontSize: font(28),
-    lineHeight: rem(33.6),
     marginBottom: rem(42),
+    ...font(28, 33.6, 'black', 'primaryDark'),
   },
   text: {
-    fontFamily: FONTS.primary.regular,
-    color: COLORS.secondary,
-    fontSize: font(10),
-    lineHeight: rem(12),
     marginVertical: rem(14),
     textAlign: 'center',
     textTransform: 'uppercase',
+    ...font(10, 12, 'regular', 'secondary'),
   },
   securedBy: {
     flexDirection: 'row',
@@ -260,10 +254,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   securedByText: {
-    fontFamily: FONTS.primary.regular,
-    fontSize: font(13),
-    lineHeight: rem(16),
-    color: COLORS.secondaryLight,
+    ...font(13, 16, 'regular', 'secondaryLight'),
   },
   phoneNumberSeatch: {
     position: 'absolute',

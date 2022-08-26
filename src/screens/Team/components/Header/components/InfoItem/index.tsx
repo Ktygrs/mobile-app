@@ -1,14 +1,13 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {Text} from '@components/Text';
-import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {TeamHeaderEarningsIcon} from '@screens/Team/assets/svg/TeamHeaderEarningsIcon';
 import {TeamHeaderReferralsIcon} from '@screens/Team/assets/svg/TeamHeaderReferralsIcon';
 import {t} from '@translations/i18n';
+import {font} from '@utils/styles';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 export enum InfoItemType {
   'referrals',
@@ -70,22 +69,16 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    fontFamily: FONTS.primary.medium,
-    fontSize: font(14),
-    color: COLORS.white,
     marginLeft: rem(8.5),
+    ...font(14, null, 'medium'),
   },
   referrals: {
-    color: COLORS.white,
-    fontFamily: FONTS.primary.semibold,
-    fontSize: font(22),
     marginLeft: rem(8.5),
+    ...font(22, null, 'semibold'),
   },
   earnings: {
-    color: COLORS.white,
-    fontFamily: FONTS.primary.medium,
-    fontSize: font(14),
     marginLeft: rem(8.5),
     marginTop: rem(5),
+    ...font(14, null, 'medium'),
   },
 });

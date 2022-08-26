@@ -3,14 +3,14 @@
 import {PrimaryButton} from '@components/PrimaryButton';
 import {Text} from '@components/Text';
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
 import {InviteIcon} from '@svg/InviteIcon';
 import {t} from '@translations/i18n';
+import {font} from '@utils/styles';
 import React from 'react';
 import {Image, StyleSheet, View} from 'react-native';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 const icon = require('../../../../assets/images/teamTier2.png');
 
@@ -59,15 +59,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    fontSize: font(14),
-    fontFamily: FONTS.primary.regular,
     textAlign: 'center',
     marginHorizontal: SCREEN_SIDE_OFFSET,
     marginTop: rem(20),
-    lineHeight: font(24),
+    ...font(14, 24, 'regular'),
   },
   boldTitle: {
-    fontFamily: FONTS.primary.bold,
+    ...font(14, 24, 'bold'),
   },
   inviteButton: {
     marginTop: rem(35),
@@ -76,9 +74,6 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
   },
   text: {
-    fontFamily: FONTS.primary.black,
-    color: COLORS.white,
-    fontSize: font(18),
-    lineHeight: rem(21.6),
+    ...font(18, 21.6, 'black'),
   },
 });

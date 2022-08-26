@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {commonStyles, SCREEN_SIDE_OFFSET} from '@constants/styles';
+import {font} from '@utils/styles';
 import React, {ReactNode} from 'react';
 import {
   Image,
@@ -14,7 +14,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 type Props = {
   title: string;
@@ -81,16 +81,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   titleText: {
-    fontSize: font(16),
-    lineHeight: font(19),
-    fontFamily: FONTS.primary.bold,
-    color: COLORS.primaryDark,
+    ...font(16, 19, 'bold', 'primaryDark'),
   },
   descriptionText: {
-    fontSize: font(12),
-    lineHeight: font(15),
-    fontFamily: FONTS.primary.regular,
-    color: COLORS.emperor,
+    ...font(12, 15, 'regular', 'emperor'),
     marginTop: rem(4),
   },
 });

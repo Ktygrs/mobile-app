@@ -2,14 +2,14 @@
 
 import {PrimaryButton} from '@components/PrimaryButton';
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {useNavigation} from '@react-navigation/native';
 import {StakeIcon} from '@svg/StakeIcon';
 import {t} from '@translations/i18n';
+import {font} from '@utils/styles';
 import React, {memo} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 export const IS_STAKING_ACTIVE = {current: false};
 
@@ -43,11 +43,8 @@ const styles = StyleSheet.create({
     marginHorizontal: SCREEN_SIDE_OFFSET,
   },
   noteText: {
-    fontSize: font(11),
-    lineHeight: font(15),
-    fontFamily: FONTS.primary.regular,
-    color: COLORS.black,
     textAlign: 'center',
+    ...font(11, 15, 'regular', 'black'),
   },
   termsLink: {
     color: COLORS.primaryLight,

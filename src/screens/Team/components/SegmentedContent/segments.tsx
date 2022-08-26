@@ -10,9 +10,6 @@ import {Text} from 'react-native';
 
 export const SEGMENTS = [
   {
-    /**
-     * Custom render example
-     */
     renderText: (active: boolean) => (
       <>
         <ContactsIcon fill={active ? COLORS.white : COLORS.primaryDark} />

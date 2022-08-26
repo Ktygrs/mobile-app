@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
+import {font} from '@utils/styles';
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 type Props = {
   value: number;
@@ -46,18 +46,12 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   percValueText: {
-    fontFamily: FONTS.primary.bold,
-    fontSize: font(14),
-    lineHeight: font(17),
-    color: COLORS.primaryDark,
+    ...font(14, 17, 'bold', 'primaryDark'),
   },
   percLabelText: {
-    fontFamily: FONTS.primary.regular,
-    fontSize: font(12),
-    lineHeight: font(15),
-    color: COLORS.periwinkleGray,
     textAlign: 'right',
     flex: 1,
+    ...font(12, 15, 'regular', 'periwinkleGray'),
   },
   progressBody: {
     height: rem(8),

@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {BackButton} from '@navigation/components/Header/components/BackButton';
+import {font} from '@utils/styles';
 import React, {memo, ReactNode, useMemo} from 'react';
 import {StyleProp, StyleSheet, Text, View, ViewStyle} from 'react-native';
 import Animated from 'react-native-reanimated';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 type Props = {
   color?: string;
@@ -104,12 +104,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   titleText_big: {
-    fontFamily: FONTS.primary.black,
-    fontSize: font(22),
+    ...font(22, null, 'black'),
   },
   titleText_small: {
-    fontFamily: FONTS.primary.bold,
-    fontSize: font(18),
+    ...font(18, null, 'bold'),
   },
   backButton: {
     position: 'absolute',

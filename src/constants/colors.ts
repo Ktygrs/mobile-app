@@ -30,9 +30,11 @@ export const COLORS = {
   downriver: '#0A2155',
   gullGray: '#98A4BB',
   royalBlue: '#6556EE',
-  toreaBay: '#113B98',
+  toreaBay: '#0E3794',
   blueViolet: '#5F5DB1',
   gallery: '#EBEBEB',
   scorpion: '#575757',
   cadetBlue: '#A6B0C2',
+  deepKoamaru: '#113081',
+  spindle: '#A9BCE7',
 };

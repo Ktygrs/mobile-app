@@ -4,12 +4,12 @@ import {
   ImageCardCompact,
   ImageCardCompactSkeleton,
 } from '@components/Cards/ImageCardCompact';
+import {SectionHeader} from '@components/SectionHeader';
 import {Images} from '@images';
 import {ProfileTabStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {ViewAllButton} from '@screens/ProfileFlow/Profile/components/Role/components/ViewAllButton';
-import {SectionHeader} from '@screens/ProfileFlow/Profile/components/SectionHeader';
 import {t} from '@translations/i18n';
 import React, {memo, useState} from 'react';
 import {StyleSheet} from 'react-native';
@@ -23,10 +23,7 @@ export const Role = memo(() => {
 
   return (
     <>
-      <SectionHeader
-        title={t('profile.my_role').toUpperCase()}
-        showViewAll={false}
-      />
+      <SectionHeader title={t('profile.my_role')} />
       {loading ? (
         <ImageCardCompactSkeleton containerStyle={styles.card} />
       ) : (

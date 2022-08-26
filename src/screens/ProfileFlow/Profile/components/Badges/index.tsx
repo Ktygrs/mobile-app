@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {SectionHeader} from '@components/SectionHeader';
 import {ProfileTabStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {BadgeList} from '@screens/ProfileFlow/Profile/components/Badges/components/BadgeList';
 import {LAST_BADGES} from '@screens/ProfileFlow/Profile/components/Badges/mockData';
-import {SectionHeader} from '@screens/ProfileFlow/Profile/components/SectionHeader';
 import {t} from '@translations/i18n';
 import React, {memo, useCallback, useState} from 'react';
 
@@ -23,8 +23,8 @@ export const Badges = memo(() => {
     <>
       <SectionHeader
         title={t('profile.my_badges').toUpperCase()}
-        showViewAll={true}
-        onViewAllPress={onViewAllPress}
+        action={t('button.view_all')}
+        onActionPress={onViewAllPress}
       />
       <BadgeList loading={loading} data={LAST_BADGES} />
     </>

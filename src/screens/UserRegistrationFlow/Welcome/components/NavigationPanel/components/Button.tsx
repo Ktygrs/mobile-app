@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
+import {font} from '@utils/styles';
 import React from 'react';
 import {
   StyleProp,
@@ -11,7 +11,8 @@ import {
   TouchableOpacity,
   ViewStyle,
 } from 'react-native';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
+
 interface ButtonProps {
   onPress: () => void;
   text: string;
@@ -57,11 +58,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    fontFamily: FONTS.primary.black,
-    color: COLORS.white,
-    fontSize: font(14),
     paddingHorizontal: rem(4),
-    lineHeight: rem(17),
+    ...font(14, 17, 'black'),
   },
   disabled: {
     backgroundColor: COLORS.secondaryLight,

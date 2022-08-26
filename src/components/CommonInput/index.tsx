@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
+import {font} from '@utils/styles';
 import React, {ReactNode} from 'react';
 import {
   StyleProp,
@@ -12,7 +12,7 @@ import {
   View,
 } from 'react-native';
 import {ViewStyle} from 'react-native';
-import {font, isAndroid, rem} from 'rn-units';
+import {isAndroid, rem} from 'rn-units';
 
 interface CommonInputProps extends TextInputProps {
   icon?: ReactNode;
@@ -60,11 +60,8 @@ const styles = StyleSheet.create({
   input: {
     paddingLeft: rem(6),
     flex: 1,
-    color: COLORS.primaryDark,
-    fontSize: font(16),
-    lineHeight: rem(19),
-    fontFamily: FONTS.primary.regular,
     height: rem(36),
+    ...font(16, 19, 'regular', 'primaryDark'),
   },
   inputError: {
     borderColor: COLORS.attention,
@@ -72,11 +69,9 @@ const styles = StyleSheet.create({
   errorText: {
     position: 'absolute',
     bottom: 0,
-    color: COLORS.attention,
-    fontSize: font(11),
     paddingLeft: rem(6),
-    fontFamily: FONTS.primary.regular,
     marginBottom: isAndroid ? rem(6) : 0,
+    ...font(11, null, 'regular', 'attention'),
   },
   inputWrapper: {
     flex: 1,

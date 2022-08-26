@@ -3,12 +3,12 @@
 import {stopPropagination} from '@components/KeyboardDismiss';
 import {UserListItemButton} from '@components/UserListItem/components/UserListItemButton';
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {TeamContactInvite} from '@screens/Team/components/Contacts/components/ContactsList/assets/svg/TeamContactInvite';
 import {MultipleNumbers} from '@screens/Team/components/Contacts/components/ContactsList/components/MultipleNumbers';
 import {t} from '@translations/i18n';
 import {getContactAcronym, getContactName} from '@utils/contacts';
 import {stringToColor} from '@utils/string';
+import {font} from '@utils/styles';
 import React, {memo, useState} from 'react';
 import {
   LayoutAnimation,
@@ -18,9 +18,9 @@ import {
   View,
 } from 'react-native';
 import {Contact} from 'react-native-contacts';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
-const phoneNumberLineHeight = font(20);
+const phoneNumberLineHeight = rem(20);
 
 export const ContactItem = memo(
   ({
@@ -112,20 +112,16 @@ const styles = StyleSheet.create({
     marginRight: rem(14),
   },
   name: {
-    fontSize: font(16),
-    fontFamily: FONTS.primary.bold,
-    color: COLORS.primaryDark,
     paddingBottom: rem(3),
     marginRight: rem(4),
+    ...font(16, null, 'bold', 'primaryDark'),
   },
   hiddenNumbers: {
     overflow: 'hidden',
   },
   phoneNumber: {
-    fontSize: font(14),
     height: phoneNumberLineHeight,
-    fontFamily: FONTS.primary.medium,
-    color: COLORS.scorpion,
+    ...font(14, null, 'medium', 'scorpion'),
   },
   indicator: {
     position: 'absolute',
@@ -134,8 +130,6 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   contactIconText: {
-    color: COLORS.white,
-    fontFamily: FONTS.primary.regular,
-    fontSize: font(15),
+    ...font(15),
   },
 });

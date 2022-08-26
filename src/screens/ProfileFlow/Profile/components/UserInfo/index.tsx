@@ -2,15 +2,15 @@
 
 import {Avatar} from '@components/Avatar/Avatar';
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {Level} from '@screens/ProfileFlow/Profile/components/UserInfo/components/Level';
 import {userSelector} from '@store/modules/Auth/selectors';
 import {t} from '@translations/i18n';
+import {font} from '@utils/styles';
 import React, {memo} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {useSelector} from 'react-redux';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 export const UserInfo = memo(() => {
   const user = useSelector(userSelector);
@@ -59,10 +59,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   usernameText: {
-    fontFamily: FONTS.primary.bold,
-    color: COLORS.white,
-    fontSize: font(18),
     marginTop: rem(20),
+    ...font(18, 20, 'bold'),
   },
   ladder: {
     flexDirection: 'row',
@@ -77,17 +75,11 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   ladderValueText: {
-    fontFamily: FONTS.primary.black,
-    color: COLORS.white,
-    fontSize: font(15),
-    lineHeight: font(18),
+    ...font(15, 18, 'black'),
   },
   ladderLabelText: {
-    fontFamily: FONTS.primary.bold,
-    color: COLORS.white,
-    fontSize: font(10),
-    lineHeight: font(12),
     marginTop: rem(4),
+    ...font(10, 12, 'bold'),
   },
   avatarImage: {
     borderWidth: 2,

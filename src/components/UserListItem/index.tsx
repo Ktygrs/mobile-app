@@ -3,11 +3,11 @@
 import {Avatar} from '@components/Avatar/Avatar';
 import {stopPropagination} from '@components/KeyboardDismiss';
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
+import {font} from '@utils/styles';
 import React, {ReactNode} from 'react';
 import {StyleProp, StyleSheet, Text, View, ViewStyle} from 'react-native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 export const UserListItem = ({
   name,
@@ -85,15 +85,11 @@ const styles = StyleSheet.create({
     bottom: -2,
   },
   nameText: {
-    fontSize: font(16),
-    fontFamily: FONTS.primary.bold,
-    color: COLORS.primaryDark,
     paddingBottom: rem(3),
+    ...font(16, null, 'bold', 'primaryDark'),
   },
   noteText: {
-    fontSize: font(13.5),
-    fontFamily: FONTS.primary.medium,
-    color: COLORS.emperor,
+    ...font(13.5, null, 'medium', 'emperor'),
   },
   skeleton: {
     height: rem(46),

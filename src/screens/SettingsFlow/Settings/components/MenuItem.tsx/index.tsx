@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {ArrowDownIcon} from '@svg/ArrowDownIcon';
+import {font} from '@utils/styles';
 import React, {ReactNode, useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
@@ -12,7 +12,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {SvgProps} from 'react-native-svg';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 type Props = {
   title: string;
@@ -123,16 +123,10 @@ const styles = StyleSheet.create({
   },
   icon: {},
   titleText: {
-    fontFamily: FONTS.primary.black,
-    fontSize: font(14),
-    lineHeight: font(17),
-    color: COLORS.primaryDark,
+    ...font(14, 17, 'black', 'primaryDark'),
   },
   descriptionText: {
-    fontFamily: FONTS.primary.regular,
-    fontSize: font(12),
-    lineHeight: font(15),
-    color: COLORS.secondary,
+    ...font(12, 15, 'regular', 'secondary'),
   },
   chevron: {
     marginLeft: rem(10),
@@ -166,17 +160,13 @@ const styles = StyleSheet.create({
     borderRadius: rem(11),
   },
   yesText: {
-    fontSize: font(12),
-    color: COLORS.attentionDark,
-    fontFamily: FONTS.primary.black,
+    ...font(12, null, 'black', 'attentionDark'),
   },
   noButton: {
     borderRadius: rem(11),
     backgroundColor: COLORS.primary,
   },
   noText: {
-    fontSize: font(12),
-    color: COLORS.white,
-    fontFamily: FONTS.primary.black,
+    ...font(12, null, 'black'),
   },
 });

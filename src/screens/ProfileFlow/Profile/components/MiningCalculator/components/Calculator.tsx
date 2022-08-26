@@ -2,12 +2,12 @@
 
 import {Slider} from '@components/Slider';
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {commonStyles, SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {MiningIcon} from '@svg/MiningIcon';
 import {TierOneIcon} from '@svg/TierOneIcon';
 import {TierTwoIcon} from '@svg/TierTwoIcon';
 import {t} from '@translations/i18n';
+import {font} from '@utils/styles';
 import React, {memo, useEffect, useRef} from 'react';
 import {
   ActivityIndicator,
@@ -17,7 +17,7 @@ import {
   View,
 } from 'react-native';
 import {useSharedValue} from 'react-native-reanimated';
-import {font, isAndroid, rem} from 'rn-units';
+import {isAndroid, rem} from 'rn-units';
 
 const TIER_ONE_MIN = 0;
 const TIER_ONE_MAX = 30;
@@ -164,23 +164,17 @@ const styles = StyleSheet.create({
     paddingBottom: rem(42),
   },
   resultLabelText: {
-    fontSize: font(13),
-    lineHeight: font(24),
-    fontFamily: FONTS.primary.regular,
-    color: COLORS.periwinkleGray,
     marginTop: rem(34),
     textAlign: 'center',
+    ...font(13, 24, 'regular', 'periwinkleGray'),
   },
   resultValue: {
     height: rem(26),
     alignItems: 'center',
   },
   resultValueText: {
-    fontSize: font(22),
-    lineHeight: font(26),
-    fontFamily: FONTS.primary.bold,
-    color: COLORS.white,
     textAlign: 'center',
+    ...font(22, 26, 'bold'),
   },
   checkboxWrapper: {
     paddingTop: rem(28),
@@ -190,10 +184,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   checkboxLabelText: {
-    fontSize: font(13),
-    lineHeight: font(24),
-    fontFamily: FONTS.primary.regular,
-    color: COLORS.white,
+    ...font(13, 24, 'regular'),
   },
   sliderInfo: {
     marginTop: isAndroid ? rem(17) : rem(27),
@@ -205,16 +196,11 @@ const styles = StyleSheet.create({
     marginLeft: rem(6),
   },
   sliderLabelText: {
-    fontSize: font(13),
-    lineHeight: font(24),
-    fontFamily: FONTS.primary.regular,
-    color: COLORS.white,
+    ...font(13, 24, 'regular'),
   },
   sliderValueText: {
     flex: 1,
-    fontSize: font(13),
-    fontFamily: FONTS.primary.bold,
-    color: COLORS.periwinkleGray,
     textAlign: 'right',
+    ...font(13, null, 'bold', 'periwinkleGray'),
   },
 });

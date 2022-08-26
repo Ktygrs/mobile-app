@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {MainStackParamList} from '@navigation/Main';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {t} from '@translations/i18n';
+import {font} from '@utils/styles';
 import React, {useEffect} from 'react';
 import {
   StyleProp,
@@ -23,7 +23,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 export type ConfirmButton = {
   label: string;
@@ -114,10 +114,7 @@ const styles = StyleSheet.create({
     right: 0,
   },
   titleText: {
-    fontSize: font(18),
-    lineHeight: font(24),
-    color: COLORS.primaryDark,
-    fontFamily: FONTS.primary.black,
+    ...font(18, 24, 'black', 'primaryDark'),
   },
   buttons: {
     flexDirection: 'row',
@@ -137,10 +134,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonLabelText: {
-    fontSize: font(14),
-    lineHeight: font(20),
-    color: COLORS.secondary,
-    fontFamily: FONTS.primary.regular,
     marginTop: rem(5),
+    ...font(14, 20, 'regular', 'secondary'),
   },
 });

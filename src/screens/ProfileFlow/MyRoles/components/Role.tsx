@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {CheckMark} from '@screens/ProfileFlow/MyRoles/components/CheckMark';
+import {font} from '@utils/styles';
 import React from 'react';
 import {Image, ImageSourcePropType, StyleSheet, Text, View} from 'react-native';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 type Props = {
   title: string;
@@ -46,9 +45,7 @@ const styles = StyleSheet.create({
   },
   titleText: {
     marginTop: rem(20),
-    fontFamily: FONTS.primary.bold,
-    fontSize: font(20),
-    color: COLORS.primaryDark,
+    ...font(20, null, 'bold', 'primaryDark'),
   },
   icon: {
     marginTop: rem(12),
@@ -62,18 +59,12 @@ const styles = StyleSheet.create({
   },
   taglineText: {
     marginTop: rem(8),
-    fontFamily: FONTS.primary.bold,
-    fontSize: font(18),
-    lineHeight: font(20),
-    color: COLORS.primaryDark,
     textAlign: 'center',
+    ...font(18, 20, 'bold', 'primaryDark'),
   },
   descriptionText: {
     marginTop: rem(14),
-    fontFamily: FONTS.primary.regular,
-    fontSize: font(14),
-    lineHeight: font(20),
-    color: COLORS.secondary,
     textAlign: 'center',
+    ...font(14, 20, 'regular', 'secondary'),
   },
 });

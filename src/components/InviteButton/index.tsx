@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
-import {commonStyles, SCREEN_SIDE_OFFSET} from '@constants/styles';
+import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {InviteIcon} from '@svg/InviteIcon';
 import {StarTransparentIcon} from '@svg/StarTransparentIcon';
 import {t} from '@translations/i18n';
+import {font} from '@utils/styles';
 import React from 'react';
 import {
   StyleProp,
@@ -15,7 +15,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 type Props = {
   style?: StyleProp<ViewStyle>;
@@ -23,7 +23,7 @@ type Props = {
 
 export const InviteButton = ({style}: Props = {}) => {
   return (
-    <TouchableOpacity style={[styles.button, commonStyles.shadow, style]}>
+    <TouchableOpacity style={[styles.button, style]}>
       <View style={styles.iconWrapper}>
         <InviteIcon style={styles.icon} />
       </View>
@@ -64,22 +64,16 @@ const styles = StyleSheet.create({
     marginLeft: rem(10),
   },
   mainText: {
-    fontSize: font(15),
-    lineHeight: font(18),
-    fontFamily: FONTS.primary.black,
-    color: COLORS.white,
+    ...font(15, 18, 'black'),
   },
   noteText: {
-    fontSize: font(12),
-    lineHeight: font(15),
-    fontFamily: FONTS.primary.regular,
-    color: COLORS.white,
+    ...font(12, 15, 'regular'),
   },
   backgroundIcon: {
     position: 'absolute',
     right: -rem(3),
-    top: -rem(5),
-    width: rem(52),
-    height: rem(52),
+    top: -rem(18),
+    width: rem(74),
+    height: rem(74),
   },
 });

@@ -3,7 +3,7 @@
 import * as React from 'react';
 import {Circle, Path, Svg, SvgProps} from 'react-native-svg';
 
-export const InfoIconSvg = (props: SvgProps) => {
+export const InfoIcon = (props: SvgProps) => {
   return (
     <Svg width="11" height="11" viewBox="0 0 11 11" fill="none" {...props}>
       <Circle

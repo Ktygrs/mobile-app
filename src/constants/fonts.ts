@@ -1,6 +1,18 @@
 // SPDX-License-Identifier: BUSL-1.1
+export type FontWight =
+  | 'hairline'
+  | 'thin'
+  | 'light'
+  | 'regular'
+  | 'medium'
+  | 'semibold'
+  | 'bold'
+  | 'heavy'
+  | 'black';
 
-export const FONTS = {
+export type FontFamily = 'primary';
+
+export const FONTS: {[font in FontFamily]: {[width in FontWight]: string}} = {
   primary: {
     hairline: 'Lato-Hairline', // 100
     thin: 'Lato-Thin', // 200

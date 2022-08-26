@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {SMALL_BUTTON_HIT_SLOP} from '@constants/styles';
 import {ProfileTabStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
@@ -9,6 +8,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {DropdownIcon} from '@svg/DropdownIcon';
 import {WorldIcon} from '@svg/WorldIcon';
 import i18n from '@translations/i18n';
+import {font} from '@utils/styles';
 import React from 'react';
 import {
   StyleProp,
@@ -18,7 +18,6 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import {font} from 'rn-units';
 
 type Props = {
   containerStyle?: StyleProp<ViewStyle>;
@@ -52,8 +51,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   langText: {
-    fontSize: font(13),
-    fontFamily: FONTS.primary.bold,
+    ...font(13, null, 'bold'),
   },
   worldIcon: {
     marginLeft: 4,

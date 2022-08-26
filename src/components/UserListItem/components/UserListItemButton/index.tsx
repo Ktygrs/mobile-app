@@ -1,10 +1,9 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
+import {font} from '@utils/styles';
 import React, {ReactNode} from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {font} from 'rn-units';
 
 type Props = {
   icon: ReactNode;
@@ -52,17 +51,13 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
   },
   buttonText: {
-    fontSize: font(12),
-    fontFamily: FONTS.primary.bold,
-    color: COLORS.primaryDark,
     paddingLeft: 3,
     textTransform: 'uppercase',
+    ...font(12, null, 'bold', 'primaryDark'),
   },
   disabledText: {
-    fontSize: font(12),
-    fontFamily: FONTS.primary.bold,
-    color: COLORS.cadetBlue,
     paddingLeft: 3,
     textTransform: 'uppercase',
+    ...font(12, null, 'bold', 'cadetBlue'),
   },
 });

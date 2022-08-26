@@ -14,7 +14,8 @@ import {
 } from '@react-navigation/native-stack';
 import {ActionSheet} from '@screens/Dialogs/ActionSheet';
 import {Confirm, ConfirmButton} from '@screens/Dialogs/Confirm';
-import {Home} from '@screens/Home';
+import {Home} from '@screens/HomeFlow/Home';
+import {HomeMenu} from '@screens/HomeFlow/HomeMenu';
 import {ImageView} from '@screens/ImageView';
 import {News} from '@screens/News';
 import {UpdateRequired} from '@screens/PopUps/UpdateRequired';
@@ -78,6 +79,7 @@ export type MainStackParamList = {
 
 export type HomeTabStackParamList = {
   Home: undefined;
+  HomeMenu: {top?: number; right?: number; bottom?: number; left?: number};
   Profile: undefined;
   MyRoles: undefined;
   MyBadges: {category?: BadgeCategory} | undefined;
@@ -128,6 +130,11 @@ const myBadgesOptions = {fullScreenGestureEnabled: true};
 const HomeTabStackNavigator = () => (
   <HomeTabStack.Navigator screenOptions={screenOptions}>
     <HomeTabStack.Screen name="Home" component={Home} />
+    <HomeTabStack.Screen
+      name="HomeMenu"
+      component={HomeMenu}
+      options={modalOptions}
+    />
     <HomeTabStack.Screen name="Profile" component={Profile} />
     <HomeTabStack.Screen name="MyRoles" component={MyRoles} />
     <HomeTabStack.Screen

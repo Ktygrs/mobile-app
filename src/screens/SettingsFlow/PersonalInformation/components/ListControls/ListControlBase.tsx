@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
+import {font} from '@utils/styles';
 import React, {ReactNode} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 type Props = {
   label: string;
@@ -30,11 +30,9 @@ const styles = StyleSheet.create({
   },
   labelText: {
     flex: 28,
-    color: COLORS.primaryDark,
-    fontFamily: FONTS.primary.bold,
-    fontSize: font(14),
     marginLeft: rem(28),
     marginRight: rem(6),
+    ...font(14, null, 'bold', 'primaryDark'),
   },
   body: {
     flex: 72,

@@ -3,7 +3,6 @@
 import {User} from '@api/user/types';
 import {Avatar} from '@components/Avatar/Avatar';
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {commonStyles, SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {useScrollShadow} from '@hooks/useScrollShadow';
 import {Header} from '@navigation/components/Header';
@@ -19,11 +18,12 @@ import {DeviceActions} from '@store/modules/Devices/actions';
 import {deviceSettingsSelector} from '@store/modules/Devices/selectors';
 import {isLoadingSelector} from '@store/modules/UtilityProcessStatuses/selectors';
 import {t} from '@translations/i18n';
+import {font} from '@utils/styles';
 import React, {memo, useEffect} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import Animated from 'react-native-reanimated';
 import {useDispatch, useSelector} from 'react-redux';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 export const NotificationSettings = memo(() => {
   useFocusStatusBar({style: 'light-content'});
@@ -103,11 +103,8 @@ const styles = StyleSheet.create({
     borderColor: COLORS.white,
   },
   titleText: {
-    fontSize: font(14),
-    lineHeight: font(17),
-    fontFamily: FONTS.primary.bold,
-    color: COLORS.primaryDark,
     marginTop: rem(54),
     marginHorizontal: SCREEN_SIDE_OFFSET,
+    ...font(14, 17, 'bold', 'primaryDark'),
   },
 });

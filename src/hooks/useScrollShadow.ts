@@ -1,53 +1,53 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {COLORS} from '@constants/colors';
+import {commonStyles} from '@constants/styles';
 import {
   Extrapolate,
   interpolate,
+  SharedValue,
   useAnimatedScrollHandler,
   useAnimatedStyle,
-  useDerivedValue,
   useSharedValue,
 } from 'react-native-reanimated';
 import {isIOS, rem} from 'rn-units';
 
 type Params = {
   scrollOffset?: number;
+  translateY?: SharedValue<number>;
 };
 
-export const useScrollShadow = ({scrollOffset = rem(50)}: Params = {}) => {
-  const translationY = useSharedValue(0);
+export const useScrollShadow = ({
+  scrollOffset = rem(50),
+  translateY: externalTranslateY,
+}: Params = {}) => {
+  const translateY = useSharedValue(0);
   const scrollHandler = useAnimatedScrollHandler(event => {
-    translationY.value = event.contentOffset.y;
+    translateY.value = event.contentOffset.y;
   });
-  const shadowOpacity = useDerivedValue(() =>
-    isIOS
-      ? interpolate(
-          translationY.value,
-          [0, scrollOffset],
-          [0, 0.2],
-          Extrapolate.CLAMP,
-        )
-      : interpolate(
-          translationY.value,
-          [0, scrollOffset],
-          [0, 3],
-          Extrapolate.CLAMP,
-        ),
-  );
-  const shadowStyle = useAnimatedStyle(() =>
-    isIOS
+  const y = externalTranslateY ?? translateY;
+  const animatedShadowStyle = useAnimatedStyle(() => {
+    return isIOS
       ? {
-          shadowColor: COLORS.black,
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowRadius: 4,
-          shadowOpacity: shadowOpacity.value,
+          shadowOpacity: interpolate(
+            y.value,
+            [0, scrollOffset],
+            [0, commonStyles.shadow.shadowOpacity ?? 0],
+            Extrapolate.CLAMP,
+          ),
         }
-      : {elevation: shadowOpacity.value},
-  );
+      : {
+          elevation: interpolate(
+            y.value,
+            [0, scrollOffset],
+            [0, commonStyles.shadow.elevation ?? 0],
+            Extrapolate.CLAMP,
+          ),
+        };
+  });
 
-  return {translationY, scrollHandler, shadowStyle};
+  return {
+    translateY,
+    scrollHandler,
+    shadowStyle: [commonStyles.shadow, animatedShadowStyle],
+  };
 };

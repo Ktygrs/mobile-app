@@ -89,7 +89,7 @@ export const PersonalInformation = memo(() => {
         ...draft,
         profilePicture: {
           uri: image.path,
-          name: image.filename ?? getFilenameFromPath(image.path),
+          name: getFilenameFromPath(image.path),
           type: image.mime,
         },
       })),

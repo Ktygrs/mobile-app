@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {SectionHeader} from '@components/SectionHeader';
 import {Calculator} from '@screens/ProfileFlow/Profile/components/MiningCalculator/components/Calculator';
-import {SectionHeader} from '@screens/ProfileFlow/Profile/components/SectionHeader';
 import {t} from '@translations/i18n';
 import React, {memo, useCallback, useState} from 'react';
 
@@ -34,10 +34,7 @@ export const MiningCalculator = memo(() => {
 
   return (
     <>
-      <SectionHeader
-        title={t('profile.mining_calculator').toUpperCase()}
-        showViewAll={false}
-      />
+      <SectionHeader title={t('profile.mining_calculator')} />
       <Calculator
         onCalculateResult={calculateResult}
         result={result}

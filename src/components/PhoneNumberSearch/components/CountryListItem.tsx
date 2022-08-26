@@ -2,10 +2,10 @@
 
 import {COLORS} from '@constants/colors';
 import {Country} from '@constants/countries';
-import {FONTS} from '@constants/fonts';
+import {font} from '@utils/styles';
 import React, {memo} from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 type Props = {
   onPress: (country: Country) => void;
@@ -32,14 +32,12 @@ export const CountryListItem = memo(({country, showCode, onPress}: Props) => {
 
 const styles = StyleSheet.create({
   countryIcon: {
-    fontSize: font(24),
+    fontSize: rem(24),
   },
   nameText: {
-    fontSize: font(15),
-    fontFamily: FONTS.primary.regular,
     flex: 1,
     marginLeft: rem(4),
-    color: COLORS.secondary,
+    ...font(15, null, 'regular', 'secondary'),
   },
   searchItem: {
     flexDirection: 'row',

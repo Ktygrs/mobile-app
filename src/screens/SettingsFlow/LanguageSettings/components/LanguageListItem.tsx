@@ -2,11 +2,11 @@
 
 import {CheckBox} from '@components/CheckBox';
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {t} from '@translations/i18n';
+import {font} from '@utils/styles';
 import React, {memo} from 'react';
 import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 type Props = {
   language: string;
@@ -52,11 +52,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   languageText: {
-    fontSize: font(12),
-    fontFamily: FONTS.primary.bold,
-    color: COLORS.secondary,
     marginLeft: rem(28),
     flex: 1,
+    ...font(12, null, 'bold', 'secondary'),
   },
   languageText_selected: {
     color: COLORS.primaryDark,

@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {LogoIconSvg} from '@svg/LogoIcon';
 import {translate} from '@translations/i18n';
+import {font} from '@utils/styles';
 import * as React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {font, isAndroid, rem} from 'rn-units';
+import {isAndroid} from 'rn-units';
 
 interface WelcomeItemDescriptionProps {
   items: Array<String | number>; // where 1 is icon with text 'ice'
@@ -48,16 +47,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   text: {
-    lineHeight: rem(24),
-    fontSize: font(14),
     textAlign: 'center',
-    fontFamily: FONTS.primary.regular,
-    color: COLORS.secondary,
+    ...font(14, 24, 'regular', 'secondary'),
   },
   mediumText: {
-    lineHeight: rem(24),
-    fontFamily: isAndroid ? FONTS.primary.bold : FONTS.primary.medium,
-    fontSize: font(14),
-    color: COLORS.secondary,
+    ...font(14, 24, isAndroid ? 'bold' : 'medium', 'secondary'),
   },
 });

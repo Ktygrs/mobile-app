@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
-import {translate} from '@translations/i18n';
+import {t} from '@translations/i18n';
+import {font} from '@utils/styles';
 import * as React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {rem} from 'rn-units';
@@ -17,7 +16,7 @@ export const NotNowButton = ({onPress, disabled}: NotNowButtonProps) => {
       disabled={disabled}
       onPress={onPress}
       style={styles.container}>
-      <Text style={styles.text}>{translate('button.not_now_btn')}</Text>
+      <Text style={styles.text}>{t('button.not_now_btn')}</Text>
     </TouchableOpacity>
   );
 };
@@ -28,7 +27,6 @@ const styles = StyleSheet.create({
     paddingVertical: rem(12),
   },
   text: {
-    color: COLORS.primaryDark,
-    fontFamily: FONTS.primary.medium,
+    ...font(12, null, 'medium', 'primaryDark'),
   },
 });

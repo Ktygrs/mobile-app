@@ -3,7 +3,6 @@
 import {PhoneNumberInput} from '@components/PhoneNumberInput';
 import {PhoneNumberSearch} from '@components/PhoneNumberSearch';
 import {PrimaryButton} from '@components/PrimaryButton';
-import {FONTS} from '@constants/fonts';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {Images} from '@images';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
@@ -11,10 +10,11 @@ import {userSelector} from '@store/modules/Auth/selectors';
 import {t} from '@translations/i18n';
 import {getCountryByCode} from '@utils/country';
 import {formatPhoneNumber} from '@utils/phoneNumber';
+import {font} from '@utils/styles';
 import React, {useRef, useState} from 'react';
 import {Image, StyleSheet, Text, TextInput, View} from 'react-native';
 import {useSelector} from 'react-redux';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 type Props = {
   onSubmitPress: (phone: string) => void;
@@ -124,18 +124,15 @@ const styles = StyleSheet.create({
     maxHeight: rem(200),
   },
   title: {
-    fontSize: font(24),
-    fontFamily: FONTS.primary.black,
     textAlign: 'center',
     marginHorizontal: SCREEN_SIDE_OFFSET,
     marginTop: rem(2),
+    ...font(24, 29, 'black', 'primaryDark'),
   },
   description: {
-    fontSize: font(14),
-    fontFamily: FONTS.primary.regular,
     textAlign: 'center',
     marginHorizontal: SCREEN_SIDE_OFFSET,
-    lineHeight: rem(24),
+    ...font(14, 24, 'regular', 'secondary'),
   },
   allowAccessButton: {
     marginTop: rem(25),

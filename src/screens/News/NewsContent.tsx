@@ -2,16 +2,16 @@
 
 import {NewsPost} from '@api/news/types';
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {commonStyles} from '@constants/styles';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
 import {FeaturedPost} from '@screens/News/FeaturedPost';
 import {t} from '@translations/i18n';
+import {font} from '@utils/styles';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import React, {useCallback} from 'react';
 import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
-import {font, rem, screenWidth} from 'rn-units';
+import {rem, screenWidth} from 'rn-units';
 
 dayjs.extend(relativeTime);
 
@@ -106,12 +106,9 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
   },
   header: {
-    fontSize: font(18),
-    lineHeight: rem(21.6),
-    fontFamily: FONTS.primary.black,
-    color: COLORS.primaryDark,
     marginLeft: rem(22),
     marginVertical: rem(4),
+    ...font(18, 21.6, 'black', 'primaryDark'),
   },
   itemContainer: {
     backgroundColor: COLORS.white,
@@ -131,24 +128,17 @@ const styles = StyleSheet.create({
     marginRight: 12,
   },
   title: {
-    fontSize: font(14),
-    lineHeight: rem(16.8),
-    fontFamily: FONTS.primary.bold,
-    color: COLORS.primaryDark,
+    ...font(14, 16.8, 'bold', 'primaryDark'),
   },
   textContainer: {
     flex: 1,
   },
   updatedAt: {
-    fontSize: font(13.5),
-    lineHeight: rem(16.2),
-    fontFamily: FONTS.primary.medium,
-    color: COLORS.emperor,
     alignSelf: 'flex-end',
+    ...font(13.5, 16.2, 'medium', 'emperor'),
   },
   unread: {
-    fontFamily: FONTS.primary.bold,
-    color: COLORS.primaryLight,
+    ...font(13.5, 16.2, 'bold', 'primaryLight'),
   },
   unreadDot: {
     color: COLORS.shamrock,

@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {MainStackParamList} from '@navigation/Main';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {t} from '@translations/i18n';
+import {font} from '@utils/styles';
 import React from 'react';
 import {
   StyleProp,
@@ -16,7 +16,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 export type ConfirmButton = {
   label: string;
@@ -97,19 +97,13 @@ const styles = StyleSheet.create({
     borderRadius: rem(20),
   },
   titleText: {
-    fontSize: font(24),
-    lineHeight: font(29),
-    color: COLORS.primaryDark,
-    fontFamily: FONTS.primary.black,
     textAlign: 'center',
+    ...font(24, 29, 'black', 'primaryDark'),
   },
   subtitleText: {
     marginTop: rem(14),
-    fontSize: font(14),
-    lineHeight: font(24),
-    color: COLORS.secondary,
-    fontFamily: FONTS.primary.regular,
     textAlign: 'center',
+    ...font(14, 24, 'regular', 'secondary'),
   },
   buttons: {
     flexDirection: 'row',
@@ -134,10 +128,8 @@ const styles = StyleSheet.create({
     borderColor: COLORS.attentionDark,
   },
   buttonLabelText: {
-    fontSize: font(12),
-    lineHeight: font(15),
-    fontFamily: FONTS.primary.black,
     textAlign: 'center',
+    ...font(12, 15, 'black'),
   },
   buttonLabelText_default: {
     color: COLORS.white,

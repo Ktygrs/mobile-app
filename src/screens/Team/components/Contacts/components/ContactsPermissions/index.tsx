@@ -2,14 +2,14 @@
 
 import {PrimaryButton} from '@components/PrimaryButton';
 import {Text} from '@components/Text';
-import {FONTS} from '@constants/fonts';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
 import {TeamAllowContactsButtonIcon} from '@screens/Team/assets/svg/TeamAllowContactsButtonIcon';
 import {t} from '@translations/i18n';
+import {font} from '@utils/styles';
 import React from 'react';
 import {Image, StyleSheet, View} from 'react-native';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 const icon = require('../../../../assets/images/teamAgendaNotShared.png');
 
@@ -53,19 +53,16 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    fontSize: font(24),
-    fontFamily: FONTS.primary.black,
     textAlign: 'center',
     marginHorizontal: SCREEN_SIDE_OFFSET,
     marginTop: rem(2),
+    ...font(24, null, 'black'),
   },
   description: {
-    fontSize: font(14),
-    fontFamily: FONTS.primary.regular,
     textAlign: 'center',
     marginHorizontal: SCREEN_SIDE_OFFSET,
     marginTop: rem(7),
-    lineHeight: rem(24),
+    ...font(14, 24, 'regular'),
   },
   allowAccessButton: {
     marginTop: rem(25),
@@ -73,8 +70,6 @@ const styles = StyleSheet.create({
     height: rem(55),
   },
   buttonText: {
-    fontFamily: FONTS.primary.black,
-    fontSize: font(18),
-    lineHeight: rem(25),
+    ...font(18, 25, 'black'),
   },
 });

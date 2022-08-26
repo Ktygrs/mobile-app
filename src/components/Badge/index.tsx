@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
+import {font} from '@utils/styles';
 import React from 'react';
 import {StyleProp, StyleSheet, Text, View, ViewStyle} from 'react-native';
-import {font} from 'rn-units';
+import {rem} from 'rn-units';
 
 type Props = {
   value: number | string;
@@ -22,16 +22,14 @@ export const Badge = ({value, style}: Props) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.attentionDark,
-    height: 16,
-    minWidth: 16,
-    borderRadius: 8,
+    height: rem(16),
+    minWidth: rem(16),
+    borderRadius: rem(16) / 2,
     justifyContent: 'center',
   },
   valueText: {
-    fontSize: font(10),
-    color: COLORS.white,
+    ...font(10, null, 'black'),
     textAlign: 'center',
-    marginHorizontal: 2,
-    fontFamily: FONTS.primary.black,
+    marginHorizontal: 3,
   },
 });

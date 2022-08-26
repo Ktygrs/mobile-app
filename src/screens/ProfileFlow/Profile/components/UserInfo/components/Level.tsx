@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {t} from '@translations/i18n';
+import {font} from '@utils/styles';
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 const SIZE = rem(66);
 
@@ -34,18 +34,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   valueText: {
-    color: COLORS.white,
     textAlign: 'center',
-    fontFamily: FONTS.primary.black,
-    fontSize: font(17),
-    lineHeight: font(21),
+    ...font(17, 21, 'black'),
   },
   labelText: {
-    color: COLORS.white,
     textAlign: 'center',
-    fontFamily: FONTS.primary.bold,
-    fontSize: font(10),
-    lineHeight: font(12),
     marginTop: 2,
+    ...font(10, 12, 'bold'),
   },
 });

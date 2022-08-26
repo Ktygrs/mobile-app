@@ -70,7 +70,9 @@ artifacts/
 /vendor/bundle/
 
 # Environments
-.env
+ios/ice/ice.entitlements
+configuration/
+*.env*
 
 # Build related files
 android/app/src/main/assets/app.bundle
@@ -80,9 +82,6 @@ android/app/src/main/assets/app.manifest
 *.jks
 
 coverage/
-configuration/
-*.env*
-
 .history
 
 #

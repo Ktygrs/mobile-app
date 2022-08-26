@@ -2,9 +2,9 @@
 
 import {COLORS} from '@constants/colors';
 import {Country} from '@constants/countries';
-import {FONTS} from '@constants/fonts';
 import {ArrowDownIcon} from '@svg/ArrowDownIcon';
 import {t} from '@translations/i18n';
+import {font} from '@utils/styles';
 import * as React from 'react';
 import {forwardRef, Ref} from 'react';
 import {
@@ -17,7 +17,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 interface PhoneNumberInputProps extends TextInputProps {
   selectedCountry: Country;
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     minHeight: rem(46),
   },
   countryIcon: {
-    fontSize: font(24),
+    fontSize: rem(24),
     paddingRight: 7,
   },
   countryIconContainer: {
@@ -83,18 +83,14 @@ const styles = StyleSheet.create({
     paddingRight: 12,
   },
   code: {
-    color: COLORS.primaryDark,
-    fontSize: font(14),
     paddingRight: 5,
-    fontFamily: FONTS.primary.black,
     paddingLeft: 9,
     alignSelf: 'center',
+    ...font(14, null, 'black', 'primaryDark'),
   },
   phone: {
-    fontSize: font(15),
-    fontFamily: FONTS.primary.regular,
-    color: COLORS.primaryDark,
     flex: 1,
+    ...font(15, null, 'regular', 'primaryDark'),
   },
   countryCodeWrapper: {
     alignItems: 'center',

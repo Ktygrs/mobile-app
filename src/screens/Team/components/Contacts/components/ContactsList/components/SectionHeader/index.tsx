@@ -2,13 +2,13 @@
 
 import {stopPropagination} from '@components/KeyboardDismiss';
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {ContactSection} from '@screens/Team/components/Contacts/components/ContactsList/hooks/useGetContactSegments';
 import {LogoIconSvg} from '@svg/LogoIcon';
 import {t} from '@translations/i18n';
+import {font} from '@utils/styles';
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 const IceFriendsHeader = () => {
   return (
@@ -44,9 +44,7 @@ const styles = StyleSheet.create({
     paddingBottom: rem(6),
   },
   title: {
-    color: COLORS.primaryDark,
-    fontSize: font(14),
-    fontFamily: FONTS.primary.semibold,
+    ...font(14, null, 'semibold', 'primaryDark'),
   },
   friendsHeader: {
     flexDirection: 'row',
@@ -54,8 +52,6 @@ const styles = StyleSheet.create({
     marginTop: -rem(14),
   },
   ice: {
-    fontFamily: FONTS.primary.heavy,
-    color: COLORS.primaryDark,
-    fontSize: font(14),
+    ...font(14, null, 'heavy', 'primaryDark'),
   },
 });

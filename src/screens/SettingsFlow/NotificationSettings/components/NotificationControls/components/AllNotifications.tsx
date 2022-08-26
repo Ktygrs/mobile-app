@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {Switch} from '@components/Switch';
-import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
+import {font} from '@utils/styles';
 import React, {memo} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 type Props = {
   label: string;
@@ -37,10 +36,8 @@ const styles = StyleSheet.create({
     marginTop: rem(42),
   },
   labelText: {
-    fontSize: font(12),
-    fontFamily: FONTS.primary.bold,
-    color: COLORS.primaryDark,
     flex: 1,
+    ...font(12, null, 'bold', 'primaryDark'),
   },
   switch: {
     marginRight: rem(28),

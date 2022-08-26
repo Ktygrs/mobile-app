@@ -40,6 +40,10 @@ module.exports = {
                 name: 'react-native-config',
                 message: 'Please use custom wrapper from @constants/env',
               },
+              {
+                name: '@constants/fonts',
+                message: 'Please use font util from @utils/styles',
+              },
             ],
           },
         ],

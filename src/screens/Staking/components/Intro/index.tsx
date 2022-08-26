@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {LogoIconSvg} from '@svg/LogoIcon';
 import {t} from '@translations/i18n';
+import {font} from '@utils/styles';
 import React, {memo} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 export const Intro = memo(() => {
   return (
@@ -31,18 +31,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   titleText: {
-    fontSize: font(24),
-    lineHeight: font(29),
-    fontFamily: FONTS.primary.black,
-    color: COLORS.white,
     marginLeft: rem(6),
     marginTop: rem(2),
+    ...font(24, 29, 'black'),
   },
   noteText: {
-    fontSize: font(14),
-    lineHeight: font(20),
-    fontFamily: FONTS.primary.regular,
-    color: COLORS.secondaryFaint,
     marginTop: rem(12),
+    ...font(14, 20, 'regular', 'secondaryFaint'),
   },
 });

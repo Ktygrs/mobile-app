@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {COLORS} from '@constants/colors';
-import {FONTS} from '@constants/fonts';
 import {ListControlBase} from '@screens/SettingsFlow/PersonalInformation/components/ListControls/ListControlBase';
+import {font} from '@utils/styles';
 import React, {memo} from 'react';
 import {StyleSheet, Text} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {font, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 type Props = {
   label: string;
@@ -30,15 +29,11 @@ export const ListControlAction = memo(
 
 const styles = StyleSheet.create({
   valueText: {
-    color: COLORS.secondary,
-    fontFamily: FONTS.primary.bold,
-    fontSize: font(14),
     flex: 1,
+    ...font(14, null, 'bold', 'secondary'),
   },
   actionText: {
-    color: COLORS.primaryDark,
-    fontFamily: FONTS.primary.black,
-    fontSize: font(10),
     marginHorizontal: rem(12),
+    ...font(10, null, 'black', 'primaryDark'),
   },
 });
