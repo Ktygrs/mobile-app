@@ -5,6 +5,7 @@ import {LampActiveIcon} from '@svg/TabBar/LampActiveIcon';
 import {LampInactiveIcon} from '@svg/TabBar/LampInactiveIcon';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
+import {rem} from 'rn-units';
 
 type Props = {
   focused: boolean;
@@ -12,8 +13,12 @@ type Props = {
 
 export const NewsIcon = ({focused}: Props) => {
   return (
-    <View>
-      {focused ? <LampActiveIcon /> : <LampInactiveIcon />}
+    <View style={styles.icon}>
+      {focused ? (
+        <LampActiveIcon width={rem(40)} height={rem(40)} />
+      ) : (
+        <LampInactiveIcon width={rem(40)} height={rem(40)} />
+      )}
       <Badge value={3} style={styles.badge} />
     </View>
   );
@@ -22,7 +27,8 @@ export const NewsIcon = ({focused}: Props) => {
 const styles = StyleSheet.create({
   badge: {
     position: 'absolute',
-    top: -7,
-    right: -7,
+    top: 2,
+    right: 2,
   },
+  icon: {marginRight: rem(26)},
 });

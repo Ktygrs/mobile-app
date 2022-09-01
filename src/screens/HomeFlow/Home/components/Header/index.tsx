@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: SCREEN_SIDE_OFFSET,
     flexDirection: 'row',
     alignItems: 'center',
-    height: rem(70),
+    height: rem(72),
   },
   balance: {
     justifyContent: 'center',

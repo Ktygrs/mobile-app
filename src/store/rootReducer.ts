@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {appCommonReducer} from '@store/modules/AppCommon/reducer';
 import {authReducer} from '@store/modules/Auth/reducer';
 import {devicesReducer} from '@store/modules/Devices/reducer';
+import {economyReducer} from '@store/modules/Economy/reducer';
 import {newsReducer} from '@store/modules/News/reducer';
 import {permissionsReducer} from '@store/modules/Permissions/reducer';
 import {referralsReducer} from '@store/modules/Referrals/reducer';
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
   referrals: referralsReducer,
   utilityProcessStatuses: processStatusesReducer,
   devices: devicesReducer,
+  economy: economyReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

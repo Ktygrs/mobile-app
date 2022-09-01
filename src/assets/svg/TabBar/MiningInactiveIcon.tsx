@@ -1,17 +1,36 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {COLORS} from '@constants/colors';
 import * as React from 'react';
-import Svg, {Path} from 'react-native-svg';
+import Svg, {
+  Defs,
+  LinearGradient,
+  Path,
+  Stop,
+  SvgProps,
+} from 'react-native-svg';
 
-export const MiningInactiveIcon = ({size}: {size: number}) => (
-  <Svg width={size} height={size} viewBox="0 0 79 79" fill="none">
+export const MiningInactiveIcon = (props: SvgProps) => (
+  <Svg width={60} height={60} fill="none" viewBox="0 0 60 60" {...props}>
     <Path
-      d="M27.886 11.814c6.249-6.249 16.38-6.249 22.628 0l16.372 16.372c6.249 6.249 6.249 16.38 0 22.628L50.514 67.186c-6.249 6.249-16.38 6.249-22.628 0L11.514 50.814c-6.249-6.249-6.249-16.38 0-22.628l16.372-16.372Z"
-      fill="#1B47C3"
+      d="M18.74 4.664c6.219-6.219 16.301-6.219 22.52 0L55.336 18.74c6.219 6.219 6.219 16.301 0 22.52L41.26 55.336c-6.219 6.219-16.301 6.219-22.52 0L4.664 41.26c-6.219-6.219-6.219-16.301 0-22.52L18.74 4.664Z"
+      fill="url(#a)"
     />
     <Path
-      d="m39 20.5-1.776 11.854L39 38.307l1.776-5.953L39 20.5ZM39 58.5l1.776-11.854L39 40.693l-1.776 5.953L39 58.5ZM58 39.5l-11.854-1.776-5.953 1.776 5.953 1.776L58 39.5ZM20 39.5l11.854 1.776 5.953-1.776-5.953-1.776L20 39.5ZM52.353 25.984l-9.594 7.184-2.92 5.483 5.448-2.986 7.066-9.681ZM25.646 53.016l9.595-7.184 2.92-5.483-5.448 2.986-7.067 9.681ZM52.516 52.853l-7.184-9.594-5.484-2.92 2.986 5.447 9.682 7.067ZM25.484 26.147l7.184 9.594 5.484 2.92-2.986-5.447-9.682-7.067Z"
-      fill="#fff"
+      d="m30 12-1.683 11.23L30 28.87l1.683-5.64L30 12ZM30 48l1.683-11.23L30 31.13l-1.683 5.64L30 48ZM48 30l-11.23-1.683L31.13 30l5.64 1.683L48 30ZM12 30l11.23 1.683L28.87 30l-5.64-1.683L12 30ZM42.65 17.195 33.562 24l-2.766 5.195 5.16-2.83 6.696-9.171ZM17.35 42.805 26.438 36l2.766-5.195-5.16 2.83-6.696 9.171ZM42.804 42.65l-6.806-9.089-5.195-2.766 2.83 5.16 9.171 6.696ZM17.196 17.35l6.806 9.089 5.195 2.766-2.83-5.16-9.171-6.696Z"
+      fill={COLORS.white}
     />
+    <Defs>
+      <LinearGradient
+        id="a"
+        x1={30.229}
+        y1={0.142}
+        x2={30.229}
+        y2={57.371}
+        gradientUnits="userSpaceOnUse">
+        <Stop stopColor={COLORS.cornflowerBlue} />
+        <Stop offset={0.99} stopColor={COLORS.primaryLight} />
+      </LinearGradient>
+    </Defs>
   </Svg>
 );

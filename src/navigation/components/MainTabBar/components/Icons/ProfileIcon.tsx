@@ -12,16 +12,18 @@ type Props = {
   focused: boolean;
 };
 
+const AVATAR_SIZE = rem(22);
+
 export const ProfileIcon = ({focused}: Props) => {
   const user = useSelector(userSelector);
   return (
     <View
-      style={[styles.imageBorder, focused ? styles.imageBorderFocused : null]}>
+      style={[styles.container, focused ? styles.imageBorderFocused : null]}>
       {user?.profilePictureUrl && (
         <Avatar
           uri={user.profilePictureUrl}
-          size={rem(22)}
-          borderRadius={rem(11)}
+          size={AVATAR_SIZE}
+          borderRadius={AVATAR_SIZE / 2}
           allowFullScreen={false}
         />
       )}
@@ -30,12 +32,13 @@ export const ProfileIcon = ({focused}: Props) => {
 };
 
 const styles = StyleSheet.create({
-  imageBorder: {
-    borderRadius: 15,
+  container: {
+    borderRadius: (AVATAR_SIZE + 6) / 2,
     borderWidth: 1.5,
-    paddingVertical: 2,
-    paddingHorizontal: 2,
-    borderColor: COLORS.gulfBlue,
+    paddingVertical: 1.5,
+    paddingHorizontal: 1.5,
+    borderColor: COLORS.secondary,
+    marginRight: rem(8),
   },
   imageBorderFocused: {
     borderColor: COLORS.primaryLight,

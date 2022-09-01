@@ -9,7 +9,7 @@ import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {rem} from 'rn-units';
 
-export const MAIN_TAB_BAR_HEIGHT = rem(75);
+export const MAIN_TAB_BAR_HEIGHT = rem(74);
 
 export const MainTabBar = ({
   state,
@@ -46,7 +46,6 @@ export const MainTabBar = ({
             state={state}
             descriptors={descriptors}
             insets={insets}
-            buttonStyle={index === 0 ? styles.firstButton : null}
           />
         ))}
 
@@ -60,9 +59,6 @@ export const MainTabBar = ({
             state={state}
             descriptors={descriptors}
             insets={insets}
-            buttonStyle={
-              index === NUMBER_OF_RIGHT_ICONS - 1 ? styles.lastButton : null
-            }
           />
         ))}
       </View>
@@ -81,11 +77,5 @@ const styles = StyleSheet.create({
   buttons: {
     flexDirection: 'row',
     borderBottomColor: COLORS.white,
-  },
-  firstButton: {
-    paddingLeft: rem(10),
-  },
-  lastButton: {
-    paddingRight: rem(10),
   },
 });

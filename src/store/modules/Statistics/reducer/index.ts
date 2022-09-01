@@ -1,10 +1,8 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {AuthActions} from '@store/modules/Auth/actions';
 import {StatisticsActions} from '@store/modules/Statistics/actions';
 import produce from 'immer';
-import {persistReducer} from 'redux-persist';
 
 export type Country = {
   country: string;
@@ -39,11 +37,4 @@ function reducer(state = INITIAL_STATE, action: Actions): State {
   });
 }
 
-const persistConfig = {
-  key: 'statistics',
-  storage: AsyncStorage,
-  timeout: 120000,
-  whitelist: ['usersInfo'],
-};
-
-export const statisticsReducer = persistReducer(persistConfig, reducer);
+export const statisticsReducer = reducer;

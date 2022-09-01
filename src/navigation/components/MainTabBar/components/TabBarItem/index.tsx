@@ -90,6 +90,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom: rem(8),
+    paddingBottom: rem(12),
   },
 });

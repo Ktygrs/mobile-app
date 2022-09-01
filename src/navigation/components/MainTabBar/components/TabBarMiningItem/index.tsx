@@ -4,10 +4,13 @@ import {Images} from '@images';
 import {MAIN_TAB_BAR_HEIGHT} from '@navigation/components/MainTabBar';
 import {MiningTooltip} from '@navigation/components/MainTabBar/components/MiningTooltip';
 import {MiningAnimation} from '@navigation/components/MainTabBar/components/TabBarMiningItem/components/MiningAnimation';
+import {StartMiningTooltip} from '@navigation/components/MainTabBar/components/TabBarMiningItem/components/StartMiningTooltip';
 import {useFadeLottie} from '@navigation/components/MainTabBar/components/TabBarMiningItem/hooks/useFadeLottie';
 import {MainStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {EconomyActions} from '@store/modules/Economy/actions';
+import {isMiningTooltipSeenSelector} from '@store/modules/Economy/selectors';
 import {MiningInactiveIcon} from '@svg/TabBar/MiningInactiveIcon';
 import LottieView from 'lottie-react-native';
 import React, {useRef, useState} from 'react';
@@ -15,14 +18,18 @@ import {
   Animated,
   ImageBackground,
   StyleSheet,
-  TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
 export const TabBarMiningItem = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+  const dispatch = useDispatch();
+
+  const isMiningTooltipSeen = useSelector(isMiningTooltipSeenSelector);
   const [miningActive, setMiningActive] = useState(false);
 
   const lottieRef = useRef<LottieView>(null);
@@ -30,6 +37,9 @@ export const TabBarMiningItem = () => {
   const {animatedOpacity} = useFadeLottie(miningActive, lottieRef);
 
   const onButtonPress = () => {
+    if (!isMiningTooltipSeen) {
+      dispatch(EconomyActions.STORE_MINIG_TOOLTIP_SEEN.STATE.create());
+    }
     if (miningActive) {
       navigation.navigate('Tooltip', {
         descriptionPosition: 'above',
@@ -48,29 +58,30 @@ export const TabBarMiningItem = () => {
     <ImageBackground
       style={styles.container}
       source={Images.tabbar.miningBackground}>
-      <TouchableOpacity
+      {!isMiningTooltipSeen && <StartMiningTooltip />}
+      <TouchableWithoutFeedback
         accessibilityRole="button"
-        style={styles.button}
-        activeOpacity={1}
         onPress={onButtonPress}>
-        <Animated.View
-          style={{opacity: animatedOpacity}}
-          ref={lottieWrapperRef}>
-          <MiningAnimation />
-        </Animated.View>
-        <Animated.View
-          style={[
-            styles.inactiveIcon,
-            {
-              opacity: animatedOpacity.interpolate({
-                inputRange: [0, 1],
-                outputRange: [1, 0],
-              }),
-            },
-          ]}>
-          <MiningInactiveIcon size={rem(79)} />
-        </Animated.View>
-      </TouchableOpacity>
+        <View style={styles.button}>
+          <Animated.View
+            style={{opacity: animatedOpacity}}
+            ref={lottieWrapperRef}>
+            <MiningAnimation />
+          </Animated.View>
+          <Animated.View
+            style={[
+              styles.inactiveIcon,
+              {
+                opacity: animatedOpacity.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [1, 0],
+                }),
+              },
+            ]}>
+            <MiningInactiveIcon width={rem(62)} height={rem(62)} />
+          </Animated.View>
+        </View>
+      </TouchableWithoutFeedback>
     </ImageBackground>
   );
 };
@@ -92,7 +103,7 @@ const styles = StyleSheet.create({
   },
   inactiveIcon: {
     position: 'absolute',
-    top: rem(11),
-    left: rem(11),
+    top: rem(20),
+    left: rem(20),
   },
 });

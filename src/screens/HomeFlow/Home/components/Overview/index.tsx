@@ -31,7 +31,7 @@ type Props = {
 
 const SCROLL_TOP_MARGIN = rem(16);
 const SCROLL_BOTTOM_PADDING = rem(8);
-const SCROLL_BOTTOM_MARGIN = rem(16);
+const SCROLL_BOTTOM_MARGIN = rem(24);
 const HEADER_TOP_MARGIN = rem(6);
 const OVERSCROLL = isIOS ? 1000 : 0;
 
