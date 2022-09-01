@@ -13,18 +13,18 @@ type Props = {
 export const CheckMark = ({style}: Props = {}) => {
   return (
     <View style={[styles.container, style]}>
-      <CheckMarkThinIcon fill={COLORS.white} width={rem(12)} height={rem(12)} />
+      <CheckMarkThinIcon fill={COLORS.white} width={rem(14)} height={rem(14)} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    width: rem(22),
-    height: rem(22),
-    borderRadius: rem(22) / 2,
+    width: rem(24),
+    height: rem(24),
+    borderRadius: rem(24) / 2,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: COLORS.primaryDark,
+    backgroundColor: COLORS.shamrock,
   },
 });

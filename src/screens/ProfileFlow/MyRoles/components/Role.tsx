@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {SCREEN_SIDE_OFFSET} from '@constants/styles';
+import {COLORS} from '@constants/colors';
 import {CheckMark} from '@screens/ProfileFlow/MyRoles/components/CheckMark';
 import {font} from '@utils/styles';
 import React from 'react';
 import {Image, ImageSourcePropType, StyleSheet, Text, View} from 'react-native';
-import {rem} from 'rn-units';
+import {isIOS, rem} from 'rn-units';
 
 type Props = {
   title: string;
@@ -21,18 +21,15 @@ export const Role = ({
   tagline,
   description,
   imageSource,
-  backgroundColor,
   checked = false,
 }: Props) => {
   return (
-    <View style={[styles.container, {backgroundColor}]}>
+    <View style={[styles.container, checked ? styles.selectedBox : styles.box]}>
+      <Image source={imageSource} style={styles.icon} />
       <Text style={styles.titleText}>{title}</Text>
-      <View>
-        <Image source={imageSource} style={styles.icon} />
-        {checked && <CheckMark style={styles.checkmark} />}
-      </View>
       <Text style={styles.taglineText}>{tagline}</Text>
       <Text style={styles.descriptionText}>{description}</Text>
+      {checked && <CheckMark style={styles.checkmark} />}
     </View>
   );
 };
@@ -40,31 +37,45 @@ export const Role = ({
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    paddingBottom: rem(22),
-    paddingHorizontal: SCREEN_SIDE_OFFSET + rem(30),
+    paddingBottom: rem(17),
+    paddingHorizontal: rem(24),
+    marginBottom: rem(18),
+    borderRadius: rem(20),
+    marginTop: rem(30),
+    backgroundColor: COLORS.white,
   },
   titleText: {
-    marginTop: rem(20),
+    marginTop: rem(6),
     ...font(20, null, 'bold', 'primaryDark'),
   },
   icon: {
-    marginTop: rem(12),
-    width: rem(130),
-    height: rem(130),
+    marginTop: -rem(30),
+    width: rem(160),
+    height: rem(160),
   },
   checkmark: {
     position: 'absolute',
-    bottom: rem(5),
-    right: rem(10),
+    top: rem(12),
+    right: rem(12),
   },
   taglineText: {
     marginTop: rem(8),
     textAlign: 'center',
-    ...font(18, 20, 'bold', 'primaryDark'),
+    ...font(16, 20, 'medium', 'primaryDark'),
   },
   descriptionText: {
     marginTop: rem(14),
     textAlign: 'center',
-    ...font(14, 20, 'regular', 'secondary'),
+    ...font(14, 20, 'medium', 'secondary'),
   },
+  selectedBox: {
+    backgroundColor: COLORS.aliceBlue,
+  },
+  box: isIOS
+    ? {
+        shadowColor: COLORS.linkWater,
+        shadowRadius: 20,
+        shadowOpacity: 1,
+      }
+    : {elevation: 4},
 });

@@ -37,8 +37,9 @@ export const BadgeProgress = ({value: progressValue}: Props) => {
 const styles = StyleSheet.create({
   container: {
     width: rem(100),
-    marginRight: rem(22),
-    marginLeft: rem(10),
+    marginRight: rem(14),
+    marginLeft: rem(24),
+    marginTop: rem(4),
     justifyContent: 'center',
   },
   labelContainer: {
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
   percLabelText: {
     textAlign: 'right',
     flex: 1,
-    ...font(12, 15, 'regular', 'periwinkleGray'),
+    ...font(12, 15, 'medium', 'periwinkleGray'),
   },
   progressBody: {
     height: rem(8),

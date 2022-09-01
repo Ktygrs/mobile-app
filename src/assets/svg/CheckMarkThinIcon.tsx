@@ -8,7 +8,7 @@ export const CheckMarkThinIcon = (props: SvgProps) => (
     <Path
       d="m1.2 4.538 3.773 3.338M10.538 1.2 4.973 7.876"
       stroke={props.fill ?? 'white'}
-      strokeWidth={1.484}
+      strokeWidth={1.8}
       strokeLinecap="round"
     />
   </Svg>

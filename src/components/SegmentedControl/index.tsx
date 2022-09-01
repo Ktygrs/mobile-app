@@ -2,6 +2,7 @@
 
 import {COLORS} from '@constants/colors';
 import {commonStyles} from '@constants/styles';
+import {Indicator} from '@svg/Indicator';
 import {font} from '@utils/styles';
 import React, {
   forwardRef,
@@ -25,9 +26,10 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
+import {rem} from 'rn-units';
 
-const DEFAULT_MARGIN = 8;
-const CONTROL_HEIGHT = 55;
+const DEFAULT_MARGIN = rem(8);
+const CONTROL_HEIGHT = rem(58);
 
 type Segment = {
   text?: string;
@@ -132,8 +134,9 @@ export const SegmentedControl = forwardRef<
       <View style={[styles.container, commonStyles.shadow, style]}>
         <View style={styles.body}>
           <Animated.View
-            style={[styles.indicator, dynamicStyles.indicator, animatedStyles]}
-          />
+            style={[styles.indicator, dynamicStyles.indicator, animatedStyles]}>
+            <Indicator />
+          </Animated.View>
           {segments.map(renderSegment)}
         </View>
       </View>
@@ -143,7 +146,7 @@ export const SegmentedControl = forwardRef<
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 16,
+    borderRadius: rem(16),
     backgroundColor: COLORS.white,
     paddingHorizontal: DEFAULT_MARGIN,
     height: CONTROL_HEIGHT,
@@ -153,13 +156,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   indicator: {
-    backgroundColor: COLORS.primary,
     borderRadius: 12,
     marginVertical: DEFAULT_MARGIN,
     position: 'absolute',
     top: 0,
     bottom: 0,
     left: 0,
+    overflow: 'hidden',
   },
   segment: {
     flex: 1,
@@ -168,12 +171,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   text: {
-    ...font(16, null, 'bold'),
+    marginTop: rem(4),
+    ...font(17, 20.4, 'semibold'),
   },
   activeText: {
     color: COLORS.white,
   },
   inactiveText: {
-    color: COLORS.primaryDark,
+    color: COLORS.secondary,
   },
 });

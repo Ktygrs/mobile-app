@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {Badge} from '@api/badges/types';
-import {COLORS} from '@constants/colors';
 import {BadgeCard} from '@screens/ProfileFlow/MyBadges/components/BadgeCard';
 import React, {useCallback} from 'react';
 import {FlatListProps} from 'react-native';
@@ -21,17 +20,8 @@ export const BadgeList = ({
         <BadgeCard
           {...item}
           connector={{
-            top:
-              index > 0
-                ? item.active
-                  ? COLORS.shamrock
-                  : COLORS.mischka
-                : null,
-            bottom: nextBadge
-              ? nextBadge.active
-                ? COLORS.shamrock
-                : COLORS.mischka
-              : null,
+            top: index > 0,
+            bottom: !!nextBadge,
           }}
         />
       );

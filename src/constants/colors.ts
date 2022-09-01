@@ -39,5 +39,6 @@ export const COLORS = {
   foam: '#F0F9FE',
   headerBackground: 'rgba(255, 255, 255, .96)',
   aliceBlue: '#EFF9FF',
+  linkWater: '#F1F4FC',
   transparentBackground: 'rgba(8, 21, 50, .7)',
 };

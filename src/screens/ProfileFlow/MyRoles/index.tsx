@@ -12,6 +12,7 @@ import {t} from '@translations/i18n';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import Animated from 'react-native-reanimated';
+import {rem} from 'rn-units';
 
 export const MyRoles = () => {
   useFocusStatusBar({style: 'dark-content'});
@@ -45,7 +46,6 @@ export const MyRoles = () => {
           tagline="Invite friends to join your team."
           description="You become an ambassador when at least 100 people joined your team. Every ambassador will get early access to new features."
           imageSource={Images.roles.ambassador}
-          checked={true}
         />
       </Animated.ScrollView>
     </View>
@@ -57,7 +57,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    backgroundColor: COLORS.alabaster,
+    backgroundColor: COLORS.white,
     flexGrow: 1,
+    paddingHorizontal: rem(20),
+    paddingTop: rem(10),
   },
 });

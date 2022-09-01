@@ -14,7 +14,7 @@ export const CATEGORIES: ReadonlyArray<{text: string; key: BadgeCategory}> = [
 export const BADGES: {[key in BadgeCategory]: Badge[]} = {
   social: [
     {
-      title: 'Ice Breaker',
+      title: 'ice Breaker',
       description: 'Below 3 ice friends',
       imageSource: Images.badges.iceBreaker.active,
       progressValue: 89.24,

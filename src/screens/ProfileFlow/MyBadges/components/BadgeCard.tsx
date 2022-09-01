@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {ImageCardCompact} from '@components/Cards/ImageCardCompact';
+import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {BadgeProgress} from '@screens/ProfileFlow/MyBadges/components/BadgeCardProgress';
 import React from 'react';
@@ -14,8 +15,8 @@ type Props = {
   active?: boolean;
   imageSource: ImageSourcePropType;
   connector: {
-    top?: string | null;
-    bottom?: string | null;
+    top?: boolean | null;
+    bottom?: boolean | null;
   };
 };
 
@@ -24,37 +25,22 @@ export const BadgeCard = ({
   description,
   imageSource,
   progressValue,
-  active = true,
   connector = {},
 }: Props) => {
   return (
     <>
       {connector.top && (
-        <View
-          style={[
-            styles.connector,
-            styles.connectorTop,
-            {backgroundColor: connector.top},
-          ]}
-        />
+        <View style={[styles.connector, styles.connectorTop]} />
       )}
       {connector.bottom && (
-        <View
-          style={[
-            styles.connector,
-            styles.connectorBottom,
-            {backgroundColor: connector.bottom},
-          ]}
-        />
+        <View style={[styles.connector, styles.connectorBottom]} />
       )}
       <ImageCardCompact
         title={title}
         description={description}
         imageSource={imageSource}
         renderBody={() => <BadgeProgress value={progressValue} />}
-        containerStyle={[
-          active ? styles.containerActive : styles.containerInactive,
-        ]}
+        containerStyle={styles.containerActive}
       />
     </>
   );
@@ -62,17 +48,14 @@ export const BadgeCard = ({
 
 const styles = StyleSheet.create({
   containerActive: {
-    marginVertical: rem(12),
-  },
-  containerInactive: {
-    backgroundColor: 'transparent',
-    elevation: 0,
-    shadowOpacity: 0,
+    marginTop: rem(19),
+    marginBottom: rem(20),
   },
   connector: {
     position: 'absolute',
     width: 1,
-    left: SCREEN_SIDE_OFFSET + rem(35),
+    left: SCREEN_SIDE_OFFSET + rem(48),
+    backgroundColor: COLORS.shamrock,
   },
   connectorTop: {
     top: 0,
