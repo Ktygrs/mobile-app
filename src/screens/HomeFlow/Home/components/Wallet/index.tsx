@@ -2,7 +2,10 @@
 
 import {COLORS} from '@constants/colors';
 import {commonStyles, SMALL_BUTTON_HIT_SLOP} from '@constants/styles';
-import {InfoHollowIcon} from '@svg/InfoHollowIcon';
+import {MainStackParamList} from '@navigation/Main';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {InfoOutlineIcon} from '@svg/InfoOutlineIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
@@ -12,6 +15,8 @@ import {rem} from 'rn-units';
 export const WALLET_HEIGHT = rem(160);
 
 export const Wallet = memo(() => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<MainStackParamList>>();
   return (
     <View style={[commonStyles.baseSubScreen, styles.container]}>
       <Text style={styles.balanceLabelText}>{t('home.wallet.balance')}</Text>
@@ -24,8 +29,8 @@ export const Wallet = memo(() => {
         <TouchableOpacity
           hitSlop={SMALL_BUTTON_HIT_SLOP}
           style={styles.infoButton}
-          onPress={() => {}}>
-          <InfoHollowIcon
+          onPress={() => navigation.navigate('Balance')}>
+          <InfoOutlineIcon
             color={COLORS.shamrock}
             width={rem(16)}
             height={rem(16)}

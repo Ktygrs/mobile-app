@@ -2,8 +2,8 @@
 
 import {Images} from '@images';
 import {MAIN_TAB_BAR_HEIGHT} from '@navigation/components/MainTabBar';
+import {MiningTooltip} from '@navigation/components/MainTabBar/components/MiningTooltip';
 import {MiningAnimation} from '@navigation/components/MainTabBar/components/TabBarMiningItem/components/MiningAnimation';
-import {MiningTooltip} from '@navigation/components/MainTabBar/components/TabBarMiningItem/components/MiningTooltip';
 import {useFadeLottie} from '@navigation/components/MainTabBar/components/TabBarMiningItem/hooks/useFadeLottie';
 import {MainStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
@@ -34,7 +34,7 @@ export const TabBarMiningItem = () => {
       navigation.navigate('Tooltip', {
         descriptionPosition: 'above',
         targetRef: lottieWrapperRef,
-        descriptionOffset: rem(30),
+        descriptionOffset: rem(40),
         targetCircleSize: rem(92),
         TargetComponent: () => <MiningAnimation />,
         DescriptionComponent: () => <MiningTooltip />,
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   button: {
     position: 'absolute',
     left: rem(7),
-    top: rem(-42),
+    top: rem(-46),
     height: rem(100),
     width: rem(100),
     alignItems: 'center',

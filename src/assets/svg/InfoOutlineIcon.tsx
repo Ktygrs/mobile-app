@@ -3,7 +3,7 @@
 import * as React from 'react';
 import {Circle, Path, Svg, SvgProps} from 'react-native-svg';
 
-export const InfoHollowIcon = (props: SvgProps) => {
+export const InfoOutlineIcon = (props: SvgProps) => {
   return (
     <Svg width={10} height={10} viewBox="0 0 10 10" fill="none" {...props}>
       <Circle cx="5" cy="5" r="4.6" stroke={props.color} strokeWidth="0.8" />

@@ -54,7 +54,6 @@ export const Settings = memo(() => {
       <Header
         color={COLORS.white}
         title={t('settings.title')}
-        titlePreset={'small'}
         renderRightButtons={LangButton}
         containerStyle={shadowStyle}
       />

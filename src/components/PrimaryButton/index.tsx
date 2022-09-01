@@ -11,6 +11,7 @@ import {
   Text,
   TextStyle,
   TouchableOpacity,
+  View,
   ViewStyle,
 } from 'react-native';
 import {rem} from 'rn-units';
@@ -34,7 +35,7 @@ export const PrimaryButton = ({
 }: PrimaryButtonProps) => {
   return (
     <TouchableOpacity onPress={onPress} style={[styles.button, style]}>
-      {icon ? icon : null}
+      {icon ? <View style={styles.icon}>{icon}</View> : null}
       <Text style={[styles.text, textStyle]}>{text}</Text>
       {loading && <ActivityIndicator style={styles.activityIndicator} />}
     </TouchableOpacity>
@@ -45,10 +46,13 @@ const styles = StyleSheet.create({
   button: {
     height: rem(45),
     backgroundColor: COLORS.primary,
-    borderRadius: 11,
+    borderRadius: rem(12),
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
+  },
+  icon: {
+    marginLeft: rem(10),
   },
   text: {
     marginHorizontal: rem(10),

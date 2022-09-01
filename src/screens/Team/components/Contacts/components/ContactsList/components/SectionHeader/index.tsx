@@ -3,7 +3,7 @@
 import {stopPropagination} from '@components/KeyboardDismiss';
 import {COLORS} from '@constants/colors';
 import {ContactSection} from '@screens/Team/components/Contacts/components/ContactsList/hooks/useGetContactSegments';
-import {LogoIconSvg} from '@svg/LogoIcon';
+import {LogoIcon} from '@svg/LogoIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React from 'react';
@@ -13,7 +13,7 @@ import {rem} from 'rn-units';
 const IceFriendsHeader = () => {
   return (
     <View style={styles.friendsHeader}>
-      <LogoIconSvg />
+      <LogoIcon />
       <Text style={styles.ice}>{t('team.contacts_list.ice_header.ice')}</Text>
       <Text style={styles.title}>
         {t('team.contacts_list.ice_header.friends')}

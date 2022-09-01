@@ -2,7 +2,7 @@
 
 import {COLORS} from '@constants/colors';
 import {InviteFriendsSvg} from '@svg/InviteFriends';
-import {LogoIconSvg} from '@svg/LogoIcon';
+import {LogoIcon} from '@svg/LogoIcon';
 import {ShareSvg} from '@svg/Share';
 import {TelegramSvg} from '@svg/Telegram';
 import {TwitterIconSvg} from '@svg/TwitterIcon';
@@ -35,7 +35,7 @@ export const taskItems: Task[] = [
     type: 'startMining',
     completed: false,
     active: true,
-    Icon: <LogoIconSvg color={COLORS.white} width={24} height={24} />,
+    Icon: <LogoIcon color={COLORS.white} width={24} height={24} />,
     iconBackground: COLORS.downriver,
     title: t('home.steps.step_one.title'),
     description: t('home.steps.step_one.description'),

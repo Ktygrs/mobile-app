@@ -1,42 +1,34 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
-import {SCREEN_SIDE_OFFSET} from '@constants/styles';
-import {LogoIconSvg} from '@svg/LogoIcon';
+import {SMALL_BUTTON_HIT_SLOP} from '@constants/styles';
+import {InfoOutlineIcon} from '@svg/InfoOutlineIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableWithoutFeedback} from 'react-native';
 import {rem} from 'rn-units';
 
 export const Intro = memo(() => {
   return (
-    <View style={styles.container}>
-      <View style={styles.title}>
-        <LogoIconSvg color={COLORS.white} width={rem(26)} height={rem(26)} />
-        <Text style={styles.titleText}>{t('staking.title')}</Text>
-      </View>
-      <Text style={styles.noteText}>{t('staking.benefits_description')}</Text>
-    </View>
+    <Text style={styles.noteText} numberOfLines={2} adjustsFontSizeToFit>
+      {t('staking.benefits_description')}{' '}
+      <TouchableWithoutFeedback hitSlop={SMALL_BUTTON_HIT_SLOP}>
+        <InfoOutlineIcon
+          color={COLORS.shamrock}
+          width={rem(16)}
+          height={rem(16)}
+        />
+      </TouchableWithoutFeedback>
+    </Text>
   );
 });
 
 const styles = StyleSheet.create({
-  container: {
-    marginTop: rem(18),
-    marginHorizontal: SCREEN_SIDE_OFFSET,
-  },
-  title: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  titleText: {
-    marginLeft: rem(6),
-    marginTop: rem(2),
-    ...font(24, 29, 'black'),
-  },
   noteText: {
-    marginTop: rem(12),
-    ...font(14, 20, 'regular', 'secondaryFaint'),
+    marginHorizontal: rem(28),
+    marginTop: rem(24),
+    textAlign: 'center',
+    ...font(14, 20, 'regular', 'white'),
   },
 });

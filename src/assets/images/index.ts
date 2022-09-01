@@ -36,4 +36,7 @@ export const Images = {
     confirmPhoneNumber: require('./phone/confirmPhoneNumber.png'),
     modifyPhoneNumber: require('./phone/modifyPhoneNumber.png'),
   },
+  backgrounds: {
+    linesBg: require('./backgrounds/linesBg.png'),
+  },
 } as const;

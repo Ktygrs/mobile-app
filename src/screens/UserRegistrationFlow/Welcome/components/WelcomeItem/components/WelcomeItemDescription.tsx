@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {LogoIconSvg} from '@svg/LogoIcon';
+import {LogoIcon} from '@svg/LogoIcon';
 import {translate} from '@translations/i18n';
 import {font} from '@utils/styles';
 import * as React from 'react';
@@ -30,7 +30,7 @@ export const WelcomeItemDescription = ({
             )} `}</Text>
           ) : (
             <View key={`${index}-item`}>
-              <LogoIconSvg />
+              <LogoIcon />
             </View>
           );
         }

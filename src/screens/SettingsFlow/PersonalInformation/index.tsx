@@ -107,7 +107,6 @@ export const PersonalInformation = memo(() => {
         <Header
           color={COLORS.white}
           title={t('personal_information.title')}
-          titlePreset={'small'}
           renderRightButtons={LangButton}
         />
         <Animated.View

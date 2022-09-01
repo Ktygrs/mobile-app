@@ -52,7 +52,6 @@ export const ConfirmPhoneNumber = memo(() => {
         <Header
           color={COLORS.white}
           title={t('personal_information.title')}
-          titlePreset={'small'}
           renderRightButtons={LangButton}
         />
         <View style={[styles.card, commonStyles.baseSubScreen]}>

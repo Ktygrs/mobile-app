@@ -1,23 +1,27 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {stopPropagination} from '@components/KeyboardDismiss';
 import {COLORS} from '@constants/colors';
+import {windowHeight} from '@constants/styles';
 import {MainStackParamList} from '@navigation/Main';
-import {RouteProp, useRoute} from '@react-navigation/native';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import {Connector} from '@screens/Tooltip/assets/svg/Connector';
 import React from 'react';
 import {useState} from 'react';
 import {useEffect} from 'react';
-import {StyleSheet, View} from 'react-native';
-import {rem, screenHeight} from 'rn-units';
+import {StyleSheet, TouchableWithoutFeedback, View} from 'react-native';
+import {rem} from 'rn-units';
 
 export const Tooltip = () => {
+  const navigation = useNavigation();
   const {
     params: {
       descriptionPosition,
       targetRef,
       TargetComponent,
       DescriptionComponent,
-      targetCircleSize,
-      descriptionOffset = rem(20),
+      targetCircleSize = rem(60),
+      descriptionOffset = rem(40),
     },
   } = useRoute<RouteProp<MainStackParamList, 'Tooltip'>>();
 
@@ -35,51 +39,79 @@ export const Tooltip = () => {
   }, [targetRef]);
 
   return (
-    <View style={styles.container}>
-      {targetData && (
-        <View
-          style={[
-            styles.target,
-            {top: targetData.y, left: targetData.x, width: targetData.width},
-          ]}>
-          {targetCircleSize && (
+    <TouchableWithoutFeedback onPress={navigation.goBack}>
+      <View style={styles.container}>
+        {targetData && (
+          <>
             <View
               style={[
-                styles.targetCircle,
+                styles.target,
                 {
-                  width: rem(targetCircleSize),
-                  height: rem(targetCircleSize),
-                  borderRadius: rem(targetCircleSize) / 2,
+                  top: targetData.y,
+                  left: targetData.x,
+                  width: targetData.width,
                 },
-              ]}
-            />
-          )}
-          <TargetComponent />
-        </View>
-      )}
-      {targetData && (
-        <View
-          style={[
-            styles.description,
-            descriptionPosition === 'below'
-              ? {
-                  top: targetData.y + targetData.height + descriptionOffset,
-                }
-              : {
-                  bottom: screenHeight - targetData.y + descriptionOffset,
-                },
-          ]}>
-          <DescriptionComponent />
-        </View>
-      )}
-    </View>
+              ]}>
+              {targetCircleSize && (
+                <View
+                  style={[
+                    styles.targetCircle,
+                    {
+                      width: targetCircleSize,
+                      height: targetCircleSize,
+                      borderRadius: targetCircleSize / 2,
+                    },
+                  ]}>
+                  <Connector
+                    style={[
+                      styles.connector,
+                      descriptionPosition === 'below'
+                        ? {bottom: -descriptionOffset}
+                        : {top: -descriptionOffset},
+                    ]}
+                    height={descriptionOffset * 1.125}
+                    width={descriptionOffset * 2}
+                    color={COLORS.white}
+                  />
+                </View>
+              )}
+              <TargetComponent />
+            </View>
+            {targetData && (
+              <View
+                {...stopPropagination}
+                style={[
+                  styles.description,
+                  descriptionPosition === 'below'
+                    ? {
+                        top:
+                          targetData.y +
+                          targetData.height +
+                          (targetCircleSize - targetData.height) / 2 +
+                          descriptionOffset,
+                      }
+                    : {
+                        bottom:
+                          windowHeight -
+                          targetData.y +
+                          (targetCircleSize - targetData.height) / 2 +
+                          descriptionOffset,
+                      },
+                ]}>
+                <DescriptionComponent />
+              </View>
+            )}
+          </>
+        )}
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.black04opacity,
+    backgroundColor: COLORS.transparentBackground,
   },
   target: {
     position: 'absolute',
@@ -94,5 +126,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 0,
     right: 0,
+  },
+  connector: {
+    position: 'absolute',
+    alignSelf: 'center',
   },
 });

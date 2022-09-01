@@ -85,7 +85,7 @@ export const Confirm = () => {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    backgroundColor: COLORS.black04opacity,
+    backgroundColor: COLORS.transparentBackground,
     justifyContent: 'center',
   },
   container: {

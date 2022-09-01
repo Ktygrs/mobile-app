@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
+import {windowHeight} from '@constants/styles';
 import {Header, HEADER_HEIGHT} from '@navigation/components/Header';
 import {MainStackParamList} from '@navigation/Main';
 import {RouteProp, useRoute} from '@react-navigation/native';
@@ -13,7 +14,7 @@ import {StyleSheet, View} from 'react-native';
 import {GestureDetector} from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
-import {screenHeight, screenWidth} from 'rn-units';
+import {screenWidth} from 'rn-units';
 
 export const ImageView = () => {
   const {
@@ -22,7 +23,7 @@ export const ImageView = () => {
 
   const {top: topInset, bottom: bottomInset} = useSafeAreaInsets();
   const viewPortWidth = screenWidth;
-  const viewPortHeight = screenHeight - topInset - bottomInset - HEADER_HEIGHT;
+  const viewPortHeight = windowHeight - topInset - bottomInset - HEADER_HEIGHT;
 
   const {imageMeasure} = useImageMeasure(imageRef, topInset + HEADER_HEIGHT);
   const {imageUri} = useImageSizedUri(uri, size);

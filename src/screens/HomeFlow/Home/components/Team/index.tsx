@@ -2,7 +2,7 @@
 
 import {SectionHeader} from '@components/SectionHeader';
 import {COLORS} from '@constants/colors';
-import {LogoIconSvg} from '@svg/LogoIcon';
+import {LogoIcon} from '@svg/LogoIcon';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
@@ -45,11 +45,7 @@ const renderTeamMember = ({item}: {item: TTeamMember}) => {
       <View style={styles.memberImage}>
         {item.isIceMember ? (
           <View style={styles.memberIcon}>
-            <LogoIconSvg
-              color={COLORS.white}
-              width={rem(15)}
-              height={rem(15)}
-            />
+            <LogoIcon color={COLORS.white} width={rem(15)} height={rem(15)} />
           </View>
         ) : null}
       </View>

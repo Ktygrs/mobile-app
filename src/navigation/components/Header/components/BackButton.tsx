@@ -2,7 +2,7 @@
 
 import {COLORS} from '@constants/colors';
 import {useNavigation} from '@react-navigation/native';
-import {BackButtonArrow} from '@svg/BackButtonIcon';
+import {BackButtonIcon} from '@svg/BackButtonIcon';
 import {font} from '@utils/styles';
 import React from 'react';
 import {
@@ -37,7 +37,7 @@ export const BackButton = ({
       onPress={navigation.goBack}
       hitSlop={buttonHitSlop}
       style={[styles.container, containerStyle]}>
-      <BackButtonArrow fill={color} />
+      <BackButtonIcon color={color} width={rem(16)} height={rem(14)} />
       {label && <Text style={[styles.labelText, {color}]}>{label}</Text>}
     </TouchableOpacity>
   );

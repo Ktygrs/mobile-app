@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
-import {InfoIconHollow} from '@svg/InfoIconHollow';
+import {InfoOutlineIcon} from '@svg/InfoOutlineIcon';
 import {t} from '@translations/i18n';
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
@@ -18,7 +18,7 @@ export const ViewAllButton = ({onPress}: Props) => {
       hitSlop={hitSlop}
       onPress={onPress}>
       <Text style={styles.viewAllText}>{t('profile.view_all_roles')}</Text>
-      <InfoIconHollow style={styles.infoIcon} />
+      <InfoOutlineIcon style={styles.infoIcon} color={COLORS.primaryDark} />
     </TouchableOpacity>
   );
 };

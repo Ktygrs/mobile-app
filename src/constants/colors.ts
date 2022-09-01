@@ -3,7 +3,6 @@
 export const COLORS = {
   black: '#000000',
   black02opacity: 'rgba(0,0,0,.2)',
-  black04opacity: 'rgba(0,0,0,.4)',
   white: '#FFFFFF',
   white02opacity: 'rgba(255,255,255, .2)',
   primary: '#073e91',
@@ -37,4 +36,6 @@ export const COLORS = {
   cadetBlue: '#A6B0C2',
   deepKoamaru: '#113081',
   spindle: '#A9BCE7',
+  aliceBlue: '#EFF9FF',
+  transparentBackground: 'rgba(8, 21, 50, .7)',
 };

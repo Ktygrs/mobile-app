@@ -1,9 +1,14 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {COLORS} from '@constants/colors';
 import * as React from 'react';
 import {Path, Svg} from 'react-native-svg';
 
-export const LogoIconSvg = ({color = '#1B47C3', width = 18, height = 18}) => {
+export const LogoIcon = ({
+  color = COLORS.primaryLight,
+  width = 18,
+  height = 18,
+}) => {
   return (
     <Svg width={width} height={height} viewBox="0 0 23 23" fill="none">
       <Path

@@ -18,10 +18,9 @@ type Props = {
   titleOffset?: number;
   renderRightButtons?: () => ReactNode;
   containerStyle?: StyleProp<ViewStyle>;
-  titlePreset?: 'small' | 'big';
 };
 
-export const HEADER_HEIGHT = rem(54);
+export const HEADER_HEIGHT = rem(56);
 
 /**
  * Using absolute positioned View to make "elevation" display properly
@@ -36,7 +35,6 @@ export const Header = memo(
     backgroundColor = COLORS.primaryLight,
     titleOffset = rem(20),
     containerStyle,
-    titlePreset = 'big',
   }: Props) => {
     const {top: topInset} = useSafeAreaInsets();
     const dynamicStyle = useMemo(
@@ -62,11 +60,7 @@ export const Header = memo(
           style={[dynamicStyle.container, styles.container, containerStyle]}>
           <View style={[styles.body]}>
             <Text
-              style={[
-                styles.titleText,
-                styles[`titleText_${titlePreset}`],
-                dynamicStyle.titleText,
-              ]}
+              style={[styles.titleText, dynamicStyle.titleText]}
               numberOfLines={2}>
               {title}
             </Text>
@@ -102,12 +96,7 @@ const styles = StyleSheet.create({
   titleText: {
     flex: 1,
     textAlign: 'center',
-  },
-  titleText_big: {
-    ...font(22, null, 'black'),
-  },
-  titleText_small: {
-    ...font(18, null, 'bold'),
+    ...font(17, 21, 'semibold'),
   },
   backButton: {
     position: 'absolute',

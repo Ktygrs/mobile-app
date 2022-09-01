@@ -6,7 +6,7 @@ import {
 } from '@components/PhoneNumberSearch/components/CountryListItem';
 import {COLORS} from '@constants/colors';
 import {countries, Country} from '@constants/countries';
-import {CloseIconSvg} from '@svg/CloseIcon';
+import {CloseIcon} from '@svg/CloseIcon';
 import {SearchIconSvg} from '@svg/SearchIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
@@ -94,7 +94,7 @@ export const PhoneNumberSearch = ({
         <Text style={styles.countryIcon}>{selectedCountry.flag}</Text>
         <Text style={styles.name}>{selectedCountry.name}</Text>
         <TouchableOpacity style={styles.closeButton} onPress={close}>
-          <CloseIconSvg />
+          <CloseIcon />
         </TouchableOpacity>
       </View>
       <View style={styles.search}>

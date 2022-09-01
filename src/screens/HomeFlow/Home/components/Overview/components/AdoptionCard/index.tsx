@@ -3,8 +3,8 @@
 import {COLORS} from '@constants/colors';
 import {LevelRow} from '@screens/HomeFlow/Home/components/Overview/components/AdoptionCard/components/LevelRow';
 import {CardBase} from '@screens/HomeFlow/Home/components/Overview/components/CardBase';
-import {GraphIcon} from '@svg/AutoGraph';
 import {FriendsIcon} from '@svg/FriendsIcon';
+import {GraphIcon} from '@svg/GraphIcon';
 import {t} from '@translations/i18n';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';

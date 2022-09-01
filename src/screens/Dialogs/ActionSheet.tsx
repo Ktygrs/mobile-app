@@ -100,7 +100,7 @@ export const ActionSheet = () => {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    backgroundColor: COLORS.black04opacity,
+    backgroundColor: COLORS.transparentBackground,
     justifyContent: 'flex-end',
   },
   container: {

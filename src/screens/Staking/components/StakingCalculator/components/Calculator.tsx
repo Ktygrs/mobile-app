@@ -16,7 +16,7 @@ import {
   View,
 } from 'react-native';
 import {useSharedValue} from 'react-native-reanimated';
-import {isAndroid, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
 const YEARS_MIN = 0;
 const YEARS_MAX = 10;
@@ -71,10 +71,15 @@ export const Calculator = memo(
           )}
         </View>
         <Text style={styles.currentRateText}>
-          {t('current_rate').toUpperCase()}: 7,120 ice/h
+          {t('staking.current_rate').toUpperCase()}: 7,120{' '}
+          {t('mining_calculator.currency')}
         </Text>
         <View style={styles.sliderInfo}>
-          <YearsIcon />
+          <YearsIcon
+            color={COLORS.periwinkleGray}
+            width={rem(22)}
+            height={rem(22)}
+          />
           <Text style={styles.sliderLabelText}>{t('global.years')}</Text>
           <TextInput
             style={styles.sliderValueText}
@@ -96,7 +101,11 @@ export const Calculator = memo(
           onSlidingComplete={calculateResult}
         />
         <View style={styles.sliderInfo}>
-          <ChartIcon />
+          <ChartIcon
+            color={COLORS.periwinkleGray}
+            width={rem(23)}
+            height={rem(24)}
+          />
           <Text style={styles.sliderLabelText}>{t('staking.allocation')}</Text>
           <TextInput
             style={styles.sliderValueText}
@@ -130,29 +139,29 @@ const styles = StyleSheet.create({
     marginTop: -rem(82),
     marginHorizontal: SCREEN_SIDE_OFFSET,
     paddingHorizontal: rem(16),
-    borderRadius: rem(15),
+    borderRadius: rem(20),
     backgroundColor: COLORS.madison,
-    paddingBottom: rem(16),
+    paddingBottom: rem(30),
   },
   resultLabelText: {
-    marginTop: rem(34),
+    marginTop: rem(30),
     textAlign: 'center',
     ...font(13, 24, 'regular', 'periwinkleGray'),
   },
   resultValue: {
-    height: rem(26),
-    alignItems: 'center',
+    height: rem(36),
+    justifyContent: 'center',
   },
   resultValueText: {
     textAlign: 'center',
-    ...font(22, 26, 'bold'),
+    ...font(28, 34, 'bold'),
+  },
+  resultValueText_bonus: {
+    color: COLORS.shamrock,
   },
   currentRateText: {
     textAlign: 'center',
     ...font(13, 24, 'bold', 'periwinkleGray'),
-  },
-  resultValueText_bonus: {
-    color: COLORS.shamrock,
   },
   checkboxWrapper: {
     paddingTop: rem(28),
@@ -165,26 +174,24 @@ const styles = StyleSheet.create({
     ...font(13, 24, 'regular'),
   },
   sliderInfo: {
-    marginTop: isAndroid ? rem(17) : rem(27),
-    marginHorizontal: rem(30),
+    marginTop: rem(30),
     flexDirection: 'row',
     alignItems: 'center',
   },
   slider: {
-    marginTop: isAndroid ? rem(3) : rem(10),
-    marginLeft: rem(32),
-    marginRight: rem(26),
+    marginTop: rem(10),
   },
   sliderLabelText: {
-    ...font(13, 24, 'regular'),
+    ...font(13, 24, 'regular', 'periwinkleGray'),
   },
   sliderValueText: {
     flex: 1,
     textAlign: 'right',
-    ...font(13, null, 'bold', 'periwinkleGray'),
+    ...font(17, 24, 'bold'),
   },
   descriptionText: {
-    marginTop: rem(60),
-    ...font(14, 18, 'regular', 'secondaryFaint'),
+    marginTop: rem(40),
+    textAlign: 'center',
+    ...font(14, 19, 'regular', 'periwinkleGray'),
   },
 });

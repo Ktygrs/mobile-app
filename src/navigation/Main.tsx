@@ -18,6 +18,7 @@ import {Home} from '@screens/HomeFlow/Home';
 import {HomeMenu} from '@screens/HomeFlow/HomeMenu';
 import {ImageView} from '@screens/ImageView';
 import {News} from '@screens/News';
+import {Balance} from '@screens/PopUps/Balance';
 import {UpdateRequired} from '@screens/PopUps/UpdateRequired';
 import {MyBadges} from '@screens/ProfileFlow/MyBadges';
 import {MyRoles} from '@screens/ProfileFlow/MyRoles';
@@ -75,6 +76,7 @@ export type MainStackParamList = {
     }[];
   };
   UpdateRequired: undefined;
+  Balance: undefined;
 };
 
 export type HomeTabStackParamList = {
@@ -245,6 +247,11 @@ export function MainNavigator() {
       <MainStack.Screen
         name="UpdateRequired"
         component={UpdateRequired}
+        options={modalOptions}
+      />
+      <MainStack.Screen
+        name="Balance"
+        component={Balance}
         options={modalOptions}
       />
     </MainStack.Navigator>
