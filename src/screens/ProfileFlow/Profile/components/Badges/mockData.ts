@@ -5,7 +5,7 @@ import {Images} from '@images';
 
 export const LAST_BADGES: Badge[] = [
   {
-    title: 'Ice Breaker',
+    title: 'ice Breaker',
     category: 'social',
     progressText: '2 of 5',
     progressValue: 30,

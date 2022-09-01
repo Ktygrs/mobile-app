@@ -2,9 +2,10 @@
 
 import {RefObject, useEffect, useState} from 'react';
 import {Image} from 'react-native';
+import Animated from 'react-native-reanimated';
 
 export const useImageMeasure = (
-  imageRef: RefObject<Image>,
+  imageRef: RefObject<Image | Animated.Image>,
   extraTopOffset: number,
 ) => {
   const [imageMeasure, setSourceMeasure] = useState<{

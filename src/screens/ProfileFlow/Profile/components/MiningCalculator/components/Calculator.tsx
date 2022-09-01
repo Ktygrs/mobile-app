@@ -2,7 +2,7 @@
 
 import {Slider} from '@components/Slider';
 import {COLORS} from '@constants/colors';
-import {commonStyles, SCREEN_SIDE_OFFSET} from '@constants/styles';
+import {commonStyles} from '@constants/styles';
 import {MiningIcon} from '@svg/MiningIcon';
 import {TierOneIcon} from '@svg/TierOneIcon';
 import {TierTwoIcon} from '@svg/TierTwoIcon';
@@ -60,7 +60,7 @@ export const Calculator = memo(
     useEffect(calculateResult, []);
 
     return (
-      <View style={[styles.containder, commonStyles.shadow]}>
+      <View style={[styles.container, commonStyles.shadow]}>
         <Text style={styles.resultLabelText}>
           {t('mining_calculator.result_label')}:
         </Text>
@@ -155,26 +155,27 @@ export const Calculator = memo(
 );
 
 const styles = StyleSheet.create({
-  containder: {
+  container: {
     marginTop: rem(12),
-    marginHorizontal: SCREEN_SIDE_OFFSET,
-    paddingHorizontal: rem(42),
-    borderRadius: rem(15),
-    backgroundColor: COLORS.primaryLight,
+    marginHorizontal: 16,
+    paddingHorizontal: rem(20),
+    borderRadius: rem(20),
+    backgroundColor: COLORS.primaryDark,
     paddingBottom: rem(42),
   },
   resultLabelText: {
-    marginTop: rem(34),
+    marginTop: rem(28),
     textAlign: 'center',
     ...font(13, 24, 'regular', 'periwinkleGray'),
   },
   resultValue: {
-    height: rem(26),
+    height: rem(32),
     alignItems: 'center',
   },
   resultValueText: {
     textAlign: 'center',
-    ...font(22, 26, 'bold'),
+    paddingTop: rem(6),
+    ...font(28, 33.6, 'bold'),
   },
   checkboxWrapper: {
     paddingTop: rem(28),
@@ -187,20 +188,22 @@ const styles = StyleSheet.create({
     ...font(13, 24, 'regular'),
   },
   sliderInfo: {
-    marginTop: isAndroid ? rem(17) : rem(27),
+    marginTop: isAndroid ? rem(17) : rem(34),
     flexDirection: 'row',
     alignItems: 'center',
+    marginBottom: rem(8),
   },
   slider: {
-    marginTop: isAndroid ? rem(3) : rem(10),
+    marginTop: rem(3),
     marginLeft: rem(6),
+    marginBottom: rem(6),
   },
   sliderLabelText: {
-    ...font(13, 24, 'regular'),
+    ...font(13, 24, 'regular', 'periwinkleGray'),
   },
   sliderValueText: {
     flex: 1,
     textAlign: 'right',
-    ...font(13, null, 'bold', 'periwinkleGray'),
+    ...font(17, 24, 'bold'),
   },
 });

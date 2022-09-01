@@ -18,17 +18,19 @@ type Props = {
   containerStyle?: StyleProp<ViewStyle>;
   color?: string;
   label?: string;
+  allowOnTab?: boolean;
 };
 
 export const BackButton = ({
   containerStyle,
   color = COLORS.white,
   label,
+  allowOnTab = false,
 }: Props = {}) => {
   const navigation = useNavigation();
 
   // navigation.canGoBack also takes in account tabs, but getState().routes contains only stack routes
-  if (navigation.getState().routes.length === 1) {
+  if (!allowOnTab && navigation.getState().routes.length === 1) {
     return null;
   }
 

@@ -31,6 +31,7 @@ export const BadgeList = ({loading, data}: Props) => {
         category={item.category}
         progressText={item.progressText}
         progressValue={item.progressValue}
+        active={item.active}
       />
     );
   }, []);
@@ -48,7 +49,7 @@ export const BadgeList = ({loading, data}: Props) => {
 
 const styles = StyleSheet.create({
   list: {
-    marginTop: rem(4),
+    marginTop: rem(14),
   },
   listContent: {
     paddingHorizontal: SCREEN_SIDE_OFFSET - CARD_OFFSET,

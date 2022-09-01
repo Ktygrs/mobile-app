@@ -1,19 +1,14 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {
-  ImageCardCompact,
-  ImageCardCompactSkeleton,
-} from '@components/Cards/ImageCardCompact';
-import {SectionHeader} from '@components/SectionHeader';
 import {Images} from '@images';
 import {ProfileTabStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {ViewAllButton} from '@screens/ProfileFlow/Profile/components/Role/components/ViewAllButton';
-import {t} from '@translations/i18n';
+import {
+  CurrentRoleCard,
+  CurrentRoleSkeleton,
+} from '@screens/ProfileFlow/Profile/components/Role/components/CurrentRoleCard';
 import React, {memo, useState} from 'react';
-import {StyleSheet} from 'react-native';
-import {rem} from 'rn-units';
 
 export const Role = memo(() => {
   const navigation =
@@ -23,28 +18,18 @@ export const Role = memo(() => {
 
   return (
     <>
-      <SectionHeader title={t('profile.my_role')} />
       {loading ? (
-        <ImageCardCompactSkeleton containerStyle={styles.card} />
+        <CurrentRoleSkeleton />
       ) : (
-        <ImageCardCompact
+        <CurrentRoleCard
           imageSource={Images.roles.pioneer}
           title={'Pioneer'}
           description={'Are you flesh and blood?'}
-          containerStyle={styles.card}
+          onNextPress={() => {
+            navigation.navigate('MyRoles');
+          }}
         />
       )}
-      <ViewAllButton
-        onPress={() => {
-          navigation.navigate('MyRoles');
-        }}
-      />
     </>
   );
-});
-
-const styles = StyleSheet.create({
-  card: {
-    marginTop: rem(12),
-  },
 });

@@ -5,7 +5,8 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {getImageUriForSize} from '@utils/file';
 import React, {memo, useMemo, useRef} from 'react';
-import {Image, ImageStyle, StyleProp, TouchableOpacity} from 'react-native';
+import {ImageStyle, StyleProp, TouchableWithoutFeedback} from 'react-native';
+import Animated from 'react-native-reanimated';
 import {rem} from 'rn-units';
 
 const DEFAULT_AVATAR_SIZE = rem(86);
@@ -29,7 +30,7 @@ export const Avatar = memo(
   }: Props) => {
     const navigation =
       useNavigation<NativeStackNavigationProp<MainStackParamList>>();
-    const imageRef = useRef<Image>(null);
+    const imageRef = useRef<Animated.Image>(null);
 
     const dynamicStyle = useMemo(
       () => ({
@@ -45,7 +46,7 @@ export const Avatar = memo(
     }
 
     const ImageComponent = (
-      <Image
+      <Animated.Image
         source={{uri: getImageUriForSize(uri, {width: size})}}
         style={[dynamicStyle, style]}
         ref={imageRef}
@@ -57,9 +58,9 @@ export const Avatar = memo(
         navigation.navigate('ImageView', {uri, size, borderRadius, imageRef});
       };
       return (
-        <TouchableOpacity onPress={onAvatarPress}>
+        <TouchableWithoutFeedback onPress={onAvatarPress}>
           {ImageComponent}
-        </TouchableOpacity>
+        </TouchableWithoutFeedback>
       );
     }
 

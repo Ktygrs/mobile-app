@@ -18,11 +18,12 @@ export const Invite = memo(() => (
 const styles = StyleSheet.create({
   text: {
     marginHorizontal: SCREEN_SIDE_OFFSET,
-    marginTop: rem(28),
+    marginTop: rem(32),
     textAlign: 'center',
     ...font(14, 20, 'regular', 'primaryDark'),
   },
   container: {
-    marginTop: rem(38),
+    marginTop: rem(26),
+    marginBottom: rem(10),
   },
 });

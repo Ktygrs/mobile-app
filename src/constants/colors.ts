@@ -36,6 +36,8 @@ export const COLORS = {
   cadetBlue: '#A6B0C2',
   deepKoamaru: '#113081',
   spindle: '#A9BCE7',
+  foam: '#F0F9FE',
+  headerBackground: 'rgba(255, 255, 255, .96)',
   aliceBlue: '#EFF9FF',
   transparentBackground: 'rgba(8, 21, 50, .7)',
 };

@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     ...font(15, 18, 'black'),
   },
   noteText: {
-    ...font(12, 15, 'regular'),
+    ...font(12, 14, 'medium'),
   },
   backgroundIcon: {
     position: 'absolute',

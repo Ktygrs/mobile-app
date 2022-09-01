@@ -1,46 +1,55 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {LinesBackground} from '@components/LinesBackground';
 import {COLORS} from '@constants/colors';
 import {commonStyles} from '@constants/styles';
-import {useScrollShadow} from '@hooks/useScrollShadow';
-import {Header} from '@navigation/components/Header';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
 import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
-import {useFocusEffect} from '@react-navigation/native';
 import {Badges} from '@screens/ProfileFlow/Profile/components/Badges';
-import {HeaderRightButtons} from '@screens/ProfileFlow/Profile/components/HeaderRightButtons';
 import {Invite} from '@screens/ProfileFlow/Profile/components/Invite';
 import {MiningCalculator} from '@screens/ProfileFlow/Profile/components/MiningCalculator';
 import {Role} from '@screens/ProfileFlow/Profile/components/Role';
-import {UserInfo} from '@screens/ProfileFlow/Profile/components/UserInfo';
+import {AvatarHeader} from '@screens/ProfileFlow/Profile/components/UserInfo/components/AvatarHeader';
+import {LadderBar} from '@screens/ProfileFlow/Profile/components/UserInfo/components/LadderBar';
+import {userSelector} from '@store/modules/Auth/selectors';
+import {font} from '@utils/styles';
 import React, {memo} from 'react';
-import {StyleSheet, View} from 'react-native';
-import Animated from 'react-native-reanimated';
+import {StyleSheet, Text, View} from 'react-native';
+import Animated, {
+  useAnimatedScrollHandler,
+  useSharedValue,
+} from 'react-native-reanimated';
+import {useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
 export const Profile = memo(() => {
-  useFocusStatusBar({style: 'light-content'});
+  useFocusStatusBar({style: 'dark-content'});
   const bottomOffset = useBottomTabBarOffsetStyle();
-  const {scrollHandler, shadowStyle} = useScrollShadow();
+  const scrollY = useSharedValue(0);
+  const scrollHandler = useAnimatedScrollHandler(event => {
+    scrollY.value = event.contentOffset.y;
+  });
 
-  useFocusEffect(() => {});
+  const user = useSelector(userSelector);
 
   return (
     <View style={styles.container}>
-      <Header
-        containerStyle={shadowStyle}
-        color={COLORS.white}
-        renderRightButtons={HeaderRightButtons}
-      />
+      <AvatarHeader scrollY={scrollY} uri={user?.profilePictureUrl} />
       <Animated.ScrollView
-        onScroll={scrollHandler}
         scrollEventThrottle={16}
-        contentContainerStyle={bottomOffset.current}
+        contentContainerStyle={[bottomOffset.current, styles.cardContainer]}
+        onScroll={scrollHandler}
         showsVerticalScrollIndicator={false}>
-        <UserInfo />
+        <View style={styles.imageContainer}>
+          <LinesBackground />
+          <Text style={styles.usernameText} numberOfLines={1}>
+            {user?.username}
+          </Text>
+        </View>
+        <LadderBar />
         <View style={[styles.card, commonStyles.baseSubScreen]}>
-          <Badges />
           <Role />
+          <Badges />
           <Invite />
           <MiningCalculator />
         </View>
@@ -52,12 +61,28 @@ export const Profile = memo(() => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.primaryLight,
+    backgroundColor: COLORS.white,
+  },
+  cardContainer: {
+    backgroundColor: COLORS.white,
   },
   card: {
-    marginTop: rem(16),
     // make bottom overscroll area white, otherwise it'd be of container color
     paddingBottom: 2000,
     marginBottom: -2000,
+    paddingTop: rem(39),
+    marginTop: -rem(23),
+  },
+  imageContainer: {
+    marginTop: rem(20),
+    borderTopLeftRadius: rem(30),
+    borderTopRightRadius: rem(30),
+    overflow: 'hidden',
+  },
+  usernameText: {
+    marginTop: rem(70),
+    marginBottom: rem(20),
+    alignSelf: 'center',
+    ...font(17, 20.4, 'semibold'),
   },
 });

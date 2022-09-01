@@ -35,6 +35,7 @@ import {Tooltip} from '@screens/Tooltip';
 import {WebView} from '@screens/WebView';
 import React, {ComponentType, RefObject} from 'react';
 import {Image, View} from 'react-native';
+import Animated from 'react-native-reanimated';
 import {SvgProps} from 'react-native-svg';
 
 export type MainTabsParamList = {
@@ -62,7 +63,7 @@ export type MainStackParamList = {
   };
   Staking: undefined;
   ImageView: {
-    imageRef: RefObject<Image>;
+    imageRef: RefObject<Image | Animated.Image>;
     uri: string;
     size: number;
     borderRadius?: number;

@@ -6,6 +6,8 @@ import {commonStyles} from '@constants/styles';
 import {ProfileTabStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {ClosedEye} from '@svg/ClosedEye';
+import {translate} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
 import {Image, ImageSourcePropType, StyleSheet, Text, View} from 'react-native';
@@ -19,10 +21,18 @@ type Props = {
   progressText: string;
   progressValue: number;
   imageSource: ImageSourcePropType;
+  active: boolean;
 };
 
 export const BadgeCard = memo(
-  ({imageSource, title, category, progressText, progressValue}: Props) => {
+  ({
+    imageSource,
+    title,
+    category,
+    progressText,
+    progressValue,
+    active,
+  }: Props) => {
     const navigation =
       useNavigation<NativeStackNavigationProp<ProfileTabStackParamList>>();
 
@@ -30,31 +40,42 @@ export const BadgeCard = memo(
       <TouchableOpacity
         onPress={() => navigation.navigate('MyBadges', {category})}>
         <View style={[styles.container, commonStyles.shadow]}>
-          <Text
-            style={styles.titleText}
-            numberOfLines={1}
-            adjustsFontSizeToFit={true}>
-            {title}
-          </Text>
           <Image
             source={imageSource}
             style={styles.icon}
             resizeMode={'contain'}
           />
-          <View style={styles.progressHeader}>
-            <Text
-              style={styles.categoryText}
-              numberOfLines={1}
-              adjustsFontSizeToFit={true}>
-              {category}
-            </Text>
-            <Text style={styles.progressText}>{progressText}</Text>
-          </View>
-          <View style={styles.progressBody}>
-            <View
-              style={[styles.progressValue, {width: `${progressValue}%`}]}
-            />
-          </View>
+          {active ? (
+            <>
+              <Text
+                style={styles.titleText}
+                numberOfLines={1}
+                adjustsFontSizeToFit={true}>
+                {title}
+              </Text>
+              <View style={styles.progressBody}>
+                <View
+                  style={[styles.progressValue, {width: `${progressValue}%`}]}
+                />
+              </View>
+              <View style={styles.progressHeader}>
+                <Text
+                  style={styles.categoryText}
+                  numberOfLines={1}
+                  adjustsFontSizeToFit={true}>
+                  {category}
+                </Text>
+                <Text style={styles.progressText}>{progressText}</Text>
+              </View>
+            </>
+          ) : (
+            <>
+              <ClosedEye height={20} width={20} color={COLORS.secondary} />
+              <Text style={styles.hiddenText} numberOfLines={1}>
+                {translate('profile.data_is_hidden')}
+              </Text>
+            </>
+          )}
         </View>
       </TouchableOpacity>
     );
@@ -67,31 +88,33 @@ export const BadgeCardSkeleton = () => (
   </SkeletonPlaceholder>
 );
 
-export const CARD_OFFSET = rem(8);
+export const CARD_OFFSET = rem(7);
 
 const styles = StyleSheet.create({
   container: {
-    width: rem(120),
-    height: rem(174),
+    width: rem(135),
+    height: rem(146),
     backgroundColor: COLORS.white,
-    borderRadius: rem(8),
+    borderRadius: rem(14),
     marginHorizontal: CARD_OFFSET,
     marginVertical: CARD_OFFSET,
     alignItems: 'center',
+    marginTop: rem(25),
   },
   titleText: {
-    marginTop: rem(16),
     marginHorizontal: rem(6),
     ...font(14, 17, 'bold', 'primaryDark'),
   },
   progressHeader: {
     flexDirection: 'row',
-    marginHorizontal: rem(12),
+    marginHorizontal: rem(10),
+    marginBottom: rem(8),
   },
   icon: {
-    marginHorizontal: rem(10),
-    marginVertical: rem(10),
-    flex: 1,
+    height: rem(92),
+    width: rem(135),
+    marginTop: -rem(25),
+    marginBottom: rem(15),
   },
   categoryText: {
     flex: 1,
@@ -101,17 +124,21 @@ const styles = StyleSheet.create({
     ...font(12, 14, 'regular', 'periwinkleGray'),
   },
   progressBody: {
-    height: rem(8),
+    height: rem(9),
     borderRadius: rem(4),
     backgroundColor: COLORS.secondaryFaint,
-    marginHorizontal: rem(12),
+    marginHorizontal: rem(10),
     alignSelf: 'stretch',
-    marginTop: rem(4),
-    marginBottom: rem(10),
+    marginTop: rem(13),
+    marginBottom: rem(9),
   },
   progressValue: {
-    height: rem(8),
+    height: rem(9),
     borderRadius: rem(4),
     backgroundColor: COLORS.shamrock,
+  },
+  hiddenText: {
+    marginTop: rem(7),
+    ...font(14, 17, 'bold', 'secondary'),
   },
 });
