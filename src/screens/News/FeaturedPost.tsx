@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {NewsPost} from '@api/news/types';
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {SMALL_BUTTON_HIT_SLOP} from '@constants/styles';
 import {t} from '@translations/i18n';
@@ -8,7 +9,7 @@ import {font} from '@utils/styles';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import React from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
 import {rem, screenWidth} from 'rn-units';
 
 dayjs.extend(relativeTime);
@@ -36,12 +37,12 @@ export const FeaturedPost = () => {
           <Text style={styles.updatedAt}>
             {dayjs(featuredPost.createdAt).fromNow()}
           </Text>
-          <TouchableOpacity
+          <Touchable
             hitSlop={SMALL_BUTTON_HIT_SLOP}
             style={styles.readMore}
             onPress={() => {}}>
             <Text style={styles.readMoreText}>{t('news.read_more')}</Text>
-          </TouchableOpacity>
+          </Touchable>
         </View>
       </View>
     </View>

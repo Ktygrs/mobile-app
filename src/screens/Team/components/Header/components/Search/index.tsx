@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {useSearchAnimation} from '@screens/Team/components/Header/components/Search/hooks/useSearchAnimation';
 import {SearchIconSvg} from '@svg/SearchIcon';
@@ -13,7 +14,6 @@ import {
   Text,
   TextInput,
   TextInputProps,
-  TouchableOpacity,
   View,
 } from 'react-native';
 import Animated, {SharedValue} from 'react-native-reanimated';
@@ -74,19 +74,19 @@ export const Search = ({
         placeholder={placeholder}
         {...textInputProps}
       />
-      <AnimatedTouchableOpacity
+      <AnimatedTouchable
         onPress={closeSearch}
         hitSlop={CANCEL_HIT_SLOP}
         style={[styles.cancelButtonWrapper, animatedCancelStyle]}
+        activeOpacity={1}
         onLayout={e => setCancelWidth(e.nativeEvent.layout.width)}>
         <Text style={styles.cancelText}>{t('button.cancel')}</Text>
-      </AnimatedTouchableOpacity>
+      </AnimatedTouchable>
     </Animated.View>
   );
 };
 
-const AnimatedTouchableOpacity =
-  Animated.createAnimatedComponent(TouchableOpacity);
+const AnimatedTouchable = Animated.createAnimatedComponent(Touchable);
 
 const CANCEL_HIT_SLOP = {top: 10, right: 20, bottom: 10, left: 20};
 

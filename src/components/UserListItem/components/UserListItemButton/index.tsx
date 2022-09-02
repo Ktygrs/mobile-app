@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {font} from '@utils/styles';
 import React, {ReactNode} from 'react';
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text} from 'react-native';
 
 type Props = {
   icon: ReactNode;
@@ -14,16 +15,15 @@ type Props = {
 
 export const UserListItemButton = ({icon, text, onPress, disabled}: Props) => {
   return (
-    <TouchableOpacity
+    <Touchable
       disabled={disabled}
       style={disabled ? styles.disabledButton : styles.button}
-      activeOpacity={0.4}
       onPress={onPress}>
       {icon}
       <Text style={disabled ? styles.disabledText : styles.buttonText}>
         {text}
       </Text>
-    </TouchableOpacity>
+    </Touchable>
   );
 };
 

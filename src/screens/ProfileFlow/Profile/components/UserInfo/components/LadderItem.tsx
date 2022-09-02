@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {ClosedEye} from '@svg/ClosedEye';
 import {font} from '@utils/styles';
 import React, {useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {rem} from 'rn-units';
 
 type Props = {
@@ -16,7 +17,7 @@ type Props = {
 export const LadderItem = ({hidden, text, enabled = false}: Props) => {
   const [isHidden, hide] = useState<boolean>(!!hidden);
   return (
-    <TouchableOpacity onPress={() => enabled && hide(!isHidden)}>
+    <Touchable onPress={() => enabled && hide(!isHidden)}>
       <View style={styles.ladderItem}>
         {isHidden ? (
           <View style={styles.hiddenView}>
@@ -26,7 +27,7 @@ export const LadderItem = ({hidden, text, enabled = false}: Props) => {
           <Text style={styles.text}>{text}</Text>
         )}
       </View>
-    </TouchableOpacity>
+    </Touchable>
   );
 };
 

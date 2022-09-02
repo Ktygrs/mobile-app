@@ -32,7 +32,7 @@ export const Header = memo(
     backLabel,
     renderRightButtons,
     color = COLORS.primaryDark,
-    backgroundColor = COLORS.primaryLight,
+    backgroundColor = COLORS.white,
     titleOffset = rem(20),
     containerStyle,
   }: Props) => {

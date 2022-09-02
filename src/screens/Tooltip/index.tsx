@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {stopPropagination} from '@components/KeyboardDismiss';
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {windowHeight} from '@constants/styles';
 import {MainStackParamList} from '@navigation/Main';
@@ -9,7 +10,7 @@ import {Connector} from '@screens/Tooltip/assets/svg/Connector';
 import React from 'react';
 import {useState} from 'react';
 import {useEffect} from 'react';
-import {StyleSheet, TouchableWithoutFeedback, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {rem} from 'rn-units';
 
 export const Tooltip = () => {
@@ -39,7 +40,7 @@ export const Tooltip = () => {
   }, [targetRef]);
 
   return (
-    <TouchableWithoutFeedback onPress={navigation.goBack}>
+    <Touchable onPress={navigation.goBack}>
       <View style={styles.container}>
         {targetData && (
           <>
@@ -104,7 +105,7 @@ export const Tooltip = () => {
           </>
         )}
       </View>
-    </TouchableWithoutFeedback>
+    </Touchable>
   );
 };
 

@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {font} from '@utils/styles';
 import React, {ReactNode} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {rem} from 'rn-units';
 
 interface BorderedButtonProps {
@@ -14,11 +15,11 @@ interface BorderedButtonProps {
 
 export const BorderedButton = ({onPress, text, icon}: BorderedButtonProps) => {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.button}>
+    <Touchable onPress={onPress} style={styles.button}>
       <View style={styles.icon}>{icon}</View>
       <Text style={styles.text}>{text}</Text>
       <View style={styles.icon} />
-    </TouchableOpacity>
+    </Touchable>
   );
 };
 

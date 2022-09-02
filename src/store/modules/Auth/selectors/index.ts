@@ -25,3 +25,6 @@ export const userSelector = (state: RootState) => state.auth.user;
 
 export const isPhoneNumberVerifiedSelector = (state: RootState) =>
   state.auth.user?.phoneNumber;
+
+export const usernameSelector = (state: RootState) =>
+  state.auth.user?.username || '';

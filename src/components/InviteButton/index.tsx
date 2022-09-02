@@ -1,20 +1,17 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
+import {MainStackParamList} from '@navigation/Main';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {InviteIcon} from '@svg/InviteIcon';
 import {StarTransparentIcon} from '@svg/StarTransparentIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React from 'react';
-import {
-  StyleProp,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  ViewStyle,
-} from 'react-native';
+import {StyleProp, StyleSheet, Text, View, ViewStyle} from 'react-native';
 import {rem} from 'rn-units';
 
 type Props = {
@@ -22,8 +19,13 @@ type Props = {
 };
 
 export const InviteButton = ({style}: Props = {}) => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+
+  const onInvitePress = () => navigation.navigate('InviteShare');
+
   return (
-    <TouchableOpacity style={[styles.button, style]}>
+    <Touchable style={[styles.button, style]} onPress={onInvitePress}>
       <View style={styles.iconWrapper}>
         <InviteIcon style={styles.icon} />
       </View>
@@ -34,7 +36,7 @@ export const InviteButton = ({style}: Props = {}) => {
         </Text>
       </View>
       <StarTransparentIcon style={styles.backgroundIcon} />
-    </TouchableOpacity>
+    </Touchable>
   );
 };
 

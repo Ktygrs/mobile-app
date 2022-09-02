@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {MainStackParamList} from '@navigation/Main';
@@ -12,8 +13,6 @@ import {
   StyleSheet,
   Text,
   TextStyle,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
   View,
   ViewStyle,
 } from 'react-native';
@@ -61,7 +60,7 @@ export const ActionSheet = () => {
   }, [positionY]);
 
   return (
-    <TouchableWithoutFeedback onPress={navigation.goBack}>
+    <Touchable onPress={navigation.goBack}>
       <View style={styles.background}>
         <Animated.View
           style={[
@@ -72,7 +71,7 @@ export const ActionSheet = () => {
           <Text style={styles.titleText}>{title}</Text>
           <View style={styles.buttons}>
             {buttons.map((button, index) => (
-              <TouchableOpacity
+              <Touchable
                 key={index}
                 onPress={() => {
                   navigation.goBack();
@@ -88,12 +87,12 @@ export const ActionSheet = () => {
                   </View>
                   <Text style={styles.buttonLabelText}>{button.label}</Text>
                 </View>
-              </TouchableOpacity>
+              </Touchable>
             ))}
           </View>
         </Animated.View>
       </View>
-    </TouchableWithoutFeedback>
+    </Touchable>
   );
 };
 

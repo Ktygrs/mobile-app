@@ -4,6 +4,7 @@ import {
   COUNTRY_ITEM_HEIGHT,
   CountryListItem,
 } from '@components/PhoneNumberSearch/components/CountryListItem';
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {countries, Country} from '@constants/countries';
 import {CloseIcon} from '@svg/CloseIcon';
@@ -18,7 +19,6 @@ import {
   Text,
   TextInput,
   TextInputProps,
-  TouchableOpacity,
   View,
   ViewStyle,
 } from 'react-native';
@@ -93,9 +93,9 @@ export const PhoneNumberSearch = ({
       <View style={[styles.header, headerStyle]}>
         <Text style={styles.countryIcon}>{selectedCountry.flag}</Text>
         <Text style={styles.name}>{selectedCountry.name}</Text>
-        <TouchableOpacity style={styles.closeButton} onPress={close}>
+        <Touchable style={styles.closeButton} onPress={close}>
           <CloseIcon />
-        </TouchableOpacity>
+        </Touchable>
       </View>
       <View style={styles.search}>
         <SearchIconSvg />

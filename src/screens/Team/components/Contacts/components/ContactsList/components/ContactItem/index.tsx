@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {stopPropagination} from '@components/KeyboardDismiss';
+import {Touchable} from '@components/Touchable';
 import {UserListItemButton} from '@components/UserListItem/components/UserListItemButton';
 import {COLORS} from '@constants/colors';
 import {TeamContactInvite} from '@screens/Team/components/Contacts/components/ContactsList/assets/svg/TeamContactInvite';
@@ -10,13 +11,7 @@ import {getContactAcronym, getContactName} from '@utils/contacts';
 import {stringToColor} from '@utils/string';
 import {font} from '@utils/styles';
 import React, {memo, useState} from 'react';
-import {
-  LayoutAnimation,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {LayoutAnimation, StyleSheet, Text, View} from 'react-native';
 import {Contact} from 'react-native-contacts';
 import {rem} from 'rn-units';
 
@@ -30,7 +25,7 @@ export const ContactItem = memo(
   }: {
     index: number;
     contact: Contact;
-    onInvite: (contactId: string) => void;
+    onInvite: (contact: Contact) => void;
   }) => {
     const [activeIndex, setActiveIndex] = useState<number | undefined>(
       undefined,
@@ -61,12 +56,12 @@ export const ContactItem = memo(
           <Text style={styles.contactIconText}>
             {getContactAcronym(contact)}
           </Text>
-          <TouchableOpacity
+          <Touchable
             disabled={phoneNumbers.length === 1}
             onPress={showAllNumbers}
             style={styles.indicator}>
             {phoneNumbers.length > 1 && <MultipleNumbers />}
-          </TouchableOpacity>
+          </Touchable>
         </View>
         <View style={styles.body}>
           <Text style={styles.name} numberOfLines={1}>
@@ -87,7 +82,7 @@ export const ContactItem = memo(
         <UserListItemButton
           text={t('team.contacts_list.invite')}
           icon={<TeamContactInvite fill={COLORS.primaryDark} />}
-          onPress={() => onInvite(contact.recordID)}
+          onPress={() => onInvite(contact)}
         />
       </View>
     );

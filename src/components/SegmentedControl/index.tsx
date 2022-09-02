@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {commonStyles} from '@constants/styles';
 import {Indicator} from '@svg/Indicator';
@@ -17,7 +18,6 @@ import {
   StyleProp,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
   ViewStyle,
 } from 'react-native';
@@ -109,7 +109,7 @@ export const SegmentedControl = forwardRef<
     const renderSegment = (segment: Segment, index: number) => {
       const active = activeIndex === index;
       return (
-        <TouchableOpacity
+        <Touchable
           key={segment.key}
           onPress={() => {
             onSegmentPress(index);
@@ -126,7 +126,7 @@ export const SegmentedControl = forwardRef<
               {segment.text ?? ''}
             </Text>
           )}
-        </TouchableOpacity>
+        </Touchable>
       );
     };
 

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {font} from '@utils/styles';
 import React, {ReactNode} from 'react';
@@ -10,7 +11,6 @@ import {
   StyleSheet,
   Text,
   TextStyle,
-  TouchableOpacity,
   View,
   ViewStyle,
 } from 'react-native';
@@ -34,11 +34,11 @@ export const PrimaryButton = ({
   loading = false,
 }: PrimaryButtonProps) => {
   return (
-    <TouchableOpacity onPress={onPress} style={[styles.button, style]}>
+    <Touchable onPress={onPress} style={[styles.button, style]}>
       {icon ? <View style={styles.icon}>{icon}</View> : null}
       <Text style={[styles.text, textStyle]}>{text}</Text>
       {loading && <ActivityIndicator style={styles.activityIndicator} />}
-    </TouchableOpacity>
+    </Touchable>
   );
 };
 

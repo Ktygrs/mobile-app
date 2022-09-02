@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {t} from '@translations/i18n';
+import {Touchable} from '@components/Touchable';
+import {translate} from '@translations/i18n';
 import {font} from '@utils/styles';
 import * as React from 'react';
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text} from 'react-native';
 import {rem} from 'rn-units';
 interface NotNowButtonProps {
   onPress?: () => void;
@@ -12,12 +13,9 @@ interface NotNowButtonProps {
 
 export const NotNowButton = ({onPress, disabled}: NotNowButtonProps) => {
   return (
-    <TouchableOpacity
-      disabled={disabled}
-      onPress={onPress}
-      style={styles.container}>
-      <Text style={styles.text}>{t('button.not_now_btn')}</Text>
-    </TouchableOpacity>
+    <Touchable disabled={disabled} onPress={onPress} style={styles.container}>
+      <Text style={styles.text}>{translate('button.not_now_btn')}</Text>
+    </Touchable>
   );
 };
 

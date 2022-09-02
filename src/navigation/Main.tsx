@@ -17,6 +17,8 @@ import {Confirm, ConfirmButton} from '@screens/Dialogs/Confirm';
 import {Home} from '@screens/HomeFlow/Home';
 import {HomeMenu} from '@screens/HomeFlow/HomeMenu';
 import {ImageView} from '@screens/ImageView';
+import {InviteFriend} from '@screens/InviteFlow/InviteFriend';
+import {InviteShare} from '@screens/InviteFlow/InviteShare';
 import {News} from '@screens/News';
 import {Balance} from '@screens/PopUps/Balance';
 import {UpdateRequired} from '@screens/PopUps/UpdateRequired';
@@ -35,6 +37,7 @@ import {Tooltip} from '@screens/Tooltip';
 import {WebView} from '@screens/WebView';
 import React, {ComponentType, RefObject} from 'react';
 import {Image, View} from 'react-native';
+import {Contact} from 'react-native-contacts';
 import Animated from 'react-native-reanimated';
 import {SvgProps} from 'react-native-svg';
 
@@ -78,6 +81,8 @@ export type MainStackParamList = {
   };
   UpdateRequired: undefined;
   Balance: undefined;
+  InviteFriend: {contact: Contact};
+  InviteShare: undefined;
 };
 
 export type HomeTabStackParamList = {
@@ -86,6 +91,7 @@ export type HomeTabStackParamList = {
   Profile: undefined;
   MyRoles: undefined;
   MyBadges: {category?: BadgeCategory} | undefined;
+  InviteShare: undefined;
 };
 
 export type TeamTabStackParamList = {
@@ -148,12 +154,6 @@ const HomeTabStackNavigator = () => (
   </HomeTabStack.Navigator>
 );
 
-const TeamTabStackNavigator = () => (
-  <TeamTabStack.Navigator screenOptions={screenOptions}>
-    <TeamTabStack.Screen name="Team" component={Team} />
-  </TeamTabStack.Navigator>
-);
-
 const ProfileTabStackNavigator = () => (
   <ProfileTabStack.Navigator screenOptions={screenOptions}>
     <ProfileTabStack.Screen name="Profile" component={Profile} />
@@ -186,6 +186,14 @@ const ProfileTabStackNavigator = () => (
     />
   </ProfileTabStack.Navigator>
 );
+
+const TeamTabStackNavigator = () => {
+  return (
+    <TeamTabStack.Navigator screenOptions={screenOptions}>
+      <TeamTabStack.Screen name="Team" component={Team} />
+    </TeamTabStack.Navigator>
+  );
+};
 
 const MainTabs = () => (
   <Tabs.Navigator
@@ -250,9 +258,15 @@ export function MainNavigator() {
         component={UpdateRequired}
         options={modalOptions}
       />
+      <MainStack.Screen name="Balance" component={Balance} />
       <MainStack.Screen
-        name="Balance"
-        component={Balance}
+        name="InviteFriend"
+        component={InviteFriend}
+        options={modalOptions}
+      />
+      <MainStack.Screen
+        name="InviteShare"
+        component={InviteShare}
         options={modalOptions}
       />
     </MainStack.Navigator>

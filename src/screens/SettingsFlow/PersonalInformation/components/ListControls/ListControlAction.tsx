@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Touchable} from '@components/Touchable';
 import {ListControlBase} from '@screens/SettingsFlow/PersonalInformation/components/ListControls/ListControlBase';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
 import {StyleSheet, Text} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import {rem} from 'rn-units';
 
 type Props = {
@@ -17,12 +17,12 @@ type Props = {
 export const ListControlAction = memo(
   ({label, value, action, onPress}: Props) => {
     return (
-      <TouchableOpacity onPress={onPress}>
+      <Touchable onPress={onPress}>
         <ListControlBase label={label}>
           <Text style={styles.valueText}>{value}</Text>
           <Text style={styles.actionText}>{action}</Text>
         </ListControlBase>
-      </TouchableOpacity>
+      </Touchable>
     );
   },
 );

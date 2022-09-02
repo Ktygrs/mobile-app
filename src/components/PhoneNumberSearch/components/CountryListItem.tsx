@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {Country} from '@constants/countries';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text} from 'react-native';
 import {rem} from 'rn-units';
 
 type Props = {
@@ -17,7 +18,7 @@ export const COUNTRY_ITEM_HEIGHT = rem(36);
 
 export const CountryListItem = memo(({country, showCode, onPress}: Props) => {
   return (
-    <TouchableOpacity
+    <Touchable
       key={country.name}
       style={styles.searchItem}
       onPress={() => onPress(country)}>
@@ -26,7 +27,7 @@ export const CountryListItem = memo(({country, showCode, onPress}: Props) => {
         {country.name}
         {showCode && <Text style={styles.code}>{` (${country.iddCode})`}</Text>}
       </Text>
-    </TouchableOpacity>
+    </Touchable>
   );
 });
 

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {commonStyles, SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {Task} from '@screens/HomeFlow/Home/components/Tasks/tasks';
@@ -8,7 +9,7 @@ import {TaskCompletedSvg} from '@svg/TaskCompleted';
 import {TaskNotCompletedSvg} from '@svg/TaskNotCompleted';
 import {font} from '@utils/styles';
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {rem} from 'rn-units';
 
 const STEP_ICON_SIZE = rem(36);
@@ -25,7 +26,7 @@ export const ITEM_HEIGHT = STEP_ICON_SIZE + ICON_VERTICAL_OFFSET * 2;
 export const TaskItem = ({task}: {task: Task}) => {
   const isLocked = !task.completed && !task.active;
   return (
-    <TouchableOpacity
+    <Touchable
       style={[
         styles.container,
         task.active ? [styles.containerActive, commonStyles.shadow] : null,
@@ -57,7 +58,7 @@ export const TaskItem = ({task}: {task: Task}) => {
       {isLocked ? (
         <View style={[StyleSheet.absoluteFill, styles.containerInactive]} />
       ) : null}
-    </TouchableOpacity>
+    </Touchable>
   );
 };
 

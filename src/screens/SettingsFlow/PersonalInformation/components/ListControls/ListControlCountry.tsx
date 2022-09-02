@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {PhoneNumberSearch} from '@components/PhoneNumberSearch';
+import {Touchable} from '@components/Touchable';
 import {Country} from '@constants/countries';
 import {ListControlBase} from '@screens/SettingsFlow/PersonalInformation/components/ListControls/ListControlBase';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
 import {StyleSheet, Text} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import {rem} from 'rn-units';
 
 type Props = {
@@ -29,13 +29,13 @@ export const ListControlCountry = memo(
   }: Props) => {
     return (
       <>
-        <TouchableOpacity
+        <Touchable
           onPress={() => setCountrySearchVisibility(true)}
           disabled={!editable}>
           <ListControlBase label={label}>
             <Text style={styles.countryText}>{selectedCountry.name}</Text>
           </ListControlBase>
-        </TouchableOpacity>
+        </Touchable>
         {isCountrySearchVisible && (
           <PhoneNumberSearch
             containerStyle={styles.countrySearch}

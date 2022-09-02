@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {Badge} from '@components/Badge';
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {SMALL_BUTTON_HIT_SLOP} from '@constants/styles';
 import {HomeTabStackParamList} from '@navigation/Main';
@@ -26,13 +27,13 @@ export const MenuButton = memo(() => {
   const badgeValue = '9+';
 
   return (
-    <TouchableOpacity
+    <Touchable
       hitSlop={SMALL_BUTTON_HIT_SLOP}
       ref={buttonRef}
       onPress={onMenuPress}>
       <CandyBoxMenuIcon stroke={COLORS.downriver} />
       {badgeValue && <Badge value={badgeValue} style={styles.badge} />}
-    </TouchableOpacity>
+    </Touchable>
   );
 });
 

@@ -1,16 +1,10 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Touchable} from '@components/Touchable';
 import {SCREEN_SIDE_OFFSET, SMALL_BUTTON_HIT_SLOP} from '@constants/styles';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
-import {
-  StyleProp,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  ViewStyle,
-} from 'react-native';
+import {StyleProp, StyleSheet, Text, View, ViewStyle} from 'react-native';
 import {rem} from 'rn-units';
 
 type Props = {
@@ -28,11 +22,9 @@ export const SectionHeader = memo(
       <View style={[styles.container, style]}>
         <Text style={styles.titleText}>{title.toUpperCase()}</Text>
         {action && (
-          <TouchableOpacity
-            hitSlop={SMALL_BUTTON_HIT_SLOP}
-            onPress={onActionPress}>
+          <Touchable hitSlop={SMALL_BUTTON_HIT_SLOP} onPress={onActionPress}>
             <Text style={styles.actionText}>{action}</Text>
-          </TouchableOpacity>
+          </Touchable>
         )}
       </View>
     );

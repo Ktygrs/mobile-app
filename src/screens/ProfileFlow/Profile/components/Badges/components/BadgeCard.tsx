@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {BadgeCategory} from '@api/badges/types';
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {commonStyles} from '@constants/styles';
 import {ProfileTabStackParamList} from '@navigation/Main';
@@ -11,7 +12,6 @@ import {translate} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
 import {Image, ImageSourcePropType, StyleSheet, Text, View} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import {rem} from 'rn-units';
 
@@ -37,8 +37,7 @@ export const BadgeCard = memo(
       useNavigation<NativeStackNavigationProp<ProfileTabStackParamList>>();
 
     return (
-      <TouchableOpacity
-        onPress={() => navigation.navigate('MyBadges', {category})}>
+      <Touchable onPress={() => navigation.navigate('MyBadges', {category})}>
         <View style={[styles.container, commonStyles.shadow]}>
           <Image
             source={imageSource}
@@ -77,7 +76,7 @@ export const BadgeCard = memo(
             </>
           )}
         </View>
-      </TouchableOpacity>
+      </Touchable>
     );
   },
 );

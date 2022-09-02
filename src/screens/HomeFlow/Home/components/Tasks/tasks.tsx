@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
-import {InviteFriendsSvg} from '@svg/InviteFriends';
+import {InviteIcon} from '@svg/InviteIcon';
 import {LogoIcon} from '@svg/LogoIcon';
 import {ShareSvg} from '@svg/Share';
 import {TelegramSvg} from '@svg/Telegram';
@@ -71,7 +71,7 @@ export const taskItems: Task[] = [
     type: 'invite5Friends',
     completed: false,
     active: false,
-    Icon: <InviteFriendsSvg color={COLORS.white} />,
+    Icon: <InviteIcon fill={COLORS.white} width={21} height={20} />,
     iconBackground: COLORS.blueViolet,
     title: t('home.steps.step_five.title'),
     description: t('home.steps.step_five.description'),

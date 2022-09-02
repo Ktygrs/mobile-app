@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {SignUpStackParamList} from '@navigation/Auth';
 import {useNavigation} from '@react-navigation/native';
@@ -17,7 +18,6 @@ import {
   ScrollView,
   StatusBar,
   StyleSheet,
-  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import PagerView from 'react-native-pager-view';
@@ -128,7 +128,7 @@ export const UserRegistration = ({}: Props) => {
       <KeyboardAvoidingView
         behavior={isIOS ? 'padding' : 'height'}
         style={styles.container}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <Touchable onPress={Keyboard.dismiss}>
           <PagerView
             ref={pagerViewRef}
             style={styles.container}
@@ -156,7 +156,7 @@ export const UserRegistration = ({}: Props) => {
               </ScrollView>
             </View>
           </PagerView>
-        </TouchableWithoutFeedback>
+        </Touchable>
       </KeyboardAvoidingView>
 
       <NavigationPanel

@@ -1,13 +1,9 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import React, {useEffect} from 'react';
-import {
-  StyleProp,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  ViewStyle,
-} from 'react-native';
+import {StyleProp, StyleSheet, ViewStyle} from 'react-native';
 import Animated, {
   interpolate,
   interpolateColor,
@@ -73,13 +69,11 @@ export const Switch = ({value, onValueChange, style}: SwitchProps) => {
   }, [stateSharedValue, value]);
 
   return (
-    <TouchableWithoutFeedback
-      onPress={() => onValueChange(!value)}
-      hitSlop={SWITCH_HIT_SLOP}>
+    <Touchable onPress={() => onValueChange(!value)} hitSlop={SWITCH_HIT_SLOP}>
       <Animated.View style={[styles.container, animatedContainerStyles, style]}>
         <Animated.View style={[styles.ball, animatedBallStyles]} />
       </Animated.View>
-    </TouchableWithoutFeedback>
+    </Touchable>
   );
 };
 

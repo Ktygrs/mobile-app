@@ -5,6 +5,9 @@ import {UserListItem, UserListItemSkeleton} from '@components/UserListItem';
 import {UserListPingButton} from '@components/UserListItem/components/UserListPingButton';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
+import {MainStackParamList} from '@navigation/Main';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {ContactItem} from '@screens/Team/components/Contacts/components/ContactsList/components/ContactItem';
 import {SectionHeader} from '@screens/Team/components/Contacts/components/ContactsList/components/SectionHeader';
 import {
@@ -12,7 +15,6 @@ import {
   ContactSectionDataItem,
   useGetContactSegments,
 } from '@screens/Team/components/Contacts/components/ContactsList/hooks/useGetContactSegments';
-import {TeamActions} from '@store/modules/Team/actions';
 import {t} from '@translations/i18n';
 import {hapticFeedback} from '@utils/device';
 import React, {useCallback} from 'react';
@@ -24,7 +26,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import {useDispatch} from 'react-redux';
+import {Contact} from 'react-native-contacts';
 import {rem} from 'rn-units';
 
 type Props = {
@@ -32,19 +34,20 @@ type Props = {
 };
 
 export const ContactsList = ({focused}: Props) => {
-  const dispatch = useDispatch();
-
   const tabbarOffset = useBottomTabBarOffsetStyle();
 
   const {sections, loadNext, loadNextLoading, refresh, refreshing} =
     useGetContactSegments(focused);
 
-  const invite = useCallback(
-    (id: string) => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+
+  const onInvitePress = useCallback(
+    (contact: Contact) => {
       hapticFeedback();
-      dispatch(TeamActions.INVITE_CONTACT.START.create(id));
+      navigation.navigate('InviteFriend', {contact});
     },
-    [dispatch],
+    [navigation],
   );
 
   const renderSectionHeader = useCallback(
@@ -68,7 +71,9 @@ export const ContactsList = ({focused}: Props) => {
           return <Text>{item.message}</Text>;
         }
       } else if ('recordID' in item) {
-        return <ContactItem contact={item} index={index} onInvite={invite} />;
+        return (
+          <ContactItem contact={item} index={index} onInvite={onInvitePress} />
+        );
       } else if ('id' in item) {
         return (
           <UserListItem
@@ -84,7 +89,7 @@ export const ContactsList = ({focused}: Props) => {
       }
       return null;
     },
-    [invite],
+    [onInvitePress],
   );
 
   return (

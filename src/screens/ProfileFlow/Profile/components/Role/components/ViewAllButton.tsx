@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {InfoOutlineIcon} from '@svg/InfoOutlineIcon';
 import {t} from '@translations/i18n';
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text} from 'react-native';
 import {font, rem} from 'rn-units';
 
 type Props = {
@@ -13,13 +14,10 @@ type Props = {
 
 export const ViewAllButton = ({onPress}: Props) => {
   return (
-    <TouchableOpacity
-      style={styles.viewAll}
-      hitSlop={hitSlop}
-      onPress={onPress}>
+    <Touchable style={styles.viewAll} hitSlop={hitSlop} onPress={onPress}>
       <Text style={styles.viewAllText}>{t('profile.view_all_roles')}</Text>
       <InfoOutlineIcon style={styles.infoIcon} color={COLORS.primaryDark} />
-    </TouchableOpacity>
+    </Touchable>
   );
 };
 

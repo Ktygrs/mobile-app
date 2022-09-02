@@ -1,17 +1,12 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {useNavigation} from '@react-navigation/native';
 import {BackButtonIcon} from '@svg/BackButtonIcon';
 import {font} from '@utils/styles';
 import React from 'react';
-import {
-  StyleProp,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  ViewStyle,
-} from 'react-native';
+import {StyleProp, StyleSheet, Text, ViewStyle} from 'react-native';
 import {rem} from 'rn-units';
 
 type Props = {
@@ -23,7 +18,7 @@ type Props = {
 
 export const BackButton = ({
   containerStyle,
-  color = COLORS.white,
+  color = COLORS.black,
   label,
   allowOnTab = false,
 }: Props = {}) => {
@@ -35,13 +30,13 @@ export const BackButton = ({
   }
 
   return (
-    <TouchableOpacity
+    <Touchable
       onPress={navigation.goBack}
       hitSlop={buttonHitSlop}
       style={[styles.container, containerStyle]}>
       <BackButtonIcon color={color} width={rem(16)} height={rem(14)} />
       {label && <Text style={[styles.labelText, {color}]}>{label}</Text>}
-    </TouchableOpacity>
+    </Touchable>
   );
 };
 

@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {SectionHeader} from '@components/SectionHeader';
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {LogoIcon} from '@svg/LogoIcon';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {rem} from 'rn-units';
 
@@ -41,7 +42,7 @@ export const Team = memo(() => {
 
 const renderTeamMember = ({item}: {item: TTeamMember}) => {
   return (
-    <TouchableOpacity style={styles.memberContainer}>
+    <Touchable style={styles.memberContainer}>
       <View style={styles.memberImage}>
         {item.isIceMember ? (
           <View style={styles.memberIcon}>
@@ -53,7 +54,7 @@ const renderTeamMember = ({item}: {item: TTeamMember}) => {
       <Text style={styles.memberNickname} numberOfLines={1}>
         {item.nickname}
       </Text>
-    </TouchableOpacity>
+    </Touchable>
   );
 };
 const renderSeparator = () => <View style={styles.separator} />;

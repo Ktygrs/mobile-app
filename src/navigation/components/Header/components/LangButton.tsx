@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {SMALL_BUTTON_HIT_SLOP} from '@constants/styles';
 import {ProfileTabStackParamList} from '@navigation/Main';
@@ -10,14 +11,7 @@ import {WorldIcon} from '@svg/WorldIcon';
 import i18n from '@translations/i18n';
 import {font} from '@utils/styles';
 import React from 'react';
-import {
-  StyleProp,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  ViewStyle,
-} from 'react-native';
+import {StyleProp, StyleSheet, Text, View, ViewStyle} from 'react-native';
 
 type Props = {
   containerStyle?: StyleProp<ViewStyle>;
@@ -31,7 +25,7 @@ export const LangButton = ({
   const navigation =
     useNavigation<NativeStackNavigationProp<ProfileTabStackParamList>>();
   return (
-    <TouchableOpacity
+    <Touchable
       onPress={() => navigation.navigate('LanguageSettings')}
       hitSlop={SMALL_BUTTON_HIT_SLOP}>
       <View style={[styles.container, containerStyle]}>
@@ -41,7 +35,7 @@ export const LangButton = ({
         <WorldIcon fill={color} style={styles.worldIcon} />
         <DropdownIcon fill={color} style={styles.dropdownIcon} />
       </View>
-    </TouchableOpacity>
+    </Touchable>
   );
 };
 

@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {ArrowDownIcon} from '@svg/ArrowDownIcon';
 import {font} from '@utils/styles';
 import React, {ReactNode, useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -47,8 +47,7 @@ export const MenuItem = ({
 
   return (
     <>
-      <TouchableOpacity
-        onPress={confirmation ? () => setExpanded(e => !e) : onPress}>
+      <Touchable onPress={confirmation ? () => setExpanded(e => !e) : onPress}>
         <View style={styles.container}>
           <View style={styles.iconWrapper}>
             {renderIcon({style: styles.icon})}
@@ -77,22 +76,22 @@ export const MenuItem = ({
             ]}
           />
         </View>
-      </TouchableOpacity>
+      </Touchable>
       {!!confirmation && (
         <Animated.View style={[styles.buttons, animatedStyle]}>
-          <TouchableOpacity
+          <Touchable
             onPress={() => {
               setExpanded(false);
               onPress();
             }}
             style={[styles.button, styles.yesButton]}>
             <Text style={styles.yesText}>{confirmation.yesText}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
+          </Touchable>
+          <Touchable
             onPress={() => setExpanded(false)}
             style={[styles.button, styles.noButton]}>
             <Text style={styles.noText}>{confirmation.noText}</Text>
-          </TouchableOpacity>
+          </Touchable>
         </Animated.View>
       )}
     </>

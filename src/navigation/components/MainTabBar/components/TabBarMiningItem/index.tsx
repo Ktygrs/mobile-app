@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Touchable} from '@components/Touchable';
 import {Images} from '@images';
 import {MAIN_TAB_BAR_HEIGHT} from '@navigation/components/MainTabBar';
 import {MiningTooltip} from '@navigation/components/MainTabBar/components/MiningTooltip';
@@ -14,13 +15,7 @@ import {isMiningTooltipSeenSelector} from '@store/modules/Economy/selectors';
 import {MiningInactiveIcon} from '@svg/TabBar/MiningInactiveIcon';
 import LottieView from 'lottie-react-native';
 import React, {useRef, useState} from 'react';
-import {
-  Animated,
-  ImageBackground,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
+import {Animated, ImageBackground, StyleSheet, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
@@ -59,9 +54,7 @@ export const TabBarMiningItem = () => {
       style={styles.container}
       source={Images.tabbar.miningBackground}>
       {!isMiningTooltipSeen && <StartMiningTooltip />}
-      <TouchableWithoutFeedback
-        accessibilityRole="button"
-        onPress={onButtonPress}>
+      <Touchable accessibilityRole="button" onPress={onButtonPress}>
         <View style={styles.button}>
           <Animated.View
             style={{opacity: animatedOpacity}}
@@ -81,7 +74,7 @@ export const TabBarMiningItem = () => {
             <MiningInactiveIcon width={rem(62)} height={rem(62)} />
           </Animated.View>
         </View>
-      </TouchableWithoutFeedback>
+      </Touchable>
     </ImageBackground>
   );
 };

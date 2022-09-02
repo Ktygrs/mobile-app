@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {usePickImage} from '@components/Avatar/hooks/usePickImage';
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {useActionSheet} from '@hooks/useActionSheet';
 import {CameraIcon} from '@svg/CameraIcon';
@@ -14,7 +15,6 @@ import {
   ImageStyle,
   StyleProp,
   StyleSheet,
-  TouchableOpacity,
   View,
   ViewStyle,
 } from 'react-native';
@@ -89,11 +89,11 @@ export const EditableAvatar = memo(
             />
           )}
         </View>
-        <TouchableOpacity style={styles.button} onPress={onEditPress}>
+        <Touchable style={styles.button} onPress={onEditPress}>
           <View style={styles.penWrapper}>
             <PenIcon width={rem(10)} height={rem(10)} />
           </View>
-        </TouchableOpacity>
+        </Touchable>
       </View>
     );
   },

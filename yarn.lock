@@ -2297,6 +2297,11 @@
   dependencies:
     merge-options "^3.0.4"
 
+"@react-native-clipboard/clipboard@^1.10.0":
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/@react-native-clipboard/clipboard/-/clipboard-1.10.0.tgz#605e784ed5435059c9b5db52b2d112f9fd09c409"
+  integrity sha512-1L+I0vmeUJgMi8MnNsqI00391/RFLkmmxj9qAuOS2madpvce/oNqJb8Pwk2Fc/uxIJSxOckTpq+dQwyPU6s+7w==
+
 "@react-native-community/cli-debugger-ui@^7.0.3":
   version "7.0.3"
   resolved "https://registry.yarnpkg.com/@react-native-community/cli-debugger-ui/-/cli-debugger-ui-7.0.3.tgz#3eeeacc5a43513cbcae56e5e965d77726361bcb4"
@@ -9871,6 +9876,11 @@ react-native-sha256@^1.4.7:
   version "1.4.7"
   resolved "https://registry.yarnpkg.com/react-native-sha256/-/react-native-sha256-1.4.7.tgz#cef05260a3a3a17cd70727170d0c187ef7cefb8c"
   integrity sha512-VcIjOBGvHG6V2OCgbGnEKOymcatYC7byf1aM6mmCoUDqOUFQrGIjnU9fUMWGoMERAljVqisvsG/M1GdfhilkFg==
+
+react-native-share@^7.6.4:
+  version "7.8.0"
+  resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-7.8.0.tgz#93d72202a2ace920e21a1179bc2e0d807c9c71c3"
+  integrity sha512-xD05WIL+F4/sa6AHayeOn+mx7IHHqYhucyehIhzi6SypnzMh69fdg0BBOX9EW3nj0G6cn/mNm0Nbu9on9rP6PA==
 
 react-native-skeleton-placeholder@^5.0.0:
   version "5.0.0"

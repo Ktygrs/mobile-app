@@ -1,18 +1,12 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {RightArrowSvg} from '@svg/RightArrow';
 import {font} from '@utils/styles';
 import React from 'react';
-import {
-  Image,
-  ImageSourcePropType,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Image, ImageSourcePropType, StyleSheet, Text, View} from 'react-native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import {rem} from 'rn-units';
 
@@ -30,7 +24,7 @@ export const CurrentRoleCard = ({
   onNextPress,
 }: Props) => {
   return (
-    <TouchableOpacity onPress={onNextPress}>
+    <Touchable onPress={onNextPress}>
       <View style={styles.container}>
         <Image source={imageSource} style={styles.icon} />
         <View style={styles.info}>
@@ -50,7 +44,7 @@ export const CurrentRoleCard = ({
 
         <RightArrowSvg style={styles.arrowNext} />
       </View>
-    </TouchableOpacity>
+    </Touchable>
   );
 };
 

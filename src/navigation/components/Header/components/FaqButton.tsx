@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {SMALL_BUTTON_HIT_SLOP} from '@constants/styles';
 import {MainTabsParamList} from '@navigation/Main';
@@ -7,7 +8,7 @@ import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {useNavigation} from '@react-navigation/native';
 import {FaqIcon} from '@svg/FaqIcon';
 import React from 'react';
-import {StyleProp, TouchableOpacity, View, ViewStyle} from 'react-native';
+import {StyleProp, View, ViewStyle} from 'react-native';
 
 type Props = {
   containerStyle?: StyleProp<ViewStyle>;
@@ -22,11 +23,11 @@ export const FaqButton = ({
     useNavigation<BottomTabNavigationProp<MainTabsParamList>>();
   return (
     <View style={containerStyle}>
-      <TouchableOpacity
+      <Touchable
         onPress={() => navigation.navigate('HomeTab')}
         hitSlop={SMALL_BUTTON_HIT_SLOP}>
         <FaqIcon fill={color} />
-      </TouchableOpacity>
+      </Touchable>
     </View>
   );
 };

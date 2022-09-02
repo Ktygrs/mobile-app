@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {commonStyles, SMALL_BUTTON_HIT_SLOP} from '@constants/styles';
 import {MainStackParamList} from '@navigation/Main';
@@ -9,7 +10,7 @@ import {InfoOutlineIcon} from '@svg/InfoOutlineIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {rem} from 'rn-units';
 
 export const WALLET_HEIGHT = rem(160);
@@ -26,7 +27,7 @@ export const Wallet = memo(() => {
           <Text style={styles.balanceValueDecimalsText}> 99</Text>
           <Text style={styles.balanceCurrencyText}> ice</Text>
         </View>
-        <TouchableOpacity
+        <Touchable
           hitSlop={SMALL_BUTTON_HIT_SLOP}
           style={styles.infoButton}
           onPress={() => navigation.navigate('Balance')}>
@@ -35,7 +36,7 @@ export const Wallet = memo(() => {
             width={rem(16)}
             height={rem(16)}
           />
-        </TouchableOpacity>
+        </Touchable>
       </View>
       <View style={styles.miningRate}>
         <Text style={styles.rateLabelText}>{t('home.wallet.rate')}</Text>

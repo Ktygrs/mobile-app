@@ -3,6 +3,7 @@
 import {DataCellSeparator} from '@components/DataCell';
 import {stopPropagination} from '@components/KeyboardDismiss';
 import {PrimaryButton} from '@components/PrimaryButton';
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {useNavigation} from '@react-navigation/native';
@@ -13,19 +14,13 @@ import {StakeIcon} from '@svg/StakeIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {rem} from 'rn-units';
 
 export const Balance = () => {
   const navigation = useNavigation();
   return (
-    <TouchableWithoutFeedback onPress={navigation.goBack}>
+    <Touchable onPress={navigation.goBack}>
       <View style={styles.background}>
         <View style={styles.container} {...stopPropagination}>
           <Text style={styles.titleText}>{t('balance_popup.title')}</Text>
@@ -47,18 +42,16 @@ export const Balance = () => {
               />
             }
           />
-          <TouchableOpacity
-            style={styles.closeButton}
-            onPress={navigation.goBack}>
+          <Touchable style={styles.closeButton} onPress={navigation.goBack}>
             <CloseIcon
               width={rem(14)}
               height={rem(14)}
               color={COLORS.primaryDark}
             />
-          </TouchableOpacity>
+          </Touchable>
         </View>
       </View>
-    </TouchableWithoutFeedback>
+    </Touchable>
   );
 };
 

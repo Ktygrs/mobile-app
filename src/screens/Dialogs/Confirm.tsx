@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {MainStackParamList} from '@navigation/Main';
@@ -15,7 +16,6 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import {rem} from 'rn-units';
 
 export type ConfirmButton = {
@@ -51,7 +51,7 @@ export const Confirm = () => {
         {!!subtitle && <Text style={styles.subtitleText}>{subtitle}</Text>}
         <View style={styles.buttons}>
           {buttons.map(button => (
-            <TouchableOpacity
+            <Touchable
               key={button.label}
               style={[
                 styles.button,
@@ -74,7 +74,7 @@ export const Confirm = () => {
                 ]}>
                 {button.label}
               </Text>
-            </TouchableOpacity>
+            </Touchable>
           ))}
         </View>
       </View>

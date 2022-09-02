@@ -673,7 +673,7 @@
 					"-lc++",
 				);
 				PRODUCT_NAME = ice;
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore io.ice.appstaging";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "ice-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -768,7 +768,7 @@
 					"-lc++",
 				);
 				PRODUCT_NAME = ice;
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore io.ice.app.staging";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "ice-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

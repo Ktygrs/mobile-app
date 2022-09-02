@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Touchable} from '@components/Touchable';
 import {Images} from '@images';
 import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
 import React from 'react';
@@ -7,7 +8,6 @@ import {
   ImageBackground,
   StyleProp,
   StyleSheet,
-  TouchableOpacity,
   View,
   ViewStyle,
 } from 'react-native';
@@ -61,16 +61,17 @@ export const TabBarItem = ({
         style={styles.container}
         source={Images.tabbar.itemBackground}>
         <View style={styles.body}>
-          <TouchableOpacity
+          <Touchable
             accessibilityRole="button"
             accessibilityState={isFocused ? {selected: true} : {}}
             accessibilityLabel={options.tabBarAccessibilityLabel}
             testID={options.tabBarTestID}
             onPress={onPress}
             onLongPress={onLongPress}
-            style={[styles.button, buttonStyle]}>
+            style={[styles.button, buttonStyle]}
+            activeOpacity={1}>
             {icon}
-          </TouchableOpacity>
+          </Touchable>
         </View>
       </ImageBackground>
     </View>

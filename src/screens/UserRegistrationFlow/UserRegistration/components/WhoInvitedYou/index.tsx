@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {CommonInput} from '@components/CommonInput';
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {InfoIcon} from '@svg/InfoIcon';
 import {TicketIconSvg} from '@svg/Ticket';
@@ -9,7 +10,7 @@ import {WhoInvitedYouSvg} from '@svg/WhoInvitedYou';
 import {translate} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React, {useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {rem, screenHeight} from 'rn-units';
 
 interface WhoInvitedYouProps {
@@ -60,17 +61,17 @@ export const WhoInvitedYou = ({
         />
 
         <View style={styles.dontHaveCodeContainer}>
-          <TouchableOpacity style={styles.infoButton} onPress={showTip}>
+          <Touchable style={styles.infoButton} onPress={showTip}>
             <InfoIcon />
-          </TouchableOpacity>
+          </Touchable>
           <Text style={styles.dontHaveCodeText}>
             {translate('whoInvitedYou.dontHaveInvitationCode')}
           </Text>
-          <TouchableOpacity onPress={onSkip}>
+          <Touchable onPress={onSkip}>
             <Text style={styles.tapHere}>
               {translate('whoInvitedYou.tapHere')}
             </Text>
-          </TouchableOpacity>
+          </Touchable>
         </View>
         {isTipVisible ? (
           <View style={styles.tipWrapper}>
@@ -87,12 +88,9 @@ export const WhoInvitedYou = ({
       </View>
 
       {isTipVisible ? (
-        <TouchableOpacity
-          style={StyleSheet.absoluteFill}
-          onPress={hideTip}
-          activeOpacity={1}>
+        <Touchable style={StyleSheet.absoluteFill} onPress={hideTip}>
           <View />
-        </TouchableOpacity>
+        </Touchable>
       ) : null}
     </View>
   );

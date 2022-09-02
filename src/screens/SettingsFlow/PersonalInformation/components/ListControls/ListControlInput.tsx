@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Touchable} from '@components/Touchable';
 import {ListControlBase} from '@screens/SettingsFlow/PersonalInformation/components/ListControls/ListControlBase';
 import {font} from '@utils/styles';
 import React, {memo, useRef} from 'react';
 import {StyleSheet, TextInputProps} from 'react-native';
-import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
+import {TextInput} from 'react-native-gesture-handler';
 
 type Props = {
   label: string;
@@ -13,11 +14,11 @@ type Props = {
 export const ListControlInput = memo(({label, ...inputProps}: Props) => {
   const inputRef = useRef<TextInput>(null);
   return (
-    <TouchableOpacity onPress={() => inputRef.current?.focus()}>
+    <Touchable onPress={() => inputRef.current?.focus()}>
       <ListControlBase label={label}>
         <TextInput style={styles.input} {...inputProps} ref={inputRef} />
       </ListControlBase>
-    </TouchableOpacity>
+    </Touchable>
   );
 });
 

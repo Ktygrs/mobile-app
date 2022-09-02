@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Touchable} from '@components/Touchable';
 import {AppleIconSvg} from '@svg/AppleIcon';
 import {DiscordIconSvg} from '@svg/DiscordIcon';
 import {FacebookIconSvg} from '@svg/FacebookIcon';
@@ -7,7 +8,7 @@ import {FollowTwitterIconSvg} from '@svg/FollowTwitterIcon';
 import {GoogleIconSvg} from '@svg/GoogleIcon';
 import {MicrosoftIconSvg} from '@svg/MicrosoftIcon';
 import * as React from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {isIOS, rem} from 'rn-units';
 
 export enum ESocialType {
@@ -28,42 +29,34 @@ export const SocialSignIn = ({onPress}: SocialSignInProps) => {
   return (
     <View style={styles.container}>
       {isIOS ? (
-        <TouchableOpacity
-          style={styles.button}
-          onPress={iconPress(ESocialType.apple)}>
+        <Touchable style={styles.button} onPress={iconPress(ESocialType.apple)}>
           <AppleIconSvg />
-        </TouchableOpacity>
+        </Touchable>
       ) : null}
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={iconPress(ESocialType.google)}>
+      <Touchable style={styles.button} onPress={iconPress(ESocialType.google)}>
         <GoogleIconSvg />
-      </TouchableOpacity>
+      </Touchable>
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={iconPress(ESocialType.discord)}>
+      <Touchable style={styles.button} onPress={iconPress(ESocialType.discord)}>
         <DiscordIconSvg />
-      </TouchableOpacity>
+      </Touchable>
 
-      <TouchableOpacity
+      <Touchable
         style={styles.button}
         onPress={iconPress(ESocialType.facebook)}>
         <FacebookIconSvg />
-      </TouchableOpacity>
+      </Touchable>
 
-      <TouchableOpacity
+      <Touchable
         style={styles.button}
         onPress={iconPress(ESocialType.microsoft)}>
         <MicrosoftIconSvg />
-      </TouchableOpacity>
+      </Touchable>
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={iconPress(ESocialType.twitter)}>
+      <Touchable style={styles.button} onPress={iconPress(ESocialType.twitter)}>
         <FollowTwitterIconSvg />
-      </TouchableOpacity>
+      </Touchable>
     </View>
   );
 };

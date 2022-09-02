@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {commonStyles} from '@constants/styles';
 import {HomeTabStackParamList} from '@navigation/Main';
@@ -11,13 +12,7 @@ import {StatsIcon} from '@svg/StatsIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {rem} from 'rn-units';
 
 export const HomeMenu = memo(() => {
@@ -31,7 +26,7 @@ export const HomeMenu = memo(() => {
   const onHelpPress = navigation.goBack;
 
   return (
-    <TouchableWithoutFeedback onPress={navigation.goBack}>
+    <Touchable onPress={navigation.goBack}>
       <View style={styles.container}>
         <View
           style={[
@@ -39,22 +34,20 @@ export const HomeMenu = memo(() => {
             commonStyles.shadow,
             {top, right, bottom, left},
           ]}>
-          <TouchableOpacity
-            style={styles.menuItem}
-            onPress={onNotificationsPress}>
+          <Touchable style={styles.menuItem} onPress={onNotificationsPress}>
             <BellIcon fill={COLORS.downriver} />
             <Text style={styles.menuItemText}>
               {t('home.menu.notifications')}
             </Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.menuItem} onPress={onStatsPress}>
+          </Touchable>
+          <Touchable style={styles.menuItem} onPress={onStatsPress}>
             <StatsIcon fill={COLORS.downriver} />
             <Text style={styles.menuItemText}>{t('home.menu.stats')}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.menuItem} onPress={onHelpPress}>
+          </Touchable>
+          <Touchable style={styles.menuItem} onPress={onHelpPress}>
             <ChatBubblesIcon fill={COLORS.downriver} />
             <Text style={styles.menuItemText}>{t('home.menu.help')}</Text>
-          </TouchableOpacity>
+          </Touchable>
           <RoundedTriangle
             fill={COLORS.white}
             width={rem(24)}
@@ -63,7 +56,7 @@ export const HomeMenu = memo(() => {
           />
         </View>
       </View>
-    </TouchableWithoutFeedback>
+    </Touchable>
   );
 });
 

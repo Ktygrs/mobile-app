@@ -1,18 +1,11 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {font} from '@utils/styles';
 import React from 'react';
-import {
-  StyleProp,
-  StyleSheet,
-  Text,
-  TextStyle,
-  TouchableOpacity,
-  ViewStyle,
-} from 'react-native';
+import {StyleProp, StyleSheet, Text, TextStyle, ViewStyle} from 'react-native';
 import {rem} from 'rn-units';
-
 interface ButtonProps {
   onPress: () => void;
   text: string;
@@ -33,7 +26,7 @@ export const Button = ({
   disabled,
 }: ButtonProps) => {
   return (
-    <TouchableOpacity
+    <Touchable
       style={[styles.container, style, disabled ? styles.disabled : null]}
       onPress={onPress}
       disabled={disabled}>
@@ -43,7 +36,7 @@ export const Button = ({
         {text}
       </Text>
       {rightIcon || null}
-    </TouchableOpacity>
+    </Touchable>
   );
 };
 

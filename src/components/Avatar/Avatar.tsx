@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Touchable} from '@components/Touchable';
 import {MainStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {getImageUriForSize} from '@utils/file';
 import React, {memo, useMemo, useRef} from 'react';
-import {ImageStyle, StyleProp, TouchableWithoutFeedback} from 'react-native';
+import {ImageStyle, StyleProp} from 'react-native';
 import Animated from 'react-native-reanimated';
 import {rem} from 'rn-units';
 
@@ -57,11 +58,7 @@ export const Avatar = memo(
       const onAvatarPress = () => {
         navigation.navigate('ImageView', {uri, size, borderRadius, imageRef});
       };
-      return (
-        <TouchableWithoutFeedback onPress={onAvatarPress}>
-          {ImageComponent}
-        </TouchableWithoutFeedback>
-      );
+      return <Touchable onPress={onAvatarPress}>{ImageComponent}</Touchable>;
     }
 
     return ImageComponent;

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {Country} from '@constants/countries';
 import {ArrowDownIcon} from '@svg/ArrowDownIcon';
@@ -13,7 +14,6 @@ import {
   Text,
   TextInput,
   TextInputProps,
-  TouchableOpacity,
   View,
   ViewStyle,
 } from 'react-native';
@@ -39,7 +39,7 @@ export const PhoneNumberInput = forwardRef(
   ) => {
     return (
       <View style={[styles.container, containerStyle]}>
-        <TouchableOpacity
+        <Touchable
           style={styles.countryIconContainer}
           onPress={showCountryCodeSearch}>
           <View style={styles.countryCodeWrapper}>
@@ -47,7 +47,7 @@ export const PhoneNumberInput = forwardRef(
 
             <ArrowDownIcon />
           </View>
-        </TouchableOpacity>
+        </Touchable>
 
         <Text style={styles.code}>{selectedCountry.iddCode}</Text>
 

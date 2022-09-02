@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {SMALL_BUTTON_HIT_SLOP} from '@constants/styles';
 import {CheckMarkIcon} from '@svg/CheckMarkIcon';
 import React from 'react';
 import {StyleProp, ViewStyle} from 'react-native';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {rem} from 'rn-units';
 
 type Props = {
@@ -16,7 +17,7 @@ type Props = {
 
 export const CheckBox = ({value, onValueChange, style}: Props) => {
   return (
-    <TouchableOpacity
+    <Touchable
       onPress={() => onValueChange(!value)}
       hitSlop={SMALL_BUTTON_HIT_SLOP}>
       <View style={[styles.checkFrame, style]}>
@@ -28,7 +29,7 @@ export const CheckBox = ({value, onValueChange, style}: Props) => {
           />
         ) : null}
       </View>
-    </TouchableOpacity>
+    </Touchable>
   );
 };
 
