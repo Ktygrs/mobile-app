@@ -17,5 +17,6 @@ export function* deleteAccountSaga() {
     yield put(AuthActions.SIGN_OUT.START.create());
   } catch (error) {
     yield put(AuthActions.DELETE_ACCOUNT.FAILED.create(getErrorMessage(error)));
+    throw error;
   }
 }

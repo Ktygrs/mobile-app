@@ -26,5 +26,6 @@ export function* updateDeviceLocationSaga() {
         getErrorMessage(error),
       ),
     );
+    throw error;
   }
 }

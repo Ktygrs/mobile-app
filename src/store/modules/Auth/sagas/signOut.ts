@@ -10,5 +10,6 @@ export function* signOutSaga() {
     yield put(AuthActions.SIGN_OUT.SUCCESS.create());
   } catch (error) {
     yield put(AuthActions.SIGN_OUT.FAILED.create());
+    throw error;
   }
 }

@@ -11,6 +11,7 @@ import {
   usernameSelector,
 } from '@store/modules/Validation/selectors';
 import {t} from '@translations/i18n';
+import {getErrorMessage} from '@utils/errors';
 import {e164PhoneNumber, hashPhoneNumber} from '@utils/phoneNumber';
 import {call, put, select} from 'redux-saga/effects';
 
@@ -59,7 +60,11 @@ export function* createUserSaga() {
       localizedError = t('errors.validation_error');
     } else if (isApiError(error, 404, 'REFERRAL_NOT_FOUND')) {
       localizedError = t('errors.ref_not_found');
+    } else {
+      localizedError = getErrorMessage(error);
     }
+
     yield put(AuthActions.CREATE_USER.FAILED.create(localizedError));
+    throw error;
   }
 }

@@ -29,5 +29,6 @@ export function* inviteContactSaga(action: ReturnType<typeof actionCreator>) {
     yield put(TeamActions.INVITE_CONTACT.SUCCESS.create(id));
   } catch (error) {
     yield put(TeamActions.INVITE_CONTACT.FAILED.create(getErrorMessage(error)));
+    throw error;
   }
 }

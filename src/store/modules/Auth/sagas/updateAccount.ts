@@ -27,5 +27,6 @@ export function* updateAccountSaga(action: ReturnType<typeof actionCreator>) {
     yield put(AuthActions.UPDATE_ACCOUNT.SUCCESS.create(result));
   } catch (error) {
     yield put(AuthActions.UPDATE_ACCOUNT.FAILED.create(getErrorMessage(error)));
+    throw error;
   }
 }

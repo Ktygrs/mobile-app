@@ -14,5 +14,6 @@ export function* getTopCountriesSaga() {
     yield put(
       StatisticsActions.GET_TOP_COUNTRIES.FAILED.create(getErrorMessage(error)),
     );
+    throw error;
   }
 }

@@ -5,7 +5,6 @@ import {ENV} from '@constants/env';
 import axios, {AxiosError, AxiosInstance} from 'axios';
 import {backOff} from 'exponential-backoff';
 
-import {handleServiceError} from './ApiServiceErrors';
 import {requestInterceptor} from './interceptors/request';
 import {responseInterceptor} from './interceptors/response';
 
@@ -51,80 +50,55 @@ export async function post<TRequest, TResponse>(
   path: string,
   payload: TRequest,
 ): Promise<TResponse> {
-  try {
-    const response = await backOff(
-      async () => writeClient.post<TResponse>(path, payload),
-      backOffOptions,
-    );
-    return response.data;
-  } catch (error) {
-    handleServiceError(error);
-    throw error;
-  }
+  const response = await backOff(
+    async () => writeClient.post<TResponse>(path, payload),
+    backOffOptions,
+  );
+  return response.data;
 }
 
 export async function patch<TRequest, TResponse>(
   path: string,
   payload: TRequest,
 ): Promise<TResponse> {
-  try {
-    const response = await backOff(
-      async () => writeClient.patch<TResponse>(path, payload),
-      backOffOptions,
-    );
-    return response.data;
-  } catch (error) {
-    handleServiceError(error);
-    throw error;
-  }
+  const response = await backOff(
+    async () => writeClient.patch<TResponse>(path, payload),
+    backOffOptions,
+  );
+  return response.data;
 }
 
 export async function put<TRequest, TResponse>(
   path: string,
   payload: TRequest,
 ): Promise<TResponse> {
-  try {
-    const response = await backOff(
-      async () => writeClient.put<TResponse>(path, payload),
-      backOffOptions,
-    );
-    return response.data;
-  } catch (error) {
-    handleServiceError(error);
-    throw error;
-  }
+  const response = await backOff(
+    async () => writeClient.put<TResponse>(path, payload),
+    backOffOptions,
+  );
+  return response.data;
 }
 
 export async function get<TResponse>(
   path: string,
   queryParams?: {[key: string]: string | number},
 ): Promise<TResponse> {
-  try {
-    const response = await backOff(
-      async () => readClient.get<TResponse>(path, {params: queryParams}),
-      backOffOptions,
-    );
-    return response.data;
-  } catch (error) {
-    handleServiceError(error);
-    throw error;
-  }
+  const response = await backOff(
+    async () => readClient.get<TResponse>(path, {params: queryParams}),
+    backOffOptions,
+  );
+  return response.data;
 }
 
 export async function del<TResponse>(
   path: string,
   queryParams?: {[key: string]: string | number},
 ): Promise<TResponse> {
-  try {
-    const response = await backOff(
-      async () => writeClient.delete<TResponse>(path, {params: queryParams}),
-      backOffOptions,
-    );
-    return response.data;
-  } catch (error) {
-    handleServiceError(error);
-    throw error;
-  }
+  const response = await backOff(
+    async () => writeClient.delete<TResponse>(path, {params: queryParams}),
+    backOffOptions,
+  );
+  return response.data;
 }
 
 export const isApiError = (

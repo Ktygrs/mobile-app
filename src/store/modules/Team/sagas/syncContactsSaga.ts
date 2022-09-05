@@ -78,5 +78,6 @@ export function* syncContactsSaga() {
     yield put(TeamActions.SYNC_CONTACTS.SUCCESS.create(contacts));
   } catch (error) {
     yield put(TeamActions.SYNC_CONTACTS.FAILED.create(getErrorMessage(error)));
+    throw error;
   }
 }

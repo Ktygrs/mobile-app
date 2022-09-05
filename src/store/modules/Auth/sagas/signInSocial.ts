@@ -48,5 +48,6 @@ export function* signInSocialSaga(action: ReturnType<typeof actionCreator>) {
     yield put(AuthActions.SIGN_IN_SOCIAL.SUCCESS.create(result));
   } catch (error) {
     yield put(AuthActions.SIGN_IN_SOCIAL.FAILED.create());
+    throw error;
   }
 }

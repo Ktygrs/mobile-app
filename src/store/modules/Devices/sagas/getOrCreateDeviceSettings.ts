@@ -7,6 +7,7 @@ import {userIdSelector} from '@store/modules/Auth/selectors';
 import {DeviceActions} from '@store/modules/Devices/actions';
 import {deviceUniqueIdSelector} from '@store/modules/Devices/selectors';
 import i18n from '@translations/i18n';
+import {getErrorMessage} from '@utils/errors';
 import {call, put, SagaReturnType, select} from 'redux-saga/effects';
 
 export function* getOrCreateDeviceSettingsSaga() {
@@ -20,10 +21,12 @@ export function* getOrCreateDeviceSettingsSaga() {
       yield call(getOrCreateDeviceSettings, {userId, deviceUniqueId});
     yield put(DeviceActions.GET_OR_CREATE_SETTINGS.SUCCESS.create(settings));
   } catch (error) {
-    //TODO:: get error message
     yield put(
-      DeviceActions.GET_OR_CREATE_SETTINGS.FAILED.create('error message here'),
+      DeviceActions.GET_OR_CREATE_SETTINGS.FAILED.create(
+        getErrorMessage(error),
+      ),
     );
+    throw error;
   }
 }
 

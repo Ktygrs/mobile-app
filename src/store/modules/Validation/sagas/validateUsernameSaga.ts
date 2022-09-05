@@ -4,6 +4,7 @@ import {isApiError} from '@api/client';
 import {Api} from '@api/index';
 import {ValidationActions} from '@store/modules/Validation/actions';
 import {t} from '@translations/i18n';
+import {getErrorMessage} from '@utils/errors';
 import {call, put, SagaReturnType} from 'redux-saga/effects';
 
 const actionCreator = ValidationActions.USERNAME_VALIDATION.START.create;
@@ -34,9 +35,10 @@ export function* validateUsernameSaga(
     } else {
       yield put(
         ValidationActions.USERNAME_VALIDATION.FAILED.create(
-          t('username.error.some_error'),
+          getErrorMessage(error),
         ),
       );
     }
+    throw error;
   }
 }

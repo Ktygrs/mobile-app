@@ -31,5 +31,6 @@ export function* phoneValidationSaga(action: ReturnType<typeof actionCreator>) {
     yield put(
       ValidationActions.PHONE_VALIDATION.FAILED.create(getErrorMessage(error)),
     );
+    throw error;
   }
 }

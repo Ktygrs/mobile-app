@@ -21,5 +21,6 @@ export function* searchUsersSaga(action: ReturnType<typeof actionCreator>) {
     yield put(TeamActions.SEARCH_USERS.SUCCESS.create(result, {query, offset}));
   } catch (error) {
     yield put(TeamActions.SEARCH_USERS.FAILED.create(getErrorMessage(error)));
+    throw error;
   }
 }

@@ -22,5 +22,6 @@ export function* getReferralsHistorySaga(
         getErrorMessage(error),
       ),
     );
+    throw error;
   }
 }

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {configureStore} from '@reduxjs/toolkit';
+import {loggingReduxEnhancer} from '@services/logging';
 import {
   FLUSH,
   PAUSE,
@@ -32,6 +33,7 @@ export const store = configureStore({
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }).concat(middlewares),
+  enhancers: [loggingReduxEnhancer],
 });
 
 const persistor = persistStore(store);

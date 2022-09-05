@@ -12,7 +12,7 @@ import {PersistGate} from 'redux-persist/integration/react';
 
 import {configuredStore} from './store/configureStore';
 
-export function App(): React.ReactNode {
+export function App() {
   return (
     <SafeAreaProvider>
       <Provider store={configuredStore.store}>

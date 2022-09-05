@@ -72,5 +72,6 @@ export function* getPermissionsSaga(action: ReturnType<typeof actionCreator>) {
     yield put(
       PermissionsActions.GET_PERMISSIONS.FAILED.create(getErrorMessage(error)),
     );
+    throw error;
   }
 }

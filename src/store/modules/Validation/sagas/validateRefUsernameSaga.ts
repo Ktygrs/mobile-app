@@ -6,6 +6,7 @@ import {User} from '@api/user/types';
 import {ValidationActions} from '@store/modules/Validation/actions';
 import {usernameSelector} from '@store/modules/Validation/selectors';
 import {t} from '@translations/i18n';
+import {getErrorMessage} from '@utils/errors';
 import {call, put, select} from 'redux-saga/effects';
 
 const actionCreator = ValidationActions.REF_USERNAME_VALIDATION.START.create;
@@ -47,8 +48,11 @@ export function* validateRefUsernameSaga(
       );
     } else {
       yield put(
-        ValidationActions.REF_USERNAME_VALIDATION.FAILED.create('SOME ERROR'),
+        ValidationActions.REF_USERNAME_VALIDATION.FAILED.create(
+          getErrorMessage(error),
+        ),
       );
     }
+    throw error;
   }
 }

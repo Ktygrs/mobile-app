@@ -6,6 +6,7 @@ import {userIdSelector} from '@store/modules/Auth/selectors';
 import {DeviceActions} from '@store/modules/Devices/actions';
 import {deviceUniqueIdSelector} from '@store/modules/Devices/selectors';
 import {t} from '@translations/i18n';
+import {getErrorMessage} from '@utils/errors';
 import {merge} from 'lodash';
 import {I18nManager} from 'react-native';
 import RNRestart from 'react-native-restart';
@@ -62,9 +63,9 @@ export function* updateDeviceSettingsSaga(
       RNRestart.Restart();
     }
   } catch (error) {
-    //TODO:: get error message
     yield put(
-      DeviceActions.UPDATE_SETTINGS.FAILED.create('error message here'),
+      DeviceActions.UPDATE_SETTINGS.FAILED.create(getErrorMessage(error)),
     );
+    throw error;
   }
 }

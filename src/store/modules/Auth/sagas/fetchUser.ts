@@ -29,6 +29,7 @@ export function* fetchUserSaga() {
     }
   } catch (error) {
     yield put(AuthActions.FETCH_USER.FAILED.create(getErrorMessage(error)));
+    throw error;
   }
 }
 

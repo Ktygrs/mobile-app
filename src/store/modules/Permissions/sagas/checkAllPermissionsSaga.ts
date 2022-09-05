@@ -37,5 +37,6 @@ export function* checkAllPermissionsSaga() {
         getErrorMessage(error),
       ),
     );
+    throw error;
   }
 }

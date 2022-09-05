@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {logError} from '@services/logging';
 import {all, call, spawn} from 'redux-saga/effects';
 
 import {rootAppCommonSaga} from './modules/AppCommon/sagas';
@@ -25,22 +26,14 @@ export function* rootSaga() {
     rootAppCommonSaga,
   ];
   yield all([
-    ...sagas.map((saga, index) =>
+    ...sagas.map(saga =>
       spawn(function* () {
         while (true) {
           try {
             yield call(saga);
             break;
           } catch (error) {
-            console.log('One of rootSaga will be restarted. Error:', error);
-
-            const logError = new Error();
-            logError.message = `Crash of Saga #${index} // name: ${
-              saga.name
-            } // Error: ${(error as Error).message}`;
-            logError.stack = (error as Error).stack;
-
-            console.log(`Log this error to Crashlytics ${logError}`);
+            logError(error);
           }
         }
       }),

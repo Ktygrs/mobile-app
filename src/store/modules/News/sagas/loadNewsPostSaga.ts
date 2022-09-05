@@ -31,5 +31,6 @@ export function* loadNewsPostSaga(action: ReturnType<typeof actionCreator>) {
         getErrorMessage(error),
       ),
     );
+    throw error;
   }
 }

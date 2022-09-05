@@ -40,5 +40,6 @@ export function* signInPhoneSaga(action: ReturnType<typeof actionCreator>) {
     yield put(AuthActions.SIGN_IN_PHONE.SUCCESS.create(result));
   } catch (error) {
     yield put(AuthActions.SIGN_IN_PHONE.FAILED.create());
+    throw error;
   }
 }

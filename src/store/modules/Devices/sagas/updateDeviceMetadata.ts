@@ -155,5 +155,6 @@ export function* updateDeviceMetadataSaga() {
         DeviceActions.UPDATE_DEVICE_METADATA.FAILED.create(errorMessage),
       );
     }
+    throw error;
   }
 }

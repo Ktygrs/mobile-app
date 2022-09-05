@@ -32,5 +32,6 @@ export function* getReferralsSaga(action: ReturnType<typeof actionCreator>) {
         getErrorMessage(error),
       ),
     );
+    throw error;
   }
 }

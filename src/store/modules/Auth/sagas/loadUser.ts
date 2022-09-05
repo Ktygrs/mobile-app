@@ -40,5 +40,6 @@ export function* loadUserSaga() {
     }
   } catch (error) {
     yield put(AuthActions.LOAD_USER.STATE.create());
+    throw error;
   }
 }

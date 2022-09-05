@@ -36,5 +36,6 @@ export function* signInEmailSaga(action: ReturnType<typeof actionCreator>) {
     yield put(AuthActions.SIGN_IN_EMAIL.SUCCESS.create(result));
   } catch (error) {
     yield put(AuthActions.SIGN_IN_EMAIL.FAILED.create());
+    throw error;
   }
 }

@@ -2,7 +2,10 @@
 
 import {Initialization} from '@components/Initialization';
 import {theme} from '@navigation/theme';
-import {NavigationContainer} from '@react-navigation/native';
+import {
+  NavigationContainer,
+  useNavigationContainerRef,
+} from '@react-navigation/native';
 import {useAppLoadedDispatcher} from '@store/modules/AppCommon/hooks/useAppLoadedDispatcher';
 import {useAppStateListener} from '@store/modules/AppCommon/hooks/useAppStateListener';
 import {isAppInitializedSelector} from '@store/modules/AppCommon/selectors';
@@ -10,7 +13,7 @@ import {
   isWelcomeSeenSelector,
   userSelector,
 } from '@store/modules/Auth/selectors';
-import React from 'react';
+import React, {useCallback} from 'react';
 import {LogBox} from 'react-native';
 import RNBootSplash from 'react-native-bootsplash';
 import {useSelector} from 'react-redux';
@@ -23,6 +26,8 @@ import {useSelector} from 'react-redux';
 LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',
 ]);
+
+import {routingInstrumentation} from '@services/logging';
 
 import {AuthNavigator} from './Auth';
 import {MainNavigator} from './Main';
@@ -44,9 +49,15 @@ function ActiveNavigator() {
 export function Router() {
   useAppLoadedDispatcher();
   useAppStateListener();
+  const navigationRef = useNavigationContainerRef();
+
+  const onReady = useCallback(() => {
+    routingInstrumentation.registerNavigationContainer(navigationRef);
+    RNBootSplash.hide();
+  }, [navigationRef]);
 
   return (
-    <NavigationContainer theme={theme} onReady={RNBootSplash.hide}>
+    <NavigationContainer ref={navigationRef} theme={theme} onReady={onReady}>
       <ActiveNavigator />
     </NavigationContainer>
   );
