@@ -5,7 +5,7 @@ import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
 import {NewsContent} from '@screens/News/NewsContent';
 import {NewsActions} from '@store/modules/News/actions';
 import React, {useEffect} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch} from 'react-redux';
 
@@ -18,19 +18,13 @@ export const News = () => {
 
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
-      <View style={styles.content}>
-        <NewsContent />
-      </View>
+      <NewsContent />
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: COLORS.primaryLight,
-  },
-  content: {
     flex: 1,
     backgroundColor: COLORS.white,
   },

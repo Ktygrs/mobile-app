@@ -5,43 +5,57 @@ import {COLORS} from '@constants/colors';
 import {commonStyles} from '@constants/styles';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
 import {FeaturedPost} from '@screens/News/FeaturedPost';
+import {ClockIcon} from '@svg/ClockIcon';
+import {EyeIcon} from '@svg/EyeIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import dayjs from 'dayjs';
+import isToday from 'dayjs/plugin/isToday';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import React, {useCallback} from 'react';
 import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
 import {rem, screenWidth} from 'rn-units';
 
+dayjs.extend(isToday);
 dayjs.extend(relativeTime);
 
-const iconSize = 47;
+const iconWidth = rem(100);
+const iconHeight = rem(105);
 
 const news: NewsPost[] = [
   {
     id: '2',
-    title: 'New security update launched for\n' + 'the Ethereum network',
+    title: 'DeFi Yield Protocol (DYP) Anticipates Metaverse Platform Launch',
+    subtitle: 'DeFi Yield Protocol (DYP)...',
     createdAt: dayjs().subtract(30, 'minutes').toDate(),
-    illustration: require('./mockImages/newsPic2.png'),
+    illustration: require('./mockImages/newsPic3.png'),
     unread: true,
+    viewed: 100,
   },
   {
     id: '3',
-    title: 'New record sale on OpenSea during\n' + 'NFT “Black Friday”',
-    createdAt: dayjs().subtract(1, 'weeks').toDate(),
-    illustration: require('./mockImages/newsPic3.png'),
+    title:
+      'KuCoin & 15 More Crypto Exchanges Face Ire of South Korean Regulator',
+    subtitle: 'DeFi Yield Protocol (DYP)...',
+    createdAt: dayjs().subtract(30, 'minutes').toDate(),
+    illustration: require('./mockImages/newsPic4.png'),
+    viewed: 100,
   },
   {
     id: '4',
-    title: 'More evidence game devs hate\n' + 'NFTs and crypto',
-    createdAt: dayjs().subtract(2, 'weeks').toDate(),
-    illustration: require('./mockImages/newsPic4.png'),
+    title: 'Do We Truly Own Our Data Today?',
+    subtitle: 'DeFi Yield Protocol (DYP)...',
+    createdAt: dayjs().subtract(30, 'minutes').toDate(),
+    illustration: require('./mockImages/newsPic5.png'),
+    viewed: 100,
   },
   {
     id: '5',
-    title: 'Blockchain-enabled digital fashion\n' + 'creates new business',
-    createdAt: dayjs().subtract(5, 'months').toDate(),
-    illustration: require('./mockImages/newsPic5.png'),
+    title: 'DeFi Yield Protocol (DYP) Anticipates Metaverse Platform Launch',
+    subtitle: 'DeFi Yield Protocol (DYP)...',
+    createdAt: dayjs().subtract(30, 'minutes').toDate(),
+    illustration: require('./mockImages/newsPic3.png'),
+    viewed: 100,
   },
 ];
 
@@ -52,8 +66,8 @@ export const NewsContent = () => {
     return (
       <>
         <FeaturedPost />
-        <View style={styles.headerBox}>
-          <Text style={styles.header}>{t('news.news_feed')}</Text>
+        <View style={[commonStyles.baseSubScreen, styles.headerBox]}>
+          <Text style={styles.newsFeed}>{t('news.news_feed')}</Text>
         </View>
       </>
     );
@@ -66,13 +80,27 @@ export const NewsContent = () => {
           <Image source={item.illustration} style={styles.iconContainer} />
         )}
         <View style={styles.textContainer}>
-          <Text style={styles.title}>{item.title}</Text>
-          <Text style={[styles.updatedAt, item.unread ? styles.unread : {}]}>
-            <Text style={styles.unreadDot}>
-              {item.unread ? '\u2022 ' : null}
-            </Text>
-            {dayjs(item.createdAt).fromNow()}
+          <Text style={styles.title} numberOfLines={3}>
+            {item.title}
           </Text>
+          <Text style={styles.subtitle}>{item.subtitle}</Text>
+
+          <View style={styles.detailsContainer}>
+            <View style={styles.details}>
+              <ClockIcon color={COLORS.secondary} width={16} height={16} />
+              <Text style={styles.updatedAt}>
+                {dayjs(item.createdAt).isToday()
+                  ? t('news.today')
+                  : dayjs(item.createdAt).fromNow()}
+              </Text>
+            </View>
+            <View style={styles.details}>
+              <EyeIcon fill={COLORS.secondary} />
+              <Text style={styles.updatedAt}>{`${item.viewed} ${t(
+                'news.views',
+              )}`}</Text>
+            </View>
+          </View>
         </View>
       </View>
     );
@@ -96,51 +124,56 @@ const styles = StyleSheet.create({
     width: screenWidth,
   },
   headerBox: {
-    borderTopRightRadius: 20,
-    borderTopLeftRadius: 20,
-    flex: 1,
-    marginTop: rem(-15),
-    paddingTop: rem(22),
-    paddingBottom: rem(8),
-    overflow: 'hidden',
-    backgroundColor: COLORS.white,
-  },
-  header: {
-    marginLeft: rem(22),
-    marginVertical: rem(4),
-    ...font(18, 21.6, 'black', 'primaryDark'),
+    marginTop: -rem(32),
+    paddingTop: rem(28),
+    paddingBottom: rem(16),
+    marginBottom: -rem(16),
+    paddingLeft: rem(24),
   },
   itemContainer: {
+    alignItems: 'center',
     backgroundColor: COLORS.white,
-    marginVertical: rem(12),
-    padding: rem(13),
-    borderRadius: 16,
+    marginVertical: rem(9),
+    padding: rem(16),
+    borderRadius: rem(16),
     flexDirection: 'row',
     marginHorizontal: rem(24),
     ...commonStyles.shadow,
   },
   iconContainer: {
-    width: iconSize,
-    height: iconSize,
+    width: iconWidth,
+    height: iconHeight,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 11,
-    marginRight: 12,
+    borderRadius: rem(16),
+    marginRight: rem(14),
   },
   title: {
-    ...font(14, 16.8, 'bold', 'primaryDark'),
+    flex: 1,
+    ...font(14, 16.8, 'semibold', 'primaryDark'),
+  },
+  subtitle: {
+    flex: 1,
+    ...font(12, 14.4, 'semibold', 'secondary'),
   },
   textContainer: {
+    justifyContent: 'space-between',
     flex: 1,
   },
   updatedAt: {
-    alignSelf: 'flex-end',
-    ...font(13.5, 16.2, 'medium', 'emperor'),
+    marginLeft: rem(10),
+    alignSelf: 'flex-start',
+    ...font(12, 14, 'regular', 'secondary'),
   },
-  unread: {
-    ...font(13.5, 16.2, 'bold', 'primaryLight'),
+  details: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: rem(20),
   },
-  unreadDot: {
-    color: COLORS.shamrock,
+  newsFeed: {
+    ...font(15, 16, 'semibold', 'primaryDark'),
+  },
+  detailsContainer: {
+    flexDirection: 'row',
   },
 });

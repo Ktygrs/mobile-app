@@ -8,9 +8,11 @@ import {ImageSourcePropType} from 'react-native';
 export interface NewsPost {
   id: string;
   title: string | null;
+  subtitle?: string | null;
   description?: string | null;
   placeholderUrl?: string | null;
-  createdAt?: Date | null;
+  createdAt?: Date | string | null;
   illustration: ImageSourcePropType | null;
   unread?: boolean;
+  viewed?: number | null;
 }

@@ -4,21 +4,26 @@ import {NewsPost} from '@api/news/types';
 import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {SMALL_BUTTON_HIT_SLOP} from '@constants/styles';
+import {ClockIcon} from '@svg/ClockIcon';
+import {EyeIcon} from '@svg/EyeIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import dayjs from 'dayjs';
+import isToday from 'dayjs/plugin/isToday';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {rem, screenWidth} from 'rn-units';
 
+dayjs.extend(isToday);
 dayjs.extend(relativeTime);
 
 const featuredPost: NewsPost = {
   id: '1',
   title: 'ice Network Wallet will\n' + 'be released soon',
-  createdAt: dayjs().subtract(1, 'weeks').toDate(),
+  createdAt: dayjs().subtract(2, 'days').toDate(),
   illustration: require('./mockImages/newsBigPic.png'),
+  viewed: 100,
 };
 
 export const FeaturedPost = () => {
@@ -34,9 +39,16 @@ export const FeaturedPost = () => {
       <View style={styles.content}>
         <Text style={styles.title}>{featuredPost.title}</Text>
         <View style={styles.details}>
+          <ClockIcon color={COLORS.white} width={16} height={16} />
           <Text style={styles.updatedAt}>
-            {dayjs(featuredPost.createdAt).fromNow()}
+            {dayjs(featuredPost.createdAt).isToday()
+              ? t('news.today')
+              : dayjs(featuredPost.createdAt).fromNow()}
           </Text>
+          <EyeIcon fill={COLORS.white} />
+          <Text style={styles.updatedAt}>{`${featuredPost.viewed} ${t(
+            'news.views',
+          )}`}</Text>
           <Touchable
             hitSlop={SMALL_BUTTON_HIT_SLOP}
             style={styles.readMore}
@@ -55,13 +67,14 @@ const styles = StyleSheet.create({
   },
   content: {
     alignSelf: 'center',
-    marginBottom: rem(20),
+    marginBottom: rem(24),
     width: screenWidth - rem(46),
     position: 'absolute',
-    bottom: rem(4),
+    bottom: rem(18),
   },
   image: {
     width: screenWidth,
+    height: rem(407),
   },
   title: {
     ...font(28, 33.6, 'black'),
@@ -70,21 +83,23 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    marginVertical: rem(12),
+    marginTop: rem(8),
+    marginBottom: rem(6),
   },
   updatedAt: {
     flex: 1,
-    ...font(14.5, 17.4, 'medium'),
+    ...font(12, null, 'medium'),
+    paddingHorizontal: rem(8),
   },
   readMore: {
     alignSelf: 'flex-end',
-    backgroundColor: COLORS.primaryLight,
-    paddingHorizontal: rem(10),
-    paddingTop: rem(6),
-    paddingBottom: rem(8),
-    borderRadius: rem(8),
+    backgroundColor: COLORS.white,
+    paddingHorizontal: rem(18),
+    paddingTop: rem(4),
+    paddingBottom: rem(6),
+    borderRadius: rem(18),
   },
   readMoreText: {
-    ...font(13, null, 'medium'),
+    ...font(15, null, 'medium', 'primaryLight'),
   },
 });
