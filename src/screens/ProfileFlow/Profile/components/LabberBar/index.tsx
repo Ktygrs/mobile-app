@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
-import {LadderItem} from '@screens/ProfileFlow/Profile/components/UserInfo/components/LadderItem';
+import {LadderItem} from '@screens/ProfileFlow/Profile/components/LabberBar/components/LadderItem';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';

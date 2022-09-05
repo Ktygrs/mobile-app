@@ -5,12 +5,12 @@ import {COLORS} from '@constants/colors';
 import {commonStyles} from '@constants/styles';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
 import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
+import {AvatarHeader} from '@screens/ProfileFlow/Profile/components/AvatarHeader';
 import {Badges} from '@screens/ProfileFlow/Profile/components/Badges';
 import {Invite} from '@screens/ProfileFlow/Profile/components/Invite';
+import {LadderBar} from '@screens/ProfileFlow/Profile/components/LabberBar';
 import {MiningCalculator} from '@screens/ProfileFlow/Profile/components/MiningCalculator';
 import {Role} from '@screens/ProfileFlow/Profile/components/Role';
-import {AvatarHeader} from '@screens/ProfileFlow/Profile/components/UserInfo/components/AvatarHeader';
-import {LadderBar} from '@screens/ProfileFlow/Profile/components/UserInfo/components/LadderBar';
 import {userSelector} from '@store/modules/Auth/selectors';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
@@ -40,7 +40,7 @@ export const Profile = memo(() => {
         contentContainerStyle={[bottomOffset.current, styles.cardContainer]}
         onScroll={scrollHandler}
         showsVerticalScrollIndicator={false}>
-        <View style={styles.imageContainer}>
+        <View style={[styles.imageContainer, commonStyles.baseSubScreen]}>
           <LinesBackground />
           <Text style={styles.usernameText} numberOfLines={1}>
             {user?.username}
@@ -75,8 +75,6 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     marginTop: rem(20),
-    borderTopLeftRadius: rem(30),
-    borderTopRightRadius: rem(30),
     overflow: 'hidden',
   },
   usernameText: {

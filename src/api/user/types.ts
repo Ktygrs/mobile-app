@@ -1,14 +1,15 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 export type User = {
-  id?: string;
+  id: string;
+  username: string;
+  profilePictureUrl: string;
 
   city?: string | null;
   country?: string | null;
 
   firstName?: string | null;
   lastName?: string | null;
-  username?: string | null;
 
   email?: string | null;
 
@@ -20,7 +21,6 @@ export type User = {
     name: string;
     type: string;
   } | null;
-  profilePictureUrl?: string;
 
   referralCount?: number | null;
   agendaPhoneNumberHashes?: string | null;

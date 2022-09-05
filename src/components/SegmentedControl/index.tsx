@@ -29,7 +29,7 @@ import Animated, {
 import {rem} from 'rn-units';
 
 const DEFAULT_MARGIN = rem(8);
-const CONTROL_HEIGHT = rem(58);
+const CONTROL_HEIGHT = rem(52);
 
 type Segment = {
   text?: string;
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   indicator: {
-    borderRadius: 12,
+    borderRadius: rem(12),
     marginVertical: DEFAULT_MARGIN,
     position: 'absolute',
     top: 0,
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
   },
   text: {
     marginTop: rem(4),
-    ...font(17, 20.4, 'semibold'),
+    ...font(17, 20, 'semibold'),
   },
   activeText: {
     color: COLORS.white,

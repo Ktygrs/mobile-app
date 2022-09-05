@@ -7,7 +7,7 @@ import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
 import {EmptyTier} from '@screens/Team/components/TierList/components/EmptyTier';
 import {ListHeader} from '@screens/Team/components/TierList/components/Header';
-import {useReferrals} from '@screens/Team/components/TierList/hooks/useReferrals';
+import {useReferrals} from '@store/modules/Referrals/hooks/useReferrals';
 import {t} from '@translations/i18n';
 import React, {memo, useCallback, useMemo} from 'react';
 import {

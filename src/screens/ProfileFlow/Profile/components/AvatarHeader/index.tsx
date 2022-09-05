@@ -6,7 +6,7 @@ import {commonStyles} from '@constants/styles';
 import {useScrollShadow} from '@hooks/useScrollShadow';
 import {HEADER_HEIGHT} from '@navigation/components/Header';
 import {BackButton} from '@navigation/components/Header/components/BackButton';
-import {HeaderRightButtons} from '@screens/ProfileFlow/Profile/components/HeaderRightButtons';
+import {SettingsButton} from '@navigation/components/Header/components/SettingsButton';
 import {userSelector} from '@store/modules/Auth/selectors';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
@@ -128,7 +128,7 @@ export const AvatarHeader = memo(({uri, scrollY}: Props) => {
         </Animated.Text>
       </View>
       <View style={styles.rightContainer}>
-        <HeaderRightButtons />
+        <SettingsButton />
       </View>
     </Animated.View>
   );

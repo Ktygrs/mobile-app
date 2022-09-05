@@ -85,7 +85,7 @@ const DELETE_ACCOUNT = createAction('DELETE_ACCOUNT', {
 });
 
 const UPDATE_ACCOUNT = createAction('UPDATE_ACCOUNT', {
-  START: (userInfo: User) => ({userInfo}),
+  START: (userInfo: Partial<User>) => ({userInfo}),
   SUCCESS: (result: User) => ({result}),
   FAILED: (errorMessage: string) => ({
     errorMessage,
