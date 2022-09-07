@@ -50,7 +50,6 @@ export const ConfirmPhoneNumber = memo(() => {
         style={styles.container}
         behavior={isIOS ? 'padding' : undefined}>
         <Header
-          color={COLORS.white}
           title={t('personal_information.title')}
           renderRightButtons={LangButton}
         />

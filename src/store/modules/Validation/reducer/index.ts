@@ -8,7 +8,7 @@ import produce from 'immer';
 export interface State {
   username: string | null;
   refUser: User | null;
-  phoneVerificationStep: 'phone' | 'code';
+  temporaryPhoneNumber: string | null;
 }
 
 type Actions = ReturnType<
@@ -22,7 +22,7 @@ type Actions = ReturnType<
 const INITIAL_STATE: State = {
   username: null,
   refUser: null,
-  phoneVerificationStep: 'phone',
+  temporaryPhoneNumber: null,
 };
 
 function reducer(state = INITIAL_STATE, action: Actions): State {
@@ -37,12 +37,11 @@ function reducer(state = INITIAL_STATE, action: Actions): State {
         break;
 
       case AuthActions.UPDATE_ACCOUNT.SUCCESS.type:
-        if (action.payload.result.phoneNumber) {
-          draft.phoneVerificationStep = 'code';
-        }
+        draft.temporaryPhoneNumber =
+          action.payload.userInfo.phoneNumber ?? null;
         break;
       case ValidationActions.PHONE_VALIDATION.SUCCESS.type:
-        draft.phoneVerificationStep = 'phone';
+        draft.temporaryPhoneNumber = null;
         break;
       case AuthActions.SIGN_OUT.SUCCESS.type: {
         return {

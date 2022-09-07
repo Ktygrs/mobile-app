@@ -105,7 +105,6 @@ export const PersonalInformation = memo(() => {
     <KeyboardDismiss onDismiss={() => setCountrySearchVisibility(false)}>
       <View style={styles.container}>
         <Header
-          color={COLORS.white}
           title={t('personal_information.title')}
           renderRightButtons={LangButton}
         />

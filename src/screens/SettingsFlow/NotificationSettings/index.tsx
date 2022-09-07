@@ -44,7 +44,6 @@ export const NotificationSettings = memo(() => {
   return (
     <View style={styles.container}>
       <Header
-        color={COLORS.white}
         title={t('settings.notifications_title')}
         containerStyle={shadowStyle}
         renderRightButtons={LangButton}

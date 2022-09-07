@@ -119,6 +119,7 @@ export const AvatarHeader = memo(({uri, scrollY}: Props) => {
             style={styles.image}
             size={AVATAR_SIZE}
             borderRadius={AVATAR_RADIUS}
+            touchableStyle={styles.touchableAvatar}
           />
         </Animated.View>
         <Animated.Text
@@ -153,11 +154,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginLeft: rem(20),
   },
-  placeholder: {
-    height: rem(50),
-    width: screenWidth,
-    backgroundColor: COLORS.white,
-  },
   rightContainer: {
     paddingRight: rem(16),
     alignSelf: 'center',
@@ -179,7 +175,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingLeft: rem(16),
   },
-  touchable: {
+  touchableAvatar: {
     flex: 1,
   },
 });

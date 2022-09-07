@@ -39,7 +39,6 @@ export const Contacts = ({
       isLoadingSelector(AuthActions.UPDATE_ACCOUNT, state) ||
       isLoadingSelector(ValidationActions.PHONE_VALIDATION, state),
   );
-
   const dispatch = useDispatch();
 
   const hasContactsPermissions = useSelector(permissionSelector('contacts'));

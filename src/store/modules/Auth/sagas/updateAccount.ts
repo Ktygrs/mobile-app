@@ -24,7 +24,7 @@ export function* updateAccountSaga(action: ReturnType<typeof actionCreator>) {
 
     const result: SagaReturnType<typeof Api.user.modifyUser> =
       yield Api.user.modifyUser(userId, userInfo);
-    yield put(AuthActions.UPDATE_ACCOUNT.SUCCESS.create(result));
+    yield put(AuthActions.UPDATE_ACCOUNT.SUCCESS.create(result, userInfo));
   } catch (error) {
     yield put(AuthActions.UPDATE_ACCOUNT.FAILED.create(getErrorMessage(error)));
     throw error;

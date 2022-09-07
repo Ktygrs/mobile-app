@@ -6,7 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {getImageUriForSize} from '@utils/file';
 import React, {memo, useMemo, useRef} from 'react';
-import {ImageStyle, StyleProp} from 'react-native';
+import {ImageStyle, StyleProp, ViewStyle} from 'react-native';
 import Animated from 'react-native-reanimated';
 import {rem} from 'rn-units';
 
@@ -19,6 +19,7 @@ type Props = {
   borderRadius?: number;
   allowFullScreen?: boolean;
   style?: StyleProp<ImageStyle>;
+  touchableStyle?: StyleProp<ViewStyle>;
 };
 
 export const Avatar = memo(
@@ -28,6 +29,7 @@ export const Avatar = memo(
     borderRadius = DEFAULT_BORDER_RADIUS,
     allowFullScreen = true,
     style,
+    touchableStyle,
   }: Props) => {
     const navigation =
       useNavigation<NativeStackNavigationProp<MainStackParamList>>();
@@ -58,7 +60,11 @@ export const Avatar = memo(
       const onAvatarPress = () => {
         navigation.navigate('ImageView', {uri, size, borderRadius, imageRef});
       };
-      return <Touchable onPress={onAvatarPress}>{ImageComponent}</Touchable>;
+      return (
+        <Touchable onPress={onAvatarPress} style={touchableStyle}>
+          {ImageComponent}
+        </Touchable>
+      );
     }
 
     return ImageComponent;

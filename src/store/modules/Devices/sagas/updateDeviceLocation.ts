@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {Api} from '@api/index';
-import {magicUserSelector} from '@store/modules/Auth/selectors';
+import {userIdSelector} from '@store/modules/Auth/selectors';
 import {DeviceActions} from '@store/modules/Devices/actions';
 import {deviceUniqueIdSelector} from '@store/modules/Devices/selectors';
 import {getErrorMessage} from '@utils/errors';
@@ -9,14 +9,14 @@ import {call, put, SagaReturnType, select} from 'redux-saga/effects';
 
 export function* updateDeviceLocationSaga() {
   try {
-    const magicUser: ReturnType<typeof magicUserSelector> = yield select(
-      magicUserSelector,
+    const userId: ReturnType<typeof userIdSelector> = yield select(
+      userIdSelector,
     );
     let deviceUniqueId: ReturnType<typeof deviceUniqueIdSelector> =
       yield select(deviceUniqueIdSelector);
     const location: SagaReturnType<typeof Api.devices.updateDeviceLocation> =
       yield call(Api.devices.updateDeviceLocation, {
-        userId: magicUser?.userId ?? '-',
+        userId: userId ?? '-',
         deviceUniqueId: deviceUniqueId ?? '-',
       });
     yield put(DeviceActions.UPDATE_DEVICE_LOCATION.SUCCESS.create(location));

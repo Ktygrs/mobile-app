@@ -7,5 +7,8 @@ export const refUserSelector = (state: RootState) => state.validation.refUser;
 export const usernameSelector = (state: RootState) =>
   state.validation.username || '';
 
+export const temporaryPhoneNumberSelector = (state: RootState) =>
+  state.validation.temporaryPhoneNumber;
+
 export const phoneVerificationStepSelector = (state: RootState) =>
-  state.validation.phoneVerificationStep;
+  state.validation.temporaryPhoneNumber ? 'code' : 'phone';

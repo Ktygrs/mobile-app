@@ -72,12 +72,7 @@ function reducer(state = INITIAL_STATE, action: Actions): AuthState {
         draft.user = action.payload.result ?? null;
         break;
       case AuthActions.UPDATE_ACCOUNT.SUCCESS.type:
-        draft.magicUser = {
-          userId: action.payload.result.id as string,
-          email: action.payload.result.email,
-          phoneNumber: action.payload.result.phoneNumber,
-        };
-        draft.user = action.payload.result;
+        draft.user = {...draft.user, ...action.payload.result};
         break;
       case AuthActions.SIGN_OUT.SUCCESS.type: {
         return {

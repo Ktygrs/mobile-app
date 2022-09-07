@@ -128,7 +128,7 @@ export const UserRegistration = ({}: Props) => {
       <KeyboardAvoidingView
         behavior={isIOS ? 'padding' : 'height'}
         style={styles.container}>
-        <Touchable onPress={Keyboard.dismiss}>
+        <Touchable onPress={Keyboard.dismiss} style={styles.pagerContainer}>
           <PagerView
             ref={pagerViewRef}
             style={styles.container}
@@ -176,5 +176,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingBottom: 12,
+  },
+  pagerContainer: {
+    flex: 1,
   },
 });
