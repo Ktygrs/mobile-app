@@ -5,7 +5,7 @@ import {RootState} from '@store/rootReducer';
 export const magicUserSelector = (state: RootState) => state.auth.magicUser;
 
 export const userIdSelector = (state: RootState) =>
-  state.auth.magicUser!.userId;
+  state.auth.magicUser?.userId ?? '';
 
 export const isAuthorizedSelector = (state: RootState) =>
   !!state.auth.magicUser;

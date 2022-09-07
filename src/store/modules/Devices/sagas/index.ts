@@ -23,7 +23,7 @@ export function* rootDevicesSaga() {
     ),
     takeLatest(AuthActions.LOAD_USER.STATE.type, initDeviceSaga),
     takeLatest(
-      AppCommonActions.APP_LOADED.STATE.type,
+      AppCommonActions.APP_INITIALIZED.STATE.type,
       updateDeviceLocationSaga,
     ),
     takeLatest(
