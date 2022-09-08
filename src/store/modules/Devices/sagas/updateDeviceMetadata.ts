@@ -3,7 +3,6 @@
 import {isApiError} from '@api/client';
 import {DeviceMetadata} from '@api/devices/types';
 import {Api} from '@api/index';
-import messaging from '@react-native-firebase/messaging';
 import {isAppActiveSelector} from '@store/modules/AppCommon/selectors';
 import {
   isAuthorizedSelector,
@@ -63,7 +62,6 @@ export function* updateDeviceMetadataSaga() {
         installerPackageName,
         baseOS,
         bootloader,
-        fcmToken,
       ] = yield Promise.all([
         DeviceInfo.getFingerprint(),
         DeviceInfo.getInstanceId(),
@@ -86,7 +84,6 @@ export function* updateDeviceMetadataSaga() {
         DeviceInfo.getInstallerPackageName(),
         DeviceInfo.getBaseOs(),
         DeviceInfo.getBootloader(),
-        messaging().getToken(),
       ]);
 
       const userId: ReturnType<typeof userIdSelector> = yield select(
@@ -125,7 +122,7 @@ export function* updateDeviceMetadataSaga() {
         bootloader: bootloader,
         codename,
         installerPackageName,
-        pushNotificationToken: fcmToken,
+        pushNotificationToken: '', //TODO: get fcm token from firebase messaging
       };
 
       yield call(Api.devices.updateDeviceMetadata, {
