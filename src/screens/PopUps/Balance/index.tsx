@@ -14,13 +14,13 @@ import {StakeIcon} from '@svg/StakeIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native';
 import {rem} from 'rn-units';
 
 export const Balance = () => {
   const navigation = useNavigation();
   return (
-    <Touchable onPress={navigation.goBack}>
+    <TouchableWithoutFeedback onPress={navigation.goBack}>
       <View style={styles.background}>
         <View style={styles.container} {...stopPropagination}>
           <Text style={styles.titleText}>{t('balance_popup.title')}</Text>
@@ -51,7 +51,7 @@ export const Balance = () => {
           </Touchable>
         </View>
       </View>
-    </Touchable>
+    </TouchableWithoutFeedback>
   );
 };
 

@@ -13,6 +13,7 @@ import {
   StyleSheet,
   Text,
   TextStyle,
+  TouchableWithoutFeedback,
   View,
   ViewStyle,
 } from 'react-native';
@@ -60,7 +61,7 @@ export const ActionSheet = () => {
   }, [positionY]);
 
   return (
-    <Touchable onPress={navigation.goBack}>
+    <TouchableWithoutFeedback onPress={navigation.goBack}>
       <View style={styles.background}>
         <Animated.View
           style={[
@@ -92,7 +93,7 @@ export const ActionSheet = () => {
           </View>
         </Animated.View>
       </View>
-    </Touchable>
+    </TouchableWithoutFeedback>
   );
 };
 

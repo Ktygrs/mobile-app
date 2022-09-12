@@ -12,7 +12,7 @@ import {StatsIcon} from '@svg/StatsIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native';
 import {rem} from 'rn-units';
 
 export const HomeMenu = memo(() => {
@@ -26,7 +26,7 @@ export const HomeMenu = memo(() => {
   const onHelpPress = navigation.goBack;
 
   return (
-    <Touchable onPress={navigation.goBack}>
+    <TouchableWithoutFeedback onPress={navigation.goBack}>
       <View style={styles.container}>
         <View
           style={[
@@ -56,7 +56,7 @@ export const HomeMenu = memo(() => {
           />
         </View>
       </View>
-    </Touchable>
+    </TouchableWithoutFeedback>
   );
 });
 
