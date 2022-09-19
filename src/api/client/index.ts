@@ -112,3 +112,22 @@ export const isApiError = (
     (!expectedCode || error.response?.data.code === expectedCode)
   );
 };
+
+export const buildFormData = (entity: {[key: string]: unknown}) => {
+  const formData = new FormData();
+  for (let key in entity) {
+    const value = entity[key];
+    if (Array.isArray(value)) {
+      value.forEach(v => formData.append(key, v));
+    } else if (
+      typeof value === 'object' &&
+      value !== null &&
+      !('uri' in value) // {uri: string} - Upload file and it should be sent as is
+    ) {
+      formData.append(key, JSON.stringify(value));
+    } else {
+      formData.append(key, value);
+    }
+  }
+  return formData;
+};

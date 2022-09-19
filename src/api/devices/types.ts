@@ -11,21 +11,18 @@ export type NotificationSettings = {
   [key: string]: NotificationChannel;
 };
 
-export type DeviceSettings = {
-  deviceUniqueId: string;
+export interface DeviceSettings extends DeviceId {
   disableAllNotifications: boolean;
   language: string;
   notificationSettings: NotificationSettings;
-  updatedAt: string;
-  userId: string;
-};
+}
 
 export interface DeviceLocation {
   city: string;
   country: string;
 }
 
-export interface DeviceMetadata {
+export interface DeviceMetadata extends DeviceId {
   apiLevel: number;
   baseOS: string | null;
   bootloader: string | null;

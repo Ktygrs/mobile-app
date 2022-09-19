@@ -6,10 +6,6 @@ import {User} from '@api/user/types';
 import {AuthActions} from '@store/modules/Auth/actions';
 import {magicUserSelector} from '@store/modules/Auth/selectors';
 import {ValidationActions} from '@store/modules/Validation/actions';
-import {
-  refUserSelector,
-  usernameSelector,
-} from '@store/modules/Validation/selectors';
 import {t} from '@translations/i18n';
 import {getErrorMessage} from '@utils/errors';
 import {e164PhoneNumber, hashPhoneNumber} from '@utils/phoneNumber';
@@ -20,12 +16,6 @@ export function* createUserSaga() {
     const magicUser: ReturnType<typeof magicUserSelector> = yield select(
       magicUserSelector,
     );
-    const username: ReturnType<typeof usernameSelector> = yield select(
-      usernameSelector,
-    );
-    const refUser: ReturnType<typeof refUserSelector> = yield select(
-      refUserSelector,
-    );
 
     let phoneNumber: string | null = null;
     let phoneNumberHash: string | null = null;
@@ -35,11 +25,11 @@ export function* createUserSaga() {
     }
 
     const createdUser: User = yield call(Api.user.createUser, {
-      username: username,
+      // firstName: 'TODO populate this',
+      // lastName: 'TODO populate this',
       email: magicUser?.email,
       phoneNumber: phoneNumber,
       phoneNumberHash: phoneNumberHash,
-      referredBy: refUser?.id,
     });
     yield put(AuthActions.CREATE_USER.SUCCESS.create(createdUser));
   } catch (error) {

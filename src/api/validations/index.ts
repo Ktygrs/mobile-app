@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {phoneValidation} from './phoneValidation';
+import {validateEmail} from './validateEmail';
+import {validatePhoneNumber} from './validatePhoneNumber';
 
 export const validations = Object.freeze({
-  phoneValidation,
+  validateEmail,
+  validatePhoneNumber,
 });

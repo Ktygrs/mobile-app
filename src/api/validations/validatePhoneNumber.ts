@@ -15,7 +15,7 @@ interface Params {
  * previously provided to the user via SMS.
  */
 
-export function phoneValidation({
+export function validatePhoneNumber({
   userId,
   phoneNumber,
   phoneNumberHash,

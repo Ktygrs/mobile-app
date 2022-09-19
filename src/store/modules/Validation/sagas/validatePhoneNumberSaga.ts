@@ -10,7 +10,9 @@ import {call, put, SagaReturnType, select} from 'redux-saga/effects';
 
 const actionCreator = ValidationActions.PHONE_VALIDATION.START.create;
 
-export function* phoneValidationSaga(action: ReturnType<typeof actionCreator>) {
+export function* validatePhoneNumberSaga(
+  action: ReturnType<typeof actionCreator>,
+) {
   try {
     const {validationCode} = action.payload;
     const temporaryPhoneNumber: ReturnType<
@@ -26,8 +28,8 @@ export function* phoneValidationSaga(action: ReturnType<typeof actionCreator>) {
     );
     const userId: string = yield select(userIdSelector);
 
-    const user: SagaReturnType<typeof Api.validations.phoneValidation> =
-      yield call(Api.validations.phoneValidation, {
+    const user: SagaReturnType<typeof Api.validations.validatePhoneNumber> =
+      yield call(Api.validations.validatePhoneNumber, {
         userId,
         phoneNumber: normilizedNumber,
         phoneNumberHash,

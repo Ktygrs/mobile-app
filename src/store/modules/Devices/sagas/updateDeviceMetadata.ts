@@ -123,10 +123,11 @@ export function* updateDeviceMetadataSaga() {
         codename,
         installerPackageName,
         pushNotificationToken: '', //TODO: get fcm token from firebase messaging
+        userId,
+        deviceUniqueId,
       };
 
       yield call(Api.devices.updateDeviceMetadata, {
-        deviceId: {userId, deviceUniqueId},
         metadata: collectedMetadata,
       });
 
