@@ -135,7 +135,11 @@ export const SegmentedControl = forwardRef<
         <View style={styles.body}>
           <Animated.View
             style={[styles.indicator, dynamicStyles.indicator, animatedStyles]}>
-            <Indicator />
+            <Indicator
+              width={'100%'}
+              height={'100%'}
+              preserveAspectRatio="none"
+            />
           </Animated.View>
           {segments.map(renderSegment)}
         </View>

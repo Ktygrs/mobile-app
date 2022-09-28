@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {User} from '@api/user/types';
-import {UserListItem} from '@components/UserListItem';
-import {UserListPingButton} from '@components/UserListItem/components/UserListPingButton';
+import {UserListItem} from '@components/ListItems/UserListItem';
+import {UserListPingButton} from '@components/ListItems/UserListItem/components/UserListPingButton';
 import {t} from '@translations/i18n';
 import {getCountryByCode} from '@utils/country';
 import {font} from '@utils/styles';

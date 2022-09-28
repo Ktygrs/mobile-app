@@ -17,7 +17,6 @@ export const Home = memo(() => {
   useFocusStatusBar({style: 'dark-content'});
   const tabBarOffset = useBottomTabBarOffsetStyle();
   const {scrollHandler, translateY} = useScrollHandler();
-
   return (
     <>
       <HomeHeader translateY={translateY} transitionOffset={WALLET_HEIGHT} />

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {IceLabel} from '@components/Labels/IceLabel';
 import {COLORS} from '@constants/colors';
 import {Images} from '@images';
 import {Header, HEADER_HEIGHT} from '@navigation/components/Header';
@@ -10,7 +11,7 @@ import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
-import {rem, screenHeight, screenWidth} from 'rn-units';
+import {isAndroid, rem, screenHeight, screenWidth} from 'rn-units';
 
 const icon = require('./assets/images/share.png');
 
@@ -33,7 +34,11 @@ export const InviteShare = memo(() => {
         source={Images.backgrounds.linesBg}
         resizeMode="stretch"
       />
-      <Text style={styles.description}>{t('invite_share.description')}</Text>
+      <Text style={styles.description}>
+        {t('invite_share.description_part1')}
+        <IceLabel iconOffsetY={isAndroid ? 3 : 2} />
+        {t('invite_share.description_part2')}
+      </Text>
       <Image source={icon} style={styles.icon} />
       <ShareCard />
     </View>
@@ -57,6 +62,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     ...font(15, null, 'regular', 'white'),
     marginTop: rem(45),
+    marginHorizontal: rem(28),
   },
   icon: {
     marginLeft: ICON_LEFT_OFFSET,

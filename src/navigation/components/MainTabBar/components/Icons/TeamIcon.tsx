@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {TeamActiveIcon} from '@svg/TabBar/TeamActiveIcon';
-import {TeamInactiveIcon} from '@svg/TabBar/TeamInactiveIcon';
+import {TeamActiveIcon} from '@svg/TeamActiveIcon';
+import {TeamInactiveIcon} from '@svg/TeamInactiveIcon';
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {rem} from 'rn-units';

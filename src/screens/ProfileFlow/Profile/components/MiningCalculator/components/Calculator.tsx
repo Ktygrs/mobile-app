@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {IceLabel} from '@components/Labels/IceLabel';
 import {Slider} from '@components/Slider';
 import {COLORS} from '@constants/colors';
 import {commonStyles} from '@constants/styles';
@@ -69,9 +70,12 @@ export const Calculator = memo(
             <ActivityIndicator />
           ) : (
             <Text style={styles.resultValueText}>
-              {result !== null
-                ? `${result} ${t('mining_calculator.currency')}`
-                : null}
+              {result !== null ? (
+                <>
+                  {result}{' '}
+                  <IceLabel iconSize={24} label={t('general.ice_per_hour')} />
+                </>
+              ) : null}
             </Text>
           )}
         </View>

@@ -15,12 +15,17 @@ import {
 import {ActionSheet} from '@screens/Dialogs/ActionSheet';
 import {Confirm, ConfirmButton} from '@screens/Dialogs/Confirm';
 import {Home} from '@screens/HomeFlow/Home';
-import {HomeMenu} from '@screens/HomeFlow/HomeMenu';
+import {Stats} from '@screens/HomeFlow/Stats';
+import {TopCountries} from '@screens/HomeFlow/TopCountries';
+import {TopMiners} from '@screens/HomeFlow/TopMiners';
+import {UserGrowthGraph} from '@screens/HomeFlow/UserGrowthGraph';
 import {ImageView} from '@screens/ImageView';
 import {InviteFriend} from '@screens/InviteFlow/InviteFriend';
 import {InviteShare} from '@screens/InviteFlow/InviteShare';
 import {News} from '@screens/News';
 import {Balance} from '@screens/PopUps/Balance';
+import {ContextualMenu} from '@screens/PopUps/ContextualMenu';
+import {Tooltip} from '@screens/PopUps/Tooltip';
 import {UpdateRequired} from '@screens/PopUps/UpdateRequired';
 import {MyBadges} from '@screens/ProfileFlow/MyBadges';
 import {MyRoles} from '@screens/ProfileFlow/MyRoles';
@@ -33,7 +38,6 @@ import {PersonalInformation} from '@screens/SettingsFlow/PersonalInformation';
 import {Settings} from '@screens/SettingsFlow/Settings';
 import {Staking} from '@screens/Staking';
 import {Team} from '@screens/Team';
-import {Tooltip} from '@screens/Tooltip';
 import {WebView} from '@screens/WebView';
 import React, {ComponentType, RefObject} from 'react';
 import {Image, View} from 'react-native';
@@ -57,7 +61,7 @@ export type MainStackParamList = {
     buttons?: ConfirmButton[];
   };
   Tooltip: {
-    descriptionPosition: 'above' | 'below';
+    position: 'above' | 'below';
     targetRef: RefObject<View>;
     TargetComponent: ComponentType<unknown>;
     DescriptionComponent: ComponentType<unknown>;
@@ -83,15 +87,29 @@ export type MainStackParamList = {
   Balance: undefined;
   InviteFriend: {contact: Contact};
   InviteShare: undefined;
+  ContextualMenu: {
+    coords: {top?: number; right?: number; bottom?: number; left?: number};
+    buttons: {
+      icon?: (props: SvgProps) => JSX.Element;
+      label: string;
+      onPress: () => void;
+    }[];
+    onClose?: () => void;
+  };
 };
 
 export type HomeTabStackParamList = {
   Home: undefined;
-  HomeMenu: {top?: number; right?: number; bottom?: number; left?: number};
+  Stats: undefined;
+  TopMiners: undefined;
+  TopCountries: undefined;
   Profile: undefined;
   MyRoles: undefined;
   MyBadges: {category?: BadgeCategory} | undefined;
   InviteShare: undefined;
+  UserGrowthGraph: {
+    category: 'active' | 'total';
+  };
 };
 
 export type TeamTabStackParamList = {
@@ -139,11 +157,6 @@ const myBadgesOptions = {fullScreenGestureEnabled: true};
 const HomeTabStackNavigator = () => (
   <HomeTabStack.Navigator screenOptions={screenOptions}>
     <HomeTabStack.Screen name="Home" component={Home} />
-    <HomeTabStack.Screen
-      name="HomeMenu"
-      component={HomeMenu}
-      options={modalOptions}
-    />
     <HomeTabStack.Screen name="Profile" component={Profile} />
     <HomeTabStack.Screen name="MyRoles" component={MyRoles} />
     <HomeTabStack.Screen
@@ -151,6 +164,10 @@ const HomeTabStackNavigator = () => (
       component={MyBadges}
       options={myBadgesOptions}
     />
+    <HomeTabStack.Screen name="Stats" component={Stats} />
+    <HomeTabStack.Screen name="TopMiners" component={TopMiners} />
+    <HomeTabStack.Screen name="TopCountries" component={TopCountries} />
+    <HomeTabStack.Screen name="UserGrowthGraph" component={UserGrowthGraph} />
   </HomeTabStack.Navigator>
 );
 
@@ -258,7 +275,11 @@ export function MainNavigator() {
         component={UpdateRequired}
         options={modalOptions}
       />
-      <MainStack.Screen name="Balance" component={Balance} />
+      <MainStack.Screen
+        name="Balance"
+        component={Balance}
+        options={modalOptions}
+      />
       <MainStack.Screen
         name="InviteFriend"
         component={InviteFriend}
@@ -267,6 +288,11 @@ export function MainNavigator() {
       <MainStack.Screen
         name="InviteShare"
         component={InviteShare}
+        options={modalOptions}
+      />
+      <MainStack.Screen
+        name="ContextualMenu"
+        component={ContextualMenu}
         options={modalOptions}
       />
     </MainStack.Navigator>

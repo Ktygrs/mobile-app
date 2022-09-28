@@ -1,15 +1,20 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {ReferralType, User} from '@api/user/types';
-import {UserListItem, UserListItemSkeleton} from '@components/UserListItem';
-import {UserListPingButton} from '@components/UserListItem/components/UserListPingButton';
+import {
+  UserListItem,
+  UserListItemSkeleton,
+} from '@components/ListItems/UserListItem';
+import {UserListPingButton} from '@components/ListItems/UserListItem/components/UserListPingButton';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
+import {useFetchCollection} from '@hooks/useFetchCollection';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
 import {EmptyTier} from '@screens/Team/components/TierList/components/EmptyTier';
 import {ListHeader} from '@screens/Team/components/TierList/components/Header';
-import {useReferrals} from '@store/modules/Referrals/hooks/useReferrals';
+import {ReferralsActions} from '@store/modules/Referrals/actions';
+import {referralsSelector} from '@store/modules/Referrals/selectors';
 import {t} from '@translations/i18n';
-import React, {memo, useCallback, useMemo} from 'react';
+import React, {memo, useCallback, useEffect, useMemo} from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -17,6 +22,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import {useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
 type Props = {
@@ -29,8 +35,33 @@ type Props = {
 export const TierList = memo(
   ({referralType, emptyTitle, headerTitle, focused}: Props) => {
     const tabbarOffset = useBottomTabBarOffsetStyle();
-    const {referrals, error, loadNext, loadNextLoading, refresh, refreshing} =
-      useReferrals(referralType, focused);
+
+    const {
+      fetch,
+      data: referrals,
+      error,
+      hasNext,
+      loadNext,
+      loadNextLoading,
+      refresh,
+      refreshing,
+    } = useFetchCollection(
+      useMemo(
+        () => ({
+          selector: referralsSelector({referralType}),
+          action: ReferralsActions.GET_REFERRALS({referralType})(referralType),
+        }),
+        [referralType],
+      ),
+    );
+
+    const {total, active} = useSelector(referralsSelector({referralType}));
+
+    useEffect(() => {
+      if (focused) {
+        fetch({offset: 0});
+      }
+    }, [fetch, focused]);
 
     const renderItem = useCallback(({item}: {item: User}) => {
       return (
@@ -47,18 +78,19 @@ export const TierList = memo(
     const Header = useMemo(() => {
       return (
         <ListHeader
-          total={referrals?.total ?? 0}
-          active={referrals?.active ?? 0}
+          total={total ?? 0}
+          active={active ?? 0}
           title={headerTitle}
         />
       );
-    }, [referrals?.total, referrals?.active, headerTitle]);
+    }, [total, active, headerTitle]);
 
-    if (!referrals) {
-      if (error) {
-        //TODO::error handling (component?)
-        return <Text>{error}</Text>;
-      } else {
+    if (error) {
+      return <Text>{error}</Text>;
+    }
+
+    if (!referrals.length) {
+      if (hasNext) {
         return (
           <View style={styles.userList}>
             {Array(5)
@@ -68,27 +100,25 @@ export const TierList = memo(
               ))}
           </View>
         );
-      }
-    } else {
-      if (!referrals.total) {
-        return <EmptyTier title={emptyTitle} />;
       } else {
-        return (
-          <FlatList
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={[tabbarOffset.current]}
-            ListHeaderComponent={Header}
-            ListFooterComponent={loadNextLoading ? ActivityIndicator : null}
-            style={styles.userList}
-            data={referrals.referrals}
-            renderItem={renderItem}
-            onEndReached={loadNext}
-            onRefresh={refresh}
-            refreshing={refreshing}
-          />
-        );
+        return <EmptyTier title={emptyTitle} />;
       }
     }
+
+    return (
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={[tabbarOffset.current]}
+        ListHeaderComponent={Header}
+        ListFooterComponent={loadNextLoading ? ActivityIndicator : null}
+        style={styles.userList}
+        data={referrals}
+        renderItem={renderItem}
+        onEndReached={loadNext}
+        onRefresh={refresh}
+        refreshing={refreshing}
+      />
+    );
   },
 );
 

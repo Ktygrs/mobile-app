@@ -11,7 +11,7 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {EconomyActions} from '@store/modules/Economy/actions';
 import {isMiningTooltipSeenSelector} from '@store/modules/Economy/selectors';
-import {MiningInactiveIcon} from '@svg/TabBar/MiningInactiveIcon';
+import {MiningInactiveIcon} from '@svg/MiningInactiveIcon';
 import LottieView from 'lottie-react-native';
 import React, {useRef, useState} from 'react';
 import {
@@ -42,7 +42,7 @@ export const TabBarMiningItem = () => {
     }
     if (miningActive) {
       navigation.navigate('Tooltip', {
-        descriptionPosition: 'above',
+        position: 'above',
         targetRef: lottieWrapperRef,
         descriptionOffset: rem(40),
         targetCircleSize: rem(92),

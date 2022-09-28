@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {CommonInput} from '@components/CommonInput';
+import {CommonInput} from '@components/Inputs/CommonInput';
 import {PrimaryButton} from '@components/PrimaryButton';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {Images} from '@images';

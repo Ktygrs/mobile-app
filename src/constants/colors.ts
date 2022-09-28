@@ -41,4 +41,5 @@ export const COLORS = {
   aliceBlue: '#EFF9FF',
   linkWater: '#F1F4FC',
   transparentBackground: 'rgba(8, 21, 50, .7)',
+  wildSand: '#F5F5F5',
 };

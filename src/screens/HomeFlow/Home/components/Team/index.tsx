@@ -3,13 +3,15 @@
 import {User} from '@api/user/types';
 import {SectionHeader} from '@components/SectionHeader';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
+import {useFetchCollection} from '@hooks/useFetchCollection';
 import {MainTabsParamList} from '@navigation/Main';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {useNavigation} from '@react-navigation/native';
 import {TeamMember} from '@screens/HomeFlow/Home/components/Team/components/TeamMember';
-import {useReferrals} from '@store/modules/Referrals/hooks/useReferrals';
+import {ReferralsActions} from '@store/modules/Referrals/actions';
+import {referralsSelector} from '@store/modules/Referrals/selectors';
 import {t} from '@translations/i18n';
-import React, {memo, useCallback} from 'react';
+import React, {memo, useCallback, useEffect, useMemo} from 'react';
 import {ActivityIndicator, StyleSheet, View} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {rem} from 'rn-units';
@@ -17,13 +19,32 @@ import {rem} from 'rn-units';
 export const Team = memo(() => {
   const navigation =
     useNavigation<BottomTabNavigationProp<MainTabsParamList>>();
+
+  const {
+    fetch,
+    data: referrals,
+    loadNext,
+    loadNextLoading,
+  } = useFetchCollection(
+    useMemo(
+      () => ({
+        selector: referralsSelector({referralType: 'T1'}),
+        action: ReferralsActions.GET_REFERRALS({referralType: 'T1'})('T1'),
+      }),
+      [],
+    ),
+  );
+
+  useEffect(() => {
+    fetch({offset: 0});
+  }, [fetch]);
+
   const onViewTeamPress = useCallback(
     () => navigation.navigate('TeamTab'),
     [navigation],
   );
-  const {referrals, loadNext, loadNextLoading} = useReferrals('T1', true);
 
-  if (!referrals?.total) {
+  if (!referrals.length) {
     return null;
   }
 
@@ -36,7 +57,7 @@ export const Team = memo(() => {
       />
       <FlatList
         horizontal
-        data={referrals?.referrals ?? []}
+        data={referrals}
         renderItem={renderTeamMember}
         ItemSeparatorComponent={renderSeparator}
         ListFooterComponent={

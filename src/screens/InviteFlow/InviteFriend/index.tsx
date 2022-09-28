@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {IceLabel} from '@components/Labels/IceLabel';
 import {LinesBackground} from '@components/LinesBackground';
 import {PrimaryButton} from '@components/PrimaryButton';
 import {COLORS} from '@constants/colors';
@@ -12,7 +13,7 @@ import {RouteProp, useRoute} from '@react-navigation/native';
 import InviteAvatar, {
   AVATAR_CONTAINER_SIDE_DIMENSION,
 } from '@screens/InviteFlow/InviteFriend/components/InviteAvatar';
-import {TeamActions} from '@store/modules/Team/actions';
+import {ContactsActions} from '@store/modules/Contacts/actions';
 import {InviteIcon} from '@svg/InviteIcon';
 import {t} from '@translations/i18n';
 import {getContactName} from '@utils/contacts';
@@ -35,7 +36,7 @@ export const InviteFriend = () => {
   const {shadowStyle} = useScrollShadow();
 
   const onInvite = () => {
-    dispatch(TeamActions.INVITE_CONTACT.START.create(contact?.recordID));
+    dispatch(ContactsActions.INVITE_CONTACT.START.create(contact?.recordID));
   };
 
   const nameToDisplay = getContactName({
@@ -62,7 +63,9 @@ export const InviteFriend = () => {
           </View>
           <View style={styles.buttonContainer}>
             <Text style={styles.description}>
-              {t('invite_friend.description')}
+              {t('invite_friend.description_part1')}
+              <IceLabel color={COLORS.primaryDark} />
+              {t('invite_friend.description_part2')}
             </Text>
             <View style={styles.button}>
               <PrimaryButton

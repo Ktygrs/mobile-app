@@ -3,13 +3,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {appCommonReducer} from '@store/modules/AppCommon/reducer';
 import {authReducer} from '@store/modules/Auth/reducer';
+import {collectionsReducer} from '@store/modules/Collections/reducer';
+import {teamReducer} from '@store/modules/Contacts/reducer';
 import {devicesReducer} from '@store/modules/Devices/reducer';
 import {economyReducer} from '@store/modules/Economy/reducer';
 import {newsReducer} from '@store/modules/News/reducer';
 import {permissionsReducer} from '@store/modules/Permissions/reducer';
 import {referralsReducer} from '@store/modules/Referrals/reducer';
-import {statisticsReducer} from '@store/modules/Statistics/reducer';
-import {teamReducer} from '@store/modules/Team/reducer';
 import {processStatusesReducer} from '@store/modules/UtilityProcessStatuses/reducer';
 import {validationReducer} from '@store/modules/Validation/reducer';
 import {combineReducers} from 'redux';
@@ -29,7 +29,7 @@ const rootReducer = combineReducers({
   news: newsReducer,
   team: teamReducer,
   validation: validationReducer,
-  statistics: statisticsReducer,
+  collections: collectionsReducer,
   referrals: referralsReducer,
   utilityProcessStatuses: processStatusesReducer,
   devices: devicesReducer,

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {IceLabel} from '@components/Labels/IceLabel';
 import {PrimaryButton} from '@components/PrimaryButton';
 import {COLORS} from '@constants/colors';
 import {useNavigation} from '@react-navigation/native';
@@ -8,7 +9,7 @@ import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {rem} from 'rn-units';
+import {isAndroid, rem} from 'rn-units';
 
 export const IS_STAKING_ACTIVE = {current: false};
 
@@ -18,10 +19,21 @@ export const Footer = memo(() => {
     <View style={styles.container}>
       <Text style={styles.noteText}>
         {t('staking.terms_agree')}{' '}
+        <IceLabel
+          iconSize={14}
+          color={COLORS.primaryDark}
+          iconOffsetY={isAndroid ? 3 : 1}
+        />{' '}
         <Text style={styles.termsLink} onPress={() => {}}>
           {t('staking.staking_terms')}
         </Text>
-        . {t('stake.lock_note')}
+        . {t('stake.lock_note_part1')}
+        <IceLabel
+          color={COLORS.primaryDark}
+          iconSize={14}
+          iconOffsetY={isAndroid ? 3 : 1}
+        />
+        {t('stake.lock_note_part2')}
       </Text>
       <PrimaryButton
         onPress={() => {

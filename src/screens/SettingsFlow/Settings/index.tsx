@@ -2,6 +2,7 @@
 
 import {User} from '@api/user/types';
 import {Avatar} from '@components/Avatar/Avatar';
+import {IceLabel} from '@components/Labels/IceLabel';
 import {COLORS} from '@constants/colors';
 import {commonStyles} from '@constants/styles';
 import {useScrollShadow} from '@hooks/useScrollShadow';
@@ -34,7 +35,7 @@ import React, {memo} from 'react';
 import {StyleSheet, View} from 'react-native';
 import Animated from 'react-native-reanimated';
 import {useDispatch, useSelector} from 'react-redux';
-import {rem} from 'rn-units';
+import {isAndroid, rem} from 'rn-units';
 
 export const Settings = memo(() => {
   const dispatch = useDispatch();
@@ -110,7 +111,17 @@ export const Settings = memo(() => {
             <MenuItemSeparator />
             <MenuItem
               title={t('settings.invite_title')}
-              description={t('button.invite_friend.description')}
+              description={
+                <>
+                  {t('button.invite_friend.description_part1')}
+                  <IceLabel
+                    color={COLORS.secondary}
+                    iconSize={14}
+                    iconOffsetY={isAndroid ? 3 : 2}
+                  />
+                  {t('button.invite_friend.description_part2')}
+                </>
+              }
               renderIcon={() => (
                 <InviteIcon fill={COLORS.primaryLight} width={23} height={22} />
               )}
@@ -119,7 +130,17 @@ export const Settings = memo(() => {
             <MenuItemSeparator />
             <MenuItem
               title={t('settings.delete_title')}
-              description={t('settings.delete_description')}
+              description={
+                <>
+                  {t('settings.delete_description_part1')}
+                  <IceLabel
+                    color={COLORS.secondary}
+                    iconSize={14}
+                    iconOffsetY={isAndroid ? 3 : 2}
+                  />
+                  {t('settings.delete_description_part2')}
+                </>
+              }
               renderIcon={EraseIcon}
               onPress={deleteAccount}
               confirmation={{

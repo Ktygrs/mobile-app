@@ -1,11 +1,13 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {User} from '@api/user/types';
-import {UserListItemSkeleton} from '@components/UserListItem';
+import {UserListItemSkeleton} from '@components/ListItems/UserListItem';
 import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
+import {useFetchCollection} from '@hooks/useFetchCollection';
 import {SearchUserItem} from '@screens/Team/components/SearchResults/components/SearchUserItem';
-import {useSearchUsers} from '@screens/Team/components/SearchResults/hooks/useSearchUsers';
+import {CollectionActions} from '@store/modules/Collections';
+import {collectionSelector} from '@store/modules/Collections/selectors';
 import {t} from '@translations/i18n';
 import React, {memo, useCallback} from 'react';
 import {ActivityIndicator, FlatList, StyleSheet, Text} from 'react-native';
@@ -14,15 +16,18 @@ import {rem} from 'rn-units';
 
 export const SearchResults = memo(() => {
   const {
-    searchResults,
+    data,
     searchQuery,
     error,
-    loading,
+    hasNext,
     loadNext,
     loadNextLoading,
     refresh,
     refreshing,
-  } = useSearchUsers();
+  } = useFetchCollection({
+    selector: collectionSelector('usersSearch'),
+    action: CollectionActions.SEARCH_USERS,
+  });
 
   const renderItem = useCallback(({item}: {item: User}) => {
     return <SearchUserItem user={item} key={item.id} />;
@@ -32,7 +37,7 @@ export const SearchResults = memo(() => {
     if (!searchQuery) {
       return null;
     }
-    if (loading) {
+    if (hasNext) {
       return (
         <>
           {Array(5)
@@ -44,7 +49,7 @@ export const SearchResults = memo(() => {
       );
     }
     return <Text>{t('search.nothing_is_found', {query: searchQuery})}</Text>;
-  }, [loading, searchQuery]);
+  }, [hasNext, searchQuery]);
 
   return (
     <Animated.View
@@ -55,7 +60,7 @@ export const SearchResults = memo(() => {
         <Text>{error}</Text>
       ) : (
         <FlatList
-          data={searchResults}
+          data={data}
           keyboardDismissMode={'on-drag'}
           renderItem={renderItem}
           ListFooterComponent={loadNextLoading ? ActivityIndicator : null}

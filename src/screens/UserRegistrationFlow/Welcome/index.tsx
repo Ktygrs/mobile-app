@@ -1,15 +1,16 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {IceLabel} from '@components/Labels/IceLabel';
 import {COLORS} from '@constants/colors';
 import {AuthActions} from '@store/modules/Auth/actions';
 import {PermissionsActions} from '@store/modules/Permissions/actions';
-import {translate} from '@translations/i18n';
+import {t} from '@translations/i18n';
 import React, {useRef, useState} from 'react';
 import {StatusBar, StyleSheet, View} from 'react-native';
 import PagerView, {PagerViewOnPageSelectedEvent} from 'react-native-pager-view';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch} from 'react-redux';
-import {rem} from 'rn-units';
+import {isAndroid, rem} from 'rn-units';
 
 import {NavigationPanel} from './components/NavigationPanel';
 import {WelcomeItem} from './components/WelcomeItem';
@@ -23,52 +24,94 @@ const images = {
   welcome6: require('./assets/images/welcome6.png'),
 };
 
+const SmallIceLabel = (
+  <IceLabel
+    color={COLORS.primaryLight}
+    iconSize={20}
+    iconOffsetY={isAndroid ? 4 : 1}
+  />
+);
+
 export const Welcome = () => {
   const welcomeScreenData = [
     {
       key: '1',
-      title: translate('welcome.page1.title'),
+      title: (
+        <>
+          {t('welcome.page1.title')}
+          <IceLabel
+            color={COLORS.primaryLight}
+            iconSize={34}
+            iconOffsetY={isAndroid ? 6 : 0}
+          />
+        </>
+      ),
       image: images.welcome1,
-      description: [0, 1, translate('welcome.page1.description')],
+      description: (
+        <>
+          {' '}
+          {SmallIceLabel}
+          {t('welcome.page1.description_part1')}
+          {SmallIceLabel}
+          {t('welcome.page1.description_part2')}
+        </>
+      ),
     },
     {
       key: '2',
-      title: translate('welcome.page2.title'),
+      title: t('welcome.page2.title'),
       image: images.welcome2,
-      description: [0, 1, translate('welcome.page2.description')],
+      description: (
+        <>
+          {' '}
+          {SmallIceLabel}
+          {t('welcome.page2.description')}
+        </>
+      ),
     },
     {
       key: '3',
-      title: translate('welcome.page3.title'),
+      title: t('welcome.page3.title'),
       image: images.welcome3,
-      description: [
-        translate('welcome.page3.description_part1'),
-        0,
-        1,
-        translate('welcome.page3.description_part2'),
-      ],
+      description: (
+        <>
+          {t('welcome.page3.description_part1')}
+          {SmallIceLabel}
+          {t('welcome.page3.description_part2')}
+        </>
+      ),
     },
     {
       key: '4',
-      title: translate('welcome.page4.title'),
+      title: t('welcome.page4.title'),
       image: images.welcome4,
-      description: [
-        translate('welcome.page4.description_part1'),
-        0,
-        translate('welcome.page4.description_part2'),
-      ],
+      description: (
+        <>
+          {t('welcome.page4.description_part1')}
+          {SmallIceLabel}
+          {t('welcome.page4.description_part2')}
+          {SmallIceLabel}
+          {t('welcome.page4.description_part3')}
+        </>
+      ),
     },
     {
       key: '5',
-      title: translate('welcome.page5.title'),
+      title: t('welcome.page5.title'),
       image: images.welcome5,
-      description: [translate('welcome.page5.description')],
+      description: [t('welcome.page5.description')],
     },
     {
       key: '6',
-      title: translate('welcome.page6.title'),
+      title: t('welcome.page6.title'),
       image: images.welcome6,
-      description: [0, 1, translate('welcome.page6.description')],
+      description: (
+        <>
+          {' '}
+          {SmallIceLabel}
+          {t('welcome.page6.description')}
+        </>
+      ),
     },
   ];
 

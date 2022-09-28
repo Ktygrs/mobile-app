@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {IceLabel} from '@components/Labels/IceLabel';
 import {COLORS} from '@constants/colors';
 import {CardBase} from '@screens/HomeFlow/Home/components/Overview/components/CardBase';
 import {PioneerIcon} from '@svg/PioneerIcon';
@@ -26,7 +27,11 @@ export const LevelCard = () => {
           <Text style={styles.valueText}>606,683</Text>
         </View>
       </View>
-      <Text style={styles.noteText}>{t('home.pioneer.description')}</Text>
+      <Text style={styles.noteText}>
+        {t('home.pioneer.description_part1')}
+        <IceLabel iconSize={12} />
+        {t('home.pioneer.description_part2')}
+      </Text>
     </CardBase>
   );
 };
@@ -35,6 +40,7 @@ const styles = StyleSheet.create({
   body: {
     flexDirection: 'row',
     marginRight: rem(24),
+    flexGrow: 1,
   },
   column: {
     paddingTop: rem(6),
@@ -51,6 +57,6 @@ const styles = StyleSheet.create({
   noteText: {
     marginTop: rem(6),
     marginBottom: rem(12),
-    ...font(11, 14, 'regular'),
+    ...font(11, 13, 'regular'),
   },
 });

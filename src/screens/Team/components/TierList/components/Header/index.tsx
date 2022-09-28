@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {stopPropagination} from '@components/KeyboardDismiss';
+import {IceLabel} from '@components/Labels/IceLabel';
+import {COLORS} from '@constants/colors';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React from 'react';
@@ -20,7 +22,10 @@ export const ListHeader = ({total, active, title}: Props) => {
         <Text style={styles.title}>{`${t(
           'users.active',
         )}: ${active}/${total}`}</Text>
-        <Text style={styles.title}>{`${t(title)}: 94,412 ice`}</Text>
+        <Text style={styles.title}>
+          {`${t(title)}: 94,412 `}
+          <IceLabel iconSize={16} color={COLORS.primaryDark} />
+        </Text>
       </View>
     </View>
   );

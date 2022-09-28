@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {FULL_SCREEN_IMAGE_SIZE} from '@constants/images';
+import {logError} from '@services/logging';
 import ImagePicker, {
   Image,
   Options,
@@ -28,8 +29,7 @@ export const usePickImage = ({
       .then(onImageSelected)
       .catch(error => {
         if ((error.code as PickerErrorCode) !== 'E_PICKER_CANCELLED') {
-          // TODO:: Sentry.capture
-          console.log('%c error', 'background: #ff6347', error);
+          logError(error);
         }
       });
   return {openPicker, onImageSelected};

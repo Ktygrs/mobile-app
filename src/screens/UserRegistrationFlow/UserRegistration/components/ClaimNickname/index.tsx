@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {CommonInput} from '@components/CommonInput';
+import {CommonInput} from '@components/Inputs/CommonInput';
 import {ClaimNicknameSvg} from '@svg/ClaimNickname';
 import {ManIconSvg} from '@svg/ManIcon';
 import {translate} from '@translations/i18n';

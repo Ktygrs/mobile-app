@@ -6,7 +6,7 @@ import {
   InfoItemType,
 } from '@screens/Team/components/Header/components/InfoItem';
 import {Search} from '@screens/Team/components/Header/components/Search';
-import {TeamActions} from '@store/modules/Team/actions';
+import {CollectionActions} from '@store/modules/Collections';
 import {isLoadingSelector} from '@store/modules/UtilityProcessStatuses/selectors';
 import debounce from 'lodash/debounce';
 import React, {memo, useEffect} from 'react';
@@ -21,17 +21,22 @@ import {useDispatch, useSelector} from 'react-redux';
 
 type Props = {
   isSearchActive: boolean;
+  setSearchActive: (active: boolean) => void;
 };
 
-export const Header = memo(({isSearchActive}: Props) => {
+export const Header = memo(({isSearchActive, setSearchActive}: Props) => {
   const dispatch = useDispatch();
 
   const search = debounce((query: string) => {
-    dispatch(TeamActions.SEARCH_USERS.START.create({query, offset: 0}));
+    if (query) {
+      dispatch(CollectionActions.SEARCH_USERS.START.create({query, offset: 0}));
+    } else {
+      dispatch(CollectionActions.SEARCH_USERS.CLEAR.create());
+    }
   }, 600);
 
   const loading = useSelector(
-    isLoadingSelector.bind(null, TeamActions.SEARCH_USERS),
+    isLoadingSelector.bind(null, CollectionActions.SEARCH_USERS),
   );
 
   const searchShared = useSharedValue(0);
@@ -46,11 +51,11 @@ export const Header = memo(({isSearchActive}: Props) => {
   }, [isSearchActive, searchShared]);
 
   const onFocus = () => {
-    dispatch(TeamActions.SET_SEARCH.STATE.create(true));
+    setSearchActive(true);
   };
 
   const onClosePress = () => {
-    dispatch(TeamActions.SET_SEARCH.STATE.create(false));
+    setSearchActive(false);
   };
 
   return (

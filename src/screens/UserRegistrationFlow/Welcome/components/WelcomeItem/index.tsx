@@ -5,12 +5,10 @@ import * as React from 'react';
 import {Image, ImageRequireSource, StyleSheet, Text, View} from 'react-native';
 import {isAndroid, rem, screenHeight} from 'rn-units';
 
-import {WelcomeItemDescription} from './components/WelcomeItemDescription';
-
 interface WelcomeItemProps {
-  title: string;
+  title: string | React.ReactNode;
   image: ImageRequireSource;
-  description: Array<String | number>; // where 1 is icon with text 'ice';
+  description: string | React.ReactNode;
   index: string;
 }
 
@@ -37,7 +35,7 @@ export const WelcomeItem = ({title, image, description}: WelcomeItemProps) => {
       </View>
       <View style={styles.description}>
         <Text style={styles.title}>{title}</Text>
-        <WelcomeItemDescription items={description} />
+        <Text style={styles.descriptionText}>{description}</Text>
       </View>
     </View>
   );
@@ -54,12 +52,15 @@ const styles = StyleSheet.create({
   description: {
     marginTop: rem(MARGIN_TOP),
     paddingHorizontal: rem(30),
-    alignItems: 'center',
   },
   title: {
     textAlign: 'center',
     marginBottom: rem(MARGIN_TOP),
     ...font(28, 34, 'black', 'primaryDark'),
+  },
+  descriptionText: {
+    textAlign: 'center',
+    ...font(14, 24, 'regular', 'secondary'),
   },
   image: {width: IMAGE_WIDTH, height: IMAGE_HEIGHT},
 });

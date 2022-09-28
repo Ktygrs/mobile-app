@@ -8,7 +8,7 @@ import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {countries, Country} from '@constants/countries';
 import {CloseIcon} from '@svg/CloseIcon';
-import {SearchIconSvg} from '@svg/SearchIcon';
+import {SearchIcon} from '@svg/SearchIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import {debounce} from 'lodash';
@@ -98,7 +98,7 @@ export const PhoneNumberSearch = ({
         </Touchable>
       </View>
       <View style={styles.search}>
-        <SearchIconSvg />
+        <SearchIcon />
         <TextInput
           placeholder={t('button.search_country')}
           style={styles.input}

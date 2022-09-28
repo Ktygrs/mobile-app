@@ -1,0 +1,37 @@
+// SPDX-License-Identifier: BUSL-1.1
+
+import {AuthActions} from '@store/modules/Auth/actions';
+import {ContactsActions} from '@store/modules/Contacts/actions';
+import produce from 'immer';
+import {Contact} from 'react-native-contacts';
+
+export interface State {
+  search: {active: boolean};
+  contacts: Contact[];
+}
+
+type Actions = ReturnType<
+  | typeof ContactsActions.SYNC_CONTACTS.SUCCESS.create
+  | typeof AuthActions.SIGN_OUT.SUCCESS.create
+>;
+
+const INITIAL_STATE: State = {
+  search: {active: false},
+  contacts: [],
+};
+
+function reducer(state = INITIAL_STATE, action: Actions): State {
+  return produce(state, draft => {
+    switch (action.type) {
+      case ContactsActions.SYNC_CONTACTS.SUCCESS.type: {
+        draft.contacts = action.payload.contacts;
+        break;
+      }
+      case AuthActions.SIGN_OUT.SUCCESS.type: {
+        return {...INITIAL_STATE};
+      }
+    }
+  });
+}
+
+export const teamReducer = reducer;

@@ -1,15 +1,18 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {countries} from '@constants/countries';
+import {countries, Country} from '@constants/countries';
+
+const countriesByCode: {[code: string]: Country} = {};
 
 export const getCountryByCode = (countryCode?: string | null) => {
+  if (!Object.keys(countriesByCode).length) {
+    countries.forEach(
+      country => (countriesByCode[country.isoCode.toLowerCase()] = country),
+    );
+  }
+
   return {
-    current: countryCode
-      ? countries.find(
-          country =>
-            country.isoCode.toLowerCase() === countryCode.toLowerCase(),
-        )
-      : null,
+    current: countryCode ? countriesByCode[countryCode.toLowerCase()] : null,
     default: countries[0],
   };
 };

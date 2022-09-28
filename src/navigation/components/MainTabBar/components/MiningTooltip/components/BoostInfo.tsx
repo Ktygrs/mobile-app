@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {DataCell, DataCellSeparator} from '@components/DataCell';
+import {IceLabel} from '@components/Labels/IceLabel';
 import {COLORS} from '@constants/colors';
 import {Chevron} from '@navigation/components/MainTabBar/components/MiningTooltip/assets/svg/Chevron';
 import {GraphUpIcon} from '@navigation/components/MainTabBar/components/MiningTooltip/assets/svg/GraphUpIcon';
@@ -10,7 +11,7 @@ import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
-import {rem} from 'rn-units';
+import {isAndroid, rem} from 'rn-units';
 
 type Props = {
   period: string;
@@ -44,6 +45,12 @@ export const BoostInfo = ({period, balance, bonus}: Props) => {
           }
           label={t('staking.balance_label')}
           value={balance}
+          currency={
+            <IceLabel
+              color={COLORS.primaryDark}
+              iconOffsetY={isAndroid ? 2 : 0}
+            />
+          }
         />
       </View>
       <Image

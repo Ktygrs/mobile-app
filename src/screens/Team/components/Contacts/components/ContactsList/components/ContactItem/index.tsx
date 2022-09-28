@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {stopPropagination} from '@components/KeyboardDismiss';
+import {UserListItemButton} from '@components/ListItems/UserListItem/components/UserListItemButton';
 import {Touchable} from '@components/Touchable';
-import {UserListItemButton} from '@components/UserListItem/components/UserListItemButton';
 import {COLORS} from '@constants/colors';
 import {TeamContactInvite} from '@screens/Team/components/Contacts/components/ContactsList/assets/svg/TeamContactInvite';
 import {MultipleNumbers} from '@screens/Team/components/Contacts/components/ContactsList/components/MultipleNumbers';

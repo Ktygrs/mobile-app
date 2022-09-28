@@ -2,45 +2,18 @@
 
 import {COLORS} from '@constants/colors';
 import * as React from 'react';
-import {Path, Svg} from 'react-native-svg';
+import {Path, Svg, SvgProps} from 'react-native-svg';
 
 export const LogoIcon = ({
   color = COLORS.primaryLight,
   width = 18,
   height = 18,
-}) => {
+  ...props
+}: SvgProps) => {
   return (
-    <Svg width={width} height={height} viewBox="0 0 23 23" fill="none">
+    <Svg width={width} height={height} viewBox="0 0 20 20" {...props}>
       <Path
-        d="M11.5 0L10.4248 7.17459L11.5 10.7777L12.5752 7.17459L11.5 0Z"
-        fill={color}
-      />
-      <Path
-        d="M11.5 23L12.5752 15.8254L11.5 12.2223L10.4248 15.8254L11.5 23Z"
-        fill={color}
-      />
-      <Path
-        d="M23 11.5L15.8254 10.4248L12.2223 11.5L15.8254 12.5752L23 11.5Z"
-        fill={color}
-      />
-      <Path
-        d="M0 11.5L7.17459 12.5752L10.7777 11.5L7.17459 10.4248L0 11.5Z"
-        fill={color}
-      />
-      <Path
-        d="M19.5823 3.31885L13.7751 7.66714L12.0078 10.9861L15.3049 9.17846L19.5823 3.31885Z"
-        fill={color}
-      />
-      <Path
-        d="M3.41772 19.6812L9.22488 15.3329L10.9922 12.0139L7.69507 13.8215L3.41772 19.6812Z"
-        fill={color}
-      />
-      <Path
-        d="M19.6804 19.582L15.3321 13.7749L12.0132 12.0075L13.8208 15.3047L19.6804 19.582Z"
-        fill={color}
-      />
-      <Path
-        d="M3.31958 3.41797L7.66788 9.22513L10.9868 10.9925L9.17919 7.69532L3.31958 3.41797Z"
+        d="m10 0-.935 6.239L10 9.372l.935-3.133L10 0ZM10 20l.935-6.239L10 10.628l-.935 3.133L10 20ZM20 10l-6.239-.935-3.133.935 3.133.935L20 10ZM0 10l6.239.935L9.372 10l-3.133-.935L0 10ZM17.028 2.886l-5.05 3.782-1.536 2.886 2.867-1.572 3.72-5.096ZM2.972 17.113l5.05-3.78 1.536-2.887-2.867 1.572-3.72 5.095ZM17.113 17.028l-3.781-5.05-2.886-1.537 1.572 2.868 5.095 3.72ZM2.887 2.972l3.781 5.05 2.886 1.536-1.572-2.867-5.095-3.72Z"
         fill={color}
       />
     </Svg>

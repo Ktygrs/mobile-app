@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {CommonInput} from '@components/CommonInput';
-import {PhoneNumberInput} from '@components/PhoneNumberInput';
+import {CommonInput} from '@components/Inputs/CommonInput';
+import {PhoneNumberInput} from '@components/Inputs/PhoneNumberInput';
 import {PhoneNumberSearch} from '@components/PhoneNumberSearch';
 import {PrimaryButton} from '@components/PrimaryButton';
 import {COLORS} from '@constants/colors';

@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {IceLabel} from '@components/Labels/IceLabel';
 import {COLORS} from '@constants/colors';
 import {Divider} from '@screens/HomeFlow/Home/components/Overview/components/AdoptionCard/components/Divider';
 import {LockIcon} from '@svg/LockIcon';
 import {font} from '@utils/styles';
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {rem} from 'rn-units';
+import {isAndroid, rem} from 'rn-units';
 
 export const LevelRow = ({
   level,
@@ -24,7 +25,12 @@ export const LevelRow = ({
       <View style={[styles.flank, locked ? styles.semitransparent : null]}>
         <Text style={styles.valueText}>
           {iceValue}
-          <Text style={styles.valueCurrencyText}>{'\n'}ice</Text>
+          {'\n'}{' '}
+          <IceLabel
+            iconOffsetY={isAndroid ? 4 : 2}
+            textStyle={styles.valueCurrencyText}
+            iconSize={16}
+          />
         </Text>
         <Divider />
       </View>

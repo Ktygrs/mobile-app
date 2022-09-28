@@ -1,21 +1,25 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {stopPropagination} from '@components/KeyboardDismiss';
+import {IceLabel} from '@components/Labels/IceLabel';
 import {COLORS} from '@constants/colors';
 import {ContactSection} from '@screens/Team/components/Contacts/components/ContactsList/hooks/useGetContactSegments';
-import {LogoIcon} from '@svg/LogoIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {rem} from 'rn-units';
+import {isAndroid, rem} from 'rn-units';
 
 const IceFriendsHeader = () => {
   return (
     <View style={styles.friendsHeader}>
-      <LogoIcon />
-      <Text style={styles.ice}>{t('team.contacts_list.ice_header.ice')}</Text>
       <Text style={styles.title}>
+        <IceLabel
+          color={COLORS.primaryLight}
+          iconSize={21}
+          textStyle={styles.iceText}
+          iconOffsetY={isAndroid ? 4 : 3}
+        />{' '}
         {t('team.contacts_list.ice_header.friends')}
       </Text>
     </View>
@@ -44,14 +48,14 @@ const styles = StyleSheet.create({
     paddingBottom: rem(6),
   },
   title: {
-    ...font(14, null, 'semibold', 'primaryDark'),
+    ...font(14, 17, 'semibold', 'primaryDark'),
   },
   friendsHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: -rem(14),
   },
-  ice: {
-    ...font(14, null, 'heavy', 'primaryDark'),
+  iceText: {
+    ...font(14, 17, 'heavy', 'primaryDark'),
   },
 });

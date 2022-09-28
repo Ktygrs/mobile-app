@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {IceLabel} from '@components/Labels/IceLabel';
 import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
@@ -12,7 +13,7 @@ import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React from 'react';
 import {StyleProp, StyleSheet, Text, View, ViewStyle} from 'react-native';
-import {rem} from 'rn-units';
+import {isAndroid, rem} from 'rn-units';
 
 type Props = {
   style?: StyleProp<ViewStyle>;
@@ -32,7 +33,9 @@ export const InviteButton = ({style}: Props = {}) => {
       <View style={styles.body}>
         <Text style={styles.mainText}>{t('button.invite_friend.title')}</Text>
         <Text style={styles.noteText}>
-          {t('button.invite_friend.description')}
+          {t('button.invite_friend.description_part1')}
+          <IceLabel iconSize={14} iconOffsetY={isAndroid ? 3 : 2} />
+          {t('button.invite_friend.description_part2')}
         </Text>
       </View>
       <StarTransparentIcon style={styles.backgroundIcon} />

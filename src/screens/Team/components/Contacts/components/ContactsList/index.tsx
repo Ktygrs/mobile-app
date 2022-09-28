@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {InviteButton} from '@components/InviteButton';
-import {UserListItem, UserListItemSkeleton} from '@components/UserListItem';
-import {UserListPingButton} from '@components/UserListItem/components/UserListPingButton';
+import {
+  UserListItem,
+  UserListItemSkeleton,
+} from '@components/ListItems/UserListItem';
+import {UserListPingButton} from '@components/ListItems/UserListItem/components/UserListPingButton';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
 import {MainStackParamList} from '@navigation/Main';

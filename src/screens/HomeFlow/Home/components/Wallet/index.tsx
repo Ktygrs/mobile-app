@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {FormattedNumber} from '@components/Labels/FormattedNumber';
+import {IceLabel} from '@components/Labels/IceLabel';
 import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {commonStyles, SMALL_BUTTON_HIT_SLOP} from '@constants/styles';
@@ -11,7 +13,7 @@ import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {rem} from 'rn-units';
+import {isAndroid, rem} from 'rn-units';
 
 export const WALLET_HEIGHT = rem(160);
 
@@ -23,9 +25,16 @@ export const Wallet = memo(() => {
       <Text style={styles.balanceLabelText}>{t('home.wallet.balance')}</Text>
       <View>
         <View style={styles.balanceValue}>
-          <Text style={styles.balanceValueText}>20,249,999.</Text>
-          <Text style={styles.balanceValueDecimalsText}> 99</Text>
-          <Text style={styles.balanceCurrencyText}> ice</Text>
+          <FormattedNumber
+            number={'20,249,999.99'}
+            bodyStyle={styles.balanceValueText}
+            decimalsStyle={styles.balanceValueDecimalsText}
+          />
+          <IceLabel
+            textStyle={styles.balanceCurrencyText}
+            iconOffsetY={isAndroid ? -2 : 0}
+            iconSize={rem(22)}
+          />
         </View>
         <Touchable
           hitSlop={SMALL_BUTTON_HIT_SLOP}
@@ -39,10 +48,14 @@ export const Wallet = memo(() => {
         </Touchable>
       </View>
       <View style={styles.miningRate}>
-        <Text style={styles.rateLabelText}>{t('home.wallet.rate')}</Text>
-        <Text style={styles.rateValueText}>+29.</Text>
-        <Text style={styles.rateValueDecimalsText}> 99</Text>
-        <Text style={styles.rateValueText}>{t('home.wallet.currency')}</Text>
+        <Text style={styles.rateLabelText}>{t('home.wallet.rate')} </Text>
+        <FormattedNumber number={'+29.99'} />
+        <IceLabel
+          textStyle={styles.rateValueText}
+          iconOffsetY={-1}
+          iconSize={18}
+          label={t('general.ice_per_hour')}
+        />
       </View>
     </View>
   );
@@ -62,7 +75,7 @@ const styles = StyleSheet.create({
   },
   balanceValue: {
     flexDirection: 'row',
-    alignItems: 'baseline',
+    alignItems: 'center',
   },
   balanceValueText: {
     marginTop: rem(4),
@@ -88,8 +101,7 @@ const styles = StyleSheet.create({
     ...font(12, 15, 'semibold'),
   },
   rateValueText: {
-    marginLeft: rem(8),
-    ...font(17, 20, 'medium'),
+    ...font(17, 20, 'bold'),
   },
   rateValueDecimalsText: {
     ...font(10, 12, 'bold'),
@@ -98,7 +110,10 @@ const styles = StyleSheet.create({
   infoButton: {
     padding: rem(10),
     position: 'absolute',
-    top: -rem(10),
-    right: -rem(26),
+    top: -rem(14),
+    right: -rem(20),
+  },
+  iceLabel: {
+    alignItems: 'baseline',
   },
 });

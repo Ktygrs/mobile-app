@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {IceLabel} from '@components/Labels/IceLabel';
 import {COLORS} from '@constants/colors';
 import {commonStyles} from '@constants/styles';
 import {ITEM_LEFT_POSITION} from '@screens/HomeFlow/Home/components/Tasks/components/TaskItem';
@@ -36,7 +37,10 @@ export const ProgressItem = ({total, completed}: Props) => {
       </View>
       <View>
         <Text style={styles.title}>{t('home.steps.title')}</Text>
-        <Text style={styles.description}>{t('home.steps.description')}</Text>
+        <Text style={styles.description}>
+          {t('home.steps.description')}
+          <IceLabel color={COLORS.toreaBay} iconSize={14} />.
+        </Text>
       </View>
     </View>
   );

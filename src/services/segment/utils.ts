@@ -1,9 +1,5 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {JsonMap} from '@segment/analytics-react-native';
-import {ShareResourceType} from '@services/segment/types';
-import {Content, User} from '@store/types';
-
 export function getPageName(
   routeName: string,
   parentRouteName?: string,
@@ -56,25 +52,4 @@ export async function getPageNameAndProperties({
     }
   } catch {}
   return {pageName: '', props: {}};
-}
-
-export async function getShareEventProperties({
-  resourceType,
-  resource,
-}: {
-  resourceType: ShareResourceType;
-  resource: Content;
-}): Promise<JsonMap> {
-  try {
-    switch (resourceType) {
-      case 'Invite': {
-        const user: User = resource as unknown as User;
-        return {
-          'User ID': user?.id ?? 'N/A',
-          'User username': user?.username ?? 'N/A',
-        };
-      }
-    }
-  } catch {}
-  return {};
 }

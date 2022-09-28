@@ -1,13 +1,16 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {DataCell, DataCellSeparator} from '@components/DataCell';
+import {FormattedNumber} from '@components/Labels/FormattedNumber';
+import {IceLabel} from '@components/Labels/IceLabel';
 import {COLORS} from '@constants/colors';
 import {ClockIcon} from '@svg/ClockIcon';
 import {LogoIcon} from '@svg/LogoIcon';
 import {t} from '@translations/i18n';
+import {font} from '@utils/styles';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {rem} from 'rn-units';
+import {isAndroid, rem} from 'rn-units';
 
 type Props = {
   timeLeft: string;
@@ -15,7 +18,6 @@ type Props = {
 };
 
 export const MiningInfo = ({timeLeft, rate}: Props) => {
-  const [rateInteger, rateFractional] = rate.split('.');
   return (
     <View style={styles.container}>
       <DataCell
@@ -39,9 +41,20 @@ export const MiningInfo = ({timeLeft, rate}: Props) => {
           />
         }
         label={t('staking.mining_rate')}
-        value={rateInteger}
-        fractions={rateFractional}
-        currency={t('home.wallet.currency')}
+        value={
+          <FormattedNumber
+            number={rate}
+            bodyStyle={styles.valueText}
+            decimalsStyle={styles.valueDecimalsText}
+          />
+        }
+        currency={
+          <IceLabel
+            iconOffsetY={isAndroid ? 2 : 0}
+            color={COLORS.primaryDark}
+            label={t('general.ice_per_hour')}
+          />
+        }
       />
     </View>
   );
@@ -52,5 +65,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: rem(20),
+  },
+  valueText: {
+    ...font(17, 20, 'bold', 'primaryDark'),
+  },
+  valueDecimalsText: {
+    ...font(10, 12, 'bold', 'primaryDark'),
   },
 });

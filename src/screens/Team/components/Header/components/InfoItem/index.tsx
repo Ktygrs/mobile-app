@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {Text} from '@components/Text';
+import {IceLabel} from '@components/Labels/IceLabel';
 import {TeamHeaderEarningsIcon} from '@screens/Team/assets/svg/TeamHeaderEarningsIcon';
 import {TeamHeaderReferralsIcon} from '@screens/Team/assets/svg/TeamHeaderReferralsIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {rem} from 'rn-units';
 
 export enum InfoItemType {
@@ -43,12 +43,13 @@ export function InfoItem({type}: InfoItemProps): React.ReactElement {
   const value = () => {
     switch (type) {
       case InfoItemType.referrals:
-        return <Text value={`${refsCount}`} style={styles.referrals} />;
+        return <Text style={styles.referrals}>{refsCount}</Text>;
       case InfoItemType.earnings:
-        const earningsLocalized = `${earningsValue.toLocaleString()}${t(
-          'team.header.earnings_token',
-        )}`;
-        return <Text value={earningsLocalized} style={styles.earnings} />;
+        return (
+          <Text style={styles.earnings}>
+            {earningsValue} <IceLabel iconSize={16} />
+          </Text>
+        );
     }
   };
 
@@ -56,7 +57,7 @@ export function InfoItem({type}: InfoItemProps): React.ReactElement {
     <View style={styles.container}>
       {asset()}
       <View>
-        <Text text={title()} style={styles.title} />
+        <Text style={styles.title}>{t(title())}</Text>
         {value()}
       </View>
     </View>

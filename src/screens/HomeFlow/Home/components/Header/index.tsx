@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {Avatar} from '@components/Avatar/Avatar';
+import {FormattedNumber} from '@components/Labels/FormattedNumber';
+import {IceLabel} from '@components/Labels/IceLabel';
 import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {useTopOffsetStyle} from '@navigation/hooks/useTopOffsetStyle';
@@ -49,8 +51,17 @@ export const HomeHeader = memo(({translateY, transitionOffset}: Props) => {
         <Animated.View
           pointerEvents={'none'}
           style={[StyleSheet.absoluteFill, styles.balance, toAnimatedStyle]}>
-          <Text style={styles.balanceText}>20,249,999.99</Text>
-          <Text style={styles.currencyText}> ice</Text>
+          <FormattedNumber
+            number="20,249,999.99"
+            bodyStyle={styles.balanceText}
+            decimalsStyle={styles.balanceDecimalsText}
+          />
+          <IceLabel
+            iconSize={16}
+            iconOffsetY={0}
+            color={COLORS.primaryDark}
+            textStyle={styles.currencyText}
+          />
         </Animated.View>
 
         <MenuButton />
@@ -76,6 +87,10 @@ const styles = StyleSheet.create({
   },
   balanceText: {
     ...font(17, 21, 'black', 'primaryDark'),
+  },
+  balanceDecimalsText: {
+    ...font(10, 12, 'black', 'primaryDark'),
+    marginBottom: rem(10),
   },
   currencyText: {
     ...font(13, 21, 'semibold', 'primaryDark'),

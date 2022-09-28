@@ -21,7 +21,10 @@ interface StructureType {
   [propName: string]: PayloadFunc | boolean;
 }
 
-type ActionFactories<MajorType extends string, T extends StructureType> = {
+export type ActionFactories<
+  MajorType extends string,
+  T extends StructureType,
+> = {
   [K in keyof T]: Readonly<{
     id?: string | number;
     type: FullActionType<MajorType, K>;

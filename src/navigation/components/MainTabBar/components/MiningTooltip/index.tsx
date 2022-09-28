@@ -21,7 +21,7 @@ export const MiningTooltip = () => {
       {!IS_STAKING_ACTIVE.current ? (
         <BoostCall />
       ) : (
-        <BoostInfo period={'2 years'} balance={'212,932 ice'} bonus={'+200%'} />
+        <BoostInfo period={'2 years'} balance={'212,932'} bonus={'+200%'} />
       )}
     </View>
   );

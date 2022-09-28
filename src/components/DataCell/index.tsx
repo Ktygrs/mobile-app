@@ -9,22 +9,21 @@ import {rem} from 'rn-units';
 type Props = {
   icon: ReactNode;
   label: string;
-  value: string;
-  fractions?: string;
-  currency?: string;
+  value: string | ReactNode;
+  currency?: string | ReactNode;
 };
 
-export const DataCell = ({icon, label, value, fractions, currency}: Props) => {
+export const DataCell = ({icon, label, value, currency}: Props) => {
   return (
     <View style={styles.container}>
       <View style={styles.iconWrapper}>{icon}</View>
       <Text style={styles.labelText}>{label}</Text>
       <View style={styles.value}>
-        <Text style={styles.valueText}>
-          {value}
-          {fractions && '.'}
-        </Text>
-        <Text style={styles.valueDecimalsText}>{fractions}</Text>
+        {typeof value === 'string' ? (
+          <Text style={styles.valueText}>{value}</Text>
+        ) : (
+          value
+        )}
         <Text style={styles.valueText}> {currency}</Text>
       </View>
     </View>
@@ -58,10 +57,6 @@ const styles = StyleSheet.create({
   },
   valueText: {
     ...font(17, 20, 'bold', 'primaryDark'),
-    textAlign: 'center',
-  },
-  valueDecimalsText: {
-    ...font(10, 12, 'bold', 'primaryDark'),
   },
   cellSeparator: {
     width: 1,

@@ -3,13 +3,13 @@
 import {Touchable} from '@components/Touchable';
 import {SCREEN_SIDE_OFFSET, SMALL_BUTTON_HIT_SLOP} from '@constants/styles';
 import {font} from '@utils/styles';
-import React, {memo} from 'react';
+import React, {memo, ReactNode} from 'react';
 import {StyleProp, StyleSheet, Text, View, ViewStyle} from 'react-native';
 import {rem} from 'rn-units';
 
 type Props = {
   title: string;
-  action?: string;
+  action?: string | ReactNode;
   onActionPress?: () => void;
   style?: StyleProp<ViewStyle>;
 };
@@ -21,10 +21,12 @@ export const SectionHeader = memo(
     return (
       <View style={[styles.container, style]}>
         <Text style={styles.titleText}>{title.toUpperCase()}</Text>
-        {action && (
+        {typeof action === 'string' ? (
           <Touchable hitSlop={SMALL_BUTTON_HIT_SLOP} onPress={onActionPress}>
             <Text style={styles.actionText}>{action}</Text>
           </Touchable>
+        ) : (
+          action
         )}
       </View>
     );
@@ -40,7 +42,7 @@ const styles = StyleSheet.create({
     height: SECTION_HEADER_HEIGH,
   },
   titleText: {
-    ...font(15, 18, 'black', 'primaryDark'),
+    ...font(15, 18, 'heavy', 'primaryDark'),
   },
   actionText: {
     ...font(12, 15, 'medium', 'primaryDark'),

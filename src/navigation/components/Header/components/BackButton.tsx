@@ -40,7 +40,7 @@ export const BackButton = ({
   );
 };
 
-const buttonHitSlop = {top: 15, left: 15, bottom: 15, right: 15};
+const buttonHitSlop = {top: 15, left: 0, bottom: 0, right: 15};
 
 const styles = StyleSheet.create({
   container: {

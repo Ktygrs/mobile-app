@@ -6,7 +6,7 @@ import {takeLeadingEveryUnique} from '@store/utils/sagas/effects';
 
 export function* rootReferralsSaga() {
   yield takeLeadingEveryUnique(
-    ReferralsActions.GET_REFERRALS(null).START.type,
+    ReferralsActions.GET_REFERRALS({})(null).START.type,
     getReferralsSaga,
   );
 }

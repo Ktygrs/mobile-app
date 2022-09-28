@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {PrimaryButton} from '@components/PrimaryButton';
-import {Text} from '@components/Text';
 import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
@@ -9,7 +8,7 @@ import {InviteIcon} from '@svg/InviteIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React from 'react';
-import {Image, StyleSheet, View} from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
 import {rem} from 'rn-units';
 
 const icon = require('../../../../assets/images/teamTier2.png');
@@ -27,9 +26,9 @@ export function EmptyTier({title}: Props) {
         <Image source={icon} style={styles.image} resizeMode="contain" />
       </View>
       <Text style={styles.title}>
-        <Text text="team.empty.title_part1" />
-        <Text style={styles.boldTitle} text={title} />
-        <Text text="team.empty.title_part2" />
+        <Text>{t('team.empty.title_part1')}</Text>
+        <Text style={styles.boldTitle}>{title}</Text>
+        <Text>{t('team.empty.title_part2')}</Text>
       </Text>
 
       <PrimaryButton

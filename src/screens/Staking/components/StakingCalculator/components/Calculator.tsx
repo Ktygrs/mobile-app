@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {IceLabel} from '@components/Labels/IceLabel';
 import {Slider} from '@components/Slider';
 import {COLORS} from '@constants/colors';
 import {commonStyles, SCREEN_SIDE_OFFSET} from '@constants/styles';
@@ -16,7 +17,7 @@ import {
   View,
 } from 'react-native';
 import {useSharedValue} from 'react-native-reanimated';
-import {rem} from 'rn-units';
+import {isAndroid, rem} from 'rn-units';
 
 const YEARS_MIN = 0;
 const YEARS_MAX = 10;
@@ -59,11 +60,18 @@ export const Calculator = memo(
           ) : (
             <Text
               style={styles.resultValueText}
-              numberOfLines={1}
+              // with numberOfLines on android the IceLabel is not displayed
+              // and on Android adjustsFontSizeToFit works even without numberOfLines
+              numberOfLines={isAndroid ? undefined : 1}
               adjustsFontSizeToFit>
               {result != null && (
                 <>
-                  {`${result} ${t('mining_calculator.currency')}`}
+                  {result}{' '}
+                  <IceLabel
+                    iconSize={26}
+                    iconOffsetY={isAndroid ? 3 : 0}
+                    label={t('general.ice_per_hour')}
+                  />
                   <Text style={styles.resultValueText_bonus}> (+145%)</Text>
                 </>
               )}
@@ -72,7 +80,7 @@ export const Calculator = memo(
         </View>
         <Text style={styles.currentRateText}>
           {t('staking.current_rate').toUpperCase()}: 7,120{' '}
-          {t('mining_calculator.currency')}
+          <IceLabel iconSize={14} label={t('general.ice_per_hour')} />
         </Text>
         <View style={styles.sliderInfo}>
           <YearsIcon
@@ -161,7 +169,8 @@ const styles = StyleSheet.create({
   },
   currentRateText: {
     textAlign: 'center',
-    ...font(13, 24, 'bold', 'periwinkleGray'),
+    marginVertical: rem(4),
+    ...font(13, 18, 'bold', 'periwinkleGray'),
   },
   checkboxWrapper: {
     paddingTop: rem(28),

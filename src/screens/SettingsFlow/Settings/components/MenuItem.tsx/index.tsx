@@ -16,7 +16,7 @@ import {rem} from 'rn-units';
 
 type Props = {
   title: string;
-  description: string;
+  description: string | ReactNode;
   renderIcon: (props: SvgProps) => ReactNode;
   onPress: () => void;
   confirmation?: {

@@ -1,0 +1,96 @@
+// SPDX-License-Identifier: BUSL-1.1
+
+import {COLORS} from '@constants/colors';
+import {SearchIcon} from '@svg/SearchIcon';
+import {font} from '@utils/styles';
+import React, {forwardRef, Ref, useState} from 'react';
+import {
+  ActivityIndicator,
+  NativeSyntheticEvent,
+  StyleProp,
+  StyleSheet,
+  TextInput,
+  TextInputFocusEventData,
+  TextInputProps,
+  View,
+  ViewStyle,
+} from 'react-native';
+import {rem} from 'rn-units';
+
+interface SearchInputProps extends TextInputProps {
+  loading?: boolean;
+  containerStyle?: StyleProp<ViewStyle>;
+}
+
+export const SearchInput = forwardRef(
+  (
+    {
+      loading,
+      containerStyle,
+      onFocus,
+      onBlur,
+      ...textInputProps
+    }: SearchInputProps,
+    forwardedRef: Ref<TextInput>,
+  ) => {
+    const [focused, setFocused] = useState(false);
+    return (
+      <View
+        style={[
+          styles.container,
+          focused ? styles.container_focused : null,
+          containerStyle,
+        ]}>
+        <View style={styles.searchButton}>
+          {loading ? (
+            <ActivityIndicator />
+          ) : (
+            <SearchIcon
+              width={rem(24)}
+              height={rem(24)}
+              color={COLORS.secondary}
+            />
+          )}
+        </View>
+        <TextInput
+          style={styles.input}
+          placeholderTextColor={COLORS.secondary}
+          onFocus={(e: NativeSyntheticEvent<TextInputFocusEventData>) => {
+            setFocused(true);
+            onFocus?.(e);
+          }}
+          onBlur={(e: NativeSyntheticEvent<TextInputFocusEventData>) => {
+            setFocused(false);
+            onBlur?.(e);
+          }}
+          ref={forwardedRef}
+          {...textInputProps}
+        />
+      </View>
+    );
+  },
+);
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: COLORS.wildSand,
+    borderRadius: rem(16),
+    borderWidth: 1,
+    borderColor: COLORS.wildSand,
+  },
+  container_focused: {
+    borderColor: COLORS.primaryDark,
+  },
+  input: {
+    paddingLeft: rem(46),
+    height: rem(48),
+    ...font(16, 21, 'medium', 'primaryDark'),
+  },
+  searchButton: {
+    justifyContent: 'center',
+    position: 'absolute',
+    left: 16,
+    top: 0,
+    bottom: 0,
+  },
+});
