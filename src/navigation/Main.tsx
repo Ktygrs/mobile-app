@@ -25,8 +25,10 @@ import {InviteShare} from '@screens/InviteFlow/InviteShare';
 import {News} from '@screens/News';
 import {Balance} from '@screens/PopUps/Balance';
 import {ContextualMenu} from '@screens/PopUps/ContextualMenu';
+import {ErrorPopUp} from '@screens/PopUps/Error';
 import {Tooltip} from '@screens/PopUps/Tooltip';
 import {UpdateRequired} from '@screens/PopUps/UpdateRequired';
+import {UpdateSuccessful} from '@screens/PopUps/UpdateSuccessful';
 import {MyBadges} from '@screens/ProfileFlow/MyBadges';
 import {MyRoles} from '@screens/ProfileFlow/MyRoles';
 import {Profile} from '@screens/ProfileFlow/Profile';
@@ -84,6 +86,10 @@ export type MainStackParamList = {
     }[];
   };
   UpdateRequired: undefined;
+  UpdateSuccessful: undefined;
+  ErrorPopUp: {
+    message: string;
+  };
   Balance: undefined;
   InviteFriend: {contact: Contact};
   InviteShare: undefined;
@@ -273,6 +279,16 @@ export function MainNavigator() {
       <MainStack.Screen
         name="UpdateRequired"
         component={UpdateRequired}
+        options={modalOptions}
+      />
+      <MainStack.Screen
+        name="UpdateSuccessful"
+        component={UpdateSuccessful}
+        options={modalOptions}
+      />
+      <MainStack.Screen
+        name="ErrorPopUp"
+        component={ErrorPopUp}
         options={modalOptions}
       />
       <MainStack.Screen

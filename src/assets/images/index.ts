@@ -39,4 +39,9 @@ export const Images = {
   backgrounds: {
     linesBg: require('./backgrounds/linesBg.png'),
   },
+  popUp: {
+    updateRequired: require('./popup/please_update.png'),
+    error: require('./popup/oops.png'),
+    upToDate: require('./popup/already_updated.png'),
+  },
 } as const;

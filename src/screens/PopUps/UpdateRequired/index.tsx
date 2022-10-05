@@ -1,14 +1,15 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
-import {SCREEN_SIDE_OFFSET} from '@constants/styles';
+import {APP_STORE_LINK, PLAY_STORE_LINK} from '@constants/links';
+import {Images} from '@images';
+import PopUp from '@screens/Templates/PopUp';
+import {logError} from '@services/logging';
+import {UpdateNow} from '@svg/PopUp/UpdateNow';
 import {t} from '@translations/i18n';
-import {font} from '@utils/styles';
 import React, {useEffect} from 'react';
-import {BackHandler, Image, StyleSheet, Text, View} from 'react-native';
-import {rem} from 'rn-units';
-
-const icon = require('./assets/images/updateRequiredPleaseUpdateGrafik.png');
+import {BackHandler, Linking} from 'react-native';
+import {isIOS} from 'rn-units';
 
 export const UpdateRequired = () => {
   useEffect(() => {
@@ -19,63 +20,24 @@ export const UpdateRequired = () => {
     return () => backHandler.remove();
   }, []);
 
+  const onUpdatePress = async () => {
+    try {
+      await Linking.openURL(isIOS ? APP_STORE_LINK : PLAY_STORE_LINK);
+    } catch (error) {
+      logError(error);
+    }
+  };
+
   return (
-    <View style={styles.background}>
-      <View style={styles.container}>
-        <Text style={styles.titleText}>{t('update_required.title')}</Text>
-        <Text style={styles.subtitleText}>
-          {t('update_required.description')}
-        </Text>
-        <Image source={icon} style={styles.icon} />
-        <View style={[styles.buttonContainer]}>
-          <Text style={[styles.buttonLabelText]}>
-            {t('update_required.button_title')}
-          </Text>
-        </View>
-      </View>
-    </View>
+    <PopUp
+      image={Images.popUp.updateRequired}
+      title={t('pop_up.update_now')}
+      message={t('pop_up.update_now_text')}
+      buttonIcon={<UpdateNow fill={COLORS.white} />}
+      buttonText={t('pop_up.please_update')}
+      onButtonPress={onUpdatePress}
+      dismissOnOutsideTouch={false}
+      dismissOnButtonPress={false}
+    />
   );
 };
-
-const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    backgroundColor: COLORS.transparentBackground,
-    justifyContent: 'center',
-  },
-  container: {
-    backgroundColor: COLORS.white,
-    marginHorizontal: SCREEN_SIDE_OFFSET,
-    paddingHorizontal: rem(28),
-    paddingTop: rem(30),
-    paddingBottom: rem(38),
-    borderRadius: rem(20),
-  },
-  titleText: {
-    textAlign: 'center',
-    ...font(24, 29, 'black', 'primaryDark'),
-  },
-  subtitleText: {
-    marginTop: rem(12),
-    textAlign: 'center',
-    ...font(12, 14, 'medium', 'secondary'),
-  },
-  buttonContainer: {
-    width: rem(145),
-    height: rem(41),
-    borderRadius: rem(11),
-    marginTop: rem(10),
-    justifyContent: 'center',
-    backgroundColor: COLORS.primaryLight,
-    alignSelf: 'center',
-  },
-  buttonLabelText: {
-    textAlign: 'center',
-    ...font(12, 15, 'black'),
-  },
-  icon: {
-    width: rem(250),
-    height: rem(230),
-    marginTop: rem(10),
-  },
-});
