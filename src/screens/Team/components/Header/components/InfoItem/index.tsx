@@ -19,8 +19,8 @@ type InfoItemProps = {
 };
 
 export function InfoItem({type}: InfoItemProps): React.ReactElement {
-  const refsCount = 0; //TODO: get from selectors
-  const earningsValue = 121985; //TODO: get from selectors
+  const refsCount = 0;
+  const earningsValue = 121985;
 
   const asset = () => {
     switch (type) {

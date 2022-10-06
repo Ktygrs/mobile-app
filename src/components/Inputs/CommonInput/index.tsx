@@ -11,19 +11,21 @@ import {
   TextInputProps,
   View,
 } from 'react-native';
-import {ViewStyle} from 'react-native';
+import {ActivityIndicator, ViewStyle} from 'react-native';
 import {isAndroid, rem} from 'rn-units';
 
 interface CommonInputProps extends TextInputProps {
   icon?: ReactNode;
   containerStyle?: StyleProp<ViewStyle>;
   errorText?: string;
+  loading?: boolean;
 }
 
 export const CommonInput = ({
   icon,
   containerStyle,
   errorText,
+  loading,
   ...props
 }: CommonInputProps) => {
   return (
@@ -42,6 +44,7 @@ export const CommonInput = ({
           {...props}
         />
         {errorText ? <Text style={styles.errorText}>{errorText}</Text> : null}
+        {loading && <ActivityIndicator style={styles.loader} />}
       </View>
     </View>
   );
@@ -75,5 +78,11 @@ const styles = StyleSheet.create({
   },
   inputWrapper: {
     flex: 1,
+  },
+  loader: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    bottom: 0,
   },
 });

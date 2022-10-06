@@ -96,9 +96,12 @@ export const Contacts = ({
     dispatch(AuthActions.UPDATE_ACCOUNT.START.create({phoneNumber: phone}));
   };
 
-  const onConfirmPhonePress = (code: string) => {
-    dispatch(ValidationActions.PHONE_VALIDATION.START.create(code));
-  };
+  const onConfirmPhonePress = useCallback(
+    (code: string) => {
+      dispatch(ValidationActions.PHONE_VALIDATION.START.create(code));
+    },
+    [dispatch],
+  );
 
   const requestContactsAccessPermissionPress = async () => {
     dispatch(PermissionsActions.GET_PERMISSIONS.START.create('contacts'));
@@ -140,6 +143,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   loading: {
-    backgroundColor: COLORS.black02opacity,
+    backgroundColor: COLORS.transparentBackground,
   },
 });

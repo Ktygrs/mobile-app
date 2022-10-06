@@ -1,84 +1,70 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {SignIn} from '@screens/UserRegistrationFlow/SignIn';
-import {UserRegistration} from '@screens/UserRegistrationFlow/UserRegistration';
-import {Welcome} from '@screens/UserRegistrationFlow/Welcome';
-import {WebView} from '@screens/WebView';
+import {useNavigation} from '@react-navigation/native';
 import {
-  isWelcomeSeenSelector,
-  magicUserSelector,
-  userSelector,
-} from '@store/modules/Auth/selectors';
-import React from 'react';
+  createNativeStackNavigator,
+  NativeStackNavigationProp,
+} from '@react-navigation/native-stack';
+import {ErrorPopUp} from '@screens/PopUps/Error';
+import {
+  PROFILE_FILL_STEPS,
+  ProfileFill,
+} from '@screens/UserRegistrationFlow/ProfileFill';
+import {SignIn} from '@screens/UserRegistrationFlow/SignIn';
+import {Welcome} from '@screens/UserRegistrationFlow/Welcome';
+import {userSelector} from '@store/modules/Auth/selectors';
+import {difference} from 'lodash';
+import React, {useCallback, useEffect} from 'react';
 import {useSelector} from 'react-redux';
 
 export type AuthStackParamList = {
-  Signup: undefined;
-  WebView: undefined;
-};
-
-export type SignUpStackParamList = {
-  Intro: undefined;
-  UserRegistration: undefined;
-  Invite: undefined;
-  Welcome: undefined;
   SignIn: undefined;
+  ProfileFill: undefined;
+  Welcome: undefined;
+  ErrorPopUp: {message: string};
 };
 
 const AuthStack = createNativeStackNavigator<AuthStackParamList>();
-const SignUpStack = createNativeStackNavigator<SignUpStackParamList>();
 
 const screenOptions = {
   headerShown: false,
-  cardStyle: {
-    backgroundColor: 'white',
-  },
 };
 
-const modalOptions = {
-  presentation: 'fullScreenModal',
-} as const;
-
-function Signup() {
-  const magicUser = useSelector(magicUserSelector);
-  const user = useSelector(userSelector);
-  const isWelcomeSeen = useSelector(isWelcomeSeenSelector);
-
-  const initialAuthRoute = () => {
-    if (!isWelcomeSeen && magicUser) {
-      return 'Welcome';
-    } else if (magicUser && (!user || !user.username)) {
-      return 'UserRegistration';
-    }
-    return 'SignIn';
-  };
-
-  return (
-    <SignUpStack.Navigator
-      screenOptions={screenOptions}
-      initialRouteName={initialAuthRoute()}>
-      <SignUpStack.Screen
-        name="UserRegistration"
-        component={UserRegistration}
-      />
-      <SignUpStack.Screen name="Welcome" component={Welcome} />
-      <SignUpStack.Screen name="SignIn" component={SignIn} />
-    </SignUpStack.Navigator>
-  );
-}
-
 export function AuthNavigator() {
+  const user = useSelector(userSelector);
+  const navigation =
+    useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
+
+  const getAuthRoute = useCallback(() => {
+    const finalizedSteps =
+      user?.clientData?.registrationProcessFinalizedSteps ?? [];
+    if (!user) {
+      return 'SignIn';
+    } else if (difference(PROFILE_FILL_STEPS, finalizedSteps).length !== 0) {
+      return 'ProfileFill';
+    } else {
+      return 'Welcome';
+    }
+  }, [user]);
+
+  useEffect(() => {
+    navigation.navigate(getAuthRoute());
+  }, [getAuthRoute, navigation]);
+
   return (
     <AuthStack.Navigator
-      screenOptions={{
-        ...screenOptions,
-      }}>
-      <AuthStack.Screen name="Signup" component={Signup} />
+      screenOptions={screenOptions}
+      initialRouteName={getAuthRoute()}>
+      <AuthStack.Screen name="ProfileFill" component={ProfileFill} />
+      <AuthStack.Screen name="Welcome" component={Welcome} />
+      <AuthStack.Screen name="SignIn" component={SignIn} />
       <AuthStack.Screen
-        options={modalOptions}
-        name="WebView"
-        component={WebView}
+        name="ErrorPopUp"
+        component={ErrorPopUp}
+        options={{
+          presentation: 'transparentModal',
+          animation: 'fade',
+        }}
       />
     </AuthStack.Navigator>
   );

@@ -13,10 +13,10 @@ import {ProfileTabStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {userSelector} from '@store/modules/Auth/selectors';
-import {isLoadingSelector} from '@store/modules/UtilityProcessStatuses/selectors';
 import {ValidationActions} from '@store/modules/Validation/actions';
+import {phoneVerificationStepSelector} from '@store/modules/Validation/selectors';
 import {t} from '@translations/i18n';
-import React, {memo, useEffect, useRef} from 'react';
+import React, {memo, useCallback, useEffect, useRef} from 'react';
 import {KeyboardAvoidingView, StyleSheet, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {isIOS, rem} from 'rn-units';
@@ -28,11 +28,8 @@ export const ConfirmPhoneNumber = memo(() => {
   const navigation =
     useNavigation<NativeStackNavigationProp<ProfileTabStackParamList>>();
   const user = useSelector(userSelector) as User;
+  const phoneVerificationStep = useSelector(phoneVerificationStepSelector);
   const phoneNumberRef = useRef(user.phoneNumber);
-
-  const isLoading = useSelector(
-    isLoadingSelector.bind(null, ValidationActions.PHONE_VALIDATION),
-  );
 
   useEffect(() => {
     if (phoneNumberRef.current !== user.phoneNumber) {
@@ -40,9 +37,18 @@ export const ConfirmPhoneNumber = memo(() => {
     }
   }, [navigation, user.phoneNumber]);
 
-  const onSubmitPress = (code: string) => {
-    dispatch(ValidationActions.PHONE_VALIDATION.START.create(code));
-  };
+  useEffect(() => {
+    if (phoneVerificationStep === 'phone') {
+      navigation.navigate('ModifyPhoneNumber');
+    }
+  }, [navigation, phoneVerificationStep]);
+
+  const onSubmitPress = useCallback(
+    (code: string) => {
+      dispatch(ValidationActions.PHONE_VALIDATION.START.create(code));
+    },
+    [dispatch],
+  );
 
   return (
     <KeyboardDismiss>
@@ -57,10 +63,7 @@ export const ConfirmPhoneNumber = memo(() => {
           <View style={[styles.avatarWrapper, commonStyles.shadow]}>
             <Avatar uri={user.profilePictureUrl} style={styles.avatarImage} />
           </View>
-          <ConfirmPhoneNumberComponent
-            onSubmitPress={onSubmitPress}
-            loading={isLoading}
-          />
+          <ConfirmPhoneNumberComponent onSubmitPress={onSubmitPress} />
         </View>
       </KeyboardAvoidingView>
     </KeyboardDismiss>

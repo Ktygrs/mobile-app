@@ -5,27 +5,63 @@ import {PrimaryButton} from '@components/PrimaryButton';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {Images} from '@images';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
-import {TicketIconSvg} from '@svg/Ticket';
+import {MainStackParamList} from '@navigation/Main';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack/lib/typescript/src/types';
+import {
+  actionPayloadSelector,
+  failedReasonSelector,
+  isLoadingSelector,
+} from '@store/modules/UtilityProcessStatuses/selectors';
+import {ValidationActions} from '@store/modules/Validation/actions';
+import {TicketIcon} from '@svg/Ticket';
 import {t} from '@translations/i18n';
+import {checkProp} from '@utils/guards';
 import {font} from '@utils/styles';
-import React, {useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
+import {useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
 type Props = {
   onSubmitPress: (code: string) => void;
-  loading?: boolean;
 };
 
-export function ConfirmPhoneNumber({onSubmitPress, loading = false}: Props) {
+export const ConfirmPhoneNumber = memo(({onSubmitPress}: Props) => {
   const [code, onCodeChange] = useState('');
   const [focused, setFocused] = useState(false);
+  const navigation =
+    useNavigation<NativeStackNavigationProp<MainStackParamList>>();
 
   const handleOnPress = () => {
     onSubmitPress(code);
   };
 
   const tabbarOffest = useBottomTabBarOffsetStyle();
+
+  const isLoading = useSelector(
+    isLoadingSelector.bind(null, ValidationActions.PHONE_VALIDATION),
+  );
+
+  const failedReason = useSelector(
+    failedReasonSelector.bind(null, ValidationActions.PHONE_VALIDATION),
+  );
+
+  const validatePayload = useSelector(
+    actionPayloadSelector.bind(null, ValidationActions.PHONE_VALIDATION),
+  );
+
+  useEffect(() => {
+    if (
+      checkProp(validatePayload, 'errorCode') &&
+      ['VALIDATION_NOT_FOUND', 'CONFLICT_WITH_ANOTHER_USER'].includes(
+        validatePayload.errorCode as string,
+      ) &&
+      failedReason
+    ) {
+      navigation.navigate('ErrorPopUp', {message: failedReason});
+    }
+  }, [validatePayload, failedReason, navigation]);
 
   return (
     <View style={[styles.container, tabbarOffest.current]}>
@@ -46,7 +82,7 @@ export function ConfirmPhoneNumber({onSubmitPress, loading = false}: Props) {
         placeholder={t('team.confirm_code.placeholder')}
         value={code}
         onChangeText={onCodeChange}
-        icon={<TicketIconSvg />}
+        icon={<TicketIcon />}
         autoCorrect={false}
         keyboardType="name-phone-pad"
         returnKeyType="done"
@@ -54,17 +90,18 @@ export function ConfirmPhoneNumber({onSubmitPress, loading = false}: Props) {
         containerStyle={styles.input}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
-        editable={!loading}
+        editable={!isLoading}
+        errorText={failedReason}
       />
       <PrimaryButton
         text={t('team.confirm_code.button')}
         onPress={handleOnPress}
         style={styles.allowAccessButton}
-        loading={loading}
+        loading={isLoading}
       />
     </View>
   );
-}
+});
 
 const styles = StyleSheet.create({
   container: {

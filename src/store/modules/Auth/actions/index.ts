@@ -3,49 +3,32 @@
 import {User} from '@api/user/types';
 import {OAuthProvider} from '@magic-ext/react-native-oauth';
 import {createAction} from '@store/utils/actions/createAction';
+import {Action} from 'redux';
+import {PutEffect} from 'redux-saga/effects';
 
 type SignInResult = {
-  magicUser: {
-    phoneNumber: string | null | undefined;
-    email: string | null;
-    userId: string;
+  userId: string;
+  userInfo: {
+    email?: string;
+    phoneNumber?: string;
+    firstName?: string;
+    lastName?: string;
+    username?: string;
   };
-  user: User | null;
 };
 
 const SET_TOKEN = createAction('SET_TOKEN', {
   STATE: token => ({token}),
 });
 
-const STORE_WELCOME_SEEN = createAction('STORE_WELCOME_SEEN', {
-  STATE: () => {},
+const INIT_USER = createAction('LOAD_USER', {
+  STATE: (user: User | null) => ({user}),
 });
 
-const LOAD_USER = createAction('LOAD_USER', {
-  STATE: (
-    magicUser?: {
-      email: string | null;
-      phoneNumber: string | null | undefined;
-      userId: string;
-    },
-    user?: User,
-  ) => ({magicUser, user}),
-});
-
-const CREATE_USER = createAction('CREATE_USER', {
-  START: () => {},
+const FINISH_AUTH = createAction('FINISH_AUTH', {
+  START: (data: SignInResult) => data,
   SUCCESS: (result: User) => ({result}),
-  FAILED: (errorMessage: string) => ({
-    errorMessage,
-  }),
-});
-
-const FETCH_USER = createAction('FETCH_USER', {
-  START: () => {},
-  SUCCESS: (result: User) => ({result}),
-  FAILED: (errorMessage: string) => ({
-    errorMessage,
-  }),
+  FAILED: (errorMessage: string) => ({errorMessage}),
 });
 
 const SIGN_OUT = createAction('SIGN_OUT', {
@@ -56,57 +39,56 @@ const SIGN_OUT = createAction('SIGN_OUT', {
 
 const SIGN_IN_EMAIL = createAction('SIGN_IN_EMAIL', {
   START: (email: string) => ({email}),
-  SUCCESS: (result: SignInResult) => ({
-    result,
-  }),
+  SUCCESS: (result: SignInResult) => result,
   FAILED: true,
 });
 
 const SIGN_IN_PHONE = createAction('SIGN_IN_PHONE', {
   START: (phone: string) => ({phone}),
-  SUCCESS: (result: SignInResult) => ({
-    result,
-  }),
+  SUCCESS: (result: SignInResult) => result,
   FAILED: true,
 });
 
 const SIGN_IN_SOCIAL = createAction('SIGN_IN_SOCIAL', {
   START: (provider: OAuthProvider) => ({provider}),
-  SUCCESS: (result: SignInResult) => ({result}),
+  SUCCESS: (result: SignInResult) => result,
   FAILED: true,
 });
 
 const DELETE_ACCOUNT = createAction('DELETE_ACCOUNT', {
   START: true,
   SUCCESS: true,
-  FAILED: (errorMessage: string) => ({
-    errorMessage,
-  }),
+  FAILED: (errorMessage: string) => ({errorMessage}),
 });
 
 const UPDATE_ACCOUNT = createAction('UPDATE_ACCOUNT', {
-  START: (userInfo: Partial<User>) => ({
+  START: (
+    userInfo: Partial<User>,
+    raceConditionStrategy: (
+      user: User,
+    ) => Generator<
+      PutEffect<Action<unknown>>,
+      {retry: boolean},
+      void
+    > = function* () {
+      return {retry: true};
+    },
+  ) => ({
     userInfo,
+    raceConditionStrategy,
   }),
-  SUCCESS: (result: User, userInfo: Partial<User>) => ({
-    result,
-    userInfo,
-  }),
-  FAILED: (errorMessage: string) => ({
-    errorMessage,
-  }),
+  SUCCESS: (user: User, userInfo?: Partial<User>) => ({user, userInfo}),
+  FAILED: (errorMessage: string) => ({errorMessage}),
 });
 
 export const AuthActions = Object.freeze({
   SET_TOKEN,
-  LOAD_USER,
-  FETCH_USER,
-  STORE_WELCOME_SEEN,
+  INIT_USER,
+  FINISH_AUTH,
   SIGN_IN_EMAIL,
   SIGN_IN_PHONE,
   SIGN_IN_SOCIAL,
   SIGN_OUT,
   DELETE_ACCOUNT,
-  CREATE_USER,
   UPDATE_ACCOUNT,
 });

@@ -1,18 +1,21 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {RegistrationProcessFinalizedStep} from '@api/user/types';
 import {Initialization} from '@components/Initialization';
+import {AuthNavigator} from '@navigation/Auth';
+import {MainNavigator} from '@navigation/Main';
 import {theme} from '@navigation/theme';
 import {
   NavigationContainer,
   useNavigationContainerRef,
 } from '@react-navigation/native';
+import {PROFILE_FILL_STEPS} from '@screens/UserRegistrationFlow/ProfileFill';
+import {routingInstrumentation} from '@services/logging';
 import {useAppLoadedDispatcher} from '@store/modules/AppCommon/hooks/useAppLoadedDispatcher';
 import {useAppStateListener} from '@store/modules/AppCommon/hooks/useAppStateListener';
 import {isAppInitializedSelector} from '@store/modules/AppCommon/selectors';
-import {
-  isWelcomeSeenSelector,
-  userSelector,
-} from '@store/modules/Auth/selectors';
+import {userSelector} from '@store/modules/Auth/selectors';
+import {difference} from 'lodash';
 import React, {useCallback} from 'react';
 import {LogBox} from 'react-native';
 import RNBootSplash from 'react-native-bootsplash';
@@ -27,23 +30,25 @@ LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',
 ]);
 
-import {routingInstrumentation} from '@services/logging';
-
-import {AuthNavigator} from './Auth';
-import {MainNavigator} from './Main';
-
 function ActiveNavigator() {
   const isAppInitialized = useSelector(isAppInitializedSelector);
-  const isWelcomeSeen = useSelector(isWelcomeSeenSelector);
   const user = useSelector(userSelector);
+  const requiredAuthSteps: RegistrationProcessFinalizedStep[] = [
+    'onboarding',
+    ...PROFILE_FILL_STEPS,
+  ];
+  const finilizedAuthSteps =
+    user?.clientData?.registrationProcessFinalizedSteps ?? [];
 
   if (!isAppInitialized) {
     return <Initialization />;
   }
-  if (user && isWelcomeSeen) {
-    return <MainNavigator />;
+
+  if (!user || difference(requiredAuthSteps, finilizedAuthSteps).length !== 0) {
+    return <AuthNavigator />;
   }
-  return <AuthNavigator />;
+
+  return <MainNavigator />;
 }
 
 export function Router() {

@@ -15,22 +15,18 @@ export function* rootDevicesSaga() {
     takeLatest(
       [
         DeviceActions.GET_OR_CREATE_SETTINGS.START.type,
-        AuthActions.SIGN_IN_SOCIAL.SUCCESS.type,
-        AuthActions.SIGN_IN_EMAIL.SUCCESS.type,
-        AuthActions.SIGN_IN_PHONE.SUCCESS.type,
+        AuthActions.FINISH_AUTH.SUCCESS.type,
       ],
       getOrCreateDeviceSettingsSaga,
     ),
-    takeLatest(AuthActions.LOAD_USER.STATE.type, initDeviceSaga),
+    takeLatest(AuthActions.INIT_USER.STATE.type, initDeviceSaga),
     takeLatest(
       AppCommonActions.APP_INITIALIZED.STATE.type,
       updateDeviceLocationSaga,
     ),
     takeLatest(
       [
-        AuthActions.SIGN_IN_SOCIAL.SUCCESS.type,
-        AuthActions.SIGN_IN_EMAIL.SUCCESS.type,
-        AuthActions.SIGN_IN_PHONE.SUCCESS.type,
+        AuthActions.FINISH_AUTH.SUCCESS.type,
         AppCommonActions.APP_STATE_CHANGE.STATE.type,
         AppCommonActions.APP_INITIALIZED.STATE.type,
       ],

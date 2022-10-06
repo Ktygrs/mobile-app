@@ -6,21 +6,14 @@ import {createAction} from '@store/utils/actions/createAction';
 const USERNAME_VALIDATION = createAction('USERNAME_VALIDATION', {
   START: (username: string) => ({username}),
   SUCCESS: (username: string) => ({username}),
-  FAILED: (errorMessage: string) => ({
-    errorMessage,
-  }),
+  FAILED: (errorMessage: string) => ({errorMessage}),
   CLEAR: false,
 });
 
 const REF_USERNAME_VALIDATION = createAction('REF_USERNAME_VALIDATION', {
-  START: (refUsername: string, skipValidation: boolean) => ({
-    refUsername,
-    skipValidation,
-  }),
-  SUCCESS: (refUser: User | null) => ({refUser}),
-  FAILED: (errorMessage: string) => ({
-    errorMessage,
-  }),
+  START: (username: string) => ({username}),
+  SUCCESS: (user: User) => ({user}),
+  FAILED: (errorMessage: string) => ({errorMessage}),
   CLEAR: false,
 });
 
@@ -29,8 +22,9 @@ const PHONE_VALIDATION = createAction('PHONE_VALIDATION', {
     validationCode,
   }),
   SUCCESS: (result: User) => ({result}),
-  FAILED: (errorMessage: string) => ({
+  FAILED: (errorMessage: string, errorCode: string) => ({
     errorMessage,
+    errorCode,
   }),
 });
 

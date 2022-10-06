@@ -113,6 +113,10 @@ export const isApiError = (
   );
 };
 
+export const getApiErrorCode = (error: unknown) => {
+  return axios.isAxiosError(error) ? error.response?.data.code : null;
+};
+
 export const buildFormData = (entity: {[key: string]: unknown}) => {
   const formData = new FormData();
   for (let key in entity) {

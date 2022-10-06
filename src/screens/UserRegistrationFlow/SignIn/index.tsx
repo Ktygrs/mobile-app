@@ -5,16 +5,16 @@ import {PhoneNumberInput} from '@components/Inputs/PhoneNumberInput';
 import {PhoneNumberSearch} from '@components/PhoneNumberSearch';
 import {PrimaryButton} from '@components/PrimaryButton';
 import {COLORS} from '@constants/colors';
-import {SignUpStackParamList} from '@navigation/Auth';
+import {AuthStackParamList} from '@navigation/Auth';
+import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {BorderedButton} from '@screens/UserRegistrationFlow/SignIn/components/BorderedButton';
 import {AuthActions} from '@store/modules/Auth/actions';
-import {isAuthorizedSelector} from '@store/modules/Auth/selectors';
+import {deviceLocationSelector} from '@store/modules/Devices/selectors';
 import {
-  deviceLocationSelector,
-  deviceSettingsSelector,
-} from '@store/modules/Devices/selectors';
-import {isLoadingSelector} from '@store/modules/UtilityProcessStatuses/selectors';
+  failedReasonSelector,
+  isLoadingSelector,
+} from '@store/modules/UtilityProcessStatuses/selectors';
 import {EmailIconSvg} from '@svg/EmailIcon';
 import {LogoSvg} from '@svg/Logo';
 import {MagicIconSvg} from '@svg/MagicIcon';
@@ -39,11 +39,9 @@ import {isIOS, rem} from 'rn-units';
 
 import {ESocialType, SocialSignIn} from './components/SocialSignIn';
 
-type Props = {
-  navigation: NativeStackNavigationProp<SignUpStackParamList, 'SignIn'>;
-};
-
-export const SignIn = ({navigation}: Props) => {
+export const SignIn = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
   const deviceLocation = useSelector(deviceLocationSelector);
   const deviceCountry = getCountryByCode(deviceLocation?.country);
   const [email, onChangeEmail] = useState('');
@@ -65,20 +63,22 @@ export const SignIn = ({navigation}: Props) => {
     isLoadingSelector.bind(null, AuthActions.SIGN_IN_SOCIAL),
   );
 
+  const failedReason = useSelector(
+    failedReasonSelector.bind(null, AuthActions.FINISH_AUTH),
+  );
+
   const isLoading =
     isEmailSignInLoading || isPhoneSignInLoading || isSocialSignInLoading;
 
+  useEffect(() => {
+    if (failedReason) {
+      navigation.navigate('ErrorPopUp', {message: failedReason});
+    }
+  }, [failedReason, navigation]);
+
   const dispatch = useDispatch();
-  const isAuthorized = useSelector(isAuthorizedSelector);
-  const deviceSettings = useSelector(deviceSettingsSelector);
 
   const phoneNumber = `${selectedCountry.iddCode}${phone}`;
-
-  useEffect(() => {
-    if (isAuthorized && deviceSettings) {
-      navigation.navigate('UserRegistration');
-    }
-  }, [navigation, isAuthorized, deviceSettings]);
 
   useEffect(() => {
     if (deviceLocation) {
@@ -208,12 +208,12 @@ export const SignIn = ({navigation}: Props) => {
         </Text>
         <MagicIconSvg />
       </View>
-      {isLoading ? (
+      {isLoading && (
         <ActivityIndicator
           style={[StyleSheet.absoluteFill, styles.loading]}
           size={'large'}
         />
-      ) : null}
+      )}
     </SafeAreaView>
   );
 };
@@ -266,6 +266,6 @@ const styles = StyleSheet.create({
     width: rem(247),
   },
   loading: {
-    backgroundColor: COLORS.black02opacity,
+    backgroundColor: COLORS.transparentBackground,
   },
 });

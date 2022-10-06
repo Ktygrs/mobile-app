@@ -23,7 +23,7 @@ export type Task = {
 
 export const taskItems: Task[] = [
   {
-    type: 'claimYourNickname',
+    type: 'claimUsername',
     completed: true,
     active: false,
     Icon: <VerifiedUserSvg />,

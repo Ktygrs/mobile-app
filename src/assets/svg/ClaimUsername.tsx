@@ -3,7 +3,7 @@
 import * as React from 'react';
 import {ClipPath, Defs, G, Path, Rect, Svg} from 'react-native-svg';
 
-export const ClaimNicknameSvg = ({width = 258, height = 292}) => {
+export const ClaimUsernameSvg = ({width = 258, height = 292}) => {
   return (
     <Svg width={width} height={height} viewBox="0 0 258 292" fill="none">
       <G clip-path="url(#clip0_687_10607)">

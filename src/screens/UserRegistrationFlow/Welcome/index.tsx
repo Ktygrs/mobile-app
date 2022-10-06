@@ -1,15 +1,18 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {User} from '@api/user/types';
 import {IceLabel} from '@components/Labels/IceLabel';
 import {COLORS} from '@constants/colors';
 import {AuthActions} from '@store/modules/Auth/actions';
+import {userSelector} from '@store/modules/Auth/selectors';
 import {PermissionsActions} from '@store/modules/Permissions/actions';
+import {isLoadingSelector} from '@store/modules/UtilityProcessStatuses/selectors';
 import {t} from '@translations/i18n';
 import React, {useRef, useState} from 'react';
-import {StatusBar, StyleSheet, View} from 'react-native';
+import {ActivityIndicator, StatusBar, StyleSheet, View} from 'react-native';
 import PagerView, {PagerViewOnPageSelectedEvent} from 'react-native-pager-view';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {isAndroid, rem} from 'rn-units';
 
 import {NavigationPanel} from './components/NavigationPanel';
@@ -118,6 +121,10 @@ export const Welcome = () => {
   const pagerViewRef = useRef<PagerView>(null);
   const [currentPage, setCurrentPage] = useState(0);
   const dispatch = useDispatch();
+  const user = useSelector(userSelector) as User;
+  const isLoading = useSelector(
+    isLoadingSelector.bind(null, AuthActions.UPDATE_ACCOUNT),
+  );
 
   const onNextPress = () => {
     const nextPage = currentPage + 1;
@@ -127,17 +134,42 @@ export const Welcome = () => {
     }
   };
 
+  const finishOnboarding = (currentUser: User) => {
+    const finalizedSteps =
+      currentUser?.clientData?.registrationProcessFinalizedSteps ?? [];
+    if (!finalizedSteps.includes('onboarding')) {
+      dispatch(
+        AuthActions.UPDATE_ACCOUNT.START.create(
+          {
+            clientData: {
+              ...currentUser.clientData,
+              registrationProcessFinalizedSteps: [
+                ...finalizedSteps,
+                'onboarding',
+              ],
+            },
+          },
+          function* (freshUser) {
+            finishOnboarding(freshUser);
+            return {retry: false};
+          },
+        ),
+      );
+    }
+  };
+
   const onPageSelected = (e: PagerViewOnPageSelectedEvent) => {
     setCurrentPage(e.nativeEvent.position);
   };
+
   const notNowPress = () => {
-    dispatch(AuthActions.STORE_WELCOME_SEEN.STATE.create());
+    finishOnboarding(user);
   };
   const yesPleasePress = () => {
     dispatch(
       PermissionsActions.GET_PERMISSIONS.START.create('pushNotifications'),
     );
-    dispatch(AuthActions.STORE_WELCOME_SEEN.STATE.create());
+    finishOnboarding(user);
   };
 
   return (
@@ -168,6 +200,13 @@ export const Welcome = () => {
         notNowPress={notNowPress}
         yesPleasePress={yesPleasePress}
       />
+
+      {isLoading && (
+        <ActivityIndicator
+          style={[StyleSheet.absoluteFill, styles.loading]}
+          size={'large'}
+        />
+      )}
     </SafeAreaView>
   );
 };
@@ -180,5 +219,8 @@ const styles = StyleSheet.create({
     flex: 1,
     marginBottom: rem(20),
     marginTop: rem(10),
+  },
+  loading: {
+    backgroundColor: COLORS.transparentBackground,
   },
 });

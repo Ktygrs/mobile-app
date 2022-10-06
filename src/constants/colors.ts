@@ -2,7 +2,6 @@
 
 export const COLORS = {
   black: '#000000',
-  black02opacity: 'rgba(0,0,0,.2)',
   white: '#FFFFFF',
   white02opacity: 'rgba(255,255,255, .2)',
   primary: '#073e91',

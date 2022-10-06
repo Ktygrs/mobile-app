@@ -49,10 +49,6 @@ export function newsReducer(state = INITIAL_STATE, action: Actions): State {
           draft.hasMore = hasMore;
         }
         break;
-      // TODO: connect log out
-      // case AuthActions.SIGN_OUT.SUCCESS.type: {
-      //   return INITIAL_STATE;
-      // }
     }
   });
 }

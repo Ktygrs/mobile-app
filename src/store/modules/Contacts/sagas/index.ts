@@ -12,6 +12,7 @@ export function* rootTeamSaga() {
   yield all([
     takeLatest(
       [
+        ContactsActions.SYNC_CONTACTS.START.type,
         AppCommonActions.APP_STATE_CHANGE.STATE.type,
         AppCommonActions.APP_INITIALIZED.STATE.type,
         AuthActions.SIGN_OUT.SUCCESS.type,

@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {Api} from '@api/index';
+import {User} from '@api/user/types';
 import {isAppActiveSelector} from '@store/modules/AppCommon/selectors';
+import {AuthActions} from '@store/modules/Auth/actions';
 import {
   isAuthorizedSelector,
   userSelector,
@@ -33,24 +34,20 @@ export function* syncContactsSaga() {
       yield take('*');
     }
 
-    const user: SagaReturnType<typeof userSelector> = yield select(
-      userSelector,
-    );
+    const user: User = yield select(userSelector);
+    const phoneNumberHashes = new Set(user.agendaPhoneNumberHashes?.split(','));
+
     let contacts: SagaReturnType<typeof getAllWithoutPhotos> = yield call(
       getAllWithoutPhotos,
     );
 
-    contacts = contacts
-      .filter(c => c.phoneNumbers.length > 0)
-      .sort((a, b) => a.givenName.localeCompare(b.givenName));
-
-    const e164PhoneNumbers = contacts.reduce<string[]>((numbers, contact) => {
+    const agendaPhoneNumbers = contacts.reduce<string[]>((numbers, contact) => {
       return numbers.concat(
         contact.phoneNumbers.reduce<string[]>((contactNumbers, record) => {
           try {
             return [
               ...contactNumbers,
-              e164PhoneNumber(record.number, user?.country),
+              e164PhoneNumber(record.number, user.country),
             ];
           } catch {
             // skip number in case of error
@@ -60,16 +57,31 @@ export function* syncContactsSaga() {
       );
     }, []);
 
-    const phoneNumberHashes: string[] = yield Promise.all(
-      e164PhoneNumbers.map(hashPhoneNumber),
+    const agendaPhoneNumberHashes: string[] = yield Promise.all(
+      agendaPhoneNumbers.map(hashPhoneNumber),
     );
 
-    const phoneNumberHashesString = phoneNumberHashes.join(',');
-    if (user && phoneNumberHashesString !== user.agendaPhoneNumberHashes) {
-      yield call(Api.user.modifyUser, user.id, {
-        checksum: user.checksum,
-        agendaPhoneNumberHashes: phoneNumberHashesString,
-      });
+    const numberOfHashes = phoneNumberHashes.size;
+    agendaPhoneNumberHashes.forEach(hash => phoneNumberHashes.add(hash));
+
+    if (numberOfHashes !== phoneNumberHashes.size) {
+      yield put(
+        AuthActions.UPDATE_ACCOUNT.START.create(
+          {
+            agendaPhoneNumberHashes: [...phoneNumberHashes].join(','),
+          },
+          function* (freshUser) {
+            if (
+              freshUser.agendaPhoneNumberHashes?.length !==
+              user.agendaPhoneNumberHashes?.length
+            ) {
+              yield put(ContactsActions.SYNC_CONTACTS.START.create());
+              return {retry: false};
+            }
+            return {retry: true};
+          },
+        ),
+      );
     }
 
     yield put(ContactsActions.SYNC_CONTACTS.SUCCESS.create(contacts));

@@ -9,10 +9,6 @@ const segmentClient = createClient({
   writeKey: '',
 });
 
-export function setupSegment() {
-  // TODO::create client
-}
-
 export async function trackScreen({
   routName,
   parentRouteName,

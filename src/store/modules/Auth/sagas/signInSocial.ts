@@ -4,8 +4,7 @@ import {ENV} from '@constants/env';
 import {OAuthRedirectResult} from '@magic-ext/react-native-oauth';
 import {magic} from '@services/magicLink';
 import {AuthActions} from '@store/modules/Auth/actions';
-import {fetchUser} from '@store/modules/Auth/sagas/fetchUser';
-import {call, put, SagaReturnType} from 'redux-saga/effects';
+import {put} from 'redux-saga/effects';
 
 const actionCreator = AuthActions.SIGN_IN_SOCIAL.START.create;
 
@@ -19,33 +18,28 @@ export function* signInSocialSaga(action: ReturnType<typeof actionCreator>) {
         redirectURI: `${ENV.MAGIC_DEEPLINK_SCHEME}://login`,
       });
 
-    const {email, phoneNumber} = socialLoginInfo.oauth.userInfo;
+    const userId = socialLoginInfo.magic.userMetadata.issuer;
+    const token = socialLoginInfo.magic.idToken;
 
-    yield put(
-      AuthActions.SET_TOKEN.STATE.create(socialLoginInfo.magic.idToken),
-    );
-
-    if (!socialLoginInfo.magic.userMetadata.issuer) {
+    if (!userId) {
       throw new Error('metadata.issuer is empty');
     }
 
-    const user: SagaReturnType<typeof fetchUser> = yield call(
-      fetchUser,
-      socialLoginInfo.magic.userMetadata.issuer,
+    const userInfo = socialLoginInfo.oauth.userInfo;
+
+    yield put(AuthActions.SET_TOKEN.STATE.create(token));
+    yield put(
+      AuthActions.SIGN_IN_SOCIAL.SUCCESS.create({
+        userId,
+        userInfo: {
+          email: userInfo.email,
+          phoneNumber: userInfo.phoneNumber,
+          username: userInfo.preferredUsername ?? userInfo.nickname,
+          firstName: userInfo.givenName,
+          lastName: userInfo.familyName,
+        },
+      }),
     );
-
-    const result = {
-      magicUser: {
-        email: email ?? null,
-        phoneNumber: phoneNumber ?? null,
-        userId: socialLoginInfo.magic.userMetadata.issuer,
-        preferredUsername:
-          socialLoginInfo.oauth?.userInfo?.preferredUsername ?? null,
-      },
-      user,
-    };
-
-    yield put(AuthActions.SIGN_IN_SOCIAL.SUCCESS.create(result));
   } catch (error) {
     yield put(AuthActions.SIGN_IN_SOCIAL.FAILED.create());
     throw error;

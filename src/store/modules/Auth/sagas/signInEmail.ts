@@ -3,8 +3,7 @@
 import {MagicUserMetadata} from '@magic-sdk/react-native';
 import {magic} from '@services/magicLink';
 import {AuthActions} from '@store/modules/Auth/actions';
-import {fetchUser} from '@store/modules/Auth/sagas/fetchUser';
-import {call, put, SagaReturnType} from 'redux-saga/effects';
+import {put} from 'redux-saga/effects';
 
 const actionCreator = AuthActions.SIGN_IN_EMAIL.START.create;
 
@@ -15,25 +14,19 @@ export function* signInEmailSaga(action: ReturnType<typeof actionCreator>) {
       email,
     });
 
-    yield put(AuthActions.SET_TOKEN.STATE.create(token));
-
     const metadata: MagicUserMetadata = yield magic.user.getMetadata();
 
     if (!metadata.issuer) {
       throw new Error('metadata.issuer is empty');
     }
 
-    const user: SagaReturnType<typeof fetchUser> = yield call(
-      fetchUser,
-      metadata.issuer,
+    yield put(AuthActions.SET_TOKEN.STATE.create(token));
+    yield put(
+      AuthActions.SIGN_IN_EMAIL.SUCCESS.create({
+        userId: metadata.issuer,
+        userInfo: {email},
+      }),
     );
-
-    const result = {
-      magicUser: {email, phoneNumber: null, userId: metadata.issuer},
-      user,
-    };
-
-    yield put(AuthActions.SIGN_IN_EMAIL.SUCCESS.create(result));
   } catch (error) {
     yield put(AuthActions.SIGN_IN_EMAIL.FAILED.create());
     throw error;

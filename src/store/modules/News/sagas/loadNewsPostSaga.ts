@@ -3,9 +3,6 @@
 import {NewsActions} from '@store/modules/News/actions';
 import {getErrorMessage} from '@utils/errors';
 import {put} from 'redux-saga/effects';
-// TODO: connect API
-// import Api from 'src/api';
-// import {NewsPost} from 'src/types/store';
 
 const actionCreator = NewsActions.NEWS_POST_LOAD(null).START.create;
 

@@ -31,12 +31,16 @@ export type User = {
   pinged?: boolean | null;
 
   referralType?: ReferralType;
+  referredBy?: string;
 
   checksum: string;
 
   hiddenProfileElements?: HiddenProfileElement[] | null;
 
   clientData?: ClientData | null;
+
+  skipEmailValidation?: boolean | null;
+  skipPhoneNumberValidation?: boolean | null;
 };
 
 export type ReferralType = 'CONTACTS' | 'T0' | 'T1' | 'T2';
@@ -62,10 +66,10 @@ export type RegistrationProcessFinalizedStep =
   | 'username'
   | 'referral'
   | 'email'
+  | 'iceBonus'
   | 'onboarding';
 
 export type ClientData = {
-  registrationProcessFinalizedSteps: RegistrationProcessFinalizedStep[];
-  walkthroughProgress: WalkthroughElement[];
-  //TODO: add whatever else you need here, or change existing if needed.
+  registrationProcessFinalizedSteps?: RegistrationProcessFinalizedStep[];
+  walkthroughProgress?: WalkthroughElement[];
 };

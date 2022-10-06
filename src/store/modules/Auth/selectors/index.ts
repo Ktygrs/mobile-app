@@ -2,19 +2,12 @@
 
 import {RootState} from '@store/rootReducer';
 
-export const magicUserSelector = (state: RootState) => state.auth.magicUser;
+export const userIdSelector = (state: RootState) => state.auth.user?.id ?? '';
 
-export const userIdSelector = (state: RootState) =>
-  state.auth.magicUser?.userId ?? '';
-
-export const isAuthorizedSelector = (state: RootState) =>
-  !!state.auth.magicUser;
+export const isAuthorizedSelector = (state: RootState) => !!state.auth.user;
 
 export const isAuthInitializedSelector = (state: RootState) =>
   state.auth.isInitialized;
-
-export const isWelcomeSeenSelector = (state: RootState) =>
-  state.auth.isWelcomeSeen;
 
 export const authTokenSelector = (state: RootState) => state.auth.token;
 
@@ -25,3 +18,6 @@ export const isPhoneNumberVerifiedSelector = (state: RootState) =>
 
 export const usernameSelector = (state: RootState) =>
   state.auth.user?.username || '';
+
+export const userDataSuggestionsSelector = (state: RootState) =>
+  state.auth.suggestions;

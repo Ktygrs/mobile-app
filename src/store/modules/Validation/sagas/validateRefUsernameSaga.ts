@@ -2,42 +2,33 @@
 
 import {isApiError} from '@api/client';
 import {Api} from '@api/index';
-import {User} from '@api/user/types';
+import {userSelector} from '@store/modules/Auth/selectors';
 import {ValidationActions} from '@store/modules/Validation/actions';
-import {usernameSelector} from '@store/modules/Validation/selectors';
 import {t} from '@translations/i18n';
 import {getErrorMessage} from '@utils/errors';
-import {call, put, select} from 'redux-saga/effects';
+import {call, put, SagaReturnType, select} from 'redux-saga/effects';
 
 const actionCreator = ValidationActions.REF_USERNAME_VALIDATION.START.create;
 
 export function* validateRefUsernameSaga(
   action: ReturnType<typeof actionCreator>,
 ) {
-  const {refUsername, skipValidation} = action.payload;
-
-  const currentUsername: ReturnType<typeof usernameSelector> = yield select(
-    usernameSelector,
-  );
+  const {username} = action.payload;
+  const user: ReturnType<typeof userSelector> = yield select(userSelector);
 
   try {
-    if (skipValidation) {
-      yield put(ValidationActions.REF_USERNAME_VALIDATION.SUCCESS.create(null));
+    const refUser: SagaReturnType<typeof Api.user.getUserByUsername> =
+      yield call(Api.user.getUserByUsername, {username});
+    if (refUser.id === user?.id) {
+      yield put(
+        ValidationActions.REF_USERNAME_VALIDATION.FAILED.create(
+          t('username.error.refer_yourself'),
+        ),
+      );
     } else {
-      if (currentUsername === refUsername) {
-        yield put(
-          ValidationActions.REF_USERNAME_VALIDATION.FAILED.create(
-            t('username.error.refer_yourself'),
-          ),
-        );
-      } else {
-        let refUser: User = yield call(Api.user.getUserByUsername, {
-          username: refUsername,
-        });
-        yield put(
-          ValidationActions.REF_USERNAME_VALIDATION.SUCCESS.create(refUser),
-        );
-      }
+      yield put(
+        ValidationActions.REF_USERNAME_VALIDATION.SUCCESS.create(refUser),
+      );
     }
   } catch (error) {
     if (isApiError(error, 404, 'USER_NOT_FOUND')) {

@@ -80,7 +80,6 @@ export function createAction<
   const actionGenerator = function (
     ...actionIdParts: Array<string | number>
   ): Readonly<ActionFactories<MajorType, T>> {
-    // TODO: Fix issue with computed fields
     // @ts-expect-error // need to fix the problem with computed fields somehow
     const actionObject: Partial<ActionFactories<MajorType, T>> = {
       majorType,

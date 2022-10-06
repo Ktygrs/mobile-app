@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {logError} from '@services/logging';
 import {Linking} from 'react-native';
 import ReactNativeHapticFeedback, {
   HapticFeedbackTypes,
@@ -19,5 +20,7 @@ export const openSMS = async (phoneNumber: string, message: string) => {
     const separator = isIOS ? '&' : '?';
     const url = `sms:${phoneNumber}${separator}body=${message}`;
     await Linking.openURL(url);
-  } catch (error) {}
+  } catch (error) {
+    logError(error);
+  }
 };
