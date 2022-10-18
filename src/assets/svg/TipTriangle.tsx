@@ -1,14 +1,15 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {COLORS} from '@constants/colors';
 import * as React from 'react';
-import {Path, Svg} from 'react-native-svg';
+import {Path, Svg, SvgProps} from 'react-native-svg';
 
-export const TipTriangleIconSvg = () => {
+export const TipTriangleIcon = (props: SvgProps) => {
   return (
-    <Svg width="15" height="10" viewBox="0 0 15 10" fill="none">
+    <Svg width="15" height="10" viewBox="0 0 15 10" fill="none" {...props}>
       <Path
-        d="M0.511719 9.49976L0.512276 -0.000255588L14.52 0.187409L0.511719 9.49976Z"
-        fill="#0D265E"
+        d="M.57 9.49.453.087l14.009.011L.57 9.49Z"
+        fill={props.color ?? COLORS.primaryDark}
       />
     </Svg>
   );

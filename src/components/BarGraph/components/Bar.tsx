@@ -13,30 +13,30 @@ import Animated, {
 import {rem} from 'rn-units';
 
 type Props = {
-  valuePerc: number;
+  valuePercentage: number;
   value: number;
   active: boolean;
 };
 
-export const Bar = ({valuePerc, value, active}: Props) => {
-  const isLabelOutside = valuePerc < 20;
+export const Bar = ({valuePercentage, value, active}: Props) => {
+  const isLabelOutside = valuePercentage < 20;
   const play = useSharedValue(false);
   const progress = useDerivedValue(() => {
-    return play.value ? withTiming(valuePerc, {duration: 600}) : 0;
+    return play.value ? withTiming(valuePercentage, {duration: 600}) : 0;
   });
   const animatedStyle = useAnimatedStyle(() => ({
     width: `${progress.value}%`,
   }));
   const backgroundColor = useMemo(() => {
-    const red = 100 - Math.round((60 * valuePerc) / 100);
-    const green = 200 - Math.round((90 * valuePerc) / 100);
+    const red = 100 - Math.round((60 * valuePercentage) / 100);
+    const green = 200 - Math.round((90 * valuePercentage) / 100);
     return StyleSheet.create({
       // eslint-disable-next-line react-native/no-unused-styles
       current: {
         backgroundColor: `rgba(${red},${green},255,1)`,
       },
     });
-  }, [valuePerc]);
+  }, [valuePercentage]);
 
   useEffect(() => {
     if (active) {

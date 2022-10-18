@@ -5,6 +5,7 @@ import {Api} from '@api/index';
 import {AuthActions} from '@store/modules/Auth/actions';
 import {userSelector} from '@store/modules/Auth/selectors';
 import {t} from '@translations/i18n';
+import {validateEmail} from '@utils/email';
 import {getErrorMessage} from '@utils/errors';
 import {e164PhoneNumber, hashPhoneNumber} from '@utils/phoneNumber';
 import {call, put, SagaReturnType, select} from 'redux-saga/effects';
@@ -13,15 +14,20 @@ const actionCreator = AuthActions.UPDATE_ACCOUNT.START.create;
 
 export function* updateAccountSaga(action: ReturnType<typeof actionCreator>) {
   const user: ReturnType<typeof userSelector> = yield select(userSelector);
-  if (!user) {
-    throw new Error('User is not populated yet');
-  }
 
   try {
+    if (!user) {
+      throw new Error('User is not populated yet');
+    }
+
     const userInfo = {
-      ...action.payload.userInfo,
       checksum: user.checksum,
+      ...action.payload.userInfo,
     };
+
+    if ('email' in userInfo && !validateEmail(userInfo.email ?? '')) {
+      throw new Error(t('errors.invalid_email'));
+    }
 
     if (userInfo.phoneNumber) {
       const normalizedNumber = e164PhoneNumber(userInfo.phoneNumber);
@@ -39,7 +45,7 @@ export function* updateAccountSaga(action: ReturnType<typeof actionCreator>) {
     );
   } catch (error) {
     let localizedError = getErrorMessage(error);
-    if (isApiError(error, 400, 'RACE_CONDITION')) {
+    if (isApiError(error, 400, 'RACE_CONDITION') && user) {
       const freshUser: SagaReturnType<typeof Api.user.getUserById> = yield call(
         Api.user.getUserById,
         user.id,

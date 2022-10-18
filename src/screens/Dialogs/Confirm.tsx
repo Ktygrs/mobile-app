@@ -21,7 +21,7 @@ import {rem} from 'rn-units';
 export type ConfirmButton = {
   label: string;
   onPress?: () => void;
-  preset?: 'default' | 'destructive';
+  preset?: 'default' | 'destructive' | 'outlined';
   containerStyle?: StyleProp<ViewStyle>;
   labelStyle?: StyleProp<TextStyle>;
 };
@@ -32,7 +32,7 @@ export const DEFAULT_CONFIRM_YES_BUTTON: ConfirmButton = {
 
 export const DEFAULT_CONFIRM_NO_BUTTON: ConfirmButton = {
   label: t('button.no_cancel'),
-  preset: 'destructive',
+  preset: 'outlined',
 };
 
 export const Confirm = () => {
@@ -55,9 +55,8 @@ export const Confirm = () => {
               key={button.label}
               style={[
                 styles.button,
-                button.preset === 'destructive'
-                  ? styles.button_destructive
-                  : styles.button_default,
+                button.preset === 'destructive' && styles.button_destructive,
+                button.preset === 'outlined' && styles.button_outlined,
                 button.containerStyle,
               ]}
               onPress={() => {
@@ -67,9 +66,10 @@ export const Confirm = () => {
               <Text
                 style={[
                   styles.buttonLabelText,
-                  button.preset === 'destructive'
-                    ? styles.buttonLabelText_destructive
-                    : styles.buttonLabelText_default,
+                  button.preset === 'destructive' &&
+                    styles.buttonLabelText_destructive,
+                  button.preset === 'outlined' &&
+                    styles.buttonLabelText_outlined,
                   button.labelStyle,
                 ]}>
                 {button.label}
@@ -118,9 +118,12 @@ const styles = StyleSheet.create({
     marginHorizontal: rem(6),
     marginTop: rem(10),
     justifyContent: 'center',
-  },
-  button_default: {
     backgroundColor: COLORS.primary,
+  },
+  button_outlined: {
+    backgroundColor: COLORS.white,
+    borderWidth: 1,
+    borderColor: COLORS.secondary,
   },
   button_destructive: {
     backgroundColor: COLORS.white,
@@ -131,8 +134,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     ...font(12, 15, 'black'),
   },
-  buttonLabelText_default: {
-    color: COLORS.white,
+  buttonLabelText_outlined: {
+    color: COLORS.secondary,
   },
   buttonLabelText_destructive: {
     color: COLORS.attentionDark,

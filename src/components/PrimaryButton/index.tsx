@@ -6,7 +6,6 @@ import {font} from '@utils/styles';
 import React, {ReactNode} from 'react';
 import {
   ActivityIndicator,
-  FlexStyle,
   StyleProp,
   StyleSheet,
   Text,
@@ -14,12 +13,13 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import {rem} from 'rn-units';
 
 interface PrimaryButtonProps {
   onPress: () => void;
   text: string;
-  style?: StyleProp<ViewStyle | FlexStyle>;
+  style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
   icon?: ReactNode;
   loading?: boolean;
@@ -34,19 +34,35 @@ export const PrimaryButton = ({
   loading = false,
 }: PrimaryButtonProps) => {
   return (
-    <Touchable onPress={onPress} style={[styles.button, style]}>
+    <Touchable
+      onPress={!loading ? onPress : undefined}
+      style={[styles.button, style]}>
+      {style && !('backgroundColor' in style) && (
+        <LinearGradient
+          colors={[
+            COLORS.primaryButtonGradientStart,
+            COLORS.primaryButtonGradientEnd,
+          ]}
+          style={StyleSheet.absoluteFill}
+        />
+      )}
       {icon ? <View style={styles.icon}>{icon}</View> : null}
       <Text style={[styles.text, textStyle]}>{text}</Text>
-      {loading && <ActivityIndicator style={styles.activityIndicator} />}
+      {loading && (
+        <ActivityIndicator
+          style={styles.activityIndicator}
+          color={COLORS.white}
+        />
+      )}
     </Touchable>
   );
 };
 
 const styles = StyleSheet.create({
   button: {
-    height: rem(45),
-    backgroundColor: COLORS.primary,
-    borderRadius: rem(12),
+    height: rem(60),
+    borderRadius: rem(20),
+    overflow: 'hidden',
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
@@ -56,12 +72,12 @@ const styles = StyleSheet.create({
   },
   text: {
     marginHorizontal: rem(10),
-    ...font(14, 16.8, 'black'),
+    ...font(17, 20.4, 'semibold'),
   },
   activityIndicator: {
     position: 'absolute',
     top: 0,
     bottom: 0,
-    right: rem(10),
+    right: rem(16),
   },
 });

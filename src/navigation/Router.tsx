@@ -5,11 +5,8 @@ import {Initialization} from '@components/Initialization';
 import {AuthNavigator} from '@navigation/Auth';
 import {MainNavigator} from '@navigation/Main';
 import {theme} from '@navigation/theme';
-import {
-  NavigationContainer,
-  useNavigationContainerRef,
-} from '@react-navigation/native';
-import {PROFILE_FILL_STEPS} from '@screens/UserRegistrationFlow/ProfileFill';
+import {navigationRef} from '@navigation/utils';
+import {NavigationContainer} from '@react-navigation/native';
 import {routingInstrumentation} from '@services/logging';
 import {useAppLoadedDispatcher} from '@store/modules/AppCommon/hooks/useAppLoadedDispatcher';
 import {useAppStateListener} from '@store/modules/AppCommon/hooks/useAppStateListener';
@@ -34,8 +31,11 @@ function ActiveNavigator() {
   const isAppInitialized = useSelector(isAppInitializedSelector);
   const user = useSelector(userSelector);
   const requiredAuthSteps: RegistrationProcessFinalizedStep[] = [
+    'username',
+    'referral',
+    'email',
+    'iceBonus',
     'onboarding',
-    ...PROFILE_FILL_STEPS,
   ];
   const finilizedAuthSteps =
     user?.clientData?.registrationProcessFinalizedSteps ?? [];
@@ -54,12 +54,11 @@ function ActiveNavigator() {
 export function Router() {
   useAppLoadedDispatcher();
   useAppStateListener();
-  const navigationRef = useNavigationContainerRef();
 
   const onReady = useCallback(() => {
     routingInstrumentation.registerNavigationContainer(navigationRef);
     RNBootSplash.hide();
-  }, [navigationRef]);
+  }, []);
 
   return (
     <NavigationContainer ref={navigationRef} theme={theme} onReady={onReady}>

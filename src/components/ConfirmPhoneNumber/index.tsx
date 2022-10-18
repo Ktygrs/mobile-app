@@ -79,7 +79,7 @@ export const ConfirmPhoneNumber = memo(({onSubmitPress}: Props) => {
         </Text>
       )}
       <CommonInput
-        placeholder={t('team.confirm_code.placeholder')}
+        label={t('team.confirm_code.placeholder')}
         value={code}
         onChangeText={onCodeChange}
         icon={<TicketIcon />}

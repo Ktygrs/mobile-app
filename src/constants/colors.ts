@@ -41,4 +41,9 @@ export const COLORS = {
   linkWater: '#F1F4FC',
   transparentBackground: 'rgba(8, 21, 50, .7)',
   wildSand: '#F5F5F5',
+  primaryButtonGradientStart: '#02337C',
+  primaryButtonGradientEnd: '#0946A1',
+  codeFieldText: '#0E0E0E',
+  congressBlue: '#063C8C',
+  catalinaBlue: '#033580',
 };

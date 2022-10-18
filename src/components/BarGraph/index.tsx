@@ -30,12 +30,14 @@ export const BarGraph = ({data}: Props) => {
   return (
     <View>
       {data.map(item => {
-        const valuePerc = (item.value * 100) / lastXValue;
+        const valuePercentage = (item.value * 100) / lastXValue;
         return (
           <View style={styles.row} key={item.label}>
-            {valuePerc && <Text style={styles.yAxisText}>{item.label}</Text>}
+            {valuePercentage && (
+              <Text style={styles.yAxisText}>{item.label}</Text>
+            )}
             <Bar
-              valuePerc={valuePerc}
+              valuePercentage={valuePercentage}
               value={item.value}
               active={transitionEnd}
             />

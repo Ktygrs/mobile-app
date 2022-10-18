@@ -41,7 +41,7 @@ export const TopMiners = memo(() => {
     <View style={styles.container}>
       <SectionHeader
         title={t('stats.top_miners')}
-        action={t('buttons.see_all')}
+        action={t('button.see_all')}
         onActionPress={onSeeAllPress}
       />
       <View style={styles.list}>

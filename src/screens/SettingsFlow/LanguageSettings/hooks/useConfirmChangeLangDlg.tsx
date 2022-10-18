@@ -18,13 +18,13 @@ export const useConfirmChangeLangDlg = () => {
         title: t('settings.change_lang_confirm.title'),
         subtitle: t('settings.change_lang_confirm.prompt'),
         buttons: [
+          DEFAULT_CONFIRM_NO_BUTTON,
           {
             label: t('button.change'),
             onPress: () => {
               dispatch(DeviceActions.UPDATE_SETTINGS.START.create({language}));
             },
           },
-          DEFAULT_CONFIRM_NO_BUTTON,
         ],
       });
     },

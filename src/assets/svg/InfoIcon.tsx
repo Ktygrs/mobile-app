@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {COLORS} from '@constants/colors';
 import * as React from 'react';
 import {Circle, Path, Svg, SvgProps} from 'react-native-svg';
 
@@ -10,8 +11,8 @@ export const InfoIcon = (props: SvgProps) => {
         cx="5.5"
         cy="5.5"
         r="5.1"
-        fill={props.fill ?? '#0D265E'}
-        stroke="#0D265E"
+        fill={props.color ?? COLORS.primaryDark}
+        stroke={props.color ?? COLORS.primaryDark}
         strokeWidth="0.8"
       />
       <Path

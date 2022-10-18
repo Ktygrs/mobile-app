@@ -4,7 +4,7 @@ import {User} from '@api/user/types';
 import {OAuthProvider} from '@magic-ext/react-native-oauth';
 import {createAction} from '@store/utils/actions/createAction';
 import {Action} from 'redux';
-import {PutEffect} from 'redux-saga/effects';
+import {CallEffect, PutEffect} from 'redux-saga/effects';
 
 type SignInResult = {
   userId: string;
@@ -29,6 +29,7 @@ const FINISH_AUTH = createAction('FINISH_AUTH', {
   START: (data: SignInResult) => data,
   SUCCESS: (result: User) => ({result}),
   FAILED: (errorMessage: string) => ({errorMessage}),
+  CLEAR: true,
 });
 
 const SIGN_OUT = createAction('SIGN_OUT', {
@@ -67,7 +68,7 @@ const UPDATE_ACCOUNT = createAction('UPDATE_ACCOUNT', {
     raceConditionStrategy: (
       user: User,
     ) => Generator<
-      PutEffect<Action<unknown>>,
+      PutEffect<Action<unknown>> | CallEffect<unknown>,
       {retry: boolean},
       void
     > = function* () {

@@ -21,6 +21,7 @@ export const useConfirmNotificationsDlg = () => {
         title: t('settings.notifications_title'),
         subtitle: t('settings.notifications.enable_prompt'),
         buttons: [
+          DEFAULT_CONFIRM_NO_BUTTON,
           {
             ...DEFAULT_CONFIRM_YES_BUTTON,
             onPress: () => {
@@ -31,7 +32,6 @@ export const useConfirmNotificationsDlg = () => {
               );
             },
           },
-          DEFAULT_CONFIRM_NO_BUTTON,
         ],
       });
     },

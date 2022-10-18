@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {ValidationActions} from '@store/modules/Validation/actions';
+import {validateEmailSaga} from '@store/modules/Validation/sagas/validateEmailSaga';
 import {validateRefUsernameSaga} from '@store/modules/Validation/sagas/validateRefUsernameSaga';
 import {all, takeLatest} from 'redux-saga/effects';
 
@@ -20,6 +21,10 @@ export function* rootValidationSaga() {
     takeLatest(
       ValidationActions.REF_USERNAME_VALIDATION.START.type,
       validateRefUsernameSaga,
+    ),
+    takeLatest(
+      ValidationActions.EMAIL_VALIDATION.START.type,
+      validateEmailSaga,
     ),
   ]);
 }

@@ -28,8 +28,21 @@ const PHONE_VALIDATION = createAction('PHONE_VALIDATION', {
   }),
 });
 
+const EMAIL_VALIDATION = createAction('EMAIL_VALIDATION', {
+  START: (validationCode: string) => ({
+    validationCode,
+  }),
+  SUCCESS: (result: User) => ({result}),
+  FAILED: (errorMessage: string, errorCode: string) => ({
+    errorMessage,
+    errorCode,
+  }),
+  CLEAR: false,
+});
+
 export const ValidationActions = Object.freeze({
   USERNAME_VALIDATION,
   REF_USERNAME_VALIDATION,
   PHONE_VALIDATION,
+  EMAIL_VALIDATION,
 });

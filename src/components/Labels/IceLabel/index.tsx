@@ -19,6 +19,7 @@ type Props = {
 
 export const IceLabel = memo(
   ({
+    style,
     textStyle,
     color = COLORS.white,
     iconSize = 18,
@@ -30,7 +31,7 @@ export const IceLabel = memo(
         color={color}
         width={rem(iconSize)}
         height={rem(iconSize)}
-        style={{transform: [{translateY: iconOffsetY}]}}
+        style={[{transform: [{translateY: iconOffsetY}]}, style]}
       />
       <Text style={textStyle}> {label}</Text>
     </>
