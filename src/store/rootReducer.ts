@@ -7,7 +7,9 @@ import {collectionsReducer} from '@store/modules/Collections/reducer';
 import {teamReducer} from '@store/modules/Contacts/reducer';
 import {devicesReducer} from '@store/modules/Devices/reducer';
 import {economyReducer} from '@store/modules/Economy/reducer';
+import {linkingReducer} from '@store/modules/Linking/reducer';
 import {newsReducer} from '@store/modules/News/reducer';
+import {notificationsReducer} from '@store/modules/Notifications/reducer';
 import {permissionsReducer} from '@store/modules/Permissions/reducer';
 import {referralsReducer} from '@store/modules/Referrals/reducer';
 import {processStatusesReducer} from '@store/modules/UtilityProcessStatuses/reducer';
@@ -34,6 +36,8 @@ const rootReducer = combineReducers({
   utilityProcessStatuses: processStatusesReducer,
   devices: devicesReducer,
   economy: economyReducer,
+  linking: linkingReducer,
+  notifications: notificationsReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

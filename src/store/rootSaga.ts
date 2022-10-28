@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {logError} from '@services/logging';
+import {rootLinkingSaga} from '@store/modules/Linking/sagas';
+import {rootNotificationsSaga} from '@store/modules/Notifications/sagas';
 import {all, call, spawn} from 'redux-saga/effects';
 
 import {rootAppCommonSaga} from './modules/AppCommon/sagas';
@@ -23,6 +25,8 @@ export function* rootSaga() {
     rootTeamSaga,
     rootValidationSaga,
     rootDevicesSaga,
+    rootLinkingSaga,
+    rootNotificationsSaga,
     rootAppCommonSaga,
   ];
   yield all([

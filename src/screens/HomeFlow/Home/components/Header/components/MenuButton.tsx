@@ -7,6 +7,7 @@ import {SMALL_BUTTON_HIT_SLOP} from '@constants/styles';
 import {HomeTabStackParamList, MainStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {notificationsCountSelector} from '@store/modules/Notifications/selectors';
 import {BellIcon} from '@svg/BellIcon';
 import {CandyBoxMenuIcon} from '@svg/CandyBoxMenuIcon';
 import {ChatBubblesIcon} from '@svg/ChatBubblesIcon';
@@ -14,6 +15,7 @@ import {StatsIcon} from '@svg/StatsIcon';
 import {t} from '@translations/i18n';
 import React, {memo, useRef} from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
+import {useSelector} from 'react-redux';
 import {rem, screenWidth} from 'rn-units';
 
 export const MenuButton = memo(() => {
@@ -21,6 +23,9 @@ export const MenuButton = memo(() => {
     useNavigation<
       NativeStackNavigationProp<MainStackParamList & HomeTabStackParamList>
     >();
+
+  const badgeCount = useSelector(notificationsCountSelector);
+
   const buttonRef = useRef<TouchableOpacity>(null);
   const onMenuPress = () => {
     buttonRef.current?.measure((_, __, width, height, x, y) => {
@@ -33,7 +38,7 @@ export const MenuButton = memo(() => {
           {
             icon: BellIcon,
             label: t('home.menu.notifications'),
-            onPress: () => {},
+            onPress: () => navigation.navigate('Notifications'),
           },
           {
             icon: StatsIcon,
@@ -49,7 +54,6 @@ export const MenuButton = memo(() => {
       });
     });
   };
-  const badgeValue = '9+';
 
   return (
     <Touchable
@@ -57,7 +61,12 @@ export const MenuButton = memo(() => {
       ref={buttonRef}
       onPress={onMenuPress}>
       <CandyBoxMenuIcon stroke={COLORS.downriver} />
-      {badgeValue && <Badge value={badgeValue} style={styles.badge} />}
+      {badgeCount > 0 && (
+        <Badge
+          value={badgeCount >= 10 ? '9+' : `${badgeCount}`}
+          style={styles.badge}
+        />
+      )}
     </Touchable>
   );
 });

@@ -11,7 +11,10 @@ export const availableLocales = Object.keys(locales);
 export const locale = RNLocalize.findBestAvailableLanguage(availableLocales);
 
 i18n.defaultLocale = 'en';
-i18n.locale = locale?.languageTag || i18n.defaultLocale;
+
+export const appLocale = locale?.languageTag || i18n.defaultLocale;
+
+i18n.locale = appLocale;
 i18n.fallbacks = true;
 i18n.translations = locales;
 

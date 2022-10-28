@@ -10,7 +10,7 @@ import {Header} from '@navigation/components/Header';
 import {LangButton} from '@navigation/components/Header/components/LangButton';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
 import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
-import {ProfileTabStackParamList} from '@navigation/Main';
+import {MainNavigationParams} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {AppVersion} from '@screens/SettingsFlow/Settings/components/AppVersion';
@@ -43,7 +43,7 @@ export const Settings = memo(() => {
   const bottomOffset = useBottomTabBarOffsetStyle();
   const {scrollHandler, shadowStyle} = useScrollShadow();
   const navigation =
-    useNavigation<NativeStackNavigationProp<ProfileTabStackParamList>>();
+    useNavigation<NativeStackNavigationProp<MainNavigationParams>>();
   const user = useSelector(userSelector) as User;
 
   const deleteAccount = () => {
@@ -95,7 +95,12 @@ export const Settings = memo(() => {
               title={t('settings.terms_title')}
               description={t('settings.terms_description')}
               renderIcon={TermsIcon}
-              onPress={() => {}}
+              onPress={() =>
+                navigation.navigate('WebView', {
+                  url: t('general.terms_url'),
+                  title: t('webview.terms_title'),
+                })
+              }
             />
             <MenuItemSeparator />
             <MenuItem

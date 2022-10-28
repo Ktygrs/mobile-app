@@ -12,6 +12,7 @@ import {useAppLoadedDispatcher} from '@store/modules/AppCommon/hooks/useAppLoade
 import {useAppStateListener} from '@store/modules/AppCommon/hooks/useAppStateListener';
 import {isAppInitializedSelector} from '@store/modules/AppCommon/selectors';
 import {userSelector} from '@store/modules/Auth/selectors';
+import {useGetstreamListener} from '@store/modules/Notifications/hooks/useGetstreamListener';
 import {difference} from 'lodash';
 import React, {useCallback} from 'react';
 import {LogBox} from 'react-native';
@@ -54,6 +55,7 @@ function ActiveNavigator() {
 export function Router() {
   useAppLoadedDispatcher();
   useAppStateListener();
+  useGetstreamListener();
 
   const onReady = useCallback(() => {
     routingInstrumentation.registerNavigationContainer(navigationRef);

@@ -18,7 +18,8 @@ target 'ice' do
   pod 'React-RCTLinking', :path => '../node_modules/react-native/Libraries/LinkingIOS'
   pod 'Permission-Contacts', :path => "#{permissions_path}/Contacts"
   pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications"
-
+  pod 'react-native-webview', :path => '../node_modules/react-native-webview'
+  
 
   pod 'Firebase', :modular_headers => true
   pod 'FirebaseCore', :modular_headers => true

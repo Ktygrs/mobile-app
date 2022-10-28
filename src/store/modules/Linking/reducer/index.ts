@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: BUSL-1.1
+
+import {LinkingActions} from '@store/modules/Linking/actions';
+import produce from 'immer';
+
+export interface State {
+  handledUrl: string;
+}
+
+type Actions = ReturnType<typeof LinkingActions.HANDLE_URL.STATE.create>;
+
+const INITIAL_STATE: State = {
+  handledUrl: '',
+};
+
+export function linkingReducer(state = INITIAL_STATE, action: Actions): State {
+  return produce(state, draft => {
+    switch (action.type) {
+      case LinkingActions.HANDLE_URL.STATE.type:
+        {
+          const {urlToParse} = action.payload;
+          draft.handledUrl = urlToParse;
+        }
+        break;
+    }
+  });
+}

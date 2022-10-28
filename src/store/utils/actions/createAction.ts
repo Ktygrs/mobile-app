@@ -97,8 +97,9 @@ export function createAction<
     };
 
     Object.keys(structure).forEach((structureKey: keyof typeof structure) => {
-      const actionPartType =
-        `${majorType}${ACTION_DIVIDER}${structureKey}` as const;
+      const actionPartType = `${majorType}${ACTION_DIVIDER}${String(
+        structureKey,
+      )}` as const;
 
       let createFunction = (): ActionObject<typeof actionPartType, T, K> => ({
         id: actionObject.id,

@@ -46,4 +46,5 @@ export const COLORS = {
   codeFieldText: '#0E0E0E',
   congressBlue: '#063C8C',
   catalinaBlue: '#033580',
+  transparent: 'rgba(255, 255, 255, 0)',
 };

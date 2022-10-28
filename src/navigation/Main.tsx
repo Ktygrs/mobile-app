@@ -23,6 +23,7 @@ import {ImageView} from '@screens/ImageView';
 import {InviteFriend} from '@screens/InviteFlow/InviteFriend';
 import {InviteShare} from '@screens/InviteFlow/InviteShare';
 import {News} from '@screens/News';
+import {Notifications} from '@screens/Notifications';
 import {Balance} from '@screens/PopUps/Balance';
 import {ContextualMenu} from '@screens/PopUps/ContextualMenu';
 import {ErrorPopUp} from '@screens/PopUps/Error';
@@ -43,7 +44,7 @@ import {PersonalInformation} from '@screens/SettingsFlow/PersonalInformation';
 import {Settings} from '@screens/SettingsFlow/Settings';
 import {Staking} from '@screens/Staking';
 import {Team} from '@screens/Team';
-import {WebView} from '@screens/WebView';
+import WebView from '@screens/WebView';
 import React, {ComponentType, RefObject} from 'react';
 import {Image, View} from 'react-native';
 import {Contact} from 'react-native-contacts';
@@ -59,7 +60,10 @@ export type MainTabsParamList = {
 
 export type MainStackParamList = {
   MainTabs: undefined;
-  WebView: undefined;
+  WebView: {
+    url: string;
+    title?: string;
+  };
   Confirm: {
     title?: string;
     subtitle?: string;
@@ -105,6 +109,7 @@ export type MainStackParamList = {
     }[];
     onClose?: () => void;
   };
+  Notifications: undefined;
 };
 
 export type HomeTabStackParamList = {
@@ -139,6 +144,12 @@ export type ProfileTabStackParamList = {
   ProfilePrivacyEditStep2: undefined;
   ProfilePrivacyEditStep3: undefined;
 };
+
+export type MainNavigationParams = MainTabsParamList &
+  MainStackParamList &
+  ProfileTabStackParamList &
+  TeamTabStackParamList &
+  HomeTabStackParamList;
 
 const Tabs = createBottomTabNavigator<MainTabsParamList>();
 const MainStack = createNativeStackNavigator<MainStackParamList>();
@@ -332,6 +343,7 @@ export function MainNavigator() {
         component={ContextualMenu}
         options={modalOptions}
       />
+      <MainStack.Screen name="Notifications" component={Notifications} />
     </MainStack.Navigator>
   );
 }
