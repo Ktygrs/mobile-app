@@ -14,7 +14,6 @@ const actionCreator = AuthActions.UPDATE_ACCOUNT.START.create;
 
 export function* updateAccountSaga(action: ReturnType<typeof actionCreator>) {
   const user: ReturnType<typeof userSelector> = yield select(userSelector);
-
   try {
     if (!user) {
       throw new Error('User is not populated yet');

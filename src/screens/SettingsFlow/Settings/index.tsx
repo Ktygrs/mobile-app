@@ -50,6 +50,11 @@ export const Settings = memo(() => {
     dispatch(AuthActions.DELETE_ACCOUNT.START);
   };
 
+  const handlePrivacyPress = () => {
+    navigation.goBack();
+    navigation.push('ProfilePrivacyEditStep1');
+  };
+
   return (
     <View style={styles.container}>
       <Header
@@ -97,7 +102,7 @@ export const Settings = memo(() => {
               title={t('settings.privacy_title')}
               description={t('settings.privacy_description')}
               renderIcon={PrivacyIcon}
-              onPress={() => {}}
+              onPress={handlePrivacyPress}
             />
           </SectionCard>
           <SectionTitle text={t('settings.support').toUpperCase()} />

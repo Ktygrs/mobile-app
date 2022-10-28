@@ -23,6 +23,7 @@ export const Role = memo(() => {
       ) : (
         <CurrentRoleCard
           imageSource={Images.roles.pioneer}
+          imageSourceHidden={Images.roles.pioneerInactive}
           title={'Pioneer'}
           description={'Are you flesh and blood?'}
           onNextPress={() => {

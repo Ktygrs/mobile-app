@@ -26,6 +26,9 @@ import {News} from '@screens/News';
 import {Balance} from '@screens/PopUps/Balance';
 import {ContextualMenu} from '@screens/PopUps/ContextualMenu';
 import {ErrorPopUp} from '@screens/PopUps/Error';
+import {ProfilePrivacyEditStep1} from '@screens/PopUps/ProfilePrivacyEdit/step1';
+import {ProfilePrivacyEditStep2} from '@screens/PopUps/ProfilePrivacyEdit/step2';
+import {ProfilePrivacyEditStep3} from '@screens/PopUps/ProfilePrivacyEdit/step3';
 import {Tooltip} from '@screens/PopUps/Tooltip';
 import {UpdateRequired} from '@screens/PopUps/UpdateRequired';
 import {UpdateSuccessful} from '@screens/PopUps/UpdateSuccessful';
@@ -132,6 +135,9 @@ export type ProfileTabStackParamList = {
   ConfirmPhoneNumber: undefined;
   NotificationSettings: undefined;
   LanguageSettings: undefined;
+  ProfilePrivacyEditStep1: undefined;
+  ProfilePrivacyEditStep2: undefined;
+  ProfilePrivacyEditStep3: undefined;
 };
 
 const Tabs = createBottomTabNavigator<MainTabsParamList>();
@@ -206,6 +212,21 @@ const ProfileTabStackNavigator = () => (
     <ProfileTabStack.Screen
       name="LanguageSettings"
       component={LanguageSettings}
+    />
+    <ProfileTabStack.Screen
+      name="ProfilePrivacyEditStep1"
+      component={ProfilePrivacyEditStep1}
+      options={modalOptions}
+    />
+    <ProfileTabStack.Screen
+      name="ProfilePrivacyEditStep2"
+      component={ProfilePrivacyEditStep2}
+      options={modalOptions}
+    />
+    <ProfileTabStack.Screen
+      name="ProfilePrivacyEditStep3"
+      component={ProfilePrivacyEditStep3}
+      options={modalOptions}
     />
   </ProfileTabStack.Navigator>
 );

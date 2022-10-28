@@ -8,10 +8,12 @@ export const Images = {
   roles: {
     ambassador: require('./roles/ambassador.png'),
     pioneer: require('./roles/pioneer.png'),
+    pioneerInactive: require('./roles/pioneer-inactive.png'),
   },
   badges: {
     iceBreaker: {
       active: require('./badges/ice-breaker-active.png'),
+      inactive: require('./badges/cool-breeze-inactive.png'),
     },
     troubleMaker: {
       active: require('./badges/trouble-maker-active.png'),
@@ -30,6 +32,7 @@ export const Images = {
     },
     mastermind: {
       inactive: require('./badges/mastermind-inactive.png'),
+      active: require('./badges/mastermind-active.png'),
     },
   },
   phone: {
@@ -38,6 +41,9 @@ export const Images = {
   },
   backgrounds: {
     linesBg: require('./backgrounds/linesBg.png'),
+    privacyBgTop: require('./backgrounds/privacyBgTop.png'),
+    privacyBgMiddle: require('./backgrounds/privacyBgMiddle.png'),
+    privacyBgBottom: require('./backgrounds/privacyBgBottom.png'),
   },
   popUp: {
     updateRequired: require('./popup/please_update.png'),

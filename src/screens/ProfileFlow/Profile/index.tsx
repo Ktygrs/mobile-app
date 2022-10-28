@@ -8,7 +8,7 @@ import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
 import {AvatarHeader} from '@screens/ProfileFlow/Profile/components/AvatarHeader';
 import {Badges} from '@screens/ProfileFlow/Profile/components/Badges';
 import {Invite} from '@screens/ProfileFlow/Profile/components/Invite';
-import {LadderBar} from '@screens/ProfileFlow/Profile/components/LabberBar';
+import {LadderBar} from '@screens/ProfileFlow/Profile/components/LadderBar';
 import {MiningCalculator} from '@screens/ProfileFlow/Profile/components/MiningCalculator';
 import {Role} from '@screens/ProfileFlow/Profile/components/Role';
 import {userSelector} from '@store/modules/Auth/selectors';
@@ -46,7 +46,9 @@ export const Profile = memo(() => {
             {user?.username}
           </Text>
         </View>
-        <LadderBar />
+        <View style={styles.ladderContainer}>
+          <LadderBar />
+        </View>
         <View style={[styles.card, commonStyles.baseSubScreen]}>
           <Role />
           <Badges />
@@ -70,8 +72,11 @@ const styles = StyleSheet.create({
     // make bottom overscroll area white, otherwise it'd be of container color
     paddingBottom: 2000,
     marginBottom: -2000,
-    paddingTop: rem(39),
     marginTop: -rem(23),
+  },
+  ladderContainer: {
+    backgroundColor: COLORS.primaryLight,
+    paddingBottom: rem(30),
   },
   imageContainer: {
     marginTop: rem(20),
@@ -79,7 +84,7 @@ const styles = StyleSheet.create({
   },
   usernameText: {
     marginTop: rem(70),
-    marginBottom: rem(20),
+    marginBottom: rem(4),
     alignSelf: 'center',
     ...font(17, 20.4, 'semibold'),
   },

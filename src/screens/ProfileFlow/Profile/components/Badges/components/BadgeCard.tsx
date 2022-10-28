@@ -7,10 +7,11 @@ import {commonStyles} from '@constants/styles';
 import {ProfileTabStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {useUpdateHiddenProfileElements} from '@screens/PopUps/ProfilePrivacyEdit/hooks/useUpdateHiddenProfileElements';
 import {ClosedEye} from '@svg/ClosedEye';
 import {translate} from '@translations/i18n';
 import {font} from '@utils/styles';
-import React, {memo} from 'react';
+import React, {memo, useCallback} from 'react';
 import {Image, ImageSourcePropType, StyleSheet, Text, View} from 'react-native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import {rem} from 'rn-units';
@@ -21,30 +22,43 @@ type Props = {
   progressText: string;
   progressValue: number;
   imageSource: ImageSourcePropType;
-  active: boolean;
+  imageInactive?: ImageSourcePropType;
+  hidden?: boolean;
+  isProfilePrivacyEditMode?: boolean;
 };
 
 export const BadgeCard = memo(
   ({
     imageSource,
+    imageInactive,
     title,
     category,
     progressText,
     progressValue,
-    active,
+    hidden = false,
+    isProfilePrivacyEditMode = false,
   }: Props) => {
     const navigation =
       useNavigation<NativeStackNavigationProp<ProfileTabStackParamList>>();
+    const {onUpdate} = useUpdateHiddenProfileElements();
+
+    const onBadgePress = useCallback(() => {
+      if (isProfilePrivacyEditMode) {
+        onUpdate('badges');
+      } else {
+        navigation.navigate('MyBadges', {category});
+      }
+    }, [category, navigation, onUpdate, isProfilePrivacyEditMode]);
 
     return (
-      <Touchable onPress={() => navigation.navigate('MyBadges', {category})}>
+      <Touchable onPress={onBadgePress}>
         <View style={[styles.container, commonStyles.shadow]}>
           <Image
-            source={imageSource}
+            source={hidden ? imageInactive || {} : imageSource}
             style={styles.icon}
             resizeMode={'contain'}
           />
-          {active ? (
+          {!hidden ? (
             <>
               <Text
                 style={styles.titleText}
