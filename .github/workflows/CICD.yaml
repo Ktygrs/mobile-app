@@ -93,7 +93,7 @@ jobs:
           key: ${{ github.sha }}
       - name: Slack Notification
         if: ${{ github.event_name == 'push' && success() == false}}
-        uses: act10ns/slack@v1
+        uses: act10ns/slack@v2
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.FRONTEND_SLACK_WEBHOOK }}
           SLACK_MESSAGE_TITLE: React Native Verifying & Building
@@ -155,7 +155,7 @@ jobs:
           bash run-e2e-ios-release.sh
       - name: Slack Notification
         if: ${{ github.event_name == 'push' && success() == false}}
-        uses: act10ns/slack@v1
+        uses: act10ns/slack@v2
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.FRONTEND_SLACK_WEBHOOK }}
           SLACK_MESSAGE_TITLE: E2E testing iOS App
@@ -226,7 +226,7 @@ jobs:
           script: bash ${{ github.workspace }}/main-repo/run-e2e-android-release.sh
       - name: Slack Notification
         if: ${{ github.event_name == 'push' && success() == false }}
-        uses: act10ns/slack@v1
+        uses: act10ns/slack@v2
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.FRONTEND_SLACK_WEBHOOK }}
           SLACK_MESSAGE_TITLE: E2E testing Android App
@@ -307,7 +307,7 @@ jobs:
           bundle exec fastlane ios deploy target:$DEPLOY_TARGET $RELEASE_NOTES
       - name: Slack Notification
         if: ${{ github.event_name == 'push' }}
-        uses: act10ns/slack@v1
+        uses: act10ns/slack@v2
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.FRONTEND_SLACK_WEBHOOK }}
           SLACK_MESSAGE_TITLE: iOS App Deployment
@@ -395,7 +395,7 @@ jobs:
           bundle exec fastlane android deploy target:$DEPLOY_TARGET $RELEASE_NOTES
       - name: Slack Notification
         if: ${{ github.event_name == 'push' }}
-        uses: act10ns/slack@v1
+        uses: act10ns/slack@v2
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.FRONTEND_SLACK_WEBHOOK }}
           SLACK_MESSAGE_TITLE: Android App Deployment
