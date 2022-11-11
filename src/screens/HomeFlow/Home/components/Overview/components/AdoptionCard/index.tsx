@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
+import {Images} from '@images';
 import {LevelRow} from '@screens/HomeFlow/Home/components/Overview/components/AdoptionCard/components/LevelRow';
 import {CardBase} from '@screens/HomeFlow/Home/components/Overview/components/CardBase';
 import {FriendsIcon} from '@svg/FriendsIcon';
@@ -13,7 +14,7 @@ import {rem} from 'rn-units';
 export const AdoptionCard = () => {
   return (
     <CardBase
-      backgroundImageSource={require('./assets/images/background.png')}
+      backgroundImageSource={Images.backgrounds.adoptionCardBg}
       headerTitle={t('home.adoption.title')}
       headerTitleIcon={<GraphIcon fill={COLORS.white} />}
       headerValue={'28,450'}

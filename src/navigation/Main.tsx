@@ -120,7 +120,7 @@ export type HomeTabStackParamList = {
   Stats: undefined;
   TopMiners: undefined;
   TopCountries: undefined;
-  Profile: undefined;
+  Profile: {userId: string} | undefined;
   MyRoles: undefined;
   MyBadges: {category?: BadgeCategory} | undefined;
   InviteShare: undefined;
@@ -134,7 +134,7 @@ export type TeamTabStackParamList = {
 };
 
 export type ProfileTabStackParamList = {
-  Profile: undefined;
+  Profile: {userId: string} | undefined;
   MyRoles: undefined;
   MyBadges?: {category?: BadgeCategory};
   Settings: undefined;
@@ -170,6 +170,7 @@ const HomeTabStackNavigator = () => (
   <HomeTabStack.Navigator screenOptions={screenOptions}>
     <HomeTabStack.Screen name="Home" component={Home} />
     <HomeTabStack.Screen name="Profile" component={Profile} />
+    <ProfileTabStack.Screen name="Settings" component={Settings} />
     <HomeTabStack.Screen name="MyRoles" component={MyRoles} />
     <HomeTabStack.Screen
       name="MyBadges"

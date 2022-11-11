@@ -66,6 +66,7 @@ export const TierList = memo(
     const renderItem = useCallback(({item}: {item: User}) => {
       return (
         <UserListItem
+          userId={item.id}
           name={item.username}
           note={item.active ? t('users.active') : t('users.inactive')}
           profilePictureUrl={item.profilePictureUrl}

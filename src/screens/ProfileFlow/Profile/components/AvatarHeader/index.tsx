@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {Avatar} from '@components/Avatar/Avatar';
+import {Avatar, AvatarSkeleton} from '@components/Avatar/Avatar';
 import {COLORS} from '@constants/colors';
 import {commonStyles} from '@constants/styles';
 import {useScrollShadow} from '@hooks/useScrollShadow';
@@ -30,114 +30,144 @@ const AVATAR_RADIUS = rem(41);
 type Props = {
   uri?: string;
   scrollY: SharedValue<number>;
+  allowFullScreen?: boolean;
+  isSettingsHidden?: boolean;
+  isLoading?: boolean;
 };
 
 const MAX_SCROLL = 160;
 const SCROLL_STEP_1 = 140;
-export const AvatarHeader = memo(({uri, scrollY}: Props) => {
-  const user = useSelector(userSelector);
-  const {shadowStyle} = useScrollShadow({translateY: scrollY});
-  const {top: topInset} = useSafeAreaInsets();
+export const AvatarHeader = memo(
+  ({
+    uri,
+    scrollY,
+    allowFullScreen,
+    isSettingsHidden = false,
+    isLoading = false,
+  }: Props) => {
+    const user = useSelector(userSelector);
+    const {shadowStyle} = useScrollShadow({translateY: scrollY});
+    const {top: topInset} = useSafeAreaInsets();
 
-  const imageSize = useDerivedValue(() =>
-    interpolate(
-      scrollY.value,
-      [0, MAX_SCROLL],
-      [AVATAR_SIZE, AVATAR_SMALL_SIZE],
-      Extrapolate.CLAMP,
-    ),
-  );
+    const imageSize = useDerivedValue(() =>
+      interpolate(
+        scrollY.value,
+        [0, MAX_SCROLL],
+        [AVATAR_SIZE, AVATAR_SMALL_SIZE],
+        Extrapolate.CLAMP,
+      ),
+    );
 
-  const marginTop = useDerivedValue(() =>
-    interpolate(
-      scrollY.value,
-      [0, MAX_SCROLL],
-      [AVATAR_SIZE / 2 + HEADER_HEIGHT / 2 + 8, 0],
-      Extrapolate.CLAMP,
-    ),
-  );
+    const marginTop = useDerivedValue(() =>
+      interpolate(
+        scrollY.value,
+        [0, MAX_SCROLL],
+        [AVATAR_SIZE / 2 + HEADER_HEIGHT / 2 + 8, 0],
+        Extrapolate.CLAMP,
+      ),
+    );
 
-  const borderWidth = useDerivedValue(() =>
-    interpolate(scrollY.value, [0, MAX_SCROLL], [5, 0], Extrapolate.CLAMP),
-  );
+    const borderWidth = useDerivedValue(() =>
+      interpolate(scrollY.value, [0, MAX_SCROLL], [5, 0], Extrapolate.CLAMP),
+    );
 
-  const borderRadius = useDerivedValue(() =>
-    interpolate(
-      scrollY.value,
-      [0, MAX_SCROLL],
-      [AVATAR_RADIUS, AVATAR_SMALL_RADIUS],
-      Extrapolate.CLAMP,
-    ),
-  );
+    const borderRadius = useDerivedValue(() =>
+      interpolate(
+        scrollY.value,
+        [0, MAX_SCROLL],
+        [AVATAR_RADIUS, AVATAR_SMALL_RADIUS],
+        Extrapolate.CLAMP,
+      ),
+    );
 
-  const imageAnimatedStyle = useAnimatedStyle(() => {
-    return {
-      height: imageSize.value,
-      width: imageSize.value,
-      borderWidth: borderWidth.value,
-      borderRadius: borderRadius.value,
-      marginTop: marginTop.value,
+    const imageAnimatedStyle = useAnimatedStyle(() => {
+      return {
+        height: imageSize.value,
+        width: imageSize.value,
+        borderWidth: borderWidth.value,
+        borderRadius: borderRadius.value,
+        marginTop: marginTop.value,
+      };
+    });
+
+    const textOpacity = useDerivedValue(() =>
+      interpolate(
+        scrollY.value,
+        [130, SCROLL_STEP_1],
+        [0, 1],
+        Extrapolate.CLAMP,
+      ),
+    );
+
+    const fontSize = useDerivedValue(() =>
+      interpolate(
+        scrollY.value,
+        [0, SCROLL_STEP_1],
+        [0.01, 17],
+        Extrapolate.CLAMP,
+      ),
+    );
+
+    const marginLeft = useDerivedValue(() =>
+      interpolate(scrollY.value, [0, MAX_SCROLL], [0, 12], Extrapolate.CLAMP),
+    );
+
+    const textStyle = useAnimatedStyle(() => ({
+      opacity: textOpacity.value,
+      fontSize: fontSize.value,
+      marginLeft: marginLeft.value,
+    }));
+
+    const extraPadding = {
+      paddingTop: topInset,
+      height: HEADER_HEIGHT + topInset,
     };
-  });
 
-  const textOpacity = useDerivedValue(() =>
-    interpolate(scrollY.value, [130, SCROLL_STEP_1], [0, 1], Extrapolate.CLAMP),
-  );
-
-  const fontSize = useDerivedValue(() =>
-    interpolate(
-      scrollY.value,
-      [0, SCROLL_STEP_1],
-      [0.01, 17],
-      Extrapolate.CLAMP,
-    ),
-  );
-
-  const marginLeft = useDerivedValue(() =>
-    interpolate(scrollY.value, [0, MAX_SCROLL], [0, 12], Extrapolate.CLAMP),
-  );
-
-  const textStyle = useAnimatedStyle(() => ({
-    opacity: textOpacity.value,
-    fontSize: fontSize.value,
-    marginLeft: marginLeft.value,
-  }));
-
-  const extraPadding = {paddingTop: topInset, height: HEADER_HEIGHT + topInset};
-
-  return (
-    <Animated.View style={[styles.container, extraPadding, shadowStyle]}>
-      <BackButton
-        containerStyle={styles.backButton}
-        color={COLORS.primaryDark}
-        allowOnTab
-      />
-      <View style={styles.wrapper}>
-        <Animated.View style={[imageAnimatedStyle, styles.imageContainer]}>
-          <Avatar
-            uri={uri}
-            style={styles.image}
-            size={AVATAR_SIZE}
-            borderRadius={AVATAR_RADIUS}
-            touchableStyle={styles.touchableAvatar}
-          />
-        </Animated.View>
-        <Animated.Text
-          style={[styles.usernameText, textStyle]}
-          numberOfLines={1}>
-          {user?.username}
-        </Animated.Text>
-      </View>
-      <View style={styles.rightContainer}>
-        <SettingsButton />
-      </View>
-    </Animated.View>
-  );
-});
+    return (
+      <Animated.View style={[styles.container, extraPadding, shadowStyle]}>
+        <BackButton
+          containerStyle={styles.backButton}
+          color={COLORS.primaryDark}
+          allowOnTab
+        />
+        <View style={styles.wrapper}>
+          <Animated.View style={[imageAnimatedStyle, styles.imageContainer]}>
+            {isLoading ? (
+              <AvatarSkeleton />
+            ) : (
+              <Avatar
+                uri={uri}
+                style={styles.image}
+                size={AVATAR_SIZE}
+                borderRadius={AVATAR_RADIUS}
+                touchableStyle={styles.touchableAvatar}
+                allowFullScreen={allowFullScreen}
+              />
+            )}
+          </Animated.View>
+          <Animated.Text
+            style={[styles.usernameText, textStyle]}
+            numberOfLines={1}>
+            {user?.username}
+          </Animated.Text>
+        </View>
+        <View
+          style={
+            isSettingsHidden
+              ? styles.rightContainerSettingsHidden
+              : styles.rightContainer
+          }>
+          {!isSettingsHidden && <SettingsButton />}
+        </View>
+      </Animated.View>
+    );
+  },
+);
 
 const styles = StyleSheet.create({
   container: {
     height: HEADER_HEIGHT,
+    justifyContent: 'center',
     flexDirection: 'row',
     width: screenWidth,
     overflow: 'visible',
@@ -156,6 +186,10 @@ const styles = StyleSheet.create({
   },
   rightContainer: {
     paddingRight: rem(16),
+    alignSelf: 'center',
+  },
+  rightContainerSettingsHidden: {
+    paddingRight: rem(38),
     alignSelf: 'center',
   },
   imageContainer: {

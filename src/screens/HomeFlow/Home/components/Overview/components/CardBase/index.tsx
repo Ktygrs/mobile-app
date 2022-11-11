@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
     borderRadius: rem(20),
     paddingHorizontal: rem(15),
     overflow: 'hidden',
+    flexGrow: 1,
   },
   backgroundImage: {
     position: 'absolute',

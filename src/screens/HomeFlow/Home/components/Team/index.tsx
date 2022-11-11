@@ -79,6 +79,7 @@ const renderTeamMember = ({item}: {item: User}) => {
       username={item.username}
       profilePictureUrl={item.profilePictureUrl}
       isIceFriend={Boolean(item.phoneNumber)}
+      userId={item.id}
     />
   );
 };

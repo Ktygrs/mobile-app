@@ -23,3 +23,5 @@ export const usernameSelector = (state: RootState) =>
 export const userInfoSelector = (state: RootState) => state.account.userInfo;
 
 export const isAdminSelector = (state: RootState) => state.account.isAdmin;
+
+export const anotherUserSelector = (state: RootState) => state.users.user;

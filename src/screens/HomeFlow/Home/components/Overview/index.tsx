@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {FlipCard} from '@components/FlipCard';
 import {InviteButton} from '@components/InviteButton';
 import {SECTION_HEADER_HEIGH, SectionHeader} from '@components/SectionHeader';
 import {COLORS} from '@constants/colors';
@@ -7,17 +8,20 @@ import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {useScrollShadow} from '@hooks/useScrollShadow';
 import {AdoptionCard} from '@screens/HomeFlow/Home/components/Overview/components/AdoptionCard';
 import {
+  CARD_WIDTH,
   CARDS_COLLAPSED_HEIGHT,
   CARDS_TOTAL_HEIGHT,
 } from '@screens/HomeFlow/Home/components/Overview/components/CardBase';
 import {LevelCard} from '@screens/HomeFlow/Home/components/Overview/components/LevelCard';
-import {RefferalsCard} from '@screens/HomeFlow/Home/components/Overview/components/ReferralsCard';
+import {OnlineUsersHistory} from '@screens/HomeFlow/Home/components/Overview/components/OnlineUsersHistory';
+import {ReferralAcquisitionHistory} from '@screens/HomeFlow/Home/components/Overview/components/ReferralAcquisitionHistory';
+import {ReferralsCard} from '@screens/HomeFlow/Home/components/Overview/components/ReferralsCard';
 import {useCardTranslateY} from '@screens/HomeFlow/Home/components/Overview/hooks/useCardTranslateY';
 import {useScrollCollapse} from '@screens/HomeFlow/Home/components/Overview/hooks/useScrollCollapse';
+import {MOCK_TOTAL_USERS_GRAPH_DATA} from '@screens/HomeFlow/Stats/components/UsersGrowthGraph/mockData';
 import {t} from '@translations/i18n';
 import React, {memo} from 'react';
-import {Platform} from 'react-native';
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet, View} from 'react-native';
 import Animated, {SharedValue} from 'react-native-reanimated';
 import {isAndroid, isIOS, rem} from 'rn-units';
 
@@ -66,11 +70,23 @@ export const Overview = memo(({translateY, topOffset}: Props) => {
             collapseAnimatedStyle,
             isAndroid && shadowStyle,
           ]}>
-          <Animated.View style={styles.scrolledContent}>
+          <View style={styles.scrolledContent}>
             <LevelCard />
-            <RefferalsCard />
-            <AdoptionCard />
-          </Animated.View>
+            <FlipCard
+              stylesContainer={styles.flipCardContainer}
+              front={<ReferralsCard />}
+              back={<ReferralAcquisitionHistory />}
+            />
+            <FlipCard
+              stylesContainer={styles.flipCardContainer}
+              front={<AdoptionCard />}
+              back={
+                <OnlineUsersHistory
+                  data={MOCK_TOTAL_USERS_GRAPH_DATA.slice(0, 7).reverse()}
+                />
+              }
+            />
+          </View>
         </Animated.ScrollView>
       </Animated.View>
       <InviteButton />
@@ -107,5 +123,12 @@ const styles = StyleSheet.create({
       android: {marginBottom: SCROLL_BOTTOM_PADDING},
       ios: {paddingBottom: SCROLL_BOTTOM_PADDING},
     }),
+  },
+  flipCardContainer: {
+    width: CARD_WIDTH,
+    marginRight: rem(16),
+    borderRadius: rem(20),
+    overflow: 'hidden',
+    flexGrow: 1,
   },
 });

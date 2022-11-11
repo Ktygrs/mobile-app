@@ -6,8 +6,9 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {getImageUriForSize} from '@utils/file';
 import React, {memo, useMemo, useRef} from 'react';
-import {ImageStyle, StyleProp, ViewStyle} from 'react-native';
+import {ImageStyle, StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
 import Animated from 'react-native-reanimated';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import {rem} from 'rn-units';
 
 const DEFAULT_AVATAR_SIZE = rem(86);
@@ -70,3 +71,16 @@ export const Avatar = memo(
     return ImageComponent;
   },
 );
+
+export const AvatarSkeleton = () => (
+  <SkeletonPlaceholder>
+    <View style={styles.container} />
+  </SkeletonPlaceholder>
+);
+
+const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    height: '100%',
+  },
+});

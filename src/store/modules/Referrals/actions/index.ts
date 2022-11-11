@@ -33,7 +33,7 @@ const GET_REFERRALS = ({
   );
 
 const GET_REFERRALS_HISTORY = createAction('GET_REFERRALS_HISTORY', {
-  START: (userId: string) => ({userId}),
+  START: () => {},
   SUCCESS: (history: ReferralHistoryRecord[]) => ({history}),
   FAILED: (errorMessage: string) => ({
     errorMessage,

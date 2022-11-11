@@ -10,12 +10,17 @@ install! 'cocoapods', :deterministic_uuids => false, :warn_for_unused_master_spe
 
 target 'ice' do
   config = use_native_modules!
-  
+
   permissions_path = '../node_modules/react-native-permissions/ios'
 
   pod 'React-RCTLinking', :path => '../node_modules/react-native/Libraries/LinkingIOS'
   pod 'Permission-Contacts', :path => "#{permissions_path}/Contacts"
   pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications"
+<<<<<<< HEAD
+=======
+  pod 'react-native-webview', :path => '../node_modules/react-native-webview'
+
+>>>>>>> 8de73a7 (chore: profile user redirect, flip card)
 
   pod 'Firebase', :modular_headers => true
   pod 'FirebaseCore', :modular_headers => true

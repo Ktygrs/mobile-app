@@ -2,7 +2,11 @@
 
 import {Avatar} from '@components/Avatar/Avatar';
 import {stopPropagination} from '@components/KeyboardDismiss';
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
+import {ProfileTabStackParamList} from '@navigation/Main';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {font} from '@utils/styles';
 import React, {memo, ReactNode} from 'react';
 import {StyleProp, StyleSheet, Text, View, ViewStyle} from 'react-native';
@@ -16,39 +20,48 @@ export const UserListItem = memo(
     profilePictureUrl,
     active,
     AdditionalInfoComponent,
+    userId,
   }: {
+    userId: string;
     name?: string | null | ReactNode;
     note?: string | null | ReactNode;
     profilePictureUrl?: string | null;
     active?: boolean;
     AdditionalInfoComponent?: ReactNode;
   }) => {
+    const navigation =
+      useNavigation<NativeStackNavigationProp<ProfileTabStackParamList>>();
     return (
       <View style={styles.container} {...stopPropagination}>
-        <View style={styles.imageContainer}>
-          {profilePictureUrl && (
-            <Avatar
-              uri={profilePictureUrl}
-              size={rem(46)}
-              borderRadius={rem(16)}
+        <Touchable
+          style={styles.touchArea}
+          onPress={() => navigation.navigate('Profile', {userId: userId})}>
+          <View style={styles.imageContainer}>
+            {profilePictureUrl && (
+              <Avatar
+                uri={profilePictureUrl}
+                size={rem(46)}
+                borderRadius={rem(16)}
+                allowFullScreen={false}
+              />
+            )}
+            <View
+              style={[
+                styles.indicator,
+                {
+                  backgroundColor: active ? COLORS.shamrock : COLORS.cadetBlue,
+                },
+              ]}
             />
-          )}
-          <View
-            style={[
-              styles.indicator,
-              {
-                backgroundColor: active ? COLORS.shamrock : COLORS.cadetBlue,
-              },
-            ]}
-          />
-        </View>
-        <View style={styles.body}>
-          <Text style={styles.nameText} numberOfLines={1}>
-            {name}
-          </Text>
-          {note && <Text style={styles.noteText}>{note}</Text>}
-        </View>
-        {AdditionalInfoComponent}
+          </View>
+          <View style={styles.body}>
+            <Text style={styles.nameText} numberOfLines={1}>
+              {name}
+            </Text>
+            {note && <Text style={styles.noteText}>{note}</Text>}
+          </View>
+          {AdditionalInfoComponent}
+        </Touchable>
       </View>
     );
   },
@@ -98,5 +111,9 @@ const styles = StyleSheet.create({
     borderRadius: rem(16),
     marginTop: rem(14),
     alignSelf: 'stretch',
+  },
+  touchArea: {
+    flex: 1,
+    flexDirection: 'row',
   },
 });

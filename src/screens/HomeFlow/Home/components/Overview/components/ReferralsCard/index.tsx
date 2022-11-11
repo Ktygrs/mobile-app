@@ -1,35 +1,45 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
+import {Images} from '@images';
 import {CardBase} from '@screens/HomeFlow/Home/components/Overview/components/CardBase';
+import {
+  userReferralCountSelector,
+  userT1ReferralSelector,
+  userT2ReferralSelector,
+} from '@store/modules/Referrals/selectors';
 import {FriendsIcon} from '@svg/FriendsIcon';
 import {TrophyIcon} from '@svg/TrophyIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import {useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
-export const RefferalsCard = () => {
+export const ReferralsCard = () => {
+  const userReferralCount = useSelector(userReferralCountSelector);
+  const userT1ReferralCount = useSelector(userT1ReferralSelector);
+  const userT2ReferralCount = useSelector(userT2ReferralSelector);
   return (
     <CardBase
-      backgroundImageSource={require('./assets/images/background.png')}
+      backgroundImageSource={Images.backgrounds.referralsCardBg}
       headerTitle={t('home.referrals.title')}
       headerTitleIcon={<TrophyIcon fill={COLORS.white} />}
-      headerValue={'77'}
+      headerValue={String(userReferralCount)}
       headerValueIcon={<FriendsIcon fill={COLORS.white} />}>
       <View style={[styles.body]}>
         <View style={styles.column}>
           <Text style={styles.labelText}>
             {t('home.referrals.users_tier_1')}
           </Text>
-          <Text style={styles.valueText}>59</Text>
+          <Text style={styles.valueText}>{userT1ReferralCount}</Text>
         </View>
         <View style={styles.column}>
           <Text style={styles.labelText}>
             {t('home.referrals.users_tier_2')}
           </Text>
-          <Text style={styles.valueText}>18</Text>
+          <Text style={styles.valueText}>{userT2ReferralCount}</Text>
         </View>
       </View>
       <Text style={styles.noteText}>{t('home.referrals.description')}</Text>
