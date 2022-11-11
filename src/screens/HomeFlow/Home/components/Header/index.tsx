@@ -7,7 +7,7 @@ import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {useTopOffsetStyle} from '@navigation/hooks/useTopOffsetStyle';
-import {HomeTabStackParamList} from '@navigation/Main';
+import {MainTabsParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {GreetingText} from '@screens/HomeFlow/Home/components/Header/components/GreetingText';
@@ -30,7 +30,7 @@ type Props = {
 
 export const HomeHeader = memo(({translateY, transitionOffset}: Props) => {
   const navigation =
-    useNavigation<NativeStackNavigationProp<HomeTabStackParamList>>();
+    useNavigation<NativeStackNavigationProp<MainTabsParamList>>();
 
   const topOffset = useTopOffsetStyle();
   const user = useSelector(userSelector);
@@ -41,7 +41,7 @@ export const HomeHeader = memo(({translateY, transitionOffset}: Props) => {
   });
 
   const onGreetingPress = () => {
-    navigation.navigate('Profile');
+    navigation.navigate('ProfileTab');
   };
 
   return (

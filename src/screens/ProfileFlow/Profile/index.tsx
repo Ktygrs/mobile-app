@@ -57,7 +57,6 @@ export const Profile = memo(() => {
       <AvatarHeader
         scrollY={scrollY}
         uri={user?.profilePictureUrl}
-        allowFullScreen={isOwner}
         isSettingsHidden={!isOwner}
         isLoading={isLoading}
       />
