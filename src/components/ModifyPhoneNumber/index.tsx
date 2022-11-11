@@ -6,7 +6,7 @@ import {PrimaryButton} from '@components/PrimaryButton';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {Images} from '@images';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
-import {userSelector} from '@store/modules/Auth/selectors';
+import {userSelector} from '@store/modules/Account/selectors';
 import {t} from '@translations/i18n';
 import {getCountryByCode} from '@utils/country';
 import {formatPhoneNumber} from '@utils/phoneNumber';
@@ -43,9 +43,6 @@ export function ModifyPhoneNumber({
   const handleOnPress = () => {
     onSubmitPress(selectedCountry.iddCode + phone);
   };
-  const showCountryCodeSearch = () => {
-    showCountriesList(true);
-  };
   const hideCountryCodeSearch = () => {
     showCountriesList(false);
   };
@@ -78,14 +75,15 @@ export function ModifyPhoneNumber({
         </Text>
       )}
       <PhoneNumberInput
-        selectedCountry={selectedCountry}
-        showCountryCodeSearch={showCountryCodeSearch}
+        // TODO::change
+        // selectedCountry={selectedCountry}
+        // showCountryCodeSearch={showCountryCodeSearch}
         value={phone}
         containerStyle={styles.input}
-        onValueChange={onPhoneNumberChange}
+        onChangePhone={onPhoneNumberChange}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
-        ref={phoneNumberInputRef}
+        // ref={phoneNumberInputRef}
         editable={!loading}
       />
       <PrimaryButton

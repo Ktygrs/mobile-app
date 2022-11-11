@@ -59,10 +59,7 @@ export const MenuItem = ({
               adjustsFontSizeToFit>
               {title}
             </Text>
-            <Text
-              style={styles.descriptionText}
-              numberOfLines={2}
-              adjustsFontSizeToFit>
+            <Text style={styles.descriptionText} numberOfLines={2}>
               {expanded ? confirmation?.title : description}
             </Text>
           </View>

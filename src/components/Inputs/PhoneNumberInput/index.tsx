@@ -1,100 +1,86 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {Touchable} from '@components/Touchable';
-import {COLORS} from '@constants/colors';
+import {CommonInput, CommonInputProps} from '@components/Inputs/CommonInput';
+import {CountryButton} from '@components/Inputs/PhoneNumberInput/components/CountryButton';
 import {Country} from '@constants/countries';
-import {ArrowDownIcon} from '@svg/ArrowDownIcon';
+import {AuthStackParamList} from '@navigation/Auth';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {deviceLocationSelector} from '@store/modules/Devices/selectors';
 import {t} from '@translations/i18n';
+import {getCountryByCode} from '@utils/country';
+import {formatPhoneNumber} from '@utils/phoneNumber';
 import {font} from '@utils/styles';
-import * as React from 'react';
-import {forwardRef, Ref} from 'react';
-import {
-  StyleProp,
-  StyleSheet,
-  Text,
-  TextInput,
-  TextInputProps,
-  View,
-  ViewStyle,
-} from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, Text} from 'react-native';
+import {useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
-interface PhoneNumberInputProps extends TextInputProps {
-  selectedCountry: Country;
-  containerStyle?: StyleProp<ViewStyle>;
-  showCountryCodeSearch: () => void;
-  onValueChange: (v: string) => void;
-}
-
-export const PhoneNumberInput = forwardRef(
-  (
-    {
-      selectedCountry,
-      containerStyle,
-      showCountryCodeSearch,
-      onValueChange,
-      ...textInputProps
-    }: PhoneNumberInputProps,
-    forwardedRef: Ref<TextInput>,
-  ) => {
-    return (
-      <View style={[styles.container, containerStyle]}>
-        <Touchable
-          style={styles.countryIconContainer}
-          onPress={showCountryCodeSearch}>
-          <View style={styles.countryCodeWrapper}>
-            <Text style={styles.countryIcon}>{selectedCountry.flag}</Text>
-
-            <ArrowDownIcon />
-          </View>
-        </Touchable>
-
-        <Text style={styles.code}>{selectedCountry.iddCode}</Text>
-
-        <TextInput
-          placeholder={`| ${t('global.phone_number')}`}
-          keyboardType={'phone-pad'}
-          style={styles.phone}
-          onChangeText={onValueChange}
-          ref={forwardedRef}
-          {...textInputProps}
-        />
-      </View>
-    );
-  },
-);
+export const PhoneNumberInput = ({
+  value,
+  selectedCountry,
+  onChangePhone,
+  ...props
+}: Omit<CommonInputProps, 'label' | 'onChangeText'> & {
+  selectedCountry?: Country;
+  onChangePhone: (phoneBody: string, iddCode: string) => void;
+}) => {
+  const deviceLocation = useSelector(deviceLocationSelector);
+  const deviceCountry = getCountryByCode(deviceLocation?.country);
+  const [country, setCountry] = useState(
+    selectedCountry ?? deviceCountry.current ?? deviceCountry.default,
+  );
+  const navigation =
+    useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
+  const [prefix, setPrefix] = useState(value ? country.iddCode : '');
+  const onCountrySelect = () => {
+    navigation.navigate('CountrySelect', {
+      onSelect: c => {
+        setCountry(c);
+        if (prefix) {
+          setPrefix(c.iddCode);
+        }
+      },
+    });
+  };
+  return (
+    <CommonInput
+      value={formatPhoneNumber(
+        `${country.iddCode}${value}`,
+        country.isoCode,
+        country.iddCode,
+      )}
+      label={t('global.phone_number')}
+      prefix={!!prefix && <Text style={styles.prefixText}>{prefix}</Text>}
+      icon={<CountryButton flag={country.flag} onPress={onCountrySelect} />}
+      keyboardType={'phone-pad'}
+      textContentType={'telephoneNumber'}
+      autoComplete={'tel'}
+      autoCapitalize={'none'}
+      autoCorrect={true}
+      containerStyle={styles.inputContainer}
+      onFocus={() => {
+        setPrefix(country.iddCode);
+      }}
+      onBlur={() => {
+        if (!value) {
+          setPrefix('');
+        }
+      }}
+      onChangeText={(text: string) => {
+        onChangePhone(text, country.iddCode);
+      }}
+      {...props}
+    />
+  );
+};
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    borderWidth: rem(1.5),
-    borderRadius: 13,
-    borderColor: COLORS.secondaryLight,
-    minHeight: rem(46),
+  inputContainer: {
+    paddingLeft: 0,
   },
-  countryIcon: {
-    fontSize: rem(24),
-    paddingRight: 7,
-  },
-  countryIconContainer: {
-    borderRightWidth: rem(1.5),
-    borderRightColor: COLORS.secondaryLight,
-    paddingLeft: 15,
-    paddingRight: 12,
-  },
-  code: {
-    paddingRight: 5,
-    paddingLeft: 9,
-    alignSelf: 'center',
-    ...font(14, null, 'black', 'primaryDark'),
-  },
-  phone: {
-    flex: 1,
-    ...font(15, null, 'regular', 'primaryDark'),
-  },
-  countryCodeWrapper: {
-    alignItems: 'center',
-    flex: 1,
-    flexDirection: 'row',
+  prefixText: {
+    ...font(16, 22, 'medium', 'secondary'),
+    marginRight: rem(4),
   },
 });

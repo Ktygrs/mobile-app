@@ -3,13 +3,13 @@
 import {ProgressBar} from '@components/ProgressBar';
 import {useTopOffsetStyle} from '@hooks/useTopOffsetStyle';
 import {font} from '@utils/styles';
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {StyleProp, StyleSheet, Text, View, ViewStyle} from 'react-native';
 import {rem} from 'rn-units';
 
 type Props = {
   title: string;
-  description: string;
+  description: string | ReactNode;
   progressPercentage: number;
   containerStyle?: StyleProp<ViewStyle>;
 };

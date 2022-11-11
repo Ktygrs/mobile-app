@@ -7,7 +7,7 @@ import {useScrollShadow} from '@hooks/useScrollShadow';
 import {HEADER_HEIGHT} from '@navigation/components/Header';
 import {BackButton} from '@navigation/components/Header/components/BackButton';
 import {SettingsButton} from '@navigation/components/Header/components/SettingsButton';
-import {userSelector} from '@store/modules/Auth/selectors';
+import {userSelector} from '@store/modules/Account/selectors';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
 import {StyleSheet, View} from 'react-native';

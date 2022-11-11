@@ -2,7 +2,7 @@
 
 import {Avatar} from '@components/Avatar/Avatar';
 import {COLORS} from '@constants/colors';
-import {userSelector} from '@store/modules/Auth/selectors';
+import {userSelector} from '@store/modules/Account/selectors';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {useSelector} from 'react-redux';

@@ -2,7 +2,6 @@
 
 package io.ice.app;
 
-import io.ice.app.generated.BasePackageList;
 import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
@@ -16,14 +15,7 @@ import io.ice.app.newarchitecture.MainApplicationReactNativeHost;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import java.util.Arrays;
-
-import org.unimodules.adapters.react.ModuleRegistryAdapter;
-import org.unimodules.adapters.react.ReactModuleRegistryProvider;
-
 public class MainApplication extends Application implements ReactApplication {
-
-private final ReactModuleRegistryProvider mModuleRegistryProvider = new ReactModuleRegistryProvider(new BasePackageList().getPackageList(), null);
 
   private final ReactNativeHost mReactNativeHost =
       new ReactNativeHost(this) {
@@ -38,12 +30,6 @@ private final ReactModuleRegistryProvider mModuleRegistryProvider = new ReactMod
           List<ReactPackage> packages = new PackageList(this).getPackages();
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
-
-            // Add unimodules
-            List<ReactPackage> unimodules = Arrays.<ReactPackage>asList(
-                    new ModuleRegistryAdapter(mModuleRegistryProvider)
-            );
-            packages.addAll(unimodules);
           return packages;
         }
 

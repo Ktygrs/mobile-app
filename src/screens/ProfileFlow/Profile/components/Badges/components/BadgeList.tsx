@@ -6,7 +6,7 @@ import {
   BadgeCard,
   BadgeCardSkeleton,
 } from '@screens/ProfileFlow/Profile/components/Badges/components/BadgeCard';
-import {userSelector} from '@store/modules/Auth/selectors';
+import {userSelector} from '@store/modules/Account/selectors';
 import React, {useCallback} from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 import {useSelector} from 'react-redux';

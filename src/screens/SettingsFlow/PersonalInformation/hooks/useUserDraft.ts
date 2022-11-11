@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {User} from '@api/user/types';
-import {userSelector} from '@store/modules/Auth/selectors';
+import {userSelector} from '@store/modules/Account/selectors';
 import {pick} from 'lodash';
 import {useEffect, useMemo, useState} from 'react';
 import {useSelector} from 'react-redux';

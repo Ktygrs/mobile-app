@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import * as React from 'react';
-import {Path, Svg} from 'react-native-svg';
+import {Path, Svg, SvgProps} from 'react-native-svg';
 
-export const FacebookIconSvg = () => {
+export const FacebookIcon = (props: SvgProps) => {
   return (
-    <Svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+    <Svg width={36} height={36} fill="none" {...props}>
       <Path
-        d="M24.8963 7.63163H28V2.90933C27.4645 2.84498 25.623 2.7002 23.4784 2.7002C19.0035 2.7002 15.9381 5.15911 15.9381 9.67846V13.8377H11V19.1169H15.9381V32.4002H21.9924V19.1181H26.7308L27.483 13.8389H21.991V10.2019C21.9924 8.67608 22.4627 7.63163 24.8963 7.63163Z"
+        d="M24.896 7.632H28V2.909c-.535-.064-2.377-.209-4.522-.209-4.475 0-7.54 2.46-7.54 6.978v4.16H11v5.279h4.938V32.4h6.054V19.118h4.739l.752-5.28h-5.492v-3.636c.001-1.526.472-2.57 2.905-2.57Z"
         fill="#3D6AD6"
       />
     </Svg>

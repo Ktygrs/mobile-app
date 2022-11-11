@@ -5,8 +5,8 @@ import {ModifyPhoneNumber} from '@components/ModifyPhoneNumber';
 import {COLORS} from '@constants/colors';
 import {ContactsList} from '@screens/Team/components/Contacts/components/ContactsList';
 import {ContactsPermissions} from '@screens/Team/components/Contacts/components/ContactsPermissions';
-import {AuthActions} from '@store/modules/Auth/actions';
-import {isPhoneNumberVerifiedSelector} from '@store/modules/Auth/selectors';
+import {AccountActions} from '@store/modules/Account/actions';
+import {isPhoneNumberVerifiedSelector} from '@store/modules/Account/selectors';
 import {PermissionsActions} from '@store/modules/Permissions/actions';
 import {permissionSelector} from '@store/modules/Permissions/selectors';
 import {isLoadingSelector} from '@store/modules/UtilityProcessStatuses/selectors';
@@ -36,7 +36,7 @@ export const Contacts = ({
 }: ContactsProps) => {
   const isLoading = useSelector(
     (state: RootState) =>
-      isLoadingSelector(AuthActions.UPDATE_ACCOUNT, state) ||
+      isLoadingSelector(AccountActions.UPDATE_ACCOUNT, state) ||
       isLoadingSelector(ValidationActions.PHONE_VALIDATION, state),
   );
   const dispatch = useDispatch();
@@ -93,7 +93,7 @@ export const Contacts = ({
   }, [currentScreen, setScreen]);
 
   const onModifyPhonePress = (phone: string) => {
-    dispatch(AuthActions.UPDATE_ACCOUNT.START.create({phoneNumber: phone}));
+    dispatch(AccountActions.UPDATE_ACCOUNT.START.create({phoneNumber: phone}));
   };
 
   const onConfirmPhonePress = useCallback(

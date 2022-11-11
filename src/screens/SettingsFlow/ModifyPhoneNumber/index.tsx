@@ -12,8 +12,8 @@ import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
 import {ProfileTabStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {AuthActions} from '@store/modules/Auth/actions';
-import {userSelector} from '@store/modules/Auth/selectors';
+import {AccountActions} from '@store/modules/Account/actions';
+import {userSelector} from '@store/modules/Account/selectors';
 import {isLoadingSelector} from '@store/modules/UtilityProcessStatuses/selectors';
 import {phoneVerificationStepSelector} from '@store/modules/Validation/selectors';
 import {t} from '@translations/i18n';
@@ -34,7 +34,7 @@ export const ModifyPhoneNumber = memo(() => {
   const phoneVerificationStep = useSelector(phoneVerificationStepSelector);
 
   const isLoading = useSelector(
-    isLoadingSelector.bind(null, AuthActions.UPDATE_ACCOUNT),
+    isLoadingSelector.bind(null, AccountActions.UPDATE_ACCOUNT),
   );
 
   useEffect(() => {
@@ -44,7 +44,7 @@ export const ModifyPhoneNumber = memo(() => {
   }, [navigation, phoneVerificationStep]);
 
   const onSubmitPress = (phone: string) => {
-    dispatch(AuthActions.UPDATE_ACCOUNT.START.create({phoneNumber: phone}));
+    dispatch(AccountActions.UPDATE_ACCOUNT.START.create({phoneNumber: phone}));
   };
 
   return (

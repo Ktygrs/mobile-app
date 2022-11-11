@@ -1,12 +1,15 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {isApiError} from '@api/client';
 import {DeviceSettings} from '@api/devices/types';
+import {Api} from '@api/index';
+import {AccountActions} from '@store/modules/Account/actions';
 import {
   isAuthorizedSelector,
   userIdSelector,
-} from '@store/modules/Auth/selectors';
+} from '@store/modules/Account/selectors';
 import {DeviceActions} from '@store/modules/Devices/actions';
-import {getOrCreateDeviceSettings} from '@store/modules/Devices/sagas/getOrCreateDeviceSettings';
+import i18n, {appLocale} from '@translations/i18n';
 import {syncUniqueId} from 'react-native-device-info';
 import {call, put, SagaReturnType, select} from 'redux-saga/effects';
 
@@ -29,5 +32,36 @@ export function* initDeviceSaga() {
     });
   }
 
-  yield put(DeviceActions.INIT_DEVICE.STATE.create(deviceUniqueId, settings));
+  yield put(DeviceActions.INIT_DEVICE.SUCCESS.create(deviceUniqueId, settings));
+}
+
+export function* getOrCreateDeviceSettings({
+  userId,
+  deviceUniqueId,
+}: {
+  userId: string;
+  deviceUniqueId: string;
+}) {
+  let settings: DeviceSettings;
+  try {
+    settings = yield call(Api.devices.getUserDeviceSettings, {
+      userId,
+      deviceUniqueId,
+    });
+    if (settings.language !== i18n.currentLocale()) {
+      i18n.locale = settings.language;
+      yield put(AccountActions.SYNC_LANGUAGE_CODE.STATE);
+    }
+  } catch (error) {
+    if (isApiError(error, 404, 'DEVICE_SETTINGS_NOT_FOUND')) {
+      settings = yield call(
+        Api.devices.createUserDeviceSettings,
+        {userId, deviceUniqueId},
+        {language: appLocale},
+      );
+    } else {
+      throw error;
+    }
+  }
+  return settings;
 }

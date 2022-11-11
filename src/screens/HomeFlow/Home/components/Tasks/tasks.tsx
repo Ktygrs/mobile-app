@@ -5,7 +5,7 @@ import {InviteIcon} from '@svg/InviteIcon';
 import {LogoIcon} from '@svg/LogoIcon';
 import {ShareSvg} from '@svg/Share';
 import {TelegramSvg} from '@svg/Telegram';
-import {TwitterIconSvg} from '@svg/TwitterIcon';
+import {TwitterIcon} from '@svg/TwitterIcon';
 import {UserCircleSvg} from '@svg/UserCircle';
 import {VerifiedUserSvg} from '@svg/VerifiedUser';
 import {t} from '@translations/i18n';
@@ -62,7 +62,7 @@ export const taskItems: Task[] = [
     type: 'followUsTwitter',
     completed: false,
     active: false,
-    Icon: <TwitterIconSvg />,
+    Icon: <TwitterIcon width={20} height={20} />,
     iconBackground: COLORS.toreaBay,
     title: t('home.steps.step_four.title'),
     description: t('home.steps.step_four.description'),

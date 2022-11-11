@@ -1,14 +1,16 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {COLORS} from '@constants/colors';
 import * as React from 'react';
-import {Circle, Path, Rect, Svg} from 'react-native-svg';
+import Svg, {Path, SvgProps} from 'react-native-svg';
 
-export const PhoneIconSvg = () => {
-  return (
-    <Svg width="10" height="13" viewBox="0 0 10 13" fill="none">
-      <Rect x="0.5" y="0.5" width="9" height="12" rx="2.5" stroke="#B6B4BA" />
-      <Circle cx="2.5" cy="2.5" r="0.5" fill="#C4C4C4" />
-      <Path d="M3 10.5H7" stroke="#B6B4BA" stroke-linecap="round" />
-    </Svg>
-  );
-};
+export const PhoneIcon = (props: SvgProps) => (
+  <Svg width={12} height={19} viewBox={'0 0 12 19'} fill="none" {...props}>
+    <Path
+      d="M4.5 14.75a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3ZM2 .75h8c.69 0 1.25.56 1.25 1.25v15c0 .69-.56 1.25-1.25 1.25H2c-.69 0-1.25-.56-1.25-1.25V2C.75 1.31 1.31.75 2 .75Z"
+      stroke={props.color ?? COLORS.secondary}
+      strokeWidth={1.5}
+      strokeLinecap="round"
+    />
+  </Svg>
+);

@@ -2,15 +2,13 @@
 
 import {Initialization} from '@components/Initialization';
 import {Router} from '@navigation/Router';
-import {magic} from '@services/magicLink';
+import {configuredStore} from '@store/configureStore';
 import React from 'react';
 import {StatusBar, StyleSheet} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
-
-import {configuredStore} from './store/configureStore';
 
 export function App() {
   return (
@@ -23,7 +21,6 @@ export function App() {
           <GestureHandlerRootView style={styles.container}>
             <Router />
           </GestureHandlerRootView>
-          <magic.Relayer />
         </PersistGate>
       </Provider>
     </SafeAreaProvider>

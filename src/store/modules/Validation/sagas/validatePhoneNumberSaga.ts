@@ -2,8 +2,8 @@
 
 import {getApiErrorCode, isApiError} from '@api/client';
 import {Api} from '@api/index';
-import {AuthActions} from '@store/modules/Auth/actions';
-import {userIdSelector} from '@store/modules/Auth/selectors';
+import {AccountActions} from '@store/modules/Account/actions';
+import {userIdSelector} from '@store/modules/Account/selectors';
 import {ValidationActions} from '@store/modules/Validation/actions';
 import {temporaryPhoneNumberSelector} from '@store/modules/Validation/selectors';
 import {t} from '@translations/i18n';
@@ -49,7 +49,7 @@ export function* validatePhoneNumberSaga(
         Api.user.getUserById,
         userId,
       );
-      yield put(AuthActions.UPDATE_ACCOUNT.SUCCESS.create(freshUser));
+      yield put(AccountActions.UPDATE_ACCOUNT.SUCCESS.create(freshUser));
       localizedError = t('errors.validation_not_found');
     } else if (isApiError(error, 409, 'CONFLICT_WITH_ANOTHER_USER')) {
       const field = error?.response?.data?.data?.field;

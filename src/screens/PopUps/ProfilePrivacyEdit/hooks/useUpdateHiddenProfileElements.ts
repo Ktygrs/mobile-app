@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {HiddenProfileElement, User} from '@api/user/types';
-import {AuthActions} from '@store/modules/Auth/actions';
-import {userSelector} from '@store/modules/Auth/selectors';
+import {AccountActions} from '@store/modules/Account/actions';
+import {userSelector} from '@store/modules/Account/selectors';
 import {isLoadingSelector} from '@store/modules/UtilityProcessStatuses/selectors';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -11,7 +11,7 @@ export const useUpdateHiddenProfileElements = () => {
   const user = useSelector(userSelector) as User;
 
   const loading = useSelector(
-    isLoadingSelector.bind(null, AuthActions.UPDATE_ACCOUNT),
+    isLoadingSelector.bind(null, AccountActions.UPDATE_ACCOUNT),
   );
 
   const updateHiddenProfileElement = (
@@ -30,7 +30,7 @@ export const useUpdateHiddenProfileElements = () => {
     }
 
     dispatch(
-      AuthActions.UPDATE_ACCOUNT.START.create(
+      AccountActions.UPDATE_ACCOUNT.START.create(
         {
           hiddenProfileElements: elementsToUpdate,
         },

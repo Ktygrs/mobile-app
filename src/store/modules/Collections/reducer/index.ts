@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {AuthActions} from '@store/modules/Auth/actions';
+import {AccountActions} from '@store/modules/Account/actions';
 import {
   actionsMap,
   CollectionAction,
@@ -22,7 +22,7 @@ type Actions = ReturnType<
   | CollectionAction['SUCCESS']['create']
   | CollectionAction['START']['create']
   | CollectionAction['CLEAR']['create']
-  | typeof AuthActions.SIGN_OUT.SUCCESS.create
+  | typeof AccountActions.SIGN_OUT.SUCCESS.create
 >;
 
 function reducer(state = CollectionsState, action: Actions): State {
@@ -30,7 +30,7 @@ function reducer(state = CollectionsState, action: Actions): State {
     processCollectionStartAction(action, draft);
     processCollectionSuccessAction(action, draft, state);
     processCollectionClearAction(action, draft);
-    if (action.type === AuthActions.SIGN_OUT.SUCCESS.type) {
+    if (action.type === AccountActions.SIGN_OUT.SUCCESS.type) {
       return {...CollectionsState};
     }
   });

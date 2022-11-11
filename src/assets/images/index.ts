@@ -44,6 +44,7 @@ export const Images = {
     privacyBgTop: require('./backgrounds/privacyBgTop.png'),
     privacyBgMiddle: require('./backgrounds/privacyBgMiddle.png'),
     privacyBgBottom: require('./backgrounds/privacyBgBottom.png'),
+    linesHeaderBg: require('./backgrounds/linesHeaderBg.png'),
   },
   popUp: {
     updateRequired: require('./popup/please_update.png'),

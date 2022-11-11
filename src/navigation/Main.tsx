@@ -1,19 +1,19 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {BadgeCategory} from '@api/badges/types';
+import {Country} from '@constants/countries';
 import {MainTabBar} from '@navigation/components/MainTabBar';
 import {HomeIcon} from '@navigation/components/MainTabBar/components/Icons/HomeIcon';
 import {NewsIcon} from '@navigation/components/MainTabBar/components/Icons/NewsIcon';
 import {ProfileIcon} from '@navigation/components/MainTabBar/components/Icons/ProfileIcon';
 import {TeamIcon} from '@navigation/components/MainTabBar/components/Icons/TeamIcon';
 import {useUpdateRequiredListener} from '@navigation/hooks/useUpdateRequiredListener';
+import {modalOptions, screenOptions, tabOptions} from '@navigation/options';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {
-  createNativeStackNavigator,
-  NativeStackNavigationOptions,
-} from '@react-navigation/native-stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {ActionSheet} from '@screens/Dialogs/ActionSheet';
 import {Confirm, ConfirmButton} from '@screens/Dialogs/Confirm';
+import {CountrySelect} from '@screens/Dialogs/CountrySelect';
 import {Home} from '@screens/HomeFlow/Home';
 import {Stats} from '@screens/HomeFlow/Stats';
 import {TopCountries} from '@screens/HomeFlow/TopCountries';
@@ -44,7 +44,7 @@ import {PersonalInformation} from '@screens/SettingsFlow/PersonalInformation';
 import {Settings} from '@screens/SettingsFlow/Settings';
 import {Staking} from '@screens/Staking';
 import {Team} from '@screens/Team';
-import WebView from '@screens/WebView';
+import {WebView} from '@screens/WebView';
 import React, {ComponentType, RefObject} from 'react';
 import {Image, View} from 'react-native';
 import {Contact} from 'react-native-contacts';
@@ -110,6 +110,9 @@ export type MainStackParamList = {
     onClose?: () => void;
   };
   Notifications: undefined;
+  CountrySelect: {
+    onSelect: (country: Country) => void;
+  };
 };
 
 export type HomeTabStackParamList = {
@@ -156,20 +159,6 @@ const MainStack = createNativeStackNavigator<MainStackParamList>();
 const HomeTabStack = createNativeStackNavigator<HomeTabStackParamList>();
 const TeamTabStack = createNativeStackNavigator<TeamTabStackParamList>();
 const ProfileTabStack = createNativeStackNavigator<ProfileTabStackParamList>();
-
-const tabOptions = {
-  headerShown: false,
-  lazy: true,
-};
-
-const screenOptions = {
-  headerShown: false,
-};
-
-const modalOptions: NativeStackNavigationOptions = {
-  presentation: 'transparentModal',
-  animation: 'fade',
-} as const;
 
 /**
  * Needs to be on MyBadges screen to enable swipe to go back over PagerView
@@ -344,6 +333,13 @@ export function MainNavigator() {
         options={modalOptions}
       />
       <MainStack.Screen name="Notifications" component={Notifications} />
+      <MainStack.Screen
+        name="CountrySelect"
+        component={CountrySelect}
+        options={{
+          presentation: 'modal',
+        }}
+      />
     </MainStack.Navigator>
   );
 }

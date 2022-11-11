@@ -18,6 +18,7 @@ type Props = {
   titleOffset?: number;
   renderRightButtons?: () => ReactNode;
   containerStyle?: StyleProp<ViewStyle>;
+  topMargin?: number;
 };
 
 export const HEADER_HEIGHT = rem(56);
@@ -35,8 +36,10 @@ export const Header = memo(
     backgroundColor = COLORS.white,
     titleOffset = rem(20),
     containerStyle,
+    topMargin,
   }: Props) => {
-    const {top: topInset} = useSafeAreaInsets();
+    const {top: topNotchHeight} = useSafeAreaInsets();
+    const topInset = topMargin ?? topNotchHeight;
     const dynamicStyle = useMemo(
       () =>
         StyleSheet.create({

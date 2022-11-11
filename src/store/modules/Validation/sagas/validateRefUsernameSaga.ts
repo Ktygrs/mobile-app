@@ -2,7 +2,7 @@
 
 import {isApiError} from '@api/client';
 import {Api} from '@api/index';
-import {userSelector} from '@store/modules/Auth/selectors';
+import {userSelector} from '@store/modules/Account/selectors';
 import {ValidationActions} from '@store/modules/Validation/actions';
 import {t} from '@translations/i18n';
 import {getErrorMessage} from '@utils/errors';

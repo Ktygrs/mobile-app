@@ -4,7 +4,7 @@ import {Api} from '@api/index';
 import {
   isAuthorizedSelector,
   userIdSelector,
-} from '@store/modules/Auth/selectors';
+} from '@store/modules/Account/selectors';
 import {DeviceActions} from '@store/modules/Devices/actions';
 import {deviceUniqueIdSelector} from '@store/modules/Devices/selectors';
 import {getErrorMessage} from '@utils/errors';

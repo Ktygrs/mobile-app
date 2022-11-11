@@ -2,7 +2,6 @@
 
 import {User} from '@api/user/types';
 import {Avatar} from '@components/Avatar/Avatar';
-import {IceLabel} from '@components/Labels/IceLabel';
 import {COLORS} from '@constants/colors';
 import {commonStyles} from '@constants/styles';
 import {useScrollShadow} from '@hooks/useScrollShadow';
@@ -10,50 +9,25 @@ import {Header} from '@navigation/components/Header';
 import {LangButton} from '@navigation/components/Header/components/LangButton';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
 import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
-import {MainNavigationParams} from '@navigation/Main';
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {AppVersion} from '@screens/SettingsFlow/Settings/components/AppVersion';
-import {
-  MenuItem,
-  MenuItemSeparator,
-} from '@screens/SettingsFlow/Settings/components/MenuItem.tsx';
-import {SectionCard} from '@screens/SettingsFlow/Settings/components/SectionCard.tsx';
-import {SectionTitle} from '@screens/SettingsFlow/Settings/components/SectionTitle';
-import {AuthActions} from '@store/modules/Auth/actions';
-import {userSelector} from '@store/modules/Auth/selectors';
-import {EraseIcon} from '@svg/EraseIcon';
-import {FeedbackIcon} from '@svg/FeedbackIcon';
-import {InviteIcon} from '@svg/InviteIcon';
-import {LogOutIcon} from '@svg/LogOutIcon';
-import {NotificationsIcon} from '@svg/NotificationsIcon';
-import {PersonIcon} from '@svg/PersonIcon';
-import {PrivacyIcon} from '@svg/PrivacyIcon';
-import {TermsIcon} from '@svg/TermsIcon';
+import {DeveloperMenuSection} from '@screens/SettingsFlow/Settings/components/SettingsMenuSections/DeveloperMenuSection';
+import {LegalMenuSection} from '@screens/SettingsFlow/Settings/components/SettingsMenuSections/LegalMenuSection';
+import {ProfileMenuSection} from '@screens/SettingsFlow/Settings/components/SettingsMenuSections/ProfileMenuSection';
+import {SupportMenuSection} from '@screens/SettingsFlow/Settings/components/SettingsMenuSections/SupportMenuSection';
+import {isAdminSelector, userSelector} from '@store/modules/Account/selectors';
 import {t} from '@translations/i18n';
 import React, {memo} from 'react';
 import {StyleSheet, View} from 'react-native';
 import Animated from 'react-native-reanimated';
-import {useDispatch, useSelector} from 'react-redux';
-import {isAndroid, rem} from 'rn-units';
+import {useSelector} from 'react-redux';
+import {rem} from 'rn-units';
 
 export const Settings = memo(() => {
-  const dispatch = useDispatch();
   useFocusStatusBar({style: 'light-content'});
   const bottomOffset = useBottomTabBarOffsetStyle();
   const {scrollHandler, shadowStyle} = useScrollShadow();
-  const navigation =
-    useNavigation<NativeStackNavigationProp<MainNavigationParams>>();
   const user = useSelector(userSelector) as User;
-
-  const deleteAccount = () => {
-    dispatch(AuthActions.DELETE_ACCOUNT.START);
-  };
-
-  const handlePrivacyPress = () => {
-    navigation.goBack();
-    navigation.push('ProfilePrivacyEditStep1');
-  };
+  const isAdmin = useSelector(isAdminSelector);
 
   return (
     <View style={styles.container}>
@@ -71,109 +45,10 @@ export const Settings = memo(() => {
           <View style={[styles.avatarWrapper, commonStyles.shadow]}>
             <Avatar uri={user.profilePictureUrl} style={styles.avatarImage} />
           </View>
-          <SectionTitle text={t('settings.profile').toUpperCase()} />
-          <SectionCard>
-            <MenuItem
-              title={t('settings.personal_information_title')}
-              description={t('settings.personal_information_description')}
-              renderIcon={PersonIcon}
-              onPress={() => navigation.navigate('PersonalInformation')}
-            />
-            <MenuItemSeparator />
-            <MenuItem
-              title={t('settings.notifications_title')}
-              description={t('settings.notifications_description')}
-              renderIcon={() => (
-                <NotificationsIcon fill={COLORS.primaryLight} width={20} />
-              )}
-              onPress={() => navigation.navigate('NotificationSettings')}
-            />
-          </SectionCard>
-          <SectionTitle text={t('settings.legal').toUpperCase()} />
-          <SectionCard>
-            <MenuItem
-              title={t('settings.terms_title')}
-              description={t('settings.terms_description')}
-              renderIcon={TermsIcon}
-              onPress={() =>
-                navigation.navigate('WebView', {
-                  url: t('general.terms_url'),
-                  title: t('webview.terms_title'),
-                })
-              }
-            />
-            <MenuItemSeparator />
-            <MenuItem
-              title={t('settings.privacy_title')}
-              description={t('settings.privacy_description')}
-              renderIcon={PrivacyIcon}
-              onPress={handlePrivacyPress}
-            />
-          </SectionCard>
-          <SectionTitle text={t('settings.support').toUpperCase()} />
-          <SectionCard>
-            <MenuItem
-              title={t('settings.feedback_title')}
-              description={t('settings.feedback_description')}
-              renderIcon={FeedbackIcon}
-              onPress={() => {}}
-            />
-            <MenuItemSeparator />
-            <MenuItem
-              title={t('settings.invite_title')}
-              description={
-                <>
-                  {t('button.invite_friend.description_part1')}
-                  <IceLabel
-                    color={COLORS.secondary}
-                    iconSize={14}
-                    iconOffsetY={isAndroid ? 3 : 2}
-                  />
-                  {t('button.invite_friend.description_part2')}
-                </>
-              }
-              renderIcon={() => (
-                <InviteIcon fill={COLORS.primaryLight} width={23} height={22} />
-              )}
-              onPress={() => {}}
-            />
-            <MenuItemSeparator />
-            <MenuItem
-              title={t('settings.delete_title')}
-              description={
-                <>
-                  {t('settings.delete_description_part1')}
-                  <IceLabel
-                    color={COLORS.secondary}
-                    iconSize={14}
-                    iconOffsetY={isAndroid ? 3 : 2}
-                  />
-                  {t('settings.delete_description_part2')}
-                </>
-              }
-              renderIcon={EraseIcon}
-              onPress={deleteAccount}
-              confirmation={{
-                title: t('settings.delete_confirmation_title'),
-                yesText: t('settings.delete_confirmation_yes'),
-                noText: t('button.no'),
-              }}
-            />
-            <MenuItemSeparator />
-            <MenuItem
-              title={t('settings.logout_title')}
-              description={t('settings.logout_description')}
-              renderIcon={LogOutIcon}
-              onPress={() => {
-                dispatch(AuthActions.SIGN_OUT.START.create());
-              }}
-              confirmation={{
-                title: t('settings.logout_confirmation_title'),
-                yesText: t('settings.logout_confirmation_yes'),
-                noText: t('button.no'),
-              }}
-            />
-          </SectionCard>
+          <ProfileMenuSection />
+          <LegalMenuSection />
+          <SupportMenuSection />
+          {isAdmin && <DeveloperMenuSection />}
           <AppVersion />
         </View>
       </Animated.ScrollView>

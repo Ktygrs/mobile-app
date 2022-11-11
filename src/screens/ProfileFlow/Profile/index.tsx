@@ -11,7 +11,7 @@ import {Invite} from '@screens/ProfileFlow/Profile/components/Invite';
 import {LadderBar} from '@screens/ProfileFlow/Profile/components/LadderBar';
 import {MiningCalculator} from '@screens/ProfileFlow/Profile/components/MiningCalculator';
 import {Role} from '@screens/ProfileFlow/Profile/components/Role';
-import {userSelector} from '@store/modules/Auth/selectors';
+import {userSelector} from '@store/modules/Account/selectors';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
 import {StyleSheet, Text, View} from 'react-native';

@@ -2,7 +2,7 @@
 
 import {DeviceSettings} from '@api/devices/types';
 import {Api} from '@api/index';
-import {userIdSelector} from '@store/modules/Auth/selectors';
+import {userIdSelector} from '@store/modules/Account/selectors';
 import {DeviceActions} from '@store/modules/Devices/actions';
 import {deviceUniqueIdSelector} from '@store/modules/Devices/selectors';
 import {t} from '@translations/i18n';

@@ -19,7 +19,7 @@ import {ListControlCountry} from '@screens/SettingsFlow/PersonalInformation/comp
 import {ListControlInput} from '@screens/SettingsFlow/PersonalInformation/components/ListControls/ListControlInput';
 import {useKeyboardAnimatedStyles} from '@screens/SettingsFlow/PersonalInformation/hooks/useKeyboardAnimatedStyles';
 import {useUserDraft} from '@screens/SettingsFlow/PersonalInformation/hooks/useUserDraft';
-import {AuthActions} from '@store/modules/Auth/actions';
+import {AccountActions} from '@store/modules/Account/actions';
 import {isLoadingSelector} from '@store/modules/UtilityProcessStatuses/selectors';
 import {t} from '@translations/i18n';
 import {getCountryByCode} from '@utils/country';
@@ -37,7 +37,7 @@ export const PersonalInformation = memo(() => {
   const navigation =
     useNavigation<NativeStackNavigationProp<ProfileTabStackParamList>>();
   const isLoading = useSelector(
-    isLoadingSelector.bind(null, AuthActions.UPDATE_ACCOUNT),
+    isLoadingSelector.bind(null, AccountActions.UPDATE_ACCOUNT),
   );
 
   const {user, userDraft, setUserDraft, hasChanges} = useUserDraft();
@@ -98,7 +98,7 @@ export const PersonalInformation = memo(() => {
 
   const onSubmitChanges = () => {
     Keyboard.dismiss();
-    dispatch(AuthActions.UPDATE_ACCOUNT.START.create(userDraft));
+    dispatch(AccountActions.UPDATE_ACCOUNT.START.create(userDraft));
   };
 
   return (

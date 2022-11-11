@@ -17,10 +17,7 @@ export function linkingReducer(state = INITIAL_STATE, action: Actions): State {
   return produce(state, draft => {
     switch (action.type) {
       case LinkingActions.HANDLE_URL.STATE.type:
-        {
-          const {urlToParse} = action.payload;
-          draft.handledUrl = urlToParse;
-        }
+        draft.handledUrl = action.payload.url;
         break;
     }
   });

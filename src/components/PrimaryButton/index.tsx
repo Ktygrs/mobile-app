@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {Touchable} from '@components/Touchable';
+import {Touchable, TouchableProps} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {font} from '@utils/styles';
 import React, {ReactNode} from 'react';
@@ -16,7 +16,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import {rem} from 'rn-units';
 
-interface PrimaryButtonProps {
+interface PrimaryButtonProps extends TouchableProps {
   onPress: () => void;
   text: string;
   style?: StyleProp<ViewStyle>;
@@ -32,11 +32,13 @@ export const PrimaryButton = ({
   textStyle = {},
   icon,
   loading = false,
+  ...touchableProps
 }: PrimaryButtonProps) => {
   return (
     <Touchable
       onPress={!loading ? onPress : undefined}
-      style={[styles.button, style]}>
+      style={[styles.button, style]}
+      {...touchableProps}>
       {style && !('backgroundColor' in style) && (
         <LinearGradient
           colors={[

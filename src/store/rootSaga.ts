@@ -5,8 +5,8 @@ import {rootLinkingSaga} from '@store/modules/Linking/sagas';
 import {rootNotificationsSaga} from '@store/modules/Notifications/sagas';
 import {all, call, spawn} from 'redux-saga/effects';
 
+import {rootAuthSaga} from './modules/Account/sagas';
 import {rootAppCommonSaga} from './modules/AppCommon/sagas';
-import {rootAuthSaga} from './modules/Auth/sagas';
 import {rootCollectionsSaga} from './modules/Collections/sagas';
 import {rootTeamSaga} from './modules/Contacts/sagas';
 import {rootDevicesSaga} from './modules/Devices/sagas';

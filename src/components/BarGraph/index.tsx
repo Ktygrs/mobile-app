@@ -21,21 +21,24 @@ export const getBarGraphHeight = (numberOfRows: number) => {
 };
 
 export const BarGraph = ({data}: Props) => {
-  const maxValue = Math.max(...data.map(d => d.value));
+  const maxValue = Math.max(...data.map(d => d.value)) || 1;
   const stepValue = Math.ceil(maxValue / NUMBER_OF_STEPS_X);
   const lastXValue = stepValue * NUMBER_OF_STEPS_X;
 
   const {transitionEnd} = useScreenTransitionEnd();
 
+  if (data.length === 0) {
+    return null;
+  }
+
   return (
     <View>
       {data.map(item => {
         const valuePercentage = (item.value * 100) / lastXValue;
+
         return (
           <View style={styles.row} key={item.label}>
-            {valuePercentage && (
-              <Text style={styles.yAxisText}>{item.label}</Text>
-            )}
+            <Text style={styles.yAxisText}>{item.label}</Text>
             <Bar
               valuePercentage={valuePercentage}
               value={item.value}

@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {isAccountInitializedSelector} from '@store/modules/Account/selectors';
 import {AppCommonActions} from '@store/modules/AppCommon/actions';
-import {isAuthInitializedSelector} from '@store/modules/Auth/selectors';
 import {isDevicesInitializedSelector} from '@store/modules/Devices/selectors';
 import {fork, put, select, take} from 'redux-saga/effects';
 
 function* isAppInitialized() {
-  const isAuthInitialized: boolean = yield select(isAuthInitializedSelector);
+  const isAuthInitialized: boolean = yield select(isAccountInitializedSelector);
   const isDevicesInitialized: boolean = yield select(
     isDevicesInitializedSelector,
   );

@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {User} from '@api/user/types';
-import {isAppActiveSelector} from '@store/modules/AppCommon/selectors';
-import {AuthActions} from '@store/modules/Auth/actions';
+import {AccountActions} from '@store/modules/Account/actions';
 import {
   isAuthorizedSelector,
   userSelector,
-} from '@store/modules/Auth/selectors';
+} from '@store/modules/Account/selectors';
+import {isAppActiveSelector} from '@store/modules/AppCommon/selectors';
 import {ContactsActions} from '@store/modules/Contacts/actions';
 import {permissionSelector} from '@store/modules/Permissions/selectors';
 import {getErrorMessage} from '@utils/errors';
@@ -66,7 +66,7 @@ export function* syncContactsSaga() {
 
     if (numberOfHashes !== phoneNumberHashes.size) {
       yield put(
-        AuthActions.UPDATE_ACCOUNT.START.create(
+        AccountActions.UPDATE_ACCOUNT.START.create(
           {
             agendaPhoneNumberHashes: [...phoneNumberHashes].join(','),
           },

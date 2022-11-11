@@ -3,9 +3,10 @@
 import {getApiErrorCode, isApiError} from '@api/client';
 import {Api} from '@api/index';
 import {User} from '@api/user/types';
-import {AuthActions} from '@store/modules/Auth/actions';
-import {updateAccountSaga} from '@store/modules/Auth/sagas/updateAccount';
-import {userIdSelector} from '@store/modules/Auth/selectors';
+import {getAuthErrorMessage, updateEmail} from '@services/auth';
+import {AccountActions} from '@store/modules/Account/actions';
+import {updateAccountSaga} from '@store/modules/Account/sagas/updateAccount';
+import {userIdSelector} from '@store/modules/Account/selectors';
 import {ValidationActions} from '@store/modules/Validation/actions';
 import {temporaryEmailSelector} from '@store/modules/Validation/selectors';
 import {t} from '@translations/i18n';
@@ -32,9 +33,11 @@ export function* validateEmailSaga(action: ReturnType<typeof actionCreator>) {
 
     yield call(setEmailRegistrationStep, user);
 
+    yield call(updateEmail, temporaryEmail);
+
     yield put(ValidationActions.EMAIL_VALIDATION.SUCCESS.create(user));
   } catch (error) {
-    let localizedError = getErrorMessage(error);
+    let localizedError = getAuthErrorMessage(error) || getErrorMessage(error);
     if (isApiError(error, 400, 'INVALID_VALIDATION_CODE')) {
       localizedError = t('errors.invalid_validation_code');
     } else if (isApiError(error, 400, 'VALIDATION_EXPIRED')) {
@@ -44,7 +47,7 @@ export function* validateEmailSaga(action: ReturnType<typeof actionCreator>) {
         Api.user.getUserById,
         userId,
       );
-      yield put(AuthActions.UPDATE_ACCOUNT.SUCCESS.create(freshUser));
+      yield put(AccountActions.UPDATE_ACCOUNT.SUCCESS.create(freshUser));
       localizedError = t('errors.validation_not_found');
     } else if (isApiError(error, 409, 'CONFLICT_WITH_ANOTHER_USER')) {
       const field = error?.response?.data?.data?.field;
@@ -68,7 +71,7 @@ function* setEmailRegistrationStep(user: User): Generator<unknown, void, void> {
   if (!finalizedSteps.includes('email')) {
     yield call(
       updateAccountSaga,
-      AuthActions.UPDATE_ACCOUNT.START.create(
+      AccountActions.UPDATE_ACCOUNT.START.create(
         {
           clientData: {
             ...user.clientData,

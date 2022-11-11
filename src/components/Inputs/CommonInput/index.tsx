@@ -6,7 +6,7 @@ import {COLORS} from '@constants/colors';
 import {CheckMarkThinIcon} from '@svg/CheckMarkThinIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
-import React, {useRef, useState} from 'react';
+import React, {ReactNode, useRef, useState} from 'react';
 import {
   ActivityIndicator,
   StyleProp,
@@ -21,32 +21,34 @@ import {
 import Animated from 'react-native-reanimated';
 import {isAndroid, rem} from 'rn-units';
 
-type Props = TextInputProps & {
+export type CommonInputProps = TextInputProps & {
   label: string;
   value: string;
   errorText?: string | null;
   validated?: boolean;
   loading?: boolean;
-  icon?: Element;
   onValueChange?: (v: string) => void;
   onChange?: () => void;
   containerStyle?: StyleProp<ViewStyle>;
+  icon?: ReactNode;
+  prefix?: ReactNode;
 };
 
-export const CommonInput: React.FC<Props> = ({
+export const CommonInput = ({
   label,
+  value,
   errorText,
   validated,
   loading,
   icon,
+  prefix,
   onChange,
   onBlur,
   onFocus,
-  value,
   onChangeText,
   containerStyle,
   ...textInputProps
-}: Props) => {
+}: CommonInputProps) => {
   const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef<TextInput>(null);
 
@@ -64,30 +66,32 @@ export const CommonInput: React.FC<Props> = ({
         ]}>
         {icon}
         <View style={styles.body}>
-          <TextInput
-            value={value}
-            style={styles.input}
-            ref={inputRef}
-            autoCorrect={false}
-            autoComplete={'off'}
-            autoCapitalize={'none'}
-            spellCheck={false}
-            // disables autocomplete on Android, source: https://github.com/facebook/react-native/issues/18457
-            keyboardType={isAndroid ? 'visible-password' : 'default'}
-            onBlur={event => {
-              setIsFocused(false);
-              onBlur?.(event);
-            }}
-            onFocus={event => {
-              setIsFocused(true);
-              onFocus?.(event);
-            }}
-            onChangeText={newValue => {
-              onChangeText?.(newValue);
-            }}
-            {...textInputProps}
-          />
-
+          <View style={styles.inputWrapper}>
+            {prefix}
+            <TextInput
+              value={value}
+              style={styles.input}
+              ref={inputRef}
+              autoCorrect={false}
+              autoComplete={'off'}
+              autoCapitalize={'none'}
+              spellCheck={false}
+              // disables autocomplete on Android, source: https://github.com/facebook/react-native/issues/18457
+              keyboardType={isAndroid ? 'visible-password' : 'default'}
+              onBlur={event => {
+                setIsFocused(false);
+                onBlur?.(event);
+              }}
+              onFocus={event => {
+                setIsFocused(true);
+                onFocus?.(event);
+              }}
+              onChangeText={newValue => {
+                onChangeText?.(newValue);
+              }}
+              {...textInputProps}
+            />
+          </View>
           <Animated.Text
             numberOfLines={1}
             adjustsFontSizeToFit={true}
@@ -146,17 +150,22 @@ const styles = StyleSheet.create({
   body: {
     flex: 1,
     marginLeft: rem(10),
+    justifyContent: 'center',
+  },
+  inputWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: rem(14),
   },
   input: {
-    ...font(16, 19, 'medium', 'primaryDark'),
+    ...font(16, 22, 'medium', 'primaryDark'),
     flex: 1,
-    marginTop: rem(20),
     paddingHorizontal: 0,
+    paddingVertical: 0,
   },
   label: {
     position: 'absolute',
     left: 0,
-    right: 0,
     ...font(16, 20, 'medium', 'secondary'),
   },
   label_error: {

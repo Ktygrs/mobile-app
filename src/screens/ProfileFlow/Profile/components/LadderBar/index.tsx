@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {LadderItem} from '@screens/ProfileFlow/Profile/components/LadderBar/components/LadderItem';
-import {userSelector} from '@store/modules/Auth/selectors';
+import {userSelector} from '@store/modules/Account/selectors';
 import {t} from '@translations/i18n';
 import React, {memo} from 'react';
 import {StyleSheet, View} from 'react-native';

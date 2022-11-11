@@ -11,7 +11,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {WebView as RNWebView} from 'react-native-webview';
 import {rem, screenWidth} from 'rn-units';
 
-export default function WebView() {
+export const WebView = () => {
   const {shadowStyle} = useScrollShadow();
   const webViewRef = useRef<RNWebView>(null);
 
@@ -30,7 +30,7 @@ export default function WebView() {
       />
     </>
   );
-}
+};
 
 const styles = StyleSheet.create({
   wrapper: {

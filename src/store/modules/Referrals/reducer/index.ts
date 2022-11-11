@@ -2,7 +2,7 @@
 
 import {Referrals} from '@api/referrals/types';
 import {ReferralType} from '@api/user/types';
-import {AuthActions} from '@store/modules/Auth/actions';
+import {AccountActions} from '@store/modules/Account/actions';
 import {ReferralsActions} from '@store/modules/Referrals/actions';
 import produce from 'immer';
 
@@ -17,7 +17,7 @@ export interface State {
 const getReferralsActionCreator = ReferralsActions.GET_REFERRALS({})(null);
 type Actions = ReturnType<
   | typeof getReferralsActionCreator.SUCCESS.create
-  | typeof AuthActions.SIGN_OUT.SUCCESS.create
+  | typeof AccountActions.SIGN_OUT.SUCCESS.create
 >;
 
 const INITIAL_STATE: State = {
@@ -48,7 +48,7 @@ function reducer(state = INITIAL_STATE, action: Actions): State {
           };
         }
         break;
-      case AuthActions.SIGN_OUT.SUCCESS.type: {
+      case AccountActions.SIGN_OUT.SUCCESS.type: {
         return {
           ...INITIAL_STATE,
         };

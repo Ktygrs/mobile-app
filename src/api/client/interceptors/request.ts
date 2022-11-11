@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {store} from '@store/configureStore';
-import {authTokenSelector} from '@store/modules/Auth/selectors';
+import {authTokenSelector} from '@store/modules/Account/selectors';
 import {AxiosRequestConfig} from 'axios';
 
 async function onFulfilled(config: AxiosRequestConfig) {

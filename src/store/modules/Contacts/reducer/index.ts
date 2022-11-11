@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {AuthActions} from '@store/modules/Auth/actions';
+import {AccountActions} from '@store/modules/Account/actions';
 import {ContactsActions} from '@store/modules/Contacts/actions';
 import produce from 'immer';
 import {Contact} from 'react-native-contacts';
@@ -12,7 +12,7 @@ export interface State {
 
 type Actions = ReturnType<
   | typeof ContactsActions.SYNC_CONTACTS.SUCCESS.create
-  | typeof AuthActions.SIGN_OUT.SUCCESS.create
+  | typeof AccountActions.SIGN_OUT.SUCCESS.create
 >;
 
 const INITIAL_STATE: State = {
@@ -27,7 +27,7 @@ function reducer(state = INITIAL_STATE, action: Actions): State {
         draft.contacts = action.payload.contacts;
         break;
       }
-      case AuthActions.SIGN_OUT.SUCCESS.type: {
+      case AccountActions.SIGN_OUT.SUCCESS.type: {
         return {...INITIAL_STATE};
       }
     }

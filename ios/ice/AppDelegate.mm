@@ -7,11 +7,12 @@
 #import <React/RCTRootView.h>
 
 #import <React/RCTAppSetupUtils.h>
-#import <UMCore/UMModuleRegistry.h>
-#import <UMReactNativeAdapter/UMNativeModulesProxy.h>
-#import <UMReactNativeAdapter/UMModuleRegistryAdapter.h>
 #import <React/RCTLinkingManager.h>
 #import <Firebase.h>
+#import <RNGoogleSignin/RNGoogleSignin.h>
+#import <FBSDKCoreKit/FBSDKCoreKit-swift.h>
+#import <TwitterKit/TWTRKit.h>
+#import <React/RCTLinkingManager.h>
 
 #if RCT_NEW_ARCH_ENABLED
 #import <React/CoreModulesPlugins.h>
@@ -33,20 +34,14 @@
 @end
 #endif
 
-@interface AppDelegate () <RCTBridgeDelegate>
- 
-@property (nonatomic, strong) UMModuleRegistryAdapter *moduleRegistryAdapter;
- 
-@end
-
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   [FIRApp configure];
+  [[FBSDKApplicationDelegate sharedInstance] application:application
+                       didFinishLaunchingWithOptions:launchOptions];
   RCTAppSetupPrepareApp(application);
-  
-  self.moduleRegistryAdapter = [[UMModuleRegistryAdapter alloc] initWithModuleRegistryProvider:[[UMModuleRegistryProvider alloc] init]];
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
 
@@ -71,7 +66,6 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-  [super application:application didFinishLaunchingWithOptions:launchOptions];
 
   return YES;
 }
@@ -80,7 +74,23 @@
    openURL:(NSURL *)url
    options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
 {
-  return [RCTLinkingManager application:application openURL:url options:options];
+  if ([[FBSDKApplicationDelegate sharedInstance] application:application openURL:url options:options]) {
+    return YES;
+  }
+
+  if ([RNGoogleSignin application:application openURL:url options:options]) {
+    return YES;
+  }
+
+  if ([[Twitter sharedInstance] application:application openURL:url options:options]) {
+    return YES;
+  }
+
+  if ([RCTLinkingManager application:application openURL:url options:options]) {
+    return YES;
+  }
+
+  return NO;
 }
 
 - (BOOL)application:(UIApplication *)application continueUserActivity:(nonnull NSUserActivity *)userActivity
@@ -89,13 +99,6 @@
  return [RCTLinkingManager application:application
                   continueUserActivity:userActivity
                     restorationHandler:restorationHandler];
-}
-
-- (NSArray<id<RCTBridgeModule>> *)extraModulesForBridge:(RCTBridge *)bridge
-{
-    NSArray<id<RCTBridgeModule>> *extraModules = [_moduleRegistryAdapter extraModulesForBridge:bridge];
-    // If you'd like to export some custom RCTBridgeModules that are not Expo modules, add them here!
-    return extraModules;
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge

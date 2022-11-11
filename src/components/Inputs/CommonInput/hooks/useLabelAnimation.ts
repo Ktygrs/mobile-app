@@ -19,7 +19,7 @@ export const useLabelAnimation = (isFocused: boolean, text?: string) => {
     fontSize: interpolate(focusAnimation.value, [0, 1], [16, 12]),
     transform: [
       {
-        translateY: interpolate(focusAnimation.value, [0, 1], [18, 6]),
+        translateY: interpolate(focusAnimation.value, [0, 1], [0, -14]),
       },
     ],
   }));

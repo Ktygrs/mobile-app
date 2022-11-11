@@ -1,11 +1,9 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {AuthActions} from '@store/modules/Auth/actions';
+import {AccountActions} from '@store/modules/Account/actions';
 import {ACTION_DIVIDER} from '@store/utils/actions/createAction';
 import lodashHead from 'lodash/head';
 import lodashLast from 'lodash/last';
-
-export type ProcessingActionStatus = 'START' | 'SUCCESS' | 'FAILED' | 'CLEAR';
 
 interface Action {
   type: string;
@@ -14,7 +12,7 @@ interface Action {
 }
 
 export interface ActionData {
-  status: ProcessingActionStatus;
+  status: string;
   payload?: unknown;
   timestamp: number;
 }
@@ -32,7 +30,7 @@ const INITIAL_STATE: ProcessStatusesState = {};
 function reduceAction(
   partOfState: undefined | object,
   id: string | number | undefined,
-  status: ProcessingActionStatus,
+  status: string,
   payload?: unknown,
 ) {
   const actionData: ActionData = {
@@ -50,7 +48,7 @@ function reduceAction(
 }
 
 export function processStatusesReducer(state = INITIAL_STATE, action: Action) {
-  if (action.type === AuthActions.SIGN_OUT.SUCCESS.type) {
+  if (action.type === AccountActions.SIGN_OUT.SUCCESS.type) {
     return INITIAL_STATE;
   }
 
@@ -63,21 +61,13 @@ export function processStatusesReducer(state = INITIAL_STATE, action: Action) {
   const status: string = lodashLast(actionParts) || '';
   const majorType: string = lodashHead(actionParts) || '';
 
-  switch (status) {
-    case 'START':
-    case 'SUCCESS':
-    case 'FAILED':
-    case 'CLEAR':
-      return {
-        ...state,
-        [majorType]: reduceAction(
-          state[majorType],
-          action.id,
-          status,
-          action.payload,
-        ),
-      };
-  }
-
-  return state;
+  return {
+    ...state,
+    [majorType]: reduceAction(
+      state[majorType],
+      action.id,
+      status,
+      action.payload,
+    ),
+  };
 }

@@ -1,26 +1,28 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {ENV} from '@constants/env';
-import {navigate, navigationRef} from '@navigation/utils';
+import {navigate} from '@navigation/utils';
+import {isSignInWithEmailLink} from '@services/auth';
 import {logError} from '@services/logging';
+import {AccountActions} from '@store/modules/Account/actions';
 import {LinkingActions} from '@store/modules/Linking/actions';
 import {Linking} from 'react-native';
-
-const QueryString = require('query-string');
-const Parser = require('url-parse');
+import {put} from 'redux-saga/effects';
+import Url from 'url-parse';
 
 const actionCreator = LinkingActions.HANDLE_URL.STATE.create;
 
 export function* handleUrlSaga(action: ReturnType<typeof actionCreator>) {
-  const {urlToParse} = action.payload;
+  const {url, handledInApp} = action.payload;
 
-  if (!urlToParse || !navigationRef) {
+  if (isSignInWithEmailLink(url)) {
+    yield put(AccountActions.SIGN_IN_EMAIL.CONFIRM_TEMP_EMAIL.create(url));
     return;
   }
 
-  const {pathname, isDeeplink, url} = parseUrl(urlToParse);
+  const {path, query, isDeeplink, isUniversalLink} = parseUrl(url);
 
-  switch (pathname) {
+  switch (path.toLowerCase()) {
     case 'users':
     case 'pinged':
       //TODO: Navigate to user profile screen, not own profile
@@ -30,14 +32,14 @@ export function* handleUrlSaga(action: ReturnType<typeof actionCreator>) {
       navigate({
         name: 'WebView',
         params: {
-          url: url,
+          url: query.url ?? '',
         },
       });
       break;
-    case 'followUs':
-    case 'refJoined':
+    case 'followus':
+    case 'refjoined':
     case 'announcements':
-      navigate({name: 'WebView', params: {url: urlToParse}});
+      navigate({name: 'WebView', params: {url}});
       break;
     case 'mining':
       navigate({name: 'HomeTab', params: undefined});
@@ -45,10 +47,10 @@ export function* handleUrlSaga(action: ReturnType<typeof actionCreator>) {
     case 'staking':
       navigate({name: 'HomeTab', params: undefined});
       break;
-    case 'weeklyStats':
+    case 'weeklystats':
       navigate({name: 'Stats', params: undefined});
       break;
-    case 'inviteFriends':
+    case 'invitefriends':
       navigate({name: 'InviteShare', params: undefined});
       break;
     case 'joined':
@@ -72,34 +74,24 @@ export function* handleUrlSaga(action: ReturnType<typeof actionCreator>) {
     case 'adoption':
       navigate({name: 'HomeTab', params: undefined}); //TODO: focus on adoption card
       break;
-    case 'loginLinked':
+    case 'loginlinked':
       navigate({name: 'Settings', params: undefined});
       break;
     default:
-      return (
-        !isDeeplink &&
-        Linking.openURL(urlToParse).catch(error => logError(error))
-      );
+      if (!handledInApp) {
+        if (!isDeeplink && !isUniversalLink) {
+          Linking.openURL(url).catch(logError);
+        } else {
+          logError(`Unable to handle deeplink: ${url}`);
+        }
+      }
   }
 }
 
 const parseUrl = (url: string) => {
-  const parsed = new Parser(url, true);
-  const isDeeplink = parsed.protocol.includes(ENV.DEEPLINKING_PREFIX);
-
-  let params;
-  if (isDeeplink) {
-    const urlWithParams = url.split('?')?.[1];
-    if (urlWithParams) {
-      params = QueryString.parse(urlWithParams);
-    }
-  }
-
-  const paths = parsed.pathname?.split('/')?.filter((i: string) => i!!);
-  return {
-    query: parsed.query,
-    pathname: isDeeplink ? parsed.host : paths[0],
-    isDeeplink,
-    ...params,
-  };
+  const parsed = new Url(url, true);
+  const isDeeplink = parsed.protocol.includes(ENV.DEEPLINK_SCHEME ?? '');
+  const isUniversalLink = parsed.host === ENV.DEEPLINK_DOMAIN;
+  const path = isDeeplink ? parsed.host : parsed.pathname.replace('/', '');
+  return {isDeeplink, isUniversalLink, path, ...parsed};
 };

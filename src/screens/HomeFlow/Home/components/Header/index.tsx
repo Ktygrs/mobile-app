@@ -9,7 +9,7 @@ import {useTopOffsetStyle} from '@navigation/hooks/useTopOffsetStyle';
 import {GreetingText} from '@screens/HomeFlow/Home/components/Header/components/GreetingText';
 import {MenuButton} from '@screens/HomeFlow/Home/components/Header/components/MenuButton';
 import {useTransitionAnimation} from '@screens/HomeFlow/Home/components/Header/hooks/useTransitionAnimation';
-import {userSelector} from '@store/modules/Auth/selectors';
+import {userSelector} from '@store/modules/Account/selectors';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
 import {StyleSheet, Text, View} from 'react-native';

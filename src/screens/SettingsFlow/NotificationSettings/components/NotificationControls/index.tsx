@@ -14,7 +14,6 @@ import {permissionSelector} from '@store/modules/Permissions/selectors';
 import {t} from '@translations/i18n';
 import React, {memo, useCallback} from 'react';
 import {StyleSheet, View} from 'react-native';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import {useDispatch, useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
@@ -87,13 +86,6 @@ export const NotificationControls = memo(
       </>
     );
   },
-);
-
-export const NotificationControlsSkeleton = () => (
-  <SkeletonPlaceholder>
-    <View style={[styles.list, styles.listSkeleton]} />
-    <View style={styles.allNotificationsSkeleton} />
-  </SkeletonPlaceholder>
 );
 
 const styles = StyleSheet.create({

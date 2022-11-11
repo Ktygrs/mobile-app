@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {Api} from '@api/index';
-import {userIdSelector} from '@store/modules/Auth/selectors';
+import {userIdSelector} from '@store/modules/Account/selectors';
 import {ReferralsActions} from '@store/modules/Referrals/actions';
 import {getErrorMessage} from '@utils/errors';
 import {put, SagaReturnType, select} from 'redux-saga/effects';

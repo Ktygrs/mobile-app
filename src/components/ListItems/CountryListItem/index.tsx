@@ -6,20 +6,33 @@ import {getCountryByCode} from '@utils/country';
 import {formatAsCurrency} from '@utils/number';
 import {font} from '@utils/styles';
 import React, {memo, ReactNode} from 'react';
-import {StyleProp, StyleSheet, Text, View, ViewStyle} from 'react-native';
+import {
+  StyleProp,
+  StyleSheet,
+  Text,
+  TextStyle,
+  View,
+  ViewStyle,
+} from 'react-native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import {rem} from 'rn-units';
+
+type Props = {
+  code: string;
+  userCount?: number | null;
+  AdditionalInfoComponent?: ReactNode;
+  nameStyle?: StyleProp<TextStyle>;
+  containerStyle?: StyleProp<ViewStyle>;
+};
 
 export const CountryListItem = memo(
   ({
     code,
     userCount,
     AdditionalInfoComponent,
-  }: {
-    code: string;
-    userCount?: number | null;
-    AdditionalInfoComponent?: ReactNode;
-  }) => {
+    nameStyle,
+    containerStyle,
+  }: Props) => {
     const {current: country} = getCountryByCode(code);
 
     if (!country) {
@@ -27,9 +40,9 @@ export const CountryListItem = memo(
     }
 
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, containerStyle]}>
         <Text style={styles.flagText}>{country.flag}</Text>
-        <Text style={styles.nameText} numberOfLines={1}>
+        <Text style={[styles.nameText, nameStyle]} numberOfLines={1}>
           {country.name}
         </Text>
         {userCount ? (

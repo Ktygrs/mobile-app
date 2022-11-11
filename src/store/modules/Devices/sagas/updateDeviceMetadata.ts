@@ -3,22 +3,21 @@
 import {isApiError} from '@api/client';
 import {DeviceMetadata} from '@api/devices/types';
 import {Api} from '@api/index';
-import {isAppActiveSelector} from '@store/modules/AppCommon/selectors';
+import {DEVICE_METADATA_UPDATE_TIMEOUT_HOURS} from '@constants/timeouts';
 import {
   isAuthorizedSelector,
   userIdSelector,
-} from '@store/modules/Auth/selectors';
+} from '@store/modules/Account/selectors';
+import {isAppActiveSelector} from '@store/modules/AppCommon/selectors';
 import {DeviceActions} from '@store/modules/Devices/actions';
 import {
   deviceUniqueIdSelector,
   lastMetadataUpdateSelector,
 } from '@store/modules/Devices/selectors';
-import {hoursDiff} from '@utils/date';
 import {getErrorMessage} from '@utils/errors';
+import dayjs from 'dayjs';
 import DeviceInfo from 'react-native-device-info';
 import {call, put, select} from 'redux-saga/effects';
-
-const METADATA_FORCE_UPDATE_HOURS = 8;
 
 export function* updateDeviceMetadataSaga() {
   try {
@@ -32,12 +31,12 @@ export function* updateDeviceMetadataSaga() {
     const lastUpdateDate: ReturnType<typeof lastMetadataUpdateSelector> =
       yield select(lastMetadataUpdateSelector);
 
-    const hoursFromLastUpdate = hoursDiff(
-      new Date(),
-      lastUpdateDate ?? new Date(),
-    );
+    const hoursFromLastUpdate = lastUpdateDate
+      ? dayjs().diff(lastUpdateDate, 'hours')
+      : 0;
     const shouldUpdateMetadata =
-      !lastUpdateDate || hoursFromLastUpdate >= METADATA_FORCE_UPDATE_HOURS;
+      !lastUpdateDate ||
+      hoursFromLastUpdate >= DEVICE_METADATA_UPDATE_TIMEOUT_HOURS;
 
     if (isAuthorized && isAppActive && shouldUpdateMetadata) {
       const [
@@ -132,12 +131,6 @@ export function* updateDeviceMetadataSaga() {
       });
 
       yield put(DeviceActions.UPDATE_DEVICE_METADATA.SUCCESS.create());
-    } else {
-      yield put(
-        DeviceActions.UPDATE_DEVICE_METADATA.FAILED.create(
-          'Not authorized or not active',
-        ),
-      );
     }
   } catch (error) {
     const errorMessage = getErrorMessage(error);

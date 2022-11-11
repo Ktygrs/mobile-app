@@ -5,6 +5,7 @@ import {EconomyActions} from '@store/modules/Economy/actions';
 import produce from 'immer';
 import {persistReducer} from 'redux-persist';
 
+//TODO:: use user.clientData to persist the flag, remove redux persistor afterwards
 export interface EconomyState {
   isMiningTooltipSeen: boolean;
 }

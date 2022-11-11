@@ -3,6 +3,8 @@
 import React, {forwardRef, Ref} from 'react';
 import {TouchableOpacity, TouchableOpacityProps} from 'react-native';
 
+export type TouchableProps = TouchableOpacityProps;
+
 export const Touchable = forwardRef(
   (
     {onPress = () => {}, children, ...rest}: TouchableOpacityProps,

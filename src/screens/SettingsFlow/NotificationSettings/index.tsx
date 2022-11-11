@@ -9,14 +9,10 @@ import {Header} from '@navigation/components/Header';
 import {LangButton} from '@navigation/components/Header/components/LangButton';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
 import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
-import {
-  NotificationControls,
-  NotificationControlsSkeleton,
-} from '@screens/SettingsFlow/NotificationSettings/components/NotificationControls';
-import {userSelector} from '@store/modules/Auth/selectors';
+import {NotificationControls} from '@screens/SettingsFlow/NotificationSettings/components/NotificationControls';
+import {userSelector} from '@store/modules/Account/selectors';
 import {DeviceActions} from '@store/modules/Devices/actions';
 import {deviceSettingsSelector} from '@store/modules/Devices/selectors';
-import {isLoadingSelector} from '@store/modules/UtilityProcessStatuses/selectors';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React, {memo, useEffect} from 'react';
@@ -32,14 +28,11 @@ export const NotificationSettings = memo(() => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(DeviceActions.GET_OR_CREATE_SETTINGS.START.create());
+    dispatch(DeviceActions.INIT_DEVICE.START.create());
   }, [dispatch]);
 
   const deviceSettings = useSelector(deviceSettingsSelector);
   const user = useSelector(userSelector) as User;
-  const isLoading = useSelector(
-    isLoadingSelector.bind(null, DeviceActions.GET_OR_CREATE_SETTINGS),
-  );
 
   return (
     <View style={styles.container}>
@@ -60,15 +53,11 @@ export const NotificationSettings = memo(() => {
           <Text style={styles.titleText}>
             {t('settings.notifications_title').toUpperCase()}
           </Text>
-          {isLoading && !deviceSettings ? (
-            <NotificationControlsSkeleton />
-          ) : (
-            !!deviceSettings && (
-              <NotificationControls
-                notificationSettings={deviceSettings.notificationSettings}
-                disableAllNotifications={deviceSettings.disableAllNotifications}
-              />
-            )
+          {!!deviceSettings && (
+            <NotificationControls
+              notificationSettings={deviceSettings.notificationSettings}
+              disableAllNotifications={deviceSettings.disableAllNotifications}
+            />
           )}
         </View>
       </Animated.ScrollView>

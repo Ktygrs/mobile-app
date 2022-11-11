@@ -10,7 +10,7 @@ import {connect} from 'getstream';
 const mockedUserId = 'MOCKED_USER_ID';
 
 const getstreamClient = connect(
-  ENV.GETSTREAM_API_KEY,
+  ENV.GETSTREAM_API_KEY ?? '',
   null,
   ENV.GETSTREAM_APP_ID,
 );

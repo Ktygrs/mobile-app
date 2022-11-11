@@ -5,9 +5,19 @@ import {ENV} from '@constants/env';
 import {AnyAction} from '@reduxjs/toolkit';
 import * as Sentry from '@sentry/react-native';
 import {store} from '@store/configureStore';
-import {userSelector} from '@store/modules/Auth/selectors';
+import {userSelector} from '@store/modules/Account/selectors';
 import {getErrorMessage} from '@utils/errors';
 import * as React from 'react';
+import {LogBox} from 'react-native';
+
+/**
+ * We don't use state persistence or deep links to the screen which accepts functions in params,
+ * so the warning doesn't affect us and we can safely ignore it
+ * https://reactnavigation.org/docs/troubleshooting/#i-get-the-warning-non-serializable-values-were-found-in-the-navigation-state
+ */
+LogBox.ignoreLogs([
+  'Non-serializable values were found in the navigation state',
+]);
 
 export const routingInstrumentation =
   new Sentry.ReactNavigationInstrumentation();

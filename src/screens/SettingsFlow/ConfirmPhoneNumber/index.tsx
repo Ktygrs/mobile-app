@@ -12,7 +12,7 @@ import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
 import {ProfileTabStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {userSelector} from '@store/modules/Auth/selectors';
+import {userSelector} from '@store/modules/Account/selectors';
 import {ValidationActions} from '@store/modules/Validation/actions';
 import {phoneVerificationStepSelector} from '@store/modules/Validation/selectors';
 import {t} from '@translations/i18n';

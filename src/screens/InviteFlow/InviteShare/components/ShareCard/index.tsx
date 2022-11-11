@@ -11,7 +11,7 @@ import {
   SocialShareButtonType,
   SocialType,
 } from '@screens/InviteFlow/InviteShare/components/ShareButton';
-import {usernameSelector} from '@store/modules/Auth/selectors';
+import {usernameSelector} from '@store/modules/Account/selectors';
 import {t} from '@translations/i18n';
 import React, {useRef} from 'react';
 import {Share as ShareMore, StyleSheet, Vibration, View} from 'react-native';

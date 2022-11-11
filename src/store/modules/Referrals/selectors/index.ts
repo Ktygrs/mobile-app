@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {ReferralType} from '@api/user/types';
-import {userIdSelector} from '@store/modules/Auth/selectors';
+import {userIdSelector} from '@store/modules/Account/selectors';
 import {RootState} from '@store/rootReducer';
 
 export const referralsSelector =
