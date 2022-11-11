@@ -5,13 +5,13 @@ import {UsersActions} from '@store/modules/Users/actions';
 import {produce} from 'immer';
 
 export interface State {
-  user: User | null;
+  entities: {[userId: string]: User};
 }
 
 type Actions = ReturnType<typeof UsersActions.GET_USER_BY_ID.SUCCESS.create>;
 
 const INITIAL_STATE: State = {
-  user: null,
+  entities: {},
 };
 
 function reducer(state = INITIAL_STATE, action: Actions): State {
@@ -19,7 +19,7 @@ function reducer(state = INITIAL_STATE, action: Actions): State {
     switch (action.type) {
       case UsersActions.GET_USER_BY_ID.SUCCESS.type:
         const {user} = action.payload;
-        draft.user = user;
+        draft.entities = {...state.entities, ...{[user.id]: user}};
         break;
     }
   });

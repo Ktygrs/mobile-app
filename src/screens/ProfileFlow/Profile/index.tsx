@@ -13,11 +13,9 @@ import {Invite} from '@screens/ProfileFlow/Profile/components/Invite';
 import {LadderBar} from '@screens/ProfileFlow/Profile/components/LadderBar';
 import {MiningCalculator} from '@screens/ProfileFlow/Profile/components/MiningCalculator';
 import {Role} from '@screens/ProfileFlow/Profile/components/Role';
-import {
-  anotherUserSelector,
-  userSelector,
-} from '@store/modules/Account/selectors';
+import {userSelector} from '@store/modules/Account/selectors';
 import {UsersActions} from '@store/modules/Users/actions';
+import {userByIdSelector} from '@store/modules/Users/selectors';
 import {isLoadingSelector} from '@store/modules/UtilityProcessStatuses/selectors';
 import {font} from '@utils/styles';
 import React, {memo, useEffect} from 'react';
@@ -40,7 +38,9 @@ export const Profile = memo(() => {
   const route = useRoute<RouteProp<ProfileTabStackParamList, 'Profile'>>();
   const authUser = useSelector(userSelector);
   const isOwner = !route.params || route.params.userId === authUser?.id;
-  const user = useSelector(isOwner ? userSelector : anotherUserSelector);
+  const user = useSelector(
+    isOwner ? userSelector : userByIdSelector(route.params.userId),
+  );
 
   useEffect(() => {
     if (!isOwner) {
