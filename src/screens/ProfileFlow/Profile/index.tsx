@@ -72,11 +72,11 @@ export const Profile = memo(() => {
           </Text>
         </View>
         <View style={styles.ladderContainer}>
-          <LadderBar />
+          <LadderBar user={user} />
         </View>
         <View style={[styles.card, commonStyles.baseSubScreen]}>
-          <Role />
-          <Badges />
+          <Role user={user} />
+          <Badges user={user} />
           {isOwner && (
             <>
               <Invite />

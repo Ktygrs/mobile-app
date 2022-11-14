@@ -1,27 +1,31 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {Badge} from '@api/badges/types';
+import {User} from '@api/user/types';
 import {COLORS} from '@constants/colors';
 import {
   BadgeCard,
   BadgeCardSkeleton,
 } from '@screens/ProfileFlow/Profile/components/Badges/components/BadgeCard';
-import {userSelector} from '@store/modules/Account/selectors';
 import React, {useCallback} from 'react';
 import {FlatList, StyleSheet} from 'react-native';
-import {useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
 type Props = {
   loading: boolean;
   data: Badge[];
+  user: User | null;
   isProfilePrivacyEditMode?: boolean;
 };
 
 const NUMBER_OF_SKELETONS = 5;
 
-export const BadgeList = ({loading, data, isProfilePrivacyEditMode}: Props) => {
-  const user = useSelector(userSelector);
+export const BadgeList = ({
+  loading,
+  data,
+  isProfilePrivacyEditMode,
+  user,
+}: Props) => {
   const hidden = user?.hiddenProfileElements?.includes('badges');
 
   const renderItem = useCallback(

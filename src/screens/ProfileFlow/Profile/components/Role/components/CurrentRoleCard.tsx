@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {User} from '@api/user/types';
 import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {useUpdateHiddenProfileElements} from '@screens/PopUps/ProfilePrivacyEdit/hooks/useUpdateHiddenProfileElements';
-import {userSelector} from '@store/modules/Account/selectors';
 import {ClosedEye} from '@svg/ClosedEye';
 import {RightArrowSvg} from '@svg/RightArrow';
 import {t} from '@translations/i18n';
@@ -11,12 +11,12 @@ import {font} from '@utils/styles';
 import React from 'react';
 import {Image, ImageSourcePropType, StyleSheet, Text, View} from 'react-native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
-import {useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
 type Props = {
   title: string;
   description: string;
+  user: User | null;
   imageSource: ImageSourcePropType;
   onNextPress?: () => void;
   imageSourceHidden?: ImageSourcePropType;
@@ -30,9 +30,9 @@ export const CurrentRoleCard = ({
   onNextPress,
   imageSourceHidden,
   isProfilePrivacyEditMode = false,
+  user,
 }: Props) => {
   const {onUpdate} = useUpdateHiddenProfileElements();
-  const user = useSelector(userSelector);
 
   const hidden = user?.hiddenProfileElements?.includes('role');
   return (

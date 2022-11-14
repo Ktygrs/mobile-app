@@ -45,8 +45,9 @@ export const ReferralAcquisitionHistory = () => {
   const stepValue = Math.ceil(maxValue / NUMBER_OF_STEPS_Y);
   const lastXValue = stepValue * NUMBER_OF_STEPS_Y;
 
+  //TODO: implement system dependent date format
   const getLabel = (date: string) => {
-    return dayjs(date).format('DD/MM');
+    return dayjs(date).format('MM/DD');
   };
 
   return (

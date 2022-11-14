@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {User} from '@api/user/types';
 import {SectionHeader} from '@components/SectionHeader';
 import {ProfileTabStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
@@ -9,7 +10,11 @@ import {LAST_BADGES} from '@screens/ProfileFlow/Profile/components/Badges/mockDa
 import {t} from '@translations/i18n';
 import React, {memo, useCallback, useState} from 'react';
 
-export const Badges = memo(() => {
+type Props = {
+  user: User | null;
+};
+
+export const Badges = memo(({user}: Props) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<ProfileTabStackParamList>>();
   const onViewAllPress = useCallback(
@@ -26,7 +31,7 @@ export const Badges = memo(() => {
         action={t('button.view_all')}
         onActionPress={onViewAllPress}
       />
-      <BadgeList loading={loading} data={LAST_BADGES} />
+      <BadgeList loading={loading} user={user} data={LAST_BADGES} />
     </>
   );
 });
