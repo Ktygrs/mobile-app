@@ -9,7 +9,7 @@ import {rem} from 'rn-units';
 
 type Props = {
   isProfilePrivacyEditMode?: boolean;
-  user: User | null;
+  user?: User | null;
 };
 
 export const LadderBar = memo(

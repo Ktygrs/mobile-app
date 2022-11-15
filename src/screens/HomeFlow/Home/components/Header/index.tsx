@@ -57,7 +57,7 @@ export const HomeHeader = memo(({translateY, transitionOffset}: Props) => {
         <Animated.View style={[styles.greeting, fromAnimatedStyle]}>
           <Touchable onPress={onGreetingPress}>
             <GreetingText />
-            {user && <Text style={styles.nickText}>{user.username}</Text>}
+            {user && <Text style={styles.usernameText}>{user.username}</Text>}
           </Touchable>
         </Animated.View>
 
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: rem(14),
   },
-  nickText: {
+  usernameText: {
     marginTop: rem(2),
     ...font(15, 18, 'bold', 'downriver'),
   },

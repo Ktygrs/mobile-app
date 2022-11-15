@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {User} from '@api/user/types';
 import {Images} from '@images';
 import {ProfileTabStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
@@ -9,7 +10,6 @@ import {
   CurrentRoleSkeleton,
 } from '@screens/ProfileFlow/Profile/components/Role/components/CurrentRoleCard';
 import React, {memo, useState} from 'react';
-import {User} from "@api/user/types";
 
 type Props = {
   user: User | null;

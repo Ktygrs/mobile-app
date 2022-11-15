@@ -16,7 +16,7 @@ import {rem} from 'rn-units';
 type Props = {
   title: string;
   description: string;
-  user: User | null;
+  user?: User | null;
   imageSource: ImageSourcePropType;
   onNextPress?: () => void;
   imageSourceHidden?: ImageSourcePropType;

@@ -14,7 +14,7 @@ import {rem} from 'rn-units';
 type Props = {
   loading: boolean;
   data: Badge[];
-  user: User | null;
+  user?: User | null;
   isProfilePrivacyEditMode?: boolean;
 };
 
