@@ -121,7 +121,7 @@ export const Profile = memo(() => {
           </Text>
         </View>
         <View style={styles.ladderContainer}>
-          {userExist && <LadderBar />}
+          {userExist && <LadderBar user={user} />}
           {!userExist && !isLoading && <View style={styles.emptyLadder} />}
         </View>
         <View style={[styles.card, commonStyles.baseSubScreen]}>
