@@ -48,11 +48,14 @@ export const HomeHeader = memo(({translateY, transitionOffset}: Props) => {
     <View style={[styles.container, topOffset.current]}>
       <View style={styles.body}>
         {user?.profilePictureUrl && (
-          <Avatar
-            uri={user.profilePictureUrl}
-            size={rem(36)}
-            borderRadius={rem(16)}
-          />
+          <Touchable onPress={onGreetingPress}>
+            <Avatar
+              uri={user.profilePictureUrl}
+              size={rem(36)}
+              borderRadius={rem(16)}
+              allowFullScreen={false}
+            />
+          </Touchable>
         )}
         <Animated.View style={[styles.greeting, fromAnimatedStyle]}>
           <Touchable onPress={onGreetingPress}>
