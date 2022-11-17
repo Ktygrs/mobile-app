@@ -3,9 +3,13 @@
 import {Avatar} from '@components/Avatar/Avatar';
 import {FormattedNumber} from '@components/Labels/FormattedNumber';
 import {IceLabel} from '@components/Labels/IceLabel';
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {useTopOffsetStyle} from '@navigation/hooks/useTopOffsetStyle';
+import {MainTabsParamList} from '@navigation/Main';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {GreetingText} from '@screens/HomeFlow/Home/components/Header/components/GreetingText';
 import {MenuButton} from '@screens/HomeFlow/Home/components/Header/components/MenuButton';
 import {useTransitionAnimation} from '@screens/HomeFlow/Home/components/Header/hooks/useTransitionAnimation';
@@ -25,6 +29,9 @@ type Props = {
 };
 
 export const HomeHeader = memo(({translateY, transitionOffset}: Props) => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<MainTabsParamList>>();
+
   const topOffset = useTopOffsetStyle();
   const user = useSelector(userSelector);
 
@@ -32,6 +39,10 @@ export const HomeHeader = memo(({translateY, transitionOffset}: Props) => {
     translateY,
     transitionOffset,
   });
+
+  const onGreetingPress = () => {
+    navigation.navigate('ProfileTab');
+  };
 
   return (
     <View style={[styles.container, topOffset.current]}>
@@ -44,8 +55,10 @@ export const HomeHeader = memo(({translateY, transitionOffset}: Props) => {
           />
         )}
         <Animated.View style={[styles.greeting, fromAnimatedStyle]}>
-          <GreetingText />
-          {user && <Text style={styles.nickText}>{user.username}</Text>}
+          <Touchable onPress={onGreetingPress}>
+            <GreetingText />
+            {user && <Text style={styles.usernameText}>{user.username}</Text>}
+          </Touchable>
         </Animated.View>
 
         <Animated.View
@@ -99,7 +112,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: rem(14),
   },
-  nickText: {
+  usernameText: {
     marginTop: rem(2),
     ...font(15, 18, 'bold', 'downriver'),
   },

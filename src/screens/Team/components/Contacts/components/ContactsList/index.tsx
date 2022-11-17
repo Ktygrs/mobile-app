@@ -80,6 +80,7 @@ export const ContactsList = ({focused}: Props) => {
       } else if ('id' in item) {
         return (
           <UserListItem
+            userId={item.id}
             name={item.username}
             note={item.active ? t('users.active') : t('users.inactive')}
             profilePictureUrl={item.profilePictureUrl}

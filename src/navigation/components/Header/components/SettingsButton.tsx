@@ -21,6 +21,7 @@ export const SettingsButton = ({
 }: Props = {}) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<ProfileTabStackParamList>>();
+
   return (
     <View style={containerStyle}>
       <Touchable

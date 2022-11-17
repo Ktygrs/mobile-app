@@ -120,7 +120,7 @@ export type HomeTabStackParamList = {
   Stats: undefined;
   TopMiners: undefined;
   TopCountries: undefined;
-  Profile: undefined;
+  Profile: {userId: string} | undefined;
   MyRoles: undefined;
   MyBadges: {category?: BadgeCategory} | undefined;
   InviteShare: undefined;
@@ -134,7 +134,7 @@ export type TeamTabStackParamList = {
 };
 
 export type ProfileTabStackParamList = {
-  Profile: undefined;
+  Profile: {userId: string} | undefined;
   MyRoles: undefined;
   MyBadges?: {category?: BadgeCategory};
   Settings: undefined;

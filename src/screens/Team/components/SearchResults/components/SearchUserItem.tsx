@@ -31,6 +31,7 @@ export const SearchUserItem = ({user}: Props) => {
       note={user.phoneNumber}
       profilePictureUrl={user.profilePictureUrl}
       active={user.active}
+      userId={user.id}
       key={user.id}
       AdditionalInfoComponent={<UserListPingButton pinged={user.pinged} />}
     />

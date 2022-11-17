@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {User} from '@api/user/types';
 import {Images} from '@images';
 import {ProfileTabStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
@@ -10,7 +11,11 @@ import {
 } from '@screens/ProfileFlow/Profile/components/Role/components/CurrentRoleCard';
 import React, {memo, useState} from 'react';
 
-export const Role = memo(() => {
+type Props = {
+  user: User | null;
+};
+
+export const Role = memo(({user}: Props) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<ProfileTabStackParamList>>();
   const [loading, setLoading] = useState(true);
@@ -26,6 +31,7 @@ export const Role = memo(() => {
           imageSourceHidden={Images.roles.pioneerInactive}
           title={'Pioneer'}
           description={'Are you flesh and blood?'}
+          user={user}
           onNextPress={() => {
             navigation.navigate('MyRoles');
           }}

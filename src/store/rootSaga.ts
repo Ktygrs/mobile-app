@@ -13,6 +13,7 @@ import {rootDevicesSaga} from './modules/Devices/sagas';
 import {rootNewsSaga} from './modules/News/sagas';
 import {rootPermissionsSaga} from './modules/Permissions/sagas';
 import {rootReferralsSaga} from './modules/Referrals/sagas';
+import {rootUsersSaga} from './modules/Users/sagas';
 import {rootValidationSaga} from './modules/Validation/sagas';
 
 export function* rootSaga() {
@@ -28,6 +29,7 @@ export function* rootSaga() {
     rootLinkingSaga,
     rootNotificationsSaga,
     rootAppCommonSaga,
+    rootUsersSaga,
   ];
   yield all([
     ...sagas.map(saga =>

@@ -23,3 +23,16 @@ export const referralsSelector =
       active: referralData?.active,
     };
   };
+
+export const referralHistorySelector = (state: RootState) =>
+  state.referrals.history;
+
+export const userReferralCountSelector = (state: RootState) =>
+  (state.account.user?.t1ReferralCount || 0) +
+  (state.account.user?.t2ReferralCount || 0);
+
+export const userT1ReferralSelector = (state: RootState) =>
+  state.account.user?.t1ReferralCount || 0;
+
+export const userT2ReferralSelector = (state: RootState) =>
+  state.account.user?.t2ReferralCount || 0;

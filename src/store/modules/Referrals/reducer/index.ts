@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {Referrals} from '@api/referrals/types';
+import {ReferralHistoryRecord, Referrals} from '@api/referrals/types';
 import {ReferralType} from '@api/user/types';
 import {AccountActions} from '@store/modules/Account/actions';
 import {ReferralsActions} from '@store/modules/Referrals/actions';
@@ -12,16 +12,19 @@ export interface State {
       [key in ReferralType]?: Referrals;
     };
   };
+  history: ReferralHistoryRecord[];
 }
 
 const getReferralsActionCreator = ReferralsActions.GET_REFERRALS({})(null);
 type Actions = ReturnType<
   | typeof getReferralsActionCreator.SUCCESS.create
+  | typeof ReferralsActions.GET_REFERRALS_HISTORY.SUCCESS.create
   | typeof AccountActions.SIGN_OUT.SUCCESS.create
 >;
 
 const INITIAL_STATE: State = {
   data: {},
+  history: [],
 };
 
 function reducer(state = INITIAL_STATE, action: Actions): State {
@@ -48,6 +51,10 @@ function reducer(state = INITIAL_STATE, action: Actions): State {
           };
         }
         break;
+      case ReferralsActions.GET_REFERRALS_HISTORY.SUCCESS.type: {
+        draft.history = action.payload.history;
+        break;
+      }
       case AccountActions.SIGN_OUT.SUCCESS.type: {
         return {
           ...INITIAL_STATE,
