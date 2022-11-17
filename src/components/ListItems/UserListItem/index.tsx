@@ -31,6 +31,7 @@ export const UserListItem = memo(
   }) => {
     const navigation =
       useNavigation<NativeStackNavigationProp<ProfileTabStackParamList>>();
+
     return (
       <View style={styles.container} {...stopPropagination}>
         <Touchable

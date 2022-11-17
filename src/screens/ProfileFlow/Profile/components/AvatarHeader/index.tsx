@@ -1,16 +1,19 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {User} from '@api/user/types';
 import {Avatar, AvatarSkeleton} from '@components/Avatar/Avatar';
+import {ContactAvatar} from '@components/ContactAvatar';
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {commonStyles} from '@constants/styles';
 import {useScrollShadow} from '@hooks/useScrollShadow';
 import {HEADER_HEIGHT} from '@navigation/components/Header';
 import {BackButton} from '@navigation/components/Header/components/BackButton';
 import {SettingsButton} from '@navigation/components/Header/components/SettingsButton';
-import {userSelector} from '@store/modules/Account/selectors';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {Image, StyleSheet, View} from 'react-native';
+import {Contact} from 'react-native-contacts';
 import Animated, {
   Extrapolate,
   interpolate,
@@ -19,33 +22,39 @@ import Animated, {
   useDerivedValue,
 } from 'react-native-reanimated';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {useSelector} from 'react-redux';
 import {rem, screenWidth} from 'rn-units';
 
+const AnimatedTouchable = Animated.createAnimatedComponent(Touchable);
+
+const NOT_FOUND = require('../../assets/images/notFoundPlaceholder.png');
+
+export const AVATAR_SIZE = rem(122);
 const AVATAR_SMALL_SIZE = rem(36);
-const AVATAR_SIZE = rem(122);
 const AVATAR_SMALL_RADIUS = rem(16);
 const AVATAR_RADIUS = rem(41);
 
 type Props = {
+  user?: User | null;
   uri?: string;
   scrollY: SharedValue<number>;
-  allowFullScreen?: boolean;
-  isSettingsHidden?: boolean;
+  showSettingsButton: boolean;
   isLoading?: boolean;
+  contact: Contact | undefined;
+  onContactPress: () => void;
 };
 
 const MAX_SCROLL = 160;
 const SCROLL_STEP_1 = 140;
 export const AvatarHeader = memo(
   ({
+    user,
     uri,
     scrollY,
-    allowFullScreen,
-    isSettingsHidden = false,
+    showSettingsButton,
     isLoading = false,
+    contact,
+    onContactPress,
   }: Props) => {
-    const user = useSelector(userSelector);
     const {shadowStyle} = useScrollShadow({translateY: scrollY});
     const {top: topInset} = useSafeAreaInsets();
 
@@ -99,6 +108,10 @@ export const AvatarHeader = memo(
       ),
     );
 
+    const lettersAvatarOpacity = useDerivedValue(() =>
+      interpolate(scrollY.value, [0, 5], [1, 0], Extrapolate.CLAMP),
+    );
+
     const fontSize = useDerivedValue(() =>
       interpolate(
         scrollY.value,
@@ -123,6 +136,10 @@ export const AvatarHeader = memo(
       height: HEADER_HEIGHT + topInset,
     };
 
+    const lettersAvatarStyle = useAnimatedStyle(() => ({
+      opacity: lettersAvatarOpacity.value,
+    }));
+
     return (
       <Animated.View style={[styles.container, extraPadding, shadowStyle]}>
         <BackButton
@@ -135,30 +152,59 @@ export const AvatarHeader = memo(
             {isLoading ? (
               <AvatarSkeleton />
             ) : (
-              <Avatar
-                uri={uri}
-                style={styles.image}
-                size={AVATAR_SIZE}
-                borderRadius={AVATAR_RADIUS}
-                touchableStyle={styles.touchableAvatar}
-                allowFullScreen={allowFullScreen}
-              />
+              <>
+                {user && (
+                  <Avatar
+                    uri={uri}
+                    style={styles.image}
+                    size={AVATAR_SIZE}
+                    borderRadius={AVATAR_RADIUS}
+                    touchableStyle={styles.touchableAvatar}
+                    allowFullScreen={true}
+                  />
+                )}
+                {!user && (
+                  <Image
+                    source={NOT_FOUND}
+                    resizeMode="stretch"
+                    style={styles.image}
+                  />
+                )}
+              </>
             )}
           </Animated.View>
-          <Animated.Text
-            style={[styles.usernameText, textStyle]}
-            numberOfLines={1}>
-            {user?.username}
-          </Animated.Text>
+          {contact && (
+            <AnimatedTouchable
+              style={[styles.miniAvatarContainer, lettersAvatarStyle]}
+              onPress={onContactPress}>
+              <Animated.View style={[styles.lettersAvatar, lettersAvatarStyle]}>
+                <ContactAvatar
+                  sideSize={rem(30)}
+                  borderRadius={rem(10)}
+                  textStyle={styles.avatarText}
+                  contact={contact}
+                />
+              </Animated.View>
+            </AnimatedTouchable>
+          )}
+          {user && (
+            <Animated.Text
+              style={[styles.usernameText, textStyle]}
+              numberOfLines={1}>
+              {user?.username}
+            </Animated.Text>
+          )}
         </View>
-        <View
-          style={
-            isSettingsHidden
-              ? styles.rightContainerSettingsHidden
-              : styles.rightContainer
-          }>
-          {!isSettingsHidden && <SettingsButton />}
-        </View>
+        {user && (
+          <View
+            style={
+              showSettingsButton
+                ? styles.rightContainer
+                : styles.rightContainerSettingsHidden
+            }>
+            {showSettingsButton && <SettingsButton />}
+          </View>
+        )}
       </Animated.View>
     );
   },
@@ -176,13 +222,19 @@ const styles = StyleSheet.create({
     marginTop: rem(4),
     ...commonStyles.shadow,
   },
+  miniAvatarContainer: {
+    width: AVATAR_SIZE,
+    height: AVATAR_SIZE,
+    alignSelf: 'center',
+    bottom: 0,
+    position: 'absolute',
+  },
   wrapper: {
     flexDirection: 'row',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
-    marginLeft: rem(20),
   },
   rightContainer: {
     paddingRight: rem(16),
@@ -211,5 +263,15 @@ const styles = StyleSheet.create({
   },
   touchableAvatar: {
     flex: 1,
+  },
+  avatarText: {
+    ...font(13, 16, 'regular'),
+  },
+  lettersAvatar: {
+    width: rem(30),
+    height: rem(30),
+    bottom: -rem(3),
+    right: -rem(3),
+    position: 'absolute',
   },
 });

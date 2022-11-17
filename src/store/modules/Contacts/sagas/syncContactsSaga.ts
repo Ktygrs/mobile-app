@@ -11,7 +11,7 @@ import {ContactsActions} from '@store/modules/Contacts/actions';
 import {permissionSelector} from '@store/modules/Permissions/selectors';
 import {getErrorMessage} from '@utils/errors';
 import {e164PhoneNumber, hashPhoneNumber} from '@utils/phoneNumber';
-import {getAllWithoutPhotos} from 'react-native-contacts';
+import {getAll} from 'react-native-contacts';
 import {
   call,
   put,
@@ -37,9 +37,7 @@ export function* syncContactsSaga() {
     const user: User = yield select(userSelector);
     const phoneNumberHashes = new Set(user.agendaPhoneNumberHashes?.split(','));
 
-    let contacts: SagaReturnType<typeof getAllWithoutPhotos> = yield call(
-      getAllWithoutPhotos,
-    );
+    let contacts: SagaReturnType<typeof getAll> = yield call(getAll);
 
     const agendaPhoneNumbers = contacts.reduce<string[]>((numbers, contact) => {
       return numbers.concat(

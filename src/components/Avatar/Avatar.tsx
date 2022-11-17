@@ -11,7 +11,7 @@ import Animated from 'react-native-reanimated';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import {rem} from 'rn-units';
 
-const DEFAULT_AVATAR_SIZE = rem(86);
+export const DEFAULT_AVATAR_SIZE = rem(86);
 const DEFAULT_BORDER_RADIUS = rem(25);
 
 type Props = {

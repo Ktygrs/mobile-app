@@ -49,7 +49,7 @@ export const ContactItem = memo(
             styles.contactIcon,
             {
               backgroundColor: stringToColor(
-                contact.givenName || phoneNumbers[0],
+                contact.givenName || contact.familyName || phoneNumbers[0],
               ),
             },
           ]}>
