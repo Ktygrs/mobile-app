@@ -47,6 +47,7 @@ export const CommonInput = ({
   onFocus,
   onChangeText,
   containerStyle,
+  editable,
   ...textInputProps
 }: CommonInputProps) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -56,6 +57,7 @@ export const CommonInput = ({
 
   return (
     <TouchableWithoutFeedback
+      disabled={!editable}
       onPress={() => (onChange ? onChange() : inputRef?.current?.focus())}>
       <View
         style={[
@@ -68,29 +70,34 @@ export const CommonInput = ({
         <View style={styles.body}>
           <View style={styles.inputWrapper}>
             {prefix}
-            <TextInput
-              value={value}
-              style={styles.input}
-              ref={inputRef}
-              autoCorrect={false}
-              autoComplete={'off'}
-              autoCapitalize={'none'}
-              spellCheck={false}
-              // disables autocomplete on Android, source: https://github.com/facebook/react-native/issues/18457
-              keyboardType={isAndroid ? 'visible-password' : 'default'}
-              onBlur={event => {
-                setIsFocused(false);
-                onBlur?.(event);
-              }}
-              onFocus={event => {
-                setIsFocused(true);
-                onFocus?.(event);
-              }}
-              onChangeText={newValue => {
-                onChangeText?.(newValue);
-              }}
-              {...textInputProps}
-            />
+            {onChange ? (
+              <Text style={styles.input}>{value}</Text>
+            ) : (
+              <TextInput
+                value={value}
+                style={styles.input}
+                ref={inputRef}
+                autoCorrect={false}
+                autoComplete={'off'}
+                autoCapitalize={'none'}
+                spellCheck={false}
+                editable={editable}
+                // disables autocomplete on Android, source: https://github.com/facebook/react-native/issues/18457
+                keyboardType={isAndroid ? 'visible-password' : 'default'}
+                onBlur={event => {
+                  setIsFocused(false);
+                  onBlur?.(event);
+                }}
+                onFocus={event => {
+                  setIsFocused(true);
+                  onFocus?.(event);
+                }}
+                onChangeText={newValue => {
+                  onChangeText?.(newValue);
+                }}
+                {...textInputProps}
+              />
+            )}
           </View>
           <Animated.Text
             numberOfLines={1}
@@ -104,7 +111,10 @@ export const CommonInput = ({
           </Animated.Text>
         </View>
         {onChange && (
-          <Touchable style={styles.edit} onPress={onChange}>
+          <Touchable
+            style={styles.edit}
+            onPress={onChange}
+            disabled={!editable}>
             <Text style={styles.editText}>
               {t('button.change').toUpperCase()}
             </Text>

@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {useConfirmEmail} from '@components/Forms/ConfirmEmailCodeForm/hooks/useConfirmEmail';
 import {CodeInput} from '@components/Inputs/CodeInput';
 import {ResendButton} from '@components/ResendButton';
 import {FinalizeRegistrationStep} from '@screens/Templates/FinalizeRegistrationStep';
 import {BigHeader} from '@screens/Templates/FinalizeRegistrationStep/components/BigHeader';
 import {Description} from '@screens/WelcomeFlow/ConfirmEmailCode/components/Description';
 import {WrongEmailButton} from '@screens/WelcomeFlow/ConfirmEmailCode/components/WrongEmailButton';
-import {useConfirmEmail} from '@screens/WelcomeFlow/ConfirmEmailCode/hooks/useConfirmEmail';
 import {t} from '@translations/i18n';
 import React from 'react';
 import {StyleSheet} from 'react-native';
@@ -18,7 +18,7 @@ export const ConfirmEmailCode = () => {
     email,
     setCode,
     resendCode,
-    validateError,
+    validationError,
     validateLoading,
     isSuccessValidation,
     emailSentTimestamp,
@@ -42,7 +42,7 @@ export const ConfirmEmailCode = () => {
           containerStyle={styles.input}
           value={code}
           setValue={setCode}
-          errorText={validateError}
+          errorText={validationError}
           editable={!validateLoading}
           validated={isSuccessValidation}
         />

@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {useFocusEffect} from '@react-navigation/native';
+import {useCodeInput} from '@components/Inputs/CodeInput/hooks/useCodeInput';
 import {AccountActions} from '@store/modules/Account/actions';
 import {
-  failedReasonSelector,
+  actionPayloadSelector,
   isSuccessSelector,
   processStatusForActionSelector,
 } from '@store/modules/UtilityProcessStatuses/selectors';
@@ -12,19 +12,12 @@ import {
   temporaryPhoneNumberSelector,
 } from '@store/modules/Validation/selectors';
 import {RootState} from '@store/rootReducer';
-import {useCallback, useEffect, useState} from 'react';
-import {BackHandler} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 
 export const useConfirmPhone = () => {
   const dispatch = useDispatch();
-  const [code, setCode] = useState('');
 
   const phoneNumber = useSelector(temporaryPhoneNumberSelector, () => true);
-
-  const validateError = useSelector(
-    failedReasonSelector.bind(null, AccountActions.SIGN_IN_PHONE),
-  );
 
   const validateLoading = useSelector(
     (state: RootState) =>
@@ -36,54 +29,46 @@ export const useConfirmPhone = () => {
     isSuccessSelector.bind(null, AccountActions.SIGN_IN_PHONE),
   );
 
+  const validateResult = useSelector(
+    actionPayloadSelector.bind(null, AccountActions.SIGN_IN_PHONE),
+  );
+
   const smsSentTimestamp = useSelector(smsSentTimestampSelector);
 
-  useEffect(() => {
-    if (validateError) {
-      setCode('');
-    }
-  }, [validateError]);
+  const validate = (validationCode: string) => {
+    dispatch(
+      AccountActions.SIGN_IN_PHONE.CONFIRM_TEMP_PHONE.create(validationCode),
+    );
+  };
 
-  const onSetCode = (value: string) => {
-    setCode(value);
-    if (validateError) {
-      dispatch(AccountActions.SIGN_IN_PHONE.CLEAR_ERROR.create());
-    }
-    if (value.length === 6) {
-      dispatch(AccountActions.SIGN_IN_PHONE.CONFIRM_TEMP_PHONE.create(value));
-    }
+  const clearError = () => {
+    dispatch(AccountActions.SIGN_IN_PHONE.CLEAR_ERROR.create());
   };
 
   const resendCode = () => {
     dispatch(AccountActions.SIGN_IN_PHONE.RESEND.create());
   };
 
-  const goBack = () => {
+  const resetValidation = () => {
     dispatch(AccountActions.SIGN_IN_PHONE.RESET.create());
   };
 
-  useFocusEffect(
-    useCallback(() => {
-      const subscription = BackHandler.addEventListener(
-        'hardwareBackPress',
-        () => {
-          dispatch(AccountActions.SIGN_IN_PHONE.RESET.create());
-          return true;
-        },
-      );
-      return () => subscription.remove();
-    }, [dispatch]),
-  );
+  const {code, setCode, validationError} = useCodeInput({
+    validate,
+    resetValidation,
+    clearError,
+    validateResult,
+  });
 
   return {
     code,
+    setCode,
     phoneNumber,
-    setCode: onSetCode,
     resendCode,
-    validateError,
+    resetValidation,
+    validationError,
     validateLoading,
     isSuccessValidation,
     smsSentTimestamp,
-    goBack,
   };
 };

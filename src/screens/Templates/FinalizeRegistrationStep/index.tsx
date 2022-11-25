@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {KeyboardAvoider} from '@components/KeyboardAvoider';
 import {COLORS} from '@constants/colors';
 import {smallHeightDevice} from '@constants/styles';
 import {useScrollEndOnKeyboardShown} from '@hooks/useScrollEndOnKeyboardShown';
@@ -8,16 +9,10 @@ import {Header} from '@navigation/components/Header';
 import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
 import {Background} from '@screens/Templates/FinalizeRegistrationStep/components/Background';
 import React, {ReactNode} from 'react';
-import {
-  Image,
-  ImageSourcePropType,
-  KeyboardAvoidingView,
-  StyleSheet,
-  View,
-} from 'react-native';
+import {Image, ImageSourcePropType, StyleSheet, View} from 'react-native';
 import Animated from 'react-native-reanimated';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {isIOS, rem, screenWidth} from 'rn-units';
+import {rem, screenWidth} from 'rn-units';
 
 type Props = {
   title: string;
@@ -52,9 +47,7 @@ export const FinalizeRegistrationStep = ({
           containerStyle={animatedOpacityStyle}
         />
       </View>
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior={isIOS ? 'padding' : undefined}>
+      <KeyboardAvoider>
         <Animated.ScrollView
           contentContainerStyle={styles.scrollViewContent}
           scrollEventThrottle={16}
@@ -73,7 +66,7 @@ export const FinalizeRegistrationStep = ({
             <View style={styles.buttonContainer}>{button}</View>
           </View>
         </Animated.ScrollView>
-      </KeyboardAvoidingView>
+      </KeyboardAvoider>
     </SafeAreaView>
   );
 };

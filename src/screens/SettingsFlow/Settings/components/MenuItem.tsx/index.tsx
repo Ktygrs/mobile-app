@@ -2,7 +2,7 @@
 
 import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
-import {ArrowDownIcon} from '@svg/ArrowDownIcon';
+import {ChevronIcon} from '@svg/ChevronIcon';
 import {font} from '@utils/styles';
 import React, {ReactNode, useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
@@ -63,10 +63,10 @@ export const MenuItem = ({
               {expanded ? confirmation?.title : description}
             </Text>
           </View>
-          <ArrowDownIcon
-            fill={COLORS.primaryLight}
-            width={rem(11)}
-            height={rem(8)}
+          <ChevronIcon
+            color={COLORS.primaryDark}
+            width={rem(9)}
+            height={rem(16)}
             style={[
               styles.chevron,
               expanded ? styles.chevron_left : styles.chevron_right,
@@ -95,47 +95,46 @@ export const MenuItem = ({
   );
 };
 
-export const MenuItemSeparator = () => <View style={styles.separator} />;
-
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
     marginLeft: rem(21),
     marginRight: rem(25),
-    height: rem(74), // fixed height to remove content jumping when the text length changes on expand / collapse
+    marginVertical: rem(10),
+    height: rem(44), // fixed height to remove content jumping when the text length changes on expand / collapse
   },
   body: {
     flex: 1,
-    marginLeft: rem(9),
+    marginLeft: rem(12),
   },
   iconWrapper: {
-    width: rem(36),
-    height: rem(36),
+    width: rem(44),
+    height: rem(44),
     borderRadius: rem(12),
     backgroundColor: COLORS.secondaryFaint,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  icon: {},
+  icon: {
+    width: rem(24),
+    height: rem(24),
+  },
   titleText: {
-    ...font(14, 17, 'black', 'primaryDark'),
+    ...font(16, 19.2, 'black', 'primaryDark'),
+    marginBottom: rem(4),
   },
   descriptionText: {
-    ...font(12, 15, 'regular', 'secondary'),
+    ...font(12, 14.4, 'medium', 'secondary'),
   },
   chevron: {
     marginLeft: rem(10),
   },
   chevron_left: {
-    transform: [{rotate: '90deg'}],
+    transform: [{rotate: '180deg'}],
   },
   chevron_right: {
-    transform: [{rotate: '-90deg'}],
-  },
-  separator: {
-    height: 1,
-    backgroundColor: COLORS.secondaryFaint,
+    transform: [{rotate: '0deg'}],
   },
   buttons: {
     flexDirection: 'row',

@@ -4,17 +4,17 @@ import {Touchable} from '@components/Touchable';
 import {MainStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {getImageUriForSize} from '@utils/file';
+import {getImageUriForSize, isRemoteImage} from '@utils/file';
 import React, {memo, useMemo, useRef} from 'react';
 import {ImageStyle, StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
 import Animated from 'react-native-reanimated';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import {rem} from 'rn-units';
 
-export const DEFAULT_AVATAR_SIZE = rem(86);
-const DEFAULT_BORDER_RADIUS = rem(25);
+export const DEFAULT_AVATAR_SIZE = rem(122);
+export const DEFAULT_BORDER_RADIUS = rem(41);
 
-type Props = {
+export type AvatarProps = {
   uri?: string;
   size?: number;
   borderRadius?: number;
@@ -31,7 +31,7 @@ export const Avatar = memo(
     allowFullScreen = true,
     style,
     touchableStyle,
-  }: Props) => {
+  }: AvatarProps) => {
     const navigation =
       useNavigation<NativeStackNavigationProp<MainStackParamList>>();
     const imageRef = useRef<Animated.Image>(null);
@@ -51,7 +51,11 @@ export const Avatar = memo(
 
     const ImageComponent = (
       <Animated.Image
-        source={{uri: getImageUriForSize(uri, {width: size})}}
+        source={{
+          uri: isRemoteImage(uri)
+            ? getImageUriForSize(uri, {width: size})
+            : uri,
+        }}
         style={[dynamicStyle, style]}
         ref={imageRef}
       />

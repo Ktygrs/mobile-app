@@ -28,7 +28,7 @@ export const useSetEmail = () => {
 
   const onSubmit = () => {
     Keyboard.dismiss();
-    dispatch(ValidationActions.EMAIL_VALIDATION.CLEAR.create());
+    dispatch(ValidationActions.EMAIL_VALIDATION.RESET.create());
     dispatch(AccountActions.UPDATE_ACCOUNT.START.create({email}));
   };
 

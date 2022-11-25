@@ -3,6 +3,7 @@
 import {FullScreenLoading} from '@components/FullScreenLoading';
 import {EmailInput} from '@components/Inputs/EmailInput';
 import {PhoneNumberInput} from '@components/Inputs/PhoneNumberInput';
+import {KeyboardAvoider} from '@components/KeyboardAvoider';
 import {COLORS} from '@constants/colors';
 import {useScrollEndOnKeyboardShown} from '@hooks/useScrollEndOnKeyboardShown';
 import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
@@ -21,8 +22,8 @@ import {useEmailAuth} from '@screens/AuthFlow/SignIn/hooks/useEmailAuth';
 import {usePhoneAuth} from '@screens/AuthFlow/SignIn/hooks/usePhoneAuth';
 import {useSocialAuth} from '@screens/AuthFlow/SignIn/hooks/useSocialAuth';
 import React, {useState} from 'react';
-import {KeyboardAvoidingView, ScrollView, StyleSheet, View} from 'react-native';
-import {isIOS, rem} from 'rn-units';
+import {ScrollView, StyleSheet, View} from 'react-native';
+import {rem} from 'rn-units';
 
 export const SignIn = () => {
   useFocusStatusBar({style: 'light-content'});
@@ -47,9 +48,7 @@ export const SignIn = () => {
   const [activeTab, setActiveTab] = useState<Tab>('email');
 
   return (
-    <KeyboardAvoidingView
-      style={styles.flex}
-      behavior={isIOS ? 'padding' : undefined}
+    <KeyboardAvoider
       keyboardVerticalOffset={
         -SOCIAL_BUTTONS_HEIGHT - DIVIDER_HEIGHT + rem(15)
       }>
@@ -96,14 +95,11 @@ export const SignIn = () => {
         </View>
       </ScrollView>
       {isSocialAuthLoading && <FullScreenLoading />}
-    </KeyboardAvoidingView>
+    </KeyboardAvoider>
   );
 };
 
 const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
   container: {
     backgroundColor: COLORS.primaryLight,
   },

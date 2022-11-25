@@ -5,7 +5,6 @@ import {Images} from '@images';
 import {CardBase} from '@screens/HomeFlow/Home/components/Overview/components/CardBase';
 import {Tiers} from '@screens/HomeFlow/Home/components/Overview/components/ReferralAcquisitionHistory/components/Tiers';
 import {UnitedVerticalBar} from '@screens/HomeFlow/Home/components/Overview/components/UnitedVerticalBar';
-import {userSelector} from '@store/modules/Account/selectors';
 import {ReferralsActions} from '@store/modules/Referrals/actions';
 import {referralHistorySelector} from '@store/modules/Referrals/selectors';
 import {isLoadingSelector} from '@store/modules/UtilityProcessStatuses/selectors';
@@ -23,11 +22,10 @@ const Y_AXIS_HEIGHT = '100%';
 
 export const ReferralAcquisitionHistory = () => {
   const dispatch = useDispatch();
-  const user = useSelector(userSelector);
 
   useEffect(() => {
     dispatch(ReferralsActions.GET_REFERRALS_HISTORY.START.create());
-  }, [dispatch, user]);
+  }, [dispatch]);
 
   const isLoading = useSelector(
     isLoadingSelector.bind(null, ReferralsActions.GET_REFERRALS_HISTORY),

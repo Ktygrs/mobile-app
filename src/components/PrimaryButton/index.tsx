@@ -23,6 +23,7 @@ interface PrimaryButtonProps extends TouchableProps {
   textStyle?: StyleProp<TextStyle>;
   icon?: ReactNode;
   loading?: boolean;
+  disabled?: boolean;
 }
 
 export const PrimaryButton = ({
@@ -32,14 +33,16 @@ export const PrimaryButton = ({
   textStyle = {},
   icon,
   loading = false,
+  disabled = false,
   ...touchableProps
 }: PrimaryButtonProps) => {
   return (
     <Touchable
       onPress={!loading ? onPress : undefined}
-      style={[styles.button, style]}
-      {...touchableProps}>
-      {style && !('backgroundColor' in style) && (
+      style={[styles.button, disabled && styles.button_disabled, style]}
+      {...touchableProps}
+      disabled={disabled}>
+      {style && !('backgroundColor' in style) && !disabled && (
         <LinearGradient
           colors={[
             COLORS.primaryButtonGradientStart,
@@ -68,6 +71,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
+  },
+  button_disabled: {
+    backgroundColor: COLORS.secondary,
   },
   icon: {
     marginLeft: rem(10),

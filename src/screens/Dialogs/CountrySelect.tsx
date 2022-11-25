@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {SearchInput} from '@components/Inputs/SearchInput';
+import {KeyboardAvoider} from '@components/KeyboardAvoider';
 import {CountryListItem} from '@components/ListItems/CountryListItem';
 import {Touchable} from '@components/Touchable';
 import {countries} from '@constants/countries';
@@ -12,7 +13,7 @@ import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import debounce from 'lodash/debounce';
 import React, {useCallback, useMemo, useState} from 'react';
-import {KeyboardAvoidingView, StyleSheet, Text} from 'react-native';
+import {StyleSheet, Text} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {isIOS, rem} from 'rn-units';
 
@@ -61,10 +62,9 @@ export const CountrySelect = () => {
   );
 
   return (
-    <KeyboardAvoidingView
+    <KeyboardAvoider
       keyboardVerticalOffset={isIOS ? 57 : 0} // presentation: modal top offset on iOS
-      style={styles.container}
-      behavior={isIOS ? 'padding' : undefined}>
+    >
       <Header
         title={t('country_select.title')}
         backLabel={t('button.back')}
@@ -79,16 +79,13 @@ export const CountrySelect = () => {
         data={searchCountries}
         renderItem={renderItem}
         contentContainerStyle={[styles.listContent, bottomOffsetStyle.current]}
+        keyboardShouldPersistTaps={'handled'}
       />
-    </KeyboardAvoidingView>
+    </KeyboardAvoider>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-  },
   search: {
     marginHorizontal: rem(16),
     marginBottom: rem(6),

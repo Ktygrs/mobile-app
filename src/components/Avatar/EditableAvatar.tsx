@@ -1,71 +1,64 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Avatar, AvatarProps} from '@components/Avatar/Avatar';
 import {usePickImage} from '@components/Avatar/hooks/usePickImage';
 import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
-import {useActionSheet} from '@hooks/useActionSheet';
+import {MIDDLE_BUTTON_HIT_SLOP} from '@constants/styles';
+import {MainStackParamList} from '@navigation/Main';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {BinIcon} from '@svg/BinIcon';
 import {CameraIcon} from '@svg/CameraIcon';
 import {ImageIcon} from '@svg/ImageIcon';
-import {PenIcon} from '@svg/PenIcon';
 import {t} from '@translations/i18n';
-import {getImageUriForSize} from '@utils/file';
 import React, {memo, useEffect, useState} from 'react';
-import {
-  Image,
-  ImageStyle,
-  StyleProp,
-  StyleSheet,
-  View,
-  ViewStyle,
-} from 'react-native';
+import {StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
 import {Image as CropImage} from 'react-native-image-crop-picker';
-import {isAndroid, rem} from 'rn-units';
+import {rem} from 'rn-units';
 
-const DEFAULT_AVATAR_SIZE = rem(86);
-const PEN_SIZE = rem(22);
+const PEN_SIZE = rem(32);
 
 type Props = {
-  uri?: string;
-  onChange?: (image: CropImage) => void;
-  avatarSize?: number;
+  onChange: (image: CropImage | null) => void;
   containerStyle?: StyleProp<ViewStyle>;
-  imageWrapperStyle?: StyleProp<ViewStyle>;
-  imageStyle?: StyleProp<ImageStyle>;
-};
+} & AvatarProps;
 
 export const EditableAvatar = memo(
-  ({
-    uri,
-    onChange,
-    avatarSize = DEFAULT_AVATAR_SIZE,
-    containerStyle,
-    imageWrapperStyle,
-    imageStyle,
-  }: Props) => {
-    const [localImage, setLocalImage] = useState<CropImage | null>(null);
+  ({uri, onChange, containerStyle, ...avatarProps}: Props) => {
+    const navigation =
+      useNavigation<NativeStackNavigationProp<MainStackParamList>>();
 
-    const {showActionSheet} = useActionSheet();
+    const [localImage, setLocalImage] = useState<CropImage | null>(null);
 
     const {openPicker} = usePickImage({
       onImageSelected: image => {
         setLocalImage(image);
-        onChange?.(image);
+        onChange(image);
       },
     });
 
     const onEditPress = () => {
-      showActionSheet({
-        title: t('settings.profile_image'),
+      navigation.navigate('ActionSheet', {
+        title: t('settings.profile_photo.edit'),
         buttons: [
           {
+            icon: ImageIcon,
+            label: t('settings.profile_photo.photo_gallery'),
+            onPress: () => openPicker('gallery'),
+          },
+          {
             icon: CameraIcon,
-            label: isAndroid ? t('images.camera') : t('images.take_photo'),
+            label: t('settings.profile_photo.camera'),
             onPress: () => openPicker('camera'),
           },
           {
-            icon: ImageIcon,
-            label: isAndroid ? t('images.gallery') : t('images.choose_photo'),
-            onPress: () => openPicker('gallery'),
+            icon: BinIcon,
+            label: t('settings.profile_photo.delete'),
+            onPress: () => {
+              setLocalImage(null);
+              onChange(null);
+            },
           },
         ],
       });
@@ -76,23 +69,13 @@ export const EditableAvatar = memo(
     }, [uri]);
 
     return (
-      <View style={[containerStyle]}>
-        <View style={[styles.avatarWrapper, imageWrapperStyle]}>
-          {uri && (
-            <Image
-              source={{
-                uri:
-                  localImage?.path ??
-                  getImageUriForSize(uri, {width: avatarSize}),
-              }}
-              style={[styles.image, imageStyle]}
-            />
-          )}
-        </View>
-        <Touchable style={styles.button} onPress={onEditPress}>
-          <View style={styles.penWrapper}>
-            <PenIcon width={rem(10)} height={rem(10)} />
-          </View>
+      <View style={containerStyle}>
+        <Avatar {...avatarProps} uri={localImage?.path ?? uri} />
+        <Touchable
+          style={styles.penWrapper}
+          onPress={onEditPress}
+          hitSlop={MIDDLE_BUTTON_HIT_SLOP}>
+          <CameraIcon />
         </Touchable>
       </View>
     );
@@ -100,31 +83,17 @@ export const EditableAvatar = memo(
 );
 
 const styles = StyleSheet.create({
-  avatarWrapper: {
-    borderWidth: 2,
-    borderColor: COLORS.white,
-    borderRadius: rem(25),
-    overflow: 'hidden',
-  },
-  image: {
-    width: DEFAULT_AVATAR_SIZE,
-    height: DEFAULT_AVATAR_SIZE,
-  },
-  button: {
+  penWrapper: {
     position: 'absolute',
     bottom: -rem(10),
     right: -rem(10),
-  },
-  penWrapper: {
     alignItems: 'center',
     justifyContent: 'center',
     width: PEN_SIZE,
     height: PEN_SIZE,
     borderRadius: PEN_SIZE / 2,
-    backgroundColor: COLORS.primaryDark,
+    backgroundColor: COLORS.white,
     marginHorizontal: 10,
     marginVertical: 10,
-    borderWidth: 2,
-    borderColor: COLORS.white,
   },
 });

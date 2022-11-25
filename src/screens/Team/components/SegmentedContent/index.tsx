@@ -14,18 +14,13 @@ import {rem} from 'rn-units';
 
 import {SEGMENTS} from './segments';
 
-type TiersProps = {
-  showCountriesList: (t: boolean) => void;
-  isCountriesVisible: boolean;
-};
-
 enum SegmentIndex {
   ContactList,
   Tier1List,
   Tier2List,
 }
 
-export const SegmentedContent = memo((props: TiersProps) => {
+export const SegmentedContent = memo(() => {
   const [activeIndex, setActiveIndex] = useState<SegmentIndex>(0);
   const switcherRef = useRef<SegmentedControlMethods>(null);
   const pagerRef = useRef<PagerView>(null);
@@ -55,10 +50,7 @@ export const SegmentedContent = memo((props: TiersProps) => {
         ref={pagerRef}
         onPageSelected={onPageChange}>
         <View style={styles.container}>
-          <Contacts
-            {...props}
-            focused={activeIndex === SegmentIndex.ContactList}
-          />
+          <Contacts focused={activeIndex === SegmentIndex.ContactList} />
         </View>
         <View style={styles.container}>
           <TierList

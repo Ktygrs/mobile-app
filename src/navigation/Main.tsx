@@ -36,8 +36,10 @@ import {UpdateSuccessful} from '@screens/PopUps/UpdateSuccessful';
 import {MyBadges} from '@screens/ProfileFlow/MyBadges';
 import {MyRoles} from '@screens/ProfileFlow/MyRoles';
 import {Profile} from '@screens/ProfileFlow/Profile';
+import {ConfirmEmail} from '@screens/SettingsFlow/ConfirmEmail';
 import {ConfirmPhoneNumber} from '@screens/SettingsFlow/ConfirmPhoneNumber';
 import {LanguageSettings} from '@screens/SettingsFlow/LanguageSettings';
+import {ModifyEmail} from '@screens/SettingsFlow/ModifyEmail';
 import {ModifyPhoneNumber} from '@screens/SettingsFlow/ModifyPhoneNumber';
 import {NotificationSettings} from '@screens/SettingsFlow/NotificationSettings';
 import {PersonalInformation} from '@screens/SettingsFlow/PersonalInformation';
@@ -146,6 +148,8 @@ export type ProfileTabStackParamList = {
   ProfilePrivacyEditStep1: undefined;
   ProfilePrivacyEditStep2: undefined;
   ProfilePrivacyEditStep3: undefined;
+  ModifyEmail: undefined;
+  ConfirmEmail: undefined;
 };
 
 export type MainNavigationParams = MainTabsParamList &
@@ -228,6 +232,8 @@ const ProfileTabStackNavigator = () => (
       component={ProfilePrivacyEditStep3}
       options={modalOptions}
     />
+    <ProfileTabStack.Screen name="ModifyEmail" component={ModifyEmail} />
+    <ProfileTabStack.Screen name="ConfirmEmail" component={ConfirmEmail} />
   </ProfileTabStack.Navigator>
 );
 

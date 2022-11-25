@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {CheckBox} from '@components/CheckBox';
-import {COLORS} from '@constants/colors';
+import {CheckMark} from '@components/CheckMark';
+import {Touchable} from '@components/Touchable';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
@@ -18,55 +18,40 @@ type Props = {
 export const LanguageListItem = memo(
   ({language, selected, loading, onSelect}: Props) => {
     return (
-      <View style={styles.container}>
-        <Text
-          style={[
-            styles.languageText,
-            selected && styles.languageText_selected,
-          ]}
-          numberOfLines={1}>
+      <Touchable style={styles.container} onPress={() => onSelect(language)}>
+        <Text style={styles.flag} numberOfLines={1}>
+          {t('global.flag', {locale: language})}
+        </Text>
+        <Text style={styles.languageText} numberOfLines={1}>
           {t('global.language', {locale: language})}
         </Text>
-        {!loading || !selected ? (
-          <CheckBox
-            value={selected}
-            onValueChange={() => onSelect(language)}
-            style={styles.checkbox}
-          />
-        ) : (
-          <ActivityIndicator style={styles.loader} />
+        {selected && (
+          <View style={styles.checkMarkWrapper}>
+            {!loading ? <CheckMark /> : <ActivityIndicator />}
+          </View>
         )}
-      </View>
+      </Touchable>
     );
   },
-);
-
-export const LanguageListItemSeparator = () => (
-  <View style={styles.separator} />
 );
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    height: rem(50),
     alignItems: 'center',
+    paddingVertical: rem(10),
+  },
+  flag: {
+    marginLeft: rem(16),
+    ...font(20),
   },
   languageText: {
-    marginLeft: rem(28),
     flex: 1,
-    ...font(12, null, 'bold', 'secondary'),
+    marginLeft: rem(16),
+    ...font(17, 22, 'regular', 'codeFieldText'),
   },
-  languageText_selected: {
-    color: COLORS.primaryDark,
-  },
-  checkbox: {
-    marginHorizontal: rem(25),
-  },
-  loader: {
-    marginRight: rem(28),
-  },
-  separator: {
-    height: 1,
-    backgroundColor: COLORS.secondaryFaint,
+  checkMarkWrapper: {
+    width: rem(60),
+    alignItems: 'center',
   },
 });

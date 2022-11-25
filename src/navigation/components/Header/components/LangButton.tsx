@@ -6,12 +6,12 @@ import {SMALL_BUTTON_HIT_SLOP} from '@constants/styles';
 import {ProfileTabStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {DropdownIcon} from '@svg/DropdownIcon';
-import {WorldIcon} from '@svg/WorldIcon';
-import i18n from '@translations/i18n';
+import {ChevronIcon} from '@svg/ChevronIcon';
+import i18n, {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React from 'react';
 import {StyleProp, StyleSheet, Text, View, ViewStyle} from 'react-native';
+import {rem} from 'rn-units';
 
 type Props = {
   containerStyle?: StyleProp<ViewStyle>;
@@ -20,7 +20,7 @@ type Props = {
 
 export const LangButton = ({
   containerStyle,
-  color = COLORS.white,
+  color = COLORS.primaryDark,
 }: Props = {}) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<ProfileTabStackParamList>>();
@@ -29,11 +29,16 @@ export const LangButton = ({
       onPress={() => navigation.navigate('LanguageSettings')}
       hitSlop={SMALL_BUTTON_HIT_SLOP}>
       <View style={[styles.container, containerStyle]}>
+        <Text style={styles.flagStyle}>{t('global.flag')}</Text>
         <Text style={[styles.langText, {color}]}>
           {i18n.currentLocale().toUpperCase()}
         </Text>
-        <WorldIcon fill={color} style={styles.worldIcon} />
-        <DropdownIcon fill={color} style={styles.dropdownIcon} />
+        <ChevronIcon
+          width={rem(5)}
+          height={rem(10)}
+          color={color}
+          style={styles.dropdownIcon}
+        />
       </View>
     </Touchable>
   );
@@ -46,11 +51,13 @@ const styles = StyleSheet.create({
   },
   langText: {
     ...font(13, null, 'bold'),
-  },
-  worldIcon: {
-    marginLeft: 4,
+    marginLeft: rem(4),
   },
   dropdownIcon: {
-    marginLeft: 3,
+    marginLeft: rem(6),
+    transform: [{rotateZ: '90deg'}],
+  },
+  flagStyle: {
+    ...font(20),
   },
 });

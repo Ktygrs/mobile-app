@@ -1,20 +1,15 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {ConfirmPhoneNumber} from '@components/ConfirmPhoneNumber';
-import {ModifyPhoneNumber} from '@components/ModifyPhoneNumber';
-import {COLORS} from '@constants/colors';
+import {ConfirmPhoneNumberForm} from '@components/Forms/ConfirmPhoneNumberForm';
+import {ModifyPhoneNumberForm} from '@components/Forms/ModifyPhoneNumberForm';
 import {ContactsList} from '@screens/Team/components/Contacts/components/ContactsList';
 import {ContactsPermissions} from '@screens/Team/components/Contacts/components/ContactsPermissions';
-import {AccountActions} from '@store/modules/Account/actions';
 import {isPhoneNumberVerifiedSelector} from '@store/modules/Account/selectors';
 import {PermissionsActions} from '@store/modules/Permissions/actions';
 import {permissionSelector} from '@store/modules/Permissions/selectors';
-import {isLoadingSelector} from '@store/modules/UtilityProcessStatuses/selectors';
-import {ValidationActions} from '@store/modules/Validation/actions';
 import {phoneVerificationStepSelector} from '@store/modules/Validation/selectors';
-import {RootState} from '@store/rootReducer';
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
-import {ActivityIndicator, Animated, StyleSheet} from 'react-native';
+import {Animated, StyleSheet} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 
 type TContactsFlow =
@@ -24,21 +19,10 @@ type TContactsFlow =
   | 'ContactsList';
 
 type ContactsProps = {
-  showCountriesList: (t: boolean) => void;
-  isCountriesVisible: boolean;
   focused: boolean;
 };
 
-export const Contacts = ({
-  showCountriesList,
-  isCountriesVisible,
-  focused,
-}: ContactsProps) => {
-  const isLoading = useSelector(
-    (state: RootState) =>
-      isLoadingSelector(AccountActions.UPDATE_ACCOUNT, state) ||
-      isLoadingSelector(ValidationActions.PHONE_VALIDATION, state),
-  );
+export const Contacts = ({focused}: ContactsProps) => {
   const dispatch = useDispatch();
 
   const hasContactsPermissions = useSelector(permissionSelector('contacts'));
@@ -92,17 +76,6 @@ export const Contacts = ({
     setScreen(currentScreen);
   }, [currentScreen, setScreen]);
 
-  const onModifyPhonePress = (phone: string) => {
-    dispatch(AccountActions.UPDATE_ACCOUNT.START.create({phoneNumber: phone}));
-  };
-
-  const onConfirmPhonePress = useCallback(
-    (code: string) => {
-      dispatch(ValidationActions.PHONE_VALIDATION.START.create(code));
-    },
-    [dispatch],
-  );
-
   const requestContactsAccessPermissionPress = async () => {
     dispatch(PermissionsActions.GET_PERMISSIONS.START.create('contacts'));
   };
@@ -116,24 +89,9 @@ export const Contacts = ({
           }
         />
       )}
-      {visibleFlow === 'ModifyPhoneNumber' && (
-        <ModifyPhoneNumber
-          showCountriesList={showCountriesList}
-          isCountriesVisible={isCountriesVisible}
-          onSubmitPress={onModifyPhonePress}
-        />
-      )}
-      {visibleFlow === 'ConfirmPhoneNumber' && (
-        <ConfirmPhoneNumber onSubmitPress={onConfirmPhonePress} />
-      )}
+      {visibleFlow === 'ModifyPhoneNumber' && <ModifyPhoneNumberForm />}
+      {visibleFlow === 'ConfirmPhoneNumber' && <ConfirmPhoneNumberForm />}
       {visibleFlow === 'ContactsList' && <ContactsList focused={focused} />}
-
-      {isLoading ? (
-        <ActivityIndicator
-          style={[StyleSheet.absoluteFill, styles.loading]}
-          size={'large'}
-        />
-      ) : null}
     </Animated.View>
   );
 };
@@ -141,8 +99,5 @@ export const Contacts = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  loading: {
-    backgroundColor: COLORS.transparentBackground,
   },
 });

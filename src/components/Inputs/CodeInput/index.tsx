@@ -28,7 +28,7 @@ interface CodeInputProps extends TextInputProps {
   validated?: boolean;
 }
 
-const DEFAULT_CELL_COUNT = 6;
+export const DEFAULT_CELL_COUNT = 6;
 
 export const CodeInput = ({
   value,

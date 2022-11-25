@@ -13,7 +13,7 @@ import {rem} from 'rn-units';
 export const WrongEmailButton = () => {
   const dispatch = useDispatch();
   const onPress = () => {
-    dispatch(ValidationActions.EMAIL_VALIDATION.CLEAR.create());
+    dispatch(ValidationActions.EMAIL_VALIDATION.RESET.create());
   };
   return (
     <Touchable

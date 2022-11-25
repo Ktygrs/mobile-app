@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {CodeInput} from '@components/Inputs/CodeInput';
+import {KeyboardAvoider} from '@components/KeyboardAvoider';
 import {ResendButton} from '@components/ResendButton';
 import {useScrollEndOnKeyboardShown} from '@hooks/useScrollEndOnKeyboardShown';
 import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
@@ -9,8 +10,8 @@ import {Description} from '@screens/AuthFlow/ConfirmPhone/components/Description
 import {Header} from '@screens/AuthFlow/ConfirmPhone/components/Header';
 import {useConfirmPhone} from '@screens/AuthFlow/ConfirmPhone/hooks/useConfirmPhone';
 import React from 'react';
-import {KeyboardAvoidingView, ScrollView, StyleSheet, View} from 'react-native';
-import {isIOS, rem} from 'rn-units';
+import {ScrollView, StyleSheet, View} from 'react-native';
+import {rem} from 'rn-units';
 
 export const ConfirmPhone = () => {
   useFocusStatusBar({style: 'light-content'});
@@ -21,28 +22,26 @@ export const ConfirmPhone = () => {
     phoneNumber,
     setCode,
     resendCode,
-    goBack,
-    validateError,
+    resetValidation,
+    validationError,
     validateLoading,
     isSuccessValidation,
     smsSentTimestamp,
   } = useConfirmPhone();
 
   return (
-    <KeyboardAvoidingView
-      style={styles.flex}
-      behavior={isIOS ? 'padding' : undefined}>
+    <KeyboardAvoider>
       <ScrollView keyboardShouldPersistTaps={'handled'} ref={scrollRef}>
         <View style={styles.flex}>
           <Header />
-          <BackButton onPress={goBack} />
+          <BackButton onPress={resetValidation} />
           <Description phone={phoneNumber} />
           <CodeInput
             autoFocus={true}
             containerStyle={styles.input}
             value={code}
             setValue={setCode}
-            errorText={validateError}
+            errorText={validationError}
             editable={!validateLoading}
             validated={isSuccessValidation}
           />
@@ -53,7 +52,7 @@ export const ConfirmPhone = () => {
           />
         </View>
       </ScrollView>
-    </KeyboardAvoidingView>
+    </KeyboardAvoider>
   );
 };
 

@@ -21,23 +21,26 @@ const PHONE_VALIDATION = createAction('PHONE_VALIDATION', {
   START: (validationCode: string) => ({
     validationCode,
   }),
-  SUCCESS: (result: User) => ({result}),
+  SUCCESS: (user: User) => ({user}),
   FAILED: (errorMessage: string, errorCode: string) => ({
     errorMessage,
     errorCode,
   }),
+  CLEAR_ERROR: true,
+  RESET: false,
 });
 
 const EMAIL_VALIDATION = createAction('EMAIL_VALIDATION', {
   START: (validationCode: string) => ({
     validationCode,
   }),
-  SUCCESS: (result: User) => ({result}),
+  SUCCESS: (user: User) => ({user}),
   FAILED: (errorMessage: string, errorCode: string) => ({
     errorMessage,
     errorCode,
   }),
-  CLEAR: false,
+  CLEAR_ERROR: true,
+  RESET: false,
 });
 
 export const ValidationActions = Object.freeze({

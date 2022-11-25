@@ -16,8 +16,9 @@ export const SectionTitle = ({text}: Props) => {
 
 const styles = StyleSheet.create({
   titleText: {
-    marginTop: rem(42),
+    marginTop: rem(26),
+    marginBottom: rem(11),
     marginHorizontal: SCREEN_SIDE_OFFSET,
-    ...font(14, 17, 'bold', 'primaryDark'),
+    ...font(14, 17, 'semibold', 'primaryDark'),
   },
 });

@@ -42,7 +42,7 @@ export const DEFAULT_CONFIRM_NO_BUTTON: ConfirmButton = {
   preset: 'destructive',
 };
 
-const ACTION_SHEET_HEIGHT = rem(180);
+const ACTION_SHEET_HEIGHT = rem(270);
 
 export const ActionSheet = () => {
   const {
@@ -81,9 +81,9 @@ export const ActionSheet = () => {
                 <View style={styles.button}>
                   <View style={styles.buttonIcon}>
                     {button.icon({
-                      fill: COLORS.primary,
-                      width: rem(25),
-                      height: rem(25),
+                      color: COLORS.primaryLight,
+                      width: rem(24),
+                      height: rem(24),
                     })}
                   </View>
                   <Text style={styles.buttonLabelText}>{button.label}</Text>
@@ -106,6 +106,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.white,
     paddingHorizontal: SCREEN_SIDE_OFFSET,
+    borderTopLeftRadius: rem(20),
+    borderTopRightRadius: rem(20),
     paddingTop: rem(30),
     paddingBottom: rem(38),
     position: 'absolute',
@@ -114,27 +116,27 @@ const styles = StyleSheet.create({
     right: 0,
   },
   titleText: {
-    ...font(18, 24, 'black', 'primaryDark'),
+    ...font(14, 16.8, 'semibold', 'primaryDark'),
   },
   buttons: {
-    flexDirection: 'row',
     marginTop: rem(20),
   },
   button: {
+    flexDirection: 'row',
     marginRight: rem(30),
     alignItems: 'center',
+    marginVertical: rem(10),
   },
   buttonIcon: {
-    width: rem(50),
-    height: rem(50),
-    borderRadius: rem(25),
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: COLORS.secondaryLight,
+    width: rem(44),
+    height: rem(44),
+    borderRadius: rem(12),
+    backgroundColor: COLORS.linkWater,
     alignItems: 'center',
     justifyContent: 'center',
   },
   buttonLabelText: {
-    marginTop: rem(5),
-    ...font(14, 20, 'regular', 'secondary'),
+    marginLeft: rem(12),
+    ...font(16, 19.2, 'bold', 'primaryDark'),
   },
 });

@@ -34,8 +34,8 @@ export function* updateAccountSaga(action: ReturnType<typeof actionCreator>) {
       userInfo.phoneNumberHash = yield call(hashPhoneNumber, normalizedNumber);
     }
 
-    const modifiedUser: SagaReturnType<typeof Api.user.modifyUser> =
-      yield Api.user.modifyUser(user.id, userInfo);
+    const modifiedUser: SagaReturnType<typeof Api.user.updateAccount> =
+      yield Api.user.updateAccount(user.id, userInfo);
     yield put(
       AccountActions.UPDATE_ACCOUNT.SUCCESS.create(
         modifiedUser,

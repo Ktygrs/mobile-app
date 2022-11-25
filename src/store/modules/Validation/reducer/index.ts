@@ -26,9 +26,10 @@ type Actions = ReturnType<
   | typeof AccountActions.SIGN_IN_EMAIL.RESET.create
   | typeof ValidationActions.PHONE_VALIDATION.SUCCESS.create
   | typeof ValidationActions.PHONE_VALIDATION.FAILED.create
+  | typeof ValidationActions.PHONE_VALIDATION.RESET.create
   | typeof ValidationActions.EMAIL_VALIDATION.SUCCESS.create
   | typeof ValidationActions.EMAIL_VALIDATION.FAILED.create
-  | typeof ValidationActions.EMAIL_VALIDATION.CLEAR.create
+  | typeof ValidationActions.EMAIL_VALIDATION.RESET.create
 >;
 
 const INITIAL_STATE: State = {
@@ -70,19 +71,11 @@ function reducer(state = INITIAL_STATE, action: Actions): State {
       case AccountActions.SIGN_IN_PHONE.SUCCESS.type:
       case AccountActions.SIGN_IN_PHONE.RESET.type:
       case ValidationActions.PHONE_VALIDATION.SUCCESS.type:
+      case ValidationActions.PHONE_VALIDATION.RESET.type:
         draft.temporaryPhoneNumber = null;
         break;
-      case ValidationActions.PHONE_VALIDATION.FAILED.type:
-        if (
-          ['VALIDATION_NOT_FOUND', 'CONFLICT_WITH_ANOTHER_USER'].includes(
-            action.payload.errorCode,
-          )
-        ) {
-          draft.temporaryPhoneNumber = null;
-        }
-        break;
       case ValidationActions.EMAIL_VALIDATION.SUCCESS.type:
-      case ValidationActions.EMAIL_VALIDATION.CLEAR.type:
+      case ValidationActions.EMAIL_VALIDATION.RESET.type:
       case AccountActions.SIGN_IN_EMAIL.SUCCESS.type:
       case AccountActions.SIGN_IN_EMAIL.RESET.type:
         draft.temporaryEmail = null;

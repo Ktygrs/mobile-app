@@ -83,6 +83,7 @@ const UPDATE_ACCOUNT = createAction('UPDATE_ACCOUNT', {
   }),
   SUCCESS: (user: User, userInfo?: Partial<User>) => ({user, userInfo}),
   FAILED: (errorMessage: string) => ({errorMessage}),
+  RESET: true,
 });
 
 export const AccountActions = Object.freeze({

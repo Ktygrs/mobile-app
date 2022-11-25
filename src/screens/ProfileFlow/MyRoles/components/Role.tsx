@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {CheckMark} from '@components/CheckMark';
 import {COLORS} from '@constants/colors';
-import {CheckMark} from '@screens/ProfileFlow/MyRoles/components/CheckMark';
 import {font} from '@utils/styles';
 import React from 'react';
 import {Image, ImageSourcePropType, StyleSheet, Text, View} from 'react-native';

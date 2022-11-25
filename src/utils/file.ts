@@ -19,3 +19,7 @@ export const getImageUriForSize = (
     : '';
   return `${uri}?quality=100${queryHeight}${queryWidth}`;
 };
+
+export const isRemoteImage = (uri: string) => {
+  return uri.startsWith('https://');
+};

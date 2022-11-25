@@ -2,7 +2,7 @@
 
 import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
-import {ArrowDownIcon} from '@svg/ArrowDownIcon';
+import {ChevronSmallIcon} from '@svg/ChevronSmallIcon';
 import React from 'react';
 import {StyleSheet, Text} from 'react-native';
 import {rem} from 'rn-units';
@@ -16,7 +16,7 @@ export const CountryButton = ({flag, onPress}: Props) => {
   return (
     <Touchable style={styles.container} onPress={onPress}>
       <Text style={styles.flag}>{flag}</Text>
-      <ArrowDownIcon
+      <ChevronSmallIcon
         color={COLORS.codeFieldText}
         width={rem(8)}
         height={rem(6)}

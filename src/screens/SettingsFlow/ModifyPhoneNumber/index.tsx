@@ -1,41 +1,32 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {User} from '@api/user/types';
-import {Avatar} from '@components/Avatar/Avatar';
-import {KeyboardDismiss} from '@components/KeyboardDismiss';
-import {ModifyPhoneNumber as ModifyPhoneNumberComponent} from '@components/ModifyPhoneNumber';
-import {COLORS} from '@constants/colors';
+import {ModifyPhoneNumberForm} from '@components/Forms/ModifyPhoneNumberForm';
+import {KeyboardAvoider} from '@components/KeyboardAvoider';
+import {UserAvatarHeader} from '@components/UserAvatarHeader';
 import {commonStyles} from '@constants/styles';
+import {useScrollEndOnKeyboardShown} from '@hooks/useScrollEndOnKeyboardShown';
 import {Header} from '@navigation/components/Header';
-import {LangButton} from '@navigation/components/Header/components/LangButton';
+import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
 import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
 import {ProfileTabStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {AccountActions} from '@store/modules/Account/actions';
-import {userSelector} from '@store/modules/Account/selectors';
-import {isLoadingSelector} from '@store/modules/UtilityProcessStatuses/selectors';
 import {phoneVerificationStepSelector} from '@store/modules/Validation/selectors';
 import {t} from '@translations/i18n';
-import React, {memo, useEffect, useState} from 'react';
-import {KeyboardAvoidingView, StyleSheet, View} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {isIOS, rem} from 'rn-units';
+import React, {memo, useEffect} from 'react';
+import {ScrollView, StyleSheet, View} from 'react-native';
+import {useSelector} from 'react-redux';
+import {rem} from 'rn-units';
 
 export const ModifyPhoneNumber = memo(() => {
   useFocusStatusBar({style: 'light-content'});
+  const {scrollRef} = useScrollEndOnKeyboardShown();
+  const tabbarOffset = useBottomTabBarOffsetStyle();
 
-  const dispatch = useDispatch();
   const navigation =
     useNavigation<NativeStackNavigationProp<ProfileTabStackParamList>>();
-  const user = useSelector(userSelector) as User;
-  const [isCountrySearchVisible, setCountrySearchVisibility] = useState(false);
 
   const phoneVerificationStep = useSelector(phoneVerificationStepSelector);
-
-  const isLoading = useSelector(
-    isLoadingSelector.bind(null, AccountActions.UPDATE_ACCOUNT),
-  );
 
   useEffect(() => {
     if (phoneVerificationStep === 'code') {
@@ -43,52 +34,26 @@ export const ModifyPhoneNumber = memo(() => {
     }
   }, [navigation, phoneVerificationStep]);
 
-  const onSubmitPress = (phone: string) => {
-    dispatch(AccountActions.UPDATE_ACCOUNT.START.create({phoneNumber: phone}));
-  };
-
   return (
-    <KeyboardDismiss onDismiss={() => setCountrySearchVisibility(false)}>
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior={isIOS ? 'padding' : undefined}>
-        <Header
-          title={t('personal_information.title')}
-          renderRightButtons={LangButton}
-        />
-        <View style={[styles.card, commonStyles.baseSubScreen]}>
-          <View style={[styles.avatarWrapper, commonStyles.shadow]}>
-            <Avatar uri={user.profilePictureUrl} style={styles.avatarImage} />
-          </View>
-          <ModifyPhoneNumberComponent
-            showCountriesList={setCountrySearchVisibility}
-            isCountriesVisible={isCountrySearchVisible}
-            onSubmitPress={onSubmitPress}
-            loading={isLoading}
-          />
+    <KeyboardAvoider
+      keyboardVerticalOffset={-tabbarOffset.current.paddingBottom + rem(20)}>
+      <Header title={t('personal_information.title')} />
+      <ScrollView
+        ref={scrollRef}
+        contentContainerStyle={[styles.containerContent, tabbarOffset.current]}
+        keyboardShouldPersistTaps={'handled'}
+        showsVerticalScrollIndicator={false}>
+        <UserAvatarHeader />
+        <View style={commonStyles.baseSubScreen}>
+          <ModifyPhoneNumberForm />
         </View>
-      </KeyboardAvoidingView>
-    </KeyboardDismiss>
+      </ScrollView>
+    </KeyboardAvoider>
   );
 });
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.primaryLight,
-  },
-  card: {
-    marginTop: rem(80),
-    paddingTop: rem(55),
-  },
-  avatarWrapper: {
-    position: 'absolute',
-    top: -rem(43),
-    left: '50%',
-    marginLeft: -rem(43),
-  },
-  avatarImage: {
-    borderWidth: 2,
-    borderColor: COLORS.white,
+  containerContent: {
+    flexGrow: 1,
   },
 });
