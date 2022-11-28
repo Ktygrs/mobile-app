@@ -88,7 +88,7 @@ export const NotificationsList = ({
   }, [shadowStyle, clearAllNotitications, notifications]);
 
   const deleteAction = useCallback(
-    (dragX: Animated.AnimatedInterpolation, item: Activity) => {
+    (dragX: ReturnType<Animated.Value['interpolate']>, item: Activity) => {
       const trans = dragX.interpolate({
         inputRange: [0, 50, 100, 101],
         outputRange: [3, 0, 0, 1],
@@ -135,8 +135,8 @@ export const NotificationsList = ({
       return (
         <Swipeable
           renderRightActions={(
-            _: Animated.AnimatedInterpolation,
-            dragX: Animated.AnimatedInterpolation,
+            _: ReturnType<Animated.Value['interpolate']>,
+            dragX: ReturnType<Animated.Value['interpolate']>,
           ) => {
             return deleteAction(dragX, item);
           }}>

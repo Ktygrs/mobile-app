@@ -9,7 +9,10 @@ import {ProfileIcon} from '@navigation/components/MainTabBar/components/Icons/Pr
 import {TeamIcon} from '@navigation/components/MainTabBar/components/Icons/TeamIcon';
 import {useUpdateRequiredListener} from '@navigation/hooks/useUpdateRequiredListener';
 import {modalOptions, screenOptions, tabOptions} from '@navigation/options';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {
+  BottomTabBarProps,
+  createBottomTabNavigator,
+} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {ActionSheet} from '@screens/Dialogs/ActionSheet';
 import {Confirm, ConfirmButton} from '@screens/Dialogs/Confirm';
@@ -245,10 +248,12 @@ const TeamTabStackNavigator = () => {
   );
 };
 
+const MainTabBarComponent = (props: BottomTabBarProps) => (
+  <MainTabBar {...props} />
+);
+
 const MainTabs = () => (
-  <Tabs.Navigator
-    screenOptions={tabOptions}
-    tabBar={props => <MainTabBar {...props} />}>
+  <Tabs.Navigator screenOptions={tabOptions} tabBar={MainTabBarComponent}>
     <Tabs.Screen
       name="HomeTab"
       component={HomeTabStackNavigator}

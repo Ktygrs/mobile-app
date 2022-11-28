@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {ENV} from '@constants/env';
 import {commonStyles} from '@constants/styles';
 import Clipboard from '@react-native-clipboard/clipboard';
 import {
@@ -139,6 +140,7 @@ const ShareCard = () => {
             'https://e7.pngegg.com/pngimages/223/378/png-clipart-three-ice-cubes-three-ice-cubes-ice.png',
           attributionURL: t('invite_share.share_url'),
           social: Share.Social.INSTAGRAM_STORIES,
+          appId: ENV.FACEBOOK_APP_ID || '',
         };
         await Share.shareSingle(instagramOptions);
         break;

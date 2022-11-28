@@ -31,7 +31,7 @@ export const LangButton = ({
       <View style={[styles.container, containerStyle]}>
         <Text style={styles.flagStyle}>{t('global.flag')}</Text>
         <Text style={[styles.langText, {color}]}>
-          {i18n.currentLocale().toUpperCase()}
+          {i18n.locale.toUpperCase()}
         </Text>
         <ChevronIcon
           width={rem(5)}

@@ -105,7 +105,11 @@ export const isApiError = (
   error: unknown,
   expectedStatus?: number,
   expectedCode?: string,
-): error is AxiosError => {
+): error is AxiosError<{
+  code?: string;
+  data?: {[key: string]: unknown};
+  error?: string;
+}> => {
   return (
     axios.isAxiosError(error) &&
     (!expectedStatus || error.response?.status === expectedStatus) &&

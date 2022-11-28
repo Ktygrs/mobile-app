@@ -48,7 +48,7 @@ export function* getOrCreateDeviceSettings({
       userId,
       deviceUniqueId,
     });
-    if (settings.language !== i18n.currentLocale()) {
+    if (settings.language !== i18n.locale) {
       i18n.locale = settings.language;
       yield put(AccountActions.SYNC_LANGUAGE_CODE.STATE);
     }

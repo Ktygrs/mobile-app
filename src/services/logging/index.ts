@@ -65,7 +65,7 @@ export function logError(error: unknown) {
         error,
         isApiError(error)
           ? {
-              extra: error.response?.data,
+              extra: {responseData: error.response?.data},
               tags: {api: error.response?.status},
             }
           : undefined,

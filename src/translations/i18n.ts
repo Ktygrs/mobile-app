@@ -1,10 +1,12 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 // eslint-disable-next-line no-restricted-imports
-import i18n, {TranslateOptions} from 'i18n-js';
+import {I18n, TranslateOptions} from 'i18n-js';
 import RNLocalize from 'react-native-localize';
 
 const locales = require('@translations/translations.json');
+
+const i18n = new I18n(locales);
 
 export const availableLocales = Object.keys(locales);
 
@@ -15,7 +17,7 @@ i18n.defaultLocale = 'en';
 export const appLocale = locale?.languageTag || i18n.defaultLocale;
 
 i18n.locale = appLocale;
-i18n.fallbacks = true;
+i18n.enableFallback = true;
 i18n.translations = locales;
 
 export default i18n;

@@ -24,6 +24,9 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
+const MiningAnimationComponent = () => <MiningAnimation />;
+const MiningTooltipComponent = () => <MiningTooltip />;
+
 export const TabBarMiningItem = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<MainStackParamList>>();
@@ -46,8 +49,8 @@ export const TabBarMiningItem = () => {
         targetRef: lottieWrapperRef,
         descriptionOffset: rem(40),
         targetCircleSize: rem(92),
-        TargetComponent: () => <MiningAnimation />,
-        DescriptionComponent: () => <MiningTooltip />,
+        TargetComponent: MiningAnimationComponent,
+        DescriptionComponent: MiningTooltipComponent,
       });
     } else {
       setMiningActive(state => !state);
