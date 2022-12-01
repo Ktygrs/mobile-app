@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {stopPropagination} from '@components/KeyboardDismiss';
 import {IceLabel} from '@components/Labels/IceLabel';
 import {COLORS} from '@constants/colors';
 import {ContactSection} from '@screens/Team/components/Contacts/components/ContactsList/hooks/useGetContactSegments';
@@ -10,7 +9,7 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {isAndroid, rem} from 'rn-units';
 
-const IceFriendsHeader = () => {
+export const IceFriendsTitle = () => {
   return (
     <View style={styles.friendsHeader}>
       <Text style={styles.title}>
@@ -28,26 +27,24 @@ const IceFriendsHeader = () => {
 
 export const SectionHeader = ({section}: {section: ContactSection}) => {
   return (
-    <View {...stopPropagination}>
-      <View style={styles.titleContainer}>
-        {section.id === 'friends' ? (
-          <IceFriendsHeader />
-        ) : (
-          <Text style={styles.title}>{section.title}</Text>
-        )}
-      </View>
+    <View style={styles.titleContainer}>
+      {typeof section.title === 'string' ? (
+        <Text style={styles.title}>{section.title}</Text>
+      ) : (
+        section.title
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   titleContainer: {
-    paddingTop: rem(26),
     backgroundColor: COLORS.white,
-    marginBottom: rem(18),
-    paddingBottom: rem(6),
   },
   title: {
+    paddingTop: rem(20),
+    paddingBottom: rem(6),
+    marginBottom: rem(10),
     ...font(14, 17, 'semibold', 'primaryDark'),
   },
   friendsHeader: {

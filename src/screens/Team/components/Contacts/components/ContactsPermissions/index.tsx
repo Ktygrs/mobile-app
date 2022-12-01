@@ -5,28 +5,23 @@ import {PrimaryButton} from '@components/PrimaryButton';
 import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
-import {TeamAllowContactsButtonIcon} from '@screens/Team/assets/svg/TeamAllowContactsButtonIcon';
+import {PermissionsActions} from '@store/modules/Permissions/actions';
+import {AddressBookIcon} from '@svg/AddressBookIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
+import {useDispatch} from 'react-redux';
 import {isAndroid, rem} from 'rn-units';
 
 const icon = require('../../../../assets/images/teamAgendaNotShared.png');
 
-type ContactsPermissionsProps = {
-  requestContactsAccessPermissionPress: () => void;
-};
-
-export function ContactsPermissions({
-  requestContactsAccessPermissionPress,
-}: ContactsPermissionsProps): React.ReactElement {
+export const ContactsPermissions = () => {
+  const dispatch = useDispatch();
   const tabbarOffest = useBottomTabBarOffsetStyle();
   return (
     <View style={[styles.container, tabbarOffest.current]}>
-      <View style={styles.imageContainer}>
-        <Image source={icon} style={styles.image} resizeMode="contain" />
-      </View>
+      <Image source={icon} resizeMode="contain" />
       <Text style={styles.title}>
         <IceLabel
           color={COLORS.primaryLight}
@@ -52,46 +47,40 @@ export function ContactsPermissions({
       </Text>
       <PrimaryButton
         text={t('team.contacts.empty_button_title')}
-        onPress={requestContactsAccessPermissionPress}
-        style={styles.allowAccessButton}
+        onPress={() =>
+          dispatch(PermissionsActions.GET_PERMISSIONS.START.create('contacts'))
+        }
+        style={styles.button}
         textStyle={styles.buttonText}
-        icon={<TeamAllowContactsButtonIcon />}
+        icon={<AddressBookIcon />}
       />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    marginTop: rem(24),
     alignItems: 'center',
-  },
-  imageContainer: {
-    flex: 1,
-    maxHeight: rem(200),
-    marginTop: rem(16),
-  },
-  image: {
-    flex: 1,
+    marginHorizontal: SCREEN_SIDE_OFFSET,
   },
   title: {
+    marginTop: rem(16),
     textAlign: 'center',
-    marginHorizontal: SCREEN_SIDE_OFFSET,
-    marginTop: rem(2),
     ...font(24, 29, 'black', 'primaryDark'),
   },
   description: {
+    marginTop: rem(12),
     textAlign: 'center',
-    marginHorizontal: SCREEN_SIDE_OFFSET,
-    marginTop: rem(7),
     ...font(14, 24, 'regular', 'secondary'),
   },
-  allowAccessButton: {
+  button: {
     marginTop: rem(25),
     width: rem(253),
-    height: rem(55),
+    height: rem(52),
+    borderRadius: rem(12),
   },
   buttonText: {
-    ...font(18, 25, 'black'),
+    ...font(17, 20, 'bold'),
   },
 });

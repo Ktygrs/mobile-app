@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {SearchInput} from '@components/Inputs/SearchInput';
+import {SEARCH_INPUT_HEIGHT, SearchInput} from '@components/Inputs/SearchInput';
 import {Touchable} from '@components/Touchable';
+import {MIDDLE_BUTTON_HIT_SLOP} from '@constants/styles';
 import {useTopOffsetStyle} from '@hooks/useTopOffsetStyle';
 import {useSearchAnimation} from '@screens/Team/components/Header/components/Search/hooks/useSearchAnimation';
 import {t} from '@translations/i18n';
@@ -15,17 +16,20 @@ import {
   TextInputProps,
   View,
 } from 'react-native';
-import Animated, {SharedValue} from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 import {rem} from 'rn-units';
 
+export const SEARCH_INPUT_TOP_OFFSET = rem(10);
+export const SEARCH_HEIGHT = SEARCH_INPUT_HEIGHT + SEARCH_INPUT_TOP_OFFSET;
+
 type SearchProps = {
-  searchShared: SharedValue<number>;
+  isActive: boolean;
   loading: boolean;
   onClosePress: () => void;
 } & TextInputProps;
 
 export const Search = ({
-  searchShared,
+  isActive,
   loading,
   onClosePress,
   ...textInputProps
@@ -33,9 +37,9 @@ export const Search = ({
   const textInputRef: React.RefObject<TextInput> = React.createRef();
   const [cancelWidth, setCancelWidth] = useState(0);
 
-  const topOffset = useTopOffsetStyle({extraOffset: rem(10)});
+  const topOffset = useTopOffsetStyle();
   const {animatedContainerStyle, animatedCancelStyle} = useSearchAnimation({
-    searchShared,
+    isActive,
     cancelWidth,
   });
 
@@ -47,7 +51,7 @@ export const Search = ({
 
   return (
     <View style={topOffset.current}>
-      <Animated.View style={animatedContainerStyle}>
+      <Animated.View style={[animatedContainerStyle, styles.container]}>
         <SearchInput
           loading={loading}
           ref={textInputRef}
@@ -56,10 +60,14 @@ export const Search = ({
         />
         <AnimatedTouchable
           onPress={closeSearch}
-          hitSlop={CANCEL_HIT_SLOP}
+          hitSlop={MIDDLE_BUTTON_HIT_SLOP}
           style={[styles.cancelButtonWrapper, animatedCancelStyle]}
           activeOpacity={1}
-          onLayout={e => setCancelWidth(e.nativeEvent.layout.width)}>
+          onLayout={e => {
+            if (!cancelWidth) {
+              setCancelWidth(e.nativeEvent.layout.width);
+            }
+          }}>
           <Text style={styles.cancelText}>{t('button.cancel')}</Text>
         </AnimatedTouchable>
       </Animated.View>
@@ -69,9 +77,10 @@ export const Search = ({
 
 const AnimatedTouchable = Animated.createAnimatedComponent(Touchable);
 
-const CANCEL_HIT_SLOP = {top: 10, right: 20, bottom: 10, left: 20};
-
 const styles = StyleSheet.create({
+  container: {
+    marginTop: SEARCH_INPUT_TOP_OFFSET,
+  },
   cancelButtonWrapper: {
     position: 'absolute',
     top: 0,

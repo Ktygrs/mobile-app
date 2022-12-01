@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {User} from '@api/user/types';
 import {Avatar} from '@components/Avatar/Avatar';
 import {stopPropagination} from '@components/KeyboardDismiss';
 import {Touchable} from '@components/Touchable';
@@ -7,6 +8,7 @@ import {COLORS} from '@constants/colors';
 import {ProfileTabStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {getCountryByCode} from '@utils/country';
 import {font} from '@utils/styles';
 import React, {memo, ReactNode} from 'react';
 import {StyleProp, StyleSheet, Text, View, ViewStyle} from 'react-native';
@@ -15,20 +17,14 @@ import {rem} from 'rn-units';
 
 export const UserListItem = memo(
   ({
-    name,
-    note,
-    profilePictureUrl,
-    active,
+    user,
     AdditionalInfoComponent,
-    userId,
   }: {
-    userId: string;
-    name?: string | null | ReactNode;
-    note?: string | null | ReactNode;
-    profilePictureUrl?: string | null;
-    active?: boolean;
+    user: User;
     AdditionalInfoComponent?: ReactNode;
   }) => {
+    const countryFlag = getCountryByCode(user.country).current?.flag;
+
     const navigation =
       useNavigation<NativeStackNavigationProp<ProfileTabStackParamList>>();
 
@@ -36,11 +32,11 @@ export const UserListItem = memo(
       <View style={styles.container} {...stopPropagination}>
         <Touchable
           style={styles.touchArea}
-          onPress={() => navigation.navigate('Profile', {userId: userId})}>
+          onPress={() => navigation.navigate('Profile', {userId: user.id})}>
           <View style={styles.imageContainer}>
-            {profilePictureUrl && (
+            {user.profilePictureUrl && (
               <Avatar
-                uri={profilePictureUrl}
+                uri={user.profilePictureUrl}
                 size={rem(46)}
                 borderRadius={rem(16)}
                 allowFullScreen={false}
@@ -50,19 +46,24 @@ export const UserListItem = memo(
               style={[
                 styles.indicator,
                 {
-                  backgroundColor: active ? COLORS.shamrock : COLORS.cadetBlue,
+                  backgroundColor: user.active
+                    ? COLORS.shamrock
+                    : COLORS.cadetBlue,
                 },
               ]}
             />
           </View>
           <View style={styles.body}>
             <Text style={styles.nameText} numberOfLines={1}>
-              {name}
+              {user.username}
             </Text>
-            {note && <Text style={styles.noteText}>{note}</Text>}
+            {user.phoneNumber ? (
+              <Text style={styles.noteText}>{user.phoneNumber}</Text>
+            ) : null}
           </View>
-          {AdditionalInfoComponent}
         </Touchable>
+        {AdditionalInfoComponent}
+        <Text style={styles.flag}>{countryFlag}</Text>
       </View>
     );
   },
@@ -72,7 +73,9 @@ export const UserListItemSkeleton = ({
   containerStyle,
 }: {containerStyle?: StyleProp<ViewStyle>} = {}) => (
   <SkeletonPlaceholder>
-    <View style={[styles.skeleton, containerStyle]} />
+    <View style={containerStyle}>
+      <View style={styles.skeleton} />
+    </View>
   </SkeletonPlaceholder>
 );
 
@@ -102,6 +105,7 @@ const styles = StyleSheet.create({
   },
   nameText: {
     paddingBottom: rem(3),
+    marginRight: rem(5),
     ...font(16, null, 'bold', 'primaryDark'),
   },
   noteText: {
@@ -112,6 +116,10 @@ const styles = StyleSheet.create({
     borderRadius: rem(16),
     marginTop: rem(14),
     alignSelf: 'stretch',
+  },
+  flag: {
+    ...font(26, null, undefined, undefined),
+    marginLeft: rem(12),
   },
   touchArea: {
     flex: 1,

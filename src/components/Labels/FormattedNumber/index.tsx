@@ -15,19 +15,30 @@ type Props = {
   number: string;
   bodyStyle?: StyleProp<TextStyle>;
   decimalsStyle?: StyleProp<TextStyle>;
+  trim?: boolean;
 };
 
-export const FormattedNumber = ({number, bodyStyle, decimalsStyle}: Props) => {
+export const FormattedNumber = ({
+  number,
+  bodyStyle,
+  decimalsStyle,
+  trim = false,
+}: Props) => {
   const [numberInteger, numberDecimals] = number.split('.');
+  const space = trim ? '' : ' ';
+  const hasDecimals = !!numberDecimals;
   return (
     <View style={styles.container}>
-      <Text
-        style={[styles.integerText, bodyStyle]}>{` ${numberInteger}.`}</Text>
-      <Text
-        style={[
-          styles.fractionalText,
-          decimalsStyle,
-        ]}>{` ${numberDecimals}`}</Text>
+      <Text style={[styles.integerText, bodyStyle]}>{`${space}${numberInteger}${
+        hasDecimals ? '.' : ''
+      }`}</Text>
+      {hasDecimals && (
+        <Text
+          style={[
+            styles.fractionalText,
+            decimalsStyle,
+          ]}>{` ${numberDecimals}`}</Text>
+      )}
     </View>
   );
 };

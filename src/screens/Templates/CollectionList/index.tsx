@@ -10,7 +10,7 @@ import {RootState} from '@store/rootReducer';
 import {ActionFactories} from '@store/utils/actions/createAction';
 import {t} from '@translations/i18n';
 import debounce from 'lodash/debounce';
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useMemo} from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -63,7 +63,10 @@ export const CollectionList = <T,>({
     fetch({offset: 0});
   }, [fetch]);
 
-  const search = debounce((query: string) => fetch({query, offset: 0}), 600);
+  const search = useMemo(
+    () => debounce((query: string) => fetch({query, offset: 0}), 600),
+    [fetch],
+  );
 
   const renderEmptyList = useCallback(() => {
     return (

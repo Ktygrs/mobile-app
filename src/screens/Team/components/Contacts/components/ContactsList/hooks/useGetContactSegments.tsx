@@ -2,17 +2,19 @@
 
 import {User} from '@api/user/types';
 import {useFetchCollection} from '@hooks/useFetchCollection';
+import {IceFriendsTitle} from '@screens/Team/components/Contacts/components/ContactsList/components/SectionHeader';
 import {contactsSelector} from '@store/modules/Contacts/selectors';
 import {ReferralsActions} from '@store/modules/Referrals/actions';
 import {referralsSelector} from '@store/modules/Referrals/selectors';
 import {t} from '@translations/i18n';
-import {useEffect, useMemo} from 'react';
+import React from 'react';
+import {ReactNode, useEffect, useMemo} from 'react';
 import {Contact} from 'react-native-contacts';
 import {useSelector} from 'react-redux';
 
 export type ContactSection = {
   id: 'friends' | 'contacts';
-  title?: string;
+  title?: string | ReactNode;
 };
 
 export type ContactSectionDataItem =
@@ -68,6 +70,7 @@ export const useGetContactSegments = (focused: boolean) => {
   const sections: (ContactSection & {data: ContactSectionDataItem[]})[] = [
     {
       id: 'friends',
+      title: referrals.length ? <IceFriendsTitle /> : null,
       data: iceFriends,
     },
   ];

@@ -40,7 +40,7 @@ export const HomeHeader = memo(({translateY, transitionOffset}: Props) => {
     transitionOffset,
   });
 
-  const onGreetingPress = () => {
+  const openProfile = () => {
     navigation.navigate('ProfileTab');
   };
 
@@ -48,14 +48,17 @@ export const HomeHeader = memo(({translateY, transitionOffset}: Props) => {
     <View style={[styles.container, topOffset.current]}>
       <View style={styles.body}>
         {user?.profilePictureUrl && (
-          <Avatar
-            uri={user.profilePictureUrl}
-            size={rem(36)}
-            borderRadius={rem(16)}
-          />
+          <Touchable onPress={openProfile}>
+            <Avatar
+              uri={user.profilePictureUrl}
+              size={rem(36)}
+              borderRadius={rem(16)}
+              allowFullScreen={false}
+            />
+          </Touchable>
         )}
         <Animated.View style={[styles.greeting, fromAnimatedStyle]}>
-          <Touchable onPress={onGreetingPress}>
+          <Touchable onPress={openProfile}>
             <GreetingText />
             {user && <Text style={styles.usernameText}>{user.username}</Text>}
           </Touchable>

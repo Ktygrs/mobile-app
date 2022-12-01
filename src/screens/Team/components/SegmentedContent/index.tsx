@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {
+  SEGMENTED_CONTROL_HEIGHT,
   SegmentedControl,
   SegmentedControlMethods,
 } from '@components/SegmentedControl';
@@ -36,23 +37,15 @@ export const SegmentedContent = memo(() => {
 
   return (
     <View style={styles.container}>
-      <SegmentedControl
-        segments={SEGMENTS}
-        ref={switcherRef}
-        style={styles.tabbar}
-        onChange={onCategoryChange}
-        initialIndex={0}
-      />
-
       <PagerView
         initialPage={0}
-        style={styles.container}
+        style={styles.flex}
         ref={pagerRef}
         onPageSelected={onPageChange}>
-        <View style={styles.container}>
+        <View style={styles.flex}>
           <Contacts focused={activeIndex === SegmentIndex.ContactList} />
         </View>
-        <View style={styles.container}>
+        <View style={styles.flex}>
           <TierList
             referralType="T1"
             emptyTitle="users.referralType.T1"
@@ -60,7 +53,7 @@ export const SegmentedContent = memo(() => {
             focused={activeIndex === SegmentIndex.Tier1List}
           />
         </View>
-        <View style={styles.container}>
+        <View style={styles.flex}>
           <TierList
             referralType="T2"
             emptyTitle="users.referralType.T2"
@@ -69,16 +62,29 @@ export const SegmentedContent = memo(() => {
           />
         </View>
       </PagerView>
+      <SegmentedControl
+        segments={SEGMENTS}
+        ref={switcherRef}
+        style={styles.tabbar}
+        onChange={onCategoryChange}
+        initialIndex={0}
+      />
     </View>
   );
 });
 
 const styles = StyleSheet.create({
-  container: {
+  flex: {
     flex: 1,
   },
+  container: {
+    flex: 1,
+    paddingTop: SEGMENTED_CONTROL_HEIGHT + rem(20),
+  },
   tabbar: {
-    marginTop: rem(24),
-    marginHorizontal: SCREEN_SIDE_OFFSET,
+    position: 'absolute',
+    top: rem(20),
+    right: SCREEN_SIDE_OFFSET,
+    left: SCREEN_SIDE_OFFSET,
   },
 });

@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {KeyboardAvoider} from '@components/KeyboardAvoider';
-import {COLORS} from '@constants/colors';
-import {commonStyles} from '@constants/styles';
+import {LinesBackground} from '@components/LinesBackground';
 import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
+import {DynamicHeight} from '@screens/Team/components/DynamicHeight';
 import {Header} from '@screens/Team/components/Header';
 import {SearchResults} from '@screens/Team/components/SearchResults';
 import {SegmentedContent} from '@screens/Team/components/SegmentedContent';
@@ -12,25 +11,25 @@ import {StyleSheet, View} from 'react-native';
 
 export const Team = memo(() => {
   useFocusStatusBar({style: 'light-content'});
-  const [isSearchActive, setSearchActive] = useState(false);
+  const [isSearchActive, setIsSearchActive] = useState(false);
 
   return (
-    <KeyboardAvoider style={styles.container}>
+    <View style={styles.container}>
+      <LinesBackground />
       <Header
         isSearchActive={isSearchActive}
-        setSearchActive={setSearchActive}
+        setIsSearchActive={setIsSearchActive}
       />
-      <View style={commonStyles.baseSubScreen}>
+      <DynamicHeight isSearchActive={isSearchActive}>
         <SegmentedContent />
         {isSearchActive && <SearchResults />}
-      </View>
-    </KeyboardAvoider>
+      </DynamicHeight>
+    </View>
   );
 });
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: COLORS.primaryLight,
     flex: 1,
   },
 });

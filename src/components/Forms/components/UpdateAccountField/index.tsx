@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     ...font(14, 24, 'regular', 'secondary'),
   },
   button: {
-    flex: 1,
+    flexGrow: 1,
     marginTop: rem(25),
     marginHorizontal: rem(30),
     justifyContent: 'flex-end',

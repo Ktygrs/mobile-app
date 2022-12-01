@@ -9,6 +9,7 @@ export default function useIsKeyboardShown() {
 
   React.useEffect(() => {
     const handleKeyboardShow = () => setIsKeyboardShown(true);
+
     const handleKeyboardHide = () => setIsKeyboardShown(false);
 
     let subscriptions: EmitterSubscription[];

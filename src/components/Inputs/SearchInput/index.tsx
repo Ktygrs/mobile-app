@@ -22,6 +22,8 @@ interface SearchInputProps extends TextInputProps {
   containerStyle?: StyleProp<ViewStyle>;
 }
 
+export const SEARCH_INPUT_HEIGHT = rem(46);
+
 export const SearchInput = forwardRef(
   (
     {
@@ -83,7 +85,7 @@ const styles = StyleSheet.create({
   },
   input: {
     paddingLeft: rem(46),
-    height: rem(48),
+    height: SEARCH_INPUT_HEIGHT,
     ...font(16, 21, 'medium', 'primaryDark'),
   },
   searchButton: {

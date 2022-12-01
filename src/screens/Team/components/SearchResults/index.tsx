@@ -1,11 +1,13 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {User} from '@api/user/types';
-import {UserListItemSkeleton} from '@components/ListItems/UserListItem';
-import {COLORS} from '@constants/colors';
-import {SCREEN_SIDE_OFFSET} from '@constants/styles';
+import {
+  UserListItem,
+  UserListItemSkeleton,
+} from '@components/ListItems/UserListItem';
+import {UserListPingButton} from '@components/ListItems/UserListItem/components/UserListPingButton';
+import {commonStyles, SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {useFetchCollection} from '@hooks/useFetchCollection';
-import {SearchUserItem} from '@screens/Team/components/SearchResults/components/SearchUserItem';
 import {CollectionActions} from '@store/modules/Collections';
 import {collectionSelector} from '@store/modules/Collections/selectors';
 import {t} from '@translations/i18n';
@@ -13,6 +15,8 @@ import React, {memo, useCallback} from 'react';
 import {ActivityIndicator, FlatList, StyleSheet, Text} from 'react-native';
 import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
 import {rem} from 'rn-units';
+
+export const SEARCH_RESULTS_OFFSET = rem(16);
 
 export const SearchResults = memo(() => {
   const {
@@ -30,7 +34,15 @@ export const SearchResults = memo(() => {
   });
 
   const renderItem = useCallback(({item}: {item: User}) => {
-    return <SearchUserItem user={item} key={item.id} />;
+    return (
+      <UserListItem
+        user={item}
+        AdditionalInfoComponent={
+          item.pinged != null && <UserListPingButton pinged={item.pinged} />
+        }
+        key={item.id}
+      />
+    );
   }, []);
 
   const renderEmptyList = useCallback(() => {
@@ -40,7 +52,7 @@ export const SearchResults = memo(() => {
     if (hasNext) {
       return (
         <>
-          {Array(5)
+          {Array(10)
             .fill(null)
             .map((_, index) => (
               <UserListItemSkeleton key={index} />
@@ -53,7 +65,11 @@ export const SearchResults = memo(() => {
 
   return (
     <Animated.View
-      style={[StyleSheet.absoluteFill, styles.container]}
+      style={[
+        StyleSheet.absoluteFill,
+        commonStyles.baseSubScreen,
+        styles.container,
+      ]}
       entering={FadeIn}
       exiting={FadeOut}>
       {error ? (
@@ -66,7 +82,7 @@ export const SearchResults = memo(() => {
           ListFooterComponent={loadNextLoading ? ActivityIndicator : null}
           ListEmptyComponent={renderEmptyList}
           refreshing={refreshing}
-          onRefresh={refresh}
+          onRefresh={searchQuery ? refresh : () => {}}
           onEndReached={loadNext}
         />
       )}
@@ -76,10 +92,7 @@ export const SearchResults = memo(() => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: COLORS.white,
-    borderTopLeftRadius: rem(20),
-    borderTopRightRadius: rem(20),
-    bottom: -2000,
+    bottom: -2000, // margin-bottom makes pull-to-refresh works wrong
     paddingBottom: 2000,
     zIndex: 1,
     paddingHorizontal: SCREEN_SIDE_OFFSET,

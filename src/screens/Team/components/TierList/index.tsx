@@ -7,21 +7,15 @@ import {
 } from '@components/ListItems/UserListItem';
 import {UserListPingButton} from '@components/ListItems/UserListItem/components/UserListPingButton';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
+import {BottomSheetFlatList} from '@gorhom/bottom-sheet';
 import {useFetchCollection} from '@hooks/useFetchCollection';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
 import {EmptyTier} from '@screens/Team/components/TierList/components/EmptyTier';
 import {ListHeader} from '@screens/Team/components/TierList/components/Header';
 import {ReferralsActions} from '@store/modules/Referrals/actions';
 import {referralsSelector} from '@store/modules/Referrals/selectors';
-import {t} from '@translations/i18n';
 import React, {memo, useCallback, useEffect, useMemo} from 'react';
-import {
-  ActivityIndicator,
-  FlatList,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
@@ -43,8 +37,6 @@ export const TierList = memo(
       hasNext,
       loadNext,
       loadNextLoading,
-      refresh,
-      refreshing,
     } = useFetchCollection(
       useMemo(
         () => ({
@@ -66,12 +58,10 @@ export const TierList = memo(
     const renderItem = useCallback(({item}: {item: User}) => {
       return (
         <UserListItem
-          userId={item.id}
-          name={item.username}
-          note={item.active ? t('users.active') : t('users.inactive')}
-          profilePictureUrl={item.profilePictureUrl}
-          active={item.active}
-          AdditionalInfoComponent={<UserListPingButton pinged={item.pinged} />}
+          user={item}
+          AdditionalInfoComponent={
+            item.pinged != null && <UserListPingButton pinged={item.pinged} />
+          }
         />
       );
     }, []);
@@ -93,8 +83,8 @@ export const TierList = memo(
     if (!referrals.length) {
       if (hasNext) {
         return (
-          <View style={styles.userList}>
-            {Array(5)
+          <View style={styles.flex}>
+            {Array(10)
               .fill(null)
               .map((_, index) => (
                 <UserListItemSkeleton key={index} />
@@ -107,26 +97,25 @@ export const TierList = memo(
     }
 
     return (
-      <FlatList
+      <BottomSheetFlatList
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={[tabbarOffset.current]}
+        contentContainerStyle={[tabbarOffset.current, styles.container]}
         ListHeaderComponent={Header}
         ListFooterComponent={loadNextLoading ? ActivityIndicator : null}
-        style={styles.userList}
         data={referrals}
         renderItem={renderItem}
         onEndReached={loadNext}
-        onRefresh={refresh}
-        refreshing={refreshing}
       />
     );
   },
 );
 
 const styles = StyleSheet.create({
-  userList: {
-    marginTop: rem(22),
+  flex: {
     flex: 1,
-    marginHorizontal: SCREEN_SIDE_OFFSET,
+  },
+  container: {
+    paddingHorizontal: SCREEN_SIDE_OFFSET,
+    paddingTop: rem(16),
   },
 });

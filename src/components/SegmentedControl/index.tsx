@@ -29,7 +29,7 @@ import Animated, {
 import {rem} from 'rn-units';
 
 const DEFAULT_MARGIN = rem(8);
-const CONTROL_HEIGHT = rem(52);
+export const SEGMENTED_CONTROL_HEIGHT = rem(52);
 
 type Segment = {
   text?: string;
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     borderRadius: rem(16),
     backgroundColor: COLORS.white,
     paddingHorizontal: DEFAULT_MARGIN,
-    height: CONTROL_HEIGHT,
+    height: SEGMENTED_CONTROL_HEIGHT,
   },
   body: {
     flexDirection: 'row',

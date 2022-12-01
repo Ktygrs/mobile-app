@@ -7,6 +7,7 @@ import {
 } from '@components/ListItems/UserListItem';
 import {UserListPingButton} from '@components/ListItems/UserListItem/components/UserListPingButton';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
+import {BottomSheetSectionList} from '@gorhom/bottom-sheet';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
 import {MainStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
@@ -18,16 +19,13 @@ import {
   ContactSectionDataItem,
   useGetContactSegments,
 } from '@screens/Team/components/Contacts/components/ContactsList/hooks/useGetContactSegments';
-import {t} from '@translations/i18n';
 import {hapticFeedback} from '@utils/device';
 import React, {useCallback} from 'react';
 import {
   ActivityIndicator,
-  SectionList,
   SectionListRenderItemInfo,
   StyleSheet,
   Text,
-  View,
 } from 'react-native';
 import {Contact} from 'react-native-contacts';
 import {rem} from 'rn-units';
@@ -80,13 +78,9 @@ export const ContactsList = ({focused}: Props) => {
       } else if ('id' in item) {
         return (
           <UserListItem
-            userId={item.id}
-            name={item.username}
-            note={item.active ? t('users.active') : t('users.inactive')}
-            profilePictureUrl={item.profilePictureUrl}
-            active={item.active}
+            user={item}
             AdditionalInfoComponent={
-              <UserListPingButton pinged={item.pinged} />
+              item.pinged != null && <UserListPingButton pinged={item.pinged} />
             }
           />
         );
@@ -97,30 +91,24 @@ export const ContactsList = ({focused}: Props) => {
   );
 
   return (
-    <View style={styles.container}>
-      <SectionList<ContactSectionDataItem, ContactSection>
-        contentContainerStyle={tabbarOffset.current}
-        style={styles.sectionListStyle}
-        sections={sections}
-        renderItem={renderItem}
-        renderSectionHeader={renderSectionHeader}
-        ListFooterComponent={loadNextLoading ? ActivityIndicator : null}
-        showsVerticalScrollIndicator={false}
-        onEndReached={loadNext}
-        onRefresh={refresh}
-        refreshing={refreshing}
-      />
-    </View>
+    <BottomSheetSectionList<ContactSectionDataItem, ContactSection>
+      contentContainerStyle={[tabbarOffset.current, styles.container]}
+      sections={sections}
+      renderItem={renderItem}
+      renderSectionHeader={renderSectionHeader}
+      ListFooterComponent={loadNextLoading ? ActivityIndicator : null}
+      showsVerticalScrollIndicator={false}
+      onEndReached={loadNext}
+      onRefresh={refresh}
+      refreshing={refreshing}
+    />
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    marginHorizontal: SCREEN_SIDE_OFFSET,
-  },
-  sectionListStyle: {
-    marginTop: rem(10),
+    paddingHorizontal: SCREEN_SIDE_OFFSET,
+    paddingTop: rem(16),
   },
   inviteButtonContainer: {
     marginHorizontal: 0,
