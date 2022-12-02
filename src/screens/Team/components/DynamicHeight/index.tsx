@@ -72,7 +72,14 @@ export const DynamicHeight = ({children, isSearchActive}: Props) => {
       handleHeight={0}
       animateOnMount={false}
       enableOverDrag={false}
-      backgroundStyle={commonStyles.baseSubScreen}>
+      backgroundStyle={commonStyles.baseSubScreen}
+      /**
+       * This is required to let child PagerView handle horizontal swipes
+       * by not activating BottomSheet's gesture handler for x axis
+       * https://github.com/gorhom/react-native-bottom-sheet/issues/770#issuecomment-1072113936
+       */
+      activeOffsetX={[-1000, 1000]}
+      activeOffsetY={[-5, 5]}>
       {children}
     </BottomSheet>
   );

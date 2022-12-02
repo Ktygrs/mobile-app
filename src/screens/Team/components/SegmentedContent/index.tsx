@@ -8,6 +8,7 @@ import {
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {Contacts} from '@screens/Team/components/Contacts';
 import {TierList} from '@screens/Team/components/TierList';
+import {t} from '@translations/i18n';
 import React, {memo, useCallback, useRef, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import PagerView, {PagerViewOnPageSelectedEvent} from 'react-native-pager-view';
@@ -48,7 +49,7 @@ export const SegmentedContent = memo(() => {
         <View style={styles.flex}>
           <TierList
             referralType="T1"
-            emptyTitle="users.referralType.T1"
+            emptyTitle={t('users.referralType.T1')}
             headerTitle="team.tier_one.header_list.title_earnings"
             focused={activeIndex === SegmentIndex.Tier1List}
           />
@@ -56,7 +57,7 @@ export const SegmentedContent = memo(() => {
         <View style={styles.flex}>
           <TierList
             referralType="T2"
-            emptyTitle="users.referralType.T2"
+            emptyTitle={t('users.referralType.T2')}
             headerTitle="team.tier_two.header_list.title_earnings"
             focused={activeIndex === SegmentIndex.Tier2List}
           />
