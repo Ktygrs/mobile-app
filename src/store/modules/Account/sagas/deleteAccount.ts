@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {Api} from '@api/index';
-import {deleteAccount} from '@services/auth';
 import {AccountActions} from '@store/modules/Account/actions';
 import {userIdSelector} from '@store/modules/Account/selectors';
 import {getErrorMessage} from '@utils/errors';
@@ -13,7 +12,6 @@ export function* deleteAccountSaga() {
       userIdSelector,
     );
     yield call(Api.user.deleteUser, userId);
-    yield call(deleteAccount);
     yield put(AccountActions.DELETE_ACCOUNT.SUCCESS.create());
     yield put(AccountActions.SIGN_OUT.START.create());
   } catch (error) {

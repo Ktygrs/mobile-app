@@ -15,7 +15,9 @@ import {
 import {useCallback, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
-export const useConfirmEmail = () => {
+export const useConfirmEmail = ({
+  signOutOnSuccess,
+}: {signOutOnSuccess?: boolean} = {}) => {
   const dispatch = useDispatch();
 
   // do not subscribe on temporaryEmail so when we erase it ("wrong email"), the UI won't update
@@ -53,6 +55,12 @@ export const useConfirmEmail = () => {
 
   // clean up on component unmount
   useEffect(() => resetValidation, [resetValidation]);
+
+  useEffect(() => {
+    if (isSuccessValidation && signOutOnSuccess) {
+      dispatch(AccountActions.SIGN_OUT.START.create());
+    }
+  }, [dispatch, isSuccessValidation, signOutOnSuccess]);
 
   const {code, setCode, validationError} = useCodeInput({
     validate,

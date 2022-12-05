@@ -4,7 +4,9 @@ import {User} from '@api/user/types';
 import {MainNavigationParams} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {DEFAULT_CONFIRM_NO_BUTTON} from '@screens/Dialogs/Confirm';
 import {useUserDraft} from '@screens/SettingsFlow/PersonalInformation/hooks/useUserDraft';
+import {t} from '@translations/i18n';
 import {getFilenameFromPath} from '@utils/file';
 import {useCallback} from 'react';
 
@@ -34,10 +36,21 @@ export const useControlHandlers = (user: User) => {
     [navigation],
   );
 
-  const onEmailPress = useCallback(
-    () => navigation.navigate('ModifyEmail'),
-    [navigation],
-  );
+  const onEmailPress = useCallback(() => {
+    navigation.navigate('Confirm', {
+      title: t('settings.update_email_confirmation_title'),
+      subtitle: t('settings.update_email_confirmation_subtitle'),
+      buttons: [
+        DEFAULT_CONFIRM_NO_BUTTON,
+        {
+          label: t('button.continue'),
+          onPress: () => {
+            navigation.navigate('ModifyEmail');
+          },
+        },
+      ],
+    });
+  }, [navigation]);
 
   const onCountryPress = useCallback(() => {
     navigation.navigate('CountrySelect', {

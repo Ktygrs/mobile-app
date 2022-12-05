@@ -20,7 +20,7 @@ export const ConfirmEmailCodeForm = () => {
     validateLoading,
     isSuccessValidation,
     emailSentTimestamp,
-  } = useConfirmEmail();
+  } = useConfirmEmail({signOutOnSuccess: true});
 
   return (
     <ConfirmCode

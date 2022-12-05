@@ -3,7 +3,7 @@
 import {getApiErrorCode, isApiError} from '@api/client';
 import {Api} from '@api/index';
 import {User} from '@api/user/types';
-import {getAuthErrorMessage, updateEmail} from '@services/auth';
+import {getAuthErrorMessage} from '@services/auth';
 import {AccountActions} from '@store/modules/Account/actions';
 import {updateAccountSaga} from '@store/modules/Account/sagas/updateAccount';
 import {userIdSelector} from '@store/modules/Account/selectors';
@@ -24,16 +24,14 @@ export function* validateEmailSaga(action: ReturnType<typeof actionCreator>) {
     if (!temporaryEmail) {
       throw new Error('Temporary email number is null');
     }
-    const user: SagaReturnType<typeof Api.validations.validatePhoneNumber> =
+    let user: SagaReturnType<typeof Api.validations.validatePhoneNumber> =
       yield call(Api.validations.validateEmail, {
         userId,
         email: temporaryEmail,
         validationCode,
       });
 
-    yield call(setEmailRegistrationStep, user);
-
-    yield call(updateEmail, temporaryEmail);
+    user = yield call(setEmailRegistrationStep, user);
 
     yield put(ValidationActions.EMAIL_VALIDATION.SUCCESS.create(user));
   } catch (error) {
@@ -69,7 +67,7 @@ function* setEmailRegistrationStep(user: User): Generator<unknown, void, void> {
   const finalizedSteps =
     user.clientData?.registrationProcessFinalizedSteps ?? [];
   if (!finalizedSteps.includes('email')) {
-    yield call(
+    return yield call(
       updateAccountSaga,
       AccountActions.UPDATE_ACCOUNT.START.create(
         {

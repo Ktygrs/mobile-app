@@ -17,7 +17,7 @@ import {SetEmail} from '@screens/WelcomeFlow/SetEmail';
 import {WhoInvitedYou} from '@screens/WelcomeFlow/WhoInvitedYou';
 import {userSelector} from '@store/modules/Account/selectors';
 import {emailVerificationStepSelector} from '@store/modules/Validation/selectors';
-import React, {useCallback, useEffect} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import {useSelector} from 'react-redux';
 
 export type WelcomeStackParamList = {
@@ -42,7 +42,7 @@ export function WelcomeNavigator() {
   const emailVerificationStep = useSelector(emailVerificationStepSelector);
   const navigation =
     useNavigation<NativeStackNavigationProp<WelcomeStackParamList>>();
-  const getWelcomeRoute = useCallback(() => {
+  const welcomeRoute = useMemo(() => {
     const finalizedSteps =
       user?.clientData?.registrationProcessFinalizedSteps ?? [];
     if (!finalizedSteps.includes('username')) {
@@ -61,16 +61,15 @@ export function WelcomeNavigator() {
   }, [emailVerificationStep, user]);
 
   useEffect(() => {
-    const authRoute = getWelcomeRoute();
-    if (getCurrentRoute()?.name !== authRoute) {
-      navigation.reset({index: 0, routes: [{name: authRoute}]});
+    if (getCurrentRoute()?.name !== welcomeRoute) {
+      navigation.reset({index: 0, routes: [{name: welcomeRoute}]});
     }
-  }, [getWelcomeRoute, navigation]);
+  }, [welcomeRoute, navigation]);
 
   return (
     <WelcomeStack.Navigator
       screenOptions={screenOptions}
-      initialRouteName={getWelcomeRoute()}>
+      initialRouteName={welcomeRoute}>
       <WelcomeStack.Screen name="ClaimUsername" component={ClaimUsername} />
       <WelcomeStack.Screen name="WhoInvitedYou" component={WhoInvitedYou} />
       <WelcomeStack.Screen name="SetEmail" component={SetEmail} />

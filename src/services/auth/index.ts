@@ -103,20 +103,12 @@ export const signInWithProvider = (provider: SocialSignInProvider) => {
   return getSignInMethodForProvider(provider)();
 };
 
-export const updateEmail = (email: string) => {
-  return auth().currentUser?.updateEmail(email);
-};
-
 export const onUserChanged = (listener: () => void) => {
   return auth().onUserChanged(listener);
 };
 
 export const signOut = () => {
   return auth().signOut();
-};
-
-export const deleteAccount = () => {
-  return auth().currentUser?.delete();
 };
 
 export const getAuthToken = async () => {
