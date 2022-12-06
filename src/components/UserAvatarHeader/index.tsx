@@ -47,8 +47,9 @@ const styles = StyleSheet.create({
   avatarImage: {
     marginTop: -rem(DEFAULT_AVATAR_SIZE / 2 - 4),
     borderWidth: rem(5),
-    borderColor: COLORS.white,
+    borderColor: COLORS.foam,
     alignSelf: 'center',
+    backgroundColor: COLORS.white,
   },
   usernameText: {
     alignSelf: 'center',

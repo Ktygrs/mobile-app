@@ -17,7 +17,7 @@ export const ErrorPopUp = () => {
     <PopUp
       image={Images.popUp.error}
       title={t('pop_up.ups')}
-      message={message || t('pop_up.try_again_text')}
+      message={message || t('pop_up.try_again_text', {errorIdentifier: ''})}
       buttonIcon={<Oops fill={COLORS.white} />}
       buttonText={t('pop_up.try_again')}
     />

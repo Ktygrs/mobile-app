@@ -63,10 +63,10 @@ export function* handleUrlSaga(action: ReturnType<typeof actionCreator>) {
       navigate({name: 'ProfileTab', params: undefined});
       break;
     case 'role':
-      navigate({name: 'MyRoles', params: undefined});
+      navigate({name: 'Roles', params: {userId: ''}});
       break;
     case 'badge':
-      navigate({name: 'MyBadges', params: undefined}); //TODO: focus on badge
+      navigate({name: 'Badges', params: {userId: ''}}); //TODO: focus on badge
       break;
     case 'task':
       navigate({name: 'HomeTab', params: undefined}); //TODO: focus on the task

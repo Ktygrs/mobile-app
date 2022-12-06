@@ -5,7 +5,7 @@ import {Avatar} from '@components/Avatar/Avatar';
 import {stopPropagination} from '@components/KeyboardDismiss';
 import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
-import {ProfileTabStackParamList} from '@navigation/Main';
+import {MainStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {getCountryByCode} from '@utils/country';
@@ -26,13 +26,13 @@ export const UserListItem = memo(
     const countryFlag = getCountryByCode(user.country).current?.flag;
 
     const navigation =
-      useNavigation<NativeStackNavigationProp<ProfileTabStackParamList>>();
+      useNavigation<NativeStackNavigationProp<MainStackParamList>>();
 
     return (
       <View style={styles.container} {...stopPropagination}>
         <Touchable
           style={styles.touchArea}
-          onPress={() => navigation.navigate('Profile', {userId: user.id})}>
+          onPress={() => navigation.navigate('UserProfile', {userId: user.id})}>
           <View style={styles.imageContainer}>
             {user.profilePictureUrl && (
               <Avatar

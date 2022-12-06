@@ -47,7 +47,7 @@ export const CommonInput = ({
   onFocus,
   onChangeText,
   containerStyle,
-  editable,
+  editable = true,
   ...textInputProps
 }: CommonInputProps) => {
   const [isFocused, setIsFocused] = useState(false);

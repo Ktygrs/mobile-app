@@ -36,9 +36,9 @@ import {ProfilePrivacyEditStep3} from '@screens/PopUps/ProfilePrivacyEdit/step3'
 import {Tooltip} from '@screens/PopUps/Tooltip';
 import {UpdateRequired} from '@screens/PopUps/UpdateRequired';
 import {UpdateSuccessful} from '@screens/PopUps/UpdateSuccessful';
-import {MyBadges} from '@screens/ProfileFlow/MyBadges';
-import {MyRoles} from '@screens/ProfileFlow/MyRoles';
+import {Badges} from '@screens/ProfileFlow/Badges';
 import {Profile} from '@screens/ProfileFlow/Profile';
+import {Roles} from '@screens/ProfileFlow/Roles';
 import {ConfirmEmail} from '@screens/SettingsFlow/ConfirmEmail';
 import {ConfirmPhoneNumber} from '@screens/SettingsFlow/ConfirmPhoneNumber';
 import {LanguageSettings} from '@screens/SettingsFlow/LanguageSettings';
@@ -118,6 +118,9 @@ export type MainStackParamList = {
   CountrySelect: {
     onSelect: (country: Country) => void;
   };
+  UserProfile: {userId: string} | undefined;
+  Roles: {userId?: string} | undefined;
+  Badges: {category?: BadgeCategory; userId?: string};
 };
 
 export type HomeTabStackParamList = {
@@ -125,9 +128,6 @@ export type HomeTabStackParamList = {
   Stats: undefined;
   TopMiners: undefined;
   TopCountries: undefined;
-  Profile: {userId: string} | undefined;
-  MyRoles: undefined;
-  MyBadges: {category?: BadgeCategory} | undefined;
   InviteShare: undefined;
   UserGrowthGraph: {
     category: 'active' | 'total';
@@ -139,9 +139,9 @@ export type TeamTabStackParamList = {
 };
 
 export type ProfileTabStackParamList = {
-  Profile: {userId: string} | undefined;
-  MyRoles: undefined;
-  MyBadges?: {category?: BadgeCategory};
+  MyProfile: undefined;
+  Roles: {userId?: string} | undefined;
+  Badges: {category?: BadgeCategory; userId?: string};
   Settings: undefined;
   PersonalInformation: undefined;
   ModifyPhoneNumber: undefined;
@@ -168,21 +168,14 @@ const TeamTabStack = createNativeStackNavigator<TeamTabStackParamList>();
 const ProfileTabStack = createNativeStackNavigator<ProfileTabStackParamList>();
 
 /**
- * Needs to be on MyBadges screen to enable swipe to go back over PagerView
+ * Needs to be on Badges screen to enable swipe to go back over PagerView
  * Note: patches/react-native-screens.patch is also a part of the fix
  */
-const myBadgesOptions = {fullScreenGestureEnabled: true};
+const badgesOptions = {fullScreenGestureEnabled: true};
 
 const HomeTabStackNavigator = () => (
   <HomeTabStack.Navigator screenOptions={screenOptions}>
     <HomeTabStack.Screen name="Home" component={Home} />
-    <HomeTabStack.Screen name="Profile" component={Profile} />
-    <HomeTabStack.Screen name="MyRoles" component={MyRoles} />
-    <HomeTabStack.Screen
-      name="MyBadges"
-      component={MyBadges}
-      options={myBadgesOptions}
-    />
     <HomeTabStack.Screen name="Stats" component={Stats} />
     <HomeTabStack.Screen name="TopMiners" component={TopMiners} />
     <HomeTabStack.Screen name="TopCountries" component={TopCountries} />
@@ -192,12 +185,12 @@ const HomeTabStackNavigator = () => (
 
 const ProfileTabStackNavigator = () => (
   <ProfileTabStack.Navigator screenOptions={screenOptions}>
-    <ProfileTabStack.Screen name="Profile" component={Profile} />
-    <ProfileTabStack.Screen name="MyRoles" component={MyRoles} />
+    <ProfileTabStack.Screen name="MyProfile" component={Profile} />
+    <ProfileTabStack.Screen name="Roles" component={Roles} />
     <ProfileTabStack.Screen
-      name="MyBadges"
-      component={MyBadges}
-      options={myBadgesOptions}
+      name="Badges"
+      component={Badges}
+      options={badgesOptions}
     />
     <ProfileTabStack.Screen name="Settings" component={Settings} />
     <ProfileTabStack.Screen
@@ -350,6 +343,13 @@ export function MainNavigator() {
         options={{
           presentation: 'modal',
         }}
+      />
+      <MainStack.Screen name="UserProfile" component={Profile} />
+      <MainStack.Screen name="Roles" component={Roles} />
+      <MainStack.Screen
+        name="Badges"
+        component={Badges}
+        options={badgesOptions}
       />
     </MainStack.Navigator>
   );

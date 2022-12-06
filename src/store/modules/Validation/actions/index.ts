@@ -8,6 +8,7 @@ const USERNAME_VALIDATION = createAction('USERNAME_VALIDATION', {
   SUCCESS: (username: string) => ({username}),
   FAILED: (errorMessage: string) => ({errorMessage}),
   CLEAR: false,
+  RESET: true,
 });
 
 const REF_USERNAME_VALIDATION = createAction('REF_USERNAME_VALIDATION', {
@@ -15,6 +16,7 @@ const REF_USERNAME_VALIDATION = createAction('REF_USERNAME_VALIDATION', {
   SUCCESS: (user: User) => ({user}),
   FAILED: (errorMessage: string) => ({errorMessage}),
   CLEAR: false,
+  RESET: true,
 });
 
 const PHONE_VALIDATION = createAction('PHONE_VALIDATION', {

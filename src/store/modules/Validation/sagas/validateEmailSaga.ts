@@ -10,7 +10,7 @@ import {userIdSelector} from '@store/modules/Account/selectors';
 import {ValidationActions} from '@store/modules/Validation/actions';
 import {temporaryEmailSelector} from '@store/modules/Validation/selectors';
 import {t} from '@translations/i18n';
-import {getErrorMessage} from '@utils/errors';
+import {getErrorMessage, showError} from '@utils/errors';
 import {call, put, SagaReturnType, select} from 'redux-saga/effects';
 
 const actionCreator = ValidationActions.EMAIL_VALIDATION.START.create;
@@ -35,7 +35,8 @@ export function* validateEmailSaga(action: ReturnType<typeof actionCreator>) {
 
     yield put(ValidationActions.EMAIL_VALIDATION.SUCCESS.create(user));
   } catch (error) {
-    let localizedError = getAuthErrorMessage(error) || getErrorMessage(error);
+    let localizedError = getAuthErrorMessage(error);
+
     if (isApiError(error, 400, 'INVALID_VALIDATION_CODE')) {
       localizedError = t('errors.invalid_validation_code');
     } else if (isApiError(error, 400, 'VALIDATION_EXPIRED')) {
@@ -53,12 +54,20 @@ export function* validateEmailSaga(action: ReturnType<typeof actionCreator>) {
         localizedError = t('errors.already_taken', {field});
       }
     }
-    yield put(
-      ValidationActions.EMAIL_VALIDATION.FAILED.create(
-        localizedError,
-        getApiErrorCode(error),
-      ),
-    );
+
+    if (localizedError) {
+      yield put(
+        ValidationActions.EMAIL_VALIDATION.FAILED.create(
+          localizedError,
+          getApiErrorCode(error),
+        ),
+      );
+    } else {
+      localizedError = getErrorMessage(error);
+      yield put(ValidationActions.EMAIL_VALIDATION.RESET.create());
+      showError(localizedError);
+    }
+
     throw error;
   }
 }

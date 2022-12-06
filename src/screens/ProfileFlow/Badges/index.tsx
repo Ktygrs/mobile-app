@@ -14,18 +14,24 @@ import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffse
 import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
 import {ProfileTabStackParamList} from '@navigation/Main';
 import {RouteProp, useRoute} from '@react-navigation/native';
-import {BadgeList} from '@screens/ProfileFlow/MyBadges/components/BadgeList';
-import {BADGES, CATEGORIES} from '@screens/ProfileFlow/MyBadges/mockData';
+import {BadgeList} from '@screens/ProfileFlow/Badges/components/BadgeList';
+import {BADGES, CATEGORIES} from '@screens/ProfileFlow/Badges/mockData';
+import {userSelector} from '@store/modules/Account/selectors';
 import {t} from '@translations/i18n';
 import React, {useCallback, useRef} from 'react';
 import {StyleSheet, View} from 'react-native';
 import PagerView, {PagerViewOnPageSelectedEvent} from 'react-native-pager-view';
+import {useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
-export const MyBadges = () => {
+export const Badges = () => {
   useFocusStatusBar({style: 'dark-content'});
   const bottomOffset = useBottomTabBarOffsetStyle();
-  const route = useRoute<RouteProp<ProfileTabStackParamList, 'MyBadges'>>();
+  const route = useRoute<RouteProp<ProfileTabStackParamList, 'Badges'>>();
+
+  const authUser = useSelector(userSelector);
+  const isOwner = !route.params || route.params.userId === authUser?.id;
+
   const initialCategory = route.params?.category ?? 'social';
   const initialIndex = CATEGORIES.findIndex(c => c.key === initialCategory);
 
@@ -48,7 +54,9 @@ export const MyBadges = () => {
         color={COLORS.primaryDark}
         backgroundColor={COLORS.white}
         renderRightButtons={FaqButton}
-        title={t('my_badges.title')}
+        title={
+          isOwner ? t('profile.my_badges.title') : t('profile.badges.title')
+        }
       />
       <SegmentedControl
         segments={CATEGORIES}

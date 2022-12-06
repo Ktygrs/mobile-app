@@ -5,7 +5,7 @@ import {Api} from '@api/index';
 import {userSelector} from '@store/modules/Account/selectors';
 import {ValidationActions} from '@store/modules/Validation/actions';
 import {t} from '@translations/i18n';
-import {getErrorMessage} from '@utils/errors';
+import {getErrorMessage, showError} from '@utils/errors';
 import {call, put, SagaReturnType, select} from 'redux-saga/effects';
 
 const actionCreator = ValidationActions.REF_USERNAME_VALIDATION.START.create;
@@ -38,11 +38,9 @@ export function* validateRefUsernameSaga(
         ),
       );
     } else {
-      yield put(
-        ValidationActions.REF_USERNAME_VALIDATION.FAILED.create(
-          getErrorMessage(error),
-        ),
-      );
+      const localizedError = getErrorMessage(error);
+      yield put(ValidationActions.REF_USERNAME_VALIDATION.RESET.create());
+      showError(localizedError);
     }
     throw error;
   }

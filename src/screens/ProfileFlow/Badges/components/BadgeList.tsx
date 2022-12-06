@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {Badge} from '@api/badges/types';
-import {BadgeCard} from '@screens/ProfileFlow/MyBadges/components/BadgeCard';
+import {BadgeCard} from '@screens/ProfileFlow/Badges/components/BadgeCard';
 import React, {useCallback} from 'react';
 import {FlatListProps} from 'react-native';
 import Animated from 'react-native-reanimated';

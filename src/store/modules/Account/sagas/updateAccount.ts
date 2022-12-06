@@ -6,9 +6,14 @@ import {AccountActions} from '@store/modules/Account/actions';
 import {userSelector} from '@store/modules/Account/selectors';
 import {t} from '@translations/i18n';
 import {validateEmail} from '@utils/email';
-import {getErrorMessage} from '@utils/errors';
+import {getErrorMessage, showError} from '@utils/errors';
+import {checkProp} from '@utils/guards';
 import {e164PhoneNumber, hashPhoneNumber} from '@utils/phoneNumber';
 import {call, put, SagaReturnType, select} from 'redux-saga/effects';
+
+enum Errors {
+  InvalidEmail,
+}
 
 const actionCreator = AccountActions.UPDATE_ACCOUNT.START.create;
 
@@ -25,7 +30,7 @@ export function* updateAccountSaga(action: ReturnType<typeof actionCreator>) {
     };
 
     if ('email' in userInfo && !validateEmail(userInfo.email ?? '')) {
-      throw new Error(t('errors.invalid_email'));
+      throw {code: Errors.InvalidEmail};
     }
 
     if (userInfo.phoneNumber) {
@@ -43,7 +48,7 @@ export function* updateAccountSaga(action: ReturnType<typeof actionCreator>) {
       ),
     );
   } catch (error) {
-    let localizedError = getErrorMessage(error);
+    let localizedError = null;
     if (isApiError(error, 400, 'RACE_CONDITION') && user) {
       const freshUser: SagaReturnType<typeof Api.user.getUserById> = yield call(
         Api.user.getUserById,
@@ -81,8 +86,17 @@ export function* updateAccountSaga(action: ReturnType<typeof actionCreator>) {
         case 'phoneNumberHash':
           localizedError = t('errors.already_taken', {field});
       }
+    } else if (checkProp(error, 'code') && error.code === Errors.InvalidEmail) {
+      localizedError = t('errors.invalid_email');
     }
-    yield put(AccountActions.UPDATE_ACCOUNT.FAILED.create(localizedError));
+
+    if (localizedError) {
+      yield put(AccountActions.UPDATE_ACCOUNT.FAILED.create(localizedError));
+    } else {
+      yield put(AccountActions.UPDATE_ACCOUNT.RESET.create());
+      localizedError = getErrorMessage(error);
+      showError(localizedError);
+    }
     throw error;
   }
 }

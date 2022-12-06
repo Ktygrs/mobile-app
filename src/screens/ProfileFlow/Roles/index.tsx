@@ -7,14 +7,22 @@ import {Header} from '@navigation/components/Header';
 import {FaqButton} from '@navigation/components/Header/components/FaqButton';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
 import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
-import {Role} from '@screens/ProfileFlow/MyRoles/components/Role';
+import {ProfileTabStackParamList} from '@navigation/Main';
+import {RouteProp, useRoute} from '@react-navigation/native';
+import {Role} from '@screens/ProfileFlow/Roles/components/Role';
+import {userSelector} from '@store/modules/Account/selectors';
 import {t} from '@translations/i18n';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import Animated from 'react-native-reanimated';
+import {useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
-export const MyRoles = () => {
+export const Roles = () => {
+  const authUser = useSelector(userSelector);
+  const route = useRoute<RouteProp<ProfileTabStackParamList, 'Roles'>>();
+  const isOwner = !route.params || route.params.userId === authUser?.id;
+
   useFocusStatusBar({style: 'dark-content'});
   const bottomOffset = useBottomTabBarOffsetStyle();
   const {scrollHandler, shadowStyle} = useScrollShadow();
@@ -26,7 +34,7 @@ export const MyRoles = () => {
         color={COLORS.primaryDark}
         backgroundColor={COLORS.white}
         renderRightButtons={FaqButton}
-        title={t('my_roles.title')}
+        title={isOwner ? t('profile.my_roles.title') : t('profile.roles.title')}
       />
       <Animated.ScrollView
         onScroll={scrollHandler}

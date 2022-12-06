@@ -33,7 +33,7 @@ export const Role = memo(({user}: Props) => {
           description={'Are you flesh and blood?'}
           user={user}
           onNextPress={() => {
-            navigation.navigate('MyRoles');
+            navigation.navigate('Roles', {userId: user?.id});
           }}
         />
       )}

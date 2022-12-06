@@ -5,7 +5,7 @@ import {COLORS} from '@constants/colors';
 import {commonStyles} from '@constants/styles';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
 import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
-import {ProfileTabStackParamList} from '@navigation/Main';
+import {MainStackParamList} from '@navigation/Main';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {AgendaContactTooltip} from '@screens/ProfileFlow/Profile/components/AgendaContactTooltip';
 import {AvatarHeader} from '@screens/ProfileFlow/Profile/components/AvatarHeader';
@@ -30,29 +30,36 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated';
 import {useDispatch, useSelector} from 'react-redux';
-import {rem, screenWidth} from 'rn-units';
+import {rem} from 'rn-units';
 
 const NOT_FOUND_BG = require('./assets/images/notFoundBg.png');
 
 export const Profile = memo(() => {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const [contactDetails, setContactDetails] = useState<Contact>();
+  const authUser = useSelector(userSelector);
+  const route = useRoute<RouteProp<MainStackParamList, 'UserProfile'>>();
+  const isOwner = !route.params || route.params.userId === authUser?.id;
+
+  const bottomOffset = useBottomTabBarOffsetStyle();
 
   const contacts = useSelector(contactsSelector);
   useFocusStatusBar({style: 'dark-content'});
-  const bottomOffset = useBottomTabBarOffsetStyle();
+
   const scrollY = useSharedValue(0);
   const scrollHandler = useAnimatedScrollHandler(event => {
     scrollY.value = event.contentOffset.y;
   });
   const dispatch = useDispatch();
-  const route = useRoute<RouteProp<ProfileTabStackParamList, 'Profile'>>();
-  const authUser = useSelector(userSelector);
-  const isOwner = !route.params || route.params.userId === authUser?.id;
 
   const user = useSelector(
     isOwner ? userSelector : userByIdSelector(route.params.userId),
   );
+
+  const isLoading = useSelector(
+    isLoadingSelector.bind(null, UsersActions.GET_USER_BY_ID),
+  );
+
   const userExist = !!user;
 
   useEffect(() => {
@@ -80,10 +87,6 @@ export const Profile = memo(() => {
     }
   }, [contacts, user]);
 
-  const isLoading = useSelector(
-    isLoadingSelector.bind(null, UsersActions.GET_USER_BY_ID),
-  );
-
   return (
     <View style={styles.container}>
       <View style={styles.touchArea}>
@@ -92,7 +95,7 @@ export const Profile = memo(() => {
           scrollY={scrollY}
           uri={user?.profilePictureUrl}
           isLoading={isLoading}
-          showSettingsButton={isOwner}
+          isOwner={isOwner}
           contact={contactDetails}
           onContactPress={() => {
             setIsTooltipVisible(state => !state);
@@ -122,7 +125,7 @@ export const Profile = memo(() => {
         </View>
         <View style={styles.ladderContainer}>
           {userExist && <LadderBar user={user} />}
-          {!userExist && !isLoading && <View style={styles.emptyLadder} />}
+          {!userExist && <View style={styles.emptyLadder} />}
         </View>
         <View style={[styles.card, commonStyles.baseSubScreen]}>
           {userExist && (
@@ -187,13 +190,12 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   emptyLadder: {
-    height: rem(60),
+    height: rem(75),
   },
   notFoundBg: {
     alignSelf: 'center',
-    marginTop: -rem(110),
-    width: screenWidth * 0.8,
-    aspectRatio: 1,
+    width: rem(245),
+    height: rem(219),
   },
   notFoundTitle: {
     ...font(24, 29, 'black', 'primaryDark'),

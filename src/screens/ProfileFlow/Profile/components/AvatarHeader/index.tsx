@@ -12,9 +12,10 @@ import {BackButton} from '@navigation/components/Header/components/BackButton';
 import {SettingsButton} from '@navigation/components/Header/components/SettingsButton';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
-import {Image, StyleSheet, View} from 'react-native';
+import {Image, StyleSheet, View, ViewStyle} from 'react-native';
 import {Contact} from 'react-native-contacts';
 import Animated, {
+  AnimatedStyleProp,
   Extrapolate,
   interpolate,
   SharedValue,
@@ -37,7 +38,7 @@ type Props = {
   user?: User | null;
   uri?: string;
   scrollY: SharedValue<number>;
-  showSettingsButton: boolean;
+  isOwner: boolean;
   isLoading?: boolean;
   contact: Contact | undefined;
   onContactPress: () => void;
@@ -50,7 +51,7 @@ export const AvatarHeader = memo(
     user,
     uri,
     scrollY,
-    showSettingsButton,
+    isOwner,
     isLoading = false,
     contact,
     onContactPress,
@@ -136,17 +137,20 @@ export const AvatarHeader = memo(
       height: HEADER_HEIGHT + topInset,
     };
 
-    const lettersAvatarStyle = useAnimatedStyle(() => ({
-      opacity: lettersAvatarOpacity.value,
-    }));
+    const lettersAvatarStyle: AnimatedStyleProp<ViewStyle> = useAnimatedStyle(
+      () => ({
+        opacity: lettersAvatarOpacity.value,
+      }),
+    );
 
     return (
       <Animated.View style={[styles.container, extraPadding, shadowStyle]}>
-        <BackButton
-          containerStyle={styles.backButton}
-          color={COLORS.primaryDark}
-          allowOnTab
-        />
+        <View style={styles.leftContainer}>
+          <BackButton
+            containerStyle={styles.backButton}
+            color={COLORS.primaryDark}
+          />
+        </View>
         <View style={styles.wrapper}>
           <Animated.View style={[imageAnimatedStyle, styles.imageContainer]}>
             {isLoading ? (
@@ -195,16 +199,9 @@ export const AvatarHeader = memo(
             </Animated.Text>
           )}
         </View>
-        {user && (
-          <View
-            style={
-              showSettingsButton
-                ? styles.rightContainer
-                : styles.rightContainerSettingsHidden
-            }>
-            {showSettingsButton && <SettingsButton />}
-          </View>
-        )}
+        <View style={styles.rightContainer}>
+          {isOwner && user && <SettingsButton />}
+        </View>
       </Animated.View>
     );
   },
@@ -239,10 +236,12 @@ const styles = StyleSheet.create({
   rightContainer: {
     paddingRight: rem(16),
     alignSelf: 'center',
+    minWidth: rem(40),
   },
-  rightContainerSettingsHidden: {
-    paddingRight: rem(38),
+  leftContainer: {
+    paddingLeft: rem(16),
     alignSelf: 'center',
+    minWidth: rem(40),
   },
   imageContainer: {
     borderColor: COLORS.foam,
@@ -253,13 +252,13 @@ const styles = StyleSheet.create({
     height: undefined,
     borderRadius: 0,
     flex: 1,
+    backgroundColor: COLORS.white,
   },
   usernameText: {
     ...font(17, 20.4, 'semibold', 'primaryDark'),
   },
   backButton: {
     justifyContent: 'center',
-    paddingLeft: rem(16),
   },
   touchableAvatar: {
     flex: 1,

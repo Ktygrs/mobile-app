@@ -7,10 +7,10 @@ export function getPageName(
   switch (routeName) {
     case 'Profile':
       return 'Profile';
-    case 'MyRoles':
-      return `${parentRouteName}/MyRoles`;
-    case 'MyBadges':
-      return `${parentRouteName}/MyBadges`;
+    case 'Roles':
+      return `${parentRouteName}/Roles`;
+    case 'Badges':
+      return `${parentRouteName}/Badges`;
     case 'InviteFriends':
       return 'Invite Friends';
   }

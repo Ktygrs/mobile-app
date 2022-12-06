@@ -3,7 +3,7 @@
 import {ImageCardCompact} from '@components/Cards/ImageCardCompact';
 import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
-import {BadgeProgress} from '@screens/ProfileFlow/MyBadges/components/BadgeCardProgress';
+import {BadgeProgress} from '@screens/ProfileFlow/Badges/components/BadgeCardProgress';
 import React from 'react';
 import {ImageSourcePropType, StyleSheet, View} from 'react-native';
 import {rem} from 'rn-units';

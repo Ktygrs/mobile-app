@@ -7,7 +7,7 @@ import {userIdSelector} from '@store/modules/Account/selectors';
 import {ValidationActions} from '@store/modules/Validation/actions';
 import {temporaryPhoneNumberSelector} from '@store/modules/Validation/selectors';
 import {t} from '@translations/i18n';
-import {getErrorMessage} from '@utils/errors';
+import {getErrorMessage, showError} from '@utils/errors';
 import {e164PhoneNumber, hashPhoneNumber} from '@utils/phoneNumber';
 import {call, put, SagaReturnType, select} from 'redux-saga/effects';
 
@@ -39,7 +39,7 @@ export function* validatePhoneNumberSaga(
       });
     yield put(ValidationActions.PHONE_VALIDATION.SUCCESS.create(user));
   } catch (error) {
-    let localizedError = getErrorMessage(error);
+    let localizedError = null;
     if (isApiError(error, 400, 'INVALID_VALIDATION_CODE')) {
       localizedError = t('errors.invalid_validation_code');
     } else if (isApiError(error, 400, 'VALIDATION_EXPIRED')) {
@@ -59,12 +59,19 @@ export function* validatePhoneNumberSaga(
           localizedError = t('errors.already_taken', {field});
       }
     }
-    yield put(
-      ValidationActions.PHONE_VALIDATION.FAILED.create(
-        localizedError,
-        getApiErrorCode(error),
-      ),
-    );
+
+    if (localizedError) {
+      yield put(
+        ValidationActions.PHONE_VALIDATION.FAILED.create(
+          localizedError,
+          getApiErrorCode(error),
+        ),
+      );
+    } else {
+      localizedError = getErrorMessage(error);
+      yield put(ValidationActions.PHONE_VALIDATION.RESET.create());
+      showError(localizedError);
+    }
     throw error;
   }
 }

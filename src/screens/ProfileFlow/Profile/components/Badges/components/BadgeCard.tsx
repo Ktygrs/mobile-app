@@ -46,7 +46,7 @@ export const BadgeCard = memo(
       if (isProfilePrivacyEditMode) {
         onUpdate('badges');
       } else {
-        navigation.navigate('MyBadges', {category});
+        navigation.navigate('Badges', {category});
       }
     }, [category, navigation, onUpdate, isProfilePrivacyEditMode]);
 

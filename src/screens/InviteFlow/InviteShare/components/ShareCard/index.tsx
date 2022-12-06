@@ -134,7 +134,7 @@ const ShareCard = () => {
         await Share.shareSingle(fbOptions);
         break;
       case 'Instagram':
-        //TODO: replace image
+        //TODO:: replace image
         const instagramOptions = {
           backgroundImage:
             'https://e7.pngegg.com/pngimages/223/378/png-clipart-three-ice-cubes-three-ice-cubes-ice.png',

@@ -3,7 +3,7 @@
 import {Avatar} from '@components/Avatar/Avatar';
 import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
-import {HomeTabStackParamList} from '@navigation/Main';
+import {MainStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {LogoIcon} from '@svg/LogoIcon';
@@ -22,10 +22,10 @@ type Props = {
 export const TeamMember = memo(
   ({username, profilePictureUrl, isIceFriend, userId}: Props) => {
     const navigation =
-      useNavigation<NativeStackNavigationProp<HomeTabStackParamList>>();
+      useNavigation<NativeStackNavigationProp<MainStackParamList>>();
     return (
       <Touchable
-        onPress={() => navigation.navigate('Profile', {userId: userId})}>
+        onPress={() => navigation.navigate('UserProfile', {userId: userId})}>
         <View>
           <Avatar
             uri={profilePictureUrl}
