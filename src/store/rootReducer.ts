@@ -12,6 +12,7 @@ import {newsReducer} from '@store/modules/News/reducer';
 import {notificationsReducer} from '@store/modules/Notifications/reducer';
 import {permissionsReducer} from '@store/modules/Permissions/reducer';
 import {referralsReducer} from '@store/modules/Referrals/reducer';
+import {statsReducer} from '@store/modules/Stats/reducer';
 import {usersReducer} from '@store/modules/Users/reducer';
 import {processStatusesReducer} from '@store/modules/UtilityProcessStatuses/reducer';
 import {validationReducer} from '@store/modules/Validation/reducer';
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
   appCommon: appCommonReducer,
   permissions: permissionsReducer,
   account: accountReducer,
+  stats: statsReducer,
   news: newsReducer,
   team: teamReducer,
   validation: validationReducer,

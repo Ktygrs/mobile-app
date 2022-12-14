@@ -6,6 +6,8 @@
     "run:android": "react-native run-android --appIdSuffix=staging",
     "run:ios": "react-native run-ios",
     "run:bundler": "react-native start --reset-cache",
+    "clean:android": "cd android && ./gradlew clean",
+    "android:releasestaging": "bundle exec fastlane android build type:apk",
     "configure:staging": "cp -rf ../mobile-app-secrets/staging/* ./ && cp -a ../mobile-app-secrets/staging/ ./ && source .env",
     "configure:production": "cp -rf ../mobile-app-secrets/production/* ./ && cp -a ../mobile-app-secrets/production/ ./ && source .env",
     "match:read": "bundler exec fastlane match appstore --readonly && bundler exec fastlane match adhoc --readonly",
@@ -24,7 +26,8 @@
     "e2e-test-ios-release": "source .env && detox test --configuration ios.release --loglevel trace --record-logs all",
     "e2e-build-android-release": "source .env && detox clean-framework-cache && detox build-framework-cache && detox build --configuration android.release",
     "e2e-test-android-release": "source .env && detox test --configuration android.release --loglevel trace --record-logs all",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "pod": "cd ios && pod install"
   },
   "dependencies": {
     "@gorhom/bottom-sheet": "^4",

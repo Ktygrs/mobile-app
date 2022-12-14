@@ -50,6 +50,7 @@ import {Settings} from '@screens/SettingsFlow/Settings';
 import {Staking} from '@screens/Staking';
 import {Team} from '@screens/Team';
 import {WebView} from '@screens/WebView';
+import {StatsPeriod} from '@store/modules/Stats/types';
 import React, {ComponentType, RefObject} from 'react';
 import {Image, View} from 'react-native';
 import {Contact} from 'react-native-contacts';
@@ -131,6 +132,7 @@ export type HomeTabStackParamList = {
   InviteShare: undefined;
   UserGrowthGraph: {
     category: 'active' | 'total';
+    statsPeriod: StatsPeriod;
   };
 };
 

@@ -1,12 +1,14 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
+import {DEFAULT_FORMAT_LOCALE} from '@constants/formatting';
 import {Images} from '@images';
 import {CardBase} from '@screens/HomeFlow/Home/components/Overview/components/CardBase';
 import {VerticalBar} from '@screens/HomeFlow/Home/components/Overview/components/VerticalBar';
 import {FriendIcon} from '@svg/FriendIcon';
 import {GraphIcon} from '@svg/GraphIcon';
 import {t} from '@translations/i18n';
+import {formatNumber} from '@utils/numbers';
 import {font} from '@utils/styles';
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
@@ -33,7 +35,7 @@ export const OnlineUsersHistory = ({data}: Props) => {
       backgroundImageSource={Images.backgrounds.adoptionCardBg}
       headerTitle={t('home.adoption.title')}
       headerTitleIcon={<GraphIcon fill={COLORS.white} />}
-      headerValue={totalAdoptionUsers.toString()}
+      headerValue={totalAdoptionUsers.toLocaleString(DEFAULT_FORMAT_LOCALE)}
       headerValueIcon={<FriendIcon fill={COLORS.shamrock} />}>
       <View style={styles.body}>
         <View style={styles.yAxis}>
@@ -43,7 +45,7 @@ export const OnlineUsersHistory = ({data}: Props) => {
               const currentValue = stepValue * i ? stepValue * i : minValue;
               return (
                 <Text key={i} style={styles.yAxisText}>
-                  {currentValue}
+                  {formatNumber(currentValue, true)}
                 </Text>
               );
             })}

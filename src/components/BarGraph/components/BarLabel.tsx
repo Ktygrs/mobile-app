@@ -7,7 +7,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import {rem} from 'rn-units';
 
 type Props = {
-  value: number;
+  value: string;
   color: string;
 };
 

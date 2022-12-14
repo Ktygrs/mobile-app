@@ -2,32 +2,43 @@
 
 import {BarLabel} from '@components/BarGraph/components/BarLabel';
 import {COLORS} from '@constants/colors';
-import React, {useEffect, useMemo} from 'react';
+import {formatNumber} from '@utils/numbers';
+import React, {useMemo} from 'react';
 import {StyleSheet, View} from 'react-native';
 import Animated, {
+  interpolate,
+  SharedValue,
   useAnimatedStyle,
-  useDerivedValue,
-  useSharedValue,
-  withTiming,
 } from 'react-native-reanimated';
 import {rem} from 'rn-units';
 
 type Props = {
-  valuePercentage: number;
+  maxValue: number;
   value: number;
-  active: boolean;
+  maxWidth: number;
+  sharedValue: SharedValue<number>;
+  doAnimate: boolean;
 };
 
-export const Bar = ({valuePercentage, value, active}: Props) => {
-  const isLabelOutside = valuePercentage < 20;
-  const play = useSharedValue(false);
-  const progress = useDerivedValue(() => {
-    return play.value ? withTiming(valuePercentage, {duration: 600}) : 0;
-  });
+export const Bar = ({
+  maxValue,
+  maxWidth,
+  value,
+  sharedValue,
+  doAnimate,
+}: Props) => {
+  const isLabelOutside = value / maxValue < 0.2;
+  const width = useMemo(
+    () => maxWidth * (value / maxValue),
+    [maxValue, maxWidth, value],
+  );
   const animatedStyle = useAnimatedStyle(() => ({
-    width: `${progress.value}%`,
+    transform: [
+      {translateX: interpolate(sharedValue.value, [-1, 0], [-width, 0])},
+    ],
   }));
   const backgroundColor = useMemo(() => {
+    const valuePercentage = Math.floor((value / maxValue) * 100);
     const red = 100 - Math.round((60 * valuePercentage) / 100);
     const green = 200 - Math.round((90 * valuePercentage) / 100);
     return StyleSheet.create({
@@ -36,24 +47,30 @@ export const Bar = ({valuePercentage, value, active}: Props) => {
         backgroundColor: `rgba(${red},${green},255,1)`,
       },
     });
-  }, [valuePercentage]);
+  }, [value, maxValue]);
 
-  useEffect(() => {
-    if (active) {
-      play.value = true;
-    }
-  }, [active, play]);
+  if (!value) {
+    return null;
+  }
 
   return (
     <View style={styles.container}>
       <Animated.View
-        style={[styles.bar, backgroundColor.current, animatedStyle]}>
-        {!isLabelOutside && active && (
-          <BarLabel value={value} color={COLORS.white} />
+        style={[
+          styles.bar,
+          backgroundColor.current,
+          doAnimate && animatedStyle,
+          {width},
+        ]}>
+        {!isLabelOutside && (
+          <BarLabel value={formatNumber(value, true)} color={COLORS.white} />
         )}
       </Animated.View>
-      {isLabelOutside && active && (
-        <BarLabel value={value} color={COLORS.primaryLight} />
+      {isLabelOutside && (
+        <BarLabel
+          value={formatNumber(value, true)}
+          color={COLORS.primaryLight}
+        />
       )}
     </View>
   );
@@ -63,6 +80,8 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     flex: 1,
+    overflow: 'hidden',
+    borderRadius: rem(10),
   },
   bar: {
     height: rem(24),

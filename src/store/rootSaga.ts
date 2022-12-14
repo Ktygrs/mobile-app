@@ -3,6 +3,7 @@
 import {logError} from '@services/logging';
 import {rootLinkingSaga} from '@store/modules/Linking/sagas';
 import {rootNotificationsSaga} from '@store/modules/Notifications/sagas';
+import {rootStatsSaga} from '@store/modules/Stats/sagas';
 import {all, call, spawn} from 'redux-saga/effects';
 
 import {rootAuthSaga} from './modules/Account/sagas';
@@ -20,6 +21,7 @@ export function* rootSaga() {
   const sagas = [
     rootAuthSaga,
     rootNewsSaga,
+    rootStatsSaga,
     rootPermissionsSaga,
     rootReferralsSaga,
     rootCollectionsSaga,

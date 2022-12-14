@@ -1,64 +1,140 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {Bar} from '@components/BarGraph/components/Bar';
+import {BarGraphData} from '@components/BarGraph/types';
 import {useScreenTransitionEnd} from '@navigation/hooks/useScreenTransitionEnd';
+import {formatNumber} from '@utils/numbers';
 import {font} from '@utils/styles';
-import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import React, {memo, useEffect, useMemo, useState} from 'react';
+import {LayoutChangeEvent, StyleSheet, Text, View} from 'react-native';
+import {SharedValue, useSharedValue, withTiming} from 'react-native-reanimated';
 import {rem} from 'rn-units';
 
 type Props = {
-  data: {label: string; value: number}[];
+  data: BarGraphData[];
 };
 
-const Y_AXIS_WIDTH = rem(36);
+export const Y_AXIS_WIDTH = rem(36);
 const X_AXIS_HEIGHT = rem(20);
-const ROW_HEIGHT = rem(28);
-const NUMBER_OF_STEPS_X = 8;
+export const ROW_HEIGHT = rem(28);
+const NUMBER_OF_STEPS_X = 10;
+const LINE_HEIGHT = 12;
 
 export const getBarGraphHeight = (numberOfRows: number) => {
   return X_AXIS_HEIGHT + numberOfRows * ROW_HEIGHT;
 };
 
-export const BarGraph = ({data}: Props) => {
-  const maxValue = Math.max(...data.map(d => d.value)) || 1;
+function getMaxValue(data: BarGraphData[]) {
+  let max = 1;
+  for (const {value} of data) {
+    if (value > max) {
+      max = value;
+    }
+  }
+  return max;
+}
+
+export function getValueData(data: BarGraphData[]) {
+  const maxValue = getMaxValue(data);
   const stepValue = Math.ceil(maxValue / NUMBER_OF_STEPS_X);
-  const lastXValue = stepValue * NUMBER_OF_STEPS_X;
+  const numberOfSteps = Math.min(maxValue, NUMBER_OF_STEPS_X);
+  const lastXValue = stepValue * numberOfSteps;
+
+  return {stepValue, lastXValue, numberOfSteps};
+}
+
+type BarFooterProps = {
+  barWidth: number;
+  stepValue: number;
+  numberOfSteps: number;
+};
+export const BarFooter = memo(
+  ({barWidth, stepValue, numberOfSteps}: BarFooterProps) => {
+    return (
+      <View style={[styles.xAxis, {width: barWidth}]}>
+        {Array(numberOfSteps + 1)
+          .fill(null)
+          .map((_, i) => (
+            <Text key={i} style={styles.xAxisText}>
+              {formatNumber(stepValue * i)}
+            </Text>
+          ))}
+      </View>
+    );
+  },
+);
+
+type BarItemProps = {
+  item: BarGraphData;
+  maxWidth: number;
+  maxValue: number;
+  sharedValue: SharedValue<number>;
+  doAnimate: boolean;
+};
+
+export const BarItem = memo(
+  ({item, maxWidth, sharedValue, maxValue, doAnimate}: BarItemProps) => {
+    return (
+      <View style={styles.row} key={`${item.label}${item.value}`}>
+        <Text style={styles.yAxisText}>{item.label}</Text>
+        <Bar
+          maxValue={maxValue}
+          maxWidth={maxWidth}
+          value={item.value}
+          sharedValue={sharedValue}
+          doAnimate={doAnimate}
+        />
+      </View>
+    );
+  },
+);
+
+export const BarGraph = memo(({data}: Props) => {
+  const {stepValue, lastXValue, numberOfSteps} = useMemo(
+    () => getValueData(data),
+    [data],
+  );
 
   const {transitionEnd} = useScreenTransitionEnd();
+  const [width, setWidth] = useState(0);
+  const barWidth = width - Y_AXIS_WIDTH;
+  const sharedValue = useSharedValue(-1);
+  const lastElement = data[data.length - 1];
+
+  useEffect(() => {
+    if (width && transitionEnd && lastElement?.value != null && data.length) {
+      sharedValue.value = -1;
+      sharedValue.value = withTiming(0, {duration: 300});
+    }
+  }, [transitionEnd, width, lastElement?.value, data.length, sharedValue]);
 
   if (data.length === 0) {
     return null;
   }
 
   return (
-    <View>
-      {data.map(item => {
-        const valuePercentage = (item.value * 100) / lastXValue;
-
-        return (
-          <View style={styles.row} key={item.label}>
-            <Text style={styles.yAxisText}>{item.label}</Text>
-            <Bar
-              valuePercentage={valuePercentage}
-              value={item.value}
-              active={transitionEnd}
-            />
-          </View>
-        );
-      })}
-      <View style={styles.xAxis}>
-        {Array(NUMBER_OF_STEPS_X)
-          .fill(null)
-          .map((_, i) => (
-            <Text key={i} style={styles.xAxisText}>
-              {stepValue * i}
-            </Text>
-          ))}
-      </View>
+    <View
+      onLayout={({nativeEvent}: LayoutChangeEvent) => {
+        setWidth(nativeEvent.layout.width);
+      }}>
+      {data.map(item => (
+        <BarItem
+          key={`${item.label}${item.value}`}
+          item={item}
+          maxWidth={barWidth}
+          maxValue={lastXValue}
+          sharedValue={sharedValue}
+          doAnimate={true}
+        />
+      ))}
+      <BarFooter
+        barWidth={barWidth}
+        stepValue={stepValue}
+        numberOfSteps={numberOfSteps}
+      />
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   row: {
@@ -74,10 +150,10 @@ const styles = StyleSheet.create({
     height: X_AXIS_HEIGHT,
     marginLeft: Y_AXIS_WIDTH,
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'flex-end',
   },
   xAxisText: {
-    flex: 1,
-    ...font(10, 12, 'medium', 'periwinkleGray'),
+    ...font(10, LINE_HEIGHT, 'medium', 'periwinkleGray'),
   },
 });

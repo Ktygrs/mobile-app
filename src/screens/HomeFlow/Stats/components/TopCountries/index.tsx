@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {CountryStatistics} from '@api/statistics/types';
 import {
   CountryListItem,
   CountryListItemSkeleton,
@@ -13,11 +14,15 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {CollectionActions} from '@store/modules/Collections';
 import {collectionSelector} from '@store/modules/Collections/selectors';
 import {t} from '@translations/i18n';
-import React, {memo, useCallback, useEffect} from 'react';
-import {StyleSheet, View} from 'react-native';
+import React, {memo, useCallback, useEffect, useState} from 'react';
+import {InteractionManager, StyleSheet, View} from 'react-native';
 import {rem} from 'rn-units';
 
 const COUNTRIES_COUNT = 5;
+
+const SKELETONS = Array(COUNTRIES_COUNT)
+  .fill(null)
+  .map((_, index) => <CountryListItemSkeleton key={index} />);
 
 export const TopCountries = memo(() => {
   const navigation =
@@ -34,8 +39,20 @@ export const TopCountries = memo(() => {
   });
 
   useEffect(() => {
-    fetch({offset: 0});
+    const interactionPromise = InteractionManager.runAfterInteractions(() => {
+      fetch({offset: 0});
+    });
+    return () => interactionPromise.cancel();
   }, [fetch]);
+
+  const [displayData, setDisplayData] = useState<CountryStatistics[]>([]);
+
+  useEffect(() => {
+    const handle = requestAnimationFrame(() => {
+      setDisplayData(data);
+    });
+    return () => cancelAnimationFrame(handle);
+  }, [data]);
 
   return (
     <View style={styles.container}>
@@ -45,11 +62,9 @@ export const TopCountries = memo(() => {
         onActionPress={onSeeAllPress}
       />
       <View style={styles.list}>
-        {hasNext && !data.length
-          ? Array(COUNTRIES_COUNT)
-              .fill(null)
-              .map((_, index) => <CountryListItemSkeleton key={index} />)
-          : data.map(country => (
+        {hasNext && !displayData.length
+          ? SKELETONS
+          : displayData.map(country => (
               <CountryListItem
                 key={country.country}
                 code={country.country}

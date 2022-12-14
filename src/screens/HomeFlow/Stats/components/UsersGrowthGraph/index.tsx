@@ -9,13 +9,9 @@ import {
 import {HomeTabStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {PeriodSelect} from '@screens/HomeFlow/Stats/components/UsersGrowthGraph/components/PeriodSelect';
-import {
-  MOCK_ACTIVE_USERS_GRAPH_DATA,
-  MOCK_TOTAL_USERS_GRAPH_DATA,
-} from '@screens/HomeFlow/Stats/components/UsersGrowthGraph/mockData';
+import {useGetBarGraphDataForStatsPeriod} from '@store/modules/Stats/hooks/useGetBarGraphDataForStatsPeriod';
 import {t} from '@translations/i18n';
-import React, {memo, useCallback, useRef, useState} from 'react';
+import React, {memo, useCallback, useRef} from 'react';
 import {StyleSheet, View} from 'react-native';
 import PagerView, {PagerViewOnPageSelectedEvent} from 'react-native-pager-view';
 import {rem} from 'rn-units';
@@ -27,11 +23,7 @@ export const SEGMENTS: ReadonlyArray<{text: string; key: GraphCategory}> = [
   {text: t('stats.active'), key: 'active'},
 ];
 
-const PERIODS = [
-  {label: t('periods.3_days'), length: 3},
-  {label: t('periods.7_days'), length: 7},
-  {label: t('periods.30_days'), length: 30, redirect: true},
-];
+const DEFAULT_USER_GROWTH_STATS_PERIOD = 3;
 
 export const UsersGrowthGraph = memo(() => {
   const navigation =
@@ -39,8 +31,6 @@ export const UsersGrowthGraph = memo(() => {
   const switcherRef = useRef<SegmentedControlMethods>(null);
   const pagerRef = useRef<PagerView>(null);
   const segmentRef = useRef(SEGMENTS[0]);
-  const [periodIndex, setPeriodIndex] = useState(1);
-  const period = PERIODS[periodIndex];
 
   const onSegmentChange = useCallback((index: number) => {
     segmentRef.current = SEGMENTS[index];
@@ -53,15 +43,16 @@ export const UsersGrowthGraph = memo(() => {
     switcherRef.current?.changeSegment(index);
   };
 
-  const onPeriodChange = (index: number) => {
-    if (PERIODS[index].redirect) {
-      navigation.navigate('UserGrowthGraph', {
-        category: segmentRef.current.key,
-      });
-    } else {
-      setPeriodIndex(index);
-    }
+  const onSeeAll = () => {
+    navigation.navigate('UserGrowthGraph', {
+      category: segmentRef.current.key,
+      statsPeriod: DEFAULT_USER_GROWTH_STATS_PERIOD,
+    });
   };
+
+  const {activeUsersData, totalUsersData} = useGetBarGraphDataForStatsPeriod(
+    DEFAULT_USER_GROWTH_STATS_PERIOD,
+  );
 
   return (
     <View>
@@ -73,31 +64,22 @@ export const UsersGrowthGraph = memo(() => {
       />
       <SectionHeader
         title={t('stats.user_growth')}
-        action={
-          <PeriodSelect
-            selectedIndex={periodIndex}
-            options={PERIODS}
-            onChange={onPeriodChange}
-          />
-        }
+        action={t('button.see_all')}
+        onActionPress={onSeeAll}
       />
       <PagerView
         initialPage={0}
         style={[
           styles.segmentPager,
-          {height: getBarGraphHeight(period.length)},
+          {height: getBarGraphHeight(DEFAULT_USER_GROWTH_STATS_PERIOD)},
         ]}
         ref={pagerRef}
         onPageSelected={onPageChange}>
         <View style={styles.segmentSlide}>
-          <BarGraph
-            data={MOCK_TOTAL_USERS_GRAPH_DATA.slice(0, period.length)}
-          />
+          <BarGraph data={totalUsersData} />
         </View>
         <View style={styles.segmentSlide}>
-          <BarGraph
-            data={MOCK_ACTIVE_USERS_GRAPH_DATA.slice(0, period.length)}
-          />
+          <BarGraph data={activeUsersData} />
         </View>
       </PagerView>
     </View>

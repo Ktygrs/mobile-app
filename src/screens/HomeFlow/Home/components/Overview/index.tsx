@@ -18,7 +18,7 @@ import {ReferralAcquisitionHistory} from '@screens/HomeFlow/Home/components/Over
 import {ReferralsCard} from '@screens/HomeFlow/Home/components/Overview/components/ReferralsCard';
 import {useCardTranslateY} from '@screens/HomeFlow/Home/components/Overview/hooks/useCardTranslateY';
 import {useScrollCollapse} from '@screens/HomeFlow/Home/components/Overview/hooks/useScrollCollapse';
-import {MOCK_TOTAL_USERS_GRAPH_DATA} from '@screens/HomeFlow/Stats/components/UsersGrowthGraph/mockData';
+import {useGetBarGraphDataForStatsPeriod} from '@store/modules/Stats/hooks/useGetBarGraphDataForStatsPeriod';
 import {t} from '@translations/i18n';
 import React, {memo} from 'react';
 import {Platform, StyleSheet, View} from 'react-native';
@@ -39,6 +39,8 @@ const SCROLL_BOTTOM_MARGIN = rem(24);
 const HEADER_TOP_MARGIN = rem(6);
 const OVERSCROLL = isIOS ? 1000 : 0;
 
+const USER_GROWTH_STATS_PERIOD = 7;
+
 export const Overview = memo(({translateY, topOffset}: Props) => {
   const {cardTranslateY, stickyAnimatedStyle} = useCardTranslateY({
     translateY,
@@ -51,6 +53,10 @@ export const Overview = memo(({translateY, topOffset}: Props) => {
     fromHeight: CARDS_TOTAL_HEIGHT + SCROLL_BOTTOM_PADDING,
     toHeight: CARDS_COLLAPSED_HEIGHT + SCROLL_BOTTOM_PADDING,
   });
+
+  const {activeUsersData} = useGetBarGraphDataForStatsPeriod(
+    USER_GROWTH_STATS_PERIOD,
+  );
 
   return (
     <>
@@ -80,11 +86,7 @@ export const Overview = memo(({translateY, topOffset}: Props) => {
             <FlipCard
               stylesContainer={styles.flipCardContainer}
               front={<AdoptionCard />}
-              back={
-                <OnlineUsersHistory
-                  data={MOCK_TOTAL_USERS_GRAPH_DATA.slice(0, 7).reverse()}
-                />
-              }
+              back={<OnlineUsersHistory data={activeUsersData} />}
             />
           </View>
         </Animated.ScrollView>

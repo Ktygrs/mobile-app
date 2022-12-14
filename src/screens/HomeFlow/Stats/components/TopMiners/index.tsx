@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Miner} from '@api/statistics/types';
 import {
   UserListItemCompact,
   UserListItemCompactSkeleton,
@@ -13,11 +14,15 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {CollectionActions} from '@store/modules/Collections';
 import {collectionSelector} from '@store/modules/Collections/selectors';
 import {t} from '@translations/i18n';
-import React, {memo, useCallback, useEffect} from 'react';
-import {StyleSheet, View} from 'react-native';
+import React, {memo, useCallback, useEffect, useState} from 'react';
+import {InteractionManager, StyleSheet, View} from 'react-native';
 import {rem} from 'rn-units';
 
 const MINERS_COUNT = 5;
+
+const SKELETONS = Array(MINERS_COUNT)
+  .fill(null)
+  .map((_, index) => <UserListItemCompactSkeleton key={index} />);
 
 export const TopMiners = memo(() => {
   const navigation =
@@ -33,8 +38,20 @@ export const TopMiners = memo(() => {
     options: {pageSize: MINERS_COUNT},
   });
 
+  const [displayData, setDisplayData] = useState<Miner[]>([]);
+
   useEffect(() => {
-    fetch({offset: 0});
+    const handle = requestAnimationFrame(() => {
+      setDisplayData(data);
+    });
+    return () => cancelAnimationFrame(handle);
+  }, [data]);
+
+  useEffect(() => {
+    const interactionPromise = InteractionManager.runAfterInteractions(() => {
+      fetch({offset: 0});
+    });
+    return () => interactionPromise.cancel();
   }, [fetch]);
 
   return (
@@ -45,11 +62,9 @@ export const TopMiners = memo(() => {
         onActionPress={onSeeAllPress}
       />
       <View style={styles.list}>
-        {hasNext && !data.length
-          ? Array(MINERS_COUNT)
-              .fill(null)
-              .map((_, index) => <UserListItemCompactSkeleton key={index} />)
-          : data.map(user => (
+        {hasNext && !displayData.length
+          ? SKELETONS
+          : displayData.map(user => (
               <UserListItemCompact
                 key={user.id}
                 profilePictureUrl={user.profilePictureUrl}
