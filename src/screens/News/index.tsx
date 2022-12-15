@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
+import {WalkThroughContextProvider} from '@contexts/WalkThroughContext';
 import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
 import {NewsContent} from '@screens/News/NewsContent';
 import {NewsActions} from '@store/modules/News/actions';
@@ -18,7 +19,9 @@ export const News = () => {
 
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
-      <NewsContent />
+      <WalkThroughContextProvider>
+        <NewsContent />
+      </WalkThroughContextProvider>
     </SafeAreaView>
   );
 };

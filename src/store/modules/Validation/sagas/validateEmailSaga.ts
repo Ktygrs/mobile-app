@@ -78,19 +78,13 @@ function* setEmailRegistrationStep(user: User): Generator<unknown, void, void> {
   if (!finalizedSteps.includes('email')) {
     return yield call(
       updateAccountSaga,
-      AccountActions.UPDATE_ACCOUNT.START.create(
-        {
-          clientData: {
-            ...user.clientData,
-            registrationProcessFinalizedSteps: [...finalizedSteps, 'email'],
-          },
-          checksum: user.checksum,
+      AccountActions.UPDATE_ACCOUNT.START.create({
+        clientData: {
+          ...user.clientData,
+          registrationProcessFinalizedSteps: [...finalizedSteps, 'email'],
         },
-        function* (freshUser) {
-          yield call(setEmailRegistrationStep, freshUser);
-          return {retry: false};
-        },
-      ),
+        checksum: user.checksum,
+      }),
     );
   }
 }

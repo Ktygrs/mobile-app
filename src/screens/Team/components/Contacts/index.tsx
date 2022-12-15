@@ -15,9 +15,10 @@ import {useSelector} from 'react-redux';
 
 type ContactsProps = {
   focused: boolean;
+  offset: number;
 };
 
-export const Contacts = ({focused}: ContactsProps) => {
+export const Contacts = ({focused, offset}: ContactsProps) => {
   const hasContactsPermissions = useSelector(permissionSelector('contacts'));
   const isPhoneNumberVerified = useSelector(isPhoneNumberVerifiedSelector);
   const phoneVerificationStep = useSelector(phoneVerificationStepSelector);
@@ -38,7 +39,9 @@ export const Contacts = ({focused}: ContactsProps) => {
 
   return (
     <Animated.View style={[styles.container, fadeStyle]}>
-      {visibleScreen === 'ContactsPermissions' && <ContactsPermissions />}
+      {visibleScreen === 'ContactsPermissions' && (
+        <ContactsPermissions offset={offset} />
+      )}
       {visibleScreen === 'ModifyPhoneNumber' && (
         <VerticalOffset>
           <ModifyPhoneNumberForm />

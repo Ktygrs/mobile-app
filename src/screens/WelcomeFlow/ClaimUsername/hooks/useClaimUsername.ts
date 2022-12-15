@@ -60,22 +60,13 @@ export const useClaimUsername = () => {
       currentUser.clientData?.registrationProcessFinalizedSteps ?? [];
     if (!finalizedSteps.includes('username')) {
       dispatch(
-        AccountActions.UPDATE_ACCOUNT.START.create(
-          {
-            username: newUsername,
-            clientData: {
-              ...currentUser.clientData,
-              registrationProcessFinalizedSteps: [
-                ...finalizedSteps,
-                'username',
-              ],
-            },
+        AccountActions.UPDATE_ACCOUNT.START.create({
+          username: newUsername,
+          clientData: {
+            ...currentUser.clientData,
+            registrationProcessFinalizedSteps: [...finalizedSteps, 'username'],
           },
-          function* (freshUser) {
-            updateUsername(freshUser, newUsername);
-            return {retry: false};
-          },
-        ),
+        }),
       );
     }
   };

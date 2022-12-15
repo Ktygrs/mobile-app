@@ -27,6 +27,7 @@ module.exports = api => {
             '@translations': './src/translations',
             '@utils': './src/utils',
             '@hooks': './src/hooks',
+            '@contexts': './src/contexts',
           },
         },
       ],

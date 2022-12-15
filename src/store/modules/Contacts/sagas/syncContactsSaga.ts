@@ -64,21 +64,9 @@ export function* syncContactsSaga() {
 
     if (numberOfHashes !== phoneNumberHashes.size) {
       yield put(
-        AccountActions.UPDATE_ACCOUNT.START.create(
-          {
-            agendaPhoneNumberHashes: [...phoneNumberHashes].join(','),
-          },
-          function* (freshUser) {
-            if (
-              freshUser.agendaPhoneNumberHashes?.length !==
-              user.agendaPhoneNumberHashes?.length
-            ) {
-              yield put(ContactsActions.SYNC_CONTACTS.START.create());
-              return {retry: false};
-            }
-            return {retry: true};
-          },
-        ),
+        AccountActions.UPDATE_ACCOUNT.START.create({
+          agendaPhoneNumberHashes: [...phoneNumberHashes].join(','),
+        }),
       );
     }
 

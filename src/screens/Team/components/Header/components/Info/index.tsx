@@ -3,51 +3,137 @@
 import {FormattedNumber} from '@components/Labels/FormattedNumber';
 import {IceLabel} from '@components/Labels/IceLabel';
 import {COLORS} from '@constants/colors';
+import {SCREEN_SIDE_OFFSET} from '@constants/styles';
+import {WalkThroughContext} from '@contexts/WalkThroughContext';
+import {SEARCH_HEIGHT} from '@screens/Team/components/Header/components/Search';
 import {userReferralCountSelector} from '@store/modules/Referrals/selectors';
 import {TeamInactiveIcon} from '@svg/TeamInactiveIcon';
 import {WalletIcon} from '@svg/WalletIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
-import React from 'react';
+import React, {useCallback, useContext, useEffect} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
 export const INFO_HEIGHT = rem(84);
+const WALKTHROUGH_ELEMENT_CONTAINER_PADDING = SCREEN_SIDE_OFFSET / 2;
+const BORDER_RADIUS = 20;
+const CONTAINER_MARGIN_RIGHT = rem(5);
 
 export const Info = () => {
   const refsCount = useSelector(userReferralCountSelector);
   const earningsValue = '121,985.42';
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.centeredRow}>
-        <TeamInactiveIcon color={COLORS.white} />
-        <View style={styles.body}>
-          <Text style={styles.title}>{t('team.header.referrals')}</Text>
-          <Text style={styles.valueText}>{refsCount}</Text>
-        </View>
-      </View>
-      <View style={styles.divider} />
-      <View style={styles.centeredRow}>
-        <WalletIcon width={rem(25)} height={rem(25)} color={COLORS.white} />
-        <View style={styles.body}>
-          <Text style={styles.title}>{t('team.header.earnings')}</Text>
-          <View style={styles.centeredRow}>
-            <FormattedNumber
-              number={earningsValue}
-              bodyStyle={styles.valueText}
-              decimalsStyle={styles.decimalsText}
-              trim={true}
-            />
-            <IceLabel
-              textStyle={styles.valueText}
-              iconOffsetY={-1}
-              iconSize={rem(16)}
-            />
+  const renderReferralsCell = useCallback(
+    (color?: string) => {
+      return (
+        <View style={styles.conteredRow}>
+          <TeamInactiveIcon color={color ?? COLORS.white} />
+          <View style={styles.body}>
+            <Text style={[styles.title, color ? {color} : null]}>
+              {t('team.header.referrals')}
+            </Text>
+            <Text style={[styles.valueText, color ? {color} : null]}>
+              {refsCount}
+            </Text>
           </View>
         </View>
-      </View>
+      );
+    },
+    [refsCount],
+  );
+
+  const renderEarningsCell = useCallback(
+    (color?: string) => {
+      return (
+        <View style={styles.conteredRow}>
+          <WalletIcon
+            width={rem(25)}
+            height={rem(25)}
+            color={color ?? COLORS.white}
+          />
+          <View style={styles.body}>
+            <Text style={[styles.title, color ? {color} : null]}>
+              {t('team.header.earnings')}
+            </Text>
+            <View style={styles.conteredRow}>
+              <FormattedNumber
+                number={earningsValue}
+                bodyStyle={styles.valueText}
+                decimalsStyle={styles.decimalsText}
+                trim={true}
+                color={color}
+              />
+              <IceLabel
+                textStyle={[styles.valueText, color ? {color} : null]}
+                iconOffsetY={-1}
+                iconSize={rem(16)}
+                color={color}
+              />
+            </View>
+          </View>
+        </View>
+      );
+    },
+    [earningsValue],
+  );
+
+  const {top: topInset} = useSafeAreaInsets();
+
+  const {addStepData} = useContext(WalkThroughContext);
+  useEffect(() => {
+    const color = COLORS.primaryDark;
+    const top = SEARCH_HEIGHT + topInset;
+    addStepData({
+      step: 2,
+      stepData: {
+        version: 1,
+        top,
+        icon: (
+          <TeamInactiveIcon width={rem(32)} height={rem(32)} color={color} />
+        ),
+        renderStepHighlight: () => (
+          <View style={[styles.walkthroughElementOuterContainer, {top}]}>
+            <View style={styles.walkthroughElementContainer}>
+              <View style={styles.walkthroughElementInnerContainer}>
+                {renderReferralsCell(color)}
+              </View>
+            </View>
+          </View>
+        ),
+      },
+    });
+    addStepData({
+      step: 3,
+      stepData: {
+        version: 1,
+        top,
+        icon: <WalletIcon width={rem(20)} height={rem(20)} color={color} />,
+        renderStepHighlight: () => (
+          <View
+            style={[
+              styles.walkthroughElementOuterContainer,
+              styles.flexEnd,
+              {top},
+            ]}>
+            <View style={styles.walkthroughElementContainer}>
+              <View style={styles.walkthroughElementInnerContainer}>
+                {renderEarningsCell(color)}
+              </View>
+            </View>
+          </View>
+        ),
+      },
+    });
+  }, [addStepData, topInset, renderReferralsCell, renderEarningsCell]);
+
+  return (
+    <View style={styles.container}>
+      {renderReferralsCell()}
+      <View style={styles.divider} />
+      {renderEarningsCell()}
     </View>
   );
 };
@@ -57,7 +143,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginRight: rem(5),
+    marginRight: CONTAINER_MARGIN_RIGHT,
     height: INFO_HEIGHT,
   },
   divider: {
@@ -65,7 +151,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     height: rem(22),
   },
-  centeredRow: {
+  conteredRow: {
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -82,5 +168,28 @@ const styles = StyleSheet.create({
   },
   decimalsText: {
     ...font(8, 8, 'semibold'),
+  },
+  walkthroughElementOuterContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    height: INFO_HEIGHT,
+  },
+  flexEnd: {
+    justifyContent: 'flex-end',
+    marginRight: CONTAINER_MARGIN_RIGHT,
+  },
+  walkthroughElementContainer: {
+    borderRadius: BORDER_RADIUS,
+    backgroundColor: COLORS.white02opacity,
+    padding: WALKTHROUGH_ELEMENT_CONTAINER_PADDING,
+    justifyContent: 'center',
+  },
+  walkthroughElementInnerContainer: {
+    borderRadius: BORDER_RADIUS,
+    backgroundColor: COLORS.white,
+    padding: SCREEN_SIDE_OFFSET / 2,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

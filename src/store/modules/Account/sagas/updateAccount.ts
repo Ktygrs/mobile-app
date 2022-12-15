@@ -60,15 +60,9 @@ export function* updateAccountSaga(action: ReturnType<typeof actionCreator>) {
           action.payload.userInfo,
         ),
       );
-      const {retry} = yield action.payload.raceConditionStrategy(freshUser);
-      if (retry) {
-        yield put(
-          AccountActions.UPDATE_ACCOUNT.START.create(
-            action.payload.userInfo,
-            action.payload.raceConditionStrategy,
-          ),
-        );
-      }
+      yield put(
+        AccountActions.UPDATE_ACCOUNT.START.create(action.payload.userInfo),
+      );
     } else if (isApiError(error, 400, 'INVALID_PHONE_NUMBER')) {
       localizedError = t('errors.wrong_phone_number');
     } else if (isApiError(error, 400, 'INVALID_PHONE_NUMBER_FORMAT')) {

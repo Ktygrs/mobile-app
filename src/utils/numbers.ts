@@ -5,7 +5,7 @@ const formatter = Intl.NumberFormat('en', {
 
 const formatterWithFractionDigits = Intl.NumberFormat('en', {
   notation: 'compact',
-  minimumFractionDigits: 1,
+  minimumFractionDigits: 0,
   maximumFractionDigits: 1,
 });
 

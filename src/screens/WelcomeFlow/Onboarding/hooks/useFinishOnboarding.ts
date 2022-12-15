@@ -19,21 +19,15 @@ export const useFinishOnboarding = () => {
       currentUser?.clientData?.registrationProcessFinalizedSteps ?? [];
     if (!finalizedSteps.includes('onboarding')) {
       dispatch(
-        AccountActions.UPDATE_ACCOUNT.START.create(
-          {
-            clientData: {
-              ...currentUser.clientData,
-              registrationProcessFinalizedSteps: [
-                ...finalizedSteps,
-                'onboarding',
-              ],
-            },
+        AccountActions.UPDATE_ACCOUNT.START.create({
+          clientData: {
+            ...currentUser.clientData,
+            registrationProcessFinalizedSteps: [
+              ...finalizedSteps,
+              'onboarding',
+            ],
           },
-          function* (freshUser) {
-            finishOnboarding(freshUser);
-            return {retry: false};
-          },
-        ),
+        }),
       );
     }
   };

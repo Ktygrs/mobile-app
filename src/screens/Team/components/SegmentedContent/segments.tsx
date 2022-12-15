@@ -18,50 +18,71 @@ const styles = StyleSheet.create({
   },
 });
 
-export const SEGMENTS = [
+export type SegmentData = {
+  renderIcon: (active: boolean) => React.ReactNode;
+  renderText: (active: boolean) => React.ReactNode;
+  key: string;
+};
+
+export const SEGMENTS: Readonly<SegmentData[]> = [
   {
-    renderText: (active: boolean) => (
-      <>
-        <ContactsIcon color={active ? COLORS.white : COLORS.secondary} />
-        <Text
-          style={[
-            styles.text,
-            {color: active ? COLORS.white : COLORS.secondary},
-          ]}>
-          {t('team.contacts_tab')}
-        </Text>
-      </>
+    renderIcon: (active: boolean) => (
+      <ContactsIcon color={active ? COLORS.white : COLORS.secondary} />
     ),
+    renderText: function (active: boolean) {
+      return (
+        <>
+          {this.renderIcon(active)}
+          <Text
+            style={[
+              styles.text,
+              {color: active ? COLORS.white : COLORS.secondary},
+            ]}>
+            {t('team.contacts_tab')}
+          </Text>
+        </>
+      );
+    },
     key: 'Contacts',
   },
   {
-    renderText: (active: boolean) => (
-      <>
-        <TierOneIcon fill={active ? COLORS.white : COLORS.secondary} />
-        <Text
-          style={[
-            styles.text,
-            {color: active ? COLORS.white : COLORS.secondary},
-          ]}>
-          {t('users.referralType.T1')}
-        </Text>
-      </>
+    renderIcon: (active: boolean) => (
+      <TierOneIcon fill={active ? COLORS.white : COLORS.secondary} />
     ),
+    renderText: function (active: boolean) {
+      return (
+        <>
+          {this.renderIcon(active)}
+          <Text
+            style={[
+              styles.text,
+              {color: active ? COLORS.white : COLORS.secondary},
+            ]}>
+            {t('users.referralType.T1')}
+          </Text>
+        </>
+      );
+    },
     key: 'TierOne',
   },
   {
-    renderText: (active: boolean) => (
-      <>
-        <TierTwoIcon fill={active ? COLORS.white : COLORS.secondary} />
-        <Text
-          style={[
-            styles.text,
-            {color: active ? COLORS.white : COLORS.secondary},
-          ]}>
-          {t('users.referralType.T2')}
-        </Text>
-      </>
+    renderIcon: (active: boolean) => (
+      <TierTwoIcon fill={active ? COLORS.white : COLORS.secondary} />
     ),
+    renderText: function (active: boolean) {
+      return (
+        <>
+          {this.renderIcon(active)}
+          <Text
+            style={[
+              styles.text,
+              {color: active ? COLORS.white : COLORS.secondary},
+            ]}>
+            {t('users.referralType.T2')}
+          </Text>
+        </>
+      );
+    },
     key: 'TierTwo',
   },
-] as const;
+];

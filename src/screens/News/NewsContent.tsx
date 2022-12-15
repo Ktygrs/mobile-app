@@ -3,19 +3,23 @@
 import {NewsPost} from '@api/news/types';
 import {COLORS} from '@constants/colors';
 import {commonStyles} from '@constants/styles';
+import {WalkThroughContext} from '@contexts/WalkThroughContext';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
 import {FeaturedPost} from '@screens/News/FeaturedPost';
+import {WalkThrough} from '@screens/WalkThrough/WalkThrough';
 import {dayjs} from '@services/dayjs';
 import {ClockIcon} from '@svg/ClockIcon';
 import {EyeIcon} from '@svg/EyeIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
-import React, {useCallback} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
 import {rem, screenWidth} from 'rn-units';
 
 const iconWidth = rem(100);
 const iconHeight = rem(105);
+
+const WALKTHROUGH_ELEMENT_CONTAINER_PADDING = rem(18);
 
 const news: NewsPost[] = [
   {
@@ -57,14 +61,19 @@ const news: NewsPost[] = [
 export const NewsContent = () => {
   const tabBarOffset = useBottomTabBarOffsetStyle();
 
+  const [headerHeight, setHeaderHeight] = useState(0);
+
   const renderHeader = useCallback(() => {
     return (
-      <>
+      <View
+        onLayout={({nativeEvent}) =>
+          setHeaderHeight(nativeEvent.layout.height)
+        }>
         <FeaturedPost />
         <View style={[commonStyles.baseSubScreen, styles.headerBox]}>
           <Text style={styles.newsFeed}>{t('news.news_feed')}</Text>
         </View>
-      </>
+      </View>
     );
   }, []);
 
@@ -78,8 +87,6 @@ export const NewsContent = () => {
           <Text style={styles.title} numberOfLines={3}>
             {item.title}
           </Text>
-          <Text style={styles.subtitle}>{item.subtitle}</Text>
-
           <View style={styles.detailsContainer}>
             <View style={styles.details}>
               <ClockIcon color={COLORS.secondary} width={16} height={16} />
@@ -101,15 +108,37 @@ export const NewsContent = () => {
     );
   }, []);
 
+  const {addStepData} = useContext(WalkThroughContext);
+  useEffect(() => {
+    if (headerHeight && news.length) {
+      const top = headerHeight - WALKTHROUGH_ELEMENT_CONTAINER_PADDING;
+      addStepData({
+        step: 2,
+        stepData: {
+          top,
+          version: 1,
+          renderStepHighlight: () => (
+            <View style={[styles.walkthroughElementContainer, {top}]}>
+              {renderItem({item: news[0]})}
+            </View>
+          ),
+        },
+      });
+    }
+  }, [addStepData, renderItem, headerHeight]);
+
   return (
-    <FlatList
-      style={styles.container}
-      ListHeaderComponent={renderHeader}
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={tabBarOffset.current}
-      data={news}
-      renderItem={renderItem}
-    />
+    <>
+      <FlatList
+        style={styles.container}
+        ListHeaderComponent={renderHeader}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={tabBarOffset.current}
+        data={news}
+        renderItem={renderItem}
+      />
+      <WalkThrough walkThroughType={'news'} numberOfSteps={2} />
+    </>
   );
 };
 
@@ -147,10 +176,6 @@ const styles = StyleSheet.create({
     flex: 1,
     ...font(14, 16.8, 'semibold', 'primaryDark'),
   },
-  subtitle: {
-    flex: 1,
-    ...font(12, 14.4, 'semibold', 'secondary'),
-  },
   textContainer: {
     justifyContent: 'space-between',
     flex: 1,
@@ -170,5 +195,9 @@ const styles = StyleSheet.create({
   },
   detailsContainer: {
     flexDirection: 'row',
+  },
+  walkthroughElementContainer: {
+    paddingVertical: WALKTHROUGH_ELEMENT_CONTAINER_PADDING,
+    backgroundColor: COLORS.white02opacity,
   },
 });

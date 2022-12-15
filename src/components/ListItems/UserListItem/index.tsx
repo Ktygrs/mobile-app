@@ -15,6 +15,9 @@ import {StyleProp, StyleSheet, Text, View, ViewStyle} from 'react-native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import {rem} from 'rn-units';
 
+export const FLAG_MARGIN_LEFT = rem(12);
+export const FLAG_FONT_SIZE = 26;
+
 export const UserListItem = memo(
   ({
     user,
@@ -118,8 +121,8 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
   },
   flag: {
-    ...font(26, null, undefined, undefined),
-    marginLeft: rem(12),
+    ...font(FLAG_FONT_SIZE, null, undefined, undefined),
+    marginLeft: FLAG_MARGIN_LEFT,
   },
   touchArea: {
     flex: 1,

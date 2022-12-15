@@ -4,21 +4,71 @@ import {IceLabel} from '@components/Labels/IceLabel';
 import {PrimaryButton} from '@components/PrimaryButton';
 import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
+import {WalkThroughContext} from '@contexts/WalkThroughContext';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
 import {PermissionsActions} from '@store/modules/Permissions/actions';
 import {AddressBookIcon} from '@svg/AddressBookIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
-import React from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {isAndroid, rem} from 'rn-units';
 
 const icon = require('../../../../assets/images/teamAgendaNotShared.png');
 
-export const ContactsPermissions = () => {
+const CONTAINER_MARGIN_TOP = rem(24);
+const WALKTHROUGH_ELEMENT_CONTAINER_PADDING = rem(20);
+
+type Props = {offset: number};
+
+export const ContactsPermissions = ({offset}: Props) => {
   const dispatch = useDispatch();
   const tabbarOffest = useBottomTabBarOffsetStyle();
+
+  const renderAllowContactButton = useCallback(() => {
+    return (
+      <PrimaryButton
+        text={t('team.contacts.empty_button_title')}
+        onPress={() =>
+          dispatch(PermissionsActions.GET_PERMISSIONS.START.create('contacts'))
+        }
+        style={styles.button}
+        textStyle={styles.buttonText}
+        icon={<AddressBookIcon />}
+      />
+    );
+  }, [dispatch]);
+  const [allowContactButtonY, setAllowContactButton] = useState(0);
+
+  const {addStepData} = useContext(WalkThroughContext);
+  useEffect(() => {
+    if (allowContactButtonY) {
+      const top =
+        offset +
+        allowContactButtonY +
+        CONTAINER_MARGIN_TOP -
+        WALKTHROUGH_ELEMENT_CONTAINER_PADDING * 2;
+      addStepData({
+        step: 1,
+        stepData: {
+          top,
+          version: 1,
+          icon: <AddressBookIcon color={COLORS.primaryLight} />,
+          renderStepHighlight: () => (
+            <View style={styles.walkthroughElementOuterContainer}>
+              <View style={[styles.walkthroughElementContainer, {top}]}>
+                <View style={styles.walkthroughElementInnerContainer}>
+                  {renderAllowContactButton()}
+                </View>
+              </View>
+            </View>
+          ),
+        },
+      });
+    }
+  }, [addStepData, allowContactButtonY, renderAllowContactButton, offset]);
+
   return (
     <View style={[styles.container, tabbarOffest.current]}>
       <Image source={icon} resizeMode="contain" />
@@ -45,22 +95,20 @@ export const ContactsPermissions = () => {
         />
         {t('team.contacts.empty_description_part3')}
       </Text>
-      <PrimaryButton
-        text={t('team.contacts.empty_button_title')}
-        onPress={() =>
-          dispatch(PermissionsActions.GET_PERMISSIONS.START.create('contacts'))
-        }
-        style={styles.button}
-        textStyle={styles.buttonText}
-        icon={<AddressBookIcon />}
-      />
+      <View
+        style={styles.buttonContainer}
+        onLayout={({nativeEvent}) => {
+          setAllowContactButton(nativeEvent.layout.y);
+        }}>
+        {renderAllowContactButton()}
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: rem(24),
+    marginTop: CONTAINER_MARGIN_TOP,
     alignItems: 'center',
     marginHorizontal: SCREEN_SIDE_OFFSET,
   },
@@ -74,13 +122,29 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     ...font(14, 24, 'regular', 'secondary'),
   },
-  button: {
+  buttonContainer: {
     marginTop: rem(25),
+  },
+  button: {
     width: rem(253),
     height: rem(52),
     borderRadius: rem(12),
   },
   buttonText: {
     ...font(17, 20, 'bold'),
+  },
+  walkthroughElementOuterContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  walkthroughElementContainer: {
+    borderRadius: 20,
+    backgroundColor: COLORS.white02opacity,
+    padding: WALKTHROUGH_ELEMENT_CONTAINER_PADDING,
+  },
+  walkthroughElementInnerContainer: {
+    borderRadius: 20,
+    backgroundColor: COLORS.white,
+    padding: WALKTHROUGH_ELEMENT_CONTAINER_PADDING,
   },
 });
