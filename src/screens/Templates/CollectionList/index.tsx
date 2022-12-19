@@ -46,7 +46,7 @@ export const CollectionList = <T,>({
   SkeletonItem,
 }: Props<T>) => {
   useFocusStatusBar({style: 'dark-content'});
-  const tabbarOffest = useBottomTabBarOffsetStyle();
+  const tabbarOffset = useBottomTabBarOffsetStyle();
 
   const {
     data,
@@ -70,7 +70,7 @@ export const CollectionList = <T,>({
 
   const renderEmptyList = useCallback(() => {
     return (
-      <View style={styles.emplyList}>
+      <View style={styles.emptyList}>
         {hasNext ? (
           Array(5)
             .fill(null)
@@ -92,7 +92,7 @@ export const CollectionList = <T,>({
       />
       <FlatList
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={[tabbarOffest.current, styles.listContent]}
+        contentContainerStyle={[tabbarOffset.current, styles.listContent]}
         data={data}
         keyboardDismissMode={'on-drag'}
         renderItem={renderItem}
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     marginHorizontal: SCREEN_SIDE_OFFSET,
     marginVertical: rem(8),
   },
-  emplyList: {
+  emptyList: {
     marginTop: rem(8),
   },
   listContent: {

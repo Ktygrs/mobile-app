@@ -5,19 +5,14 @@ import {COLORS} from '@constants/colors';
 import {commonStyles} from '@constants/styles';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
 import {FeaturedPost} from '@screens/News/FeaturedPost';
+import {dayjs} from '@services/dayjs';
 import {ClockIcon} from '@svg/ClockIcon';
 import {EyeIcon} from '@svg/EyeIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
-import dayjs from 'dayjs';
-import isToday from 'dayjs/plugin/isToday';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import React, {useCallback} from 'react';
 import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
 import {rem, screenWidth} from 'rn-units';
-
-dayjs.extend(isToday);
-dayjs.extend(relativeTime);
 
 const iconWidth = rem(100);
 const iconHeight = rem(105);

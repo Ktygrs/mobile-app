@@ -25,7 +25,7 @@ export const KeyboardDismiss = ({children, onDismiss}: Props) => {
   );
 };
 
-export const stopPropagination = {
+export const stopPropagation = {
   onStartShouldSetResponder: (_: GestureResponderEvent) => true,
   onTouchEnd: (e: GestureResponderEvent) => e.stopPropagation(),
 };

@@ -12,10 +12,11 @@ import {
 } from 'react-native';
 
 type Props = {
-  number: string;
+  number: number | string;
   bodyStyle?: StyleProp<TextStyle>;
   decimalsStyle?: StyleProp<TextStyle>;
   trim?: boolean;
+  numberOfDecimals?: number;
 };
 
 export const FormattedNumber = ({
@@ -23,8 +24,11 @@ export const FormattedNumber = ({
   bodyStyle,
   decimalsStyle,
   trim = false,
+  numberOfDecimals = 2,
 }: Props) => {
-  const [numberInteger, numberDecimals] = number.split('.');
+  const [numberInteger, numberDecimals] = (
+    typeof number === 'number' ? number.toLocaleString('en-US') : number
+  ).split('.');
   const space = trim ? '' : ' ';
   const hasDecimals = !!numberDecimals;
   return (
@@ -33,11 +37,9 @@ export const FormattedNumber = ({
         hasDecimals ? '.' : ''
       }`}</Text>
       {hasDecimals && (
-        <Text
-          style={[
-            styles.fractionalText,
-            decimalsStyle,
-          ]}>{` ${numberDecimals}`}</Text>
+        <Text style={[styles.fractionalText, decimalsStyle]}>
+          {numberDecimals.substring(0, numberOfDecimals)}
+        </Text>
       )}
     </View>
   );

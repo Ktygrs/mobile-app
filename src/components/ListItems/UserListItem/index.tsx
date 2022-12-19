@@ -2,7 +2,7 @@
 
 import {User} from '@api/user/types';
 import {Avatar} from '@components/Avatar/Avatar';
-import {stopPropagination} from '@components/KeyboardDismiss';
+import {stopPropagation} from '@components/KeyboardDismiss';
 import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {MainStackParamList} from '@navigation/Main';
@@ -29,7 +29,7 @@ export const UserListItem = memo(
       useNavigation<NativeStackNavigationProp<MainStackParamList>>();
 
     return (
-      <View style={styles.container} {...stopPropagination}>
+      <View style={styles.container} {...stopPropagation}>
         <Touchable
           style={styles.touchArea}
           onPress={() => navigation.navigate('UserProfile', {userId: user.id})}>

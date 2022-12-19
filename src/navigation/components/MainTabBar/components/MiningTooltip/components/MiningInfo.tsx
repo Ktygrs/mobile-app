@@ -1,9 +1,12 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {DataCell, DataCellSeparator} from '@components/DataCell';
 import {FormattedNumber} from '@components/Labels/FormattedNumber';
 import {IceLabel} from '@components/Labels/IceLabel';
 import {COLORS} from '@constants/colors';
+import {
+  DataCell,
+  DataCellSeparator,
+} from '@navigation/components/MainTabBar/components/MiningTooltip/components/DataCell';
 import {ClockIcon} from '@svg/ClockIcon';
 import {LogoIcon} from '@svg/LogoIcon';
 import {t} from '@translations/i18n';

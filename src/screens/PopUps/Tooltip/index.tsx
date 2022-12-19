@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {stopPropagination} from '@components/KeyboardDismiss';
+import {stopPropagation} from '@components/KeyboardDismiss';
 import {COLORS} from '@constants/colors';
 import {windowHeight} from '@constants/styles';
 import {MainStackParamList} from '@navigation/Main';
@@ -79,7 +79,7 @@ export const Tooltip = () => {
             </View>
             {targetData && (
               <View
-                {...stopPropagination}
+                {...stopPropagation}
                 style={[
                   styles.description,
                   position === 'below'

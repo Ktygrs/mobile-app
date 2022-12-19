@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {stopPropagination} from '@components/KeyboardDismiss';
+import {stopPropagation} from '@components/KeyboardDismiss';
 import {UserListItemButton} from '@components/ListItems/UserListItem/components/UserListItemButton';
 import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
@@ -43,7 +43,7 @@ export const ContactItem = memo(
       }
     };
     return (
-      <View style={styles.contactContainer} {...stopPropagination}>
+      <View style={styles.contactContainer} {...stopPropagation}>
         <View
           style={[
             styles.contactIcon,

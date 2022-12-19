@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {dayjs} from '@services/dayjs';
 import {font} from '@utils/styles';
-import dayjs from 'dayjs';
 import React from 'react';
 import {StyleSheet, Text} from 'react-native';
 

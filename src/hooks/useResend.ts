@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {SMS_EMAIL_RESEND_TIMEOUT_SEC} from '@constants/timeouts';
-import dayjs from 'dayjs';
+import {dayjs} from '@services/dayjs';
 import {useCallback, useEffect, useState} from 'react';
 
 type Params = {

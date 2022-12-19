@@ -8,7 +8,7 @@ import {MainStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {InviteIcon} from '@svg/InviteIcon';
-import {StarTransparentIcon} from '@svg/StarTransparentIcon';
+import {LogoTransparentIcon} from '@svg/LogoTransparentIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React from 'react';
@@ -38,7 +38,7 @@ export const InviteButton = ({style}: Props = {}) => {
           {t('button.invite_friend.description_part2')}
         </Text>
       </View>
-      <StarTransparentIcon style={styles.backgroundIcon} />
+      <LogoTransparentIcon style={styles.backgroundIcon} />
     </Touchable>
   );
 };

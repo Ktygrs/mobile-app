@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {Activity, ActivitySection} from '@api/notifications/types';
-import {orderDataBySections} from '@screens/Notifications/helpers';
+import {orderDataBySections} from '@store/modules/Notifications/selectors/orderNotifications';
 import {RootState} from '@store/rootReducer';
 import {createSelector} from 'reselect';
 

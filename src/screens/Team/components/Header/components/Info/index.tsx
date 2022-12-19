@@ -21,7 +21,7 @@ export const Info = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.conteredRow}>
+      <View style={styles.centeredRow}>
         <TeamInactiveIcon color={COLORS.white} />
         <View style={styles.body}>
           <Text style={styles.title}>{t('team.header.referrals')}</Text>
@@ -29,11 +29,11 @@ export const Info = () => {
         </View>
       </View>
       <View style={styles.divider} />
-      <View style={styles.conteredRow}>
+      <View style={styles.centeredRow}>
         <WalletIcon width={rem(25)} height={rem(25)} color={COLORS.white} />
         <View style={styles.body}>
           <Text style={styles.title}>{t('team.header.earnings')}</Text>
-          <View style={styles.conteredRow}>
+          <View style={styles.centeredRow}>
             <FormattedNumber
               number={earningsValue}
               bodyStyle={styles.valueText}
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     height: rem(22),
   },
-  conteredRow: {
+  centeredRow: {
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -82,6 +82,5 @@ const styles = StyleSheet.create({
   },
   decimalsText: {
     ...font(8, 8, 'semibold'),
-    marginLeft: rem(-2),
   },
 });

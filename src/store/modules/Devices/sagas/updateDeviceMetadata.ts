@@ -4,6 +4,7 @@ import {isApiError} from '@api/client';
 import {DeviceMetadata} from '@api/devices/types';
 import {Api} from '@api/index';
 import {DEVICE_METADATA_UPDATE_TIMEOUT_HOURS} from '@constants/timeouts';
+import {dayjs} from '@services/dayjs';
 import {
   isAuthorizedSelector,
   userIdSelector,
@@ -15,7 +16,6 @@ import {
   lastMetadataUpdateSelector,
 } from '@store/modules/Devices/selectors';
 import {getErrorMessage} from '@utils/errors';
-import dayjs from 'dayjs';
 import DeviceInfo from 'react-native-device-info';
 import {call, put, select} from 'redux-saga/effects';
 

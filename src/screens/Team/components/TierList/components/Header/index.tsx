@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {stopPropagination} from '@components/KeyboardDismiss';
+import {stopPropagation} from '@components/KeyboardDismiss';
 import {IceLabel} from '@components/Labels/IceLabel';
 import {COLORS} from '@constants/colors';
 import {t} from '@translations/i18n';
@@ -17,7 +17,7 @@ type Props = {
 
 export const ListHeader = ({total, active, title}: Props) => {
   return (
-    <View {...stopPropagination}>
+    <View {...stopPropagation}>
       <View style={styles.header}>
         <Text style={styles.title}>{`${t(
           'users.active',

@@ -8,16 +8,10 @@ import {
   getNotificationsListDataSelector,
   notificationsByIdsSelector,
 } from '@store/modules/Notifications/selectors';
-import {appLocale} from '@translations/i18n';
-import dayjs from 'dayjs';
-import calendar from 'dayjs/plugin/calendar';
 import React, {useEffect} from 'react';
 import {StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
-
-dayjs.extend(calendar);
-dayjs.locale(appLocale);
 
 export const Notifications = () => {
   useFocusStatusBar({style: 'light-content'});
@@ -41,7 +35,7 @@ export const Notifications = () => {
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <NotificationsList
         notifications={notifications}
-        clearAllNotitications={removeNotifications}
+        clearAllNotifications={removeNotifications}
       />
     </SafeAreaView>
   );

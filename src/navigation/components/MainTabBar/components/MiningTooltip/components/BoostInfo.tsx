@@ -1,10 +1,13 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {DataCell, DataCellSeparator} from '@components/DataCell';
 import {IceLabel} from '@components/Labels/IceLabel';
 import {COLORS} from '@constants/colors';
 import {Chevron} from '@navigation/components/MainTabBar/components/MiningTooltip/assets/svg/Chevron';
 import {GraphUpIcon} from '@navigation/components/MainTabBar/components/MiningTooltip/assets/svg/GraphUpIcon';
+import {
+  DataCell,
+  DataCellSeparator,
+} from '@navigation/components/MainTabBar/components/MiningTooltip/components/DataCell';
 import {StakeIcon} from '@svg/StakeIcon';
 import {YearsOutlineIcon} from '@svg/YearsOutlineIcon';
 import {t} from '@translations/i18n';

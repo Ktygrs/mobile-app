@@ -17,6 +17,8 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {ActionSheet} from '@screens/Dialogs/ActionSheet';
 import {Confirm, ConfirmButton} from '@screens/Dialogs/Confirm';
 import {CountrySelect} from '@screens/Dialogs/CountrySelect';
+import {DateSelect} from '@screens/Dialogs/DateSelector';
+import {BalanceHistory} from '@screens/HomeFlow/BalanceHistory';
 import {Home} from '@screens/HomeFlow/Home';
 import {Stats} from '@screens/HomeFlow/Stats';
 import {TopCountries} from '@screens/HomeFlow/TopCountries';
@@ -27,7 +29,6 @@ import {InviteFriend} from '@screens/InviteFlow/InviteFriend';
 import {InviteShare} from '@screens/InviteFlow/InviteShare';
 import {News} from '@screens/News';
 import {Notifications} from '@screens/Notifications';
-import {Balance} from '@screens/PopUps/Balance';
 import {ContextualMenu} from '@screens/PopUps/ContextualMenu';
 import {ErrorPopUp} from '@screens/PopUps/Error';
 import {ProfilePrivacyEditStep1} from '@screens/PopUps/ProfilePrivacyEdit/step1';
@@ -98,12 +99,14 @@ export type MainStackParamList = {
       onPress: () => void;
     }[];
   };
+  DateSelect: {
+    onSelect: (range: {start: string | null; end: string | null}) => void;
+  };
   UpdateRequired: undefined;
   UpdateSuccessful: undefined;
   ErrorPopUp: {
     message: string;
   };
-  Balance: undefined;
   InviteFriend: {contact: Contact};
   InviteShare: undefined;
   ContextualMenu: {
@@ -134,6 +137,7 @@ export type HomeTabStackParamList = {
     category: 'active' | 'total';
     statsPeriod: StatsPeriod;
   };
+  BalanceHistory: undefined;
 };
 
 export type TeamTabStackParamList = {
@@ -182,6 +186,7 @@ const HomeTabStackNavigator = () => (
     <HomeTabStack.Screen name="TopMiners" component={TopMiners} />
     <HomeTabStack.Screen name="TopCountries" component={TopCountries} />
     <HomeTabStack.Screen name="UserGrowthGraph" component={UserGrowthGraph} />
+    <HomeTabStack.Screen name="BalanceHistory" component={BalanceHistory} />
   </HomeTabStack.Navigator>
 );
 
@@ -302,6 +307,11 @@ export function MainNavigator() {
         options={modalOptions}
         component={ActionSheet}
       />
+      <MainStack.Screen
+        name="DateSelect"
+        options={modalOptions}
+        component={DateSelect}
+      />
       <MainStack.Screen name="Staking" component={Staking} />
       <MainStack.Screen
         name="UpdateRequired"
@@ -316,11 +326,6 @@ export function MainNavigator() {
       <MainStack.Screen
         name="ErrorPopUp"
         component={ErrorPopUp}
-        options={modalOptions}
-      />
-      <MainStack.Screen
-        name="Balance"
-        component={Balance}
         options={modalOptions}
       />
       <MainStack.Screen

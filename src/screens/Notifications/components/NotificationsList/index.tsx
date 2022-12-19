@@ -14,9 +14,6 @@ import {NotificationActions} from '@store/modules/Notifications/actions';
 import {ClearIcon} from '@svg/ClearIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
-import dayjs from 'dayjs';
-import isToday from 'dayjs/plugin/isToday';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import React, {useCallback} from 'react';
 import {
   Alert,
@@ -31,9 +28,6 @@ import LinearGradient from 'react-native-linear-gradient';
 import {useDispatch} from 'react-redux';
 import {rem, screenWidth} from 'rn-units';
 
-dayjs.extend(isToday);
-dayjs.extend(relativeTime);
-
 export interface ActivityItemProps {
   activity: Activity;
   onPress: () => void;
@@ -43,12 +37,12 @@ interface NotificationsListProps {
     {
       data: Activity[];
     }[];
-  clearAllNotitications: () => void;
+  clearAllNotifications: () => void;
 }
 
 export const NotificationsList = ({
   notifications,
-  clearAllNotitications,
+  clearAllNotifications,
 }: NotificationsListProps) => {
   const {shadowStyle} = useScrollShadow();
   const dispatch = useDispatch();
@@ -67,7 +61,7 @@ export const NotificationsList = ({
                   [
                     {
                       text: t('button.clear'),
-                      onPress: clearAllNotitications,
+                      onPress: clearAllNotifications,
                     },
                     {
                       text: t('button.cancel'),
@@ -85,7 +79,7 @@ export const NotificationsList = ({
         containerStyle={shadowStyle}
       />
     );
-  }, [shadowStyle, clearAllNotitications, notifications]);
+  }, [shadowStyle, clearAllNotifications, notifications]);
 
   const deleteAction = useCallback(
     (dragX: ReturnType<Animated.Value['interpolate']>, item: Activity) => {

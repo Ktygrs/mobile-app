@@ -4,19 +4,14 @@ import {NewsPost} from '@api/news/types';
 import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {SMALL_BUTTON_HIT_SLOP} from '@constants/styles';
+import {dayjs} from '@services/dayjs';
 import {ClockIcon} from '@svg/ClockIcon';
 import {EyeIcon} from '@svg/EyeIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
-import dayjs from 'dayjs';
-import isToday from 'dayjs/plugin/isToday';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {rem, screenWidth} from 'rn-units';
-
-dayjs.extend(isToday);
-dayjs.extend(relativeTime);
 
 const featuredPost: NewsPost = {
   id: '1',

@@ -1,13 +1,15 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {stopPropagation} from '@components/KeyboardDismiss';
 import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
+import {useBottomOffsetStyle} from '@navigation/hooks/useBottomOffsetStyle';
 import {MainStackParamList} from '@navigation/Main';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
-import React, {useEffect} from 'react';
+import React from 'react';
 import {
   StyleProp,
   StyleSheet,
@@ -17,12 +19,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import Animated, {SlideInDown} from 'react-native-reanimated';
 import {rem} from 'rn-units';
 
 export type ConfirmButton = {
@@ -42,33 +39,20 @@ export const DEFAULT_CONFIRM_NO_BUTTON: ConfirmButton = {
   preset: 'destructive',
 };
 
-const ACTION_SHEET_HEIGHT = rem(270);
-
 export const ActionSheet = () => {
   const {
     params: {title, buttons},
   } = useRoute<RouteProp<MainStackParamList, 'ActionSheet'>>();
   const navigation = useNavigation();
-  const {bottom: bottomInset} = useSafeAreaInsets();
-  const actionSheetHeight = ACTION_SHEET_HEIGHT + bottomInset;
-  const positionY = useSharedValue(-ACTION_SHEET_HEIGHT);
-  const animatedStyle = useAnimatedStyle(() => ({
-    bottom: positionY.value,
-  }));
-
-  useEffect(() => {
-    positionY.value = withTiming(0);
-  }, [positionY]);
+  const bottomOffsetStyle = useBottomOffsetStyle();
 
   return (
     <TouchableWithoutFeedback onPress={navigation.goBack}>
       <View style={styles.background}>
         <Animated.View
-          style={[
-            styles.container,
-            {height: actionSheetHeight},
-            animatedStyle,
-          ]}>
+          {...stopPropagation}
+          entering={SlideInDown}
+          style={[styles.container, bottomOffsetStyle.current]}>
           <Text style={styles.titleText}>{title}</Text>
           <View style={styles.buttons}>
             {buttons.map((button, index) => (
@@ -100,8 +84,8 @@ export const ActionSheet = () => {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    backgroundColor: COLORS.transparentBackground,
     justifyContent: 'flex-end',
+    backgroundColor: COLORS.transparentBackground,
   },
   container: {
     backgroundColor: COLORS.white,
@@ -110,10 +94,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: rem(20),
     paddingTop: rem(30),
     paddingBottom: rem(38),
-    position: 'absolute',
-    bottom: -ACTION_SHEET_HEIGHT,
-    left: 0,
-    right: 0,
   },
   titleText: {
     ...font(14, 16.8, 'semibold', 'primaryDark'),

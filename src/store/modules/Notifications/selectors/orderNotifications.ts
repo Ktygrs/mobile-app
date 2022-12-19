@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {Activity, ActivitySection} from '@api/notifications/types';
+import {dayjs} from '@services/dayjs';
 import {t} from '@translations/i18n';
-import dayjs from 'dayjs';
 
 export const orderDataBySections = (activities: Activity[]) => {
   const sections: (ActivitySection & {

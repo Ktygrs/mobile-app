@@ -1,21 +1,22 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {DataCell} from '@components/DataCell';
 import {FormattedNumber} from '@components/Labels/FormattedNumber';
 import {IceLabel} from '@components/Labels/IceLabel';
 import {COLORS} from '@constants/colors';
+import {DataCell} from '@screens/HomeFlow/BalanceHistory/components/PagerHeader/components/DataCell';
 import {LogoIcon} from '@svg/LogoIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {StyleSheet} from 'react-native';
 import {isAndroid, rem} from 'rn-units';
 
 type Props = {
-  value: string;
+  value: string | ReactNode;
+  currency?: ReactNode;
 };
 
-export const BlockchainCell = ({value}: Props) => {
+export const BlockchainCell = ({value, currency}: Props) => {
   return (
     <DataCell
       icon={
@@ -25,16 +26,22 @@ export const BlockchainCell = ({value}: Props) => {
           color={COLORS.primaryLight}
         />
       }
-      label={t('balance_popup.blockchain')}
+      label={t('balance_history.blockchain')}
       value={
-        <FormattedNumber
-          number={value}
-          bodyStyle={styles.valueText}
-          decimalsStyle={styles.valueDecimalsText}
-        />
+        typeof value === 'string' ? (
+          <FormattedNumber
+            number={value}
+            bodyStyle={styles.valueText}
+            decimalsStyle={styles.valueDecimalsText}
+          />
+        ) : (
+          value
+        )
       }
       currency={
-        <IceLabel iconOffsetY={isAndroid ? 2 : 0} color={COLORS.primaryDark} />
+        currency ?? (
+          <IceLabel iconOffsetY={isAndroid ? 2 : 1} color={COLORS.white} />
+        )
       }
     />
   );
@@ -42,9 +49,9 @@ export const BlockchainCell = ({value}: Props) => {
 
 const styles = StyleSheet.create({
   valueText: {
-    ...font(17, 20, 'bold', 'primaryDark'),
+    ...font(15, 18, 'bold'),
   },
   valueDecimalsText: {
-    ...font(10, 12, 'bold', 'primaryDark'),
+    ...font(9, 10, 'bold'),
   },
 });

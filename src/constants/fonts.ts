@@ -1,14 +1,18 @@
 // SPDX-License-Identifier: BUSL-1.1
-export type FontWight =
-  | 'hairline'
-  | 'thin'
-  | 'light'
-  | 'regular'
-  | 'medium'
-  | 'semibold'
-  | 'bold'
-  | 'heavy'
-  | 'black';
+
+export type FontWight = keyof typeof FONT_WEIGHTS;
+
+export const FONT_WEIGHTS = {
+  hairline: '100',
+  thin: '200',
+  light: '300',
+  regular: '400',
+  medium: '500',
+  semibold: '600',
+  bold: '700',
+  heavy: '800',
+  black: '900',
+} as const;
 
 export type FontFamily = 'primary';
 

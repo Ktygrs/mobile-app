@@ -5,7 +5,7 @@ import {IceLabel} from '@components/Labels/IceLabel';
 import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {commonStyles, SMALL_BUTTON_HIT_SLOP} from '@constants/styles';
-import {MainStackParamList} from '@navigation/Main';
+import {MainNavigationParams} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {InfoOutlineIcon} from '@svg/InfoOutlineIcon';
@@ -19,7 +19,7 @@ export const WALLET_HEIGHT = rem(160);
 
 export const Wallet = memo(() => {
   const navigation =
-    useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+    useNavigation<NativeStackNavigationProp<MainNavigationParams>>();
   return (
     <View style={[commonStyles.baseSubScreen, styles.container]}>
       <Text style={styles.balanceLabelText}>{t('home.wallet.balance')}</Text>
@@ -39,7 +39,7 @@ export const Wallet = memo(() => {
         <Touchable
           hitSlop={SMALL_BUTTON_HIT_SLOP}
           style={styles.infoButton}
-          onPress={() => navigation.navigate('Balance')}>
+          onPress={() => navigation.navigate('BalanceHistory')}>
           <InfoOutlineIcon
             color={COLORS.shamrock}
             width={rem(16)}

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {stopPropagination} from '@components/KeyboardDismiss';
+import {stopPropagation} from '@components/KeyboardDismiss';
 import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {useNavigation} from '@react-navigation/native';
@@ -51,7 +51,7 @@ const PopUp = ({
   return (
     <TouchableWithoutFeedback onPress={onPressOutside}>
       <View style={styles.container}>
-        <View style={styles.modalView} {...stopPropagination}>
+        <View style={styles.modalView} {...stopPropagation}>
           <Image resizeMode={'contain'} style={styles.image} source={image} />
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.text}>{message}</Text>

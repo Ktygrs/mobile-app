@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import dayjs from 'dayjs';
+import {dayjs} from '@services/dayjs';
 
 export const mockedNotifications = [
   {

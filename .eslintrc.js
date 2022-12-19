@@ -44,6 +44,10 @@ module.exports = {
                 name: '@constants/fonts',
                 message: 'Please use font util from @utils/styles',
               },
+              {
+                name: 'dayjs',
+                message: 'Please use dayjs from @services/dayjs',
+              },
             ],
           },
         ],
