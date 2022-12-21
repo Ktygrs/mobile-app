@@ -17,10 +17,13 @@ type Props = {
   profilePictureUrl: string;
   isIceFriend: boolean;
   userId: string;
+  phoneNumber?: string | null;
 };
 
+const DEFAULT_ICON_SIZE = rem(22);
+
 export const TeamMember = memo(
-  ({username, profilePictureUrl, isIceFriend, userId}: Props) => {
+  ({username, profilePictureUrl, isIceFriend, userId, phoneNumber}: Props) => {
     const navigation =
       useNavigation<NativeStackNavigationProp<MainStackParamList>>();
     return (
@@ -36,6 +39,11 @@ export const TeamMember = memo(
           {isIceFriend && (
             <View style={styles.friendIcon}>
               <LogoIcon color={COLORS.white} width={rem(15)} height={rem(15)} />
+            </View>
+          )}
+          {phoneNumber && (
+            <View style={styles.logoContainer}>
+              <LogoIcon color={COLORS.white} />
             </View>
           )}
         </View>
@@ -59,11 +67,24 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     backgroundColor: COLORS.primaryLight,
-    width: rem(22),
-    height: rem(22),
+    width: DEFAULT_ICON_SIZE,
+    height: DEFAULT_ICON_SIZE,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: rem(22 / 2),
+    borderWidth: 1,
+    borderColor: COLORS.white,
+  },
+  logoContainer: {
+    width: DEFAULT_ICON_SIZE,
+    height: DEFAULT_ICON_SIZE,
+    borderRadius: DEFAULT_ICON_SIZE / 2,
+    position: 'absolute',
+    backgroundColor: COLORS.primaryLight,
+    right: 0,
+    bottom: -rem(2),
+    justifyContent: 'center',
+    alignItems: 'center',
     borderWidth: 1,
     borderColor: COLORS.white,
   },

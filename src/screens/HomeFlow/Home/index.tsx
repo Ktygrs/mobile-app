@@ -5,9 +5,9 @@ import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffse
 import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
 import {HomeHeader} from '@screens/HomeFlow/Home/components/Header';
 import {Overview} from '@screens/HomeFlow/Home/components/Overview';
+import {PAGE_HEIGHT, Pager} from '@screens/HomeFlow/Home/components/Pager';
 import {Tasks} from '@screens/HomeFlow/Home/components/Tasks';
 import {Team} from '@screens/HomeFlow/Home/components/Team';
-import {Wallet, WALLET_HEIGHT} from '@screens/HomeFlow/Home/components/Wallet';
 import {useScrollHandler} from '@screens/HomeFlow/Home/hooks/useScrollHandler';
 import React, {memo} from 'react';
 import {View} from 'react-native';
@@ -19,15 +19,15 @@ export const Home = memo(() => {
   const {scrollHandler, translateY} = useScrollHandler();
   return (
     <>
-      <HomeHeader translateY={translateY} transitionOffset={WALLET_HEIGHT} />
+      <HomeHeader translateY={translateY} transitionOffset={PAGE_HEIGHT} />
       <Animated.ScrollView
         scrollEventThrottle={16}
         onScroll={scrollHandler}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={tabBarOffset.current}>
-        <Wallet />
+        <Pager />
         <View style={commonStyles.baseSubScreen}>
-          <Overview translateY={translateY} topOffset={WALLET_HEIGHT} />
+          <Overview translateY={translateY} topOffset={PAGE_HEIGHT} />
           <Team />
           <Tasks />
         </View>

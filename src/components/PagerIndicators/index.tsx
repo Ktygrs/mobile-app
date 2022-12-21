@@ -20,11 +20,11 @@ export const PagerIndicators = ({activeIndex, total = 2, style}: Props) => {
         .fill(null)
         .map((_, index) => (
           <View
-            key={index}
             style={[
               styles.indicator,
               activeIndex === index && styles.activeIndicator,
             ]}
+            key={`dot_${index}`}
           />
         ))}
     </View>

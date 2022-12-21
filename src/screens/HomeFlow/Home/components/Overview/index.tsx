@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {FlipCard} from '@components/FlipCard';
+import {FlipCard, FlipCardMethods} from '@components/FlipCard';
 import {InviteButton} from '@components/InviteButton';
-import {SECTION_HEADER_HEIGH, SectionHeader} from '@components/SectionHeader';
+import {SECTION_HEADER_HEIGHT} from '@components/SectionHeader';
 import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {useScrollShadow} from '@hooks/useScrollShadow';
@@ -20,10 +20,13 @@ import {useCardTranslateY} from '@screens/HomeFlow/Home/components/Overview/hook
 import {useScrollCollapse} from '@screens/HomeFlow/Home/components/Overview/hooks/useScrollCollapse';
 import {useGetBarGraphDataForStatsPeriod} from '@store/modules/Stats/hooks/useGetBarGraphDataForStatsPeriod';
 import {t} from '@translations/i18n';
-import React, {memo} from 'react';
-import {Platform, StyleSheet, View} from 'react-native';
+import {font} from '@utils/styles';
+import React, {memo, useRef} from 'react';
+import {Image, Platform, StyleSheet, Text, View} from 'react-native';
 import Animated, {SharedValue} from 'react-native-reanimated';
-import {isAndroid, isIOS, rem} from 'rn-units';
+import {isAndroid, isIOS, rem, screenWidth} from 'rn-units';
+
+const HEADER_RECTANGLE = require('../../assets/images/topRectangle.png');
 
 type Props = {
   // onScroll -> contentOffset.y of the parent ScrollView
@@ -42,10 +45,12 @@ const OVERSCROLL = isIOS ? 1000 : 0;
 const USER_GROWTH_STATS_PERIOD = 7;
 
 export const Overview = memo(({translateY, topOffset}: Props) => {
+  const adoptionCardRef = useRef<FlipCardMethods>(null);
+
   const {cardTranslateY, stickyAnimatedStyle} = useCardTranslateY({
     translateY,
     cardsTopOffset:
-      topOffset + SECTION_HEADER_HEIGH + HEADER_TOP_MARGIN + SCROLL_TOP_MARGIN,
+      topOffset + SECTION_HEADER_HEIGHT + HEADER_TOP_MARGIN + SCROLL_TOP_MARGIN,
   });
   const {shadowStyle} = useScrollShadow({translateY: cardTranslateY});
   const {collapseAnimatedStyle} = useScrollCollapse({
@@ -57,16 +62,27 @@ export const Overview = memo(({translateY, topOffset}: Props) => {
   const {activeUsersData} = useGetBarGraphDataForStatsPeriod(
     USER_GROWTH_STATS_PERIOD,
   );
+  const handleAdoptionPress = () => {
+    adoptionCardRef.current?.changeSide();
+  };
 
   return (
     <>
-      <SectionHeader
-        title={t('home.overview.title')}
-        style={styles.sectionHeader}
+      <Image
+        source={HEADER_RECTANGLE}
+        style={{
+          width: screenWidth,
+          height: screenWidth * 0.08,
+          backgroundColor: COLORS.primaryLight,
+        }}
       />
+      <View style={styles.sectionHeader}>
+        <Text style={styles.titleText}>
+          {t('home.overview.title').toUpperCase()}
+        </Text>
+      </View>
       <Animated.View
-        style={[styles.bodySpace, stickyAnimatedStyle, isIOS && shadowStyle]}
-        pointerEvents={'box-none'}>
+        style={[styles.bodySpace, stickyAnimatedStyle, isIOS && shadowStyle]}>
         <Animated.ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -85,8 +101,9 @@ export const Overview = memo(({translateY, topOffset}: Props) => {
             />
             <FlipCard
               stylesContainer={styles.flipCardContainer}
-              front={<AdoptionCard />}
+              front={<AdoptionCard onPress={handleAdoptionPress} />}
               back={<OnlineUsersHistory data={activeUsersData} />}
+              ref={adoptionCardRef}
             />
           </View>
         </Animated.ScrollView>
@@ -101,7 +118,12 @@ const contentInset = {left: -OVERSCROLL, top: 0, bottom: 0, right: -OVERSCROLL};
 
 const styles = StyleSheet.create({
   sectionHeader: {
-    marginTop: HEADER_TOP_MARGIN,
+    flexDirection: 'row',
+    marginHorizontal: SCREEN_SIDE_OFFSET,
+    justifyContent: 'space-between',
+  },
+  titleText: {
+    ...font(15, 18, 'heavy', 'primaryDark'),
   },
   bodySpace: {
     height: CARDS_TOTAL_HEIGHT + SCROLL_TOP_MARGIN + SCROLL_BOTTOM_MARGIN,

@@ -17,11 +17,11 @@ type Props = {
 };
 
 export const Badges = memo(({user}: Props) => {
+  const authUser = useSelector(userSelector);
+  const isOwner = user?.id === authUser?.id;
+
   const navigation =
     useNavigation<NativeStackNavigationProp<ProfileTabStackParamList>>();
-
-  const authUser = useSelector(userSelector);
-  const isOwner = user && user.id === authUser?.id;
 
   const onViewAllPress = useCallback(
     () => navigation.navigate('Badges', {userId: user?.id}),

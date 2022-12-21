@@ -51,7 +51,7 @@ export function* signInEmailSaga(
       }
     }
   } catch (error) {
-    //TODO::find out how to catch account-exists-with-different-credential -> run "unusual activity" flow
+    //TODO:find out how to catch account-exists-with-different-credential -> run "unusual activity" flow
     yield put(
       AccountActions.SIGN_IN_EMAIL.FAILED.create(
         getAuthErrorMessage(error) ?? getErrorMessage(error),

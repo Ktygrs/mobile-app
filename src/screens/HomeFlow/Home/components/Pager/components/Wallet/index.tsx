@@ -8,16 +8,19 @@ import {commonStyles, SMALL_BUTTON_HIT_SLOP} from '@constants/styles';
 import {MainNavigationParams} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {PAGE_HEIGHT} from '@screens/HomeFlow/Home/components/Pager';
+import {ArrowDown} from '@svg/ArrowDown';
+import {ArrowUp} from '@svg/ArrowUp';
 import {InfoOutlineIcon} from '@svg/InfoOutlineIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
-import React, {memo} from 'react';
+import {random} from 'lodash';
+import React, {memo, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {isAndroid, rem} from 'rn-units';
 
-export const WALLET_HEIGHT = rem(160);
-
 export const Wallet = memo(() => {
+  const [direction] = useState(random(1)); //TODO: connect API
   const navigation =
     useNavigation<NativeStackNavigationProp<MainNavigationParams>>();
   return (
@@ -25,6 +28,7 @@ export const Wallet = memo(() => {
       <Text style={styles.balanceLabelText}>{t('home.wallet.balance')}</Text>
       <View>
         <View style={styles.balanceValue}>
+          {direction ? <ArrowUp /> : <ArrowDown />}
           <FormattedNumber
             number={'20,249,999.99'}
             bodyStyle={styles.balanceValueText}
@@ -63,15 +67,14 @@ export const Wallet = memo(() => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: COLORS.primaryLight,
-    height: WALLET_HEIGHT + rem(30),
+    backgroundColor: COLORS.transparent,
+    height: PAGE_HEIGHT + rem(30),
     marginBottom: -rem(30),
     alignItems: 'center',
   },
   balanceLabelText: {
     marginTop: rem(30),
-    opacity: 0.8,
-    ...font(12, 15, 'semibold'),
+    ...font(12, 15, 'semibold', 'white'),
   },
   balanceValue: {
     flexDirection: 'row',

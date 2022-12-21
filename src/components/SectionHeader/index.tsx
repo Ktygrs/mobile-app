@@ -14,7 +14,7 @@ type Props = {
   style?: StyleProp<ViewStyle>;
 };
 
-export const SECTION_HEADER_HEIGH = rem(42);
+export const SECTION_HEADER_HEIGHT = rem(42);
 
 export const SectionHeader = memo(
   ({title, action, onActionPress, style}: Props) => {
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     marginHorizontal: SCREEN_SIDE_OFFSET,
     justifyContent: 'space-between',
     paddingTop: rem(24),
-    height: SECTION_HEADER_HEIGH,
+    height: SECTION_HEADER_HEIGHT,
   },
   titleText: {
     ...font(15, 18, 'heavy', 'primaryDark'),

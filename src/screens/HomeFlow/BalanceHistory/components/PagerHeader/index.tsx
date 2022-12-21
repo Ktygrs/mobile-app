@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {PagerIndicators} from '@components/PagerIndicators';
 import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {SMALL_BUTTON_HIT_SLOP} from '@constants/styles';
 import {BlockchainCell} from '@screens/HomeFlow/BalanceHistory/components/PagerHeader/components/BlockchainCell';
 import {DataCellSeparator} from '@screens/HomeFlow/BalanceHistory/components/PagerHeader/components/DataCell';
-import {PagerIndicators} from '@screens/HomeFlow/BalanceHistory/components/PagerHeader/components/PagerIndicators';
 import {WalletCell} from '@screens/HomeFlow/BalanceHistory/components/PagerHeader/components/WalletCell';
 import {ArrowLink} from '@svg/ArrowLink';
 import {BottomBump} from '@svg/BottomBump';

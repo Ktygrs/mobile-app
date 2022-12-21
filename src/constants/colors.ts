@@ -47,4 +47,8 @@ export const COLORS = {
   congressBlue: '#063C8C',
   catalinaBlue: '#033580',
   transparent: 'rgba(255, 255, 255, 0)',
+  adoptionGradient: 'rgba(21, 57, 144, 1)',
+  adoptionGradient07: 'rgba(21, 57, 144, 0.7)',
+  adoptionGradient001: 'rgba(21, 57, 144, 0.01)',
+  completed: '#B0DEC8',
 };

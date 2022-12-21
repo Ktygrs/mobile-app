@@ -62,7 +62,7 @@ export const signInWithPhoneNumber = async (phoneNumber: string) => {
 
 export const sendSignInLinkToEmail = async (email: string) => {
   return auth().sendSignInLinkToEmail(email, {
-    //TODO::configure prod dynamic links
+    //TODO:configure prod dynamic links
     dynamicLinkDomain: ENV.DEEPLINK_DOMAIN,
     handleCodeInApp: true,
     iOS: {
