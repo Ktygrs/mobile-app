@@ -18,7 +18,7 @@
     "generate-translation-types": "node scripts/generateTranslationTypes/index.mjs src/translations/translations.json && eslint --fix src/translations/translations.json.d.ts",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "check-types": "tsc",
-    "postinstall": "npx jetify && npx patch-package",
+    "postinstall": "npx jetify && npx patch-package && yarn fetch-translations",
     "check-license": "./scripts/license/checklicense.sh",
     "e2e-build-ios-debug": "source .env && detox build --configuration ios.debug",
     "e2e-test-ios-debug": "source .env && detox test --configuration ios.debug --loglevel trace --record-logs all",
