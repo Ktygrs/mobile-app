@@ -46,11 +46,15 @@ export const FormattedNumber = ({
   );
   return (
     <View style={styles.container}>
-      <Text style={[styles.integerText, bodyStyle, dynamicStyles.color]}>{`${space}${numberInteger}${
-        hasDecimals ? '.' : ''
-      }`}</Text>
+      <Text
+        style={[
+          styles.integerText,
+          bodyStyle,
+          dynamicStyles.color,
+        ]}>{`${space}${numberInteger}${hasDecimals ? '.' : ''}`}</Text>
       {hasDecimals && (
-        <Text style={[styles.fractionalText, decimalsStyle, dynamicStyles.color]}>
+        <Text
+          style={[styles.fractionalText, decimalsStyle, dynamicStyles.color]}>
           {numberDecimals.substring(0, numberOfDecimals)}
         </Text>
       )}
