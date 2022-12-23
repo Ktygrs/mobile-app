@@ -41,8 +41,7 @@ target 'ice' do
 
     # IMPORTANT: bump the Flipper version only when this issue will be fixed
     # https://github.com/facebook/flipper/issues/4278
-
-    :flipper_configuration => FlipperConfiguration.enabled(["Debug", "Release"], {'Flipper' => '0.163.0'}),
+    :flipper_configuration => FlipperConfiguration.enabled(["Debug"], {'Flipper' => '0.163.0'}),
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
