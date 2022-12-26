@@ -16,6 +16,7 @@ import {useFetchCollection} from '@hooks/useFetchCollection';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
 import {EmptyTier} from '@screens/Team/components/TierList/components/EmptyTier';
 import {ListHeader} from '@screens/Team/components/TierList/components/Header';
+import {TEAM_WALK_THROUGH_STEPS_VERSIONS} from '@screens/Team/constants';
 import {ReferralsActions} from '@store/modules/Referrals/actions';
 import {referralsSelector} from '@store/modules/Referrals/selectors';
 import {PingIcon} from '@svg/PingIcon';
@@ -83,7 +84,10 @@ export const TierList = memo(
     const [headerHeight, setHeaderHeight] = useState(0);
     const pingButton = useMemo(() => {
       if (referrals?.length) {
-        return <UserListPingButton pinged={referrals[0].pinged} />;
+        const index = referrals.findIndex(referral => referral.pinged != null);
+        if (index >= 0) {
+          return <UserListPingButton pinged={referrals[index].pinged} />;
+        }
       }
       return null;
     }, [referrals]);
@@ -92,11 +96,12 @@ export const TierList = memo(
     useEffect(() => {
       if (addSteps && offset && pingButton && headerHeight) {
         const top = offset + headerHeight - PADDING_VERTICAL;
+        const stepData = 9;
         addStepData({
-          step: 9,
+          step: stepData,
           stepData: {
-            version: 1,
-            top,
+            version: TEAM_WALK_THROUGH_STEPS_VERSIONS[stepData],
+            topPositionOfHighlightedElement: top,
             icon: (
               <PingIcon
                 fill={COLORS.primaryDark}

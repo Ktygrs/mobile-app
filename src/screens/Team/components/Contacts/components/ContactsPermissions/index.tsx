@@ -6,6 +6,7 @@ import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {WalkThroughContext} from '@contexts/WalkThroughContext';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
+import {TEAM_WALK_THROUGH_STEPS_VERSIONS} from '@screens/Team/constants';
 import {PermissionsActions} from '@store/modules/Permissions/actions';
 import {AddressBookIcon} from '@svg/AddressBookIcon';
 import {t} from '@translations/i18n';
@@ -49,11 +50,12 @@ export const ContactsPermissions = ({offset}: Props) => {
         allowContactButtonY +
         CONTAINER_MARGIN_TOP -
         WALKTHROUGH_ELEMENT_CONTAINER_PADDING * 2;
+      const stepNumber = 1;
       addStepData({
-        step: 1,
+        step: stepNumber,
         stepData: {
-          top,
-          version: 1,
+          topPositionOfHighlightedElement: top,
+          version: TEAM_WALK_THROUGH_STEPS_VERSIONS[stepNumber],
           icon: <AddressBookIcon color={COLORS.primaryLight} />,
           renderStepHighlight: () => (
             <View style={styles.walkthroughElementOuterContainer}>

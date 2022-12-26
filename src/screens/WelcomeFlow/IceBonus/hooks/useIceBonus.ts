@@ -21,12 +21,21 @@ export const useIceBonus = () => {
       currentUser?.clientData?.registrationProcessFinalizedSteps ?? [];
     if (!finalizedSteps.includes('iceBonus')) {
       dispatch(
-        AccountActions.UPDATE_ACCOUNT.START.create({
-          clientData: {
-            ...currentUser.clientData,
-            registrationProcessFinalizedSteps: [...finalizedSteps, 'iceBonus'],
+        AccountActions.UPDATE_ACCOUNT.START.create(
+          {
+            clientData: {
+              ...currentUser.clientData,
+              registrationProcessFinalizedSteps: [
+                ...finalizedSteps,
+                'iceBonus',
+              ],
+            },
           },
-        }),
+          function* (freshUser) {
+            finishIceBonus(freshUser);
+            return {retry: false};
+          },
+        ),
       );
     }
   };

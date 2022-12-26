@@ -5,6 +5,7 @@ import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {SMALL_BUTTON_HIT_SLOP} from '@constants/styles';
 import {WalkThroughContext} from '@contexts/WalkThroughContext';
+import {NEWS_WALK_THROUGH_STEPS_VERSIONS} from '@screens/News/constants';
 import {dayjs} from '@services/dayjs';
 import {ClockIcon} from '@svg/ClockIcon';
 import {EyeIcon} from '@svg/EyeIcon';
@@ -57,11 +58,12 @@ export const FeaturedPost = () => {
   }, []);
   useEffect(() => {
     if (!numberOfNonTriggeredOnLayout) {
+      const stepNumber = 1;
       addStepData({
-        step: 1,
+        step: stepNumber,
         stepData: {
-          version: 1,
-          top,
+          version: NEWS_WALK_THROUGH_STEPS_VERSIONS[stepNumber],
+          topPositionOfHighlightedElement: top,
           renderStepHighlight: () => (
             <View style={styles.walkthroughElementOuterContainer}>
               <View style={[styles.walkthroughElementContainer, {top}]}>

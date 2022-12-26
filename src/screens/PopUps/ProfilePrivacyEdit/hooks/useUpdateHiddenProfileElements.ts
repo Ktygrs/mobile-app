@@ -30,9 +30,24 @@ export const useUpdateHiddenProfileElements = () => {
     }
 
     dispatch(
-      AccountActions.UPDATE_ACCOUNT.START.create({
-        hiddenProfileElements: elementsToUpdate,
-      }),
+      AccountActions.UPDATE_ACCOUNT.START.create(
+        {
+          hiddenProfileElements: elementsToUpdate,
+        },
+        function* (freshUser) {
+          const freshUserHiddenElements =
+            freshUser?.hiddenProfileElements ?? [];
+
+          const alreadyHiddenInFreshUser =
+            freshUserHiddenElements.includes(typeToUpdate);
+
+          if (alreadyHidden && !alreadyHiddenInFreshUser) {
+            updateHiddenProfileElement(freshUser, typeToUpdate);
+          }
+
+          return {retry: false};
+        },
+      ),
     );
   };
 

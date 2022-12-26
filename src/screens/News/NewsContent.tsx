@@ -5,6 +5,7 @@ import {COLORS} from '@constants/colors';
 import {commonStyles} from '@constants/styles';
 import {WalkThroughContext} from '@contexts/WalkThroughContext';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
+import {NEWS_WALK_THROUGH_STEPS_VERSIONS} from '@screens/News/constants';
 import {FeaturedPost} from '@screens/News/FeaturedPost';
 import {WalkThrough} from '@screens/WalkThrough/WalkThrough';
 import {dayjs} from '@services/dayjs';
@@ -112,11 +113,12 @@ export const NewsContent = () => {
   useEffect(() => {
     if (headerHeight && news.length) {
       const top = headerHeight - WALKTHROUGH_ELEMENT_CONTAINER_PADDING;
+      const stepNumber = 2;
       addStepData({
-        step: 2,
+        step: stepNumber,
         stepData: {
-          top,
-          version: 1,
+          topPositionOfHighlightedElement: top,
+          version: NEWS_WALK_THROUGH_STEPS_VERSIONS[stepNumber],
           renderStepHighlight: () => (
             <View style={[styles.walkthroughElementContainer, {top}]}>
               {renderItem({item: news[0]})}

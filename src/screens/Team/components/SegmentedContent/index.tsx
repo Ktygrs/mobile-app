@@ -14,6 +14,7 @@ import {Contacts} from '@screens/Team/components/Contacts';
 import {INFO_HEIGHT} from '@screens/Team/components/Header/components/Info';
 import {SEARCH_HEIGHT} from '@screens/Team/components/Header/components/Search';
 import {TierList} from '@screens/Team/components/TierList';
+import {TEAM_WALK_THROUGH_STEPS_VERSIONS} from '@screens/Team/constants';
 import {Indicator} from '@svg/Indicator';
 import {t} from '@translations/i18n';
 import React, {
@@ -74,8 +75,8 @@ export const SegmentedContent = memo(() => {
       addStepData({
         step,
         stepData: {
-          version: 1,
-          top,
+          version: TEAM_WALK_THROUGH_STEPS_VERSIONS[step],
+          topPositionOfHighlightedElement: top,
           icon: segmentData.renderIcon(false),
           onNext: () => {
             if (index < SEGMENTS.length - 1) {

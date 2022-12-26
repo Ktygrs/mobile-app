@@ -66,13 +66,22 @@ export const useWhoInvitedYou = () => {
       currentUser.clientData?.registrationProcessFinalizedSteps ?? [];
     if (!finalizedSteps.includes('referral')) {
       dispatch(
-        AccountActions.UPDATE_ACCOUNT.START.create({
-          ...(referredBy ? {referredBy} : {}),
-          clientData: {
-            ...currentUser.clientData,
-            registrationProcessFinalizedSteps: [...finalizedSteps, 'referral'],
+        AccountActions.UPDATE_ACCOUNT.START.create(
+          {
+            ...(referredBy ? {referredBy} : {}),
+            clientData: {
+              ...currentUser.clientData,
+              registrationProcessFinalizedSteps: [
+                ...finalizedSteps,
+                'referral',
+              ],
+            },
           },
-        }),
+          function* (freshUser) {
+            updateReferredBy(freshUser, referredBy);
+            return {retry: false};
+          },
+        ),
       );
     }
   };

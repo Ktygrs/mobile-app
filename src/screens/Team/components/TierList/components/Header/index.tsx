@@ -5,6 +5,7 @@ import {IceLabel} from '@components/Labels/IceLabel';
 import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {WalkThroughContext} from '@contexts/WalkThroughContext';
+import {TEAM_WALK_THROUGH_STEPS_VERSIONS} from '@screens/Team/constants';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React, {useCallback, useContext, useEffect} from 'react';
@@ -51,14 +52,15 @@ export const ListHeader = ({
     );
   }, [title]);
 
+  const top = offset - PADDING_VERTICAL * 2;
   useEffect(() => {
     if (addSteps && offset) {
-      const top = offset - PADDING_VERTICAL * 2;
+      const stepNumber = 7;
       addStepData({
-        step: 7,
+        step: stepNumber,
         stepData: {
-          version: 1,
-          top,
+          version: TEAM_WALK_THROUGH_STEPS_VERSIONS[stepNumber],
+          topPositionOfHighlightedElement: top,
           renderStepHighlight: () => (
             <View style={styles.walkthroughElementOuterContainer}>
               <View style={[styles.walkthroughElementContainer, {top}]}>
@@ -70,11 +72,16 @@ export const ListHeader = ({
           ),
         },
       });
+    }
+  }, [offset, addSteps, addStepData, renderActiveUsers, top]);
+  useEffect(() => {
+    if (addSteps && offset) {
+      const stepNumber = 8;
       addStepData({
-        step: 8,
+        step: stepNumber,
         stepData: {
-          version: 1,
-          top,
+          version: TEAM_WALK_THROUGH_STEPS_VERSIONS[stepNumber],
+          topPositionOfHighlightedElement: top,
           renderStepHighlight: () => (
             <View
               style={[styles.walkthroughElementOuterContainer, styles.flexEnd]}>
@@ -88,7 +95,7 @@ export const ListHeader = ({
         },
       });
     }
-  }, [offset, addSteps, addStepData, renderActiveUsers, renderEarnings]);
+  }, [offset, addSteps, addStepData, renderEarnings, top]);
 
   return (
     <View {...stopPropagation} onLayout={onLayout}>

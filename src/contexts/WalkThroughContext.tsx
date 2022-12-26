@@ -8,7 +8,7 @@ type Props = {
 };
 
 export type WalkThroughData = {
-  top: number;
+  topPositionOfHighlightedElement: number;
   version: number;
   renderStepHighlight: () => React.ReactNode;
   icon?: React.ReactNode;
@@ -27,7 +27,11 @@ type WalkThroughContextType = {
 };
 
 const defaultWalkThroughContext: WalkThroughContextType = {
-  getStepData: () => ({top: 0, version: 1, renderStepHighlight: () => null}),
+  getStepData: () => ({
+    topPositionOfHighlightedElement: 0,
+    version: 1,
+    renderStepHighlight: () => null,
+  }),
   addStepData: () => {},
 };
 

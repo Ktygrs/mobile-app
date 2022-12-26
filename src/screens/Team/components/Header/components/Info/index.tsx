@@ -6,6 +6,7 @@ import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {WalkThroughContext} from '@contexts/WalkThroughContext';
 import {SEARCH_HEIGHT} from '@screens/Team/components/Header/components/Search';
+import {TEAM_WALK_THROUGH_STEPS_VERSIONS} from '@screens/Team/constants';
 import {userReferralCountSelector} from '@store/modules/Referrals/selectors';
 import {TeamInactiveIcon} from '@svg/TeamInactiveIcon';
 import {WalletIcon} from '@svg/WalletIcon';
@@ -83,14 +84,15 @@ export const Info = () => {
   const {top: topInset} = useSafeAreaInsets();
 
   const {addStepData} = useContext(WalkThroughContext);
+  const top = SEARCH_HEIGHT + topInset;
   useEffect(() => {
     const color = COLORS.primaryDark;
-    const top = SEARCH_HEIGHT + topInset;
+    const stepNumber = 2;
     addStepData({
-      step: 2,
+      step: stepNumber,
       stepData: {
-        version: 1,
-        top,
+        version: TEAM_WALK_THROUGH_STEPS_VERSIONS[stepNumber],
+        topPositionOfHighlightedElement: top,
         icon: (
           <TeamInactiveIcon width={rem(32)} height={rem(32)} color={color} />
         ),
@@ -105,11 +107,15 @@ export const Info = () => {
         ),
       },
     });
+  }, [addStepData, topInset, renderReferralsCell, top]);
+  useEffect(() => {
+    const color = COLORS.primaryDark;
+    const stepNumber = 3;
     addStepData({
-      step: 3,
+      step: stepNumber,
       stepData: {
-        version: 1,
-        top,
+        version: TEAM_WALK_THROUGH_STEPS_VERSIONS[stepNumber],
+        topPositionOfHighlightedElement: top,
         icon: <WalletIcon width={rem(20)} height={rem(20)} color={color} />,
         renderStepHighlight: () => (
           <View
@@ -127,7 +133,7 @@ export const Info = () => {
         ),
       },
     });
-  }, [addStepData, topInset, renderReferralsCell, renderEarningsCell]);
+  }, [addStepData, topInset, renderEarningsCell, top]);
 
   return (
     <View style={styles.container}>

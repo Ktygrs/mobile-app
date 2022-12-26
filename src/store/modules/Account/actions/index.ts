@@ -6,6 +6,8 @@ import {
   SocialSignInProvider,
 } from '@services/auth/signin/types';
 import {createAction} from '@store/utils/actions/createAction';
+import {Action} from 'redux';
+import {CallEffect, PutEffect} from 'redux-saga/effects';
 
 const SET_TOKEN = createAction('SET_TOKEN', {
   STATE: (token: string | null) => ({token}),
@@ -64,8 +66,20 @@ const DELETE_ACCOUNT = createAction('DELETE_ACCOUNT', {
 });
 
 const UPDATE_ACCOUNT = createAction('UPDATE_ACCOUNT', {
-  START: (userInfo: Partial<User>) => ({
+  START: (
+    userInfo: Partial<User>,
+    raceConditionStrategy: (
+      user: User,
+    ) => Generator<
+      PutEffect<Action<unknown>> | CallEffect<unknown>,
+      {retry: boolean},
+      void
+    > = function* () {
+      return {retry: true};
+    },
+  ) => ({
     userInfo,
+    raceConditionStrategy,
   }),
   SUCCESS: (user: User, userInfo?: Partial<User>) => ({user, userInfo}),
   FAILED: (errorMessage: string) => ({errorMessage}),

@@ -168,19 +168,24 @@ export function WalkThrough({walkThroughType, numberOfSteps}: Props) {
   const onFinalise = useCallback(
     (isSkipped: boolean) => {
       dispatch(
-        AccountActions.UPDATE_ACCOUNT.START.create({
-          clientData: {
-            ...(user.clientData ?? {}),
-            walkTroughProgress: {
-              ...(user.clientData?.walkTroughProgress ?? {}),
-              [walkThroughType]: {
-                type: walkThroughType,
-                version,
-                finalized: !isSkipped,
+        AccountActions.UPDATE_ACCOUNT.START.create(
+          {
+            clientData: {
+              ...(user.clientData ?? {}),
+              walkTroughProgress: {
+                ...(user.clientData?.walkTroughProgress ?? {}),
+                [walkThroughType]: {
+                  type: walkThroughType,
+                  version,
+                  finalized: !isSkipped,
+                },
               },
             },
           },
-        }),
+          function* () {
+            return {retry: true};
+          },
+        ),
       );
       setIsFinished(true);
     },
@@ -197,8 +202,9 @@ export function WalkThrough({walkThroughType, numberOfSteps}: Props) {
   const isLastStep = step === numberOfSteps;
   const circlePosition = useMemo(() => {
     if (stepData && elementHeight) {
-      const aboveSpace = stepData.top;
-      const belowSpace = screenHeight - stepData.top - elementHeight;
+      const aboveSpace = stepData.topPositionOfHighlightedElement;
+      const belowSpace =
+        screenHeight - stepData.topPositionOfHighlightedElement - elementHeight;
       if (aboveSpace > belowSpace) {
         if (CIRCLE_DIAMETER < aboveSpace) {
           return (
@@ -215,7 +221,8 @@ export function WalkThrough({walkThroughType, numberOfSteps}: Props) {
         }
       } else {
         //  aboveSpace >= belowSpace
-        const topStart = stepData.top + elementHeight;
+        const topStart =
+          stepData.topPositionOfHighlightedElement + elementHeight;
         if (CIRCLE_DIAMETER < belowSpace) {
           return topStart + Math.min(rem(10), belowSpace - CIRCLE_DIAMETER);
         } else {
@@ -307,6 +314,12 @@ export function WalkThrough({walkThroughType, numberOfSteps}: Props) {
                         />
                       );
                     case 'url': {
+                      const linkText = t(
+                        `walkthrough.${walkThroughType}.step_${step}.url`,
+                        {
+                          defaultValue: t('news.read_more'),
+                        },
+                      );
                       return (
                         <Text key={`${data.type}:${index}`}>
                           {' '}
@@ -315,7 +328,7 @@ export function WalkThrough({walkThroughType, numberOfSteps}: Props) {
                             onPress={() => {
                               Linking.openURL(data.value ?? '');
                             }}>
-                            {t('news.read_more')}
+                            {linkText}
                           </Text>
                         </Text>
                       );
