@@ -315,7 +315,7 @@ export function WalkThrough({walkThroughType, numberOfSteps}: Props) {
                       );
                     case 'url': {
                       const linkText = t(
-                        `walkthrough.${walkThroughType}.step_${step}.url`,
+                        `walkthrough.${walkThroughType}.step_${step}.link_text`,
                         {
                           defaultValue: t('news.read_more'),
                         },
