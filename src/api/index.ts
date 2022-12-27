@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {devices} from './devices';
+import logins from './logins';
 import {referrals} from './referrals';
 import {statistics} from './statistics';
 import {user} from './user';
@@ -12,4 +13,5 @@ export const Api = Object.freeze({
   referrals,
   validations,
   devices,
+  logins,
 });
