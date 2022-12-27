@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {COLORS} from '@constants/colors';
 import {font} from '@utils/styles';
-import React, {useMemo} from 'react';
+import React from 'react';
 import {
   I18nManager,
   StyleProp,
@@ -26,7 +25,6 @@ export const FormattedNumber = ({
   bodyStyle,
   decimalsStyle,
   trim = false,
-  color = COLORS.white,
   numberOfDecimals = 2,
 }: Props) => {
   const [numberInteger, numberDecimals] = (
@@ -34,27 +32,13 @@ export const FormattedNumber = ({
   ).split('.');
   const space = trim ? '' : ' ';
   const hasDecimals = !!numberDecimals;
-  const dynamicStyles = useMemo(
-    () =>
-      StyleSheet.create({
-        // eslint-disable-next-line react-native/no-unused-styles
-        color: {
-          color,
-        },
-      }),
-    [color],
-  );
   return (
     <View style={styles.container}>
-      <Text
-        style={[
-          styles.integerText,
-          bodyStyle,
-          dynamicStyles.color,
-        ]}>{`${space}${numberInteger}${hasDecimals ? '.' : ''}`}</Text>
+      <Text style={[styles.integerText, bodyStyle]}>{`${space}${numberInteger}${
+        hasDecimals ? '.' : ''
+      }`}</Text>
       {hasDecimals && (
-        <Text
-          style={[styles.fractionalText, decimalsStyle, dynamicStyles.color]}>
+        <Text style={[styles.fractionalText, decimalsStyle]}>
           {numberDecimals.substring(0, numberOfDecimals)}
         </Text>
       )}

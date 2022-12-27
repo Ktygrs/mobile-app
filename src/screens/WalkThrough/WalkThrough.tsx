@@ -8,7 +8,16 @@ import {
   WalkThroughData,
 } from '@contexts/WalkThroughContext';
 import {Images} from '@images';
-import {AccountActions} from '@store/modules/Account/actions';
+import {
+  ANIMATION_CONFIG,
+  ANIMATION_DELAY,
+  CIRCLE_DIAMETER,
+  CIRCLE_PADDING_VERTICAL,
+} from '@screens/WalkThrough/constants';
+import {useCirclePosition} from '@screens/WalkThrough/hooks/useCirclePosition';
+import {useDescriptionData} from '@screens/WalkThrough/hooks/useDescriptionData';
+import {useOnFinalize} from '@screens/WalkThrough/hooks/useOnFinalize';
+import {DescriptionRenderData} from '@screens/WalkThrough/types';
 import {userSelector} from '@store/modules/Account/selectors';
 import {NextArrowSvg} from '@svg/NextArrow';
 import {t} from '@translations/i18n';
@@ -17,7 +26,6 @@ import React, {
   useCallback,
   useContext,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from 'react';
@@ -38,8 +46,8 @@ import Animated, {
   withDelay,
   withTiming,
 } from 'react-native-reanimated';
-import {useDispatch, useSelector} from 'react-redux';
-import {rem, screenHeight} from 'rn-units';
+import {useSelector} from 'react-redux';
+import {rem} from 'rn-units';
 import {screenWidth} from 'rn-units/index';
 import {clearTimeout} from 'timers';
 
@@ -47,16 +55,6 @@ type Props = {
   walkThroughType: WalkThroughType;
   numberOfSteps: number;
 };
-
-type DescriptionRenderData = {
-  type: 'text' | 'ice' | 'url';
-  value?: string;
-};
-
-const CIRCLE_DIAMETER = screenWidth * 1.1;
-const CIRCLE_PADDING_VERTICAL = rem(100);
-const ANIMATION_CONFIG = {duration: 500};
-const ANIMATION_DELAY = 300;
 
 export function WalkThrough({walkThroughType, numberOfSteps}: Props) {
   const {getStepData} = useContext(WalkThroughContext);
@@ -69,7 +67,6 @@ export function WalkThrough({walkThroughType, numberOfSteps}: Props) {
   const stepDataCandidate = getStepData(step);
   const prevStepDataCandidateRef = useRef<WalkThroughData | null>(null);
 
-  const dispatch = useDispatch();
   const user = useSelector(userSelector) as User;
 
   useEffect(() => {
@@ -165,103 +162,11 @@ export function WalkThrough({walkThroughType, numberOfSteps}: Props) {
     return () => clearTimeout(handler);
   }, [elementOpacity, circleOpacity, stepData]);
 
-  const onFinalise = useCallback(
-    (isSkipped: boolean) => {
-      dispatch(
-        AccountActions.UPDATE_ACCOUNT.START.create(
-          {
-            clientData: {
-              ...(user.clientData ?? {}),
-              walkTroughProgress: {
-                ...(user.clientData?.walkTroughProgress ?? {}),
-                [walkThroughType]: {
-                  type: walkThroughType,
-                  version,
-                  finalized: !isSkipped,
-                },
-              },
-            },
-          },
-          function* () {
-            return {retry: true};
-          },
-        ),
-      );
-      setIsFinished(true);
-    },
-    [dispatch, user.clientData, walkThroughType, version],
-  );
-
-  const onSkippAll = useCallback(() => {
-    onFinalise(true);
-  }, [onFinalise]);
-  const onDone = useCallback(() => {
-    onFinalise(false);
-  }, [onFinalise]);
+  const onFinalise = useOnFinalize({walkThroughType, version, setIsFinished});
 
   const isLastStep = step === numberOfSteps;
-  const circlePosition = useMemo(() => {
-    if (stepData && elementHeight) {
-      const aboveSpace = stepData.topPositionOfHighlightedElement;
-      const belowSpace =
-        screenHeight - stepData.topPositionOfHighlightedElement - elementHeight;
-      if (aboveSpace > belowSpace) {
-        if (CIRCLE_DIAMETER < aboveSpace) {
-          return (
-            aboveSpace -
-            CIRCLE_DIAMETER -
-            Math.min(rem(10), aboveSpace - CIRCLE_DIAMETER)
-          );
-        } else {
-          // CIRCLE_DIAMETER >= aboveSpace
-          return Math.max(
-            aboveSpace - CIRCLE_DIAMETER,
-            -CIRCLE_PADDING_VERTICAL,
-          );
-        }
-      } else {
-        //  aboveSpace >= belowSpace
-        const topStart =
-          stepData.topPositionOfHighlightedElement + elementHeight;
-        if (CIRCLE_DIAMETER < belowSpace) {
-          return topStart + Math.min(rem(10), belowSpace - CIRCLE_DIAMETER);
-        } else {
-          // CIRCLE_DIAMETER >= belowSpace
-          return (
-            topStart -
-            Math.min(CIRCLE_DIAMETER - belowSpace, CIRCLE_PADDING_VERTICAL)
-          );
-        }
-      }
-    }
-  }, [elementHeight, stepData]);
-
-  const descriptionData = useMemo(() => {
-    const description = t(
-      `walkthrough.${walkThroughType}.step_${step}.description`,
-    );
-    const url = t(`walkthrough.${walkThroughType}.step_${step}.url`, {
-      defaultValue: '',
-    });
-    const descriptionArray = description.split('[[:ice]]');
-    const renderData: DescriptionRenderData[] = [];
-    const lastIndex = descriptionArray.length - 1;
-    descriptionArray.forEach((value: string, index: number) => {
-      renderData.push({
-        type: 'text',
-        value,
-      });
-      if (index !== lastIndex) {
-        renderData.push({
-          type: 'ice',
-        });
-      }
-    });
-    if (url) {
-      renderData.push({type: 'url', value: url});
-    }
-    return renderData;
-  }, [walkThroughType, step]);
+  const circlePosition = useCirclePosition({elementHeight, stepData});
+  const descriptionData = useDescriptionData({step, walkThroughType});
 
   if (isFinished || !stepData) {
     return null;
@@ -343,13 +248,13 @@ export function WalkThrough({walkThroughType, numberOfSteps}: Props) {
             </Text>
           </View>
           <View style={styles.row}>
-            <Pressable onPress={onSkippAll} hitSlop={12}>
+            <Pressable onPress={() => onFinalise(true)} hitSlop={12}>
               <Text style={styles.skipAll}>{t('button.skip_all')}</Text>
             </Pressable>
             <Pressable
               style={styles.nextContainer}
               hitSlop={12}
-              onPress={isLastStep ? onDone : onNext}>
+              onPress={isLastStep ? () => onFinalise(false) : onNext}>
               <Text style={styles.next}>
                 {isLastStep ? t('button.done') : t('button.next_step')}
               </Text>

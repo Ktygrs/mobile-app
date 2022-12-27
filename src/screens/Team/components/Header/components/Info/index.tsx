@@ -45,30 +45,29 @@ export const Info = () => {
     },
     [refsCount],
   );
-
   const renderEarningsCell = useCallback(
-    (color?: string) => {
+    (color: string = COLORS.white) => {
+      const dynamicStyles = StyleSheet.create({
+        color: {
+          color: color,
+        },
+      });
       return (
         <View style={styles.conteredRow}>
-          <WalletIcon
-            width={rem(25)}
-            height={rem(25)}
-            color={color ?? COLORS.white}
-          />
+          <WalletIcon width={rem(25)} height={rem(25)} color={color} />
           <View style={styles.body}>
-            <Text style={[styles.title, color ? {color} : null]}>
+            <Text style={[styles.title, dynamicStyles.color]}>
               {t('team.header.earnings')}
             </Text>
             <View style={styles.conteredRow}>
               <FormattedNumber
                 number={earningsValue}
-                bodyStyle={styles.valueText}
-                decimalsStyle={styles.decimalsText}
+                bodyStyle={[styles.valueText, dynamicStyles.color]}
+                decimalsStyle={[styles.decimalsText, dynamicStyles.color]}
                 trim={true}
-                color={color}
               />
               <IceLabel
-                textStyle={[styles.valueText, color ? {color} : null]}
+                textStyle={[styles.valueText, dynamicStyles.color]}
                 iconOffsetY={-1}
                 iconSize={rem(16)}
                 color={color}

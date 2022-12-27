@@ -11,13 +11,7 @@ import {ClockIcon} from '@svg/ClockIcon';
 import {EyeIcon} from '@svg/EyeIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import React, {useContext, useEffect, useMemo, useState} from 'react';
 import {Image, LayoutChangeEvent, StyleSheet, Text, View} from 'react-native';
 import {rem, screenWidth} from 'rn-units';
 
@@ -52,10 +46,10 @@ export const FeaturedPost = () => {
   const [top, setTop] = useState(
     -WALKTHROUGH_ELEMENT_CONTAINER_PADDING_VERTICAL * 2,
   );
-  const onLayout = useCallback(({nativeEvent}: LayoutChangeEvent) => {
+  const onLayout = ({nativeEvent}: LayoutChangeEvent) => {
     setTop(currentTop => currentTop + nativeEvent.layout.y);
     setNumberOfNonTriggeredOnLayout(n => n - 1);
-  }, []);
+  };
   useEffect(() => {
     if (!numberOfNonTriggeredOnLayout) {
       const stepNumber = 1;

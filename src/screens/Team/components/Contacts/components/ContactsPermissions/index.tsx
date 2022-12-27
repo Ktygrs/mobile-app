@@ -11,7 +11,7 @@ import {PermissionsActions} from '@store/modules/Permissions/actions';
 import {AddressBookIcon} from '@svg/AddressBookIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
-import React, {useCallback, useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {isAndroid, rem} from 'rn-units';
@@ -21,25 +21,26 @@ const icon = require('../../../../assets/images/teamAgendaNotShared.png');
 const CONTAINER_MARGIN_TOP = rem(24);
 const WALKTHROUGH_ELEMENT_CONTAINER_PADDING = rem(20);
 
+function AllowContactButton() {
+  const dispatch = useDispatch();
+  return (
+    <PrimaryButton
+      text={t('team.contacts.empty_button_title')}
+      onPress={() =>
+        dispatch(PermissionsActions.GET_PERMISSIONS.START.create('contacts'))
+      }
+      style={styles.button}
+      textStyle={styles.buttonText}
+      icon={<AddressBookIcon />}
+    />
+  );
+}
+
 type Props = {offset: number};
 
 export const ContactsPermissions = ({offset}: Props) => {
-  const dispatch = useDispatch();
   const tabbarOffest = useBottomTabBarOffsetStyle();
 
-  const renderAllowContactButton = useCallback(() => {
-    return (
-      <PrimaryButton
-        text={t('team.contacts.empty_button_title')}
-        onPress={() =>
-          dispatch(PermissionsActions.GET_PERMISSIONS.START.create('contacts'))
-        }
-        style={styles.button}
-        textStyle={styles.buttonText}
-        icon={<AddressBookIcon />}
-      />
-    );
-  }, [dispatch]);
   const [allowContactButtonY, setAllowContactButton] = useState(0);
 
   const {addStepData} = useContext(WalkThroughContext);
@@ -61,7 +62,7 @@ export const ContactsPermissions = ({offset}: Props) => {
             <View style={styles.walkthroughElementOuterContainer}>
               <View style={[styles.walkthroughElementContainer, {top}]}>
                 <View style={styles.walkthroughElementInnerContainer}>
-                  {renderAllowContactButton()}
+                  <AllowContactButton />
                 </View>
               </View>
             </View>
@@ -69,7 +70,7 @@ export const ContactsPermissions = ({offset}: Props) => {
         },
       });
     }
-  }, [addStepData, allowContactButtonY, renderAllowContactButton, offset]);
+  }, [addStepData, allowContactButtonY, offset]);
 
   return (
     <View style={[styles.container, tabbarOffest.current]}>
@@ -102,7 +103,7 @@ export const ContactsPermissions = ({offset}: Props) => {
         onLayout={({nativeEvent}) => {
           setAllowContactButton(nativeEvent.layout.y);
         }}>
-        {renderAllowContactButton()}
+        <AllowContactButton />
       </View>
     </View>
   );
