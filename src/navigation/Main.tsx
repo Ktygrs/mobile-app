@@ -125,6 +125,9 @@ export type MainStackParamList = {
   UserProfile: {userId: string} | undefined;
   Roles: {userId?: string} | undefined;
   Badges: {category?: BadgeCategory; userId?: string};
+  ProfilePrivacyEditStep1: undefined;
+  ProfilePrivacyEditStep2: undefined;
+  ProfilePrivacyEditStep3: undefined;
 };
 
 export type HomeTabStackParamList = {
@@ -154,9 +157,6 @@ export type ProfileTabStackParamList = {
   ConfirmPhoneNumber: undefined;
   NotificationSettings: undefined;
   LanguageSettings: undefined;
-  ProfilePrivacyEditStep1: undefined;
-  ProfilePrivacyEditStep2: undefined;
-  ProfilePrivacyEditStep3: undefined;
   ModifyEmail: undefined;
   ConfirmEmail: undefined;
 };
@@ -219,21 +219,6 @@ const ProfileTabStackNavigator = () => (
     <ProfileTabStack.Screen
       name="LanguageSettings"
       component={LanguageSettings}
-    />
-    <ProfileTabStack.Screen
-      name="ProfilePrivacyEditStep1"
-      component={ProfilePrivacyEditStep1}
-      options={modalOptions}
-    />
-    <ProfileTabStack.Screen
-      name="ProfilePrivacyEditStep2"
-      component={ProfilePrivacyEditStep2}
-      options={modalOptions}
-    />
-    <ProfileTabStack.Screen
-      name="ProfilePrivacyEditStep3"
-      component={ProfilePrivacyEditStep3}
-      options={modalOptions}
     />
     <ProfileTabStack.Screen name="ModifyEmail" component={ModifyEmail} />
     <ProfileTabStack.Screen name="ConfirmEmail" component={ConfirmEmail} />
@@ -357,6 +342,21 @@ export function MainNavigator() {
         name="Badges"
         component={Badges}
         options={badgesOptions}
+      />
+      <MainStack.Screen
+        name="ProfilePrivacyEditStep1"
+        component={ProfilePrivacyEditStep1}
+        options={modalOptions}
+      />
+      <MainStack.Screen
+        name="ProfilePrivacyEditStep2"
+        component={ProfilePrivacyEditStep2}
+        options={modalOptions}
+      />
+      <MainStack.Screen
+        name="ProfilePrivacyEditStep3"
+        component={ProfilePrivacyEditStep3}
+        options={modalOptions}
       />
     </MainStack.Navigator>
   );

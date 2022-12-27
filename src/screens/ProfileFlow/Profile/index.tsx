@@ -174,6 +174,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     marginTop: rem(20),
+    height: rem(107),
     overflow: 'hidden',
   },
   ladderContainer: {
@@ -182,7 +183,6 @@ const styles = StyleSheet.create({
   },
   usernameText: {
     marginTop: rem(70),
-    marginBottom: rem(20),
     alignSelf: 'center',
     ...font(17, 20.4, 'semibold'),
   },

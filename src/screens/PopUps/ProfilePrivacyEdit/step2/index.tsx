@@ -2,7 +2,7 @@
 
 import {COLORS} from '@constants/colors';
 import {Images} from '@images';
-import {ProfileTabStackParamList} from '@navigation/Main';
+import {MainNavigationParams} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {CancelButton} from '@screens/PopUps/ProfilePrivacyEdit/components/CancelButton';
@@ -16,7 +16,7 @@ import {rem, screenWidth} from 'rn-units';
 
 export const ProfilePrivacyEditStep2 = () => {
   const navigation =
-    useNavigation<NativeStackNavigationProp<ProfileTabStackParamList>>();
+    useNavigation<NativeStackNavigationProp<MainNavigationParams>>();
 
   const goNext = () => {
     navigation.replace('ProfilePrivacyEditStep3');
