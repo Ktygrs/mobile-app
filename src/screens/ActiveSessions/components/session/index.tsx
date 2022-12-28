@@ -22,6 +22,7 @@ interface Props {
 }
 
 // TODO: Translations
+// TODO: Use real logo of provider
 const Session: FunctionComponent<Props> = ({sessionId}) => {
   const providerType = useSelector(
     SessionsSelectors.session.getProviderType(sessionId),

@@ -13,7 +13,10 @@ const MOCKED_DATA: ActiveSessionsResponse = {
   sessions: [
     {
       sessionId: '1',
+
+      providerId: 'GOOGLE_id',
       providerType: 'GOOGLE',
+
       loginIdentifier: 'email@email.com',
       loginIdentifierType: 'EMAIL',
 
@@ -28,7 +31,10 @@ const MOCKED_DATA: ActiveSessionsResponse = {
 
     {
       sessionId: '2',
+
+      providerId: 'GOOGLE_id',
       providerType: 'GOOGLE',
+
       loginIdentifier: 'email@email.com',
       loginIdentifierType: 'EMAIL',
 
@@ -43,7 +49,10 @@ const MOCKED_DATA: ActiveSessionsResponse = {
 
     {
       sessionId: '3',
+
+      providerId: 'APPLE_id',
       providerType: 'APPLE',
+
       loginIdentifier: '+14844731670',
       loginIdentifierType: 'PHONE_NUMBER',
 
@@ -58,7 +67,10 @@ const MOCKED_DATA: ActiveSessionsResponse = {
 
     {
       sessionId: '4',
+
+      providerId: 'EMAIL_id',
       providerType: 'EMAIL',
+
       loginIdentifier: 'some4@email.com',
       loginIdentifierType: 'EMAIL',
 
@@ -68,6 +80,24 @@ const MOCKED_DATA: ActiveSessionsResponse = {
       device: {
         type: 'PHONE',
         info: 'iPhone 14 Pro Max',
+      },
+    },
+
+    {
+      sessionId: '5',
+
+      providerId: 'APPLE_id',
+      providerType: 'APPLE',
+
+      loginIdentifier: '+14844731670',
+      loginIdentifierType: 'PHONE_NUMBER',
+
+      lastActivityAt: '2022-01-30T16:35:02.996090946Z',
+      locationName: 'New York, USA',
+
+      device: {
+        type: 'PHONE',
+        info: 'iPhone 12 Pro',
       },
     },
   ],

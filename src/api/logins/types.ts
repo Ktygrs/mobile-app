@@ -10,7 +10,9 @@ export type ApiLoginProvider =
 export type ApiSession = {
   sessionId: string;
 
+  providerId: string;
   providerType: ApiLoginProvider;
+
   loginIdentifier: string;
   loginIdentifierType: 'EMAIL' | 'PHONE_NUMBER';
 

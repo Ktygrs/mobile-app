@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {COLORS} from '@constants/colors';
 import {useScrollShadow} from '@hooks/useScrollShadow';
 import {Header} from '@navigation/components/Header';
 import {useBottomOffsetStyle} from '@navigation/hooks/useBottomOffsetStyle';
@@ -9,6 +10,7 @@ import {isLoadingSelector} from '@store/modules/UtilityProcessStatuses/selectors
 import {t} from '@translations/i18n';
 import React, {FunctionComponent, useCallback, useEffect} from 'react';
 import {ListRenderItem, StyleSheet, View} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import Animated from 'react-native-reanimated';
 import {useDispatch, useSelector} from 'react-redux';
 import {rem} from 'rn-units';
@@ -74,7 +76,11 @@ const ActiveSessions: FunctionComponent = () => {
         onScroll={scrollHandler}
       />
 
-      {/* TODO: Add gradient */}
+      <LinearGradient
+        pointerEvents={'none'}
+        colors={[COLORS.transparent, COLORS.white]}
+        style={[styles.bottomGradient, bottomOffset.current]}
+      />
     </View>
   );
 };
@@ -91,5 +97,13 @@ const styles = StyleSheet.create({
 
   separator: {
     height: rem(16),
+  },
+
+  bottomGradient: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    minHeight: rem(16),
   },
 });
