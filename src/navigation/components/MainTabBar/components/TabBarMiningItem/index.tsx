@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {User} from '@api/user/types';
 import {Images} from '@images';
 import {MAIN_TAB_BAR_HEIGHT} from '@navigation/components/MainTabBar';
 import {MiningTooltip} from '@navigation/components/MainTabBar/components/MiningTooltip';
@@ -9,8 +10,8 @@ import {useFadeLottie} from '@navigation/components/MainTabBar/components/TabBar
 import {MainStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {EconomyActions} from '@store/modules/Economy/actions';
-import {isMiningTooltipSeenSelector} from '@store/modules/Economy/selectors';
+import {AccountActions} from '@store/modules/Account/actions';
+import {userSelector} from '@store/modules/Account/selectors';
 import {MiningInactiveIcon} from '@svg/MiningInactiveIcon';
 import LottieView from 'lottie-react-native';
 import React, {useRef, useState} from 'react';
@@ -32,16 +33,32 @@ export const TabBarMiningItem = () => {
     useNavigation<NativeStackNavigationProp<MainStackParamList>>();
   const dispatch = useDispatch();
 
-  const isMiningTooltipSeen = useSelector(isMiningTooltipSeenSelector);
+  const user = useSelector(userSelector);
   const [miningActive, setMiningActive] = useState(false);
 
   const lottieRef = useRef<LottieView>(null);
   const lottieWrapperRef = useRef<View>(null);
   const {animatedOpacity} = useFadeLottie(miningActive, lottieRef);
 
+  const setIsMiningTooltipSeen = (currentUser: User) => {
+    dispatch(
+      AccountActions.UPDATE_ACCOUNT.START.create(
+        {
+          clientData: {...currentUser?.clientData, isMiningTooltipSeen: true},
+        },
+        function* (freshUser) {
+          if (!freshUser.clientData?.isMiningTooltipSeen) {
+            setIsMiningTooltipSeen(freshUser);
+          }
+          return {retry: false};
+        },
+      ),
+    );
+  };
+
   const onButtonPress = () => {
-    if (!isMiningTooltipSeen) {
-      dispatch(EconomyActions.STORE_MINIG_TOOLTIP_SEEN.STATE.create());
+    if (user && !user.clientData?.isMiningTooltipSeen) {
+      setIsMiningTooltipSeen(user);
     }
     if (miningActive) {
       navigation.navigate('Tooltip', {
@@ -61,7 +78,7 @@ export const TabBarMiningItem = () => {
     <ImageBackground
       style={styles.container}
       source={Images.tabbar.miningBackground}>
-      {!isMiningTooltipSeen && <StartMiningTooltip />}
+      {!user?.clientData?.isMiningTooltipSeen && <StartMiningTooltip />}
       <TouchableWithoutFeedback
         accessibilityRole="button"
         onPress={onButtonPress}>

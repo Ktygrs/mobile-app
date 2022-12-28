@@ -2,18 +2,9 @@
 
 import {configureStore} from '@reduxjs/toolkit';
 import {loggingReduxEnhancer} from '@services/logging';
-import {
-  FLUSH,
-  PAUSE,
-  PERSIST,
-  persistStore,
-  PURGE,
-  REGISTER,
-  REHYDRATE,
-} from 'redux-persist';
 import createSagaMiddleware from 'redux-saga';
 
-import {persistedRootReducer} from './rootReducer';
+import {rootReducer} from './rootReducer';
 import {rootSaga} from './rootSaga';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -26,21 +17,9 @@ if (__DEV__) {
 }
 
 export const store = configureStore({
-  reducer: persistedRootReducer,
-  middleware: getDefaultMiddleware =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-    }).concat(middlewares),
+  reducer: rootReducer,
+  middleware: middlewares,
   enhancers: [loggingReduxEnhancer],
 });
 
-const persistor = persistStore(store);
-
 sagaMiddleware.run(rootSaga);
-
-export const configuredStore = {
-  store,
-  persistor,
-};
