@@ -23,7 +23,7 @@ export const ListHeader = ({total, active, title}: Props) => {
           'users.active',
         )}: ${active}/${total}`}</Text>
         <Text style={styles.title}>
-          {`${t(title)}: 94,412 `}
+          {`${title}: 94,412 `}
           <IceLabel iconSize={16} color={COLORS.primaryDark} />
         </Text>
       </View>

@@ -48,7 +48,7 @@ export const startGoogleSignIn: SocialSignInMethod<{
           throw new Error(t('errors.google_play_services_not_available'));
         default:
           throw new Error(
-            t('errors.unknown_error_with_code', {code: error.code}),
+            t('errors.unknown_error_with_code', {code: String(error.code)}),
           );
       }
     }

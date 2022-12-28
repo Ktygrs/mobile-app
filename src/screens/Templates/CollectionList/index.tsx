@@ -76,7 +76,9 @@ export const CollectionList = <T,>({
             .fill(null)
             .map((_, index) => <SkeletonItem key={index} />)
         ) : (
-          <Text>{t('search.nothing_is_found', {query: searchQuery})}</Text>
+          <Text>
+            {t('search.nothing_is_found', {query: searchQuery ?? ''})}
+          </Text>
         )}
       </View>
     );

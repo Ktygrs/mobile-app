@@ -31,7 +31,7 @@ function ActiveNavigator() {
     'iceBonus',
     'onboarding',
   ];
-  const finilizedAuthSteps =
+  const finalizedAuthSteps =
     user?.clientData?.registrationProcessFinalizedSteps ?? [];
 
   if (!isAppInitialized) {
@@ -42,7 +42,7 @@ function ActiveNavigator() {
     return <AuthNavigator />;
   }
 
-  if (difference(requiredAuthSteps, finilizedAuthSteps).length !== 0) {
+  if (difference(requiredAuthSteps, finalizedAuthSteps).length !== 0) {
     return <WelcomeNavigator />;
   }
 

@@ -33,43 +33,43 @@ const moreIcon = require('../../assets/images/moreIcon.png');
 const buttons: SocialShareButtonType[] = [
   {
     type: 'Telegram',
-    title: 'invite_share.telegram',
+    title: t('invite_share.telegram'),
     icon: telegramIcon,
   },
   {
     type: 'Twitter',
-    title: 'invite_share.twitter',
+    title: t('invite_share.twitter'),
     icon: twitterIcon,
   },
   {
     type: 'WhatsApp',
-    title: 'invite_share.whatsapp',
+    title: t('invite_share.whatsapp'),
     icon: whatsAppIcon,
   },
   {
     type: 'Instagram',
-    title: 'invite_share.instagram',
+    title: t('invite_share.instagram'),
     icon: instagramIcon,
   },
   {
     type: 'Email',
-    title: 'invite_share.email',
+    title: t('invite_share.email'),
     icon: emailIcon,
   },
   {
     type: 'FB',
-    title: 'invite_share.fb',
+    title: t('invite_share.fb'),
     icon: fbIcon,
     social: Share.Social.FACEBOOK,
   },
   {
     type: 'CopyLink',
-    title: 'invite_share.copy_link',
+    title: t('invite_share.copy_link'),
     icon: copyIcon,
   },
   {
     type: 'More',
-    title: 'invite_share.more',
+    title: t('invite_share.more'),
     icon: moreIcon,
   },
 ];
@@ -88,9 +88,12 @@ const ShareCard = () => {
       case 'More':
         let moreOptions = {
           ...baseOptions,
-          title: `${t('share.share_message')}${t('invite_share.share_url', {
-            username,
-          })}`,
+          title: `${t('invite_share.share_message')}${t(
+            'invite_share.share_url',
+            {
+              username,
+            },
+          )}`,
         };
         ShareMore.share(moreOptions);
         break;
@@ -138,7 +141,7 @@ const ShareCard = () => {
         const instagramOptions = {
           backgroundImage:
             'https://e7.pngegg.com/pngimages/223/378/png-clipart-three-ice-cubes-three-ice-cubes-ice.png',
-          attributionURL: t('invite_share.share_url'),
+          attributionURL: t('invite_share.share_url', {username}),
           social: Share.Social.INSTAGRAM_STORIES,
           appId: ENV.FACEBOOK_APP_ID || '',
         };

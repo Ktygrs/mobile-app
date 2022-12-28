@@ -7,8 +7,10 @@ export type NotificationChannel = {
   sms: boolean;
 };
 
+export type NotificationType = 'TEAM' | 'REMINDERS' | 'NEWS' | 'ACHIEVEMENTS';
+
 export type NotificationSettings = {
-  [key: string]: NotificationChannel;
+  [key in NotificationType]: NotificationChannel;
 };
 
 export interface DeviceSettings extends DeviceId {

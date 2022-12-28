@@ -2,5 +2,6 @@
 . "$(dirname "$0")/_/husky.sh"
 
 npm run check-license
+npm run fetch-translations
 npm run lint
 npm run check-types

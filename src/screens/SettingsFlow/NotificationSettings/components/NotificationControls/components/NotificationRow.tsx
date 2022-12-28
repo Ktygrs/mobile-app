@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {NotificationChannel} from '@api/devices/types';
+import {NotificationChannel, NotificationType} from '@api/devices/types';
 import {Switch} from '@components/Switch';
 import {COLORS} from '@constants/colors';
 import {t} from '@translations/i18n';
@@ -10,22 +10,26 @@ import {StyleSheet, Text, View} from 'react-native';
 import {rem} from 'rn-units';
 
 type Props = {
-  channel: string;
+  type: NotificationType;
   pushEnabled: boolean;
   emailEnabled: boolean;
   onChange: (
-    channel: string,
+    type: NotificationType,
     key: keyof NotificationChannel,
     value: boolean,
   ) => void;
 };
 
 export const NotificationRow = memo(
-  ({channel, pushEnabled, emailEnabled, onChange}: Props) => {
+  ({type, pushEnabled, emailEnabled, onChange}: Props) => {
     return (
       <View style={styles.container}>
         <Text style={styles.labelText} numberOfLines={2}>
-          {t(`settings.notifications.channel_${channel.toLowerCase()}`)}
+          {t(
+            `settings.notifications.channel_${
+              type.toLowerCase() as Lowercase<typeof type>
+            }`,
+          )}
         </Text>
         <View style={[styles.section, styles.section_left]}>
           <Text
@@ -36,7 +40,7 @@ export const NotificationRow = memo(
           </Text>
           <Switch
             value={pushEnabled}
-            onValueChange={value => onChange(channel, 'push', value)}
+            onValueChange={value => onChange(type, 'push', value)}
           />
         </View>
         <View style={styles.section}>
@@ -48,7 +52,7 @@ export const NotificationRow = memo(
           </Text>
           <Switch
             value={emailEnabled}
-            onValueChange={value => onChange(channel, 'email', value)}
+            onValueChange={value => onChange(type, 'email', value)}
           />
         </View>
       </View>

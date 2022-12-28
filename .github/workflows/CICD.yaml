@@ -152,7 +152,7 @@ jobs:
         id: run-test
         run: |
           cd main-repo
-          bash run-e2e-ios-release.sh
+          bash scripts/run-e2e-ios-release.sh
       - name: Slack Notification
         if: ${{ github.event_name == 'push' && success() == false}}
         uses: act10ns/slack@v2
@@ -223,7 +223,7 @@ jobs:
           enable-hw-keyboard: true
           disable-animations: false
           arch: x86
-          script: bash ${{ github.workspace }}/main-repo/run-e2e-android-release.sh
+          script: bash ${{ github.workspace }}/main-repo/scripts/run-e2e-android-release.sh
       - name: Slack Notification
         if: ${{ github.event_name == 'push' && success() == false }}
         uses: act10ns/slack@v2

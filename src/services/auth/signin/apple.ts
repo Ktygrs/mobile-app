@@ -43,7 +43,7 @@ export const startAppleSignIn: SocialSignInMethod<{
           return {cancelled: true};
         default:
           throw new Error(
-            t('errors.unknown_error_with_code', {code: error.code}),
+            t('errors.unknown_error_with_code', {code: String(error.code)}),
           );
       }
     }

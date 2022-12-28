@@ -94,3 +94,4 @@ coverage/
 #
 *.dSYM.zip
 /src/translations/translations.json
+/src/translations/translations.json.d.ts

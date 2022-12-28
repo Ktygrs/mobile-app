@@ -50,7 +50,7 @@ export const SegmentedContent = memo(() => {
           <TierList
             referralType="T1"
             emptyTitle={t('users.referralType.T1')}
-            headerTitle="team.tier_one.header_list.title_earnings"
+            headerTitle={t('team.tier_one.header_list.title_earnings')}
             focused={activeIndex === SegmentIndex.Tier1List}
           />
         </View>
@@ -58,7 +58,7 @@ export const SegmentedContent = memo(() => {
           <TierList
             referralType="T2"
             emptyTitle={t('users.referralType.T2')}
-            headerTitle="team.tier_two.header_list.title_earnings"
+            headerTitle={t('team.tier_two.header_list.title_earnings')}
             focused={activeIndex === SegmentIndex.Tier2List}
           />
         </View>

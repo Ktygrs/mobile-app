@@ -12,7 +12,7 @@ export const getErrorMessage = (error: unknown): string => {
     return error;
   } else if (isApiError(error)) {
     return t('error.api_error', {
-      status: error.response?.status,
+      status: error.response?.status ?? 'UNKNOWN',
       code: error.response?.data?.code ?? 'UNKNOWN',
     });
   }

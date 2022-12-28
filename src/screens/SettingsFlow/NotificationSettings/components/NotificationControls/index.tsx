@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {NotificationChannel, NotificationSettings} from '@api/devices/types';
+import {
+  NotificationChannel,
+  NotificationSettings,
+  NotificationType,
+} from '@api/devices/types';
 import {COLORS} from '@constants/colors';
 import {commonStyles, SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {AllNotifications} from '@screens/SettingsFlow/NotificationSettings/components/NotificationControls/components/AllNotifications';
@@ -32,7 +36,9 @@ export const NotificationControls = memo(
 
     const {openConfirmationDlg} = useConfirmNotificationsDlg();
 
-    const notificationChannels: string[] = Object.keys(notificationSettings);
+    const notificationTypes = Object.keys(
+      notificationSettings,
+    ) as NotificationType[];
 
     const setAllNotifications = useCallback(
       (value: boolean) => {
@@ -46,13 +52,17 @@ export const NotificationControls = memo(
     );
 
     const changeNotificationSettings = useCallback(
-      (channel: string, key: keyof NotificationChannel, value: boolean) => {
+      (
+        type: NotificationType,
+        key: keyof NotificationChannel,
+        value: boolean,
+      ) => {
         if (key === 'push' && !hasPushPermissions) {
           openConfirmationDlg();
         } else {
           dispatch(
             DeviceActions.UPDATE_SETTINGS.START.create({
-              notificationSettings: {[channel]: {[key]: value}},
+              notificationSettings: {[type]: {[key]: value}},
             }),
           );
         }
@@ -63,13 +73,13 @@ export const NotificationControls = memo(
     return (
       <>
         <View style={[styles.list, commonStyles.shadow]}>
-          {notificationChannels.map((channel, index) => {
-            const channelSettings = notificationSettings[channel];
+          {notificationTypes.map((type, index) => {
+            const channelSettings = notificationSettings[type];
             return (
-              <React.Fragment key={channel}>
+              <React.Fragment key={type}>
                 {index !== 0 && <NotificationRowSeparator />}
                 <NotificationRow
-                  channel={channel}
+                  type={type}
                   pushEnabled={hasPushPermissions && channelSettings.push}
                   emailEnabled={channelSettings.email}
                   onChange={changeNotificationSettings}
