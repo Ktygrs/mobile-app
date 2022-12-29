@@ -74,8 +74,7 @@ export function WalkThrough({route}: WalkThroughProps) {
       user?.clientData?.walkTroughProgress?.[walkThroughType];
     if (walkThroughElement) {
       const stepVersion = getStepVersion({walkThroughType, step});
-      // TODO: remove >=
-      if (stepVersion >= walkThroughElement.version) {
+      if (stepVersion > walkThroughElement.version) {
         if (
           prevStepDataCandidate &&
           prevStepDataCandidate !== prevStepDataRef.current

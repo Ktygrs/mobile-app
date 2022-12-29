@@ -17,8 +17,7 @@ export function useHasStepsToShow(walkThroughType: WalkThroughType): boolean {
       if (walkThroughElement) {
         const userVersion: number = walkThroughElement.version;
         const maxStepVersion = getMaxStepVersion(walkThroughType);
-        // TODO: fix to >
-        setHasStepsToShow(maxStepVersion >= userVersion);
+        setHasStepsToShow(maxStepVersion > userVersion);
       } else {
         setHasStepsToShow(true);
       }
