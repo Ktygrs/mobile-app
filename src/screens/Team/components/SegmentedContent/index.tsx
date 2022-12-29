@@ -9,22 +9,14 @@ import {
 } from '@components/SegmentedControl';
 import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
-import {WalkThroughContext} from '@contexts/WalkThroughContext';
 import {Contacts} from '@screens/Team/components/Contacts';
 import {INFO_HEIGHT} from '@screens/Team/components/Header/components/Info';
 import {SEARCH_HEIGHT} from '@screens/Team/components/Header/components/Search';
 import {TierList} from '@screens/Team/components/TierList';
-import {TEAM_WALK_THROUGH_STEPS_VERSIONS} from '@screens/Team/constants';
+import {useAddStepData} from '@store/modules/WalkThrough/hooks/useAddStepData';
 import {Indicator} from '@svg/Indicator';
 import {t} from '@translations/i18n';
-import React, {
-  memo,
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import PagerView, {PagerViewOnPageSelectedEvent} from 'react-native-pager-view';
 import Animated from 'react-native-reanimated';
@@ -62,7 +54,7 @@ export const SegmentedContent = memo(() => {
   const {top: topInset} = useSafeAreaInsets();
   const offset = topInset + SEARCH_HEIGHT + INFO_HEIGHT + CONTAINER_PADDING_TOP;
 
-  const {addStepData} = useContext(WalkThroughContext);
+  const addStepData = useAddStepData('team');
   useEffect(() => {
     const top = offset - SEGMENTED_CONTROL_HEIGHT;
     const widthStyle = {width: `${100 / SEGMENTS.length}%`};
@@ -75,7 +67,6 @@ export const SegmentedContent = memo(() => {
       addStepData({
         step,
         stepData: {
-          version: TEAM_WALK_THROUGH_STEPS_VERSIONS[step],
           topPositionOfHighlightedElement: top,
           icon: segmentData.renderIcon(false),
           onNext: () => {

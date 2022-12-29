@@ -14,6 +14,7 @@ import {statsReducer} from '@store/modules/Stats/reducer';
 import {usersReducer} from '@store/modules/Users/reducer';
 import {processStatusesReducer} from '@store/modules/UtilityProcessStatuses/reducer';
 import {validationReducer} from '@store/modules/Validation/reducer';
+import {walkThroughReducer} from '@store/modules/WalkThrough/reducer';
 import {combineReducers} from 'redux';
 
 export const rootReducer = combineReducers({
@@ -31,6 +32,7 @@ export const rootReducer = combineReducers({
   linking: linkingReducer,
   notifications: notificationsReducer,
   users: usersReducer,
+  walkThrough: walkThroughReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

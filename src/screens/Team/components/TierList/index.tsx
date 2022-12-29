@@ -10,24 +10,16 @@ import {
 import {UserListPingButton} from '@components/ListItems/UserListItem/components/UserListPingButton';
 import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
-import {WalkThroughContext} from '@contexts/WalkThroughContext';
 import {BottomSheetFlatList} from '@gorhom/bottom-sheet';
 import {useFetchCollection} from '@hooks/useFetchCollection';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
 import {EmptyTier} from '@screens/Team/components/TierList/components/EmptyTier';
 import {ListHeader} from '@screens/Team/components/TierList/components/Header';
-import {TEAM_WALK_THROUGH_STEPS_VERSIONS} from '@screens/Team/constants';
 import {ReferralsActions} from '@store/modules/Referrals/actions';
 import {referralsSelector} from '@store/modules/Referrals/selectors';
+import {useAddStepData} from '@store/modules/WalkThrough/hooks/useAddStepData';
 import {PingIcon} from '@svg/PingIcon';
-import React, {
-  memo,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import React, {memo, useCallback, useEffect, useMemo, useState} from 'react';
 import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {rem} from 'rn-units';
@@ -92,15 +84,13 @@ export const TierList = memo(
       return null;
     }, [referrals]);
 
-    const {addStepData} = useContext(WalkThroughContext);
+    const addStepData = useAddStepData('team');
     useEffect(() => {
       if (addSteps && offset && pingButton && headerHeight) {
         const top = offset + headerHeight - PADDING_VERTICAL;
-        const stepData = 9;
         addStepData({
-          step: stepData,
+          step: 9,
           stepData: {
-            version: TEAM_WALK_THROUGH_STEPS_VERSIONS[stepData],
             topPositionOfHighlightedElement: top,
             icon: (
               <PingIcon

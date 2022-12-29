@@ -4,11 +4,10 @@ import {stopPropagation} from '@components/KeyboardDismiss';
 import {IceLabel} from '@components/Labels/IceLabel';
 import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
-import {WalkThroughContext} from '@contexts/WalkThroughContext';
-import {TEAM_WALK_THROUGH_STEPS_VERSIONS} from '@screens/Team/constants';
+import {useAddStepData} from '@store/modules/WalkThrough/hooks/useAddStepData';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
-import React, {useCallback, useContext, useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {LayoutChangeEvent, StyleSheet, Text, View} from 'react-native';
 import {rem} from 'rn-units';
 
@@ -32,7 +31,7 @@ export const ListHeader = ({
   offset,
   onLayout,
 }: Props) => {
-  const {addStepData} = useContext(WalkThroughContext);
+  const addStepData = useAddStepData('team');
 
   const renderActiveUsers = useCallback(() => {
     return (
@@ -45,7 +44,7 @@ export const ListHeader = ({
   const renderEarnings = useCallback(() => {
     return (
       <Text style={styles.title}>
-        {`${t(title)}: 94,412 `}
+        {`${title}: 94,412 `}
 
         <IceLabel iconSize={16} color={COLORS.primaryDark} />
       </Text>
@@ -55,11 +54,9 @@ export const ListHeader = ({
   const top = offset - PADDING_VERTICAL * 2;
   useEffect(() => {
     if (addSteps && offset) {
-      const stepNumber = 7;
       addStepData({
-        step: stepNumber,
+        step: 7,
         stepData: {
-          version: TEAM_WALK_THROUGH_STEPS_VERSIONS[stepNumber],
           topPositionOfHighlightedElement: top,
           renderStepHighlight: () => (
             <View style={styles.walkthroughElementOuterContainer}>
@@ -76,11 +73,9 @@ export const ListHeader = ({
   }, [offset, addSteps, addStepData, renderActiveUsers, top]);
   useEffect(() => {
     if (addSteps && offset) {
-      const stepNumber = 8;
       addStepData({
-        step: stepNumber,
+        step: 8,
         stepData: {
-          version: TEAM_WALK_THROUGH_STEPS_VERSIONS[stepNumber],
           topPositionOfHighlightedElement: top,
           renderStepHighlight: () => (
             <View

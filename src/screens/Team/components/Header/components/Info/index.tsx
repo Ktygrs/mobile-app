@@ -4,15 +4,14 @@ import {FormattedNumber} from '@components/Labels/FormattedNumber';
 import {IceLabel} from '@components/Labels/IceLabel';
 import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
-import {WalkThroughContext} from '@contexts/WalkThroughContext';
 import {SEARCH_HEIGHT} from '@screens/Team/components/Header/components/Search';
-import {TEAM_WALK_THROUGH_STEPS_VERSIONS} from '@screens/Team/constants';
 import {userReferralCountSelector} from '@store/modules/Referrals/selectors';
+import {useAddStepData} from '@store/modules/WalkThrough/hooks/useAddStepData';
 import {TeamInactiveIcon} from '@svg/TeamInactiveIcon';
 import {WalletIcon} from '@svg/WalletIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
-import React, {useCallback, useContext, useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useSelector} from 'react-redux';
@@ -82,15 +81,13 @@ export const Info = () => {
 
   const {top: topInset} = useSafeAreaInsets();
 
-  const {addStepData} = useContext(WalkThroughContext);
+  const addStepData = useAddStepData('team');
   const top = SEARCH_HEIGHT + topInset;
   useEffect(() => {
     const color = COLORS.primaryDark;
-    const stepNumber = 2;
     addStepData({
-      step: stepNumber,
+      step: 2,
       stepData: {
-        version: TEAM_WALK_THROUGH_STEPS_VERSIONS[stepNumber],
         topPositionOfHighlightedElement: top,
         icon: (
           <TeamInactiveIcon width={rem(32)} height={rem(32)} color={color} />
@@ -109,11 +106,9 @@ export const Info = () => {
   }, [addStepData, topInset, renderReferralsCell, top]);
   useEffect(() => {
     const color = COLORS.primaryDark;
-    const stepNumber = 3;
     addStepData({
-      step: stepNumber,
+      step: 3,
       stepData: {
-        version: TEAM_WALK_THROUGH_STEPS_VERSIONS[stepNumber],
         topPositionOfHighlightedElement: top,
         icon: <WalletIcon width={rem(20)} height={rem(20)} color={color} />,
         renderStepHighlight: () => (

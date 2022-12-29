@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {BadgeCategory} from '@api/badges/types';
+import {WalkThroughType} from '@api/user/types';
 import {Country} from '@constants/countries';
 import {MainTabBar} from '@navigation/components/MainTabBar';
 import {HomeIcon} from '@navigation/components/MainTabBar/components/Icons/HomeIcon';
@@ -50,6 +51,7 @@ import {PersonalInformation} from '@screens/SettingsFlow/PersonalInformation';
 import {Settings} from '@screens/SettingsFlow/Settings';
 import {Staking} from '@screens/Staking';
 import {Team} from '@screens/Team';
+import {WalkThrough} from '@screens/WalkThrough/WalkThrough';
 import {WebView} from '@screens/WebView';
 import {StatsPeriod} from '@store/modules/Stats/types';
 import React, {ComponentType, RefObject} from 'react';
@@ -125,6 +127,7 @@ export type MainStackParamList = {
   UserProfile: {userId: string} | undefined;
   Roles: {userId?: string} | undefined;
   Badges: {category?: BadgeCategory; userId?: string};
+  WalkThrough: {walkThroughType: WalkThroughType};
   ProfilePrivacyEditStep1: undefined;
   ProfilePrivacyEditStep2: undefined;
   ProfilePrivacyEditStep3: undefined;
@@ -342,6 +345,11 @@ export function MainNavigator() {
         name="Badges"
         component={Badges}
         options={badgesOptions}
+      />
+      <MainStack.Screen
+        name="WalkThrough"
+        component={WalkThrough}
+        options={modalOptions}
       />
       <MainStack.Screen
         name="ProfilePrivacyEditStep1"

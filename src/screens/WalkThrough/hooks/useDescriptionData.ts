@@ -13,8 +13,10 @@ type Props = {
 export function useDescriptionData({step, walkThroughType}: Props) {
   return useMemo(() => {
     const description = t(
+      // @ts-ignore
       `walkthrough.${walkThroughType}.step_${step}.description`,
     );
+    // @ts-ignore
     const url = t(`walkthrough.${walkThroughType}.step_${step}.url`, {
       defaultValue: '',
     });

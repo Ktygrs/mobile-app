@@ -4,14 +4,13 @@ import {NewsPost} from '@api/news/types';
 import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {SMALL_BUTTON_HIT_SLOP} from '@constants/styles';
-import {WalkThroughContext} from '@contexts/WalkThroughContext';
-import {NEWS_WALK_THROUGH_STEPS_VERSIONS} from '@screens/News/constants';
 import {dayjs} from '@services/dayjs';
+import {useAddStepData} from '@store/modules/WalkThrough/hooks/useAddStepData';
 import {ClockIcon} from '@svg/ClockIcon';
 import {EyeIcon} from '@svg/EyeIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
-import React, {useContext, useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {Image, LayoutChangeEvent, StyleSheet, Text, View} from 'react-native';
 import {rem, screenWidth} from 'rn-units';
 
@@ -25,9 +24,10 @@ const featuredPost: NewsPost = {
 
 const WALKTHROUGH_ELEMENT_CONTAINER_PADDING_VERTICAL = rem(16);
 const CONTENT_PADDING_HORIZONTAL = rem(24);
+const NUMBER_OF_LAYOUTS = 3;
 
 export const FeaturedPost = () => {
-  const {addStepData} = useContext(WalkThroughContext);
+  const addStepData = useAddStepData('news');
 
   const readMoreButton = useMemo(
     () => (
@@ -42,7 +42,7 @@ export const FeaturedPost = () => {
   );
 
   const [numberOfNonTriggeredOnLayout, setNumberOfNonTriggeredOnLayout] =
-    useState(3);
+    useState(NUMBER_OF_LAYOUTS);
   const [top, setTop] = useState(
     -WALKTHROUGH_ELEMENT_CONTAINER_PADDING_VERTICAL * 2,
   );
@@ -52,11 +52,9 @@ export const FeaturedPost = () => {
   };
   useEffect(() => {
     if (!numberOfNonTriggeredOnLayout) {
-      const stepNumber = 1;
       addStepData({
-        step: stepNumber,
+        step: 1,
         stepData: {
-          version: NEWS_WALK_THROUGH_STEPS_VERSIONS[stepNumber],
           topPositionOfHighlightedElement: top,
           renderStepHighlight: () => (
             <View style={styles.walkthroughElementOuterContainer}>

@@ -3,17 +3,16 @@
 import {NewsPost} from '@api/news/types';
 import {COLORS} from '@constants/colors';
 import {commonStyles} from '@constants/styles';
-import {WalkThroughContext} from '@contexts/WalkThroughContext';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
-import {NEWS_WALK_THROUGH_STEPS_VERSIONS} from '@screens/News/constants';
 import {FeaturedPost} from '@screens/News/FeaturedPost';
-import {WalkThrough} from '@screens/WalkThrough/WalkThrough';
+import {useShowWalkThrough} from '@screens/WalkThrough/hooks/useShowWalkThrough';
 import {dayjs} from '@services/dayjs';
+import {useAddStepData} from '@store/modules/WalkThrough/hooks/useAddStepData';
 import {ClockIcon} from '@svg/ClockIcon';
 import {EyeIcon} from '@svg/EyeIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
-import React, {useCallback, useContext, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
 import {rem, screenWidth} from 'rn-units';
 
@@ -109,16 +108,14 @@ export const NewsContent = () => {
     );
   }, []);
 
-  const {addStepData} = useContext(WalkThroughContext);
+  const addStepData = useAddStepData('news');
   useEffect(() => {
     if (headerHeight && news.length) {
       const top = headerHeight - WALKTHROUGH_ELEMENT_CONTAINER_PADDING;
-      const stepNumber = 2;
       addStepData({
-        step: stepNumber,
+        step: 2,
         stepData: {
           topPositionOfHighlightedElement: top,
-          version: NEWS_WALK_THROUGH_STEPS_VERSIONS[stepNumber],
           renderStepHighlight: () => (
             <View style={[styles.walkthroughElementContainer, {top}]}>
               {renderItem({item: news[0]})}
@@ -129,18 +126,17 @@ export const NewsContent = () => {
     }
   }, [addStepData, renderItem, headerHeight]);
 
+  useShowWalkThrough({walkThroughType: 'news'});
+
   return (
-    <>
-      <FlatList
-        style={styles.container}
-        ListHeaderComponent={renderHeader}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={tabBarOffset.current}
-        data={news}
-        renderItem={renderItem}
-      />
-      <WalkThrough walkThroughType={'news'} numberOfSteps={2} />
-    </>
+    <FlatList
+      style={styles.container}
+      ListHeaderComponent={renderHeader}
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={tabBarOffset.current}
+      data={news}
+      renderItem={renderItem}
+    />
   );
 };
 

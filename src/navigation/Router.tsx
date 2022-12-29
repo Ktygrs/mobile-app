@@ -19,7 +19,6 @@ import {useGetstreamListener} from '@store/modules/Notifications/hooks/useGetstr
 import {difference} from 'lodash';
 import React, {useCallback} from 'react';
 import RNBootSplash from 'react-native-bootsplash';
-import {Host} from 'react-native-portalize';
 import {useSelector} from 'react-redux';
 
 function ActiveNavigator() {
@@ -47,11 +46,7 @@ function ActiveNavigator() {
     return <WelcomeNavigator />;
   }
 
-  return (
-    <Host>
-      <MainNavigator />
-    </Host>
-  );
+  return <MainNavigator />;
 }
 
 export function Router() {

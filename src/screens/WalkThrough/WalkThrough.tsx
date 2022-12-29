@@ -1,13 +1,10 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {User, WalkThroughType} from '@api/user/types';
 import {IceLabel} from '@components/Labels/IceLabel';
 import {COLORS} from '@constants/colors';
-import {
-  WalkThroughContext,
-  WalkThroughData,
-} from '@contexts/WalkThroughContext';
 import {Images} from '@images';
+import {MainStackParamList} from '@navigation/Main';
+import {RouteProp} from '@react-navigation/native';
 import {
   ANIMATION_CONFIG,
   ANIMATION_DELAY,
@@ -19,16 +16,14 @@ import {useDescriptionData} from '@screens/WalkThrough/hooks/useDescriptionData'
 import {useOnFinalize} from '@screens/WalkThrough/hooks/useOnFinalize';
 import {DescriptionRenderData} from '@screens/WalkThrough/types';
 import {userSelector} from '@store/modules/Account/selectors';
+import {WALK_THROUGH_NUMBER_OF_STEPS} from '@store/modules/WalkThrough/constants';
+import {getWalkThroughStepData} from '@store/modules/WalkThrough/selectors';
+import {getStepVersion} from '@store/modules/WalkThrough/selectors/utils';
+import {WalkThroughData} from '@store/modules/WalkThrough/types';
 import {NextArrowSvg} from '@svg/NextArrow';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   Image,
   Linking,
@@ -38,7 +33,6 @@ import {
   Text,
   View,
 } from 'react-native';
-import {Portal} from 'react-native-portalize';
 import Animated, {
   cancelAnimation,
   useAnimatedStyle,
@@ -51,34 +45,37 @@ import {rem} from 'rn-units';
 import {screenWidth} from 'rn-units/index';
 import {clearTimeout} from 'timers';
 
-type Props = {
-  walkThroughType: WalkThroughType;
-  numberOfSteps: number;
-};
+type WalkThroughRouteProps = RouteProp<MainStackParamList, 'WalkThrough'>;
 
-export function WalkThrough({walkThroughType, numberOfSteps}: Props) {
-  const {getStepData} = useContext(WalkThroughContext);
+interface WalkThroughProps {
+  route: WalkThroughRouteProps;
+}
+
+export function WalkThrough({route}: WalkThroughProps) {
+  const {walkThroughType} = route.params;
+  const numberOfSteps = WALK_THROUGH_NUMBER_OF_STEPS[walkThroughType] ?? 0;
   const [step, setStep] = useState(1);
-  const [isFinished, setIsFinished] = useState(false);
-  const [version, setVersion] = useState(1);
-  const [stepData, setStepData] = useState<null | WalkThroughData>(null);
+  const [stepData, setStepData] = useState<undefined | WalkThroughData>();
   const prevStepDataRef = useRef<WalkThroughData | null>(null);
 
-  const stepDataCandidate = getStepData(step);
+  const stepDataCandidate: WalkThroughData | undefined = useSelector(
+    getWalkThroughStepData({walkThroughType, step}),
+  );
   const prevStepDataCandidateRef = useRef<WalkThroughData | null>(null);
 
-  const user = useSelector(userSelector) as User;
+  const user = useSelector(userSelector);
 
   useEffect(() => {
     if (!stepDataCandidate) {
       return;
     }
     const prevStepDataCandidate = prevStepDataCandidateRef.current;
-    setVersion((v: number) => Math.max(v, stepDataCandidate.version));
     const walkThroughElement =
-      user.clientData?.walkTroughProgress?.[walkThroughType];
+      user?.clientData?.walkTroughProgress?.[walkThroughType];
     if (walkThroughElement) {
-      if (stepDataCandidate.version > walkThroughElement.version) {
+      const stepVersion = getStepVersion({walkThroughType, step});
+      // TODO: remove >=
+      if (stepVersion >= walkThroughElement.version) {
         if (
           prevStepDataCandidate &&
           prevStepDataCandidate !== prevStepDataRef.current
@@ -97,7 +94,8 @@ export function WalkThrough({walkThroughType, numberOfSteps}: Props) {
     }
     prevStepDataCandidateRef.current = stepDataCandidate;
   }, [
-    user.clientData?.walkTroughProgress,
+    user?.clientData?.walkTroughProgress,
+    step,
     walkThroughType,
     stepDataCandidate,
     prevStepDataCandidateRef,
@@ -162,116 +160,116 @@ export function WalkThrough({walkThroughType, numberOfSteps}: Props) {
     return () => clearTimeout(handler);
   }, [elementOpacity, circleOpacity, stepData]);
 
-  const onFinalise = useOnFinalize({walkThroughType, version, setIsFinished});
+  const onFinalise = useOnFinalize({walkThroughType});
 
   const isLastStep = step === numberOfSteps;
   const circlePosition = useCirclePosition({elementHeight, stepData});
   const descriptionData = useDescriptionData({step, walkThroughType});
 
-  if (isFinished || !stepData) {
+  if (!stepData) {
     return null;
   }
 
   const {renderStepHighlight, icon} = stepData;
 
   return (
-    <Portal>
-      <View style={styles.background}>
-        <Animated.View
-          style={[
-            styles.circleContainer,
-            circleAnimatedStyle,
-            {top: circlePosition},
-          ]}>
-          <Image
-            source={Images.backgrounds.walkthroughBg}
-            style={styles.backgroundImage}
-          />
-          <View>
-            <View style={styles.row}>
-              <View style={styles.titleContainer}>
-                {icon ? <View style={styles.iconContainer}>{icon}</View> : null}
-                <Text style={styles.title}>
-                  {t(`walkthrough.${walkThroughType}.step_${step}.title`)}
-                </Text>
-              </View>
-              <View style={styles.progressBar}>
-                <View
-                  style={[
-                    styles.progressIndicator,
-                    {width: `${(step / numberOfSteps) * 100}%`},
-                  ]}
-                />
-              </View>
-            </View>
-            <Text style={styles.description}>
-              {descriptionData.map(
-                (data: DescriptionRenderData, index: number) => {
-                  switch (data.type) {
-                    case 'ice':
-                      return (
-                        <IceLabel
-                          key={`${data.type}:${index}`}
-                          iconSize={16}
-                          iconOffsetY={Platform.OS === 'ios' ? rem(16) : rem(2)}
-                          color={COLORS.white}
-                          textStyle={styles.ice}
-                        />
-                      );
-                    case 'url': {
-                      const linkText = t(
-                        `walkthrough.${walkThroughType}.step_${step}.link_text`,
-                        {
-                          defaultValue: t('news.read_more'),
-                        },
-                      );
-                      return (
-                        <Text key={`${data.type}:${index}`}>
-                          {' '}
-                          <Text
-                            style={styles.underlineText}
-                            onPress={() => {
-                              Linking.openURL(data.value ?? '');
-                            }}>
-                            {linkText}
-                          </Text>
-                        </Text>
-                      );
-                    }
-                    default:
-                      return (
-                        <Text key={`${data.type}:${index}`}>{data.value}</Text>
-                      );
-                  }
-                },
-              )}
-            </Text>
-          </View>
+    <View style={styles.background}>
+      <Animated.View
+        style={[
+          styles.circleContainer,
+          circleAnimatedStyle,
+          {top: circlePosition},
+        ]}>
+        <Image
+          source={Images.backgrounds.walkthroughBg}
+          style={styles.backgroundImage}
+        />
+        <View>
           <View style={styles.row}>
-            <Pressable onPress={() => onFinalise(true)} hitSlop={12}>
-              <Text style={styles.skipAll}>{t('button.skip_all')}</Text>
-            </Pressable>
-            <Pressable
-              style={styles.nextContainer}
-              hitSlop={12}
-              onPress={isLastStep ? () => onFinalise(false) : onNext}>
-              <Text style={styles.next}>
-                {isLastStep ? t('button.done') : t('button.next_step')}
+            <View style={styles.titleContainer}>
+              {icon ? <View style={styles.iconContainer}>{icon}</View> : null}
+              <Text style={styles.title}>
+                {/*@ts-ignore*/}
+                {t(`walkthrough.${walkThroughType}.step_${step}.title`)}
               </Text>
-              <NextArrowSvg style={{marginLeft: rem(12)}} />
-            </Pressable>
+            </View>
+            <View style={styles.progressBar}>
+              <View
+                style={[
+                  styles.progressIndicator,
+                  {width: `${(step / numberOfSteps) * 100}%`},
+                ]}
+              />
+            </View>
           </View>
-        </Animated.View>
-        <Animated.View
-          style={elementAnimatedStyle}
-          onLayout={({nativeEvent}) => {
-            setElementHeight(nativeEvent.layout.height);
-            setIsElementHeightSet(true);
-          }}>
-          {renderStepHighlight()}
-        </Animated.View>
-      </View>
-    </Portal>
+          <Text style={styles.description}>
+            {descriptionData.map(
+              (data: DescriptionRenderData, index: number) => {
+                switch (data.type) {
+                  case 'ice':
+                    return (
+                      <IceLabel
+                        key={`${data.type}:${index}`}
+                        iconSize={16}
+                        iconOffsetY={Platform.OS === 'ios' ? rem(16) : rem(2)}
+                        color={COLORS.white}
+                        textStyle={styles.ice}
+                      />
+                    );
+                  case 'url': {
+                    const linkText = t(
+                      // @ts-ignore
+                      `walkthrough.${walkThroughType}.step_${step}.link_text`,
+                      {
+                        defaultValue: t('news.read_more'),
+                      },
+                    );
+                    return (
+                      <Text key={`${data.type}:${index}`}>
+                        {' '}
+                        <Text
+                          style={styles.underlineText}
+                          onPress={() => {
+                            Linking.openURL(data.value ?? '');
+                          }}>
+                          {linkText}
+                        </Text>
+                      </Text>
+                    );
+                  }
+                  default:
+                    return (
+                      <Text key={`${data.type}:${index}`}>{data.value}</Text>
+                    );
+                }
+              },
+            )}
+          </Text>
+        </View>
+        <View style={styles.row}>
+          <Pressable onPress={() => onFinalise(true)} hitSlop={12}>
+            <Text style={styles.skipAll}>{t('button.skip_all')}</Text>
+          </Pressable>
+          <Pressable
+            style={styles.nextContainer}
+            hitSlop={12}
+            onPress={isLastStep ? () => onFinalise(false) : onNext}>
+            <Text style={styles.next}>
+              {isLastStep ? t('button.done') : t('button.next_step')}
+            </Text>
+            <NextArrowSvg style={styles.nextIconStyle} />
+          </Pressable>
+        </View>
+      </Animated.View>
+      <Animated.View
+        style={elementAnimatedStyle}
+        onLayout={({nativeEvent}) => {
+          setElementHeight(nativeEvent.layout.height);
+          setIsElementHeightSet(true);
+        }}>
+        {renderStepHighlight()}
+      </Animated.View>
+    </View>
   );
 }
 
@@ -355,4 +353,5 @@ const styles = StyleSheet.create({
     ...font(16, 20, 'bold'),
     color: COLORS.white,
   },
+  nextIconStyle: {marginLeft: rem(12)},
 });

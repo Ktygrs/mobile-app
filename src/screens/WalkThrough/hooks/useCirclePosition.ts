@@ -1,16 +1,16 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {WalkThroughData} from '@contexts/WalkThroughContext';
 import {
   CIRCLE_DIAMETER,
   CIRCLE_PADDING_VERTICAL,
 } from '@screens/WalkThrough/constants';
+import {WalkThroughData} from '@store/modules/WalkThrough/types';
 import {useMemo} from 'react';
 import {rem, screenHeight} from 'rn-units/index';
 
 type Props = {
   elementHeight: number;
-  stepData: null | WalkThroughData;
+  stepData: undefined | WalkThroughData;
 };
 
 export function useCirclePosition({elementHeight, stepData}: Props) {

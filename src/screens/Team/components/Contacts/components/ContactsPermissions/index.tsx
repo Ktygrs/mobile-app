@@ -4,14 +4,13 @@ import {IceLabel} from '@components/Labels/IceLabel';
 import {PrimaryButton} from '@components/PrimaryButton';
 import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
-import {WalkThroughContext} from '@contexts/WalkThroughContext';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
-import {TEAM_WALK_THROUGH_STEPS_VERSIONS} from '@screens/Team/constants';
 import {PermissionsActions} from '@store/modules/Permissions/actions';
+import {useAddStepData} from '@store/modules/WalkThrough/hooks/useAddStepData';
 import {AddressBookIcon} from '@svg/AddressBookIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {isAndroid, rem} from 'rn-units';
@@ -43,7 +42,7 @@ export const ContactsPermissions = ({offset}: Props) => {
 
   const [allowContactButtonY, setAllowContactButton] = useState(0);
 
-  const {addStepData} = useContext(WalkThroughContext);
+  const addStepData = useAddStepData('team');
   useEffect(() => {
     if (allowContactButtonY) {
       const top =
@@ -51,12 +50,10 @@ export const ContactsPermissions = ({offset}: Props) => {
         allowContactButtonY +
         CONTAINER_MARGIN_TOP -
         WALKTHROUGH_ELEMENT_CONTAINER_PADDING * 2;
-      const stepNumber = 1;
       addStepData({
-        step: stepNumber,
+        step: 1,
         stepData: {
           topPositionOfHighlightedElement: top,
-          version: TEAM_WALK_THROUGH_STEPS_VERSIONS[stepNumber],
           icon: <AddressBookIcon color={COLORS.primaryLight} />,
           renderStepHighlight: () => (
             <View style={styles.walkthroughElementOuterContainer}>
