@@ -16,7 +16,6 @@ type Props = {
   bodyStyle?: StyleProp<TextStyle>;
   decimalsStyle?: StyleProp<TextStyle>;
   trim?: boolean;
-  color?: string;
   numberOfDecimals?: number;
 };
 
