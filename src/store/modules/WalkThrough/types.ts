@@ -8,3 +8,11 @@ export type WalkThroughData = {
   icon?: React.ReactNode;
   onNext?: () => void;
 };
+
+export type WalkThroughStepData = {
+  version: number;
+  title: string;
+  description: string;
+  link?: string;
+  linkText?: string;
+};

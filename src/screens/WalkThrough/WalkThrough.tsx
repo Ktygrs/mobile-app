@@ -18,7 +18,7 @@ import {DescriptionRenderData} from '@screens/WalkThrough/types';
 import {userSelector} from '@store/modules/Account/selectors';
 import {WALK_THROUGH_NUMBER_OF_STEPS} from '@store/modules/WalkThrough/constants';
 import {getWalkThroughStepData} from '@store/modules/WalkThrough/selectors';
-import {getStepVersion} from '@store/modules/WalkThrough/selectors/utils';
+import {getStepData} from '@store/modules/WalkThrough/selectors/utils';
 import {WalkThroughData} from '@store/modules/WalkThrough/types';
 import {NextArrowSvg} from '@svg/NextArrow';
 import {t} from '@translations/i18n';
@@ -56,6 +56,14 @@ export function WalkThrough({route}: WalkThroughProps) {
   const numberOfSteps = WALK_THROUGH_NUMBER_OF_STEPS[walkThroughType] ?? 0;
   const [step, setStep] = useState(1);
   const [stepData, setStepData] = useState<undefined | WalkThroughData>();
+  const {
+    version: stepVersion,
+    title,
+    linkText,
+  } = getStepData({
+    walkThroughType,
+    step,
+  });
   const prevStepDataRef = useRef<WalkThroughData | null>(null);
 
   const stepDataCandidate: WalkThroughData | undefined = useSelector(
@@ -73,7 +81,6 @@ export function WalkThrough({route}: WalkThroughProps) {
     const walkThroughElement =
       user?.clientData?.walkTroughProgress?.[walkThroughType];
     if (walkThroughElement) {
-      const stepVersion = getStepVersion({walkThroughType, step});
       if (stepVersion > walkThroughElement.version) {
         if (
           prevStepDataCandidate &&
@@ -98,6 +105,7 @@ export function WalkThrough({route}: WalkThroughProps) {
     walkThroughType,
     stepDataCandidate,
     prevStepDataCandidateRef,
+    stepVersion,
   ]);
 
   const [elementHeight, setElementHeight] = useState(0);
@@ -187,10 +195,7 @@ export function WalkThrough({route}: WalkThroughProps) {
           <View style={styles.row}>
             <View style={styles.titleContainer}>
               {icon ? <View style={styles.iconContainer}>{icon}</View> : null}
-              <Text style={styles.title}>
-                {/*@ts-ignore*/}
-                {t(`walkthrough.${walkThroughType}.step_${step}.title`)}
-              </Text>
+              <Text style={styles.title}>{title}</Text>
             </View>
             <View style={styles.progressBar}>
               <View
@@ -216,13 +221,6 @@ export function WalkThrough({route}: WalkThroughProps) {
                       />
                     );
                   case 'url': {
-                    const linkText = t(
-                      // @ts-ignore
-                      `walkthrough.${walkThroughType}.step_${step}.link_text`,
-                      {
-                        defaultValue: t('news.read_more'),
-                      },
-                    );
                     return (
                       <Text key={`${data.type}:${index}`}>
                         {' '}

@@ -2,7 +2,7 @@
 
 import {WalkThroughType} from '@api/user/types';
 import {DescriptionRenderData} from '@screens/WalkThrough/types';
-import {t} from '@translations/i18n';
+import {getStepData} from '@store/modules/WalkThrough/selectors/utils';
 import {useMemo} from 'react';
 
 type Props = {
@@ -11,15 +11,11 @@ type Props = {
 };
 
 export function useDescriptionData({step, walkThroughType}: Props) {
+  const {description, link} = getStepData({
+    walkThroughType,
+    step,
+  });
   return useMemo(() => {
-    const description = t(
-      // @ts-ignore
-      `walkthrough.${walkThroughType}.step_${step}.description`,
-    );
-    // @ts-ignore
-    const url = t(`walkthrough.${walkThroughType}.step_${step}.url`, {
-      defaultValue: '',
-    });
     const descriptionArray = description.split('[[:ice]]');
     const renderData: DescriptionRenderData[] = [];
     const lastIndex = descriptionArray.length - 1;
@@ -34,9 +30,9 @@ export function useDescriptionData({step, walkThroughType}: Props) {
         });
       }
     });
-    if (url) {
-      renderData.push({type: 'url', value: url});
+    if (link) {
+      renderData.push({type: 'url', value: link});
     }
     return renderData;
-  }, [walkThroughType, step]);
+  }, [description, link]);
 }
