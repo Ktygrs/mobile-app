@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
+import useConfirmEndSessionDialog from '@screens/ActiveSessions/hooks/useConfirmEndSessionDialog';
 import SessionsActions from '@store/modules/Sessions/actions';
 import SessionsSelectors from '@store/modules/Sessions/selectors';
 import {
@@ -8,8 +9,9 @@ import {
   isSuccessSelector,
 } from '@store/modules/UtilityProcessStatuses/selectors';
 import {CloseIcon} from '@svg/CloseIcon';
-import React, {FunctionComponent, useCallback} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {t} from '@translations/i18n';
+import React, {FunctionComponent} from 'react';
+import {useSelector} from 'react-redux';
 
 import BaseButton from './BaseButton';
 
@@ -17,9 +19,10 @@ interface Props {
   sessionId: string;
 }
 
-// TODO: Translations
 const EndSessionButton: FunctionComponent<Props> = ({sessionId}) => {
-  const dispatch = useDispatch();
+  const {openConfirmationDialog} = useConfirmEndSessionDialog({
+    sessionId,
+  });
 
   const providerId = useSelector(
     SessionsSelectors.session.getProviderId(sessionId),
@@ -37,28 +40,18 @@ const EndSessionButton: FunctionComponent<Props> = ({sessionId}) => {
     isSuccessSelector.bind(null, SessionsActions.PROVIDER_UNLINK(providerId)),
   );
 
-  const onPress = useCallback(() => {
-    // TODO: Open dialog
-
-    dispatch(
-      SessionsActions.SESSION_END(sessionId).START.create({
-        sessionId,
-      }),
-    );
-  }, [dispatch, sessionId]);
-
   return isSessionEnded || isUnlinked ? (
     <BaseButton
-      text={'_Session ended'}
+      text={t('ActiveSessionsScreen.buttons.sessionEnded')}
       backgroundColor={COLORS.periwinkleGray}
     />
   ) : (
     <BaseButton
       isLoading={isLoading}
       Icon={CloseIcon}
-      text={'_End Session'}
+      text={t('ActiveSessionsScreen.buttons.endSession')}
       backgroundColor={COLORS.primaryLight}
-      onPress={onPress}
+      onPress={openConfirmationDialog}
     />
   );
 };

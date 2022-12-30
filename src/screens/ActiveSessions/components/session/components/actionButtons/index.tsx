@@ -3,6 +3,7 @@
 import {COLORS} from '@constants/colors';
 import SessionsSelectors from '@store/modules/Sessions/selectors';
 import CheckMarkCircleFillIcon from '@svg/CheckMarkCircleFillIcon';
+import {t} from '@translations/i18n';
 import React, {FunctionComponent} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {useSelector} from 'react-redux';
@@ -16,7 +17,6 @@ interface Props {
   sessionId: string;
 }
 
-// TODO: Translations
 const ActionButtons: FunctionComponent<Props> = ({sessionId}) => {
   const isCurrentSession = useSelector(
     SessionsSelectors.session.isCurrentSession(sessionId),
@@ -31,7 +31,7 @@ const ActionButtons: FunctionComponent<Props> = ({sessionId}) => {
       {isCurrentSession ? (
         <BaseButton
           Icon={CheckMarkCircleFillIcon}
-          text={'_Current session'}
+          text={t('ActiveSessionsScreen.buttons.currentSession')}
           backgroundColor={COLORS.shamrock}
         />
       ) : (

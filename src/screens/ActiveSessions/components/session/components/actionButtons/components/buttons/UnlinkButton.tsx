@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
+import useConfirmUnlinkLoginProviderDialog from '@screens/ActiveSessions/hooks/useConfirmUnlinkLoginProviderDialog';
 import SessionsActions from '@store/modules/Sessions/actions';
 import SessionsSelectors from '@store/modules/Sessions/selectors';
 import {
@@ -8,8 +9,9 @@ import {
   isSuccessSelector,
 } from '@store/modules/UtilityProcessStatuses/selectors';
 import UnlinkIcon from '@svg/UnlinkIcon';
-import React, {FunctionComponent, useCallback} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {t} from '@translations/i18n';
+import React, {FunctionComponent} from 'react';
+import {useSelector} from 'react-redux';
 
 import BaseButton from './BaseButton';
 
@@ -17,9 +19,10 @@ interface Props {
   sessionId: string;
 }
 
-// TODO: Translations
 const UnlinkButton: FunctionComponent<Props> = ({sessionId}) => {
-  const dispatch = useDispatch();
+  const {openConfirmationDialog} = useConfirmUnlinkLoginProviderDialog({
+    sessionId,
+  });
 
   const providerId = useSelector(
     SessionsSelectors.session.getProviderId(sessionId),
@@ -33,25 +36,18 @@ const UnlinkButton: FunctionComponent<Props> = ({sessionId}) => {
     isSuccessSelector.bind(null, SessionsActions.PROVIDER_UNLINK(providerId)),
   );
 
-  const onPress = useCallback(() => {
-    // TODO:Open dialog
-
-    dispatch(
-      SessionsActions.PROVIDER_UNLINK(providerId).START.create({
-        providerId,
-      }),
-    );
-  }, [dispatch, providerId]);
-
   return isUnlinked ? (
-    <BaseButton text={'_Login unlinked'} backgroundColor={COLORS.secondary} />
+    <BaseButton
+      text={t('ActiveSessionsScreen.buttons.loginUnlinked')}
+      backgroundColor={COLORS.secondary}
+    />
   ) : (
     <BaseButton
       isLoading={isLoading}
       Icon={UnlinkIcon}
-      text={'_Unlink'}
+      text={t('ActiveSessionsScreen.buttons.unlink')}
       backgroundColor={COLORS.attention}
-      onPress={onPress}
+      onPress={openConfirmationDialog}
     />
   );
 };

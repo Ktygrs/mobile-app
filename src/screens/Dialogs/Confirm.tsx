@@ -66,8 +66,6 @@ export const Confirm = () => {
               <Text
                 style={[
                   styles.buttonLabelText,
-                  button.preset === 'destructive' &&
-                    styles.buttonLabelText_destructive,
                   button.preset === 'outlined' &&
                     styles.buttonLabelText_outlined,
                   button.labelStyle,
@@ -126,9 +124,7 @@ const styles = StyleSheet.create({
     borderColor: COLORS.secondary,
   },
   button_destructive: {
-    backgroundColor: COLORS.white,
-    borderWidth: 1,
-    borderColor: COLORS.attentionDark,
+    backgroundColor: COLORS.attention,
   },
   buttonLabelText: {
     textAlign: 'center',
@@ -136,8 +132,5 @@ const styles = StyleSheet.create({
   },
   buttonLabelText_outlined: {
     color: COLORS.secondary,
-  },
-  buttonLabelText_destructive: {
-    color: COLORS.attentionDark,
   },
 });

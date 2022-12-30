@@ -4,12 +4,16 @@ import {COLORS} from '@constants/colors';
 import {commonStyles} from '@constants/styles';
 import {dayjs} from '@services/dayjs';
 import SessionsSelectors from '@store/modules/Sessions/selectors';
+import {AppleIcon} from '@svg/AppleIcon';
 import {ClockIcon} from '@svg/ClockIcon';
 import {EmailIcon} from '@svg/EmailIcon';
-import {LogoIcon} from '@svg/LogoIcon';
+import {FacebookIcon} from '@svg/FacebookIcon';
+import {GoogleIcon} from '@svg/GoogleIcon';
 import {PhoneIcon} from '@svg/PhoneIcon';
+import {TwitterIcon} from '@svg/TwitterIcon';
+import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
-import React, {FunctionComponent, useCallback} from 'react';
+import React, {FunctionComponent, useCallback, useMemo} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {SvgProps} from 'react-native-svg';
 import {useSelector} from 'react-redux';
@@ -21,8 +25,6 @@ interface Props {
   sessionId: string;
 }
 
-// TODO: Translations
-// TODO: Use real logo of provider
 const Session: FunctionComponent<Props> = ({sessionId}) => {
   const providerType = useSelector(
     SessionsSelectors.session.getProviderType(sessionId),
@@ -45,6 +47,26 @@ const Session: FunctionComponent<Props> = ({sessionId}) => {
   const loginIdentifier = useSelector(
     SessionsSelectors.session.getLoginIdentifier(sessionId),
   );
+
+  const ProviderIcon = useMemo(() => {
+    switch (providerType) {
+      case 'APPLE':
+        return AppleIcon;
+
+      case 'FACEBOOK':
+        return FacebookIcon;
+
+      case 'GOOGLE':
+        return GoogleIcon;
+
+      case 'TWITTER':
+        return TwitterIcon;
+
+      case 'EMAIL':
+      default:
+        return EmailIcon;
+    }
+  }, [providerType]);
 
   const renderExtraInfo = useCallback(
     (Icon: FunctionComponent<SvgProps>, text: string) => {
@@ -79,10 +101,14 @@ const Session: FunctionComponent<Props> = ({sessionId}) => {
       <View style={styles.innerContainer}>
         <View style={styles.bodyContainer}>
           <View style={styles.topRowContainer}>
-            <LogoIcon width={rem(36)} height={rem(36)} />
+            <ProviderIcon width={rem(36)} height={rem(36)} />
 
             <View style={styles.titleContainer}>
-              <Text style={styles.title}>{`_Login via ${providerType}`}</Text>
+              <Text style={styles.title}>
+                {t('ActiveSessionsScreen.sessionName', {
+                  providerName: providerType,
+                })}
+              </Text>
 
               <Text style={styles.location}>{locationName}</Text>
             </View>
@@ -132,6 +158,7 @@ const styles = StyleSheet.create({
 
   titleContainer: {
     marginLeft: rem(10),
+    flexShrink: 1,
   },
   title: {
     ...font(14, 16.8, 'semibold', 'primaryDark'),
