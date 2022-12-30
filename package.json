@@ -7,7 +7,6 @@
     "run:android": "react-native run-android --appIdSuffix=staging",
     "run:ios": "react-native run-ios",
     "run:bundler": "react-native start --reset-cache",
-    "start": "yarn run:bundler",
     "clean:android": "cd android && ./gradlew clean",
     "android:releasestaging": "bundle exec fastlane android build type:apk",
     "configure:staging": "cp -rf ../mobile-app-secrets/staging/* ./ && cp -a ../mobile-app-secrets/staging/ ./ && source .env",
