@@ -15,19 +15,20 @@ import {Image, StyleSheet, Text, View} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {isAndroid, rem} from 'rn-units';
 
-const icon = require('../../../../assets/images/teamAgendaNotShared.png');
+const icon = require('@screens/Team/assets/images/teamAgendaNotShared.png');
 
 const CONTAINER_MARGIN_TOP = rem(24);
 const WALKTHROUGH_ELEMENT_CONTAINER_PADDING = rem(20);
 
 function AllowContactButton() {
   const dispatch = useDispatch();
+  const handlePress = () =>
+    dispatch(PermissionsActions.GET_PERMISSIONS.START.create('contacts'));
+
   return (
     <PrimaryButton
       text={t('team.contacts.empty_button_title')}
-      onPress={() =>
-        dispatch(PermissionsActions.GET_PERMISSIONS.START.create('contacts'))
-      }
+      onPress={handlePress}
       style={styles.button}
       textStyle={styles.buttonText}
       icon={<AddressBookIcon />}
