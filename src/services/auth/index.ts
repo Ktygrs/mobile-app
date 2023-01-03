@@ -162,6 +162,9 @@ export const getAuthErrorMessage = (error: unknown) => {
       case 'auth/user-not-found':
         // Thrown if signing in with a credential from firebase.auth.EmailAuthProvider.credential and there is no user corresponding to the given email.
         return t('errors.user_not_found');
+      case 'auth/no-such-provider':
+        // Thrown if the user does not have this provider linked or when the provider ID given does not exist.
+        return t('errors.no_such_provider');
     }
   }
 };
@@ -172,4 +175,16 @@ export const getAuthLanguageCode = () => {
 
 export const setAuthLanguageCode = async (languageCode: string | null) => {
   return auth().setLanguageCode(languageCode);
+};
+
+export const unlinkLoginProviderFromCurrentUser = async (
+  providerId: string,
+) => {
+  const currentUser = auth().currentUser;
+
+  if (currentUser) {
+    await currentUser.unlink(providerId);
+  } else {
+    throw new Error('User is not authorized');
+  }
 };
