@@ -1,17 +1,18 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-export type ApiLoginProvider =
-  | 'EMAIL'
+export type LoginProvider =
   | 'APPLE'
+  | 'EMAIL'
   | 'FACEBOOK'
-  | 'TWITTER'
-  | 'GOOGLE';
+  | 'GOOGLE'
+  | 'PHONE'
+  | 'TWITTER';
 
-export type ApiSession = {
+export type LoginSession = {
   sessionId: string;
 
   providerId: string;
-  providerType: ApiLoginProvider;
+  providerType: LoginProvider;
 
   loginIdentifier: string;
   loginIdentifierType: 'EMAIL' | 'PHONE_NUMBER';

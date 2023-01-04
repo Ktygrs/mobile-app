@@ -2,4 +2,5 @@
 
 import {RootState} from '@store/rootReducer';
 
-export default (state: RootState) => state.sessions;
+export const rootLoginSessionsSelector = (state: RootState) =>
+  state.loginSessions;

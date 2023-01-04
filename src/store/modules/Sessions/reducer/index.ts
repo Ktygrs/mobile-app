@@ -1,19 +1,19 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {ApiSession} from '@api/logins/types';
+import {LoginSession} from '@api/logins/types';
 import {AccountActions} from '@store/modules/Account/actions';
-import SessionsActions from '@store/modules/Sessions/actions';
+import {LoginSessionsActions} from '@store/modules/Sessions/actions';
 import produce from 'immer';
 
 interface State {
   currentSessionId: string;
   activeSessions: {
-    [sessionId: string]: ApiSession;
+    [sessionId: string]: LoginSession;
   };
 }
 
 type Actions =
-  | ReturnType<typeof SessionsActions.ACTIVE_SESSIONS_LOAD.SUCCESS.create>
+  | ReturnType<typeof LoginSessionsActions.ACTIVE_SESSIONS_LOAD.SUCCESS.create>
   | ReturnType<typeof AccountActions.SIGN_OUT.SUCCESS.create>;
 
 const INITIAL_STATE: State = {
@@ -21,10 +21,13 @@ const INITIAL_STATE: State = {
   activeSessions: {},
 };
 
-function reducer(state = INITIAL_STATE, action: Actions): State {
+export function loginSessionsReducer(
+  state = INITIAL_STATE,
+  action: Actions,
+): State {
   return produce(state, draft => {
     switch (action.type) {
-      case SessionsActions.ACTIVE_SESSIONS_LOAD.SUCCESS.type:
+      case LoginSessionsActions.ACTIVE_SESSIONS_LOAD.SUCCESS.type:
         {
           const {currentSessionId, sessions} = action.payload;
 
@@ -42,5 +45,3 @@ function reducer(state = INITIAL_STATE, action: Actions): State {
     }
   });
 }
-
-export default reducer;

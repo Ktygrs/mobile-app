@@ -1,9 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import getActiveSessions from './getActiveSessions';
+import {getActiveLoginSessions} from './getActiveLoginSessions';
 
-const logins = Object.freeze({
-  getActiveSessions,
+export const logins = Object.freeze({
+  getActiveLoginSessions,
 });
-
-export default logins;

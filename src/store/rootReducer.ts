@@ -10,7 +10,7 @@ import {newsReducer} from '@store/modules/News/reducer';
 import {notificationsReducer} from '@store/modules/Notifications/reducer';
 import {permissionsReducer} from '@store/modules/Permissions/reducer';
 import {referralsReducer} from '@store/modules/Referrals/reducer';
-import sessions from '@store/modules/Sessions/reducer';
+import {loginSessionsReducer} from '@store/modules/Sessions/reducer';
 import {statsReducer} from '@store/modules/Stats/reducer';
 import {usersReducer} from '@store/modules/Users/reducer';
 import {processStatusesReducer} from '@store/modules/UtilityProcessStatuses/reducer';
@@ -32,7 +32,7 @@ export const rootReducer = combineReducers({
   linking: linkingReducer,
   notifications: notificationsReducer,
   users: usersReducer,
-  sessions,
+  loginSessions: loginSessionsReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

@@ -3,12 +3,12 @@
 import {createSelector} from '@reduxjs/toolkit';
 import {RootState} from '@store/rootReducer';
 
-import rootSelector from './rootSelector';
+import {rootLoginSessionsSelector} from './rootSelector';
 
-const selector = createSelector(
+export const getSortedSessionIds = createSelector(
   [
-    (state: RootState) => rootSelector(state).currentSessionId,
-    (state: RootState) => rootSelector(state).activeSessions,
+    (state: RootState) => rootLoginSessionsSelector(state).currentSessionId,
+    (state: RootState) => rootLoginSessionsSelector(state).activeSessions,
   ],
   (currentSessionId, activeSessions) => {
     return Object.keys(activeSessions).sort((sessionIdA, sessionIdB) => {
@@ -27,5 +27,3 @@ const selector = createSelector(
     });
   },
 );
-
-export default selector;

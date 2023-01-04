@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import getCurrentSessionId from '@store/modules/Sessions/selectors/getCurrentSessionId';
+import {getCurrentSessionId} from '@store/modules/Sessions/selectors/getCurrentSessionId';
 import {RootState} from '@store/rootReducer';
 
-import getProviderId from './getProviderId';
+import {getProviderId} from './getProviderId';
 
-export default (sessionId: string) => (state: RootState) => {
+export const isAllowedUnlink = (sessionId: string) => (state: RootState) => {
   const currentSessionId = getCurrentSessionId(state);
 
   return (

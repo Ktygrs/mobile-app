@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Touchable} from '@components/Touchable';
 import {font} from '@utils/styles';
 import React, {FunctionComponent} from 'react';
 import {
@@ -7,7 +8,6 @@ import {
   ColorValue,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
 import {SvgProps} from 'react-native-svg';
@@ -21,15 +21,15 @@ interface Props {
   onPress?(): void;
 }
 
-const BaseButton: FunctionComponent<Props> = ({
+export const BaseSessionActionButton = ({
   isLoading,
   Icon,
   text,
   backgroundColor,
   onPress,
-}) => {
+}: Props) => {
   return (
-    <TouchableOpacity
+    <Touchable
       key={text}
       style={[
         styles.container,
@@ -48,17 +48,15 @@ const BaseButton: FunctionComponent<Props> = ({
       ) : (
         Icon && (
           <View style={styles.iconContainer}>
-            <Icon color={'#fff'} />
+            <Icon width={rem(20)} height={rem(20)} color={'#fff'} />
           </View>
         )
       )}
 
       <Text style={styles.text}>{text}</Text>
-    </TouchableOpacity>
+    </Touchable>
   );
 };
-
-export default BaseButton;
 
 const styles = StyleSheet.create({
   container: {

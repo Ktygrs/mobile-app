@@ -12,7 +12,7 @@ import {EraseIcon} from '@svg/EraseIcon';
 import {FeedbackIcon} from '@svg/FeedbackIcon';
 import {InviteIcon} from '@svg/InviteIcon';
 import {LogOutIcon} from '@svg/LogOutIcon';
-import UnlinkIcon from '@svg/UnlinkIcon';
+import {UnlinkLoginProviderIcon} from '@svg/UnlinkLoginProviderIcon';
 import {t} from '@translations/i18n';
 import React from 'react';
 import {useDispatch} from 'react-redux';
@@ -53,8 +53,8 @@ export const SupportMenuSection = () => {
       <MenuItem
         title={t('settings.unlink_logins_title')}
         description={t('settings.unlink_logins_description')}
-        renderIcon={UnlinkIcon}
-        onPress={() => navigation.navigate('ActiveSessions')}
+        renderIcon={UnlinkLoginProviderIcon}
+        onPress={() => navigation.navigate('ActiveLoginSessions')}
       />
 
       <MenuItem

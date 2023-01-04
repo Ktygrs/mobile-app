@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {devices} from './devices';
-import logins from './logins';
+import {logins} from './logins';
 import {referrals} from './referrals';
 import {statistics} from './statistics';
 import {user} from './user';

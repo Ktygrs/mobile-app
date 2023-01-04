@@ -2,7 +2,7 @@
 
 import {RootState} from '@store/rootReducer';
 
-import rootSelector from './rootSelector';
+import {rootLoginSessionSelector} from './rootSelector';
 
-export default (sessionId: string) => (state: RootState) =>
-  rootSelector(state, sessionId).device;
+export const getDevice = (sessionId: string) => (state: RootState) =>
+  rootLoginSessionSelector(state, sessionId).device;

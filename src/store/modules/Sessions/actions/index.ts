@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {ApiSession} from '@api/logins/types';
+import {LoginSession} from '@api/logins/types';
 import {createAction} from '@store/utils/actions/createAction';
 
 const ACTIVE_SESSIONS_LOAD = createAction('SESSIONS/ACTIVE_SESSIONS_LOAD', {
@@ -8,7 +8,7 @@ const ACTIVE_SESSIONS_LOAD = createAction('SESSIONS/ACTIVE_SESSIONS_LOAD', {
   SUCCESS: (payload: {
     currentSessionId: string;
     sessions: {
-      [sessionId: string]: ApiSession;
+      [sessionId: string]: LoginSession;
     };
   }) => payload,
   FAILED: (errorMessage: string) => ({errorMessage}),
@@ -38,10 +38,8 @@ const PROVIDER_UNLINK = createAction(
   },
 );
 
-const SessionsActions = Object.freeze({
+export const LoginSessionsActions = Object.freeze({
   ACTIVE_SESSIONS_LOAD,
   PROVIDER_UNLINK,
   SESSION_END,
 });
-
-export default SessionsActions;

@@ -14,7 +14,7 @@ import {
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import ActiveSessions from '@screens/ActiveSessions';
+import {ActiveLoginSessions} from '@screens/ActiveLoginSessions';
 import {ActionSheet} from '@screens/Dialogs/ActionSheet';
 import {Confirm, ConfirmButton} from '@screens/Dialogs/Confirm';
 import {CountrySelect} from '@screens/Dialogs/CountrySelect';
@@ -130,7 +130,7 @@ export type MainStackParamList = {
   ProfilePrivacyEditStep2: undefined;
   ProfilePrivacyEditStep3: undefined;
 
-  ActiveSessions: undefined;
+  ActiveLoginSessions: undefined;
 };
 
 export type HomeTabStackParamList = {
@@ -362,7 +362,10 @@ export function MainNavigator() {
         options={modalOptions}
       />
 
-      <MainStack.Screen name="ActiveSessions" component={ActiveSessions} />
+      <MainStack.Screen
+        name="ActiveLoginSessions"
+        component={ActiveLoginSessions}
+      />
     </MainStack.Navigator>
   );
 }
