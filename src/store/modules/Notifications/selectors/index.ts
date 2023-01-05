@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {Activity, ActivitySection} from '@api/notifications/types';
+import {createSelector} from '@reduxjs/toolkit';
 import {orderDataBySections} from '@store/modules/Notifications/selectors/orderNotifications';
 import {RootState} from '@store/rootReducer';
-import {createSelector} from 'reselect';
 
 export const hasMoreToLoadSelector = (state: RootState) =>
   state.notifications.hasMore;

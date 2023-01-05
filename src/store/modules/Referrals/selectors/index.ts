@@ -1,28 +1,51 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {ReferralType} from '@api/user/types';
+import {createSelector} from '@reduxjs/toolkit';
+import {logError} from '@services/logging';
 import {userIdSelector} from '@store/modules/Account/selectors';
 import {RootState} from '@store/rootReducer';
+import {beautifyPhoneNumber} from '@utils/phoneNumber';
 
-export const referralsSelector =
-  ({
-    userId,
-    referralType = 'T1',
-  }: {
-    userId?: string;
-    referralType: ReferralType;
-  }) =>
-  (state: RootState) => {
-    const uId = userId ?? userIdSelector(state);
-    const referralData = state.referrals.data[uId]?.[referralType];
+interface ReferralSelectorOptions {
+  userId?: string;
+  referralType: ReferralType;
+}
+
+const referralsSelectorWithMemo = createSelector(
+  [
+    (state: RootState) => state.referrals,
+    (state: RootState, {userId}: ReferralSelectorOptions) =>
+      userId ?? userIdSelector(state),
+    (_state: RootState, {referralType}: ReferralSelectorOptions) =>
+      referralType,
+  ],
+  (referrals, userId, referralType) => {
+    const referralData = referrals.data[userId]?.[referralType];
     return {
-      data: referralData?.referrals ?? [],
+      data: (referralData?.referrals ?? []).map(ref => {
+        try {
+          const formattedNumber = beautifyPhoneNumber(
+            ref.phoneNumber || '',
+            ref.country,
+          );
+          return {...ref, phoneNumber: formattedNumber};
+        } catch (error) {
+          logError(error);
+          return ref;
+        }
+      }),
       hasNext:
         !referralData || referralData.total > referralData.referrals.length,
       total: referralData?.total,
       active: referralData?.active,
     };
-  };
+  },
+);
+
+export const referralsSelector =
+  (options: ReferralSelectorOptions) => (state: RootState) =>
+    referralsSelectorWithMemo(state, options);
 
 export const referralHistorySelector = (state: RootState) =>
   state.referrals.history;

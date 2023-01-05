@@ -11,7 +11,7 @@ import {isAndroid, rem} from 'rn-units';
 
 export const IceFriendsTitle = () => {
   return (
-    <View style={styles.friendsHeader}>
+    <View style={styles.header}>
       <Text style={styles.title}>
         <IceLabel
           color={COLORS.primaryLight}
@@ -29,7 +29,9 @@ export const SectionHeader = ({section}: {section: ContactSection}) => {
   return (
     <View style={styles.titleContainer}>
       {typeof section.title === 'string' ? (
-        <Text style={styles.title}>{section.title}</Text>
+        <View style={styles.header}>
+          <Text style={styles.title}>{section.title}</Text>
+        </View>
       ) : (
         section.title
       )}
@@ -42,15 +44,14 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
   },
   title: {
-    paddingTop: rem(20),
     paddingBottom: rem(6),
     marginBottom: rem(10),
     ...font(14, 17, 'semibold', 'primaryDark'),
   },
-  friendsHeader: {
+  header: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: -rem(14),
+    paddingTop: rem(10),
   },
   iceText: {
     ...font(14, 17, 'heavy', 'primaryDark'),

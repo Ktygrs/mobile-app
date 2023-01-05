@@ -7,13 +7,15 @@ import {useTopOffsetStyle} from '@hooks/useTopOffsetStyle';
 import {useSearchAnimation} from '@screens/Team/components/Header/components/Search/hooks/useSearchAnimation';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
-import React, {useState} from 'react';
+import React from 'react';
 import {
   Keyboard,
+  NativeSyntheticEvent,
   StyleSheet,
   Text,
   TextInput,
   TextInputProps,
+  TextInputSubmitEditingEventData,
   View,
 } from 'react-native';
 import Animated from 'react-native-reanimated';
@@ -21,6 +23,8 @@ import {rem} from 'rn-units';
 
 export const SEARCH_INPUT_TOP_OFFSET = rem(10);
 export const SEARCH_HEIGHT = SEARCH_INPUT_HEIGHT + SEARCH_INPUT_TOP_OFFSET;
+
+const CANCEL_WIDTH = rem(70);
 
 type SearchProps = {
   isActive: boolean;
@@ -35,18 +39,25 @@ export const Search = ({
   ...textInputProps
 }: SearchProps) => {
   const textInputRef: React.RefObject<TextInput> = React.createRef();
-  const [cancelWidth, setCancelWidth] = useState(0);
 
   const topOffset = useTopOffsetStyle();
   const {animatedContainerStyle, animatedCancelStyle} = useSearchAnimation({
     isActive,
-    cancelWidth,
+    cancelWidth: CANCEL_WIDTH,
   });
 
   const closeSearch = () => {
     textInputRef.current?.clear();
     Keyboard.dismiss();
     onClosePress();
+  };
+
+  const handleSubmit = (
+    event: NativeSyntheticEvent<TextInputSubmitEditingEventData>,
+  ) => {
+    if (event.nativeEvent.text.trim() === '') {
+      closeSearch();
+    }
   };
 
   return (
@@ -56,26 +67,21 @@ export const Search = ({
           loading={loading}
           ref={textInputRef}
           placeholder={t('team.header.search_placeholder')}
+          onSubmitEditing={handleSubmit}
           {...textInputProps}
         />
-        <AnimatedTouchable
+      </Animated.View>
+      <Animated.View style={[styles.cancelButtonWrapper, animatedCancelStyle]}>
+        <Touchable
           onPress={closeSearch}
           hitSlop={MIDDLE_BUTTON_HIT_SLOP}
-          style={[styles.cancelButtonWrapper, animatedCancelStyle]}
-          activeOpacity={1}
-          onLayout={e => {
-            if (!cancelWidth) {
-              setCancelWidth(e.nativeEvent.layout.width);
-            }
-          }}>
+          activeOpacity={1}>
           <Text style={styles.cancelText}>{t('button.cancel')}</Text>
-        </AnimatedTouchable>
+        </Touchable>
       </Animated.View>
     </View>
   );
 };
-
-const AnimatedTouchable = Animated.createAnimatedComponent(Touchable);
 
 const styles = StyleSheet.create({
   container: {
@@ -83,13 +89,13 @@ const styles = StyleSheet.create({
   },
   cancelButtonWrapper: {
     position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: '100%',
+    bottom: SEARCH_INPUT_HEIGHT / 2 - rem(11),
+    right: -rem(7),
     justifyContent: 'center',
-    paddingLeft: rem(20),
+    alignItems: 'center',
+    width: CANCEL_WIDTH,
   },
   cancelText: {
-    ...font(16, null, 'bold'),
+    ...font(rem(16), null, 'bold', 'white'),
   },
 });

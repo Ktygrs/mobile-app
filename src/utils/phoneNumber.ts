@@ -24,17 +24,32 @@ export const formatPhoneNumber = (
 };
 
 /**
- * defaultCountryCode helps to parse numbers in national format
+ * countryCode helps to parse numbers in national format
  * e.g. 8 (909) 999-66-99 -> +79099996699
  */
 export const e164PhoneNumber = (
   phone: string,
-  defaultCountryCode?: string | null,
+  countryCode?: string | null,
 ): string => {
-  return parsePhoneNumberWithError(
+  return parsePhoneNumberWithError(phone, countryCode as CountryCode).format(
+    'E.164',
+  );
+};
+
+/**
+ * countryCode helps to parse numbers in national format
+ * e.g. 0503332211 -> +380 50 333 2211 (format is different for each country/locale)
+ */
+export const beautifyPhoneNumber = (
+  phone: string,
+  countryCode?: string | null,
+): string => {
+  const parsedNumber = parsePhoneNumberWithError(
     phone,
-    defaultCountryCode as CountryCode,
-  ).format('E.164');
+    countryCode as CountryCode,
+  );
+  const nationalNumber = parsedNumber.format('NATIONAL');
+  return `+${parsedNumber.countryCallingCode} ${nationalNumber}`;
 };
 
 export const hashPhoneNumber = (phone: string) => {

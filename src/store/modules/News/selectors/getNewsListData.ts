@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {createSelector} from 'reselect';
+import {createSelector} from '@reduxjs/toolkit';
 
 import {getNewsPostsByIds} from './getNewsPostsByIds';
 
