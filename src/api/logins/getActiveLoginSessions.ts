@@ -1,15 +1,13 @@
 // SPDX-License-Identifier: BUSL-1.1
+import {getUniqueIdSync} from 'react-native-device-info';
 
 import {LoginSession} from './types';
 
 interface ActiveLoginSessionsResponse {
-  currentSessionId: string;
   sessions: LoginSession[];
 }
 
 const MOCKED_DATA: ActiveLoginSessionsResponse = {
-  currentSessionId: '1',
-
   sessions: [
     {
       sessionId: '1',
@@ -23,6 +21,7 @@ const MOCKED_DATA: ActiveLoginSessionsResponse = {
       lastActivityAt: new Date().toISOString(),
       locationName: 'Berlin, Germany',
 
+      deviceUniqueId: getUniqueIdSync(),
       device: {
         type: 'PHONE',
         info: 'iPhone XS',
@@ -41,6 +40,7 @@ const MOCKED_DATA: ActiveLoginSessionsResponse = {
       lastActivityAt: '2022-10-30T16:35:02.996090946Z',
       locationName: 'London, UK',
 
+      deviceUniqueId: 'device_2',
       device: {
         type: 'PHONE',
         info: 'iPhone 7 Plus',
@@ -59,6 +59,7 @@ const MOCKED_DATA: ActiveLoginSessionsResponse = {
       lastActivityAt: '2022-09-30T16:35:02.996090946Z',
       locationName: 'New York, USA',
 
+      deviceUniqueId: 'device_3',
       device: {
         type: 'PHONE',
         info: 'iPhone 12 Pro',
@@ -77,6 +78,7 @@ const MOCKED_DATA: ActiveLoginSessionsResponse = {
       lastActivityAt: '2022-11-30T16:35:02.996090946Z',
       locationName: 'Toronto, Canada',
 
+      deviceUniqueId: 'device_4',
       device: {
         type: 'PHONE',
         info: 'iPhone 14 Pro Max',
@@ -95,6 +97,7 @@ const MOCKED_DATA: ActiveLoginSessionsResponse = {
       lastActivityAt: '2022-10-25T16:35:02.996090946Z',
       locationName: 'Toronto, Canada',
 
+      deviceUniqueId: 'device_5',
       device: {
         type: 'PHONE',
         info: 'iPhone 14 Pro Max',
@@ -113,6 +116,7 @@ const MOCKED_DATA: ActiveLoginSessionsResponse = {
       lastActivityAt: '2022-01-30T16:35:02.996090946Z',
       locationName: 'New York, USA',
 
+      deviceUniqueId: 'device_6',
       device: {
         type: 'PHONE',
         info: 'iPhone 12 Pro',

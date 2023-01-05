@@ -6,7 +6,6 @@ import {createAction} from '@store/utils/actions/createAction';
 const ACTIVE_SESSIONS_LOAD = createAction('SESSIONS/ACTIVE_SESSIONS_LOAD', {
   START: true,
   SUCCESS: (payload: {
-    currentSessionId: string;
     sessions: {
       [sessionId: string]: LoginSession;
     };

@@ -3,13 +3,7 @@
 import {Touchable} from '@components/Touchable';
 import {font} from '@utils/styles';
 import React, {FunctionComponent} from 'react';
-import {
-  ActivityIndicator,
-  ColorValue,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {ActivityIndicator, ColorValue, StyleSheet, Text} from 'react-native';
 import {SvgProps} from 'react-native-svg';
 import {rem} from 'rn-units';
 
@@ -40,16 +34,15 @@ export const BaseSessionActionButton = ({
       disabled={!onPress || isLoading}
       onPress={onPress}>
       {isLoading ? (
-        <ActivityIndicator
-          size={'small'}
-          style={styles.iconContainer}
-          color={'#fff'}
-        />
+        <ActivityIndicator size={'small'} style={styles.icon} color={'#fff'} />
       ) : (
         Icon && (
-          <View style={styles.iconContainer}>
-            <Icon width={rem(20)} height={rem(20)} color={'#fff'} />
-          </View>
+          <Icon
+            style={styles.icon}
+            width={rem(20)}
+            height={rem(20)}
+            color={'#fff'}
+          />
         )
       )}
 
@@ -68,12 +61,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  iconContainer: {
+  icon: {
     marginBottom: rem(2),
-    width: rem(20),
-    height: rem(20),
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 
   text: {

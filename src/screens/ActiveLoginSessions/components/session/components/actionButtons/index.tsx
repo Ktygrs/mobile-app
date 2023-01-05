@@ -2,7 +2,7 @@
 
 import {COLORS} from '@constants/colors';
 import {LoginSessionsSelectors} from '@store/modules/Sessions/selectors';
-import {CheckMarkCircleFillIcon} from '@svg/CheckMarkCircleFillIcon';
+import {CurrentLoginSessionIcon} from '@svg/CurrentLoginSessionIcon';
 import {t} from '@translations/i18n';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
@@ -32,7 +32,7 @@ export const ActionButtons = ({sessionId}: Props) => {
     <View style={styles.container}>
       {isCurrentSession ? (
         <BaseSessionActionButton
-          Icon={CheckMarkCircleFillIcon}
+          Icon={CurrentLoginSessionIcon}
           text={t('ActiveSessionsScreen.buttons.currentSession')}
           backgroundColor={COLORS.shamrock}
         />

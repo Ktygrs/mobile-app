@@ -20,6 +20,7 @@ export type LoginSession = {
   lastActivityAt: string; // "2022-11-30T16:35:02.996090946Z"
   locationName: string;
 
+  deviceUniqueId: string;
   device: {
     type: 'PHONE';
     info: string;

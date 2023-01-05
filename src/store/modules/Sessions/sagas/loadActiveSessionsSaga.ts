@@ -8,17 +8,11 @@ import {call, put, SagaReturnType} from 'redux-saga/effects';
 
 export function* loadActiveSessionsSaga() {
   try {
-    const {
-      currentSessionId,
-      sessions,
-    }: SagaReturnType<typeof Api.logins.getActiveLoginSessions> = yield call(
-      Api.logins.getActiveLoginSessions,
-    );
+    const {sessions}: SagaReturnType<typeof Api.logins.getActiveLoginSessions> =
+      yield call(Api.logins.getActiveLoginSessions);
 
     yield put(
       LoginSessionsActions.ACTIVE_SESSIONS_LOAD.SUCCESS.create({
-        currentSessionId,
-
         sessions: sessions.reduce<{
           [sessionId: string]: LoginSession;
         }>((prev, session) => {
