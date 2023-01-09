@@ -14,7 +14,6 @@
     "match:read": "bundler exec fastlane match appstore --readonly && bundler exec fastlane match adhoc --readonly",
     "match:renew": "bundler exec fastlane match adhoc --force_for_new_devices",
     "test": "jest tests --coverage --updateSnapshot --passWithNoTests",
-    "fetch-translations": "source .env && curl \"https://localise.biz/api/export/all.json?format=multi&status=translated&fallback=en&key=$LOCALIZE_BIZ_TOKEN\" --output src/translations/translations.json && yarn generate-translation-types",
     "generate-translation-types": "node scripts/generateTranslationTypes/index.mjs src/translations/translations.json && eslint --fix src/translations/translations.json.d.ts",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "check-types": "tsc",
