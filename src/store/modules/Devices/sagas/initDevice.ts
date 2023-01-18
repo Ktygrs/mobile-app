@@ -50,7 +50,7 @@ export function* getOrCreateDeviceSettings({
     });
     if (settings.language !== i18n.locale) {
       i18n.locale = settings.language;
-      yield put(AccountActions.SYNC_LANGUAGE_CODE.STATE);
+      yield put(AccountActions.SYNC_LANGUAGE_CODE.STATE.create());
     }
   } catch (error) {
     if (isApiError(error, 404, 'DEVICE_SETTINGS_NOT_FOUND')) {

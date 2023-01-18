@@ -72,5 +72,5 @@ export type RegistrationProcessFinalizedStep =
 export type ClientData = {
   registrationProcessFinalizedSteps?: RegistrationProcessFinalizedStep[];
   walkthroughProgress?: WalkthroughElement[];
-  isMiningTooltipSeen?: boolean;
+  miningStateTooltipSeen?: string[];
 };

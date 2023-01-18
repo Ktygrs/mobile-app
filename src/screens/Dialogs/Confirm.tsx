@@ -91,9 +91,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.white,
     marginHorizontal: SCREEN_SIDE_OFFSET,
-    paddingHorizontal: rem(28),
     paddingTop: rem(30),
-    paddingBottom: rem(38),
+    paddingBottom: rem(30),
     borderRadius: rem(20),
   },
   titleText: {
@@ -101,22 +100,22 @@ const styles = StyleSheet.create({
     ...font(24, 29, 'black', 'primaryDark'),
   },
   subtitleText: {
-    marginTop: rem(14),
+    marginTop: rem(12),
+    marginHorizontal: rem(20),
     textAlign: 'center',
     ...font(14, 24, 'regular', 'secondary'),
   },
   buttons: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginTop: rem(10),
+    marginTop: rem(14),
     justifyContent: 'center',
   },
   button: {
-    width: rem(96),
-    height: rem(34),
-    borderRadius: rem(11),
-    marginHorizontal: rem(6),
-    marginTop: rem(10),
+    width: rem(128),
+    height: rem(40),
+    borderRadius: rem(12),
+    marginHorizontal: rem(8),
     justifyContent: 'center',
     backgroundColor: COLORS.primary,
   },
@@ -132,7 +131,7 @@ const styles = StyleSheet.create({
   },
   buttonLabelText: {
     textAlign: 'center',
-    ...font(12, 15, 'black'),
+    ...font(14, 17, 'black'),
   },
   buttonLabelText_outlined: {
     color: COLORS.secondary,

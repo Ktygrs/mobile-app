@@ -7,37 +7,11 @@ import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {useBottomOffsetStyle} from '@navigation/hooks/useBottomOffsetStyle';
 import {MainStackParamList} from '@navigation/Main';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
-import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React from 'react';
-import {
-  StyleProp,
-  StyleSheet,
-  Text,
-  TextStyle,
-  TouchableWithoutFeedback,
-  View,
-  ViewStyle,
-} from 'react-native';
+import {StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native';
 import Animated, {SlideInDown} from 'react-native-reanimated';
 import {rem} from 'rn-units';
-
-export type ConfirmButton = {
-  label: string;
-  onPress?: () => void;
-  preset?: 'default' | 'destructive';
-  containerStyle?: StyleProp<ViewStyle>;
-  labelStyle?: StyleProp<TextStyle>;
-};
-
-export const DEFAULT_CONFIRM_YES_BUTTON: ConfirmButton = {
-  label: t('button.yes'),
-};
-
-export const DEFAULT_CONFIRM_NO_BUTTON: ConfirmButton = {
-  label: t('button.no_cancel'),
-  preset: 'destructive',
-};
 
 export const ActionSheet = () => {
   const {

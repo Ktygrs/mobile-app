@@ -6,6 +6,7 @@ import {Header} from '@navigation/components/Header';
 import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
 import {CardBody} from '@screens/HomeFlow/BalanceHistory/components/CardBody';
 import {DynamicHeight} from '@screens/HomeFlow/BalanceHistory/components/DynamicHeight';
+import {useScrollEventsHandlersCustom} from '@screens/HomeFlow/BalanceHistory/components/DynamicHeight/hooks/useScrollEventsHandlersCustom';
 import {
   FAST_FILTERS,
   Filter,
@@ -23,6 +24,8 @@ export const BalanceHistory = () => {
     FAST_FILTERS.DAY,
   );
 
+  const {useDefaultHook, scrollY} = useScrollEventsHandlersCustom();
+
   return (
     <View style={styles.container}>
       <LinesBackground />
@@ -35,11 +38,15 @@ export const BalanceHistory = () => {
         <PagerHeader />
       </CardBody>
       <DynamicHeight>
+        <HistoryList
+          selectedFilter={selectedFilter}
+          scrollEventsHandlersHook={useDefaultHook}
+        />
         <Filters
           setSelectedFilter={setSelectedFilter}
           selectedFilter={selectedFilter}
+          translateY={scrollY}
         />
-        <HistoryList selectedFilter={selectedFilter} />
       </DynamicHeight>
     </View>
   );

@@ -8,7 +8,7 @@ import {rem} from 'rn-units';
 export const HistoryListLoader = () => {
   return (
     <View style={styles.container}>
-      {Array(4)
+      {Array(10)
         .fill(null)
         .map((_, index) => (
           <HistoryListItemSkeleton key={index} />

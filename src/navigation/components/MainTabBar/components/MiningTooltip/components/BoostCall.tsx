@@ -2,6 +2,10 @@
 
 import {PrimaryButton} from '@components/PrimaryButton';
 import {COLORS} from '@constants/colors';
+import {
+  MAX_STACKING_RATE_PERCENTAGES,
+  MAX_STAKING_YEARS,
+} from '@constants/staking';
 import {MainStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -18,7 +22,12 @@ export const BoostCall = () => {
   return (
     <>
       <Text style={styles.titleText}>{t('staking.appeal')}</Text>
-      <Text style={styles.noteText}>{t('staking.benefits_description')}</Text>
+      <Text style={styles.noteText}>
+        {t('staking.benefits_description', {
+          periodYears: MAX_STAKING_YEARS,
+          ratePercentages: MAX_STACKING_RATE_PERCENTAGES,
+        })}
+      </Text>
       <PrimaryButton
         onPress={() => {
           navigation.goBack();
@@ -26,6 +35,7 @@ export const BoostCall = () => {
         }}
         text={t('staking.stake_now')}
         style={styles.button}
+        textStyle={styles.buttonText}
         icon={
           <StakeIcon color={COLORS.white} width={rem(18)} height={rem(18)} />
         }
@@ -52,7 +62,11 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.shamrock,
     height: rem(44),
     alignSelf: 'center',
-    paddingHorizontal: rem(26),
+    paddingHorizontal: rem(16),
     marginBottom: rem(42),
+    borderRadius: rem(12),
+  },
+  buttonText: {
+    ...font(14, 18, 'black', 'white'),
   },
 });

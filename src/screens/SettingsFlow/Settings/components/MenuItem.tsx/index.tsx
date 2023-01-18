@@ -26,7 +26,7 @@ type Props = {
   };
 };
 
-const CONFIRM_HEGIHT = rem(60);
+const CONFIRM_HEIGHT = rem(60);
 
 export const MenuItem = ({
   renderIcon,
@@ -42,7 +42,7 @@ export const MenuItem = ({
   }));
 
   useEffect(() => {
-    animatedHeight.value = withTiming(expanded ? CONFIRM_HEGIHT : 0);
+    animatedHeight.value = withTiming(expanded ? CONFIRM_HEIGHT : 0);
   }, [animatedHeight, expanded]);
 
   return (
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   buttons: {
     flexDirection: 'row',
     justifyContent: 'center',
-    height: CONFIRM_HEGIHT,
+    height: CONFIRM_HEIGHT,
     overflow: 'hidden',
   },
   button: {

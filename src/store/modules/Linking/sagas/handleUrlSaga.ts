@@ -6,6 +6,7 @@ import {isSignInWithEmailLink} from '@services/auth';
 import {logError} from '@services/logging';
 import {AccountActions} from '@store/modules/Account/actions';
 import {LinkingActions} from '@store/modules/Linking/actions';
+import {openLinkWithInAppBrowser} from '@utils/device';
 import {Linking} from 'react-native';
 import {put} from 'redux-saga/effects';
 import Url from 'url-parse';
@@ -14,7 +15,6 @@ const actionCreator = LinkingActions.HANDLE_URL.STATE.create;
 
 export function* handleUrlSaga(action: ReturnType<typeof actionCreator>) {
   const {url, handledInApp} = action.payload;
-
   if (isSignInWithEmailLink(url)) {
     yield put(AccountActions.SIGN_IN_EMAIL.CONFIRM_TEMP_EMAIL.create(url));
     return;
@@ -25,21 +25,18 @@ export function* handleUrlSaga(action: ReturnType<typeof actionCreator>) {
   switch (path.toLowerCase()) {
     case 'users':
     case 'pinged':
-      //TODO: Navigate to user profile screen, not own profile
-      navigate({name: 'ProfileTab', params: undefined});
+      navigate({
+        name: 'UserProfile',
+        params: {userId: query.id ?? ''},
+      });
       break;
     case 'browser':
-      navigate({
-        name: 'WebView',
-        params: {
-          url: query.url ?? '',
-        },
-      });
+      openLinkWithInAppBrowser({url: query.url ?? ''});
       break;
     case 'followus':
     case 'refjoined':
     case 'announcements':
-      navigate({name: 'WebView', params: {url}});
+      openLinkWithInAppBrowser({url});
       break;
     case 'mining':
       navigate({name: 'HomeTab', params: undefined});

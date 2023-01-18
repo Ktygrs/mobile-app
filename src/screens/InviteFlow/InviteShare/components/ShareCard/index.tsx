@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {ENV} from '@constants/env';
+import {LINKS} from '@constants/links';
 import {commonStyles} from '@constants/styles';
 import Clipboard from '@react-native-clipboard/clipboard';
 import {
@@ -76,29 +77,22 @@ const buttons: SocialShareButtonType[] = [
 
 const ShareCard = () => {
   const copiedRef = useRef<CopiedMethods>(null);
-  const username = useSelector(usernameSelector);
   const {bottom: bottomInset} = useSafeAreaInsets();
+  const username = useSelector(usernameSelector);
 
   const handleSocialButtonPress = async (type: SocialType) => {
-    const baseOptions = {
-      message: t('invite_share.share_message'),
-      url: t('invite_share.share_url', {username}),
-    };
+    const url = `${LINKS.MAIN}@${username}`;
+    const baseOptions = {message: t('invite_share.share_message'), url};
     switch (type) {
       case 'More':
         let moreOptions = {
           ...baseOptions,
-          title: `${t('invite_share.share_message')}${t(
-            'invite_share.share_url',
-            {
-              username,
-            },
-          )}`,
+          title: `${t('invite_share.share_message')}${url}`,
         };
         ShareMore.share(moreOptions);
         break;
       case 'CopyLink':
-        Clipboard.setString(t('invite_share.share_full_text'));
+        Clipboard.setString(`${t('invite_share.share_message')}${url}`);
         Vibration.vibrate([0, 50]);
         copiedRef.current?.updateVisibleState(true);
         break;
@@ -141,7 +135,7 @@ const ShareCard = () => {
         const instagramOptions = {
           backgroundImage:
             'https://e7.pngegg.com/pngimages/223/378/png-clipart-three-ice-cubes-three-ice-cubes-ice.png',
-          attributionURL: t('invite_share.share_url', {username}),
+          attributionURL: url,
           social: Share.Social.INSTAGRAM_STORIES,
           appId: ENV.FACEBOOK_APP_ID || '',
         };

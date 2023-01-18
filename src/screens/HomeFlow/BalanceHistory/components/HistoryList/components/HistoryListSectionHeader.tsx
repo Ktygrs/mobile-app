@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {FormattedNumber} from '@components/Labels/FormattedNumber';
 import {IceLabel} from '@components/Labels/IceLabel';
 import {COLORS} from '@constants/colors';
 import {BalanceDiff} from '@screens/HomeFlow/BalanceHistory/components/HistoryList/mockData';
@@ -19,18 +20,30 @@ type Props = {
 export const HistoryListSectionHeader = ({balanceDiff, time}: Props) => {
   return (
     <View style={styles.container}>
-      <CalendarIcon color={COLORS.secondary} />
+      <CalendarIcon width={rem(14)} height={rem(14)} color={COLORS.secondary} />
       <Text style={styles.dateText}>{dayjs(time).format('MMM DD, YYYY')}</Text>
-      <StarIcon color={COLORS.secondary} width={rem(11)} height={rem(11)} />
+      <StarIcon color={COLORS.secondary} width={rem(12)} height={rem(12)} />
       <Text style={styles.diffPercText}>
         {balanceDiff.bonus > 0 && '+'}
         {balanceDiff.bonus / 100}%
       </Text>
-      <Text style={styles.diffNumText}>
-        {balanceDiff.negative ? '-' : '+'}
-        {balanceDiff.amount}
-        <IceLabel color={COLORS.secondary} iconSize={13} iconOffsetY={1} />
-      </Text>
+      <View style={styles.amountContainer}>
+        <Text style={styles.diffNumText}>
+          {balanceDiff.negative ? '-' : '+'}
+        </Text>
+        <FormattedNumber
+          number={balanceDiff.amount}
+          bodyStyle={styles.amountValueText}
+          decimalsStyle={styles.amountDecimalsText}
+          trim
+        />
+        <IceLabel
+          color={COLORS.secondary}
+          textStyle={styles.amountValueText}
+          iconSize={13}
+          iconOffsetY={0}
+        />
+      </View>
     </View>
   );
 };
@@ -45,16 +58,27 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
   },
   dateText: {
-    ...font(12, 17, 'medium', 'secondary'),
-    marginLeft: rem(5),
+    ...font(12, 18, 'medium', 'secondary'),
+    marginLeft: rem(4),
     flex: 1,
   },
   diffPercText: {
-    ...font(13, 17, 'bold', 'secondary'),
+    ...font(13, 18, 'bold', 'secondary'),
     marginLeft: rem(5),
   },
   diffNumText: {
-    ...font(13, 17, 'bold', 'secondary'),
+    ...font(13, 18, 'bold', 'secondary'),
     marginLeft: rem(20),
+  },
+  amountContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  amountValueText: {
+    ...font(13, 18, 'bold', 'secondary'),
+  },
+  amountDecimalsText: {
+    ...font(8, 12, 'bold', 'secondary'),
+    marginRight: rem(4),
   },
 });

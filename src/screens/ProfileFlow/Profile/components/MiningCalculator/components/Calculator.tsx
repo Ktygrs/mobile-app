@@ -181,16 +181,6 @@ const styles = StyleSheet.create({
     paddingTop: rem(6),
     ...font(28, 33.6, 'bold'),
   },
-  checkboxWrapper: {
-    paddingTop: rem(28),
-  },
-  checkboxLabel: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  checkboxLabelText: {
-    ...font(13, 24, 'regular'),
-  },
   sliderInfo: {
     marginTop: isAndroid ? rem(17) : rem(34),
     flexDirection: 'row',

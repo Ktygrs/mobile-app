@@ -50,7 +50,6 @@ import {PersonalInformation} from '@screens/SettingsFlow/PersonalInformation';
 import {Settings} from '@screens/SettingsFlow/Settings';
 import {Staking} from '@screens/Staking';
 import {Team} from '@screens/Team';
-import {WebView} from '@screens/WebView';
 import {StatsPeriod} from '@store/modules/Stats/types';
 import React, {ComponentType, RefObject} from 'react';
 import {Image, View} from 'react-native';
@@ -67,10 +66,6 @@ export type MainTabsParamList = {
 
 export type MainStackParamList = {
   MainTabs: undefined;
-  WebView: {
-    url: string;
-    title?: string;
-  };
   Confirm: {
     title?: string;
     subtitle?: string;
@@ -267,11 +262,6 @@ export function MainNavigator() {
   return (
     <MainStack.Navigator screenOptions={screenOptions}>
       <MainStack.Screen name="MainTabs" component={MainTabs} />
-      <MainStack.Screen
-        name="WebView"
-        options={modalOptions}
-        component={WebView}
-      />
       <MainStack.Screen
         name="Confirm"
         options={modalOptions}

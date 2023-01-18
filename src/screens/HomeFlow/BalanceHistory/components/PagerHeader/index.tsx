@@ -3,6 +3,7 @@
 import {PagerIndicators} from '@components/PagerIndicators';
 import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
+import {LINKS} from '@constants/links';
 import {SMALL_BUTTON_HIT_SLOP} from '@constants/styles';
 import {BlockchainCell} from '@screens/HomeFlow/BalanceHistory/components/PagerHeader/components/BlockchainCell';
 import {DataCellSeparator} from '@screens/HomeFlow/BalanceHistory/components/PagerHeader/components/DataCell';
@@ -10,9 +11,10 @@ import {WalletCell} from '@screens/HomeFlow/BalanceHistory/components/PagerHeade
 import {ArrowLink} from '@svg/ArrowLink';
 import {BottomBump} from '@svg/BottomBump';
 import {t} from '@translations/i18n';
+import {openLinkWithInAppBrowser} from '@utils/device';
 import {font} from '@utils/styles';
 import React, {useState} from 'react';
-import {Linking, PixelRatio, StyleSheet, Text, View} from 'react-native';
+import {PixelRatio, StyleSheet, Text, View} from 'react-native';
 import PagerView, {PagerViewOnPageSelectedEvent} from 'react-native-pager-view';
 import {rem} from 'rn-units';
 
@@ -30,7 +32,7 @@ export const PagerHeader = () => {
   };
 
   const onLinkPress = () => {
-    Linking.openURL('http://ice.io');
+    openLinkWithInAppBrowser({url: LINKS.BLOCK_EXPLORER ?? ''});
   };
 
   return (

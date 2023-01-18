@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
-import {APP_STORE_LINK, PLAY_STORE_LINK} from '@constants/links';
+import {LINKS} from '@constants/links';
 import {Images} from '@images';
 import PopUp from '@screens/Templates/PopUp';
 import {logError} from '@services/logging';
@@ -22,7 +22,7 @@ export const UpdateRequired = () => {
 
   const onUpdatePress = async () => {
     try {
-      await Linking.openURL(isIOS ? APP_STORE_LINK : PLAY_STORE_LINK);
+      await Linking.openURL(isIOS ? LINKS.APP_STORE : LINKS.PLAY_STORE);
     } catch (error) {
       logError(error);
     }

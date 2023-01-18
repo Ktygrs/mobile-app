@@ -3,6 +3,14 @@
 import {IceLabel} from '@components/Labels/IceLabel';
 import {Slider} from '@components/Slider';
 import {COLORS} from '@constants/colors';
+import {
+  DEFAULT_STAKING_YEARS,
+  MAX_STAKING_YEARS,
+  MIN_STAKING_YEARS,
+  STACKING_ALLOCATION_DEFAULT,
+  STACKING_ALLOCATION_MAX,
+  STACKING_ALLOCATION_MIN,
+} from '@constants/staking';
 import {commonStyles, SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {ChartIcon} from '@svg/ChartIcon';
 import {YearsIcon} from '@svg/YearsIcon';
@@ -19,13 +27,6 @@ import {
 import {useSharedValue} from 'react-native-reanimated';
 import {isAndroid, rem} from 'rn-units';
 
-const YEARS_MIN = 0;
-const YEARS_MAX = 10;
-const YEARS_DEFAULT = 4;
-const ALLOCATION_MIN = 0;
-const ALLOCATION_MAX = 100;
-const ALLOCATION_DEFAULT = 75;
-
 type Props = {
   onCalculateResult: (data: {years: number; allocation: number}) => void;
   result: number | null;
@@ -36,8 +37,8 @@ export const Calculator = memo(
   ({result, onCalculateResult, loading}: Props) => {
     const yearsElementRef = useRef<TextInput | null>(null);
     const allocationElementRef = useRef<TextInput | null>(null);
-    const yearsValueRef = useRef(YEARS_DEFAULT);
-    const allocationValueRef = useRef(ALLOCATION_DEFAULT);
+    const yearsValueRef = useRef(DEFAULT_STAKING_YEARS);
+    const allocationValueRef = useRef(STACKING_ALLOCATION_DEFAULT);
 
     const calculateResult = () => {
       onCalculateResult({
@@ -98,10 +99,10 @@ export const Calculator = memo(
         </View>
         <Slider
           style={styles.slider}
-          progress={useSharedValue(YEARS_DEFAULT)}
-          minimumValue={useSharedValue(YEARS_MIN)}
-          maximumValue={useSharedValue(YEARS_MAX)}
-          step={YEARS_MAX}
+          progress={useSharedValue(DEFAULT_STAKING_YEARS)}
+          minimumValue={useSharedValue(MIN_STAKING_YEARS)}
+          maximumValue={useSharedValue(MAX_STAKING_YEARS)}
+          step={MAX_STAKING_YEARS - MIN_STAKING_YEARS}
           onValueChange={value => {
             yearsValueRef.current = value;
             yearsElementRef.current?.setNativeProps({text: value.toString()});
@@ -124,10 +125,10 @@ export const Calculator = memo(
         </View>
         <Slider
           style={styles.slider}
-          progress={useSharedValue(ALLOCATION_DEFAULT)}
-          minimumValue={useSharedValue(ALLOCATION_MIN)}
-          maximumValue={useSharedValue(ALLOCATION_MAX)}
-          step={ALLOCATION_MAX}
+          progress={useSharedValue(STACKING_ALLOCATION_DEFAULT)}
+          minimumValue={useSharedValue(STACKING_ALLOCATION_MIN)}
+          maximumValue={useSharedValue(STACKING_ALLOCATION_MAX)}
+          step={STACKING_ALLOCATION_MAX - STACKING_ALLOCATION_MIN}
           onValueChange={value => {
             allocationValueRef.current = Math.round(value); // https://0.30000000000000004.com/
             allocationElementRef.current?.setNativeProps({
@@ -171,16 +172,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginVertical: rem(4),
     ...font(13, 18, 'bold', 'periwinkleGray'),
-  },
-  checkboxWrapper: {
-    paddingTop: rem(28),
-  },
-  checkboxLabel: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  checkboxLabelText: {
-    ...font(13, 24, 'regular'),
   },
   sliderInfo: {
     marginTop: rem(30),

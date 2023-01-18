@@ -1,107 +1,61 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {User} from '@api/user/types';
 import {Images} from '@images';
 import {MAIN_TAB_BAR_HEIGHT} from '@navigation/components/MainTabBar';
-import {MiningTooltip} from '@navigation/components/MainTabBar/components/MiningTooltip';
 import {MiningAnimation} from '@navigation/components/MainTabBar/components/TabBarMiningItem/components/MiningAnimation';
-import {StartMiningTooltip} from '@navigation/components/MainTabBar/components/TabBarMiningItem/components/StartMiningTooltip';
-import {useFadeLottie} from '@navigation/components/MainTabBar/components/TabBarMiningItem/hooks/useFadeLottie';
-import {MainStackParamList} from '@navigation/Main';
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {AccountActions} from '@store/modules/Account/actions';
-import {userSelector} from '@store/modules/Account/selectors';
-import {MiningInactiveIcon} from '@svg/MiningInactiveIcon';
+import {MiningButtonHandlers} from '@navigation/components/MainTabBar/components/TabBarMiningItem/components/MiningButtonHandlers';
+import {MiningButtonTooltip} from '@navigation/components/MainTabBar/components/TabBarMiningItem/components/MiningButtonTooltip';
+import {useHandleLottieBackground} from '@navigation/components/MainTabBar/components/TabBarMiningItem/hooks/useHandleLottieBackground';
+import {useMiningState} from '@navigation/components/MainTabBar/components/TabBarMiningItem/hooks/useMiningState';
+import {useMiningTooltipModal} from '@navigation/components/MainTabBar/components/TabBarMiningItem/hooks/useMiningTooltipModal';
+import {playLocalAudio} from '@services/audio';
+import {hapticFeedback} from '@utils/device';
 import LottieView from 'lottie-react-native';
-import React, {useRef, useState} from 'react';
-import {
-  Animated,
-  ImageBackground,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import React, {useRef} from 'react';
+import {ImageBackground, StyleSheet, View} from 'react-native';
 import {rem} from 'rn-units';
 
-const MiningAnimationComponent = () => <MiningAnimation />;
-const MiningTooltipComponent = () => <MiningTooltip />;
-
 export const TabBarMiningItem = () => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<MainStackParamList>>();
-  const dispatch = useDispatch();
-
-  const user = useSelector(userSelector);
-  const [miningActive, setMiningActive] = useState(false);
-
   const lottieRef = useRef<LottieView>(null);
-  const lottieWrapperRef = useRef<View>(null);
-  const {animatedOpacity} = useFadeLottie(miningActive, lottieRef);
 
-  const setIsMiningTooltipSeen = (currentUser: User) => {
-    dispatch(
-      AccountActions.UPDATE_ACCOUNT.START.create(
-        {
-          clientData: {...currentUser?.clientData, isMiningTooltipSeen: true},
-        },
-        function* (freshUser) {
-          if (!freshUser.clientData?.isMiningTooltipSeen) {
-            setIsMiningTooltipSeen(freshUser);
-          }
-          return {retry: false};
-        },
-      ),
-    );
-  };
+  useHandleLottieBackground(lottieRef);
 
-  const onButtonPress = () => {
-    if (user && !user.clientData?.isMiningTooltipSeen) {
-      setIsMiningTooltipSeen(user);
+  const {stateConfig, miningStateTooltipSeen, closeTooltip, startMining} =
+    useMiningState();
+
+  const {lottieWrapperRef} = useMiningTooltipModal({
+    showTooltip: !!stateConfig.showModalTooltip,
+  });
+
+  const onMiningActivation = () => {
+    hapticFeedback();
+    if (stateConfig.audio) {
+      playLocalAudio(stateConfig.audio);
     }
-    if (miningActive) {
-      navigation.navigate('Tooltip', {
-        position: 'above',
-        targetRef: lottieWrapperRef,
-        descriptionOffset: rem(40),
-        targetCircleSize: rem(92),
-        TargetComponent: MiningAnimationComponent,
-        DescriptionComponent: MiningTooltipComponent,
-      });
-    } else {
-      setMiningActive(state => !state);
-    }
+    startMining();
   };
 
   return (
     <ImageBackground
       style={styles.container}
       source={Images.tabbar.miningBackground}>
-      {!user?.clientData?.isMiningTooltipSeen && <StartMiningTooltip />}
-      <TouchableWithoutFeedback
-        accessibilityRole="button"
-        onPress={onButtonPress}>
+      {!miningStateTooltipSeen && stateConfig.tooltip && (
+        <MiningButtonTooltip
+          label={stateConfig.tooltip}
+          onClose={closeTooltip}
+        />
+      )}
+      <MiningButtonHandlers
+        longPressActivation={!!stateConfig.longPressActivation}
+        onTap={onMiningActivation}
+        onLongPress={onMiningActivation}>
         <View style={styles.button}>
-          <Animated.View
-            style={{opacity: animatedOpacity}}
-            ref={lottieWrapperRef}>
-            <MiningAnimation />
-          </Animated.View>
-          <Animated.View
-            style={[
-              styles.inactiveIcon,
-              {
-                opacity: animatedOpacity.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [1, 0],
-                }),
-              },
-            ]}>
-            <MiningInactiveIcon width={rem(62)} height={rem(62)} />
-          </Animated.View>
+          {/* removeClippedSubviews=false to keep the view and make ref.measure function work */}
+          <View ref={lottieWrapperRef} removeClippedSubviews={false}>
+            <MiningAnimation ref={lottieRef} source={stateConfig.animation} />
+          </View>
         </View>
-      </TouchableWithoutFeedback>
+      </MiningButtonHandlers>
     </ImageBackground>
   );
 };
@@ -113,17 +67,11 @@ const styles = StyleSheet.create({
   },
   button: {
     position: 'absolute',
-    left: rem(7),
-    top: rem(-46),
+    alignSelf: 'center',
+    top: rem(-42),
     height: rem(100),
     width: rem(100),
     alignItems: 'center',
     justifyContent: 'center',
-    flex: 1,
-  },
-  inactiveIcon: {
-    position: 'absolute',
-    top: rem(20),
-    left: rem(20),
   },
 });

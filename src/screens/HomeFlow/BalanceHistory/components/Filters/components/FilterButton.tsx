@@ -12,6 +12,7 @@ type Props = {
   label: string;
   selected: boolean;
   preset: 'dark' | 'light';
+  icon?: ReactNode;
   button?: ReactNode;
 };
 
@@ -21,6 +22,7 @@ export const FilterButton = ({
   button,
   selected,
   preset,
+  icon,
 }: Props) => {
   let containerStyle;
   switch (preset) {
@@ -36,6 +38,7 @@ export const FilterButton = ({
   }
   return (
     <Touchable onPress={onPress} style={[styles.container, containerStyle]}>
+      {!!icon && <View style={styles.icon}>{icon}</View>}
       <Text
         style={[
           styles.buttonLightText,
@@ -53,7 +56,7 @@ export const FilterButtonDivider = () => <View style={styles.divider} />;
 const styles = StyleSheet.create({
   container: {
     height: rem(30),
-    paddingHorizontal: rem(14),
+    paddingHorizontal: rem(16),
     marginHorizontal: rem(4),
     borderRadius: rem(16),
     alignItems: 'center',
@@ -72,14 +75,17 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primaryLight,
   },
   buttonLightText: {
-    ...font(12, 15, 'medium'),
+    ...font(12, 17, 'medium'),
   },
   buttonDarkText: {
-    ...font(12, 15, 'medium', 'secondary'),
+    ...font(12, 17, 'medium', 'secondary'),
+  },
+  icon: {
+    marginRight: rem(4),
   },
   divider: {
     backgroundColor: COLORS.periwinkleGray,
     width: 1,
-    marginHorizontal: rem(4),
+    marginHorizontal: rem(2),
   },
 });

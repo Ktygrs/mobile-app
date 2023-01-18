@@ -21,6 +21,7 @@ module.exports = api => {
             '@images': './src/assets/images',
             '@lottie': './src/assets/lottie',
             '@svg': './src/assets/svg',
+            '@audio': './src/assets/audio',
             '@constants': './src/constants',
             '@screens': './src/screens',
             '@store': './src/store',

@@ -7,11 +7,12 @@ import {Engagement} from '@screens/HomeFlow/Home/components/Pager/components/Eng
 import {MiningRate} from '@screens/HomeFlow/Home/components/Pager/components/MiningRate';
 import {Wallet} from '@screens/HomeFlow/Home/components/Pager/components/Wallet';
 import React, {useState} from 'react';
+import {PixelRatio} from 'react-native';
 import {StyleSheet, View} from 'react-native';
 import PagerView, {PagerViewOnPageSelectedEvent} from 'react-native-pager-view';
 import {rem} from 'rn-units';
 
-export const PAGE_HEIGHT = rem(160);
+export const PAGE_HEIGHT = PixelRatio.roundToNearestPixel(rem(160));
 
 export const Pager = () => {
   const [activeIndex, setActiveIndex] = useState(0);

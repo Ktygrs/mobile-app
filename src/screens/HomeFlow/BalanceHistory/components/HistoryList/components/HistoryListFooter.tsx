@@ -21,7 +21,7 @@ export const HistoryListFooter = () => {
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: rem(20),
+    marginTop: rem(20),
     alignSelf: 'center',
     justifyContent: 'center',
     paddingHorizontal: rem(18),

@@ -72,7 +72,8 @@
             "apply": "Apply",
             "reset": "Reset",
             "skip_all": "Skip all",
-            "done": "Done"
+            "done": "Done",
+            "confirm": "Confirm"
         },
         "team": {
             "contacts_tab": "Contacts",
@@ -389,8 +390,6 @@
             "more": "More",
             "copied": "COPIED",
             "share_message": "Join ice, the new global digital currency that can be mined just with your mobile. Find out more about the project here: ",
-            "share_url": "https://ice.io/{{username}}",
-            "share_full_text": "Invitation link: https://www.google.com/",
             "description_part1": "Spread the word and invite your friends. You earn ",
             "description_part2": " for each new referral you bring."
         },
@@ -435,17 +434,19 @@
             "time_left": "Time Left",
             "mining_rate": "Mining Rate",
             "appeal": "Boost your mining rate",
-            "benefits_description": "Pre-stake your mining rewards for up to five years and increase your mining rate by up to 500%",
+            "benefits_description": "Pre-stake your mining rewards for up to {{periodYears}} years and increase your mining rate by up to {{ratePercentages}}%",
             "bonus_label": "Pre-Staking Bonus",
             "period_label": "Staked Period",
             "title": "Pre-Staking",
             "current_rate": "Current Rate",
             "allocation": "Allocation",
             "description": "Staking is a process that involves committing your crypto assets to support a blockchain network and confirm transactions",
-            "terms_agree": "By clicking Pre-Stake Now, you agree to the",
+            "terms_agree": "I agree to the [[:ice]] [[:link]]. Your ice holdings will be locked for the selected period",
             "staking_terms": "Staking Terms",
             "stake_now": "Pre-Stake Now!",
-            "balance_label": "Staked balance"
+            "balance_label": "Staked balance",
+            "confirm_title": "Confirm Pre-Stake",
+            "confirm_subtitle": "Are you sure you want to pre-stake your coins? This cannot be undone once you confirm"
         },
         "stats": {
             "header_title": "Stats",
@@ -468,8 +469,6 @@
             "good_evening": "Good evening",
             "ice": "ice",
             "ice_per_hour": "ice/hr",
-            "privacy_url": "https://ice.io/privacy-policy",
-            "terms_url": "https://ice.io/terms",
             "seconds_short": "s"
         },
         "news": {
@@ -484,7 +483,10 @@
             "search_for_users": "Search for users"
         },
         "tabbar": {
-            "mining_tooltip": "Tap on the button below to start your first mining session"
+            "mining_inactive_tooltip": "Tap here to start your first mining session",
+            "mining_reset_tooltip": "Press for {{seconds}} seconds to reset your mining session",
+            "mining_holiday_reset_tooltip": "You are using a Day Off! Press for {{seconds}} seconds to reset your mining session",
+            "mining_holiday_active": "You are using a Day Off!"
         },
         "invite_friend": {
             "invite_button": "Invite Friend",
@@ -534,10 +536,6 @@
             "clear_title": "Clear all notificaitons? ",
             "title": "Notifications"
         },
-        "stake": {
-            "lock_note_part1": "Your ",
-            "lock_note_part2": " holdings will be locked for the selected period"
-        },
         "notification_feed_screen": {
             "today": "Today",
             "yesterday": "Yesterday",
@@ -580,10 +578,6 @@
             "resend_time_label": "New code available in ",
             "enter_code": "Enter the code",
             "wrong_number": "Wrong number?"
-        },
-        "webview": {
-            "privacy_title": "Privacy policy",
-            "terms_title": "Terms of use"
         },
         "ice_bonus": {
             "title": "Welcome bonus",
@@ -727,6 +721,12 @@
                     "message": "Are you sure you want to end the {{providerName}} login session from this device?"
                 }
             }
+        },
+        "links": {
+            "pre_staking": "https://ice.io/pre-staking/",
+            "privacy": "https://ice.io/privacy-policy/",
+            "terms": "https://ice.io/terms/",
+            "main": "https://ice.io/"
         }
     }
 }

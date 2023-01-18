@@ -34,7 +34,10 @@ export const Tooltip = () => {
 
   useEffect(() => {
     targetRef.current?.measure((_x, _y, width, height, pageX, pageY) => {
-      setTargetData({x: pageX, y: pageY, width, height});
+      // measure might return undefined values e.g. when underlying view is removed by android (removeClippedSubviews)
+      if (pageX && pageY && width && height) {
+        setTargetData({x: pageX, y: pageY, width, height});
+      }
     });
   }, [targetRef]);
 

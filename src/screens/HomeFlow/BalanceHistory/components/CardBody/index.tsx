@@ -9,7 +9,7 @@ type Props = {
   children: ReactNode;
 };
 
-export const CARD_BODY_TOP_OFFSET = rem(70);
+export const CARD_BODY_TOP_OFFSET = rem(62);
 
 export const CardBody = ({children}: Props) => {
   return (

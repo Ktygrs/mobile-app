@@ -41,6 +41,7 @@ export type Translations = {
   'button.reset': null;
   'button.skip_all': null;
   'button.done': null;
+  'button.confirm': null;
   'team.contacts_tab': null;
   'team.tierOne_tab': null;
   'team.tierTwo_tab': null;
@@ -253,8 +254,6 @@ export type Translations = {
   'invite_share.more': null;
   'invite_share.copied': null;
   'invite_share.share_message': null;
-  'invite_share.share_url': {username: number | string};
-  'invite_share.share_full_text': null;
   'invite_share.description_part1': null;
   'invite_share.description_part2': null;
   'users.ping': null;
@@ -285,7 +284,10 @@ export type Translations = {
   'staking.time_left': null;
   'staking.mining_rate': null;
   'staking.appeal': null;
-  'staking.benefits_description': null;
+  'staking.benefits_description': {
+    periodYears: number | string;
+    ratePercentages: number | string;
+  };
   'staking.bonus_label': null;
   'staking.period_label': null;
   'staking.title': null;
@@ -296,6 +298,8 @@ export type Translations = {
   'staking.staking_terms': null;
   'staking.stake_now': null;
   'staking.balance_label': null;
+  'staking.confirm_title': null;
+  'staking.confirm_subtitle': null;
   'stats.header_title': null;
   'stats.active': null;
   'stats.total': null;
@@ -312,8 +316,6 @@ export type Translations = {
   'general.good_evening': null;
   'general.ice': null;
   'general.ice_per_hour': null;
-  'general.privacy_url': null;
-  'general.terms_url': null;
   'general.seconds_short': null;
   'news.news_feed': null;
   'news.read_more': null;
@@ -322,7 +324,10 @@ export type Translations = {
   'search.nothing_is_found': {query: number | string};
   'search.search_by_country': null;
   'search.search_for_users': null;
-  'tabbar.mining_tooltip': null;
+  'tabbar.mining_inactive_tooltip': null;
+  'tabbar.mining_reset_tooltip': {seconds: number | string};
+  'tabbar.mining_holiday_reset_tooltip': {seconds: number | string};
+  'tabbar.mining_holiday_active': null;
   'invite_friend.invite_button': null;
   'invite_friend.button_title': null;
   'invite_friend.description_part1': null;
@@ -361,8 +366,6 @@ export type Translations = {
   'notifications.add_both': null;
   'notifications.clear_title': null;
   'notifications.title': null;
-  'stake.lock_note_part1': null;
-  'stake.lock_note_part2': null;
   'notification_feed_screen.today': null;
   'notification_feed_screen.yesterday': null;
   'notification_feed_screen.last_week': null;
@@ -392,8 +395,6 @@ export type Translations = {
   'confirm_code.resend_time_label': null;
   'confirm_code.enter_code': null;
   'confirm_code.wrong_number': null;
-  'webview.privacy_title': null;
-  'webview.terms_title': null;
   'ice_bonus.title': null;
   'ice_bonus.description': {value: number | string};
   'ice_bonus.balance_label': null;
@@ -467,4 +468,8 @@ export type Translations = {
   'ActiveSessionsScreen.dialogs.endSession.message': {
     providerName: number | string;
   };
+  'links.pre_staking': null;
+  'links.privacy': null;
+  'links.terms': null;
+  'links.main': null;
 };

@@ -24,9 +24,12 @@ const referralsSelectorWithMemo = createSelector(
     const referralData = referrals.data[userId]?.[referralType];
     return {
       data: (referralData?.referrals ?? []).map(ref => {
+        if (!ref.phoneNumber) {
+          return ref;
+        }
         try {
           const formattedNumber = beautifyPhoneNumber(
-            ref.phoneNumber || '',
+            ref.phoneNumber ?? '',
             ref.country,
           );
           return {...ref, phoneNumber: formattedNumber};

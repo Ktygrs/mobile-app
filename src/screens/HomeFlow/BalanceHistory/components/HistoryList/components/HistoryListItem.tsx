@@ -60,7 +60,7 @@ export const HistoryListItem = ({balanceDiff, time}: Props) => {
         {balanceDiff.bonus > 0 && '+'}
         {balanceDiff.bonus / 100}%
       </Text>
-      <ClockIcon width={rem(12)} height={rem(12)} color={COLORS.primaryDark} />
+      <ClockIcon width={rem(14)} height={rem(14)} color={COLORS.primaryDark} />
       <Text style={styles.timeText}>{dayjs(time).format('LT')}</Text>
     </View>
   );
@@ -109,18 +109,18 @@ const styles = StyleSheet.create({
     ...font(17, 21, 'black', 'primaryDark'),
   },
   adsDiffDecimalsText: {
-    ...font(10, 12, 'regular', 'primaryDark'),
-    marginRight: rem(2),
+    ...font(10, 12, 'bold', 'primaryDark'),
+    marginRight: rem(4),
   },
   iceLabelText: {
-    ...font(17, 21, 'bold', 'primaryDark'),
+    ...font(17, 21, 'semibold', 'primaryDark'),
   },
   relDiffText: {
-    ...font(14, 18, 'medium', 'primaryLight'),
+    ...font(14, 20, 'medium', 'primaryLight'),
     marginRight: rem(20),
   },
   timeText: {
-    ...font(14, 18, 'medium', 'primaryDark'),
+    ...font(14, 20, 'medium', 'primaryDark'),
     marginLeft: rem(6),
   },
 });
