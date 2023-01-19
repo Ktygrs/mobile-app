@@ -115,10 +115,10 @@ export const getAuthToken = async () => {
   return auth().currentUser?.getIdToken() ?? null;
 };
 
-export const getAuthenticatedUser = async () => {
+export const getAuthenticatedUser = async (forceRefresh?: boolean) => {
   const currentUser = auth().currentUser;
   if (currentUser) {
-    const idTokenResult = await currentUser.getIdTokenResult();
+    const idTokenResult = await currentUser.getIdTokenResult(forceRefresh);
     return {
       uid: currentUser.uid,
       email: currentUser.email,

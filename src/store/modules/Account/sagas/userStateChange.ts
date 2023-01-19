@@ -35,6 +35,9 @@ export function* userStateChangeSaga() {
           firstName: userInfo?.firstName ?? null,
           lastName: userInfo?.lastName ?? null,
         });
+        // Request firebase user once again after create-user to get updated claims
+        // This forceRefresh triggers userStateChange
+        yield call(getAuthenticatedUser, true);
       }
       yield put(
         AccountActions.USER_STATE_CHANGE.SUCCESS.create(
