@@ -12,10 +12,10 @@ import {DEFAULT_CONFIRM_NO_BUTTON} from '@screens/Dialogs/Confirm';
 import {StakeIcon} from '@svg/StakeIcon';
 import {t} from '@translations/i18n';
 import {openLinkWithInAppBrowser} from '@utils/device';
-import {reactStringReplace} from '@utils/react';
 import {font} from '@utils/styles';
 import React, {memo, useMemo, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import reactStringReplace from 'react-string-replace';
 import {isAndroid, rem} from 'rn-units';
 
 export const IS_STAKING_ACTIVE = {current: false};
