@@ -50,6 +50,7 @@ import {PersonalInformation} from '@screens/SettingsFlow/PersonalInformation';
 import {Settings} from '@screens/SettingsFlow/Settings';
 import {Staking} from '@screens/Staking';
 import {Team} from '@screens/Team';
+import {useTrackUserInfo} from '@store/modules/Account/hooks/useTrackUserInfo';
 import {StatsPeriod} from '@store/modules/Stats/types';
 import React, {ComponentType, RefObject} from 'react';
 import {Image, View} from 'react-native';
@@ -259,6 +260,7 @@ const MainTabs = () => (
 
 export function MainNavigator() {
   useUpdateRequiredListener();
+  useTrackUserInfo();
   return (
     <MainStack.Navigator screenOptions={screenOptions}>
       <MainStack.Screen name="MainTabs" component={MainTabs} />

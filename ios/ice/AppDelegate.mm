@@ -14,6 +14,10 @@
 #import <TwitterKit/TWTRKit.h>
 #import <React/RCTLinkingManager.h>
 
+#import <ReactNativeMoEngage/MoEngageInitializer.h>
+#import <MoEngageSDK/MoEngageSDK.h>
+#import "ReactNativeConfig.h"
+
 #if RCT_NEW_ARCH_ENABLED
 #import <React/CoreModulesPlugins.h>
 #import <React/RCTCxxBridgeDelegate.h>
@@ -42,6 +46,23 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   [FIRApp configure];
   [[FBSDKApplicationDelegate sharedInstance] application:application
                        didFinishLaunchingWithOptions:launchOptions];
+
+   NSString *moeAppId = [ReactNativeConfig envFor:@"MO_ENGAGE_APP_ID"];
+   NSString *moeDomain = [ReactNativeConfig envFor:@"MO_ENGAGE_APP_DOMAIN"];
+   MOSDKConfig* sdkConfig = [[MOSDKConfig alloc] initWithAppID:moeAppId];
+   if ([moeDomain isEqualToString:@"DATA_CENTER_01"]) {
+     sdkConfig.moeDataCenter = MODataCenterData_center_01;
+   } else if ([moeDomain isEqualToString:@"DATA_CENTER_02"]) {
+     sdkConfig.moeDataCenter = MODataCenterData_center_02;
+   } else if ([moeDomain isEqualToString:@"DATA_CENTER_03"]) {
+     sdkConfig.moeDataCenter = MODataCenterData_center_03;
+   }
+   sdkConfig.appGroupID = @"group.io.ice";
+   #ifdef DEBUG
+    sdkConfig.enableLogs = true;
+   #endif
+   [[MoEngageInitializer sharedInstance] initializeDefaultSDKConfig:sdkConfig andLaunchOptions:launchOptions];
+
   RCTAppSetupPrepareApp(application);
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];

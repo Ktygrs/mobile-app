@@ -10,6 +10,11 @@ import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.config.ReactFeatureFlags;
+import com.moengage.core.MoEngage;
+import com.moengage.core.config.NotificationConfig;
+import com.moengage.core.config.LogConfig;
+import com.moengage.core.LogLevel;
+import com.moengage.core.DataCenter;
 import com.facebook.soloader.SoLoader;
 import io.ice.app.newarchitecture.MainApplicationReactNativeHost;
 import java.lang.reflect.InvocationTargetException;
@@ -57,6 +62,31 @@ public class MainApplication extends Application implements ReactApplication {
     // If you opted-in for the New Architecture, we enable the TurboModule system
     ReactFeatureFlags.useTurboModules = BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
     SoLoader.init(this, /* native exopackage */ false);
+
+    MoEngage.Builder moEngage =
+            new MoEngage.Builder(this, BuildConfig.MO_ENGAGE_APP_ID)
+                .configureNotificationMetaData(new NotificationConfig(R.drawable.ic_notification_icon_small, R.drawable.ic_notification_icon, R.color.splashscreen_bg, true, true, true))
+                .configureLogs(new LogConfig(LogLevel.VERBOSE, true));
+    switch (BuildConfig.MO_ENGAGE_APP_DOMAIN) {
+      case "DATA_CENTER_01": {
+        moEngage.setDataCenter(DataCenter.DATA_CENTER_1);
+        break;
+      }
+      case "DATA_CENTER_02": {
+        moEngage.setDataCenter(DataCenter.DATA_CENTER_2);
+        break;
+      }
+      case "DATA_CENTER_03": {
+        moEngage.setDataCenter(DataCenter.DATA_CENTER_3);
+        break;
+      }
+      case "DATA_CENTER_04": {
+        moEngage.setDataCenter(DataCenter.DATA_CENTER_4);
+        break;
+      }
+    }
+    MoEngage.initialiseDefaultInstance(moEngage.build());
+
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
   }
 

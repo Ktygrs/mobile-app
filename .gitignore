@@ -53,7 +53,8 @@ android/sentry.properties
 gradle.properties
 google-services.json
 GoogleService-Info.plist
-Info.plist
+ios/ice/Info.plist
+NotificationService.entitlements
 sentry.properties
 
 # fastlane

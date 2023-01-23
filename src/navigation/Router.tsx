@@ -16,6 +16,7 @@ import {useAppStateListener} from '@store/modules/AppCommon/hooks/useAppStateLis
 import {isAppInitializedSelector} from '@store/modules/AppCommon/selectors';
 import {useOpenUrlListener} from '@store/modules/Linking/hooks/useOpenUrlListener';
 import {useGetstreamListener} from '@store/modules/Notifications/hooks/useGetstreamListener';
+import {useInitNotifications} from '@store/modules/PushNotifications/hooks/useInitNotifications';
 import {difference} from 'lodash';
 import React, {useCallback} from 'react';
 import RNBootSplash from 'react-native-bootsplash';
@@ -55,6 +56,7 @@ export function Router() {
   useGetstreamListener();
   useUserChangedListener();
   useOpenUrlListener();
+  useInitNotifications();
 
   const onReady = useCallback(() => {
     routingInstrumentation.registerNavigationContainer(navigationRef);

@@ -300,6 +300,14 @@ dependencies {
     implementation "androidx.core:core-splashscreen:1.0.0-beta01"
     implementation 'androidx.appcompat:appcompat:1.4.2'
 
+    // MoEngage dependencies. Update those according to https://developers.moengage.com/hc/en-us/articles/4417450673940-Android-SDK-Installation
+    implementation project(':react-native-moengage')
+    implementation("com.moengage:moe-android-sdk:12.5.04")
+    implementation("androidx.core:core:1.6.0")
+    implementation("androidx.appcompat:appcompat:1.3.1")
+    implementation("androidx.lifecycle:lifecycle-process:2.4.0")
+    // MoEngage dependencies end
+
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.fbjni'
     }
