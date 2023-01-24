@@ -11,9 +11,8 @@ if (!translationsPath) {
 }
 
 const translations = JSON.parse(fs.readFileSync(translationsPath));
-const enTranslations = translations.en;
 
-const flatTranslationsType = buildFlatTranslationsType(enTranslations);
+const flatTranslationsType = buildFlatTranslationsType(translations);
 
 fs.writeFileSync(
   `${translationsPath}.d.ts`,

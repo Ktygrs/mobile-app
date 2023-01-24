@@ -14,7 +14,7 @@
     "match:read": "bundler exec fastlane match appstore --readonly && bundler exec fastlane match adhoc --readonly",
     "match:renew": "bundler exec fastlane match adhoc --force_for_new_devices",
     "test": "jest tests --coverage --updateSnapshot --passWithNoTests",
-    "generate-translation-types": "node scripts/generateTranslationTypes/index.mjs src/translations/translations.json && eslint --fix src/translations/translations.json.d.ts",
+    "generate-translation-types": "node scripts/generateTranslationTypes/index.mjs src/translations/locales/en.json && eslint --fix src/translations/locales/en.json.d.ts",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "check-types": "tsc",
     "postinstall": "npx jetify && npx patch-package",

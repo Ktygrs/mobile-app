@@ -1,9 +1,15 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import locales, {Translations} from '@translations/translations.json';
+import en, {Translations} from '@translations/locales/en.json';
+import ro from '@translations/locales/ro.json';
 // eslint-disable-next-line no-restricted-imports
 import {I18n, TranslateOptions} from 'i18n-js';
 import RNLocalize from 'react-native-localize';
+
+const locales = {
+  en,
+  ro,
+};
 
 const i18n = new I18n(locales);
 

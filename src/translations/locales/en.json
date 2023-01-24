@@ -1,0 +1,716 @@
+{
+  "welcome": {
+    "page1": {
+      "title": "Welcome to ",
+      "description_part1": " is a digital currency that you can mine on your phone. ",
+      "description_part2": "  is owned and operated by every day users like yourself. "
+    },
+    "page2": {
+      "title": "Planet Friendly",
+      "description": " is inherently more energy efficient than BTC\nas it uses a “Proof of Stake” consensus mechanism.\nWith proof-of-stake (POS), cryptocurrency\nowners validate block transactions based on the\nnumber of coins a validator stakes."
+    },
+    "page3": {
+      "title": "People’s Coin",
+      "description_part1": "The power is in your hands. Everything that we develop at ",
+      "description_part2": " will be open source & controlled by the Decentralized Autonomous Organization (DAO). "
+    },
+    "page4": {
+      "title": "Stay Connected",
+      "description_part1": "Tap ",
+      "description_part2": " and start mining today with our free, \nenergy-light mobile app. Your daily tap ensures\nthat ",
+      "description_part3": " ends up in the hands of real\nhumans, not bots."
+    },
+    "page5": {
+      "title": "Refer & Earn",
+      "description": "Invite your friends and earn(both of you) up to\n25% bonus on your base mining rate for\neach friend that joins your team."
+    },
+    "page6": {
+      "title": "Notifications",
+      "description": " mining sessions only last for 24 hours.\nWould you like to receive a notification when\nyour current session ends? Don’t worry,\nwe will not spam you!"
+    }
+  },
+  "button": {
+    "yes_btn": "Yes, please",
+    "next_btn": "Next",
+    "not_now_btn": "not now",
+    "view_all": "view all",
+    "invite_friend": {
+      "title": "Invite Friends",
+      "description_part1": "Earn extra ",
+      "description_part2": " by inviting your friends."
+    },
+    "no": "No",
+    "search_country": "Search for country",
+    "save": "Save",
+    "yes": "Yes",
+    "change": "Change",
+    "no_cancel": "No, cancel",
+    "complete": "Complete",
+    "cancel": "Cancel",
+    "clear": "Clear",
+    "finish": "Finish",
+    "next_step": "Next Step",
+    "see_all": "see all",
+    "back": "Back",
+    "search": "Search",
+    "continue": "Continue",
+    "apply": "Apply",
+    "reset": "Reset",
+    "skip_all": "Skip all",
+    "done": "Done",
+    "confirm": "Confirm"
+  },
+  "team": {
+    "contacts_tab": "Contacts",
+    "tierOne_tab": "Tier 1",
+    "tierTwo_tab": "Tier 2",
+    "empty": {
+      "title_part1": "You currently don't have any\n",
+      "title_part2": " referrals!",
+      "button_title": "Invite Friends"
+    },
+    "contacts": {
+      "empty_title": " is better with friends",
+      "empty_button_title": "Allow contacts access",
+      "empty_description_part1": "Sync your contacts and see who is already on ",
+      "empty_description_part2": ". In the future, you will be able to send ",
+      "empty_description_part3": " to any of your contacts."
+    },
+    "header": {
+      "search_placeholder": "Search for users",
+      "referrals": "Referrals",
+      "earnings": "Earnings"
+    },
+    "confirm_code": {
+      "title": "Confirm Code",
+      "description": "Please enter the confirmation code you have received on your phone.",
+      "placeholder": "Enter the code",
+      "button": "Confirm your code now"
+    },
+    "confirm_phone": {
+      "title": "Confirm Phone",
+      "description": "Please confirm your country code and enter your phone number."
+    },
+    "contacts_list": {
+      "ice_header": {
+        "friends": "friends"
+      },
+      "all_contacts": "All contacts",
+      "invite": "invite",
+      "invitation_text": "Hi {{name}}, I would like to invite you to join ice."
+    },
+    "tier_one": {
+      "header_list": {
+        "title_earnings": "Tier 1 Earnings"
+      }
+    },
+    "tier_two": {
+      "header_list": {
+        "title_earnings": "Tier 2 Earnings"
+      }
+    }
+  },
+  "signIn": {
+    "logInSignUp": "Log in / Sign up",
+    "phone": "Phone",
+    "or": "or",
+    "welcome": "Welcome to ice",
+    "email": "Email",
+    "slogan": "Global Currency Reset",
+    "privacy": {
+      "description": "By continuing, you agree to our ",
+      "terms": "Terms of Service",
+      "and": " and ",
+      "policy": "Privacy Policy"
+    }
+  },
+  "claimUsername": {
+    "title": "Claim nickname",
+    "description": "Your friends will need to use this\nnickname to join your team.",
+    "inputPlaceholder": "Enter your nickname",
+    "note": "When creating a nickname, use only letters, numbers, hyphens, points and undescores. Example: ",
+    "note_example": "your_na-me.00",
+    "title_multiline": "Claim\nnickname"
+  },
+  "whoInvitedYou": {
+    "title": "Who invited you?",
+    "description": "Enter the nickname of the person who\ninvited you.",
+    "inputPlaceholder": "Enter nickname",
+    "dontHaveInvitationCode": "Don't have an invitation code? ",
+    "tapHere": " Tap here!",
+    "dontHaveCodeTip": "If you don't have an invitation code we will\nselect a random member as your referral!",
+    "title_multiline": "Who invited\nyou?",
+    "confirm_text": "Are you sure that you would like to set a random member as your referral?\n\nThis cannot be undone!"
+  },
+  "errors": {
+    "nicknameSize": "Nickname size: 4-20 characters.",
+    "removeInvalidCharacters": "Remove invalid characters.",
+    "validation_error": "Some validation error",
+    "multiple_accounts": "Email/phone number is associated with another account. Please log into that account to prove ownership, then logout and log back into this one. If you do not own that other account or are unable to log into it, please contact our support",
+    "wrong_phone_number": "Wrong phone number",
+    "wrong_phone_number_format": "Wrong phone number format",
+    "invalid_username": "Invalid username",
+    "already_taken": "{{field}} already taken",
+    "invalid_validation_code": "Invalid validation code",
+    "validation_expired": "Validation expired",
+    "validation_not_found": "Validation not found",
+    "invalid_email": "Invalid email",
+    "invalid_ref_username": "Invalid referral username",
+    "invalid_phone": "Invalid phone number",
+    "user_disabled": "User has been disabled",
+    "expired_action_code": "OTP in email link is expired",
+    "account_exists_with_different_credential": "There already exists an account with the email address asserted by the credential",
+    "invalid_credential": "The credential is malformed or has expired",
+    "operation_not_allowed": "The type of account corresponding to the credential is not enabled",
+    "user_not_found": "There is no user corresponding to the given email",
+    "auth_in_progress": "Sign-In already in progress",
+    "google_play_services_not_available": "Google Play services are not available on the device",
+    "unknown_error_with_code": "Unknown error {{code}}",
+    "no_such_provider": "You do not have this provider linked"
+  },
+  "profile": {
+    "my_roles": {
+      "title": "My Role"
+    },
+    "mining_calculator": "mining calculator",
+    "invite_friends": "Invite Friends",
+    "invite_friends_engage": "Spread the word and invite your friends. The more refferals, the more you’ll earn!",
+    "global_rank": "global rank",
+    "view_all_roles": "view all roles",
+    "data_is_hidden": "data is hidden",
+    "not_found": {
+      "title": "User was not found",
+      "description": "oops, we couldn't find this user"
+    },
+    "my_badges": {
+      "title": "My Badges"
+    },
+    "badges": {
+      "title": "Badges"
+    },
+    "roles": {
+      "title": "Roles"
+    }
+  },
+  "global": {
+    "level": "level",
+    "referrals": "referrals",
+    "coins": "Coins",
+    "social": "Social",
+    "phone_number": "Phone number",
+    "language": "English",
+    "years": "Years",
+    "of": "of",
+    "attention": "Attention",
+    "email_address": "Email address",
+    "data_hidden": "data is hidden",
+    "flag": "🇺🇸",
+    "pull_to_refresh": "pull to update"
+  },
+  "mining_calculator": {
+    "result_label": "You will earn",
+    "active_inviter": "Active inviter",
+    "tier_1_ref": "Tier 1 referrals",
+    "tier_2_ref": "Tier 2 referrals",
+    "active_miners": "Active miners"
+  },
+  "profiel": {
+    "my_roles": {
+      "title": "My Roles"
+    }
+  },
+  "home": {
+    "wallet": {
+      "title": "WALLET",
+      "rate": "MINING RATE",
+      "balance": "CURRENT BALANCE"
+    },
+    "pioneer": {
+      "title": "PIONEER",
+      "rank": "GLOBAL RANK",
+      "referrals": "REFERRALS",
+      "description_part1": "The more users you reffer, the more ",
+      "description_part2": " you earn"
+    },
+    "referrals": {
+      "title": "REFFERALS",
+      "description": "Referral stats for the previous 5 days",
+      "users_tier_1": "Users tier 1",
+      "users_tier_2": "Users tier 2"
+    },
+    "adoption": {
+      "title": "ADOPTION",
+      "level": "level",
+      "users": "\nusers"
+    },
+    "steps": {
+      "title": "Start here",
+      "description": "Complete the tasks below and earn 250 ",
+      "step_one": {
+        "title": "Claim your nickname",
+        "description": "Set it and start earning from your invite."
+      },
+      "step_two": {
+        "title": "Start mining",
+        "description": "Your first mining session."
+      },
+      "step_three": {
+        "title": "Profile picture",
+        "description": "Upload your profile image."
+      },
+      "step_four": {
+        "title": "Join Telegram",
+        "description": "Be part of our community and join now."
+      },
+      "step_five": {
+        "title": "Follow us on Twitter",
+        "description": "Let’s keep in touch, follow us on twitter."
+      },
+      "step_six": {
+        "title": "Invite 5 Friends",
+        "description": "Create your team and increase your earnings."
+      },
+      "step_seven": {
+        "title": "Social Share",
+        "description": "Share it with your friends on social media."
+      }
+    },
+    "overview": {
+      "title": "Overview"
+    },
+    "menu": {
+      "notifications": "Notifications",
+      "stats": "Stats",
+      "help": "Help"
+    },
+    "tasks": {
+      "title": "TASKS"
+    },
+    "team": {
+      "title": "Team",
+      "view_team": "view team"
+    },
+    "mining_rate": {
+      "title": "MINING RATE",
+      "base": "Base"
+    },
+    "engagement": {
+      "title": "ENGAGEMENT",
+      "description": "Streak reffers to how many consecutive days you have mined.\nFor each 6 consecutive days you receive one day off.",
+      "streak": "STREAK",
+      "days_off": "DAYS OFF"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "profile": "Profile",
+    "legal": "Legal",
+    "support": "Support",
+    "personal_information_title": "Personal Information",
+    "personal_information_description": "Change your first and last name",
+    "notifications_title": "Notifications",
+    "notifications_description": "Manage your notifications here",
+    "terms_title": "Terms of Service",
+    "terms_description": "Terms of use and conditions",
+    "privacy_title": "Privacy Policy",
+    "privacy_description": "Read all about our privacy policy",
+    "feedback_title": "Send Feedback",
+    "feedback_description": "Help us improve our mining app",
+    "invite_title": "Invite a Friend",
+    "delete_title": "Delete Account",
+    "delete_description_part1": "Erase your ",
+    "delete_confirmation_title": "Are you sure you want to remove the account?",
+    "delete_confirmation_yes": "Yes, erase",
+    "logout_title": "Log Out",
+    "logout_description": "Sign off and take a break",
+    "logout_confirmation_title": "Are you sure you want to sign off?",
+    "logout_confirmation_yes": "Yes, log out",
+    "confirm_phone": {
+      "title": "Confirm New Phone",
+      "description": "Please confirm your country code and enter your new phone number.",
+      "button": "Confirm new phone number"
+    },
+    "notifications": {
+      "enable_prompt": "Notifications are not allowed. Do you want to enable them",
+      "turn_off_all": "TURN OFF ALL NOTIFICATIONS",
+      "channel_achievements": "Achievements",
+      "channel_news": "News",
+      "channel_reminders": "Reminders",
+      "channel_team": "Team",
+      "type_push": "PUSH",
+      "type_email": "EMAIL"
+    },
+    "language_settings": "Language settings",
+    "change_lang_confirm": {
+      "title": "Change language",
+      "prompt": "Applying this setting will restart the app"
+    },
+    "profile_image": "Profile Image",
+    "inapp_privacy_title": "Privacy",
+    "inapp_privacy_description": "Manage your information here",
+    "delete_description_part2": " account",
+    "developer": "Developer",
+    "user_id": "User ID",
+    "user_token": "User Token",
+    "profile_photo": {
+      "delete": "Delete Photo",
+      "edit": "Edit profile photo",
+      "photo_gallery": "Photo Gallery",
+      "camera": "Camera"
+    },
+    "update_email_confirmation_title": "Update email?",
+    "update_email_confirmation_subtitle": "Changing the email will require you to re-login",
+    "unlink_logins_title": "Unlink Logins",
+    "unlink_logins_description": "You can unlink your logins from here"
+  },
+  "invite_share": {
+    "title": "Invite a friend",
+    "telegram": "Telegram",
+    "twitter": "Twitter",
+    "whatsapp": "WhatsApp",
+    "instagram": "Instagram",
+    "email": "Email",
+    "fb": "Newsfeed",
+    "copy_link": "Copy link",
+    "more": "More",
+    "copied": "COPIED",
+    "share_message": "Join ice, the new global digital currency that can be mined just with your mobile. Find out more about the project here: ",
+    "description_part1": "Spread the word and invite your friends. You earn ",
+    "description_part2": " for each new referral you bring."
+  },
+  "users": {
+    "ping": "PING",
+    "active": "Active",
+    "inactive": "Inactive",
+    "referralType": {
+      "T0": "Inviter",
+      "T1": "Tier 1",
+      "T2": "Tier 2"
+    }
+  },
+  "personal_information": {
+    "first_name": "First name",
+    "last_name": "Last name",
+    "country": "Country",
+    "city": "City",
+    "title": "Personal Information",
+    "phone": "Phone",
+    "email": "Email",
+    "username": "Nickname"
+  },
+  "isRTL": "false",
+  "username": {
+    "error": {
+      "already_taken": "Nickname is already taken.",
+      "length": "Nickname size: 4-20 characters.",
+      "invalid_characters": "Remove invalid characters.",
+      "not_found": "Nickname not found.",
+      "some_error": "Some error occurred.",
+      "refer_yourself": "You can't refer yourself"
+    }
+  },
+  "error": {
+    "user_exist": "Username is already taken",
+    "general_error": "Some error occurred, please try again later",
+    "ref_not_found": "Referral introduced is invalid, or no longer exists",
+    "api_error": "Request failed with status {{status}} and code {{code}}"
+  },
+  "staking": {
+    "time_left": "Time Left",
+    "mining_rate": "Mining Rate",
+    "appeal": "Boost your mining rate",
+    "benefits_description": "Pre-stake your mining rewards for up to {{periodYears}} years and increase your mining rate by up to {{ratePercentages}}%",
+    "bonus_label": "Pre-Staking Bonus",
+    "period_label": "Staked Period",
+    "title": "Pre-Staking",
+    "current_rate": "Current Rate",
+    "allocation": "Allocation",
+    "description": "Staking is a process that involves committing your crypto assets to support a blockchain network and confirm transactions",
+    "terms_agree": "I agree to the [[:ice]] [[:link]]. Your ice holdings will be locked for the selected period",
+    "staking_terms": "Staking Terms",
+    "stake_now": "Pre-Stake Now!",
+    "balance_label": "Staked balance",
+    "confirm_title": "Confirm Pre-Stake",
+    "confirm_subtitle": "Are you sure you want to pre-stake your coins? This cannot be undone once you confirm"
+  },
+  "stats": {
+    "header_title": "Stats",
+    "active": "Active users",
+    "total": "Total users",
+    "user_growth": "User growth",
+    "top_miners": "Top miners",
+    "top_countries": "Top countries",
+    "online_miners": "Online miners",
+    "detailed_information": "Detailed information"
+  },
+  "update_required": {
+    "title": "Please Update",
+    "description": "You are using an old app version and need to update it in order to use it further.",
+    "button_title": "Update Now"
+  },
+  "general": {
+    "good_morning": "Good morning",
+    "good_afternoon": "Good afternoon",
+    "good_evening": "Good evening",
+    "ice": "ice",
+    "ice_per_hour": "ice/hr",
+    "seconds_short": "s"
+  },
+  "news": {
+    "news_feed": "News Feed",
+    "read_more": "Read more",
+    "today": "Today",
+    "views": "views"
+  },
+  "search": {
+    "nothing_is_found": "Nothing is found for \"{{query}}\"",
+    "search_by_country": "Search by country",
+    "search_for_users": "Search for users"
+  },
+  "tabbar": {
+    "mining_inactive_tooltip": "Tap here to start your first mining session",
+    "mining_reset_tooltip": "Press for {{seconds}} seconds to reset your mining session",
+    "mining_holiday_reset_tooltip": "You are using a Day Off! Press for {{seconds}} seconds to reset your mining session",
+    "mining_holiday_active": "You are using a Day Off!"
+  },
+  "invite_friend": {
+    "invite_button": "Invite Friend",
+    "button_title": "Invite Friend",
+    "description_part1": "Your friend doesn’t have ",
+    "description_part2": ".\nSend him an invitation!"
+  },
+  "balance_history": {
+    "title": "Balance History",
+    "wallet": "Wallet",
+    "blockchain": "Blockchain",
+    "wallet_update_interval": "updated every hour",
+    "blockchain_update_interval": "updated every 24 hours",
+    "list_end_label": "this is the last entry of the balance history",
+    "no_data": "There is no data to display \nfor the specified period"
+  },
+  "pop_up": {
+    "update_now": "Update Now",
+    "please_update": "Please Update",
+    "update_now_text": "You are using an old app version and need to update it in order to use it further",
+    "try_again": "Try Again",
+    "ups": "Oups...",
+    "try_again_text": "Looks like something went wrong. Our team is working on fixing it right now\n{{errorIdentifier}}",
+    "view_changelog": "View Changelog",
+    "you_are_up_to_date": "You are up to date!",
+    "up_to_date_text": "You are now using the latest version. Check all the changes below."
+  },
+  "periods": {
+    "3_days": "3 days",
+    "7_days": "7 days",
+    "30_days": "30 days",
+    "1_day": "1 Day",
+    "1_week": "1 Week",
+    "1_month": "1 Month",
+    "90_days": "90 days",
+    "14_days": "14 days"
+  },
+  "notifications": {
+    "joined": " has joined your team",
+    "multiply": " and {{count}} others have joined your team",
+    "ping": " has pinged you, wake up!",
+    "delete": "Delete",
+    "add_notifications": "Add mocked notifications",
+    "no_notifications": "No notifications to display",
+    "add_announcements": "Add mocked announcements",
+    "add_both": "Add mocked notifications \nand announcements together",
+    "clear_title": "Clear all notificaitons? ",
+    "title": "Notifications"
+  },
+  "notification_feed_screen": {
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "last_week": "Last Week",
+    "this_month": "This month",
+    "last_month": "Last Month",
+    "this_week": "This week"
+  },
+  "profile_privacy_edit": {
+    "step1": {
+      "title": "1. Your Profile Statistics",
+      "description": "Tap on the blocks you want to\nhide from public eyes"
+    },
+    "step2": {
+      "description": "Tap on this block to hide it\nfrom public eyes",
+      "title": "2. Your Current Role"
+    },
+    "step3": {
+      "title": "3. Your Earned Badges",
+      "description": "Tap on this block to hide it\nfrom public eyes"
+    }
+  },
+  "confirm_email": {
+    "title": "Confirm your email",
+    "title_multiline": "Confirm your\nemail",
+    "description": "Please enter your email address\nand we will send code ",
+    "note": "If you didn’t receive the the email within 5 minutes, please check your spam folder.",
+    "wrong_email": "Wrong email?",
+    "check_email": "Check your email",
+    "emailed_link_to": "We emailed a magic link to",
+    "link_instruction": "Click the link to log in or\nsign up.",
+    "back": "Back to Login",
+    "modify_title": "Confirm New Email",
+    "modify_description": "Please enter your new email address"
+  },
+  "confirm_code": {
+    "title": "Confirm code",
+    "description": "Please enter the code sent to",
+    "send_code_again": "Send code again",
+    "resend_time_label": "New code available in ",
+    "enter_code": "Enter the code",
+    "wrong_number": "Wrong number?"
+  },
+  "ice_bonus": {
+    "title": "Welcome bonus",
+    "description": "Congratulations, you have\nreceived your first {{value}} ice coins",
+    "balance_label": "Your current balance"
+  },
+  "country_select": {
+    "title": "Select country"
+  },
+  "role": {
+    "pioneer": {
+      "title": "Pioneer",
+      "description": "Are you flesh and blood?"
+    }
+  },
+  "confirm_phone": {
+    "modify_title": "Confirm New Phone",
+    "modify_description": "Please confirm your country code and enter your new phone number"
+  },
+  "settings-language-settings": "settings.language_settings",
+  "global-language": "global.language",
+  "global-flag": "global.flag",
+  "isRTL-2": "isRTL",
+  "tasks": {
+    "completed": {
+      "title": "Completed",
+      "description": "Congratulations, you have earned {{count}}"
+    }
+  },
+  "date_select": {
+    "title": "Choose date"
+  },
+  "button-next-step-Next-Step": "Next Step",
+  "walkthrough": {
+    "news": {
+      "step_1": {
+        "title": "Read more",
+        "description": "Here you can see our latest news from our team. Tap on this button to read the full article."
+      },
+      "step_2": {
+        "description": "Tap on each individual news title and read the the full version of it. Stay up to date on all our news and polls.",
+        "title": "Released news"
+      }
+    },
+    "teams": {
+      "step_1": {
+        "title": "Allow contacts",
+        "description": "Sync your contacts and see who is already on [[:ice]]. In the future you will be able to send [[:ice]] to any of your contacts"
+      },
+      "step_2": {
+        "title": "Referrals",
+        "description": "Here you will see how many referrals you have in total. The more people you invite, the more you will earn."
+      },
+      "step_3": {
+        "title": "Earnings",
+        "description": "Your current balance is updated every hour and displayed here. It includes your direct & staked earnings together with the Tier 1 and Tier 2 earnings."
+      },
+      "step_4": {
+        "title": "Contacts",
+        "description": "This is the list with all your contacts, those that already have the app being displayed on top of the list."
+      },
+      "step_5": {
+        "title": "Tier 1",
+        "description": "Here you can see the list of your Tier 1 referrals. For each member mining in the same time with you, you will get extra 25% on your base current adoption mining rate."
+      },
+      "step_6": {
+        "title": "Tier 2",
+        "description": "Here you can see the list of your Tier 2 referrals. For each member mining in the same time with you, you will get extra 5% on your base current adoption mining rate."
+      },
+      "step_7": {
+        "title": "Active Users",
+        "description": "This is the current status of your referrals mining activity. They count as active when they are mining."
+      },
+      "step_8": {
+        "title": "Tier 1 Earnings",
+        "description": "Here you can see the list of your Tier 1 referrals. For each member mining in the same time with you, you will both get extra 25% on your base current adoption mining rate."
+      },
+      "step_9": {
+        "title": "Ping Button",
+        "description": "Notify your referrals to start their mining sessions. You can send one notification to each referral every 24h."
+      }
+    },
+    "team": {
+      "step_1": {
+        "title": "Allow contacts",
+        "description": "Sync your contacts and see who is already on [[:ice]]. In the future you will be able to send [[:ice]] to any of your contacts"
+      },
+      "step_2": {
+        "title": "Referrals",
+        "description": "Here you will see how many referrals you have in total. The more people you invite, the more you will earn."
+      },
+      "step_3": {
+        "title": "Earnings",
+        "description": "Your current balance is updated every hour and displayed here. It includes your direct & staked earnings together with the Tier 1 and Tier 2 earnings."
+      },
+      "step_4": {
+        "title": "Contacts",
+        "description": "This is the list with all your contacts, those that already have the app being displayed on top of the list."
+      },
+      "step_5": {
+        "title": "Tier 1",
+        "description": "Here you can see the list of your Tier 1 referrals. For each member mining in the same time with you, you will get extra 25% on your base current adoption mining rate.",
+        "url": "https://ice.io/#invite"
+      },
+      "step_6": {
+        "title": "Tier 2",
+        "description": "Here you can see the list of your Tier 2 referrals. For each member mining in the same time with you, you will get extra 5% on your base current adoption mining rate.",
+        "url": "https://ice.io/#invite"
+      },
+      "step_7": {
+        "title": "Active Users",
+        "description": "This is the current status of your referrals mining activity. They count as active when they are mining."
+      },
+      "step_8": {
+        "title": "Tier 1 Earnings",
+        "description": "Here you can see the list of your Tier 1 referrals. For each member mining in the same time with you, you will both get extra 25% on your base current adoption mining rate."
+      },
+      "step_9": {
+        "title": "Ping Button",
+        "description": "Notify your referrals to start their mining sessions. You can send one notification to each referral every 24h."
+      }
+    }
+  },
+  "ActiveSessionsScreen": {
+    "title": "Unlink Logins",
+    "sessionName": "Login via {{providerName}}",
+    "buttons": {
+      "currentSession": "Current session",
+      "endSession": "End Session",
+      "loginUnlinked": "Login Unlinked",
+      "sessionEnded": "Session Ended",
+      "unlink": "Unlink"
+    },
+    "dialogs": {
+      "unlinkLogin": {
+        "title": "Unlink Login?",
+        "message": "Are you sure you want to unlink the login via {{providerName}} from this device?"
+      },
+      "endSession": {
+        "title": "End Session?",
+        "message": "Are you sure you want to end the {{providerName}} login session from this device?"
+      }
+    }
+  },
+  "links": {
+    "pre_staking": "https://ice.io/pre-staking/",
+    "privacy": "https://ice.io/privacy-policy/",
+    "terms": "https://ice.io/terms/",
+    "main": "https://ice.io/"
+  }
+}
