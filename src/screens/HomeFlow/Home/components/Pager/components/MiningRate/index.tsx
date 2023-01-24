@@ -24,9 +24,11 @@ export const MiningRate = memo(() => {
       </View>
       <View style={styles.miningRate}>
         <FormattedNumber
-          number={'+136.90'}
+          trim
+          containerStyle={styles.miningValueContainer}
           bodyStyle={styles.miningValueText}
           decimalsStyle={styles.miningValueDecimalsText}
+          number={'+136.90'}
         />
         <IceLabel
           textStyle={styles.rateValueText}
@@ -34,14 +36,16 @@ export const MiningRate = memo(() => {
           iconSize={16}
           label={t('general.ice_per_hour')}
         />
-        <Text style={styles.rateIncreaseText}>+37%</Text>
+        <Text style={styles.rateIncreaseText}>{'+37%'}</Text>
       </View>
       <View style={styles.baseContainer}>
         <Text style={styles.baseTitleText}>{t('home.mining_rate.base')}</Text>
         <FormattedNumber
-          number={'+80.37'}
+          trim
+          containerStyle={styles.baseValueContainer}
           bodyStyle={styles.baseValueText}
           decimalsStyle={styles.baseDecimalsText}
+          number={'+80.37'}
         />
         <IceLabel
           textStyle={styles.baseValueText}
@@ -53,15 +57,15 @@ export const MiningRate = memo(() => {
       <View style={styles.iconsContainer}>
         <View style={styles.iconContainer}>
           <TeamIcon />
-          <Text style={styles.iconValueText}>+120%</Text>
+          <Text style={styles.iconValueText}>{'+120%'}</Text>
         </View>
         <View style={styles.iconContainer}>
           <StarIcon />
-          <Text style={styles.iconValueText}>+290%</Text>
+          <Text style={styles.iconValueText}>{'+290%'}</Text>
         </View>
         <View style={styles.iconContainer}>
           <StakeIcon fill={COLORS.white} width={rem(14)} height={rem(14)} />
-          <Text style={styles.iconValueText}>+200%</Text>
+          <Text style={styles.iconValueText}>{'+200%'}</Text>
         </View>
       </View>
     </View>
@@ -76,25 +80,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   titleContainer: {
+    marginTop: rem(25),
     flexDirection: 'row',
     alignItems: 'flex-end',
   },
   miningRateText: {
-    marginTop: rem(30),
     ...font(12, 14, 'semibold'),
     marginLeft: rem(4),
   },
+  miningValueContainer: {
+    marginRight: rem(4),
+  },
   miningValueText: {
-    ...font(15, 20, 'bold'),
+    ...font(17, 20.4, 'bold'),
   },
   miningValueDecimalsText: {
     alignSelf: 'flex-start',
-    ...font(8, 0, 'bold'),
-    marginRight: rem(4),
-    marginLeft: -rem(4),
+    ...font(9, 11, 'bold'),
   },
   baseContainer: {
-    marginTop: rem(7),
+    marginTop: rem(6),
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -102,14 +107,15 @@ const styles = StyleSheet.create({
   baseTitleText: {
     ...font(12, 15, 'medium'),
   },
+  baseValueContainer: {
+    marginHorizontal: rem(4),
+  },
   baseValueText: {
-    ...font(12, 14, 'medium'),
+    ...font(12, 14.4, 'medium'),
   },
   baseDecimalsText: {
-    ...font(7, 8, 'bold'),
+    ...font(7, 9, 'bold'),
     alignSelf: 'flex-start',
-    marginRight: rem(4),
-    marginLeft: -rem(3),
   },
   miningRate: {
     marginTop: rem(4),
@@ -122,28 +128,28 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   rateValueText: {
-    ...font(15, 18, 'medium'),
+    ...font(15, 19, 'medium'),
   },
   rateIncreaseText: {
-    ...font(17, 20, 'bold'),
+    marginLeft: rem(8),
+    ...font(17, 20.4, 'bold'),
     color: COLORS.shamrock,
-    marginLeft: rem(6),
   },
   iconsContainer: {
-    marginTop: rem(20),
+    marginTop: rem(16),
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
   iconContainer: {
-    marginHorizontal: rem(9),
+    marginHorizontal: rem(8),
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
   iconValueText: {
-    ...font(15, 18, 'bold'),
+    marginLeft: rem(6),
+    ...font(15, undefined, 'bold'),
     color: COLORS.shamrock,
-    marginLeft: rem(9),
   },
 });

@@ -2,7 +2,7 @@
 
 import {FlipCard, FlipCardMethods} from '@components/FlipCard';
 import {InviteButton} from '@components/InviteButton';
-import {SECTION_HEADER_HEIGHT} from '@components/SectionHeader';
+import {SectionHeader} from '@components/SectionHeader';
 import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {useScrollShadow} from '@hooks/useScrollShadow';
@@ -20,26 +20,28 @@ import {useCardTranslateY} from '@screens/HomeFlow/Home/components/Overview/hook
 import {useScrollCollapse} from '@screens/HomeFlow/Home/components/Overview/hooks/useScrollCollapse';
 import {useGetBarGraphDataForStatsPeriod} from '@store/modules/Stats/hooks/useGetBarGraphDataForStatsPeriod';
 import {t} from '@translations/i18n';
-import {font} from '@utils/styles';
-import React, {memo, useRef} from 'react';
-import {Image, Platform, StyleSheet, Text, View} from 'react-native';
+import React, {memo, useRef, useState} from 'react';
+import {Image, LayoutChangeEvent, Platform, StyleSheet} from 'react-native';
 import Animated, {SharedValue} from 'react-native-reanimated';
 import {isAndroid, isIOS, rem, screenWidth} from 'rn-units';
 
 const HEADER_RECTANGLE = require('../../assets/images/topRectangle.png');
 
 type Props = {
-  // onScroll -> contentOffset.y of the parent ScrollView
+  /**
+   * onScroll -> contentOffset.y of the parent ScrollView
+   */
   translateY: SharedValue<number>;
 
-  // offset from the top of the parent ScrollView
+  /**
+   * offset from the top of the parent ScrollView
+   */
   topOffset: number;
 };
 
 const SCROLL_TOP_MARGIN = rem(16);
 const SCROLL_BOTTOM_PADDING = rem(8);
-const SCROLL_BOTTOM_MARGIN = rem(24);
-const HEADER_TOP_MARGIN = rem(6);
+const SCROLL_BOTTOM_MARGIN = rem(24) - SCROLL_BOTTOM_PADDING;
 const OVERSCROLL = isIOS ? 1000 : 0;
 
 const USER_GROWTH_STATS_PERIOD = 7;
@@ -47,13 +49,16 @@ const USER_GROWTH_STATS_PERIOD = 7;
 export const Overview = memo(({translateY, topOffset}: Props) => {
   const adoptionCardRef = useRef<FlipCardMethods>(null);
 
+  const [positionYInnerContent, setPositionYInnerContent] = useState(0);
+
   const {cardTranslateY, stickyAnimatedStyle} = useCardTranslateY({
     translateY,
-    cardsTopOffset:
-      topOffset + SECTION_HEADER_HEIGHT + HEADER_TOP_MARGIN + SCROLL_TOP_MARGIN,
+    cardsTopOffset: topOffset + positionYInnerContent + SCROLL_TOP_MARGIN,
   });
+
   const {shadowStyle} = useScrollShadow({translateY: cardTranslateY});
-  const {collapseAnimatedStyle} = useScrollCollapse({
+
+  const {collapseAnimatedStyle, isCollapsed} = useScrollCollapse({
     translateY: cardTranslateY,
     fromHeight: CARDS_TOTAL_HEIGHT + SCROLL_BOTTOM_PADDING,
     toHeight: CARDS_COLLAPSED_HEIGHT + SCROLL_BOTTOM_PADDING,
@@ -62,27 +67,28 @@ export const Overview = memo(({translateY, topOffset}: Props) => {
   const {activeUsersData} = useGetBarGraphDataForStatsPeriod(
     USER_GROWTH_STATS_PERIOD,
   );
+
   const handleAdoptionPress = () => {
     adoptionCardRef.current?.changeSide();
   };
 
+  const onLayoutContentContainer = (event: LayoutChangeEvent) => {
+    setPositionYInnerContent(event.nativeEvent.layout.y);
+  };
+
   return (
     <>
-      <Image
-        source={HEADER_RECTANGLE}
-        style={{
-          width: screenWidth,
-          height: screenWidth * 0.08,
-          backgroundColor: COLORS.primaryLight,
-        }}
+      <Image style={styles.headerTopImage} source={HEADER_RECTANGLE} />
+
+      <SectionHeader
+        style={styles.sectionHeader}
+        title={t('home.overview.title')}
       />
-      <View style={styles.sectionHeader}>
-        <Text style={styles.titleText}>
-          {t('home.overview.title').toUpperCase()}
-        </Text>
-      </View>
+
       <Animated.View
-        style={[styles.bodySpace, stickyAnimatedStyle, isIOS && shadowStyle]}>
+        style={[styles.bodySpace, stickyAnimatedStyle, isIOS && shadowStyle]}
+        pointerEvents={'box-none'}
+        onLayout={onLayoutContentContainer}>
         <Animated.ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -91,39 +97,51 @@ export const Overview = memo(({translateY, topOffset}: Props) => {
             styles.scrollView,
             collapseAnimatedStyle,
             isAndroid && shadowStyle,
-          ]}>
-          <View style={styles.scrolledContent}>
-            <LevelCard />
-            <FlipCard
-              stylesContainer={styles.flipCardContainer}
-              front={<ReferralsCard />}
-              back={<ReferralAcquisitionHistory />}
-            />
-            <FlipCard
-              stylesContainer={styles.flipCardContainer}
-              front={<AdoptionCard onPress={handleAdoptionPress} />}
-              back={<OnlineUsersHistory data={activeUsersData} />}
-              ref={adoptionCardRef}
-            />
-          </View>
+          ]}
+          contentContainerStyle={styles.scrolledContent}>
+          <LevelCard />
+
+          <FlipCard
+            disabled={isCollapsed}
+            stylesContainer={styles.flipCardContainer}
+            front={<ReferralsCard />}
+            back={<ReferralAcquisitionHistory />}
+          />
+
+          <FlipCard
+            disabled={isCollapsed}
+            stylesContainer={styles.flipCardContainer}
+            front={
+              <AdoptionCard
+                isCollapsed={isCollapsed}
+                onPress={handleAdoptionPress}
+              />
+            }
+            back={<OnlineUsersHistory data={activeUsersData} />}
+            ref={adoptionCardRef}
+          />
         </Animated.ScrollView>
       </Animated.View>
+
       <InviteButton />
     </>
   );
 });
 
-// used to make semi transparent overscroll background on iOS
+/**
+ * used to make semi transparent overscroll background on iOS
+ */
 const contentInset = {left: -OVERSCROLL, top: 0, bottom: 0, right: -OVERSCROLL};
 
 const styles = StyleSheet.create({
-  sectionHeader: {
-    flexDirection: 'row',
-    marginHorizontal: SCREEN_SIDE_OFFSET,
-    justifyContent: 'space-between',
+  headerTopImage: {
+    width: screenWidth,
+    height: screenWidth * 0.08,
+    backgroundColor: COLORS.primaryLight,
   },
-  titleText: {
-    ...font(15, 18, 'heavy', 'primaryDark'),
+  sectionHeader: {
+    paddingTop: 0,
+    height: -1,
   },
   bodySpace: {
     height: CARDS_TOTAL_HEIGHT + SCROLL_TOP_MARGIN + SCROLL_BOTTOM_MARGIN,
@@ -139,7 +157,6 @@ const styles = StyleSheet.create({
     }),
   },
   scrolledContent: {
-    flexDirection: 'row',
     paddingLeft: SCREEN_SIDE_OFFSET + OVERSCROLL,
     paddingRight: OVERSCROLL,
     backgroundColor: COLORS.white,

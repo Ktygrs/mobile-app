@@ -19,6 +19,8 @@ import React, {memo, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {isAndroid, rem} from 'rn-units';
 
+const INFO_ICON_SIZE = rem(16);
+
 export const Wallet = memo(() => {
   const [direction] = useState(random(1)); //TODO: connect API
   const navigation =
@@ -26,13 +28,14 @@ export const Wallet = memo(() => {
   return (
     <View style={[commonStyles.baseSubScreen, styles.container]}>
       <Text style={styles.balanceLabelText}>{t('home.wallet.balance')}</Text>
-      <View>
+      <View style={styles.balanceContainer}>
         <View style={styles.balanceValue}>
           {direction ? <ArrowUp /> : <ArrowDown />}
           <FormattedNumber
-            number={'20,249,999.99'}
+            containerStyle={styles.balanceValueContainer}
             bodyStyle={styles.balanceValueText}
             decimalsStyle={styles.balanceValueDecimalsText}
+            number={'20,249,999.99'}
           />
           <IceLabel
             textStyle={styles.balanceCurrencyText}
@@ -46,14 +49,17 @@ export const Wallet = memo(() => {
           onPress={() => navigation.navigate('BalanceHistory')}>
           <InfoOutlineIcon
             color={COLORS.shamrock}
-            width={rem(16)}
-            height={rem(16)}
+            width={INFO_ICON_SIZE}
+            height={INFO_ICON_SIZE}
           />
         </Touchable>
       </View>
       <View style={styles.miningRate}>
-        <Text style={styles.rateLabelText}>{t('home.wallet.rate')} </Text>
-        <FormattedNumber number={'+29.99'} />
+        <Text style={styles.rateLabelText}>{t('home.wallet.rate')}</Text>
+        <FormattedNumber
+          containerStyle={styles.rateValueContainer}
+          number={'+29.99'}
+        />
         <IceLabel
           textStyle={styles.rateValueText}
           iconOffsetY={-1}
@@ -73,48 +79,57 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   balanceLabelText: {
-    marginTop: rem(30),
-    ...font(12, 15, 'semibold', 'white'),
+    marginTop: rem(32),
+    ...font(12, 14.4, 'semibold', 'white'),
+  },
+  balanceContainer: {
+    paddingHorizontal: INFO_ICON_SIZE - rem(2),
   },
   balanceValue: {
+    marginTop: rem(4),
     flexDirection: 'row',
     alignItems: 'center',
   },
+  balanceValueContainer: {
+    marginRight: rem(6),
+  },
   balanceValueText: {
-    marginTop: rem(4),
-    ...font(32, 39, 'black'),
+    ...font(32, 38.4, 'black'),
   },
   balanceValueDecimalsText: {
     alignSelf: 'flex-start',
-    ...font(13, 20, 'black'),
+    ...font(15, 20, 'semibold'),
   },
   balanceCurrencyText: {
-    ...font(24, 29, 'semibold'),
+    ...font(24, 28.8, 'semibold'),
   },
   miningRate: {
-    marginTop: rem(8),
+    marginTop: rem(10),
     borderRadius: rem(16),
-    paddingHorizontal: rem(16),
+    paddingHorizontal: rem(20),
     paddingVertical: rem(5),
     backgroundColor: COLORS.toreaBay,
     flexDirection: 'row',
     alignItems: 'center',
   },
   rateLabelText: {
-    ...font(12, 15, 'semibold'),
+    ...font(12, 14.4, 'semibold'),
+  },
+  rateValueContainer: {
+    marginLeft: rem(8),
+    marginRight: rem(4),
   },
   rateValueText: {
-    ...font(17, 20, 'bold'),
+    ...font(17, 20.4, 'bold'),
   },
   rateValueDecimalsText: {
     ...font(10, 12, 'bold'),
     alignSelf: 'flex-start',
   },
   infoButton: {
-    padding: rem(10),
     position: 'absolute',
-    top: -rem(14),
-    right: -rem(20),
+    top: 0,
+    right: 0,
   },
   iceLabel: {
     alignItems: 'baseline',

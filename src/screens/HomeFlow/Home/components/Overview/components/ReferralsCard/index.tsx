@@ -3,6 +3,7 @@
 import {COLORS} from '@constants/colors';
 import {Images} from '@images';
 import {CardBase} from '@screens/HomeFlow/Home/components/Overview/components/CardBase';
+import {ReferralsEmptyState} from '@screens/HomeFlow/Home/components/Overview/components/ReferralsEmptyState';
 import {
   userReferralCountSelector,
   userT1ReferralSelector,
@@ -28,21 +29,27 @@ export const ReferralsCard = () => {
       headerTitleIcon={<TrophyIcon fill={COLORS.white} />}
       headerValue={String(userReferralCount)}
       headerValueIcon={<FriendsIcon fill={COLORS.white} />}>
-      <View style={[styles.body]}>
-        <View style={styles.column}>
-          <Text style={styles.labelText}>
-            {t('home.referrals.users_tier_1')}
-          </Text>
-          <Text style={styles.valueText}>{userT1ReferralCount}</Text>
-        </View>
-        <View style={styles.column}>
-          <Text style={styles.labelText}>
-            {t('home.referrals.users_tier_2')}
-          </Text>
-          <Text style={styles.valueText}>{userT2ReferralCount}</Text>
-        </View>
-      </View>
-      <Text style={styles.noteText}>{t('home.referrals.description')}</Text>
+      {userReferralCount === 0 ? (
+        <ReferralsEmptyState />
+      ) : (
+        <>
+          <View style={styles.body}>
+            <View style={styles.column}>
+              <Text style={styles.labelText}>
+                {t('home.referrals.users_tier_1')}
+              </Text>
+              <Text style={styles.valueText}>{userT1ReferralCount}</Text>
+            </View>
+            <View style={styles.column}>
+              <Text style={styles.labelText}>
+                {t('home.referrals.users_tier_2')}
+              </Text>
+              <Text style={styles.valueText}>{userT2ReferralCount}</Text>
+            </View>
+          </View>
+          <Text style={styles.noteText}>{t('home.referrals.description')}</Text>
+        </>
+      )}
     </CardBase>
   );
 };

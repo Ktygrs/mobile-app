@@ -27,10 +27,12 @@ export const InviteButton = ({style}: Props = {}) => {
 
   return (
     <Touchable style={[styles.button, style]} onPress={onInvitePress}>
+      <LogoTransparentIcon style={styles.backgroundIcon} />
+
       <View style={styles.iconWrapper}>
         <InviteIcon style={styles.icon} />
       </View>
-      <View style={styles.body}>
+      <View>
         <Text style={styles.mainText}>{t('button.invite_friend.title')}</Text>
         <Text style={styles.noteText}>
           {t('button.invite_friend.description_part1')}
@@ -38,41 +40,40 @@ export const InviteButton = ({style}: Props = {}) => {
           {t('button.invite_friend.description_part2')}
         </Text>
       </View>
-      <LogoTransparentIcon style={styles.backgroundIcon} />
     </Touchable>
   );
 };
 
 const styles = StyleSheet.create({
   button: {
-    flexDirection: 'row',
     marginHorizontal: SCREEN_SIDE_OFFSET,
+    padding: rem(14),
+    flexDirection: 'row',
     height: rem(64),
     borderRadius: rem(15),
     alignItems: 'center',
     backgroundColor: COLORS.primaryLight,
+    overflow: 'hidden',
   },
   iconWrapper: {
+    marginRight: rem(10),
     width: rem(36),
     height: rem(36),
     borderRadius: rem(12),
     backgroundColor: COLORS.white,
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: rem(14),
   },
   icon: {
     width: rem(21),
     height: rem(20),
   },
-  body: {
-    marginLeft: rem(10),
-  },
   mainText: {
     ...font(15, 18, 'black'),
   },
   noteText: {
-    ...font(12, 14, 'medium'),
+    marginTop: rem(1),
+    ...font(12, 14.4, 'medium'),
   },
   backgroundIcon: {
     position: 'absolute',

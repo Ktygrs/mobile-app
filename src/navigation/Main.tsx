@@ -131,7 +131,6 @@ export type HomeTabStackParamList = {
   Stats: undefined;
   TopMiners: undefined;
   TopCountries: undefined;
-  InviteShare: undefined;
   UserGrowthGraph: {
     category: 'active' | 'total';
     statsPeriod: StatsPeriod;
@@ -310,11 +309,7 @@ export function MainNavigator() {
         component={InviteFriend}
         options={modalOptions}
       />
-      <MainStack.Screen
-        name="InviteShare"
-        component={InviteShare}
-        options={modalOptions}
-      />
+      <MainStack.Screen name="InviteShare" component={InviteShare} />
       <MainStack.Screen
         name="ContextualMenu"
         component={ContextualMenu}

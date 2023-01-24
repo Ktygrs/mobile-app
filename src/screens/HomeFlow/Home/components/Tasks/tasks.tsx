@@ -50,15 +50,6 @@ export const taskItems: Task[] = [
     description: t('home.steps.step_three.description'),
   },
   {
-    type: 'joinTelegram',
-    completed: true,
-    active: false,
-    Icon: <TelegramSvg />,
-    iconBackground: COLORS.royalBlue,
-    title: t('home.steps.step_four.title'),
-    description: t('home.steps.step_four.description'),
-  },
-  {
     type: 'followUsTwitter',
     completed: true,
     active: false,
@@ -66,6 +57,15 @@ export const taskItems: Task[] = [
     iconBackground: COLORS.toreaBay,
     title: t('home.steps.step_five.title'),
     description: t('home.steps.step_five.description'),
+  },
+  {
+    type: 'joinTelegram',
+    completed: true,
+    active: false,
+    Icon: <TelegramSvg />,
+    iconBackground: COLORS.royalBlue,
+    title: t('home.steps.step_four.title'),
+    description: t('home.steps.step_four.description'),
   },
   {
     type: 'invite5Friends',

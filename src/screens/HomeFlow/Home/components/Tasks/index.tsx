@@ -12,47 +12,80 @@ import {
 import {taskItems} from '@screens/HomeFlow/Home/components/Tasks/tasks';
 import {t} from '@translations/i18n';
 import React, {memo, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {LayoutChangeEvent, StyleSheet, View} from 'react-native';
+import Animated, {useAnimatedStyle, withTiming} from 'react-native-reanimated';
 import {rem} from 'rn-units';
 
 export const Tasks = memo(() => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const activeItem = taskItems.findIndex(v => v.active) + 1;
-  const completedItems = taskItems.filter(v => v.completed);
-  const areAllTasksCompleted = completedItems.length === taskItems.length;
-  const activeLineHeight =
+  const countCompletedItems = taskItems.filter(v => v.completed).length;
+
+  const areAllTasksCompleted = countCompletedItems === taskItems.length;
+
+  const [isExpanded, setIsExpanded] = useState(!areAllTasksCompleted);
+
+  const [itemsContainerHeight, setItemsContainerHeight] = useState(0);
+
+  const countCompletedItemsBeforeCurrentActive =
     areAllTasksCompleted && isExpanded
-      ? ITEM_HEIGHT * completedItems.length + ITEM_HEIGHT / 2
-      : ITEM_HEIGHT * activeItem + ITEM_HEIGHT / 2;
+      ? countCompletedItems
+      : taskItems.findIndex(v => v.active) + 1;
+
+  const itemsContainerStyle = useAnimatedStyle(() => {
+    return {
+      height: withTiming(isExpanded ? itemsContainerHeight : 0, {
+        duration: 500,
+      }),
+    };
+  }, [itemsContainerHeight, isExpanded]);
+
+  const onItemsContainerLayout = (event: LayoutChangeEvent) => {
+    setItemsContainerHeight(
+      Math.max(itemsContainerHeight, event.nativeEvent.layout.height),
+    );
+  };
 
   const handleCompletedPress = () => {
     setIsExpanded(!isExpanded);
   };
+
   return (
     <>
       <SectionHeader title={t('home.tasks.title')} />
       <View style={styles.container}>
-        <>
-          <View style={styles.upcomingTasksLine} />
-          <View
-            style={[styles.finishedTasksLine, {height: activeLineHeight}]}
+        <View style={styles.upcomingTasksLine} />
+        <View
+          style={[
+            styles.finishedTasksLine,
+            {
+              height:
+                ITEM_HEIGHT * (countCompletedItemsBeforeCurrentActive + 0.5),
+            },
+          ]}
+        />
+
+        {areAllTasksCompleted ? (
+          <CompletedItem
+            iceCount={250}
+            onPress={handleCompletedPress}
+            isExpanded={isExpanded}
           />
-          {!areAllTasksCompleted && (
-            <ProgressItem
-              completed={completedItems.length}
-              total={taskItems.length}
-            />
-          )}
-          {areAllTasksCompleted && (
-            <CompletedItem
-              iceCount={250}
-              onPress={handleCompletedPress}
-              isExpanded={isExpanded}
-            />
-          )}
-          {(!areAllTasksCompleted || isExpanded) &&
-            taskItems.map(task => <TaskItem key={task.type} task={task} />)}
-        </>
+        ) : (
+          <ProgressItem
+            completed={countCompletedItems}
+            total={taskItems.length}
+          />
+        )}
+
+        <Animated.View
+          style={[
+            styles.itemsContainer,
+            !!itemsContainerHeight && itemsContainerStyle,
+          ]}
+          onLayout={onItemsContainerLayout}>
+          {taskItems.map(task => (
+            <TaskItem key={task.type} task={task} />
+          ))}
+        </Animated.View>
       </View>
     </>
   );
@@ -76,5 +109,9 @@ const styles = StyleSheet.create({
     bottom: ITEM_HEIGHT / 2,
     width: 1,
     backgroundColor: COLORS.heather,
+  },
+
+  itemsContainer: {
+    overflow: 'hidden',
   },
 });

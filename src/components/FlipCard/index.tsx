@@ -31,11 +31,12 @@ interface FlipCardProps {
   front: ReactNode;
   back: ReactNode;
   perspective?: number;
+  disabled?: boolean;
 }
 
 export const FlipCard = forwardRef<FlipCardMethods, FlipCardProps>(
   (
-    {perspective = 500, front, back, stylesContainer}: FlipCardProps,
+    {perspective = 500, front, back, stylesContainer, disabled}: FlipCardProps,
     forwardedRef: Ref<FlipCardMethods>,
   ) => {
     const [side, setSide] = useState(CardSide.BACK);
@@ -86,7 +87,10 @@ export const FlipCard = forwardRef<FlipCardMethods, FlipCardProps>(
     useImperativeHandle(forwardedRef, () => ({changeSide}));
 
     return (
-      <Touchable style={stylesContainer} onPress={changeSide}>
+      <Touchable
+        style={stylesContainer}
+        onPress={changeSide}
+        disabled={disabled}>
         <Animated.View style={stylesContainer}>
           <Animated.View
             style={[

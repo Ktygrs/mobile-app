@@ -22,7 +22,7 @@ export const LevelCard = () => {
       headerTitle={t('home.pioneer.title')}
       headerTitleIcon={<PioneerIcon fill={COLORS.white} />}
       headerValue={t('global.level') + ' 1'}>
-      <View style={[styles.body]}>
+      <View style={styles.body}>
         <View style={styles.column}>
           <Text style={styles.labelText}>{t('home.pioneer.referrals')}</Text>
           <Text style={styles.valueText}>{userReferralCount}</Text>

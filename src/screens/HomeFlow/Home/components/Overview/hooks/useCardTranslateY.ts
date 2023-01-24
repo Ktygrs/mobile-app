@@ -9,10 +9,14 @@ import {
 } from 'react-native-reanimated';
 
 export const useCardTranslateY = ({
-  // onScroll -> contentOffset.y of the parent ScrollView
+  /**
+   * onScroll -> contentOffset.y of the parent ScrollView
+   */
   translateY,
 
-  // offset from the top of the parent ScrollView
+  /**
+   * offset from the top of the parent ScrollView
+   */
   cardsTopOffset,
 }: {
   translateY: SharedValue<number>;

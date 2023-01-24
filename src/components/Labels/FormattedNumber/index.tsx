@@ -13,6 +13,7 @@ import {
 
 type Props = {
   number: number | string;
+  containerStyle?: StyleProp<TextStyle>;
   bodyStyle?: StyleProp<TextStyle>;
   decimalsStyle?: StyleProp<TextStyle>;
   trim?: boolean;
@@ -21,6 +22,7 @@ type Props = {
 
 export const FormattedNumber = ({
   number,
+  containerStyle,
   bodyStyle,
   decimalsStyle,
   trim = false,
@@ -32,7 +34,7 @@ export const FormattedNumber = ({
   const space = trim ? '' : ' ';
   const hasDecimals = !!numberDecimals;
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, containerStyle]}>
       <Text style={[styles.integerText, bodyStyle]}>{`${space}${numberInteger}${
         hasDecimals ? '.' : ''
       }`}</Text>
@@ -50,7 +52,7 @@ const styles = StyleSheet.create({
     flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row',
   },
   integerText: {
-    ...font(17, 20, 'bold'),
+    ...font(17, 20.4, 'bold'),
   },
   fractionalText: {
     ...font(10, 12, 'bold'),

@@ -32,7 +32,7 @@ export const LevelRow = React.memo(
     viewableItems: Animated.SharedValue<ViewToken[]>;
     isTopSeparatorVisible: boolean;
     isBottomSeparatorVisible: boolean;
-    onPress: () => void;
+    onPress?(): void;
   }) => {
     const locked = !item.active || item.completed;
     const animationStyle = useAnimatedStyle(() => {

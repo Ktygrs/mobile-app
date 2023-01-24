@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 export const LottieAnimations = {
+  loader: require('./loader.json'),
   miningActive: require('./mining-active.json'),
   miningInactive: require('./mining-inactive.json'),
   miningExpire: require('./mining-expire.json'),

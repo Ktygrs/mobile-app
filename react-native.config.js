@@ -3,5 +3,11 @@ module.exports = {
     ios: {},
     android: {}, // grouped into "project"
   },
-  assets: ['./src/assets/fonts/'], // stays the same
+
+  /**
+   * No longer supported by react-native cli.
+   * Need for `react-native-asset`
+   * Run `npx react-native-asset` to link fonts
+   *  */
+  assets: ['./src/assets/fonts/'],
 };

@@ -250,6 +250,7 @@
       "referrals": {
         "title": "REFFERALS",
         "description": "Referral stats for the previous 5 days",
+        "no_referrals_description": "You don't have any referrals yet",
         "users_tier_1": "Users tier 1",
         "users_tier_2": "Users tier 2"
       },

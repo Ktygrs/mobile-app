@@ -157,6 +157,7 @@ export type Translations = {
   'home.pioneer.description_part2': null;
   'home.referrals.title': null;
   'home.referrals.description': null;
+  'home.referrals.no_referrals_description': null;
   'home.referrals.users_tier_1': null;
   'home.referrals.users_tier_2': null;
   'home.adoption.title': null;

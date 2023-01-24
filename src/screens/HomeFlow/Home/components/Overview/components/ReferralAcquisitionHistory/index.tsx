@@ -4,10 +4,14 @@ import {COLORS} from '@constants/colors';
 import {Images} from '@images';
 import {CardBase} from '@screens/HomeFlow/Home/components/Overview/components/CardBase';
 import {Tiers} from '@screens/HomeFlow/Home/components/Overview/components/ReferralAcquisitionHistory/components/Tiers';
+import {ReferralsEmptyState} from '@screens/HomeFlow/Home/components/Overview/components/ReferralsEmptyState';
 import {UnitedVerticalBar} from '@screens/HomeFlow/Home/components/Overview/components/UnitedVerticalBar';
 import {dayjs} from '@services/dayjs';
 import {ReferralsActions} from '@store/modules/Referrals/actions';
-import {referralHistorySelector} from '@store/modules/Referrals/selectors';
+import {
+  referralHistorySelector,
+  userReferralCountSelector,
+} from '@store/modules/Referrals/selectors';
 import {isLoadingSelector} from '@store/modules/UtilityProcessStatuses/selectors';
 import {TrophyIcon} from '@svg/TrophyIcon';
 import {t} from '@translations/i18n';
@@ -22,6 +26,8 @@ const Y_AXIS_HEIGHT = '100%';
 
 export const ReferralAcquisitionHistory = () => {
   const dispatch = useDispatch();
+
+  const userReferralCount = useSelector(userReferralCountSelector);
 
   useEffect(() => {
     dispatch(ReferralsActions.GET_REFERRALS_HISTORY.START.create());
@@ -56,6 +62,8 @@ export const ReferralAcquisitionHistory = () => {
       headerValueIcon={<Tiers />}>
       {isLoading ? (
         <ActivityIndicator style={StyleSheet.absoluteFill} size={'large'} />
+      ) : userReferralCount === 0 ? (
+        <ReferralsEmptyState />
       ) : (
         <View style={styles.body}>
           <View style={styles.yAxis}>
