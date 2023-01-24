@@ -44,6 +44,13 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   [FIRApp configure];
+  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+  if (![defaults boolForKey:@"notFirstRun"]) {
+    [defaults setBool:YES forKey:@"notFirstRun"];
+    [defaults synchronize];
+    [[FIRAuth auth] signOut:NULL];
+  }
+
   [[FBSDKApplicationDelegate sharedInstance] application:application
                        didFinishLaunchingWithOptions:launchOptions];
 
