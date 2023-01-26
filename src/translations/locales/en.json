@@ -70,11 +70,9 @@
       "button_title": "Invite Friends"
     },
     "contacts": {
-      "empty_title": " is better with friends",
+      "empty_title": "[[:ice]] is better with friends",
       "empty_button_title": "Allow contacts access",
-      "empty_description_part1": "Sync your contacts and see who is already on ",
-      "empty_description_part2": ". In the future, you will be able to send ",
-      "empty_description_part3": " to any of your contacts."
+      "empty_description": "Sync your contacts and see who is already on [[:ice]]. In the future, you will be able to send ice to any of your contacts."
     },
     "header": {
       "search_placeholder": "Search for users",
@@ -235,6 +233,7 @@
     "referrals": {
       "title": "REFFERALS",
       "description": "Referral stats for the previous 5 days",
+      "no_referrals_description": "You don't have any referrals yet",
       "users_tier_1": "Users tier 1",
       "users_tier_2": "Users tier 2"
     },

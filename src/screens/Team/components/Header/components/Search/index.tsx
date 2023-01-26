@@ -21,7 +21,7 @@ import {
 import Animated from 'react-native-reanimated';
 import {rem} from 'rn-units';
 
-export const SEARCH_INPUT_TOP_OFFSET = rem(10);
+export const SEARCH_INPUT_TOP_OFFSET = rem(13);
 export const SEARCH_HEIGHT = SEARCH_INPUT_HEIGHT + SEARCH_INPUT_TOP_OFFSET;
 
 const CANCEL_WIDTH = rem(70);

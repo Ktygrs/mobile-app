@@ -50,9 +50,7 @@ export type Translations = {
   'team.empty.button_title': null;
   'team.contacts.empty_title': null;
   'team.contacts.empty_button_title': null;
-  'team.contacts.empty_description_part1': null;
-  'team.contacts.empty_description_part2': null;
-  'team.contacts.empty_description_part3': null;
+  'team.contacts.empty_description': null;
   'team.header.search_placeholder': null;
   'team.header.referrals': null;
   'team.header.earnings': null;
