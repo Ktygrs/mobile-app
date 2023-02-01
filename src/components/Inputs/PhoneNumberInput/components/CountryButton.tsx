@@ -18,8 +18,8 @@ export const CountryButton = ({flag, onPress}: Props) => {
       <Text style={styles.flag}>{flag}</Text>
       <ChevronSmallIcon
         color={COLORS.codeFieldText}
-        width={rem(8)}
-        height={rem(6)}
+        width={rem(12)}
+        height={rem(12)}
       />
     </Touchable>
   );
@@ -39,6 +39,6 @@ const styles = StyleSheet.create({
   },
   flag: {
     fontSize: rem(28),
-    marginRight: rem(6),
+    marginRight: rem(4),
   },
 });

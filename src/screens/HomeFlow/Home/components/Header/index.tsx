@@ -35,10 +35,11 @@ export const HomeHeader = memo(({translateY, transitionOffset}: Props) => {
   const topOffset = useTopOffsetStyle();
   const user = useSelector(userSelector);
 
-  const {fromAnimatedStyle, toAnimatedStyle} = useTransitionAnimation({
-    translateY,
-    transitionOffset,
-  });
+  const {currentAnimationState, fromAnimatedStyle, toAnimatedStyle} =
+    useTransitionAnimation({
+      translateY,
+      transitionOffset,
+    });
 
   const openProfile = () => {
     navigation.navigate('ProfileTab');
@@ -58,7 +59,9 @@ export const HomeHeader = memo(({translateY, transitionOffset}: Props) => {
           </Touchable>
         )}
         <Animated.View style={[styles.greeting, fromAnimatedStyle]}>
-          <Touchable onPress={openProfile}>
+          <Touchable
+            disabled={currentAnimationState !== 'from'}
+            onPress={openProfile}>
             <GreetingText />
             {user && (
               <Text style={styles.usernameText}>{`@${user.username}`}</Text>

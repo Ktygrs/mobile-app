@@ -57,8 +57,8 @@ const styles = StyleSheet.create({
   },
   friendIcon: {
     position: 'absolute',
-    bottom: 0,
-    right: 0,
+    bottom: -rem(2),
+    right: -rem(1),
     justifyContent: 'center',
     alignItems: 'center',
     width: DEFAULT_ICON_SIZE,

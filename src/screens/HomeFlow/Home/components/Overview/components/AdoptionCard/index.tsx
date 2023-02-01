@@ -133,7 +133,7 @@ export const AdoptionCard = ({isCollapsed, onPress}: AdoptionCardProps) => {
           viewableItems={sharedItems}
           isTopSeparatorVisible={index !== 0}
           isBottomSeparatorVisible={index !== levelItems.length - 1}
-          onPress={isCollapsed ? onPress : undefined}
+          onPress={isCollapsed ? undefined : onPress}
         />
       );
     },

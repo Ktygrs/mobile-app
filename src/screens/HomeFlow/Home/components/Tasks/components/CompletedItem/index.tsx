@@ -20,7 +20,6 @@ type Props = {
 };
 
 const DONE_ICON_SIZE = rem(16);
-const COMPLETED_ICON_SIZE = rem(40);
 const TROPHY_ICON_SIZE = rem(36);
 
 export const CompletedItem = ({iceCount, onPress, isExpanded}: Props) => {
@@ -32,6 +31,7 @@ export const CompletedItem = ({iceCount, onPress, isExpanded}: Props) => {
         <View style={styles.trophyWrapper}>
           <CompletedTrophyIcon />
         </View>
+
         <View style={styles.completedWrapper}>
           <TaskCompletedSvg
             fill={COLORS.shamrock}
@@ -40,21 +40,22 @@ export const CompletedItem = ({iceCount, onPress, isExpanded}: Props) => {
           />
         </View>
       </View>
+
       <View style={styles.textsWrapper}>
         <Text style={styles.title}>{t('tasks.completed.title')}</Text>
+
         <Text style={styles.description}>
           {t('tasks.completed.description', {count: iceCount})}
           <IceLabel color={COLORS.toreaBay} iconSize={14} />.
         </Text>
       </View>
-      <View style={styles.chevronWrapper}>
-        <ChevronSmallIcon
-          color={COLORS.codeFieldText}
-          width={rem(8)}
-          height={rem(6)}
-          style={isExpanded ? styles.rotatedChevron : {}}
-        />
-      </View>
+
+      <ChevronSmallIcon
+        style={[styles.chevron, isExpanded && styles.rotatedChevron]}
+        width={rem(12)}
+        height={rem(12)}
+        color={COLORS.codeFieldText}
+      />
     </Touchable>
   );
 };
@@ -62,19 +63,17 @@ export const CompletedItem = ({iceCount, onPress, isExpanded}: Props) => {
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: SCREEN_SIDE_OFFSET,
-    height: rem(60),
+    padding: rem(12),
     flexDirection: 'row',
-    marginLeft: SCREEN_SIDE_OFFSET,
-    backgroundColor: 'white',
-    paddingHorizontal: rem(12),
-    borderRadius: rem(16),
+    alignItems: 'center',
     justifyContent: 'space-between',
+    height: rem(60),
+    borderRadius: rem(16),
+    backgroundColor: COLORS.white,
   },
   iconContainer: {
-    marginVertical: rem(8),
-    marginRight: rem(8),
-    width: COMPLETED_ICON_SIZE,
-    height: COMPLETED_ICON_SIZE,
+    width: TROPHY_ICON_SIZE,
+    height: TROPHY_ICON_SIZE,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -90,27 +89,25 @@ const styles = StyleSheet.create({
     width: DONE_ICON_SIZE,
     height: DONE_ICON_SIZE,
     position: 'absolute',
-    right: 0,
-    bottom: 0,
+    right: -rem(4),
+    bottom: -rem(4),
     justifyContent: 'center',
     alignItems: 'center',
   },
   textsWrapper: {
+    marginLeft: rem(11),
     justifyContent: 'center',
     flex: 1,
   },
   title: {
-    ...font(14, 17, 'black', 'primaryDark'),
+    ...font(14, 16.8, 'black', 'primaryDark'),
   },
   description: {
     marginTop: rem(4),
-    ...font(12, 14, 'medium', 'toreaBay'),
+    ...font(12, 14.4, 'medium', 'toreaBay'),
   },
-  chevronWrapper: {
-    width: rem(12),
+  chevron: {
     marginLeft: rem(8),
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   rotatedChevron: {
     transform: [{rotateZ: '180deg'}],

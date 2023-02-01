@@ -1,10 +1,13 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {useState} from 'react';
 import {
   Extrapolate,
   interpolate,
+  runOnJS,
   SharedValue,
   useAnimatedStyle,
+  useDerivedValue,
 } from 'react-native-reanimated';
 import {rem} from 'rn-units';
 
@@ -19,6 +22,10 @@ export const useTransitionAnimation = ({
   translateY,
   transitionOffset,
 }: Params) => {
+  const [currentAnimationState, setCurrentAnimationState] = useState<
+    'from' | 'to'
+  >('from');
+
   const fromAnimatedStyle = useAnimatedStyle(() => ({
     opacity: interpolate(
       translateY.value,
@@ -37,5 +44,20 @@ export const useTransitionAnimation = ({
     ),
   }));
 
-  return {fromAnimatedStyle, toAnimatedStyle};
+  useDerivedValue(() => {
+    const fromOpacityValue = interpolate(
+      translateY.value,
+      [transitionOffset - TRANSITION_WINDOW, transitionOffset],
+      [1, 0],
+      Extrapolate.CLAMP,
+    );
+
+    const newCurrentAnimationState = fromOpacityValue > 0 ? 'from' : 'to';
+
+    if (currentAnimationState !== newCurrentAnimationState) {
+      runOnJS(setCurrentAnimationState)(newCurrentAnimationState);
+    }
+  }, [currentAnimationState]);
+
+  return {currentAnimationState, fromAnimatedStyle, toAnimatedStyle};
 };

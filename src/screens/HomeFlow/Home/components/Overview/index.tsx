@@ -41,7 +41,7 @@ type Props = {
 
 const SCROLL_TOP_MARGIN = rem(16);
 const SCROLL_BOTTOM_PADDING = rem(8);
-const SCROLL_BOTTOM_MARGIN = rem(24) - SCROLL_BOTTOM_PADDING;
+const SCROLL_BOTTOM_MARGIN = rem(24);
 const OVERSCROLL = isIOS ? 1000 : 0;
 
 const USER_GROWTH_STATS_PERIOD = 7;

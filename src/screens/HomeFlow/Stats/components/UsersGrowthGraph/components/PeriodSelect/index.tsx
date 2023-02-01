@@ -48,10 +48,10 @@ export const PeriodSelect = ({selectedIndex, options, onChange}: Props) => {
       style={styles.container}>
       <Text style={styles.labelText}>{options[selectedIndex]?.label}</Text>
       <ChevronSmallIcon
-        style={[styles.chevron, isMenuVisible ? styles.chevron_up : null]}
+        style={[styles.chevron, isMenuVisible && styles.chevron_up]}
         color={COLORS.primaryDark}
-        height={rem(6)}
-        width={rem(8)}
+        height={rem(12)}
+        width={rem(12)}
       />
     </Touchable>
   );
@@ -63,11 +63,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   chevron: {
-    marginLeft: rem(6),
+    marginLeft: rem(4),
   },
   chevron_up: {
     transform: [{rotate: '180deg'}],
-    marginBottom: rem(4),
   },
   labelText: {
     ...font(12, 15, 'medium', 'primaryDark'),
