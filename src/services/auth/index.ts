@@ -133,6 +133,10 @@ export const getAuthenticatedUser = async (forceRefresh?: boolean) => {
 export const getAuthErrorMessage = (error: unknown) => {
   if (checkProp(error, 'code')) {
     switch (error.code) {
+      case 'auth/code-expired':
+        return t('errors.code_expired');
+      case 'auth/too-many-requests':
+        return t('errors.too_many_requests');
       case 'auth/invalid-verification-code':
       case 'auth/invalid-verification-id':
         // Thrown if the credential is a firebase.auth.PhoneAuthProvider.credential and the verification code or verification ID of the credential is not valid.
@@ -161,7 +165,7 @@ export const getAuthErrorMessage = (error: unknown) => {
         return t('errors.operation_not_allowed');
       case 'auth/user-not-found':
         // Thrown if signing in with a credential from firebase.auth.EmailAuthProvider.credential and there is no user corresponding to the given email.
-        return t('errors.user_not_found');
+        return t('errors.user_not_found_for_email');
     }
   }
 };

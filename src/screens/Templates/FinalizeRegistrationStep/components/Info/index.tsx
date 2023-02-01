@@ -2,21 +2,33 @@
 
 import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
-import {SMALL_BUTTON_HIT_SLOP, smallHeightDevice} from '@constants/styles';
+import {
+  SCREEN_SIDE_OFFSET,
+  SMALL_BUTTON_HIT_SLOP,
+  smallHeightDevice,
+} from '@constants/styles';
 import {InfoIcon} from '@svg/InfoIcon';
 import {TipTriangleIcon} from '@svg/TipTriangle';
 import {font} from '@utils/styles';
 import React, {ReactNode, useState} from 'react';
-import {StyleProp, StyleSheet, Text, View, ViewStyle} from 'react-native';
+import {
+  StyleProp,
+  StyleSheet,
+  Text,
+  TextStyle,
+  View,
+  ViewStyle,
+} from 'react-native';
 import {rem} from 'rn-units';
 
 type Props = {
   text: string | ReactNode;
   tooltip?: string | ReactNode;
   containerStyle?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
 };
 
-export const Info = ({text, tooltip, containerStyle}: Props) => {
+export const Info = ({text, tooltip, containerStyle, textStyle}: Props) => {
   const [isTipVisible, setTipVisibility] = useState(false);
   return (
     <View style={[styles.container, containerStyle]}>
@@ -32,7 +44,7 @@ export const Info = ({text, tooltip, containerStyle}: Props) => {
               style={styles.infoIcon}
             />
           </Touchable>
-          <View style={styles.infoBody}>
+          <View style={[styles.infoBody, textStyle]}>
             {typeof text === 'string' ? (
               <Text
                 style={styles.infoText}
@@ -77,7 +89,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginLeft: rem(14),
-    marginRight: rem(60),
+    marginRight: SCREEN_SIDE_OFFSET,
   },
   infoText: {
     ...font(13, 18, 'regular', 'secondary'),

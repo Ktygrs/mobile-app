@@ -11,7 +11,7 @@ import {StyleSheet, View} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {isIOS, rem} from 'rn-units';
 
-export const SOCIAL_BUTTONS_HEIGHT = rem(88);
+export const SOCIAL_BUTTONS_HEIGHT = rem(50);
 
 export const SocialButtons = () => {
   const dispatch = useDispatch();
@@ -54,7 +54,7 @@ export const SocialButtons = () => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    alignItems: 'center',
     justifyContent: 'center',
     height: SOCIAL_BUTTONS_HEIGHT,
   },

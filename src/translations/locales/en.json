@@ -1,32 +1,31 @@
 {
   "welcome": {
     "page1": {
-      "title": "Welcome to ",
-      "description_part1": " is a digital currency that you can mine on your phone. ",
-      "description_part2": "  is owned and operated by every day users like yourself. "
+      "title": "Welcome to ice",
+      "description": "[[:ice]] is a digital currency that you can mine on your phone. ice is owned and operated by every day users like yourself."
     },
     "page2": {
       "title": "Planet Friendly",
-      "description": " is inherently more energy efficient than BTC\nas it uses a “Proof of Stake” consensus mechanism.\nWith proof-of-stake (POS), cryptocurrency\nowners validate block transactions based on the\nnumber of coins a validator stakes."
+      "description": "[[:ice]] is inherently more energy efficient than BTC as it uses a “Proof of Stake” consensus mechanism. With proof-of-stake (POS), cryptocurrency owners validate block transactions based on the number of coins a validator stakes."
     },
     "page3": {
       "title": "People’s Coin",
-      "description_part1": "The power is in your hands. Everything that we develop at ",
-      "description_part2": " will be open source & controlled by the Decentralized Autonomous Organization (DAO). "
+      "description_part1": "The power is in your hands.",
+      "description_part2": "Everything that we develop at [[:ice]] will be open source & controlled by the Decentralized Autonomous Organization (DAO)."
     },
     "page4": {
       "title": "Stay Connected",
-      "description_part1": "Tap ",
-      "description_part2": " and start mining today with our free, \nenergy-light mobile app. Your daily tap ensures\nthat ",
-      "description_part3": " ends up in the hands of real\nhumans, not bots."
+      "description": "Tap [[:iceLogo]] and start mining today with our free, energy-light mobile app. Your daily tap ensures that [[:bold]]ice[[/:bold]] ends up in the hands of real humans, not bots."
     },
     "page5": {
       "title": "Refer & Earn",
-      "description": "Invite your friends and earn(both of you) up to\n25% bonus on your base mining rate for\neach friend that joins your team."
+      "description": "Invite your friends and earn (both of you) up to {{value}}% bonus on your base mining rate for each friend that joins your team."
     },
     "page6": {
       "title": "Notifications",
-      "description": " mining sessions only last for 24 hours.\nWould you like to receive a notification when\nyour current session ends? Don’t worry,\nwe will not spam you!"
+      "description_part1": "[[:ice]] mining sessions only last for {{value}} hours. Would you like to receive a notification when your current session ends?",
+      "description_part2": "Don’t worry, we will not spam you!",
+      "not_now": "Not now"
     }
   },
   "button": {
@@ -124,21 +123,19 @@
   },
   "claimUsername": {
     "title": "Claim nickname",
-    "description": "Your friends will need to use this\nnickname to join your team.",
+    "description": "Your friends will need to use this nickname to join your team",
     "inputPlaceholder": "Enter your nickname",
-    "note": "When creating a nickname, use only letters, numbers, hyphens, points and undescores. Example: ",
-    "note_example": "your_na-me.00",
-    "title_multiline": "Claim\nnickname"
+    "note_part1": "When creating a nickname, use only letters, numbers, and periods.",
+    "note_part2": "Example:",
+    "note_example": "your.name01"
   },
   "whoInvitedYou": {
     "title": "Who invited you?",
-    "description": "Enter the nickname of the person who\ninvited you.",
+    "description": "Enter the nickname of the person who invited you",
     "inputPlaceholder": "Enter nickname",
-    "dontHaveInvitationCode": "Don't have an invitation code? ",
-    "tapHere": " Tap here!",
-    "dontHaveCodeTip": "If you don't have an invitation code we will\nselect a random member as your referral!",
-    "title_multiline": "Who invited\nyou?",
-    "confirm_text": "Are you sure that you would like to set a random member as your referral?\n\nThis cannot be undone!"
+    "dontHaveInvitationCode": "By completing this step, you and your friend will both receive a {{value}}% bonus on the mining rate when you are both mining in the same time.",
+    "confirm_text": "Are you sure that you would like to set a random member as your referral?\n\nThis cannot be undone!",
+    "dontHaveCodeTip": "If you don't have an invitation code we will\nselect a random member as your referral!"
   },
   "errors": {
     "nicknameSize": "Nickname size: 4-20 characters.",
@@ -147,24 +144,29 @@
     "multiple_accounts": "Email/phone number is associated with another account. Please log into that account to prove ownership, then logout and log back into this one. If you do not own that other account or are unable to log into it, please contact our support",
     "wrong_phone_number": "Wrong phone number",
     "wrong_phone_number_format": "Wrong phone number format",
-    "invalid_username": "Invalid username",
+    "invalid_username": "Nickname is invalid.",
     "already_taken": "{{field}} already taken",
-    "invalid_validation_code": "Invalid validation code",
+    "invalid_validation_code": "Invalid code number, please try again!",
     "validation_expired": "Validation expired",
     "validation_not_found": "Validation not found",
     "invalid_email": "Invalid email",
-    "invalid_ref_username": "Invalid referral username",
+    "invalid_ref_username": "Nickname is invalid.",
     "invalid_phone": "Invalid phone number",
     "user_disabled": "User has been disabled",
     "expired_action_code": "OTP in email link is expired",
     "account_exists_with_different_credential": "There already exists an account with the email address asserted by the credential",
     "invalid_credential": "The credential is malformed or has expired",
     "operation_not_allowed": "The type of account corresponding to the credential is not enabled",
-    "user_not_found": "There is no user corresponding to the given email",
+    "user_not_found_for_email": "There is no user corresponding to the given email",
+    "user_not_found": "User not found",
     "auth_in_progress": "Sign-In already in progress",
     "google_play_services_not_available": "Google Play services are not available on the device",
     "unknown_error_with_code": "Unknown error {{code}}",
-    "no_such_provider": "You do not have this provider linked"
+    "no_such_provider": "You do not have this provider linked",
+    "min_username": "Minimum length is 4 characters.",
+    "max_username": "Maximum length is 30 characters.",
+    "code_expired": "The code has expired. Please ask for a new code.",
+    "too_many_requests": "Too many requests. Please try again later."
   },
   "profile": {
     "my_roles": {
@@ -172,7 +174,7 @@
     },
     "mining_calculator": "mining calculator",
     "invite_friends": "Invite Friends",
-    "invite_friends_engage": "Spread the word and invite your friends. The more refferals, the more you’ll earn!",
+    "invite_friends_engage": "Spread the word and invite your friends. The more referrals, the more you’ll earn!",
     "global_rank": "global rank",
     "view_all_roles": "view all roles",
     "data_is_hidden": "data is hidden",
@@ -212,11 +214,6 @@
     "tier_2_ref": "Tier 2 referrals",
     "active_miners": "Active miners"
   },
-  "profiel": {
-    "my_roles": {
-      "title": "My Roles"
-    }
-  },
   "home": {
     "wallet": {
       "title": "WALLET",
@@ -227,15 +224,16 @@
       "title": "PIONEER",
       "rank": "GLOBAL RANK",
       "referrals": "REFERRALS",
-      "description_part1": "The more users you reffer, the more ",
+      "description_part1": "The more users you refer, the more ",
       "description_part2": " you earn"
     },
     "referrals": {
-      "title": "REFFERALS",
+      "title": "REFERRALS",
       "description": "Referral stats for the previous 5 days",
       "no_referrals_description": "You don't have any referrals yet",
       "users_tier_1": "Users tier 1",
-      "users_tier_2": "Users tier 2"
+      "users_tier_2": "Users tier 2",
+      "no_referrals_description": "You don't have any referrals yet"
     },
     "adoption": {
       "title": "ADOPTION",
@@ -295,7 +293,7 @@
     },
     "engagement": {
       "title": "ENGAGEMENT",
-      "description": "Streak reffers to how many consecutive days you have mined.\nFor each 6 consecutive days you receive one day off.",
+      "description": "Streak refers to how many consecutive days you have mined.\nFor each 6 consecutive days you receive one day off.",
       "streak": "STREAK",
       "days_off": "DAYS OFF"
     }
@@ -517,7 +515,7 @@
     "no_notifications": "No notifications to display",
     "add_announcements": "Add mocked announcements",
     "add_both": "Add mocked notifications \nand announcements together",
-    "clear_title": "Clear all notificaitons? ",
+    "clear_title": "Clear all notifications?",
     "title": "Notifications"
   },
   "notification_feed_screen": {
@@ -544,16 +542,19 @@
   },
   "confirm_email": {
     "title": "Confirm your email",
-    "title_multiline": "Confirm your\nemail",
-    "description": "Please enter your email address\nand we will send code ",
-    "note": "If you didn’t receive the the email within 5 minutes, please check your spam folder.",
+    "description": "Please enter your email address and we will send code ",
+    "note": "If you didn’t receive the email within {{value}} minutes, please check your spam folder.",
     "wrong_email": "Wrong email?",
     "check_email": "Check your email",
     "emailed_link_to": "We emailed a magic link to",
-    "link_instruction": "Click the link to log in or\nsign up.",
-    "back": "Back to Login",
+    "link_instruction": "Click the link to log in or sign up.",
     "modify_title": "Confirm New Email",
     "modify_description": "Please enter your new email address"
+  },
+  "invalid_link": {
+    "title": "Invalid link",
+    "description": "Unfortunately, this link is invalid, please enter your email again and we will send you a new link.",
+    "back_button_title": "Back to Login"
   },
   "confirm_code": {
     "title": "Confirm code",
@@ -564,8 +565,8 @@
     "wrong_number": "Wrong number?"
   },
   "ice_bonus": {
-    "title": "Welcome bonus",
-    "description": "Congratulations, you have\nreceived your first {{value}} ice coins",
+    "title": "Welcome reward",
+    "description": "Congratulations, you have received your first [[:value]] [[:ice]] coins which proves our [[:bold]]Trust[[/:bold]] in [[:bold]]You[[/:bold]]",
     "balance_label": "Your current balance"
   },
   "country_select": {
@@ -708,7 +709,7 @@
   },
   "links": {
     "pre_staking": "https://ice.io/pre-staking/",
-    "privacy": "https://ice.io/privacy-policy/",
+    "privacy": "https://ice.io/privacy/",
     "terms": "https://ice.io/terms/",
     "main": "https://ice.io/"
   }

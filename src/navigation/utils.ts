@@ -1,20 +1,34 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {MainNavigationParams} from '@navigation/Main';
-import {createNavigationContainerRef} from '@react-navigation/native';
+import {
+  createNavigationContainerRef,
+  NavigationState,
+  PartialState,
+} from '@react-navigation/native';
+
+export let navigationReadyResolver: () => void;
+export const navigationReady = new Promise<void>(
+  r => (navigationReadyResolver = r),
+);
 
 export const navigationRef =
   createNavigationContainerRef<MainNavigationParams>();
 type NavigationParams = Parameters<typeof navigationRef.navigate>;
 
-export const getCurrentRoute = () => {
-  if (navigationRef.isReady()) {
-    return navigationRef.getCurrentRoute();
-  }
+export const getCurrentRoute = async () => {
+  await navigationReady;
+  return navigationRef.getCurrentRoute();
 };
 
-export function navigate(...params: NavigationParams) {
-  if (navigationRef.isReady()) {
-    navigationRef.navigate(...params);
-  }
-}
+export const navigate = async (...params: NavigationParams) => {
+  await navigationReady;
+  return navigationRef.navigate(...params);
+};
+
+export const resetRoot = async (
+  state?: PartialState<NavigationState> | NavigationState,
+) => {
+  await navigationReady;
+  return navigationRef.resetRoot(state);
+};

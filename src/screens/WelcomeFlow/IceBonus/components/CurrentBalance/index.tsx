@@ -3,6 +3,7 @@
 import {FormattedNumber} from '@components/Labels/FormattedNumber';
 import {IceLabel} from '@components/Labels/IceLabel';
 import {COLORS} from '@constants/colors';
+import {smallHeightDevice} from '@constants/styles';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React from 'react';
@@ -44,8 +45,7 @@ export const CurrentBalance = ({value}: Props) => {
 
 const styles = StyleSheet.create({
   container: {
-    height: rem(170),
-    marginBottom: -rem(18),
+    height: smallHeightDevice ? rem(120) : rem(170),
     justifyContent: 'center',
   },
   backgroundImage: {

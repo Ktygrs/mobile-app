@@ -70,6 +70,7 @@ export const PhoneNumberInput = ({
       onChangeText={(text: string) => {
         onChangePhone(text, country.iddCode);
       }}
+      style={styles.valueText}
       {...props}
     />
   );
@@ -80,7 +81,10 @@ const styles = StyleSheet.create({
     paddingLeft: 0,
   },
   prefixText: {
-    ...font(16, 22, 'medium', 'secondary'),
+    ...font(16, 20, 'medium', 'secondary'),
     marginRight: rem(4),
+  },
+  valueText: {
+    ...font(16, 20, 'medium', 'codeFieldText'),
   },
 });

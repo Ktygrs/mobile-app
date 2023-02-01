@@ -5,6 +5,7 @@ import ro from '@translations/locales/ro.json';
 // eslint-disable-next-line no-restricted-imports
 import {I18n, TranslateOptions} from 'i18n-js';
 import RNLocalize from 'react-native-localize';
+import reactStringReplace from 'react-string-replace';
 
 const locales = {
   en,
@@ -39,3 +40,15 @@ export function translate<
 }
 
 export const t = translate;
+
+export const tagRegex = (tag: string, isSingular = true) => {
+  if (isSingular) {
+    return `[[:${tag}]]`;
+  } else {
+    return new RegExp(
+      `\\[\\[:${tag}\\]\\]([\\s\\S]+?)\\[\\[\\/:${tag}\\]\\](?!.*\\[\\[\\[:${tag}\\])`,
+    );
+  }
+};
+
+export const replaceString = reactStringReplace;

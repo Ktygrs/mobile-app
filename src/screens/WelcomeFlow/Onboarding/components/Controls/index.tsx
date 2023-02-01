@@ -5,11 +5,12 @@ import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {smallHeightDevice} from '@constants/styles';
 import {PermissionsActions} from '@store/modules/Permissions/actions';
+import {canAskPermissionSelector} from '@store/modules/Permissions/selectors';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
 type Props = {
@@ -20,29 +21,37 @@ type Props = {
 
 export const Controls = ({isLastPage, goNextPage, finishOnboarding}: Props) => {
   const dispatch = useDispatch();
+
+  const canAskNotificationPermission = useSelector(
+    canAskPermissionSelector('pushNotifications'),
+  );
+
+  const showNotNow = isLastPage && canAskNotificationPermission;
+
   return (
     <View style={styles.container}>
       <View style={styles.buttons}>
-        {isLastPage && (
+        {showNotNow && (
           <Touchable onPress={finishOnboarding}>
-            <Text style={styles.linkText}>Not now</Text>
+            <Text style={styles.linkText}>{t('welcome.page6.not_now')}</Text>
           </Touchable>
         )}
         <PrimaryButton
-          text={isLastPage ? t('button.complete') : t('button.next_step')}
+          text={t('button.next_step')}
           onPress={() => {
-            if (isLastPage) {
+            if (showNotNow) {
               dispatch(
                 PermissionsActions.GET_PERMISSIONS.START.create(
                   'pushNotifications',
                 ),
               );
+            } else if (isLastPage && !canAskNotificationPermission) {
               finishOnboarding();
             } else {
               goNextPage();
             }
           }}
-          style={[styles.button, isLastPage && styles.button_small]}
+          style={[styles.button, showNotNow && styles.button_small]}
         />
       </View>
     </View>

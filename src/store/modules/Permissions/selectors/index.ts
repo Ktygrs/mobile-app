@@ -4,7 +4,12 @@ import {PermissionType} from '@store/modules/Permissions/sagas/getPermissionsSag
 import {RootState} from '@store/rootReducer';
 import {RESULTS} from 'react-native-permissions';
 
-export const permissionSelector =
+export const isPermissionGrantedSelector =
   (type: PermissionType) => (state: RootState) => {
     return state.permissions[type] === RESULTS.GRANTED;
+  };
+
+export const canAskPermissionSelector =
+  (type: PermissionType) => (state: RootState) => {
+    return state.permissions[type] === RESULTS.DENIED;
   };

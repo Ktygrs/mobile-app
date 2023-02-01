@@ -19,5 +19,10 @@ export const stringToColor = (input: string = '') => {
 };
 
 export const removeInvalidUsernameCharacters = (input: string) => {
-  return input.replace(/[^a-zA-Z0-9-]/g, '');
+  return input.replace(/[^a-zA-Z0-9.]/g, '');
+};
+
+export const validateUsername = (username: string) => {
+  const validationRegex: RegExp = /^[a-zA-Z0-9.]+$/;
+  return validationRegex.test(username);
 };

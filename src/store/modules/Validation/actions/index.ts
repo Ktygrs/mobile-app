@@ -12,8 +12,8 @@ const USERNAME_VALIDATION = createAction('USERNAME_VALIDATION', {
 });
 
 const REF_USERNAME_VALIDATION = createAction('REF_USERNAME_VALIDATION', {
-  START: (username: string) => ({username}),
-  SUCCESS: (user: User) => ({user}),
+  START: (refUsername: string) => ({refUsername}),
+  SUCCESS: (refUsername: string) => ({refUsername}),
   FAILED: (errorMessage: string) => ({errorMessage}),
   CLEAR: false,
   RESET: true,

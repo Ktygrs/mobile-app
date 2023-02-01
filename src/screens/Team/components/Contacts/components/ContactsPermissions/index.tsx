@@ -6,12 +6,11 @@ import {COLORS} from '@constants/colors';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
 import {PermissionsActions} from '@store/modules/Permissions/actions';
 import {AddressBookIcon} from '@svg/AddressBookIcon';
-import {t} from '@translations/i18n';
+import {replaceString, t, tagRegex} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {useDispatch} from 'react-redux';
-import reactStringReplace from 'react-string-replace';
 import {isAndroid, rem} from 'rn-units';
 
 const icon = require('../../../../assets/images/teamAgendaNotShared.png');
@@ -23,9 +22,9 @@ export const ContactsPermissions = () => {
     <View style={[styles.container, tabbarOffest.current]}>
       <Image source={icon} resizeMode="contain" style={styles.image} />
       <Text style={styles.title}>
-        {reactStringReplace(
+        {replaceString(
           t('team.contacts.empty_title'),
-          '[[:ice]]',
+          tagRegex('ice'),
           (match, index) => (
             <IceLabel
               key={match + index}
@@ -38,9 +37,9 @@ export const ContactsPermissions = () => {
       </Text>
       <View style={styles.descriptionContainer}>
         <Text style={styles.description}>
-          {reactStringReplace(
+          {replaceString(
             t('team.contacts.empty_description'),
-            '[[:ice]]',
+            tagRegex('ice'),
             (match, index) => (
               <IceLabel
                 key={match + index}

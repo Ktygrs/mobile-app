@@ -1,12 +1,10 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {User} from '@api/user/types';
 import {AccountActions} from '@store/modules/Account/actions';
 import {ValidationActions} from '@store/modules/Validation/actions';
 import produce from 'immer';
 
 export interface State {
-  refUser: User | null;
   temporaryPhoneNumber: string | null;
   temporaryEmail: string | null;
   smsSentTimestamp: number | null;
@@ -14,7 +12,6 @@ export interface State {
 }
 
 type Actions = ReturnType<
-  | typeof ValidationActions.REF_USERNAME_VALIDATION.SUCCESS.create
   | typeof AccountActions.UPDATE_ACCOUNT.SUCCESS.create
   | typeof AccountActions.SIGN_OUT.SUCCESS.create
   | typeof AccountActions.SIGN_IN_PHONE.SET_TEMP_PHONE.create
@@ -33,7 +30,6 @@ type Actions = ReturnType<
 >;
 
 const INITIAL_STATE: State = {
-  refUser: null,
   temporaryPhoneNumber: null,
   temporaryEmail: null,
   smsSentTimestamp: null,
@@ -43,9 +39,6 @@ const INITIAL_STATE: State = {
 function reducer(state = INITIAL_STATE, action: Actions): State {
   return produce(state, draft => {
     switch (action.type) {
-      case ValidationActions.REF_USERNAME_VALIDATION.SUCCESS.type:
-        draft.refUser = action.payload.user;
-        break;
       case AccountActions.SIGN_IN_PHONE.SET_TEMP_PHONE.type:
         draft.temporaryPhoneNumber = action.payload.phoneNumber;
         draft.smsSentTimestamp = Date.now();

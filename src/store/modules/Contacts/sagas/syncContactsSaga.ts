@@ -9,7 +9,7 @@ import {
 } from '@store/modules/Account/selectors';
 import {isAppActiveSelector} from '@store/modules/AppCommon/selectors';
 import {ContactsActions} from '@store/modules/Contacts/actions';
-import {permissionSelector} from '@store/modules/Permissions/selectors';
+import {isPermissionGrantedSelector} from '@store/modules/Permissions/selectors';
 import {getErrorMessage} from '@utils/errors';
 import {
   beautifyPhoneNumber,
@@ -31,7 +31,9 @@ function notNull<V>(value: V | null): value is V {
 }
 
 function* readyToSync(): Generator<SelectEffect, boolean, boolean> {
-  const hasPermissions: boolean = yield select(permissionSelector('contacts'));
+  const hasPermissions: boolean = yield select(
+    isPermissionGrantedSelector('contacts'),
+  );
   const isAuthorized: boolean = yield select(isAuthorizedSelector);
   const isAppActive: boolean = yield select(isAppActiveSelector);
   return hasPermissions && isAuthorized && isAppActive;

@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
   description: {
     flex: 1,
     marginHorizontal: rem(24),
+    zIndex: 1,
   },
   titleText: {
     marginTop: smallHeightDevice ? rem(24) : rem(42),

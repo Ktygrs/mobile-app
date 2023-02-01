@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {BackButton} from '@components/BackButton';
 import {KeyboardAvoider} from '@components/KeyboardAvoider';
 import {COLORS} from '@constants/colors';
 import {smallHeightDevice} from '@constants/styles';
@@ -21,6 +22,8 @@ type Props = {
   button: ReactNode;
   input?: ReactNode;
   info?: ReactNode;
+  showBackButton?: boolean;
+  onBackPress?: () => void;
 };
 
 export const FinalizeRegistrationStep = ({
@@ -30,6 +33,8 @@ export const FinalizeRegistrationStep = ({
   input,
   button,
   info,
+  showBackButton = false,
+  onBackPress = () => {},
 }: Props) => {
   useFocusStatusBar({style: 'light-content'});
 
@@ -37,37 +42,42 @@ export const FinalizeRegistrationStep = ({
   const {animatedOpacityStyle, scrollHandler} = useScrollOpacity();
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Background />
-      <View style={styles.headerContainer}>
-        <Header
-          color={COLORS.white}
-          title={title}
-          backgroundColor={COLORS.primaryLight}
-          containerStyle={animatedOpacityStyle}
-        />
-      </View>
-      <KeyboardAvoider>
-        <Animated.ScrollView
-          contentContainerStyle={styles.scrollViewContent}
-          scrollEventThrottle={16}
-          onScroll={scrollHandler}
-          keyboardShouldPersistTaps={'handled'}
-          ref={scrollRef}>
-          {header}
-          <Image
-            source={imageSource}
-            style={styles.illustration}
-            resizeMode={'cover'}
+    <>
+      <SafeAreaView style={styles.container}>
+        <Background />
+        <View style={styles.headerContainer}>
+          <Header
+            color={COLORS.white}
+            title={title}
+            backgroundColor={COLORS.primaryLight}
+            containerStyle={animatedOpacityStyle}
+            showBackButton={showBackButton}
           />
-          <View style={styles.controls}>
-            {input && <View style={styles.inputContainer}>{input}</View>}
-            {info}
-            <View style={styles.buttonContainer}>{button}</View>
-          </View>
-        </Animated.ScrollView>
-      </KeyboardAvoider>
-    </SafeAreaView>
+        </View>
+        <KeyboardAvoider>
+          <Animated.ScrollView
+            contentContainerStyle={styles.scrollViewContent}
+            scrollEventThrottle={16}
+            onScroll={scrollHandler}
+            keyboardShouldPersistTaps={'handled'}
+            ref={scrollRef}
+            bounces={false}>
+            {header}
+            <Image
+              source={imageSource}
+              style={styles.illustration}
+              resizeMode={'cover'}
+            />
+            <View style={styles.controls}>
+              {input && <View style={styles.inputContainer}>{input}</View>}
+              {info}
+              <View style={styles.buttonContainer}>{button}</View>
+            </View>
+          </Animated.ScrollView>
+        </KeyboardAvoider>
+      </SafeAreaView>
+      {showBackButton && <BackButton onPress={onBackPress} />}
+    </>
   );
 };
 

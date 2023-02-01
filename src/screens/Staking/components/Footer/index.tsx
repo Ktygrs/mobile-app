@@ -10,12 +10,11 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {DEFAULT_CONFIRM_NO_BUTTON} from '@screens/Dialogs/Confirm';
 import {StakeIcon} from '@svg/StakeIcon';
-import {t} from '@translations/i18n';
+import {replaceString, t, tagRegex} from '@translations/i18n';
 import {openLinkWithInAppBrowser} from '@utils/device';
 import {font} from '@utils/styles';
 import React, {memo, useMemo, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import reactStringReplace from 'react-string-replace';
 import {isAndroid, rem} from 'rn-units';
 
 export const IS_STAKING_ACTIVE = {current: false};
@@ -47,9 +46,9 @@ export const Footer = memo(() => {
       openLinkWithInAppBrowser({url: LINKS.TERMS});
     };
 
-    const text = reactStringReplace(
+    const text = replaceString(
       t('staking.terms_agree'),
-      '[[:ice]]',
+      tagRegex('ice'),
       (match, index) => (
         <IceLabel
           key={match + index}
@@ -60,7 +59,7 @@ export const Footer = memo(() => {
       ),
     );
 
-    return reactStringReplace(text, '[[:link]]', (match, index) => (
+    return replaceString(text, tagRegex('link'), (match, index) => (
       <Text key={match + index} style={styles.termsLink} onPress={onTermsPress}>
         {t('staking.staking_terms')}
       </Text>

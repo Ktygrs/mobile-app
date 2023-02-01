@@ -75,12 +75,16 @@ export function* updateAccountSaga(action: ReturnType<typeof actionCreator>) {
       localizedError = t('errors.wrong_phone_number_format');
     } else if (isApiError(error, 400, 'INVALID_USERNAME')) {
       localizedError = t('errors.invalid_username');
+    } else if (isApiError(error, 404, 'USER_NOT_FOUND')) {
+      localizedError = t('errors.user_not_found');
     } else if (isApiError(error, 404, 'REFERRAL_NOT_FOUND')) {
       localizedError = t('username.error.not_found');
     } else if (isApiError(error, 409, 'CONFLICT_WITH_ANOTHER_USER')) {
       const field = error?.response?.data?.data?.field;
       switch (field) {
         case 'username':
+          localizedError = t('username.error.already_taken');
+          break;
         case 'email':
         case 'phoneNumber':
         case 'phoneNumberHash':

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
+import useIsKeyboardShown from '@hooks/useIsKeyboardShown';
 import {hapticFeedback} from '@utils/device';
 import {font} from '@utils/styles';
 import React, {useEffect} from 'react';
@@ -14,6 +15,7 @@ import {
 } from 'react-native';
 import {
   CodeField,
+  Cursor,
   useBlurOnFulfill,
   useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
@@ -40,6 +42,7 @@ export const CodeInput = ({
   ...textInputProps
 }: CodeInputProps) => {
   const ref = useBlurOnFulfill({value, cellCount});
+  const isKeyboardShown = useIsKeyboardShown();
   const [codeFieldProps, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
     setValue,
@@ -61,15 +64,24 @@ export const CodeInput = ({
         rootStyle={styles.codeFieldRoot}
         keyboardType="number-pad"
         textContentType="oneTimeCode"
+        selectionColor={COLORS.white}
         {...codeFieldProps}
         {...textInputProps}
-        renderCell={({index, symbol}: {index: number; symbol: string}) => {
+        renderCell={({
+          index,
+          symbol,
+          isFocused,
+        }: {
+          index: number;
+          symbol: string;
+          isFocused: boolean;
+        }) => {
           let borderStyle = styles.cell_empty;
           if (errorText) {
             borderStyle = styles.cell_error;
           } else if (validated) {
             borderStyle = styles.cell_success;
-          } else if (symbol !== '') {
+          } else if (isKeyboardShown || value.length !== 0) {
             borderStyle = styles.cell_filled;
           }
           return (
@@ -77,14 +89,23 @@ export const CodeInput = ({
               <Text
                 style={styles.cellText}
                 onLayout={getCellOnLayoutHandler(index)}>
-                {symbol}
+                {symbol ||
+                  (isFocused ? (
+                    <Text style={styles.cursorStyle}>
+                      <Cursor />
+                    </Text>
+                  ) : null)}
               </Text>
             </View>
           );
         }}
       />
       <View style={styles.error}>
-        {!!errorText && <Text style={styles.errorText}>{errorText}</Text>}
+        {!!errorText && (
+          <Text style={styles.errorText} numberOfLines={2}>
+            {errorText}
+          </Text>
+        )}
       </View>
     </View>
   );
@@ -118,11 +139,15 @@ const styles = StyleSheet.create({
     ...font(17, 26, 'semibold', 'codeFieldText'),
   },
   error: {
-    height: rem(26),
+    minHeight: rem(26),
+    marginTop: rem(8),
   },
   errorText: {
     marginHorizontal: rem(26),
     textAlign: 'center',
-    ...font(13, 26, 'medium', 'attention'),
+    ...font(13, 15, 'medium', 'attention'),
+  },
+  cursorStyle: {
+    color: COLORS.primaryLight,
   },
 });

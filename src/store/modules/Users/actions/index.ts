@@ -11,6 +11,11 @@ const GET_USER_BY_ID = createAction('GET_USER_BY_ID', {
   }),
 });
 
+const UPDATE_VIEWED_ONBOARDINGS = createAction('UPDATE_VIEWED_ONBOARDINGS', {
+  STATE: (userId: string) => ({userId}),
+});
+
 export const UsersActions = Object.freeze({
   GET_USER_BY_ID,
+  UPDATE_VIEWED_ONBOARDINGS,
 });

@@ -39,6 +39,15 @@ export const isFailedSelector = (action: Action, state: RootState) => {
   return !!(requestData && requestData.status === 'FAILED');
 };
 
+export const isFinishedSelector = (action: Action, state: RootState) => {
+  const requestData = processStatusForActionSelector(state, action);
+
+  return !!(
+    requestData &&
+    (requestData.status === 'SUCCESS' || requestData.status === 'FAILED')
+  );
+};
+
 export const actionPayloadSelector = (action: Action, state: RootState) => {
   const requestData = processStatusForActionSelector(state, action);
 

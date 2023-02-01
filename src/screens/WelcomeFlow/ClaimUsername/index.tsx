@@ -3,6 +3,7 @@
 import {CommonInput} from '@components/Inputs/CommonInput';
 import {PrimaryButton} from '@components/PrimaryButton';
 import {COLORS} from '@constants/colors';
+import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {FinalizeRegistrationStep} from '@screens/Templates/FinalizeRegistrationStep';
 import {BigHeader} from '@screens/Templates/FinalizeRegistrationStep/components/BigHeader';
 import {Info} from '@screens/Templates/FinalizeRegistrationStep/components/Info';
@@ -18,8 +19,9 @@ export const ClaimUsername = () => {
   const {
     username,
     validationError,
+    isNextButtonDisabled,
     validationLoading,
-    isSuccessValidation,
+    isSuccessUpdate,
     updateError,
     updateLoading,
     onChangeUsername,
@@ -31,7 +33,7 @@ export const ClaimUsername = () => {
       title={t('claimUsername.title')}
       header={
         <BigHeader
-          title={t('claimUsername.title_multiline')}
+          title={t('claimUsername.title')}
           description={t('claimUsername.description')}
           progressPercentage={0}
         />
@@ -51,19 +53,22 @@ export const ClaimUsername = () => {
           value={username}
           errorText={validationError || updateError}
           loading={validationLoading}
-          validated={isSuccessValidation}
+          validated={isSuccessUpdate}
         />
       }
       info={
         <Info
           text={
             <Text style={styles.infoText}>
-              {t('claimUsername.note')}
+              {t('claimUsername.note_part1')}
+              {'\n'}
+              {t('claimUsername.note_part2')}{' '}
               <Text style={styles.infoExampleText}>
                 {t('claimUsername.note_example')}
               </Text>
             </Text>
           }
+          textStyle={styles.infoStyle}
         />
       }
       button={
@@ -71,6 +76,7 @@ export const ClaimUsername = () => {
           text={t('button.next_step')}
           onPress={onSubmit}
           loading={updateLoading}
+          disabled={isNextButtonDisabled}
         />
       }
     />
@@ -83,5 +89,8 @@ const styles = StyleSheet.create({
   },
   infoExampleText: {
     ...font(13, 18, 'regular', 'catalinaBlue'),
+  },
+  infoStyle: {
+    marginRight: SCREEN_SIDE_OFFSET,
   },
 });

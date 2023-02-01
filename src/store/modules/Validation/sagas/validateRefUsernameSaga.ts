@@ -1,47 +1,47 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {isApiError} from '@api/client';
-import {Api} from '@api/index';
+import {USERNAME_MAX_LENGTH, USERNAME_MIN_LENGTH} from '@constants/validations';
 import {userSelector} from '@store/modules/Account/selectors';
 import {ValidationActions} from '@store/modules/Validation/actions';
 import {t} from '@translations/i18n';
-import {getErrorMessage, showError} from '@utils/errors';
-import {call, put, SagaReturnType, select} from 'redux-saga/effects';
+import {validateUsername} from '@utils/string';
+import {put, select} from 'redux-saga/effects';
 
 const actionCreator = ValidationActions.REF_USERNAME_VALIDATION.START.create;
 
 export function* validateRefUsernameSaga(
   action: ReturnType<typeof actionCreator>,
 ) {
-  const {username} = action.payload;
-  const user: ReturnType<typeof userSelector> = yield select(userSelector);
+  let user: ReturnType<typeof userSelector> = yield select(userSelector);
+  const {refUsername} = action.payload;
 
-  try {
-    const refUser: SagaReturnType<typeof Api.user.getUserByUsername> =
-      yield call(Api.user.getUserByUsername, {username});
-    if (refUser.id === user?.id) {
-      yield put(
-        ValidationActions.REF_USERNAME_VALIDATION.FAILED.create(
-          t('username.error.refer_yourself'),
-        ),
-      );
-    } else {
-      yield put(
-        ValidationActions.REF_USERNAME_VALIDATION.SUCCESS.create(refUser),
-      );
-    }
-  } catch (error) {
-    if (isApiError(error, 404, 'USER_NOT_FOUND')) {
-      yield put(
-        ValidationActions.REF_USERNAME_VALIDATION.FAILED.create(
-          t('username.error.not_found'),
-        ),
-      );
-    } else {
-      const localizedError = getErrorMessage(error);
-      yield put(ValidationActions.REF_USERNAME_VALIDATION.RESET.create());
-      showError(localizedError);
-    }
-    throw error;
+  if (refUsername.length < USERNAME_MIN_LENGTH) {
+    yield put(
+      ValidationActions.REF_USERNAME_VALIDATION.FAILED.create(
+        t('errors.min_username'),
+      ),
+    );
+  } else if (refUsername.length > USERNAME_MAX_LENGTH) {
+    yield put(
+      ValidationActions.REF_USERNAME_VALIDATION.FAILED.create(
+        t('errors.max_username'),
+      ),
+    );
+  } else if (!validateUsername(refUsername)) {
+    yield put(
+      ValidationActions.REF_USERNAME_VALIDATION.FAILED.create(
+        t('errors.invalid_username'),
+      ),
+    );
+  } else if (user && user.username === refUsername) {
+    yield put(
+      ValidationActions.REF_USERNAME_VALIDATION.FAILED.create(
+        t('username.error.refer_yourself'),
+      ),
+    );
+  } else {
+    yield put(
+      ValidationActions.REF_USERNAME_VALIDATION.SUCCESS.create(refUsername),
+    );
   }
 }

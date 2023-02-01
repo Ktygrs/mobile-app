@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     marginTop: rem(14),
   },
   input: {
-    ...font(16, 22, 'medium', 'primaryDark'),
+    ...font(16, 20, 'medium', 'primaryDark'),
     flex: 1,
     paddingHorizontal: 0,
     paddingVertical: 0,

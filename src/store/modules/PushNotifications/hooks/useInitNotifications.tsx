@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {ENV} from '@constants/env';
-import {permissionSelector} from '@store/modules/Permissions/selectors';
+import {isPermissionGrantedSelector} from '@store/modules/Permissions/selectors';
 import {useEffect} from 'react';
 import ReactMoE from 'react-native-moengage/src/index';
 import {useSelector} from 'react-redux';
@@ -9,7 +9,7 @@ import {isIOS} from 'rn-units/index';
 
 export function useInitNotifications() {
   const hasPushPermissions = useSelector(
-    permissionSelector('pushNotifications'),
+    isPermissionGrantedSelector('pushNotifications'),
   );
 
   useEffect(() => {

@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {useFocusEffect} from '@react-navigation/native';
+import {AuthStackParamList} from '@navigation/Auth';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {AccountActions} from '@store/modules/Account/actions';
 import {
   failedReasonSelector,
@@ -8,12 +10,14 @@ import {
 } from '@store/modules/UtilityProcessStatuses/selectors';
 import {temporaryEmailSelector} from '@store/modules/Validation/selectors';
 import {RootState} from '@store/rootReducer';
-import {useCallback} from 'react';
+import {useCallback, useEffect} from 'react';
 import {BackHandler} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 
 export const useConfirmEmailLink = () => {
   const dispatch = useDispatch();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
   const email = useSelector(temporaryEmailSelector, () => true);
 
   const validateError = useSelector(
@@ -42,6 +46,12 @@ export const useConfirmEmailLink = () => {
       return () => subscription.remove();
     }, [dispatch]),
   );
+
+  useEffect(() => {
+    if (validateError) {
+      navigation.replace('InvalidLink');
+    }
+  }, [validateError, navigation]);
 
   return {
     email,

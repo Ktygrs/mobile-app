@@ -7,14 +7,14 @@ import React, {memo} from 'react';
 import {StyleProp, Text, TextStyle, ViewStyle} from 'react-native';
 import {rem} from 'rn-units';
 
-type Props = {
+export type IceLabelProps = {
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
   color?: string;
   iconSize?: number;
   lineHeight?: number;
   iconOffsetY?: number;
-  label?: string;
+  label?: string | null;
 };
 
 export const IceLabel = memo(
@@ -25,7 +25,7 @@ export const IceLabel = memo(
     iconSize = 18,
     iconOffsetY = 2,
     label = t('general.ice'),
-  }: Props) => (
+  }: IceLabelProps) => (
     <>
       <LogoIcon
         color={color}
@@ -33,7 +33,7 @@ export const IceLabel = memo(
         height={rem(iconSize)}
         style={[{transform: [{translateY: iconOffsetY}]}, style]}
       />
-      <Text style={textStyle}> {label}</Text>
+      {!!label && <Text style={textStyle}> {label}</Text>}
     </>
   ),
 );

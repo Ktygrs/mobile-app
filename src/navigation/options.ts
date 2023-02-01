@@ -9,6 +9,7 @@ export const tabOptions = {
 
 export const screenOptions = {
   headerShown: false,
+  gestureEnabled: false,
 };
 
 export const modalOptions: NativeStackNavigationOptions = {

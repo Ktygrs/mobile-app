@@ -2,23 +2,21 @@
 
 import {User} from '@api/user/types';
 import {AccountActions} from '@store/modules/Account/actions';
-import {userInfoSelector, userSelector} from '@store/modules/Account/selectors';
+import {userSelector} from '@store/modules/Account/selectors';
 import {
   failedReasonSelector,
   isLoadingSelector,
   isSuccessSelector,
 } from '@store/modules/UtilityProcessStatuses/selectors';
 import {ValidationActions} from '@store/modules/Validation/actions';
-import {removeInvalidUsernameCharacters} from '@utils/string';
-import {debounce} from 'lodash';
-import {useEffect, useMemo, useState} from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 import {Keyboard} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
+import {wait} from 'rn-units';
 
 export const useClaimUsername = () => {
   const dispatch = useDispatch();
   const user = useSelector(userSelector) as User;
-  const userInfo = useSelector(userInfoSelector);
 
   const validationError = useSelector(
     failedReasonSelector.bind(null, ValidationActions.USERNAME_VALIDATION),
@@ -26,8 +24,8 @@ export const useClaimUsername = () => {
   const validationLoading = useSelector(
     isLoadingSelector.bind(null, ValidationActions.USERNAME_VALIDATION),
   );
-  const isSuccessValidation = useSelector(
-    isSuccessSelector.bind(null, ValidationActions.USERNAME_VALIDATION),
+  const isSuccessUpdate = useSelector(
+    isSuccessSelector.bind(null, AccountActions.UPDATE_ACCOUNT),
   );
   const updateError = useSelector(
     failedReasonSelector.bind(null, AccountActions.UPDATE_ACCOUNT),
@@ -36,66 +34,104 @@ export const useClaimUsername = () => {
     isLoadingSelector.bind(null, AccountActions.UPDATE_ACCOUNT),
   );
 
-  const usernameToPrefill =
-    userInfo?.userHandle ??
-    removeInvalidUsernameCharacters(user.email?.split('@')[0] ?? '');
-  const [username, setUsername] = useState(usernameToPrefill);
+  const initialUsername = useRef(user.username);
+  const [username, setUsername] = useState(user.username);
 
-  const validateUsername = useMemo(
-    () =>
-      debounce((text: string) => {
-        if (text) {
-          dispatch(ValidationActions.USERNAME_VALIDATION.START.create(text));
-        }
-      }, 600),
-    [dispatch],
-  );
+  const onSubmit = () => {
+    Keyboard.dismiss();
+    if (username?.toLowerCase() !== user.username?.toLowerCase()) {
+      dispatch(
+        AccountActions.UPDATE_ACCOUNT.START.create({username: username}),
+      );
+    } else {
+      /** Same username, no need to validate it */
+      updateFinalizedSteps(user);
+    }
+  };
 
   const onChangeUsername = (text: string) => {
     setUsername(text);
+    if (text !== '') {
+      updateUsername(text);
+    }
   };
 
-  const updateUsername = (currentUser: User, newUsername: string) => {
-    const finalizedSteps =
-      currentUser.clientData?.registrationProcessFinalizedSteps ?? [];
-    if (!finalizedSteps.includes('username')) {
+  const isNextButtonDisabled =
+    !username || username === '' || !!validationError || updateLoading;
+
+  const resetError = useCallback(() => {
+    if (validationError) {
+      dispatch(ValidationActions.USERNAME_VALIDATION.RESET.create());
+    }
+    if (isSuccessUpdate || updateError) {
+      dispatch(AccountActions.UPDATE_ACCOUNT.RESET.create());
+    }
+  }, [validationError, dispatch, isSuccessUpdate, updateError]);
+
+  const updateUsername = useCallback(
+    (newUsername: string) => {
+      resetError();
+      dispatch(ValidationActions.USERNAME_VALIDATION.START.create(newUsername));
+    },
+    [dispatch, resetError],
+  );
+
+  const updateFinalizedSteps = useCallback(
+    (currentUser: User) => {
+      const finalizedSteps =
+        currentUser.clientData?.registrationProcessFinalizedSteps ?? [];
+
+      const steps = [...finalizedSteps];
+      if (!finalizedSteps.includes('username')) {
+        steps.push('username');
+      }
       dispatch(
         AccountActions.UPDATE_ACCOUNT.START.create(
           {
-            username: newUsername,
             clientData: {
               ...currentUser.clientData,
-              registrationProcessFinalizedSteps: [
-                ...finalizedSteps,
-                'username',
-              ],
+              registrationProcessFinalizedSteps: steps,
             },
           },
           function* (freshUser) {
-            updateUsername(freshUser, newUsername);
+            if (
+              !freshUser.clientData?.registrationProcessFinalizedSteps?.includes(
+                'username',
+              )
+            ) {
+              updateFinalizedSteps(freshUser);
+            }
             return {retry: false};
           },
         ),
       );
-    }
-  };
+      dispatch(ValidationActions.USERNAME_VALIDATION.RESET.create());
+    },
+    [dispatch],
+  );
 
   useEffect(() => {
-    dispatch(ValidationActions.USERNAME_VALIDATION.CLEAR.create());
-    validateUsername(username);
-  }, [dispatch, username, validateUsername]);
+    if (user.username !== initialUsername.current) {
+      initialUsername.current = user.username;
+      /**
+       * Added 1 sec wait here so User can see the user validation result
+       * (green mark or red cross) inside text input before we update user account
+       */
+      wait(1000).then(() => {
+        updateFinalizedSteps(user);
+      });
+    }
+  }, [updateFinalizedSteps, user]);
 
   return {
     username,
     validationError,
     validationLoading,
-    isSuccessValidation,
+    isSuccessUpdate,
     updateError,
     updateLoading,
     onChangeUsername,
-    onSubmit: () => {
-      Keyboard.dismiss();
-      updateUsername(user, username);
-    },
+    onSubmit,
+    isNextButtonDisabled,
   };
 };

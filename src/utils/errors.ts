@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {isApiError} from '@api/client';
-import {navigationRef} from '@navigation/utils';
+import {navigate} from '@navigation/utils';
 import {t} from '@translations/i18n';
 import {checkProp} from '@utils/guards';
 
@@ -20,9 +20,12 @@ export const getErrorMessage = (error: unknown): string => {
 };
 
 export const showError = (localizedError: string) => {
-  navigationRef.navigate('ErrorPopUp', {
-    message: `${t('pop_up.try_again_text', {
-      errorIdentifier: `TODO set error identifier: ${localizedError}`,
-    })}`,
+  navigate({
+    key: 'ErrorPopUp',
+    params: {
+      message: `${t('pop_up.try_again_text', {
+        errorIdentifier: `TODO set error identifier: ${localizedError}`,
+      })}`,
+    },
   });
 };

@@ -1,17 +1,47 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {IceLabel} from '@components/Labels/IceLabel';
 import {PrimaryButton} from '@components/PrimaryButton';
 import {FinalizeRegistrationStep} from '@screens/Templates/FinalizeRegistrationStep';
 import {BigHeader} from '@screens/Templates/FinalizeRegistrationStep/components/BigHeader';
 import {CurrentBalance} from '@screens/WelcomeFlow/IceBonus/components/CurrentBalance';
 import {useIceBonus} from '@screens/WelcomeFlow/IceBonus/hooks/useIceBonus';
-import {t} from '@translations/i18n';
-import React from 'react';
-import {StyleSheet} from 'react-native';
-import {rem} from 'rn-units';
+import {replaceString, t, tagRegex} from '@translations/i18n';
+import {font} from '@utils/styles';
+import React, {useMemo} from 'react';
+import {StyleSheet, Text} from 'react-native';
+import {isAndroid, rem} from 'rn-units';
 
 export const IceBonus = () => {
   const {currentBalance, loading, onSubmit} = useIceBonus();
+
+  const description = useMemo(() => {
+    let text = null;
+
+    text = replaceString(
+      t('ice_bonus.description'),
+      tagRegex('ice'),
+      (match, index) => (
+        <IceLabel
+          key={match + index}
+          iconSize={18}
+          iconOffsetY={isAndroid ? 6 : 3}
+        />
+      ),
+    );
+
+    text = replaceString(text, tagRegex('value'), () => {
+      return Number(currentBalance);
+    });
+
+    text = replaceString(text, tagRegex('bold', false), (match, index) => (
+      <Text key={match + index} style={styles.markedDescription}>
+        {match}
+      </Text>
+    ));
+
+    return text;
+  }, [currentBalance]);
 
   return (
     <FinalizeRegistrationStep
@@ -19,9 +49,11 @@ export const IceBonus = () => {
       header={
         <BigHeader
           title={t('ice_bonus.title')}
-          description={t('ice_bonus.description', {value: currentBalance})}
-          progressPercentage={100}
+          description={description}
+          progressPercentage={90}
           containerStyle={styles.bigHeader}
+          titleStyle={styles.title}
+          descriptionStyle={styles.description}
         />
       }
       imageSource={require('./assets/images/ice-bonus.png')}
@@ -40,5 +72,14 @@ export const IceBonus = () => {
 const styles = StyleSheet.create({
   bigHeader: {
     marginBottom: rem(36),
+  },
+  markedDescription: {
+    ...font(14, 17, 'bold', 'wildSand'),
+  },
+  title: {
+    width: rem(250),
+  },
+  description: {
+    width: rem(244),
   },
 });

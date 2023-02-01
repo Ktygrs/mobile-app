@@ -1,57 +1,59 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {BackButton} from '@components/BackButton';
 import {FullScreenLoading} from '@components/FullScreenLoading';
-import {PrimaryButton} from '@components/PrimaryButton';
+import {PrivacyTerms} from '@components/PrivacyTerms';
 import {Touchable} from '@components/Touchable';
 import {MIDDLE_BUTTON_HIT_SLOP} from '@constants/styles';
+import {LottieAnimations} from '@lottie';
 import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
 import {Header} from '@screens/AuthFlow/ConfirmEmailLink/components/Header';
 import {useConfirmEmailLink} from '@screens/AuthFlow/ConfirmEmailLink/hooks/useConfirmEmailLink';
 import {PenWithFrameIcon} from '@svg/PenWithFrameIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
+import LottieView from 'lottie-react-native';
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {rem} from 'rn-units';
 
 export const ConfirmEmailLink = () => {
   useFocusStatusBar({style: 'light-content'});
-  const {email, validateLoading, validateError, goBack} = useConfirmEmailLink();
+  const {email, validateLoading, goBack} = useConfirmEmailLink();
 
   return (
     <View style={styles.container}>
       <Header />
-      {validateError ? (
-        <>
-          <Text style={styles.descriptionText}>{validateError}</Text>
-          <PrimaryButton
-            text={t('confirm_email.back')}
-            onPress={goBack}
-            style={styles.backButton}
+      <BackButton onPress={goBack} />
+      <Text style={styles.descriptionText}>
+        {t('confirm_email.emailed_link_to')}
+      </Text>
+      <View style={styles.email}>
+        <Text style={styles.emailText} numberOfLines={1}>
+          {email}
+        </Text>
+        <Touchable hitSlop={MIDDLE_BUTTON_HIT_SLOP} onPress={goBack}>
+          <PenWithFrameIcon
+            width={rem(14)}
+            height={rem(14)}
+            style={styles.emailIcon}
           />
-        </>
-      ) : (
-        <>
-          <Text style={styles.descriptionText}>
-            {t('confirm_email.emailed_link_to')}
-          </Text>
-          <View style={styles.email}>
-            <Text style={styles.emailText} numberOfLines={1}>
-              {email}
-            </Text>
-            <Touchable hitSlop={MIDDLE_BUTTON_HIT_SLOP} onPress={goBack}>
-              <PenWithFrameIcon
-                width={rem(14)}
-                height={rem(14)}
-                style={styles.emailIcon}
-              />
-            </Touchable>
-          </View>
-          <Text style={styles.instructionText}>
-            {t('confirm_email.link_instruction')}
-          </Text>
-        </>
-      )}
+        </Touchable>
+      </View>
+      <Text style={styles.instructionText}>
+        {t('confirm_email.link_instruction')}
+      </Text>
+      <View style={styles.bottomContainer}>
+        <View style={styles.animationContainer}>
+          <LottieView
+            style={styles.animation}
+            source={LottieAnimations.loadingLogoBlue}
+            autoPlay={true}
+            loop={true}
+          />
+        </View>
+        <PrivacyTerms />
+      </View>
       {validateLoading && <FullScreenLoading />}
     </View>
   );
@@ -85,11 +87,22 @@ const styles = StyleSheet.create({
     marginTop: rem(40),
     textAlign: 'center',
     ...font(16, 26, 'medium', 'secondary'),
-  },
-  backButton: {
-    marginTop: rem(40),
-    height: rem(52),
+    width: rem(180),
     alignSelf: 'center',
-    paddingHorizontal: rem(54),
+  },
+  bottomContainer: {
+    alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    flex: 1,
+  },
+  animationContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  animation: {
+    width: rem(69),
+    height: rem(69),
+    alignSelf: 'center',
   },
 });

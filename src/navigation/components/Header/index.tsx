@@ -19,6 +19,7 @@ type Props = {
   renderRightButtons?: () => ReactNode;
   containerStyle?: StyleProp<ViewStyle>;
   topMargin?: number;
+  showBackButton?: boolean;
 };
 
 export const HEADER_HEIGHT = rem(56);
@@ -37,6 +38,7 @@ export const Header = memo(
     titleOffset = rem(20),
     containerStyle,
     topMargin,
+    showBackButton = true,
   }: Props) => {
     const {top: topNotchHeight} = useSafeAreaInsets();
     const topInset = topMargin ?? topNotchHeight;
@@ -67,13 +69,15 @@ export const Header = memo(
               numberOfLines={2}>
               {title}
             </Text>
-            <BackButton
-              containerStyle={styles.backButton}
-              color={color}
-              label={backLabel}
-            />
-            {Boolean(renderRightButtons) && (
-              <View style={styles.rightButtons}>{renderRightButtons?.()}</View>
+            {showBackButton && (
+              <BackButton
+                containerStyle={styles.backButton}
+                color={color}
+                label={backLabel}
+              />
+            )}
+            {!!renderRightButtons && (
+              <View style={styles.rightButtons}>{renderRightButtons()}</View>
             )}
           </View>
         </Animated.View>

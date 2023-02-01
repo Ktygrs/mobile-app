@@ -8,7 +8,6 @@ import {Controls} from '@screens/WelcomeFlow/Onboarding/components/Controls';
 import {OnboardingSlide} from '@screens/WelcomeFlow/Onboarding/components/OnboardingSlide';
 import {useFinishOnboarding} from '@screens/WelcomeFlow/Onboarding/hooks/useFinishOnboarding';
 import {usePager} from '@screens/WelcomeFlow/Onboarding/hooks/usePager';
-import {onboardingSlides} from '@screens/WelcomeFlow/Onboarding/slides';
 import React from 'react';
 import {ActivityIndicator, StyleSheet, View} from 'react-native';
 import PagerView from 'react-native-pager-view';
@@ -18,9 +17,11 @@ import {rem} from 'rn-units';
 export const Onboarding = () => {
   useFocusStatusBar({style: 'light-content'});
 
-  const {onSubmit, loading} = useFinishOnboarding();
+  const {loading, slides, getProgressPercentage, finishOnboarding} =
+    useFinishOnboarding();
+
   const {currentPage, goNextPage, onPageSelected, pagerViewRef} = usePager({
-    totalPages: onboardingSlides.length,
+    totalPages: slides.length,
   });
 
   return (
@@ -28,31 +29,34 @@ export const Onboarding = () => {
       <Background />
 
       <ProgressBar
-        valuePercentage={(currentPage / (onboardingSlides.length - 1)) * 100}
+        valuePercentage={getProgressPercentage(currentPage)}
         style={styles.progressBar}
       />
+      {slides.length > 0 && (
+        <>
+          <PagerView
+            ref={pagerViewRef}
+            style={styles.container}
+            initialPage={0}
+            onPageSelected={onPageSelected}>
+            {slides.map(slide => (
+              <View key={slide.key} style={styles.container}>
+                <OnboardingSlide
+                  title={slide.title}
+                  description={slide.description}
+                  image={slide.image}
+                />
+              </View>
+            ))}
+          </PagerView>
 
-      <PagerView
-        ref={pagerViewRef}
-        style={styles.container}
-        initialPage={0}
-        onPageSelected={onPageSelected}>
-        {onboardingSlides.map(slide => (
-          <View key={slide.key} style={styles.container}>
-            <OnboardingSlide
-              title={slide.title}
-              description={slide.description}
-              image={slide.image}
-            />
-          </View>
-        ))}
-      </PagerView>
-
-      <Controls
-        isLastPage={currentPage === onboardingSlides.length - 1}
-        goNextPage={goNextPage}
-        finishOnboarding={onSubmit}
-      />
+          <Controls
+            isLastPage={currentPage === slides.length - 1}
+            goNextPage={goNextPage}
+            finishOnboarding={finishOnboarding}
+          />
+        </>
+      )}
 
       {loading && (
         <ActivityIndicator

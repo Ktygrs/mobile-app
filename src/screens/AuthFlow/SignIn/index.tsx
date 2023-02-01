@@ -4,13 +4,11 @@ import {FullScreenLoading} from '@components/FullScreenLoading';
 import {EmailInput} from '@components/Inputs/EmailInput';
 import {PhoneNumberInput} from '@components/Inputs/PhoneNumberInput';
 import {KeyboardAvoider} from '@components/KeyboardAvoider';
+import {PrivacyTerms} from '@components/PrivacyTerms';
 import {COLORS} from '@constants/colors';
 import {useScrollEndOnKeyboardShown} from '@hooks/useScrollEndOnKeyboardShown';
 import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
-import {
-  Divider,
-  DIVIDER_HEIGHT,
-} from '@screens/AuthFlow/SignIn/components/Divider';
+import {Divider} from '@screens/AuthFlow/SignIn/components/Divider';
 import {Header} from '@screens/AuthFlow/SignIn/components/Header';
 import {
   SOCIAL_BUTTONS_HEIGHT,
@@ -28,14 +26,13 @@ import {rem} from 'rn-units';
 export const SignIn = () => {
   useFocusStatusBar({style: 'light-content'});
   const {scrollRef} = useScrollEndOnKeyboardShown();
-  const {isSocialAuthLoading} = useSocialAuth();
+  const {isSocialAuthLoading, selectedSocialType} = useSocialAuth();
   const {
     phoneNumberBody,
     onChangePhone,
     signInWithPhoneNumber,
     isPhoneAuthLoading,
     phoneAuthFailedReason,
-    smsSentTimestamp,
   } = usePhoneAuth();
   const {
     email,
@@ -43,20 +40,17 @@ export const SignIn = () => {
     signInWithEmail,
     isEmailAuthLoading,
     emailAuthFailedReason,
-    emailSentTimestamp,
   } = useEmailAuth();
   const [activeTab, setActiveTab] = useState<Tab>('email');
 
   return (
-    <KeyboardAvoider
-      keyboardVerticalOffset={
-        -SOCIAL_BUTTONS_HEIGHT - DIVIDER_HEIGHT + rem(15)
-      }>
+    <KeyboardAvoider keyboardVerticalOffset={rem(15) - SOCIAL_BUTTONS_HEIGHT}>
       <ScrollView
         style={styles.container}
         contentContainerStyle={styles.containerContent}
         keyboardShouldPersistTaps={'handled'}
-        ref={scrollRef}>
+        ref={scrollRef}
+        bounces={false}>
         <View style={styles.body}>
           <Header />
           <Tabs
@@ -86,15 +80,15 @@ export const SignIn = () => {
               activeTab === 'phone' ? signInWithPhoneNumber : signInWithEmail
             }
             loading={isPhoneAuthLoading || isEmailAuthLoading}
-            lastSendTimestamp={
-              activeTab === 'phone' ? smsSentTimestamp : emailSentTimestamp
-            }
           />
           <Divider />
           <SocialButtons />
         </View>
+        <PrivacyTerms />
       </ScrollView>
-      {isSocialAuthLoading && <FullScreenLoading />}
+      {isSocialAuthLoading && selectedSocialType !== 'apple' && (
+        <FullScreenLoading />
+      )}
     </KeyboardAvoider>
   );
 };

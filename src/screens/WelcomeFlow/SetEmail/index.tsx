@@ -10,17 +10,19 @@ import {t} from '@translations/i18n';
 import React from 'react';
 
 export const SetEmail = () => {
-  const {email, onChangeEmail, updateError, updateLoading, onSubmit} =
+  const {email, onChangeEmail, updateError, updateLoading, onSubmit, onBack} =
     useSetEmail();
 
   return (
     <FinalizeRegistrationStep
       title={t('confirm_email.title')}
+      showBackButton={true}
+      onBackPress={onBack}
       header={
         <BigHeader
-          title={t('confirm_email.title_multiline')}
+          title={t('confirm_email.title')}
           description={t('confirm_email.description')}
-          progressPercentage={66}
+          progressPercentage={95}
         />
       }
       imageSource={require('./assets/images/set-email.png')}
@@ -31,10 +33,10 @@ export const SetEmail = () => {
           errorText={updateError}
         />
       }
-      info={<Info text={t('confirm_email.note')} />}
+      info={<Info text={t('confirm_email.note', {value: 5})} />}
       button={
         <PrimaryButton
-          text={t('button.next_step')}
+          text={t('button.complete')}
           onPress={onSubmit}
           loading={updateLoading}
         />

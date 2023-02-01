@@ -65,6 +65,14 @@ const DELETE_ACCOUNT = createAction('DELETE_ACCOUNT', {
   FAILED: (errorMessage: string) => ({errorMessage}),
 });
 
+const UPDATE_REF_BY_USERNAME = createAction('UPDATE_REF_BY_USERNAME', {
+  START: (refUsername: string) => ({refUsername}),
+  SUCCESS: (user: User) => ({user}),
+  FAILED: (errorMessage: string) => ({errorMessage}),
+  CLEAR: false,
+  RESET: true,
+});
+
 const UPDATE_ACCOUNT = createAction('UPDATE_ACCOUNT', {
   START: (
     userInfo: Partial<User>,
@@ -94,6 +102,7 @@ export const AccountActions = Object.freeze({
   SIGN_IN_SOCIAL,
   SIGN_OUT,
   DELETE_ACCOUNT,
+  UPDATE_REF_BY_USERNAME,
   UPDATE_ACCOUNT,
   USER_STATE_CHANGE,
 });

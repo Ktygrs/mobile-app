@@ -33,6 +33,7 @@
   "dependencies": {
     "@gorhom/bottom-sheet": "^4",
     "@invertase/react-native-apple-authentication": "^2.2.2",
+    "@react-native-async-storage/async-storage": "^1.17.11",
     "@react-native-clipboard/clipboard": "^1.10.0",
     "@react-native-community/netinfo": "^9.3.6",
     "@react-native-firebase/app": "^16.4.6",
@@ -94,6 +95,7 @@
     "react-string-replace": "^1.1.0",
     "redux": "^4.2.0",
     "redux-flipper": "^2.0.2",
+    "redux-persist": "^6.0.0",
     "redux-saga": "^1.2.1",
     "rn-units": "^2.0.5",
     "url-parse": "^1.5.10",

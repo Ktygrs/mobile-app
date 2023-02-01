@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {useHandleLottieBackground} from '@hooks/useHandleLottieBackground';
 import {Images} from '@images';
 import {MAIN_TAB_BAR_HEIGHT} from '@navigation/components/MainTabBar';
 import {MiningAnimation} from '@navigation/components/MainTabBar/components/TabBarMiningItem/components/MiningAnimation';
 import {MiningButtonHandlers} from '@navigation/components/MainTabBar/components/TabBarMiningItem/components/MiningButtonHandlers';
 import {MiningButtonTooltip} from '@navigation/components/MainTabBar/components/TabBarMiningItem/components/MiningButtonTooltip';
-import {useHandleLottieBackground} from '@navigation/components/MainTabBar/components/TabBarMiningItem/hooks/useHandleLottieBackground';
 import {useMiningState} from '@navigation/components/MainTabBar/components/TabBarMiningItem/hooks/useMiningState';
 import {useMiningTooltipModal} from '@navigation/components/MainTabBar/components/TabBarMiningItem/hooks/useMiningTooltipModal';
 import {playLocalAudio} from '@services/audio';

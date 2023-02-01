@@ -6,7 +6,4 @@
     </style>
     <item
         android:drawable="@color/splashscreen_bg"/>
-    <item
-        android:drawable="@mipmap/bootsplash_logo"
-        android:gravity="center" />
 </layer-list>

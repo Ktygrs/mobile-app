@@ -14,7 +14,7 @@ import {
 } from '@screens/SettingsFlow/NotificationSettings/components/NotificationControls/components/NotificationRow';
 import {useConfirmNotificationsDlg} from '@screens/SettingsFlow/NotificationSettings/components/NotificationControls/hooks/useConfirmNotificationsDlg';
 import {DeviceActions} from '@store/modules/Devices/actions';
-import {permissionSelector} from '@store/modules/Permissions/selectors';
+import {isPermissionGrantedSelector} from '@store/modules/Permissions/selectors';
 import {t} from '@translations/i18n';
 import React, {memo, useCallback} from 'react';
 import {StyleSheet, View} from 'react-native';
@@ -31,7 +31,7 @@ export const NotificationControls = memo(
     const dispatch = useDispatch();
 
     const hasPushPermissions = useSelector(
-      permissionSelector('pushNotifications'),
+      isPermissionGrantedSelector('pushNotifications'),
     );
 
     const {openConfirmationDlg} = useConfirmNotificationsDlg();

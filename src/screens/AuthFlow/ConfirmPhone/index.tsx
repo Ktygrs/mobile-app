@@ -1,17 +1,22 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {BackButton} from '@components/BackButton';
 import {CodeInput} from '@components/Inputs/CodeInput';
 import {KeyboardAvoider} from '@components/KeyboardAvoider';
+import {PrivacyTerms} from '@components/PrivacyTerms';
 import {ResendButton} from '@components/ResendButton';
 import {useScrollEndOnKeyboardShown} from '@hooks/useScrollEndOnKeyboardShown';
+import {LottieAnimations} from '@lottie';
 import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
-import {BackButton} from '@screens/AuthFlow/ConfirmPhone/components/BackButton';
 import {Description} from '@screens/AuthFlow/ConfirmPhone/components/Description';
 import {Header} from '@screens/AuthFlow/ConfirmPhone/components/Header';
 import {useConfirmPhone} from '@screens/AuthFlow/ConfirmPhone/hooks/useConfirmPhone';
+import LottieView from 'lottie-react-native';
 import React from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
-import {rem} from 'rn-units';
+import {rem, screenHeight} from 'rn-units';
+
+const DEFAULT_BOTTOM_MARGIN = screenHeight * 0.05;
 
 export const ConfirmPhone = () => {
   useFocusStatusBar({style: 'light-content'});
@@ -31,10 +36,12 @@ export const ConfirmPhone = () => {
 
   return (
     <KeyboardAvoider>
-      <ScrollView keyboardShouldPersistTaps={'handled'} ref={scrollRef}>
+      <ScrollView
+        keyboardShouldPersistTaps={'handled'}
+        ref={scrollRef}
+        bounces={false}>
         <View style={styles.flex}>
           <Header />
-          <BackButton onPress={resetValidation} />
           <Description phone={phoneNumber} />
           <CodeInput
             autoFocus={true}
@@ -50,8 +57,23 @@ export const ConfirmPhone = () => {
             containerStyle={styles.resendButton}
             lastSendTimestamp={smsSentTimestamp}
           />
+
+          <View style={styles.animation}>
+            {validateLoading && (
+              <LottieView
+                style={styles.animation}
+                source={LottieAnimations.loadingLogoBlue}
+                autoPlay={true}
+                loop={true}
+              />
+            )}
+          </View>
+          <View style={styles.privacyContainer}>
+            <PrivacyTerms />
+          </View>
         </View>
       </ScrollView>
+      <BackButton onPress={resetValidation} />
     </KeyboardAvoider>
   );
 };
@@ -65,7 +87,15 @@ const styles = StyleSheet.create({
     marginHorizontal: rem(22),
   },
   resendButton: {
-    marginTop: rem(50),
-    marginBottom: rem(16),
+    marginBottom: DEFAULT_BOTTOM_MARGIN,
+    marginTop: rem(20),
+  },
+  privacyContainer: {
+    marginVertical: DEFAULT_BOTTOM_MARGIN,
+  },
+  animation: {
+    width: rem(69),
+    height: rem(69),
+    alignSelf: 'center',
   },
 });

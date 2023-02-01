@@ -3,13 +3,16 @@
 import {AuthStackParamList} from '@navigation/Auth';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {SocialSignInProvider} from '@services/auth/signin/types';
 import {AccountActions} from '@store/modules/Account/actions';
 import {
+  actionPayloadSelector,
   failedReasonSelector,
   isLoadingSelector,
 } from '@store/modules/UtilityProcessStatuses/selectors';
 import {RootState} from '@store/rootReducer';
-import {useEffect} from 'react';
+import {checkProp} from '@utils/guards';
+import {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 
 const AUTH_ACTIONS = [
@@ -20,6 +23,9 @@ const AUTH_ACTIONS = [
 export const useSocialAuth = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
+
+  const [selectedSocialType, setSelectedSocialType] =
+    useState<SocialSignInProvider>();
 
   const failedReason = useSelector((state: RootState) => {
     const failedAction = AUTH_ACTIONS.find(action =>
@@ -35,11 +41,22 @@ export const useSocialAuth = () => {
     Boolean(AUTH_ACTIONS.find(action => isLoadingSelector(action, state))),
   );
 
+  const socialPayload = useSelector(
+    actionPayloadSelector.bind(null, AccountActions.SIGN_IN_SOCIAL),
+  );
+
   useEffect(() => {
     if (failedReason) {
       navigation.navigate('ErrorPopUp', {message: failedReason});
     }
   }, [failedReason, navigation]);
 
-  return {isSocialAuthLoading};
+  useEffect(() => {
+    if (checkProp(socialPayload, 'provider')) {
+      const provider = socialPayload.provider as SocialSignInProvider;
+      setSelectedSocialType(provider);
+    }
+  }, [socialPayload]);
+
+  return {isSocialAuthLoading, selectedSocialType};
 };

@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {RegistrationProcessFinalizedStep} from '@api/user/types';
-import {Initialization} from '@components/Initialization';
 import {AuthNavigator} from '@navigation/Auth';
 import {MainNavigator} from '@navigation/Main';
 import {theme} from '@navigation/theme';
-import {navigationRef} from '@navigation/utils';
+import {navigationReadyResolver, navigationRef} from '@navigation/utils';
 import {WelcomeNavigator} from '@navigation/Welcome';
 import {NavigationContainer} from '@react-navigation/native';
 import {routingInstrumentation} from '@services/logging';
@@ -17,33 +16,39 @@ import {isAppInitializedSelector} from '@store/modules/AppCommon/selectors';
 import {useOpenUrlListener} from '@store/modules/Linking/hooks/useOpenUrlListener';
 import {useGetstreamListener} from '@store/modules/Notifications/hooks/useGetstreamListener';
 import {useInitNotifications} from '@store/modules/PushNotifications/hooks/useInitNotifications';
+import {isOnboardingViewedSelector} from '@store/modules/Users/selectors';
 import {difference} from 'lodash';
 import React, {useCallback} from 'react';
 import RNBootSplash from 'react-native-bootsplash';
 import {useSelector} from 'react-redux';
 
+const REQUIRED_AUTH_STEPS: RegistrationProcessFinalizedStep[] = [
+  'username',
+  'referral',
+  'email',
+  'iceBonus',
+];
+
 function ActiveNavigator() {
-  const isAppInitialized = useSelector(isAppInitializedSelector);
   const user = useSelector(userSelector);
-  const requiredAuthSteps: RegistrationProcessFinalizedStep[] = [
-    'username',
-    'referral',
-    'email',
-    'iceBonus',
-    'onboarding',
-  ];
+  const isOnboardingViewed = useSelector(isOnboardingViewedSelector(user?.id));
+  const isAppInitialized = useSelector(isAppInitializedSelector);
+
   const finalizedAuthSteps =
     user?.clientData?.registrationProcessFinalizedSteps ?? [];
 
   if (!isAppInitialized) {
-    return <Initialization />;
+    return null; // previously we returned Initialization component but now null is ok since we have animated splash over the navigator
   }
 
   if (!user) {
     return <AuthNavigator />;
   }
 
-  if (difference(requiredAuthSteps, finalizedAuthSteps).length !== 0) {
+  if (
+    difference(REQUIRED_AUTH_STEPS, finalizedAuthSteps).length !== 0 ||
+    !isOnboardingViewed
+  ) {
     return <WelcomeNavigator />;
   }
 
@@ -59,6 +64,7 @@ export function Router() {
   useInitNotifications();
 
   const onReady = useCallback(() => {
+    navigationReadyResolver();
     routingInstrumentation.registerNavigationContainer(navigationRef);
     RNBootSplash.hide();
   }, []);

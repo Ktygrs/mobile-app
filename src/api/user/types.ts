@@ -63,11 +63,11 @@ export type WalkthroughElement = {
 };
 
 export type RegistrationProcessFinalizedStep =
+  | 'onboarding'
   | 'username'
   | 'referral'
   | 'email'
-  | 'iceBonus'
-  | 'onboarding';
+  | 'iceBonus';
 
 export type ClientData = {
   registrationProcessFinalizedSteps?: RegistrationProcessFinalizedStep[];

@@ -7,7 +7,7 @@ import {ContactsPermissions} from '@screens/Team/components/Contacts/components/
 import {VerticalOffset} from '@screens/Team/components/Contacts/components/VerticalOffset';
 import {useScreenFade} from '@screens/Team/components/Contacts/hooks/useScreenFade';
 import {isPhoneNumberVerifiedSelector} from '@store/modules/Account/selectors';
-import {permissionSelector} from '@store/modules/Permissions/selectors';
+import {isPermissionGrantedSelector} from '@store/modules/Permissions/selectors';
 import {phoneVerificationStepSelector} from '@store/modules/Validation/selectors';
 import React, {useMemo} from 'react';
 import {Animated, StyleSheet} from 'react-native';
@@ -18,7 +18,9 @@ type ContactsProps = {
 };
 
 export const Contacts = ({focused}: ContactsProps) => {
-  const hasContactsPermissions = useSelector(permissionSelector('contacts'));
+  const hasContactsPermissions = useSelector(
+    isPermissionGrantedSelector('contacts'),
+  );
   const isPhoneNumberVerified = useSelector(isPhoneNumberVerifiedSelector);
   const phoneVerificationStep = useSelector(phoneVerificationStepSelector);
 

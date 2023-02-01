@@ -2,10 +2,9 @@
 
 import {CommonInput} from '@components/Inputs/CommonInput';
 import {PrimaryButton} from '@components/PrimaryButton';
-import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {ENV} from '@constants/env';
-import {SMALL_BUTTON_HIT_SLOP} from '@constants/styles';
+import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {FinalizeRegistrationStep} from '@screens/Templates/FinalizeRegistrationStep';
 import {BigHeader} from '@screens/Templates/FinalizeRegistrationStep/components/BigHeader';
 import {Info} from '@screens/Templates/FinalizeRegistrationStep/components/Info';
@@ -21,21 +20,24 @@ export const WhoInvitedYou = () => {
   const {
     refUsername,
     validationError,
+    updateRefByUsernameError,
     validationLoading,
-    isSuccessValidation,
+    updateAccountFinished,
     onChangeRefUsername,
     updateError,
     updateLoading,
     onSubmit,
-    onSkip,
+    onBack,
   } = useWhoInvitedYou();
 
   return (
     <FinalizeRegistrationStep
       title={t('whoInvitedYou.title')}
+      showBackButton={true}
+      onBackPress={onBack}
       header={
         <BigHeader
-          title={t('whoInvitedYou.title_multiline')}
+          title={t('whoInvitedYou.title')}
           description={t('whoInvitedYou.description')}
           progressPercentage={33}
         />
@@ -53,9 +55,9 @@ export const WhoInvitedYou = () => {
             />
           }
           value={refUsername}
-          errorText={validationError || updateError}
+          errorText={validationError || updateRefByUsernameError || updateError}
           loading={validationLoading}
-          validated={isSuccessValidation}
+          validated={updateAccountFinished}
         />
       }
       info={
@@ -64,24 +66,26 @@ export const WhoInvitedYou = () => {
             !ENV.REQUIRE_REFERRAL_REGISTRATION_STEP && (
               <>
                 <Text style={styles.infoText}>
-                  {t('whoInvitedYou.dontHaveInvitationCode')}
+                  {t('whoInvitedYou.dontHaveInvitationCode', {value: 25})}
                 </Text>
-                <Touchable onPress={onSkip} hitSlop={SMALL_BUTTON_HIT_SLOP}>
-                  <Text style={styles.infoLink}>
-                    {t('whoInvitedYou.tapHere')}
-                  </Text>
-                </Touchable>
               </>
             )
           }
+          textStyle={styles.infoTextContainer}
           tooltip={t('whoInvitedYou.dontHaveCodeTip')}
         />
       }
       button={
         <PrimaryButton
-          text={t('button.next_step')}
+          text={t('button.complete')}
           onPress={onSubmit}
           loading={updateLoading}
+          disabled={
+            refUsername === '' ||
+            !!validationError ||
+            !!updateRefByUsernameError ||
+            updateLoading
+          }
         />
       }
     />
@@ -92,7 +96,7 @@ const styles = StyleSheet.create({
   infoText: {
     ...font(13, 18, 'regular', 'secondary'),
   },
-  infoLink: {
-    ...font(13, 24, 'bold', 'primaryDark'),
+  infoTextContainer: {
+    marginRight: SCREEN_SIDE_OFFSET,
   },
 });

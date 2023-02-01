@@ -3,6 +3,7 @@
 import {useConfirmEmail} from '@components/Forms/ConfirmEmailCodeForm/hooks/useConfirmEmail';
 import {CodeInput} from '@components/Inputs/CodeInput';
 import {ResendButton} from '@components/ResendButton';
+import {COLORS} from '@constants/colors';
 import {FinalizeRegistrationStep} from '@screens/Templates/FinalizeRegistrationStep';
 import {BigHeader} from '@screens/Templates/FinalizeRegistrationStep/components/BigHeader';
 import {Description} from '@screens/WelcomeFlow/ConfirmEmailCode/components/Description';
@@ -45,6 +46,7 @@ export const ConfirmEmailCode = () => {
           errorText={validationError}
           editable={!validateLoading}
           validated={isSuccessValidation}
+          selectionColor={COLORS.shamrock}
         />
       }
       info={

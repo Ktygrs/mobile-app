@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {isApiError} from '@api/client';
-import {Api} from '@api/index';
+import {USERNAME_MAX_LENGTH, USERNAME_MIN_LENGTH} from '@constants/validations';
 import {ValidationActions} from '@store/modules/Validation/actions';
 import {t} from '@translations/i18n';
-import {getErrorMessage, showError} from '@utils/errors';
-import {call, put, SagaReturnType} from 'redux-saga/effects';
+import {validateUsername} from '@utils/string';
+import {put} from 'redux-saga/effects';
 
 const actionCreator = ValidationActions.USERNAME_VALIDATION.START.create;
 
@@ -13,30 +12,26 @@ export function* validateUsernameSaga(
   action: ReturnType<typeof actionCreator>,
 ) {
   const {username} = action.payload;
-  try {
-    const validationResult: SagaReturnType<typeof Api.user.getUserByUsername> =
-      yield call(Api.user.getUserByUsername, {username});
-    if (validationResult) {
-      yield put(
-        ValidationActions.USERNAME_VALIDATION.FAILED.create(
-          t('username.error.already_taken'),
-        ),
-      );
-    }
-  } catch (error) {
-    if (isApiError(error, 404, 'USER_NOT_FOUND')) {
-      yield put(ValidationActions.USERNAME_VALIDATION.SUCCESS.create(username));
-    } else if (isApiError(error, 400, 'INVALID_USERNAME')) {
-      yield put(
-        ValidationActions.USERNAME_VALIDATION.FAILED.create(
-          t('username.error.invalid_characters'),
-        ),
-      );
-    } else {
-      const localizedError = getErrorMessage(error);
-      yield put(ValidationActions.USERNAME_VALIDATION.RESET.create());
-      showError(localizedError);
-    }
-    throw error;
+
+  if (username.length < USERNAME_MIN_LENGTH) {
+    yield put(
+      ValidationActions.USERNAME_VALIDATION.FAILED.create(
+        t('errors.min_username'),
+      ),
+    );
+  } else if (username.length > USERNAME_MAX_LENGTH) {
+    yield put(
+      ValidationActions.USERNAME_VALIDATION.FAILED.create(
+        t('errors.max_username'),
+      ),
+    );
+  } else if (!validateUsername(username)) {
+    yield put(
+      ValidationActions.USERNAME_VALIDATION.FAILED.create(
+        t('errors.invalid_username'),
+      ),
+    );
+  } else {
+    yield put(ValidationActions.USERNAME_VALIDATION.SUCCESS.create(username));
   }
 }

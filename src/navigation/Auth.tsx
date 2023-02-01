@@ -10,6 +10,7 @@ import {
 } from '@react-navigation/native-stack';
 import {ConfirmEmailLink} from '@screens/AuthFlow/ConfirmEmailLink';
 import {ConfirmPhone} from '@screens/AuthFlow/ConfirmPhone';
+import {InvalidLink} from '@screens/AuthFlow/InvalidLink';
 import {SignIn} from '@screens/AuthFlow/SignIn';
 import {CountrySelect} from '@screens/Dialogs/CountrySelect';
 import {ErrorPopUp} from '@screens/PopUps/Error';
@@ -17,7 +18,7 @@ import {
   emailVerificationStepSelector,
   phoneVerificationStepSelector,
 } from '@store/modules/Validation/selectors';
-import React, {useCallback, useEffect} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import {useSelector} from 'react-redux';
 
 export type AuthStackParamList = {
@@ -28,6 +29,7 @@ export type AuthStackParamList = {
     onSelect: (country: Country) => void;
   };
   ErrorPopUp: {message: string};
+  InvalidLink: undefined;
 };
 
 const AuthStack = createNativeStackNavigator<AuthStackParamList>();
@@ -37,7 +39,8 @@ export function AuthNavigator() {
   const phoneVerificationStep = useSelector(phoneVerificationStepSelector);
   const navigation =
     useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
-  const getAuthRoute = useCallback(() => {
+
+  const authRoute = useMemo(() => {
     if (emailVerificationStep === 'code') {
       return 'ConfirmEmailLink';
     }
@@ -48,16 +51,17 @@ export function AuthNavigator() {
   }, [emailVerificationStep, phoneVerificationStep]);
 
   useEffect(() => {
-    const authRoute = getAuthRoute();
-    if (getCurrentRoute()?.name !== authRoute) {
-      navigation.navigate(authRoute);
-    }
-  }, [getAuthRoute, navigation]);
+    getCurrentRoute().then(route => {
+      if (route?.name !== authRoute) {
+        navigation.navigate(authRoute);
+      }
+    });
+  }, [authRoute, navigation]);
 
   return (
     <AuthStack.Navigator
       screenOptions={screenOptions}
-      initialRouteName={getAuthRoute()}>
+      initialRouteName={authRoute}>
       <AuthStack.Screen name="SignIn" component={SignIn} />
       <AuthStack.Screen name="ConfirmEmailLink" component={ConfirmEmailLink} />
       <AuthStack.Screen name="ConfirmPhone" component={ConfirmPhone} />
@@ -71,6 +75,7 @@ export function AuthNavigator() {
         component={ErrorPopUp}
         options={modalOptions}
       />
+      <AuthStack.Screen name="InvalidLink" component={InvalidLink} />
     </AuthStack.Navigator>
   );
 }

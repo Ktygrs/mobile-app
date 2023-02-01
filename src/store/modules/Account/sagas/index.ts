@@ -8,6 +8,7 @@ import {signInSocialSaga} from '@store/modules/Account/sagas/signInSocial';
 import {signOutSaga} from '@store/modules/Account/sagas/signOut';
 import {syncLanguageCodeSaga} from '@store/modules/Account/sagas/syncLanguageCode';
 import {updateAccountSaga} from '@store/modules/Account/sagas/updateAccount';
+import {updateRefByUsernameSaga} from '@store/modules/Account/sagas/updateRefByUsernameSaga';
 import {userStateChangeSaga} from '@store/modules/Account/sagas/userStateChange';
 import {AppCommonActions} from '@store/modules/AppCommon/actions';
 import {all, takeLatest} from 'redux-saga/effects';
@@ -30,6 +31,10 @@ export function* rootAuthSaga() {
         AccountActions.SYNC_LANGUAGE_CODE.STATE.type,
       ],
       syncLanguageCodeSaga,
+    ),
+    takeLatest(
+      AccountActions.UPDATE_REF_BY_USERNAME.START.type,
+      updateRefByUsernameSaga,
     ),
   ]);
 }

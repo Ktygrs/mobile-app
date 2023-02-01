@@ -16,7 +16,7 @@ export const Note = () => {
         style={styles.infoText}
         numberOfLines={3}
         adjustsFontSizeToFit={true}>
-        {t('confirm_email.note')}
+        {t('confirm_email.note', {value: 5})}
       </Text>
     </View>
   );
