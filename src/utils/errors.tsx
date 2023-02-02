@@ -25,7 +25,7 @@ export const getErrorMessage = (error: unknown): string => {
 
 export const showError = (errorIdentifier: string) => {
   navigate({
-    key: 'PopUp',
+    name: 'PopUp',
     params: {
       image: Images.popUp.error,
       title: t('pop_up.ups'),
