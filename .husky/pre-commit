@@ -5,3 +5,4 @@ yarn run check-license
 yarn run generate-translation-types
 yarn run lint
 yarn run check-types
+yarn pretty-staged
