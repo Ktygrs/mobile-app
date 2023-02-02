@@ -1,8 +1,5 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {AuthStackParamList} from '@navigation/Auth';
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {SocialSignInProvider} from '@services/auth/signin/types';
 import {AccountActions} from '@store/modules/Account/actions';
 import {
@@ -11,6 +8,7 @@ import {
   isLoadingSelector,
 } from '@store/modules/UtilityProcessStatuses/selectors';
 import {RootState} from '@store/rootReducer';
+import {showError} from '@utils/errors';
 import {checkProp} from '@utils/guards';
 import {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
@@ -21,9 +19,6 @@ const AUTH_ACTIONS = [
 ];
 
 export const useSocialAuth = () => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
-
   const [selectedSocialType, setSelectedSocialType] =
     useState<SocialSignInProvider>();
 
@@ -47,9 +42,9 @@ export const useSocialAuth = () => {
 
   useEffect(() => {
     if (failedReason) {
-      navigation.navigate('ErrorPopUp', {message: failedReason});
+      showError(failedReason);
     }
-  }, [failedReason, navigation]);
+  }, [failedReason]);
 
   useEffect(() => {
     if (checkProp(socialPayload, 'provider')) {

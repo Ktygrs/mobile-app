@@ -4,7 +4,7 @@ import {User} from '@api/user/types';
 import {MainNavigationParams} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {DEFAULT_CONFIRM_NO_BUTTON} from '@screens/Dialogs/Confirm';
+import {DEFAULT_DIALOG_NO_BUTTON} from '@screens/Modals/PopUp/components/PopUpButton';
 import {useUserDraft} from '@screens/SettingsFlow/PersonalInformation/hooks/useUserDraft';
 import {t} from '@translations/i18n';
 import {getFilenameFromPath} from '@utils/file';
@@ -37,11 +37,11 @@ export const useControlHandlers = (user: User) => {
   );
 
   const onEmailPress = useCallback(() => {
-    navigation.navigate('Confirm', {
+    navigation.navigate('PopUp', {
       title: t('settings.update_email_confirmation_title'),
-      subtitle: t('settings.update_email_confirmation_subtitle'),
+      message: t('settings.update_email_confirmation_subtitle'),
       buttons: [
-        DEFAULT_CONFIRM_NO_BUTTON,
+        DEFAULT_DIALOG_NO_BUTTON,
         {
           label: t('button.continue'),
           onPress: () => {

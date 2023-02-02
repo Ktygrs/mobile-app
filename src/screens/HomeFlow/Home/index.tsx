@@ -10,8 +10,9 @@ import {Overview} from '@screens/HomeFlow/Home/components/Overview';
 import {PAGE_HEIGHT, Pager} from '@screens/HomeFlow/Home/components/Pager';
 import {Tasks} from '@screens/HomeFlow/Home/components/Tasks';
 import {Team} from '@screens/HomeFlow/Home/components/Team';
+import {useRefresh} from '@screens/HomeFlow/Home/hooks/useRefresh';
 import {useScrollHandler} from '@screens/HomeFlow/Home/hooks/useScrollHandler';
-import React, {memo, useCallback, useEffect} from 'react';
+import React, {memo} from 'react';
 import {StyleSheet, View} from 'react-native';
 import Animated from 'react-native-reanimated';
 
@@ -19,14 +20,7 @@ export const Home = memo(() => {
   useFocusStatusBar({style: 'dark-content'});
   const tabBarOffset = useBottomTabBarOffsetStyle();
   const {scrollHandler, translateY} = useScrollHandler();
-
-  const isLoading = false;
-
-  const onRefresh = useCallback(() => {
-    // Load data
-  }, []);
-
-  useEffect(onRefresh, [onRefresh]);
+  const {onRefresh, refreshing} = useRefresh();
 
   return (
     <View style={styles.container}>
@@ -40,7 +34,7 @@ export const Home = memo(() => {
         refreshControl={
           <RefreshControl
             onRefresh={onRefresh}
-            refreshing={isLoading}
+            refreshing={refreshing}
             translateY={translateY}
           />
         }>

@@ -5,7 +5,7 @@ import {Note} from '@components/Forms/ModifyEmailForm/components/Note';
 import {useModifyEmail} from '@components/Forms/ModifyEmailForm/hooks/useModifyEmail';
 import {EmailInput} from '@components/Inputs/EmailInput';
 import {PrimaryButton} from '@components/PrimaryButton';
-import {useResend} from '@hooks/useResend';
+import {useResendCountdown} from '@hooks/useResendCountdown';
 import {t} from '@translations/i18n';
 import React from 'react';
 
@@ -18,7 +18,9 @@ export const ModifyEmailForm = () => {
     modifyEmailFailedReason,
     emailSentTimestamp,
   } = useModifyEmail();
-  const {resendAvailable} = useResend({lastSendTimestamp: emailSentTimestamp});
+  const {resendAvailable} = useResendCountdown({
+    lastSendTimestamp: emailSentTimestamp,
+  });
 
   return (
     <UpdateAccountField

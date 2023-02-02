@@ -6,14 +6,17 @@ import {
   UserListItemCompactSkeleton,
 } from '@components/ListItems/UserListItemCompact';
 import {SectionHeader} from '@components/SectionHeader';
+import {Touchable} from '@components/Touchable';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {useFetchCollection} from '@hooks/useFetchCollection';
-import {HomeTabStackParamList} from '@navigation/Main';
+import {MainNavigationParams} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {CollectionActions} from '@store/modules/Collections';
 import {collectionSelector} from '@store/modules/Collections/selectors';
 import {t} from '@translations/i18n';
+import {formatNumberString} from '@utils/numbers';
+import {uniqueId} from 'lodash';
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import {InteractionManager, StyleSheet, View} from 'react-native';
 import {rem} from 'rn-units';
@@ -26,7 +29,7 @@ const SKELETONS = Array(MINERS_COUNT)
 
 export const TopMiners = memo(() => {
   const navigation =
-    useNavigation<NativeStackNavigationProp<HomeTabStackParamList>>();
+    useNavigation<NativeStackNavigationProp<MainNavigationParams>>();
 
   const onSeeAllPress = useCallback(() => {
     navigation.navigate('TopMiners');
@@ -65,12 +68,19 @@ export const TopMiners = memo(() => {
         {hasNext && !displayData.length
           ? SKELETONS
           : displayData.map(user => (
-              <UserListItemCompact
-                key={user.id}
-                profilePictureUrl={user.profilePictureUrl}
-                name={user.username}
-                iceAmount={user.iceAmount}
-              />
+              <Touchable
+                key={user.userId ?? uniqueId()}
+                onPress={() => {
+                  if (user.userId) {
+                    navigation.navigate('UserProfile', {userId: user.userId});
+                  }
+                }}>
+                <UserListItemCompact
+                  profilePictureUrl={user.profilePictureUrl}
+                  name={user.username}
+                  iceAmount={formatNumberString(user.balance)}
+                />
+              </Touchable>
             ))}
       </View>
     </View>

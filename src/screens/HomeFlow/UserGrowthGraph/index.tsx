@@ -17,9 +17,9 @@ import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
 import {useScreenTransitionEnd} from '@navigation/hooks/useScreenTransitionEnd';
 import {HomeTabStackParamList} from '@navigation/Main';
 import {RouteProp, useRoute} from '@react-navigation/native';
+import {useGetBarGraphDataForStatsPeriod} from '@screens/HomeFlow/Home/components/Overview/components/OnlineUsersHistory/hooks/useGetBarGraphDataForStatsPeriod';
 import {PeriodSelect} from '@screens/HomeFlow/Stats/components/UsersGrowthGraph/components/PeriodSelect';
 import {STATS_PERIODS} from '@store/modules/Stats/constants';
-import {useGetBarGraphDataForStatsPeriod} from '@store/modules/Stats/hooks/useGetBarGraphDataForStatsPeriod';
 import {StatsPeriod} from '@store/modules/Stats/types';
 import {t} from '@translations/i18n';
 import React, {memo, useEffect, useMemo, useRef, useState} from 'react';
@@ -39,7 +39,7 @@ const PERIODS: {label: string; period: StatsPeriod}[] = STATS_PERIODS.map(
 
 export const UserGrowthGraph = memo(() => {
   useFocusStatusBar({style: 'light-content'});
-  const tabbarOffest = useBottomTabBarOffsetStyle();
+  const tabbarOffset = useBottomTabBarOffsetStyle();
 
   const {
     params: {category, statsPeriod: paramsStatsPeriod},
@@ -109,7 +109,7 @@ export const UserGrowthGraph = memo(() => {
       <FlatList
         showsVerticalScrollIndicator={false}
         initialNumToRender={14}
-        contentContainerStyle={[styles.contentContainer, tabbarOffest.current]}
+        contentContainerStyle={[styles.contentContainer, tabbarOffset.current]}
         style={styles.flatListContainer}
         data={data}
         removeClippedSubviews={false}

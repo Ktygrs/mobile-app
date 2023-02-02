@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {AdoptionMilestone} from '@api/statistics/types';
 import {COLORS} from '@constants/colors';
 import {Images} from '@images';
 import {
@@ -7,15 +8,16 @@ import {
   LevelRow,
   STEP_WIDTH,
 } from '@screens/HomeFlow/Home/components/Overview/components/AdoptionCard/components/LevelRow';
-import {levelItems} from '@screens/HomeFlow/Home/components/Overview/components/AdoptionCard/mockData';
 import {
   CARD_WIDTH,
   CARDS_COLLAPSED_HEIGHT,
   CARDS_TOTAL_HEIGHT,
 } from '@screens/HomeFlow/Home/components/Overview/components/CardBase';
+import {adoptionSelector} from '@store/modules/Stats/selectors';
 import {FriendsIcon} from '@svg/FriendsIcon';
 import {GraphIcon} from '@svg/GraphIcon';
 import {t} from '@translations/i18n';
+import {formatNumber} from '@utils/numbers';
 import {font} from '@utils/styles';
 import React, {useCallback, useEffect, useMemo, useRef} from 'react';
 import {
@@ -35,6 +37,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import {useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
 const GRADIENT_START = {x: 0, y: 0.6};
@@ -57,7 +60,9 @@ const viewabilityConfig = {
 };
 
 export const AdoptionCard = ({isCollapsed, onPress}: AdoptionCardProps) => {
-  const refFlatList = useRef<Animated.FlatList<typeof levelItems[0]>>(null);
+  const adoption = useSelector(adoptionSelector);
+
+  const refFlatList = useRef<Animated.FlatList<AdoptionMilestone>>(null);
 
   const sharedItems = useSharedValue<ViewToken[]>([]);
 
@@ -65,7 +70,11 @@ export const AdoptionCard = ({isCollapsed, onPress}: AdoptionCardProps) => {
     ViewabilityConfigCallbackPair['onViewableItemsChanged']
   > = useCallback(
     ({viewableItems}) => {
-      sharedItems.value = viewableItems;
+      // make copies of viewableItem.item to bypass reanimated error
+      sharedItems.value = viewableItems.map(viewableItem => ({
+        ...viewableItem,
+        item: {...viewableItem.item},
+      }));
     },
     [sharedItems],
   );
@@ -80,8 +89,14 @@ export const AdoptionCard = ({isCollapsed, onPress}: AdoptionCardProps) => {
   );
 
   const activeIndex = useMemo(() => {
-    return levelItems.findIndex(({active}) => active);
-  }, []);
+    if (adoption) {
+      const notAchievedIndex =
+        adoption.milestones.findIndex(({achievedAt}) => !achievedAt) ??
+        adoption.milestones.length;
+      return notAchievedIndex - 1;
+    }
+    return 0;
+  }, [adoption]);
 
   const scrollToIndex = useCallback((index: number) => {
     //@ts-ignore Bad types of Animated.FlatList, getNode() does not work
@@ -125,19 +140,22 @@ export const AdoptionCard = ({isCollapsed, onPress}: AdoptionCardProps) => {
     };
   }, [isCollapsed]);
 
-  const renderItem: ListRenderItem<typeof levelItems[0]> = useCallback(
+  const renderItem: ListRenderItem<AdoptionMilestone> = useCallback(
     ({item, index}) => {
       return (
         <LevelRow
           item={item}
+          active={index === activeIndex}
           viewableItems={sharedItems}
           isTopSeparatorVisible={index !== 0}
-          isBottomSeparatorVisible={index !== levelItems.length - 1}
+          isBottomSeparatorVisible={
+            index !== (adoption?.milestones ?? []).length - 1
+          }
           onPress={isCollapsed ? undefined : onPress}
         />
       );
     },
-    [sharedItems, isCollapsed, onPress],
+    [activeIndex, sharedItems, adoption?.milestones, isCollapsed, onPress],
   );
 
   return (
@@ -147,45 +165,51 @@ export const AdoptionCard = ({isCollapsed, onPress}: AdoptionCardProps) => {
         resizeMode={'cover'}
         style={styles.backgroundImage}
       />
-      <View style={[styles.scrollAbsoluteContainer, styles.card]}>
-        <Animated.FlatList
-          ref={refFlatList}
-          style={[styles.scrollContainer, animatedStyleFlatList]}
-          contentContainerStyle={styles.scrollContentContainerStyle}
-          data={levelItems}
-          renderItem={renderItem}
-          keyExtractor={({id}) => id}
-          snapToInterval={VERTICAL_ITEM_PADDING + rem(3.5)}
-          snapToAlignment={'center'}
-          showsVerticalScrollIndicator={false}
-          viewabilityConfigCallbackPairs={
-            viewabilityConfigCallbackPairs.current
-          }
-          onScrollToIndexFailed={onScrollToIndexFailed}
-        />
-      </View>
-      <LinearGradient
-        colors={GRADIENT_COLORS}
-        start={GRADIENT_START}
-        end={GRADIENT_END}
-        style={[styles.gradient, styles.leftGradient]}
-        pointerEvents={'none'}
-      />
-      <LinearGradient
-        colors={GRADIENT_COLORS}
-        start={GRADIENT_START}
-        end={GRADIENT_END}
-        style={[styles.gradient, styles.rightGradient]}
-        pointerEvents={'none'}
-      />
-      <View style={styles.header} pointerEvents={'none'}>
-        <View style={styles.title}>
-          <GraphIcon fill={COLORS.white} />
-          <Text style={styles.titleText}>{t('home.adoption.title')}</Text>
-        </View>
-        <FriendsIcon fill={COLORS.white} />
-        <Text style={styles.valueText}>{'28,450'}</Text>
-      </View>
+      {adoption && (
+        <>
+          <View style={[styles.scrollAbsoluteContainer, styles.card]}>
+            <Animated.FlatList
+              ref={refFlatList}
+              style={[styles.scrollContainer, animatedStyleFlatList]}
+              contentContainerStyle={styles.scrollContentContainerStyle}
+              data={adoption.milestones}
+              renderItem={renderItem}
+              keyExtractor={({milestone}) => milestone.toString()}
+              snapToInterval={VERTICAL_ITEM_PADDING + rem(3.5)}
+              snapToAlignment={'center'}
+              showsVerticalScrollIndicator={false}
+              viewabilityConfigCallbackPairs={
+                viewabilityConfigCallbackPairs.current
+              }
+              onScrollToIndexFailed={onScrollToIndexFailed}
+            />
+          </View>
+          <LinearGradient
+            colors={GRADIENT_COLORS}
+            start={GRADIENT_START}
+            end={GRADIENT_END}
+            style={[styles.gradient, styles.leftGradient]}
+            pointerEvents={'none'}
+          />
+          <LinearGradient
+            colors={GRADIENT_COLORS}
+            start={GRADIENT_START}
+            end={GRADIENT_END}
+            style={[styles.gradient, styles.rightGradient]}
+            pointerEvents={'none'}
+          />
+          <View style={styles.header} pointerEvents={'none'}>
+            <View style={styles.title}>
+              <GraphIcon fill={COLORS.white} />
+              <Text style={styles.titleText}>{t('home.adoption.title')}</Text>
+            </View>
+            <FriendsIcon fill={COLORS.white} />
+            <Text style={styles.valueText}>
+              {formatNumber(adoption.totalActiveUsers)}
+            </Text>
+          </View>
+        </>
+      )}
     </View>
   );
 };

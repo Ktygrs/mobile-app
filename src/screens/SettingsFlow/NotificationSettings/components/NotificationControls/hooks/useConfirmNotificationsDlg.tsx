@@ -4,9 +4,9 @@ import {MainStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {
-  DEFAULT_CONFIRM_NO_BUTTON,
-  DEFAULT_CONFIRM_YES_BUTTON,
-} from '@screens/Dialogs/Confirm';
+  DEFAULT_DIALOG_NO_BUTTON,
+  DEFAULT_DIALOG_YES_BUTTON,
+} from '@screens/Modals/PopUp/components/PopUpButton';
 import {PermissionsActions} from '@store/modules/Permissions/actions';
 import {t} from '@translations/i18n';
 import {useDispatch} from 'react-redux';
@@ -17,13 +17,13 @@ export const useConfirmNotificationsDlg = () => {
   const dispatch = useDispatch();
   return {
     openConfirmationDlg: () => {
-      navigation.navigate('Confirm', {
+      navigation.navigate('PopUp', {
         title: t('settings.notifications_title'),
-        subtitle: t('settings.notifications.enable_prompt'),
+        message: t('settings.notifications.enable_prompt'),
         buttons: [
-          DEFAULT_CONFIRM_NO_BUTTON,
+          DEFAULT_DIALOG_NO_BUTTON,
           {
-            ...DEFAULT_CONFIRM_YES_BUTTON,
+            ...DEFAULT_DIALOG_YES_BUTTON,
             onPress: () => {
               dispatch(
                 PermissionsActions.GET_PERMISSIONS.START.create(

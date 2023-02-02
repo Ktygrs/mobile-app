@@ -9,33 +9,52 @@ import {MainNavigationParams} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {PAGE_HEIGHT} from '@screens/HomeFlow/Home/components/Pager';
+import {
+  balanceSummarySelector,
+  miningRatesSelector,
+} from '@store/modules/Tokenomics/selectors';
 import {ArrowDown} from '@svg/ArrowDown';
 import {ArrowUp} from '@svg/ArrowUp';
 import {InfoOutlineIcon} from '@svg/InfoOutlineIcon';
 import {t} from '@translations/i18n';
+import {formatNumberString} from '@utils/numbers';
 import {font} from '@utils/styles';
-import {random} from 'lodash';
-import React, {memo, useState} from 'react';
+import React, {memo} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import {useSelector} from 'react-redux';
 import {isAndroid, rem} from 'rn-units';
 
 const INFO_ICON_SIZE = rem(16);
 
 export const Wallet = memo(() => {
-  const [direction] = useState(random(1)); //TODO: connect API
+  const balanceSummary = useSelector(balanceSummarySelector);
+  const miningRates = useSelector(miningRatesSelector);
+
   const navigation =
     useNavigation<NativeStackNavigationProp<MainNavigationParams>>();
+
+  if (!balanceSummary || !miningRates) {
+    //TODO: add loading
+    return null;
+  }
+
   return (
     <View style={[commonStyles.baseSubScreen, styles.container]}>
       <Text style={styles.balanceLabelText}>{t('home.wallet.balance')}</Text>
       <View style={styles.balanceContainer}>
         <View style={styles.balanceValue}>
-          {direction ? <ArrowUp /> : <ArrowDown />}
+          {
+            {positive: <ArrowUp />, negative: <ArrowDown />, none: ''}[
+              miningRates.type
+            ]
+          }
           <FormattedNumber
             containerStyle={styles.balanceValueContainer}
+            number={
+              balanceSummary ? formatNumberString(balanceSummary.total) : ''
+            }
             bodyStyle={styles.balanceValueText}
             decimalsStyle={styles.balanceValueDecimalsText}
-            number={'20,249,999.99'}
           />
           <IceLabel
             textStyle={styles.balanceCurrencyText}
@@ -55,10 +74,12 @@ export const Wallet = memo(() => {
         </Touchable>
       </View>
       <View style={styles.miningRate}>
-        <Text style={styles.rateLabelText}>{t('home.wallet.rate')}</Text>
+        <Text style={styles.rateLabelText}>{t('home.wallet.rate')} </Text>
         <FormattedNumber
           containerStyle={styles.rateValueContainer}
-          number={'+29.99'}
+          number={`${
+            {positive: '+', negative: '-', none: ''}[miningRates.type] ?? ''
+          }${miningRates && formatNumberString(miningRates.total.amount)}`}
         />
         <IceLabel
           textStyle={styles.rateValueText}

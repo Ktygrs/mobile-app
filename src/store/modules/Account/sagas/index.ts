@@ -2,6 +2,7 @@
 
 import {AccountActions} from '@store/modules/Account/actions';
 import {deleteAccountSaga} from '@store/modules/Account/sagas/deleteAccount';
+import {getAccountSaga} from '@store/modules/Account/sagas/getAccount';
 import {signInEmailSaga} from '@store/modules/Account/sagas/signInEmail';
 import {signInPhoneSaga} from '@store/modules/Account/sagas/signInPhone';
 import {signInSocialSaga} from '@store/modules/Account/sagas/signInSocial';
@@ -35,6 +36,13 @@ export function* rootAuthSaga() {
     takeLatest(
       AccountActions.UPDATE_REF_BY_USERNAME.START.type,
       updateRefByUsernameSaga,
+    ),
+    takeLatest(
+      [
+        AccountActions.GET_ACCOUNT.START.type,
+        AppCommonActions.INTERVAL_UPDATE.STATE.type,
+      ],
+      getAccountSaga,
     ),
   ]);
 }

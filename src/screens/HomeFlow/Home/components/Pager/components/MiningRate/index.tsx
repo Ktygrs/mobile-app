@@ -5,17 +5,30 @@ import {IceLabel} from '@components/Labels/IceLabel';
 import {COLORS} from '@constants/colors';
 import {commonStyles} from '@constants/styles';
 import {PAGE_HEIGHT} from '@screens/HomeFlow/Home/components/Pager';
+import {miningRatesSelector} from '@store/modules/Tokenomics/selectors';
 import {MiningHammerIcon} from '@svg/MiningHammerIcon';
 import {StakeIcon} from '@svg/StakeIcon';
 import {StarIcon} from '@svg/StarIcon';
 import {TeamIcon} from '@svg/TeamIcon';
 import {t} from '@translations/i18n';
+import {formatNumberString} from '@utils/numbers';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import {useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
 export const MiningRate = memo(() => {
+  const miningRates = useSelector(miningRatesSelector);
+
+  if (!miningRates) {
+    //TODO: add loading
+    return null;
+  }
+
+  const miningSign =
+    {positive: '+', negative: '-', none: ''}[miningRates.type] ?? '';
+
   return (
     <View style={[commonStyles.baseSubScreen, styles.container]}>
       <View style={styles.titleContainer}>
@@ -26,9 +39,11 @@ export const MiningRate = memo(() => {
         <FormattedNumber
           trim
           containerStyle={styles.miningValueContainer}
+          number={`${miningSign}${formatNumberString(
+            miningRates.total.amount,
+          )}`}
           bodyStyle={styles.miningValueText}
           decimalsStyle={styles.miningValueDecimalsText}
-          number={'+136.90'}
         />
         <IceLabel
           textStyle={styles.rateValueText}
@@ -36,16 +51,18 @@ export const MiningRate = memo(() => {
           iconSize={16}
           label={t('general.ice_per_hour')}
         />
-        <Text style={styles.rateIncreaseText}>{'+37%'}</Text>
+        <Text style={styles.rateIncreaseText}>
+          +{miningRates.total.bonuses?.total ?? 0}%
+        </Text>
       </View>
       <View style={styles.baseContainer}>
         <Text style={styles.baseTitleText}>{t('home.mining_rate.base')}</Text>
         <FormattedNumber
           trim
           containerStyle={styles.baseValueContainer}
+          number={`${miningSign}${formatNumberString(miningRates.base.amount)}`}
           bodyStyle={styles.baseValueText}
           decimalsStyle={styles.baseDecimalsText}
-          number={'+80.37'}
         />
         <IceLabel
           textStyle={styles.baseValueText}
@@ -57,15 +74,24 @@ export const MiningRate = memo(() => {
       <View style={styles.iconsContainer}>
         <View style={styles.iconContainer}>
           <TeamIcon />
-          <Text style={styles.iconValueText}>{'+120%'}</Text>
+          <Text style={styles.iconValueText}>
+            +
+            {(miningRates.total.bonuses?.t1 ?? 0) +
+              (miningRates.total.bonuses?.t2 ?? 0)}
+            %
+          </Text>
         </View>
         <View style={styles.iconContainer}>
           <StarIcon />
-          <Text style={styles.iconValueText}>{'+290%'}</Text>
+          <Text style={styles.iconValueText}>
+            +{miningRates.total.bonuses?.extra ?? 0}%
+          </Text>
         </View>
         <View style={styles.iconContainer}>
           <StakeIcon fill={COLORS.white} width={rem(14)} height={rem(14)} />
-          <Text style={styles.iconValueText}>{'+200%'}</Text>
+          <Text style={styles.iconValueText}>
+            +{miningRates.total.bonuses?.preStaking ?? 0}%
+          </Text>
         </View>
       </View>
     </View>
@@ -96,7 +122,8 @@ const styles = StyleSheet.create({
   },
   miningValueDecimalsText: {
     alignSelf: 'flex-start',
-    ...font(9, 11, 'bold'),
+    ...font(8, 10, 'bold'),
+    marginRight: rem(4),
   },
   baseContainer: {
     marginTop: rem(6),
@@ -116,6 +143,7 @@ const styles = StyleSheet.create({
   baseDecimalsText: {
     ...font(7, 9, 'bold'),
     alignSelf: 'flex-start',
+    marginRight: rem(4),
   },
   miningRate: {
     marginTop: rem(4),

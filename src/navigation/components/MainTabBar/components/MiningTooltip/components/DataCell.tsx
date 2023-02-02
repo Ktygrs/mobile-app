@@ -9,7 +9,7 @@ import {rem} from 'rn-units';
 type Props = {
   icon: ReactNode;
   label: string;
-  value: string | ReactNode;
+  value: string | number | ReactNode;
   currency?: string | ReactNode;
 };
 
@@ -19,7 +19,7 @@ export const DataCell = ({icon, label, value, currency}: Props) => {
       <View style={styles.iconWrapper}>{icon}</View>
       <Text style={styles.labelText}>{label}</Text>
       <View style={styles.value}>
-        {typeof value === 'string' ? (
+        {typeof value === 'string' || typeof value === 'number' ? (
           <Text style={styles.valueText}>{value}</Text>
         ) : (
           value

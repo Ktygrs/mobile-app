@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {dayjs} from '@services/dayjs';
 import {AccountActions} from '@store/modules/Account/actions';
 import {ValidationActions} from '@store/modules/Validation/actions';
 import produce from 'immer';
@@ -41,24 +42,24 @@ function reducer(state = INITIAL_STATE, action: Actions): State {
     switch (action.type) {
       case AccountActions.SIGN_IN_PHONE.SET_TEMP_PHONE.type:
         draft.temporaryPhoneNumber = action.payload.phoneNumber;
-        draft.smsSentTimestamp = Date.now();
+        draft.smsSentTimestamp = dayjs().valueOf();
         break;
       case AccountActions.SIGN_IN_PHONE.RESEND_SUCCESS.type:
-        draft.smsSentTimestamp = Date.now();
+        draft.smsSentTimestamp = dayjs().valueOf();
         break;
       case AccountActions.SIGN_IN_EMAIL.SET_TEMP_EMAIL.type:
         draft.temporaryEmail = action.payload.email;
-        draft.emailSentTimestamp = Date.now();
+        draft.emailSentTimestamp = dayjs().valueOf();
         break;
       case AccountActions.UPDATE_ACCOUNT.SUCCESS.type:
         const userInfo = action.payload.userInfo;
         if (userInfo?.phoneNumber) {
           draft.temporaryPhoneNumber = userInfo.phoneNumber;
-          draft.smsSentTimestamp = Date.now();
+          draft.smsSentTimestamp = dayjs().valueOf();
         }
         if (userInfo?.email) {
           draft.temporaryEmail = userInfo.email;
-          draft.emailSentTimestamp = Date.now();
+          draft.emailSentTimestamp = dayjs().valueOf();
         }
         break;
       case AccountActions.SIGN_IN_PHONE.SUCCESS.type:

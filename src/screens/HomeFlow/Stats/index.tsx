@@ -16,7 +16,7 @@ import {ScrollView, StyleSheet, View} from 'react-native';
 
 export const Stats = memo(() => {
   useFocusStatusBar({style: 'light-content'});
-  const tabbarOffest = useBottomTabBarOffsetStyle();
+  const tabbarOffset = useBottomTabBarOffsetStyle();
 
   return (
     <View style={styles.container}>
@@ -29,7 +29,7 @@ export const Stats = memo(() => {
       <Summary />
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={tabbarOffest.current}>
+        contentContainerStyle={tabbarOffset.current}>
         <View style={[styles.card, commonStyles.baseSubScreen]}>
           <UsersGrowthGraph />
           <TopMiners />

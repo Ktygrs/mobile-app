@@ -111,8 +111,9 @@ export function* updateDeviceMetadataSaga() {
         pinOrFingerprintSet,
         emulator,
         firstInstallTime:
-          firstInstallTime === -1 ? Date.now() : firstInstallTime,
-        lastUpdateTime: lastUpdateTime === -1 ? Date.now() : lastUpdateTime,
+          firstInstallTime === -1 ? dayjs().valueOf() : firstInstallTime,
+        lastUpdateTime:
+          lastUpdateTime === -1 ? dayjs().valueOf() : lastUpdateTime,
         systemName: DeviceInfo.getSystemName(),
         systemVersion: DeviceInfo.getSystemVersion(),
         apiLevel: apiLevel === -1 ? 999 : apiLevel,

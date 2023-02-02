@@ -4,7 +4,7 @@ import {UpdateAccountField} from '@components/Forms/components/UpdateAccountFiel
 import {useModifyPhoneNumber} from '@components/Forms/ModifyPhoneNumberForm/hooks/useModifyPhoneNumber';
 import {PhoneNumberInput} from '@components/Inputs/PhoneNumberInput';
 import {PrimaryButton} from '@components/PrimaryButton';
-import {useResend} from '@hooks/useResend';
+import {useResendCountdown} from '@hooks/useResendCountdown';
 import {t} from '@translations/i18n';
 import React from 'react';
 
@@ -17,7 +17,9 @@ export const ModifyPhoneNumberForm = () => {
     modifyPhoneFailedReason,
     smsSentTimestamp,
   } = useModifyPhoneNumber();
-  const {resendAvailable} = useResend({lastSendTimestamp: smsSentTimestamp});
+  const {resendAvailable} = useResendCountdown({
+    lastSendTimestamp: smsSentTimestamp,
+  });
 
   return (
     <UpdateAccountField

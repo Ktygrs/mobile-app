@@ -8,6 +8,7 @@ import {MiningIcon} from '@svg/MiningIcon';
 import {TierOneIcon} from '@svg/TierOneIcon';
 import {TierTwoIcon} from '@svg/TierTwoIcon';
 import {t} from '@translations/i18n';
+import {formatNumber} from '@utils/numbers';
 import {font} from '@utils/styles';
 import React, {memo, useEffect, useRef} from 'react';
 import {
@@ -31,17 +32,17 @@ const ACTIVE_MINERS_MAX = 100;
 const ACTIVE_MINERS_DEFAULT = 30;
 
 type Props = {
-  onCalculateResult: (data: {
+  onParametersChange: (data: {
     tierOneValue: number;
     tierTwoValue: number;
     activeMinersPerc: number;
   }) => void;
   result: number | null;
-  loading: boolean;
+  loading?: boolean;
 };
 
 export const Calculator = memo(
-  ({result, onCalculateResult, loading}: Props) => {
+  ({result, onParametersChange, loading}: Props) => {
     const tierOneElementRef = useRef<TextInput | null>(null);
     const tierTwoElementRef = useRef<TextInput | null>(null);
     const activeMinersElementRef = useRef<TextInput | null>(null);
@@ -49,8 +50,8 @@ export const Calculator = memo(
     const tierTwoValueRef = useRef(TIER_TWO_DEFAULT);
     const activeMinersValueRef = useRef(ACTIVE_MINERS_DEFAULT);
 
-    const calculateResult = () => {
-      onCalculateResult({
+    const setValues = () => {
+      onParametersChange({
         tierOneValue: tierOneValueRef.current,
         tierTwoValue: tierTwoValueRef.current,
         activeMinersPerc: activeMinersValueRef.current,
@@ -58,7 +59,7 @@ export const Calculator = memo(
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(calculateResult, []);
+    useEffect(setValues, []);
 
     return (
       <View style={[styles.container, commonStyles.shadow]}>
@@ -72,14 +73,14 @@ export const Calculator = memo(
             <Text style={styles.resultValueText}>
               {result !== null ? (
                 <>
-                  {result}{' '}
+                  {formatNumber(result, 2)}{' '}
                   <IceLabel iconSize={24} label={t('general.ice_per_hour')} />
                 </>
               ) : null}
             </Text>
           )}
         </View>
-        <View style={styles.sliderInfo}>
+        <View style={[styles.sliderInfo, styles.sliderInfo__first]}>
           <TierOneIcon />
           <Text style={styles.sliderLabelText}>
             {t('mining_calculator.tier_1_ref')}
@@ -101,7 +102,7 @@ export const Calculator = memo(
             tierOneValueRef.current = value;
             tierOneElementRef.current?.setNativeProps({text: value.toString()});
           }}
-          onSlidingComplete={calculateResult}
+          onSlidingComplete={setValues}
         />
         <View style={styles.sliderInfo}>
           <TierTwoIcon />
@@ -125,7 +126,7 @@ export const Calculator = memo(
             tierTwoValueRef.current = value;
             tierTwoElementRef.current?.setNativeProps({text: value.toString()});
           }}
-          onSlidingComplete={calculateResult}
+          onSlidingComplete={setValues}
         />
         <View style={styles.sliderInfo}>
           <MiningIcon />
@@ -151,7 +152,7 @@ export const Calculator = memo(
               text: `${activeMinersValueRef.current}%`,
             });
           }}
-          onSlidingComplete={calculateResult}
+          onSlidingComplete={setValues}
         />
       </View>
     );
@@ -165,7 +166,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: rem(20),
     borderRadius: rem(20),
     backgroundColor: COLORS.primaryDark,
-    paddingBottom: rem(42),
+    paddingBottom: rem(40),
   },
   resultLabelText: {
     marginTop: rem(28),
@@ -173,24 +174,26 @@ const styles = StyleSheet.create({
     ...font(13, 24, 'regular', 'periwinkleGray'),
   },
   resultValue: {
-    height: rem(32),
+    minHeight: rem(36),
     alignItems: 'center',
   },
   resultValueText: {
     textAlign: 'center',
-    paddingTop: rem(6),
-    ...font(28, 33.6, 'bold'),
+    marginTop: rem(4),
+    ...font(28, 34, 'bold'),
   },
   sliderInfo: {
-    marginTop: isAndroid ? rem(17) : rem(34),
+    marginTop: isAndroid ? rem(17) : rem(36),
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: rem(8),
+  },
+  sliderInfo__first: {
+    marginTop: isAndroid ? rem(4) : rem(24),
   },
   slider: {
-    marginTop: rem(3),
-    marginLeft: rem(6),
-    marginBottom: rem(6),
+    marginTop: rem(10),
+    alignSelf: 'flex-end',
+    width: '100%',
   },
   sliderLabelText: {
     ...font(13, 24, 'regular', 'periwinkleGray'),

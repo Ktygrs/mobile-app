@@ -9,7 +9,7 @@ import {
 import {HomeTabStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {useGetBarGraphDataForStatsPeriod} from '@store/modules/Stats/hooks/useGetBarGraphDataForStatsPeriod';
+import {useGetBarGraphDataForStatsPeriod} from '@screens/HomeFlow/Home/components/Overview/components/OnlineUsersHistory/hooks/useGetBarGraphDataForStatsPeriod';
 import {t} from '@translations/i18n';
 import React, {memo, useCallback, useRef} from 'react';
 import {StyleSheet, View} from 'react-native';

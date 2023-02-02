@@ -7,7 +7,7 @@ import {commonStyles} from '@constants/styles';
 import {ProfileTabStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {useUpdateHiddenProfileElements} from '@screens/PopUps/ProfilePrivacyEdit/hooks/useUpdateHiddenProfileElements';
+import {useUpdateHiddenProfileElements} from '@store/modules/Account/hooks/useUpdateHiddenProfileElements';
 import {ClosedEye} from '@svg/ClosedEye';
 import {translate} from '@translations/i18n';
 import {font} from '@utils/styles';

@@ -15,7 +15,6 @@ import {buildDateRangeText} from '@screens/HomeFlow/BalanceHistory/components/Fi
 import {dayjs} from '@services/dayjs';
 import {CalendarIcon} from '@svg/CalendarIcon';
 import {t} from '@translations/i18n';
-import {toDateString} from '@utils/date';
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -36,18 +35,28 @@ export type Filter = {
 
 export const FAST_FILTERS: {[key: string]: Filter} = {
   get DAY() {
-    const today = toDateString(dayjs());
-    return {type: 'day', start: today, end: today} as const;
+    const now = dayjs();
+    return {
+      type: 'day',
+      start: now.format(),
+      end: now.subtract(1, 'day').format(),
+    } as const;
   },
   get WEEK() {
-    const start = toDateString(dayjs());
-    const end = toDateString(dayjs().subtract(7, 'day'));
-    return {type: 'week', start, end} as const;
+    const now = dayjs();
+    return {
+      type: 'week',
+      start: now.format(),
+      end: now.subtract(1, 'week').format(),
+    } as const;
   },
   get MONTH() {
-    const start = toDateString(dayjs());
-    const end = toDateString(dayjs().subtract(1, 'month'));
-    return {type: 'month', start, end} as const;
+    const now = dayjs();
+    return {
+      type: 'month',
+      start: now.format(),
+      end: now.subtract(1, 'month').format(),
+    } as const;
   },
 };
 
@@ -67,8 +76,17 @@ export const Filters = ({
         if (period.start && period.end) {
           setSelectedFilter({
             type: 'custom',
-            start: period.start,
-            end: period.end,
+            /**
+             * Reversing, because from the calendar dates are coming
+             * in a normal time order (start is earlier than end)
+             * but for the history we need the backwards order.
+             *
+             * Also including the hours of the most recent day (start day)
+             * since from the calendar dates are coming without time
+             * so after formatting they are pointing to the start of a day (00:00:00)
+             */
+            start: dayjs(period.end).add(1, 'd').subtract(1, 's').format(),
+            end: dayjs(period.start).format(),
           });
         } else if (selectedFilter.type === 'custom') {
           setFilter(FAST_FILTERS.DAY);

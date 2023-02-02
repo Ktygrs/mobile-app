@@ -16,23 +16,28 @@ const theme = {
   maximumTrackTintColor: COLORS.secondaryFaint,
 };
 
-export const Slider = ({style, ...props}: AwesomeSliderProps) => (
-  <AwesomeSlider
-    theme={theme}
-    thumbWidth={0}
-    markWidth={0}
-    containerStyle={styles.track}
-    renderThumb={() => <View style={styles.thumb} />}
-    markStyle={styles.mark}
-    renderBubble={noop}
-    style={[styles.container, style]}
-    {...props}
-  />
+const SLIDER_HEIGHT = rem(6);
+
+export const Slider = (props: AwesomeSliderProps) => (
+  <View style={styles.container}>
+    <View style={[styles.track, styles.backdrop]} />
+    <AwesomeSlider
+      theme={theme}
+      thumbWidth={0}
+      markWidth={0}
+      containerStyle={styles.track}
+      renderThumb={() => <View style={styles.thumb} />}
+      markStyle={styles.mark}
+      renderBubble={noop}
+      sliderHeight={SLIDER_HEIGHT}
+      {...props}
+    />
+  </View>
 );
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: isIOS ? rem(10) : 0,
+    marginVertical: isIOS ? rem(10) : 0,
   },
   thumb: {
     backgroundColor: COLORS.shamrock,
@@ -44,9 +49,16 @@ const styles = StyleSheet.create({
     borderRadius: rem(28) / 2,
   },
   track: {
-    height: rem(6),
-    borderRadius: rem(6) / 2,
+    height: SLIDER_HEIGHT,
+    borderRadius: SLIDER_HEIGHT / 2,
     paddingRight: rem(16),
+  },
+  backdrop: {
+    backgroundColor: COLORS.secondary,
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
   mark: {
     width: 0,

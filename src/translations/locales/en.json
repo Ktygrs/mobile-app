@@ -31,7 +31,7 @@
   "button": {
     "yes_btn": "Yes, please",
     "next_btn": "Next",
-    "not_now_btn": "not now",
+    "not_now": "Not now",
     "view_all": "view all",
     "invite_friend": {
       "title": "Invite Friends",
@@ -57,7 +57,8 @@
     "reset": "Reset",
     "skip_all": "Skip all",
     "done": "Done",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "resurrect_me": "Resurrect Me"
   },
   "team": {
     "contacts_tab": "Contacts",
@@ -277,6 +278,7 @@
     },
     "menu": {
       "notifications": "Notifications",
+      "staking": "Staking",
       "stats": "Stats",
       "help": "Help"
     },
@@ -450,8 +452,11 @@
     "good_afternoon": "Good afternoon",
     "good_evening": "Good evening",
     "ice": "ice",
-    "ice_per_hour": "ice/hr",
-    "seconds_short": "s"
+    "ice_per_hour": "ice/h",
+    "seconds_short": "s",
+    "minutes_short": "m",
+    "hours_short": "h",
+    "days_short": "d"
   },
   "news": {
     "news_feed": "News Feed",
@@ -466,8 +471,8 @@
   },
   "tabbar": {
     "mining_inactive_tooltip": "Tap here to start your first mining session",
-    "mining_reset_tooltip": "Press for {{seconds}} seconds to reset your mining session",
-    "mining_holiday_reset_tooltip": "You are using a Day Off! Press for {{seconds}} seconds to reset your mining session",
+    "mining_reset_tooltip": "Press for 1 second to reset your mining session",
+    "mining_holiday_reset_tooltip": "You are using a Day Off! Press for 1 second to reset your mining session",
     "mining_holiday_active": "You are using a Day Off!"
   },
   "invite_friend": {
@@ -494,7 +499,13 @@
     "try_again_text": "Looks like something went wrong. Our team is working on fixing it right now\n{{errorIdentifier}}",
     "view_changelog": "View Changelog",
     "you_are_up_to_date": "You are up to date!",
-    "up_to_date_text": "You are now using the latest version. Check all the changes below."
+    "up_to_date_text": "You are now using the latest version. Check all the changes below.",
+    "resurrection": "Resurrection",
+    "resurrection_message": "You have a one time chance to resurrect and receive [[:amount]] coins you have lost in the past [[:period]]",
+    "resurrection_warning": "You can only resurrect one time!",
+    "please_confirm": "Please confirm",
+    "resurrection_no_confirm_message": "You will lose your [[:amount]] coins forever. Are you sure you want to continue?",
+    "resurrection_yes_confirm_message": "You can only resurrect one time! Are you sure you want to continue?"
   },
   "periods": {
     "3_days": "3 days",

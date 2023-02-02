@@ -5,36 +5,47 @@ import {IceLabel} from '@components/Labels/IceLabel';
 import {PrimaryButton} from '@components/PrimaryButton';
 import {COLORS} from '@constants/colors';
 import {LINKS} from '@constants/links';
+import {STAKING_ALLOCATION_MAX, STAKING_YEARS_MAX} from '@constants/staking';
 import {MainNavigationParams} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {DEFAULT_CONFIRM_NO_BUTTON} from '@screens/Dialogs/Confirm';
+import {DEFAULT_DIALOG_NO_BUTTON} from '@screens/Modals/PopUp/components/PopUpButton';
+import {usePreStaking} from '@screens/Staking/hooks/usePreStaking';
 import {StakeIcon} from '@svg/StakeIcon';
 import {replaceString, t, tagRegex} from '@translations/i18n';
 import {openLinkWithInAppBrowser} from '@utils/device';
 import {font} from '@utils/styles';
-import React, {memo, useMemo, useState} from 'react';
+import React, {memo, RefObject, useMemo, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {isAndroid, rem} from 'rn-units';
 
-export const IS_STAKING_ACTIVE = {current: false};
+type Props = {
+  parameters: RefObject<{years: number; allocation: number} | null>;
+};
 
-export const Footer = memo(() => {
+export const Footer = memo(({parameters}: Props) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<MainNavigationParams>>();
+  const {preStakingSummary, preStakingLoading, confirmPreStaking} =
+    usePreStaking();
   const [termsAccepted, setTermsAccepted] = useState(false);
+  const maxValuesSet =
+    preStakingSummary?.years === STAKING_YEARS_MAX &&
+    preStakingSummary.allocation === STAKING_ALLOCATION_MAX;
+  const buttonDisabled = !termsAccepted || maxValuesSet;
 
   const onStakePress = () => {
-    navigation.navigate('Confirm', {
+    navigation.navigate('PopUp', {
       title: t('staking.confirm_title'),
-      subtitle: t('staking.confirm_subtitle'),
+      message: t('staking.confirm_subtitle'),
       buttons: [
-        DEFAULT_CONFIRM_NO_BUTTON,
+        DEFAULT_DIALOG_NO_BUTTON,
         {
           label: t('button.confirm'),
           onPress: () => {
-            navigation.goBack();
-            IS_STAKING_ACTIVE.current = true;
+            if (parameters.current) {
+              confirmPreStaking(parameters.current);
+            }
           },
         },
       ],
@@ -74,13 +85,14 @@ export const Footer = memo(() => {
       </View>
       <PrimaryButton
         onPress={onStakePress}
-        disabled={!termsAccepted}
+        disabled={buttonDisabled}
         text={t('staking.stake_now')}
         textStyle={styles.buttonText}
-        style={[styles.button, !termsAccepted && styles.button_disabled]}
+        style={[styles.button, buttonDisabled && styles.button_disabled]}
         icon={
           <StakeIcon color={COLORS.white} width={rem(18)} height={rem(18)} />
         }
+        loading={preStakingLoading}
       />
     </View>
   );

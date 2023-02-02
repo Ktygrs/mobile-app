@@ -6,9 +6,10 @@ import {commonStyles} from '@constants/styles';
 import {useScrollShadow} from '@hooks/useScrollShadow';
 import {Header} from '@navigation/components/Header';
 import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
+import {Calculator} from '@screens/Staking/components/Calculator';
 import {Footer} from '@screens/Staking/components/Footer';
 import {Intro} from '@screens/Staking/components/Intro';
-import {StakingCalculator} from '@screens/Staking/components/StakingCalculator';
+import {usePreStakingCalculator} from '@screens/Staking/hooks/usePreStakingCalculator';
 import {t} from '@translations/i18n';
 import React, {memo} from 'react';
 import {StyleSheet, View} from 'react-native';
@@ -18,6 +19,8 @@ import {rem} from 'rn-units';
 export const Staking = memo(() => {
   useFocusStatusBar({style: 'light-content'});
   const {scrollHandler, shadowStyle} = useScrollShadow();
+  const {onParametersChange, parameters, calculatedResults} =
+    usePreStakingCalculator();
 
   return (
     <View style={styles.container}>
@@ -35,8 +38,11 @@ export const Staking = memo(() => {
         contentContainerStyle={styles.scrollContent}>
         <Intro />
         <View style={[styles.card, commonStyles.baseSubScreen]}>
-          <StakingCalculator />
-          <Footer />
+          <Calculator
+            onParametersChange={onParametersChange}
+            calculatedResults={calculatedResults}
+          />
+          <Footer parameters={parameters} />
         </View>
       </Animated.ScrollView>
     </View>

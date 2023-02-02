@@ -2,27 +2,40 @@
 
 import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
-import {BoostCall} from '@navigation/components/MainTabBar/components/MiningTooltip/components/BoostCall';
-import {BoostInfo} from '@navigation/components/MainTabBar/components/MiningTooltip/components/BoostInfo';
 import {MiningInfo} from '@navigation/components/MainTabBar/components/MiningTooltip/components/MiningInfo';
-import {IS_STAKING_ACTIVE} from '@screens/Staking/components/Footer';
-import React from 'react';
+import {PreStakingCall} from '@navigation/components/MainTabBar/components/MiningTooltip/components/PreStakingCall';
+import {PreStakingInfo} from '@navigation/components/MainTabBar/components/MiningTooltip/components/PreStakingInfo';
+import {useNavigation} from '@react-navigation/native';
+import {
+  isMiningActiveSelector,
+  isPreStakingActiveSelector,
+} from '@store/modules/Tokenomics/selectors';
+import React, {useEffect} from 'react';
 import {StyleSheet, View} from 'react-native';
+import {useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
 export const MiningTooltip = () => {
+  const navigation = useNavigation();
+
+  const isMiningActive = useSelector(isMiningActiveSelector);
+  const isPreStakingActive = useSelector(isPreStakingActiveSelector);
+
+  useEffect(() => {
+    if (!isMiningActive) {
+      navigation.goBack();
+    }
+  }, [isMiningActive, navigation]);
+
+  if (!isMiningActive) {
+    return null;
+  }
+
   return (
     <View
-      style={[
-        styles.container,
-        IS_STAKING_ACTIVE.current && styles.container_big,
-      ]}>
-      <MiningInfo timeLeft={'21h 14m 3s'} rate={'+29.99'} />
-      {!IS_STAKING_ACTIVE.current ? (
-        <BoostCall />
-      ) : (
-        <BoostInfo period={'2 years'} balance={'212,932'} bonus={'+200%'} />
-      )}
+      style={[styles.container, isPreStakingActive && styles.container_big]}>
+      <MiningInfo />
+      {isPreStakingActive ? <PreStakingInfo /> : <PreStakingCall />}
     </View>
   );
 };

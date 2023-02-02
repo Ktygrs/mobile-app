@@ -7,11 +7,13 @@ import {RootState} from '@store/rootReducer';
 export const getUserGrowthStatsSelector =
   (period: StatsPeriod) =>
   (state: RootState): TimeSeries[] => {
-    return state.stats.timeSeriesStatsMap[period] ?? [];
+    return state.stats.userGrowth.timeSeriesStatsMap[period] ?? [];
   };
 
-export const totalActiveUsersSelector = (state: RootState): number =>
-  state.stats.active;
+export const totalActiveUsersSelector = (state: RootState) =>
+  state.stats.userGrowth.active;
 
-export const totalUsersSelector = (state: RootState): number =>
-  state.stats.total;
+export const totalUsersSelector = (state: RootState) =>
+  state.stats.userGrowth.total;
+
+export const adoptionSelector = (state: RootState) => state.stats.adoption;

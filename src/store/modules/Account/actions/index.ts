@@ -94,6 +94,12 @@ const UPDATE_ACCOUNT = createAction('UPDATE_ACCOUNT', {
   RESET: true,
 });
 
+const GET_ACCOUNT = createAction('GET_ACCOUNT', {
+  START: true,
+  SUCCESS: (user: User) => ({user}),
+  FAILED: (errorMessage: string) => ({errorMessage}),
+});
+
 export const AccountActions = Object.freeze({
   SET_TOKEN,
   SYNC_LANGUAGE_CODE,
@@ -104,5 +110,6 @@ export const AccountActions = Object.freeze({
   DELETE_ACCOUNT,
   UPDATE_REF_BY_USERNAME,
   UPDATE_ACCOUNT,
+  GET_ACCOUNT,
   USER_STATE_CHANGE,
 });

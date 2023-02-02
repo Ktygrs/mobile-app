@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {AdoptionMilestone} from '@api/statistics/types';
 import {IceLabel} from '@components/Labels/IceLabel';
 import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {Divider} from '@screens/HomeFlow/Home/components/Overview/components/AdoptionCard/components/Divider';
-import {Level} from '@screens/HomeFlow/Home/components/Overview/components/AdoptionCard/mockData';
 import {CARD_WIDTH} from '@screens/HomeFlow/Home/components/Overview/components/CardBase';
 import {CheckMarkThinIcon} from '@svg/CheckMarkThinIcon';
 import {LockIcon} from '@svg/LockIcon';
 import {t} from '@translations/i18n';
-import {formatNumber} from '@utils/numbers';
+import {formatNumber, formatNumberString} from '@utils/numbers';
 import {font} from '@utils/styles';
 import React from 'react';
 import {StyleSheet, Text, View, ViewToken} from 'react-native';
@@ -23,22 +23,24 @@ export const STEP_WIDTH = rem(52);
 export const LevelRow = React.memo(
   ({
     item,
+    active,
     viewableItems,
     isTopSeparatorVisible,
     isBottomSeparatorVisible,
     onPress,
   }: {
-    item: Level;
+    item: AdoptionMilestone;
+    active: boolean;
     viewableItems: Animated.SharedValue<ViewToken[]>;
     isTopSeparatorVisible: boolean;
     isBottomSeparatorVisible: boolean;
     onPress?(): void;
   }) => {
-    const locked = !item.active || item.completed;
+    const achieved = !!item.achievedAt;
     const animationStyle = useAnimatedStyle(() => {
       const isVisible = Boolean(
         viewableItems.value.find(
-          viewableItem => viewableItem.item.id === item.id,
+          viewableItem => viewableItem.item.milestone === item.milestone,
         )?.isViewable,
       );
 
@@ -58,13 +60,15 @@ export const LevelRow = React.memo(
           style={[
             styles.progressDivider,
             isTopSeparatorVisible ? styles.divider : {},
-            locked ? styles.semitransparent : null,
+            !active ? styles.semitransparent : null,
           ]}
         />
         <Touchable style={styles.rowContent} onPress={onPress}>
-          <View style={[styles.flank, locked ? styles.semitransparent : null]}>
+          <View style={[styles.flank, !active ? styles.semitransparent : null]}>
             <View style={styles.leftTextContainer}>
-              <Text style={styles.valueText}>{`${item.icePerHour}/h`}</Text>
+              <Text style={styles.valueText}>{`${formatNumberString(
+                item.baseMiningRate,
+              )}/${t('general.hours_short')}`}</Text>
               <View style={styles.leftIconContainer}>
                 <IceLabel
                   iconOffsetY={isAndroid ? 4 : 2}
@@ -76,27 +80,28 @@ export const LevelRow = React.memo(
             <Divider />
           </View>
           <View>
-            <View style={[styles.step, locked ? styles.semitransparent : null]}>
-              <Text style={styles.stepValueText}>{item.id}</Text>
+            <View
+              style={[styles.step, !active ? styles.semitransparent : null]}>
+              <Text style={styles.stepValueText}>{item.milestone}</Text>
               <Text style={styles.stepLabelText}>
                 {t('home.adoption.level')}
               </Text>
             </View>
-            {!item.active && !item.completed && (
+            {!achieved && (
               <View style={[styles.iconContainer, styles.locked]}>
                 <LockIcon height={rem(9)} width={rem(7)} />
               </View>
             )}
-            {item.completed && (
+            {achieved && !active && (
               <View style={[styles.iconContainer, styles.completed]}>
                 <CheckMarkThinIcon width={rem(7)} height={rem(7)} />
               </View>
             )}
           </View>
-          <View style={[styles.flank, locked ? styles.semitransparent : null]}>
+          <View style={[styles.flank, !active ? styles.semitransparent : null]}>
             <Divider />
             <Text style={styles.valueText}>
-              {`${formatNumber(item.usersCount, false)}`}
+              {`${formatNumber(item.totalActiveUsers ?? 0)}`}
               <Text style={styles.valueCurrencyText}>
                 {t('home.adoption.users')}
               </Text>
@@ -107,7 +112,7 @@ export const LevelRow = React.memo(
           style={[
             styles.progressDivider,
             isBottomSeparatorVisible ? styles.divider : {},
-            item.active || item.completed ? styles.semitransparent : null,
+            !active ? styles.semitransparent : null,
           ]}
         />
       </Animated.View>
@@ -142,7 +147,7 @@ const styles = StyleSheet.create({
   },
   valueText: {
     textAlign: 'center',
-    minWidth: rem(36),
+    minWidth: rem(44),
     ...font(15, 18, 'medium'),
   },
   valueCurrencyText: {

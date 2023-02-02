@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {BalanceDiff, BalanceHistoryPoint} from '@api/tokenomics/types';
 import {Filter} from '@screens/HomeFlow/BalanceHistory/components/Filters';
-import {
-  BalanceDiff,
-  BalanceHistoryPoint,
-  MOCK_HISTORY,
-} from '@screens/HomeFlow/BalanceHistory/components/HistoryList/mockData';
+import {TokenomicsActions} from '@store/modules/Tokenomics/actions';
+import {balanceHistorySelector} from '@store/modules/Tokenomics/selectors';
+import {getBalanceHistoryLength} from '@store/modules/Tokenomics/utils/getBalanceHistoryLength';
+import {isLoadingSelector} from '@store/modules/UtilityProcessStatuses/selectors';
 import {useCallback, useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 
 export type HistorySection = {
   time: string;
@@ -20,28 +21,38 @@ export const useGetHistorySections = ({
 }: {
   selectedFilter: Filter;
 }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [sections, setSection] = useState<HistorySection[]>([]);
+  const dispatch = useDispatch();
+  const [sections, setSections] = useState<HistorySection[]>([]);
+  const balanceHistory = useSelector(balanceHistorySelector);
+  const loading = useSelector(
+    isLoadingSelector.bind(null, TokenomicsActions.GET_BALANCE_HISTORY),
+  );
 
   useEffect(() => {
-    setIsLoading(true);
-    setSection([]);
-    setTimeout(() => {
-      setIsLoading(false);
-      setSection(
-        MOCK_HISTORY.map(section => {
-          return {
-            time: section.time,
-            balance: section.balance,
-            data: section.timeSeries ?? [],
-          };
-        }),
-      );
-    }, 1000);
-  }, [selectedFilter]);
+    setSections([]);
+    dispatch(
+      TokenomicsActions.GET_BALANCE_HISTORY.START.create({
+        offset: 0,
+        startDate: selectedFilter.start,
+        endDate: selectedFilter.end,
+      }),
+    );
+  }, [dispatch, selectedFilter]);
+
+  useEffect(() => {
+    setSections(
+      (balanceHistory.data ?? []).map(section => {
+        return {
+          time: section.time,
+          balance: section.balance,
+          data: section.timeSeries ?? [],
+        };
+      }),
+    );
+  }, [balanceHistory]);
 
   const toggleSection = useCallback((section: HistorySection) => {
-    setSection(currentSections => {
+    setSections(currentSections => {
       const index = currentSections.indexOf(section);
       const nextSections = [...currentSections];
       nextSections[index] = {
@@ -52,5 +63,17 @@ export const useGetHistorySections = ({
     });
   }, []);
 
-  return {sections, toggleSection, isLoading};
+  const loadNext = useCallback(() => {
+    if (balanceHistory.hasNext && !loading) {
+      dispatch(
+        TokenomicsActions.GET_BALANCE_HISTORY.START.create({
+          offset: getBalanceHistoryLength(balanceHistory.data ?? []),
+          startDate: selectedFilter.start,
+          endDate: selectedFilter.end,
+        }),
+      );
+    }
+  }, [balanceHistory, dispatch, loading, selectedFilter]);
+
+  return {sections, loadNext, toggleSection, loading};
 };

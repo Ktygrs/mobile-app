@@ -27,7 +27,7 @@ export const SettingsButton = ({
       <Touchable
         onPress={() => navigation.navigate('Settings')}
         hitSlop={SMALL_BUTTON_HIT_SLOP}>
-        <SettingsIcon fill={color} />
+        <SettingsIcon color={color} />
       </Touchable>
     </View>
   );

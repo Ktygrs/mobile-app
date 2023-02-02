@@ -14,6 +14,8 @@ import {EmptyTier} from '@screens/Team/components/TierList/components/EmptyTier'
 import {ListHeader} from '@screens/Team/components/TierList/components/Header';
 import {ReferralsActions} from '@store/modules/Referrals/actions';
 import {referralsSelector} from '@store/modules/Referrals/selectors';
+import {balanceSummarySelector} from '@store/modules/Tokenomics/selectors';
+import {formatNumberString} from '@utils/numbers';
 import React, {memo, useCallback, useEffect, useMemo} from 'react';
 import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
 import {useSelector} from 'react-redux';
@@ -49,6 +51,8 @@ export const TierList = memo(
 
     const {total, active} = useSelector(referralsSelector({referralType}));
 
+    const balanceSummary = useSelector(balanceSummarySelector);
+
     useEffect(() => {
       if (focused) {
         fetch({offset: 0});
@@ -67,14 +71,16 @@ export const TierList = memo(
     }, []);
 
     const Header = useMemo(() => {
+      const balance = balanceSummary?.[referralType === 'T1' ? 't1' : 't2'];
       return (
         <ListHeader
           total={total ?? 0}
           active={active ?? 0}
           title={headerTitle}
+          earnings={balance ? formatNumberString(balance) : ''}
         />
       );
-    }, [total, active, headerTitle]);
+    }, [total, active, headerTitle, balanceSummary, referralType]);
 
     if (error) {
       return <Text>{error}</Text>;
@@ -83,7 +89,7 @@ export const TierList = memo(
     if (!referrals.length) {
       if (hasNext) {
         return (
-          <View style={styles.flex}>
+          <View style={styles.container}>
             {Array(10)
               .fill(null)
               .map((_, index) => (
@@ -111,9 +117,6 @@ export const TierList = memo(
 );
 
 const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
   container: {
     paddingHorizontal: SCREEN_SIDE_OFFSET,
     paddingTop: rem(16),

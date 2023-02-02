@@ -3,7 +3,9 @@
 import {User} from '@api/user/types';
 import {AccountActions} from '@store/modules/Account/actions';
 import {userSelector} from '@store/modules/Account/selectors';
+import {balanceSummarySelector} from '@store/modules/Tokenomics/selectors';
 import {isLoadingSelector} from '@store/modules/UtilityProcessStatuses/selectors';
+import {formatNumberString} from '@utils/numbers';
 import {useDispatch, useSelector} from 'react-redux';
 
 export const useIceBonus = () => {
@@ -14,7 +16,9 @@ export const useIceBonus = () => {
     isLoadingSelector.bind(null, AccountActions.UPDATE_ACCOUNT),
   );
 
-  const currentBalance = '10.00';
+  const balanceSummary = useSelector(balanceSummarySelector);
+
+  const currentBalance = formatNumberString(balanceSummary?.total ?? '0');
 
   const finishIceBonus = (currentUser: User) => {
     const finalizedSteps =

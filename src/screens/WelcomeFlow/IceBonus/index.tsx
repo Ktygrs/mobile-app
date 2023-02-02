@@ -30,9 +30,7 @@ export const IceBonus = () => {
       ),
     );
 
-    text = replaceString(text, tagRegex('value'), () => {
-      return Number(currentBalance);
-    });
+    text = replaceString(text, tagRegex('value'), () => currentBalance);
 
     text = replaceString(text, tagRegex('bold', false), (match, index) => (
       <Text key={match + index} style={styles.markedDescription}>

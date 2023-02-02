@@ -3,8 +3,9 @@
 import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {MIDDLE_BUTTON_HIT_SLOP} from '@constants/styles';
-import {useResend} from '@hooks/useResend';
+import {useResendCountdown} from '@hooks/useResendCountdown';
 import {t} from '@translations/i18n';
+import {getDurationString} from '@utils/date';
 import {font} from '@utils/styles';
 import React from 'react';
 import {StyleProp, StyleSheet, Text, View, ViewStyle} from 'react-native';
@@ -20,7 +21,9 @@ export const ResendButton = ({
   containerStyle,
   lastSendTimestamp,
 }: Props) => {
-  const {resendAvailable, resendTimeout} = useResend({lastSendTimestamp});
+  const {resendAvailable, resendTimeout} = useResendCountdown({
+    lastSendTimestamp,
+  });
   return (
     <View style={containerStyle}>
       {resendAvailable ? (
@@ -33,8 +36,7 @@ export const ResendButton = ({
         <Text style={styles.resendTimeText}>
           {t('confirm_code.resend_time_label')}
           <Text style={styles.resendTimeText_value}>
-            {resendTimeout}
-            {t('general.seconds_short')}
+            {getDurationString(resendTimeout)}
           </Text>
         </Text>
       )}

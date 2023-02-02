@@ -12,8 +12,8 @@ import {ConfirmEmailLink} from '@screens/AuthFlow/ConfirmEmailLink';
 import {ConfirmPhone} from '@screens/AuthFlow/ConfirmPhone';
 import {InvalidLink} from '@screens/AuthFlow/InvalidLink';
 import {SignIn} from '@screens/AuthFlow/SignIn';
-import {CountrySelect} from '@screens/Dialogs/CountrySelect';
-import {ErrorPopUp} from '@screens/PopUps/Error';
+import {CountrySelect} from '@screens/Modals/CountrySelect';
+import {PopUp, PopUpProps} from '@screens/Modals/PopUp';
 import {
   emailVerificationStepSelector,
   phoneVerificationStepSelector,
@@ -28,8 +28,8 @@ export type AuthStackParamList = {
   CountrySelect: {
     onSelect: (country: Country) => void;
   };
-  ErrorPopUp: {message: string};
   InvalidLink: undefined;
+  PopUp: PopUpProps;
 };
 
 const AuthStack = createNativeStackNavigator<AuthStackParamList>();
@@ -70,12 +70,8 @@ export function AuthNavigator() {
         options={{presentation: 'modal'}}
         component={CountrySelect}
       />
-      <AuthStack.Screen
-        name="ErrorPopUp"
-        component={ErrorPopUp}
-        options={modalOptions}
-      />
       <AuthStack.Screen name="InvalidLink" component={InvalidLink} />
+      <AuthStack.Screen name="PopUp" options={modalOptions} component={PopUp} />
     </AuthStack.Navigator>
   );
 }

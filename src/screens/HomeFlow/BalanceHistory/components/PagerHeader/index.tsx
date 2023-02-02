@@ -8,14 +8,17 @@ import {SMALL_BUTTON_HIT_SLOP} from '@constants/styles';
 import {BlockchainCell} from '@screens/HomeFlow/BalanceHistory/components/PagerHeader/components/BlockchainCell';
 import {DataCellSeparator} from '@screens/HomeFlow/BalanceHistory/components/PagerHeader/components/DataCell';
 import {WalletCell} from '@screens/HomeFlow/BalanceHistory/components/PagerHeader/components/WalletCell';
+import {balanceSummarySelector} from '@store/modules/Tokenomics/selectors';
 import {ArrowLink} from '@svg/ArrowLink';
 import {BottomBump} from '@svg/BottomBump';
 import {t} from '@translations/i18n';
 import {openLinkWithInAppBrowser} from '@utils/device';
+import {formatNumberString} from '@utils/numbers';
 import {font} from '@utils/styles';
 import React, {useState} from 'react';
 import {PixelRatio, StyleSheet, Text, View} from 'react-native';
 import PagerView, {PagerViewOnPageSelectedEvent} from 'react-native-pager-view';
+import {useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
 // PixelRatio.roundToNearestPixel here is to avoid a small gap between the container and the BottomBump component
@@ -26,6 +29,8 @@ export const PAGER_HEADER_OUTER_HEIGHT =
 
 export const PagerHeader = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+
+  const balanceSummary = useSelector(balanceSummarySelector);
 
   const onPageChange = (event: PagerViewOnPageSelectedEvent) => {
     setActiveIndex(event.nativeEvent.position);
@@ -42,7 +47,9 @@ export const PagerHeader = () => {
         onPageSelected={onPageChange}
         style={styles.pager}>
         <View style={styles.slide}>
-          <WalletCell value={'13,313.25'} />
+          <WalletCell
+            value={balanceSummary && formatNumberString(balanceSummary.total)}
+          />
           <DataCellSeparator />
           <BlockchainCell value={'13,313.25'} />
           <Touchable

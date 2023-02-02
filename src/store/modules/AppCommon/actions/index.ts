@@ -21,8 +21,13 @@ const APP_STATE_CHANGE = createAction('APP_STATE_CHANGE', {
   STATE: (appState: AppStateType) => ({appState}),
 });
 
+const INTERVAL_UPDATE = createAction('INTERVAL_UPDATE', {
+  STATE: true,
+});
+
 export const AppCommonActions = Object.freeze({
   APP_LOADED,
   APP_INITIALIZED,
   APP_STATE_CHANGE,
+  INTERVAL_UPDATE,
 });

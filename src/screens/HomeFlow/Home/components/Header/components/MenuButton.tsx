@@ -11,6 +11,7 @@ import {notificationsCountSelector} from '@store/modules/Notifications/selectors
 import {BellIcon} from '@svg/BellIcon';
 import {CandyBoxMenuIcon} from '@svg/CandyBoxMenuIcon';
 import {ChatBubblesIcon} from '@svg/ChatBubblesIcon';
+import {StakeIcon} from '@svg/StakeIcon';
 import {StatsIcon} from '@svg/StatsIcon';
 import {t} from '@translations/i18n';
 import React, {memo, useRef} from 'react';
@@ -36,17 +37,28 @@ export const MenuButton = memo(() => {
         },
         buttons: [
           {
-            icon: BellIcon,
+            icon: <BellIcon color={COLORS.downriver} />,
             label: t('home.menu.notifications'),
             onPress: () => navigation.navigate('Notifications'),
           },
           {
-            icon: StatsIcon,
+            icon: (
+              <StakeIcon
+                width={rem(20)}
+                height={rem(20)}
+                color={COLORS.downriver}
+              />
+            ),
+            label: t('home.menu.staking'),
+            onPress: () => navigation.navigate('Staking'),
+          },
+          {
+            icon: <StatsIcon color={COLORS.downriver} />,
             label: t('home.menu.stats'),
             onPress: () => navigation.navigate('Stats'),
           },
           {
-            icon: ChatBubblesIcon,
+            icon: <ChatBubblesIcon color={COLORS.downriver} />,
             label: t('home.menu.help'),
             onPress: () => {},
           },

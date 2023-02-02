@@ -16,7 +16,7 @@ export type Translations = {
   'welcome.page6.not_now': null;
   'button.yes_btn': null;
   'button.next_btn': null;
-  'button.not_now_btn': null;
+  'button.not_now': null;
   'button.view_all': null;
   'button.invite_friend.title': null;
   'button.invite_friend.description_part1': null;
@@ -41,6 +41,7 @@ export type Translations = {
   'button.skip_all': null;
   'button.done': null;
   'button.confirm': null;
+  'button.resurrect_me': null;
   'team.contacts_tab': null;
   'team.tierOne_tab': null;
   'team.tierTwo_tab': null;
@@ -180,6 +181,7 @@ export type Translations = {
   'home.steps.step_seven.description': null;
   'home.overview.title': null;
   'home.menu.notifications': null;
+  'home.menu.staking': null;
   'home.menu.stats': null;
   'home.menu.help': null;
   'home.tasks.title': null;
@@ -317,6 +319,9 @@ export type Translations = {
   'general.ice': null;
   'general.ice_per_hour': null;
   'general.seconds_short': null;
+  'general.minutes_short': null;
+  'general.hours_short': null;
+  'general.days_short': null;
   'news.news_feed': null;
   'news.read_more': null;
   'news.today': null;
@@ -325,8 +330,8 @@ export type Translations = {
   'search.search_by_country': null;
   'search.search_for_users': null;
   'tabbar.mining_inactive_tooltip': null;
-  'tabbar.mining_reset_tooltip': {seconds: number | string};
-  'tabbar.mining_holiday_reset_tooltip': {seconds: number | string};
+  'tabbar.mining_reset_tooltip': null;
+  'tabbar.mining_holiday_reset_tooltip': null;
   'tabbar.mining_holiday_active': null;
   'invite_friend.invite_button': null;
   'invite_friend.button_title': null;
@@ -348,6 +353,12 @@ export type Translations = {
   'pop_up.view_changelog': null;
   'pop_up.you_are_up_to_date': null;
   'pop_up.up_to_date_text': null;
+  'pop_up.resurrection': null;
+  'pop_up.resurrection_message': null;
+  'pop_up.resurrection_warning': null;
+  'pop_up.please_confirm': null;
+  'pop_up.resurrection_no_confirm_message': null;
+  'pop_up.resurrection_yes_confirm_message': null;
   'periods.3_days': null;
   'periods.7_days': null;
   'periods.30_days': null;

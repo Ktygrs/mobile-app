@@ -11,6 +11,7 @@ import {notificationsReducer} from '@store/modules/Notifications/reducer';
 import {permissionsReducer} from '@store/modules/Permissions/reducer';
 import {referralsReducer} from '@store/modules/Referrals/reducer';
 import {statsReducer} from '@store/modules/Stats/reducer';
+import {tokenomicsReducer} from '@store/modules/Tokenomics/reducer';
 import {usersReducer} from '@store/modules/Users/reducer';
 import {processStatusesReducer} from '@store/modules/UtilityProcessStatuses/reducer';
 import {validationReducer} from '@store/modules/Validation/reducer';
@@ -31,6 +32,7 @@ export const rootReducer = combineReducers({
   linking: linkingReducer,
   notifications: notificationsReducer,
   users: usersReducer,
+  tokenomics: tokenomicsReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

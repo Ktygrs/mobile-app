@@ -14,10 +14,6 @@ import {
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {ActionSheet} from '@screens/Dialogs/ActionSheet';
-import {Confirm, ConfirmButton} from '@screens/Dialogs/Confirm';
-import {CountrySelect} from '@screens/Dialogs/CountrySelect';
-import {DateSelect} from '@screens/Dialogs/DateSelector';
 import {BalanceHistory} from '@screens/HomeFlow/BalanceHistory';
 import {Home} from '@screens/HomeFlow/Home';
 import {Stats} from '@screens/HomeFlow/Stats';
@@ -27,16 +23,17 @@ import {UserGrowthGraph} from '@screens/HomeFlow/UserGrowthGraph';
 import {ImageView} from '@screens/ImageView';
 import {InviteFriend} from '@screens/InviteFlow/InviteFriend';
 import {InviteShare} from '@screens/InviteFlow/InviteShare';
+import {ActionSheet} from '@screens/Modals/ActionSheet';
+import {ContextualMenu} from '@screens/Modals/ContextualMenu';
+import {CountrySelect} from '@screens/Modals/CountrySelect';
+import {DateSelect} from '@screens/Modals/DateSelector';
+import {PopUp, PopUpProps} from '@screens/Modals/PopUp';
+import {ProfilePrivacyEditStep1} from '@screens/Modals/ProfilePrivacyEdit/step1';
+import {ProfilePrivacyEditStep2} from '@screens/Modals/ProfilePrivacyEdit/step2';
+import {ProfilePrivacyEditStep3} from '@screens/Modals/ProfilePrivacyEdit/step3';
+import {Tooltip} from '@screens/Modals/Tooltip';
 import {News} from '@screens/News';
 import {Notifications} from '@screens/Notifications';
-import {ContextualMenu} from '@screens/PopUps/ContextualMenu';
-import {ErrorPopUp} from '@screens/PopUps/Error';
-import {ProfilePrivacyEditStep1} from '@screens/PopUps/ProfilePrivacyEdit/step1';
-import {ProfilePrivacyEditStep2} from '@screens/PopUps/ProfilePrivacyEdit/step2';
-import {ProfilePrivacyEditStep3} from '@screens/PopUps/ProfilePrivacyEdit/step3';
-import {Tooltip} from '@screens/PopUps/Tooltip';
-import {UpdateRequired} from '@screens/PopUps/UpdateRequired';
-import {UpdateSuccessful} from '@screens/PopUps/UpdateSuccessful';
 import {Badges} from '@screens/ProfileFlow/Badges';
 import {Profile} from '@screens/ProfileFlow/Profile';
 import {Roles} from '@screens/ProfileFlow/Roles';
@@ -52,7 +49,7 @@ import {Staking} from '@screens/Staking';
 import {Team} from '@screens/Team';
 import {useTrackUserInfo} from '@store/modules/Account/hooks/useTrackUserInfo';
 import {StatsPeriod} from '@store/modules/Stats/types';
-import React, {ComponentType, RefObject} from 'react';
+import React, {ComponentType, ReactNode, RefObject} from 'react';
 import {Image, View} from 'react-native';
 import {Contact} from 'react-native-contacts';
 import Animated from 'react-native-reanimated';
@@ -67,11 +64,7 @@ export type MainTabsParamList = {
 
 export type MainStackParamList = {
   MainTabs: undefined;
-  Confirm: {
-    title?: string;
-    subtitle?: string;
-    buttons?: ConfirmButton[];
-  };
+  PopUp: PopUpProps;
   Tooltip: {
     position: 'above' | 'below';
     targetRef: RefObject<View>;
@@ -98,17 +91,12 @@ export type MainStackParamList = {
   DateSelect: {
     onSelect: (range: {start: string | null; end: string | null}) => void;
   };
-  UpdateRequired: undefined;
-  UpdateSuccessful: undefined;
-  ErrorPopUp: {
-    message: string;
-  };
   InviteFriend: {contact: Contact};
   InviteShare: undefined;
   ContextualMenu: {
     coords: {top?: number; right?: number; bottom?: number; left?: number};
     buttons: {
-      icon?: (props: SvgProps) => JSX.Element;
+      icon?: ReactNode;
       label: string;
       onPress: () => void;
     }[];
@@ -263,11 +251,7 @@ export function MainNavigator() {
   return (
     <MainStack.Navigator screenOptions={screenOptions}>
       <MainStack.Screen name="MainTabs" component={MainTabs} />
-      <MainStack.Screen
-        name="Confirm"
-        options={modalOptions}
-        component={Confirm}
-      />
+      <MainStack.Screen name="PopUp" options={modalOptions} component={PopUp} />
       <MainStack.Screen
         name="Tooltip"
         options={modalOptions}
@@ -289,21 +273,6 @@ export function MainNavigator() {
         component={DateSelect}
       />
       <MainStack.Screen name="Staking" component={Staking} />
-      <MainStack.Screen
-        name="UpdateRequired"
-        component={UpdateRequired}
-        options={modalOptions}
-      />
-      <MainStack.Screen
-        name="UpdateSuccessful"
-        component={UpdateSuccessful}
-        options={modalOptions}
-      />
-      <MainStack.Screen
-        name="ErrorPopUp"
-        component={ErrorPopUp}
-        options={modalOptions}
-      />
       <MainStack.Screen
         name="InviteFriend"
         component={InviteFriend}

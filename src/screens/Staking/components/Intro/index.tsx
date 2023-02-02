@@ -4,8 +4,8 @@ import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {LINKS} from '@constants/links';
 import {
-  MAX_STACKING_RATE_PERCENTAGES,
-  MAX_STAKING_YEARS,
+  STAKING_RATE_PERCENTAGES_MAX,
+  STAKING_YEARS_MAX,
 } from '@constants/staking';
 import {SMALL_BUTTON_HIT_SLOP} from '@constants/styles';
 import {InfoOutlineIcon} from '@svg/InfoOutlineIcon';
@@ -20,8 +20,8 @@ export const Intro = memo(() => {
   return (
     <Text style={styles.noteText} numberOfLines={2} adjustsFontSizeToFit>
       {t('staking.benefits_description', {
-        periodYears: MAX_STAKING_YEARS,
-        ratePercentages: MAX_STACKING_RATE_PERCENTAGES,
+        periodYears: STAKING_YEARS_MAX,
+        ratePercentages: STAKING_RATE_PERCENTAGES_MAX,
       })}{' '}
       <Touchable hitSlop={SMALL_BUTTON_HIT_SLOP} onPress={onLinkPress}>
         <InfoOutlineIcon

@@ -13,9 +13,10 @@ type Props = {
   total: number;
   active: number;
   title: string;
+  earnings: string;
 };
 
-export const ListHeader = ({total, active, title}: Props) => {
+export const ListHeader = ({total, active, title, earnings}: Props) => {
   return (
     <View {...stopPropagation}>
       <View style={styles.header}>
@@ -23,7 +24,7 @@ export const ListHeader = ({total, active, title}: Props) => {
           'users.active',
         )}: ${active}/${total}`}</Text>
         <Text style={styles.title}>
-          {`${title}: 94,412 `}
+          {`${title}: ${earnings} `}
           <IceLabel iconSize={16} color={COLORS.primaryDark} />
         </Text>
       </View>

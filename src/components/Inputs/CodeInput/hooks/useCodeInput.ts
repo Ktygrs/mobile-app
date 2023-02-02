@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {DEFAULT_CELL_COUNT} from '@components/Inputs/CodeInput';
-import {MainStackParamList} from '@navigation/Main';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {useFocusEffect} from '@react-navigation/native';
+import {showError} from '@utils/errors';
 import {checkProp} from '@utils/guards';
 import {useCallback, useEffect, useState} from 'react';
 import {BackHandler} from 'react-native';
@@ -24,8 +23,6 @@ export const useCodeInput = ({
   validateResult,
   cellCount = DEFAULT_CELL_COUNT,
 }: Props) => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<MainStackParamList>>();
   const [code, setCode] = useState('');
 
   const errorCode = checkProp(validateResult, 'errorCode')
@@ -64,12 +61,10 @@ export const useCodeInput = ({
       ) {
         resetValidation();
         // zero setTimeout to postpone error pop-up after step navigation change
-        setTimeout(() =>
-          navigation.navigate('ErrorPopUp', {message: errorMessage}),
-        );
+        setTimeout(() => showError(errorMessage));
       }
     }
-  }, [errorMessage, errorCode, resetValidation, navigation]);
+  }, [errorMessage, errorCode, resetValidation]);
 
   useFocusEffect(
     useCallback(() => {

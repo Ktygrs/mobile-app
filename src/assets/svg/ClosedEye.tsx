@@ -2,10 +2,11 @@
 
 import * as React from 'react';
 import {Path, Svg, SvgProps} from 'react-native-svg';
+import {rem} from 'rn-units';
 
 export const ClosedEye = ({
-  width = 16,
-  height = 16,
+  width = rem(16),
+  height = rem(16),
   color = 'white',
 }: SvgProps) => {
   return (

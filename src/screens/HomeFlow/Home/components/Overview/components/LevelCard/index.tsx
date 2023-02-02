@@ -4,9 +4,12 @@ import {IceLabel} from '@components/Labels/IceLabel';
 import {COLORS} from '@constants/colors';
 import {Images} from '@images';
 import {CardBase} from '@screens/HomeFlow/Home/components/Overview/components/CardBase';
+import {userIdSelector} from '@store/modules/Account/selectors';
 import {userReferralCountSelector} from '@store/modules/Referrals/selectors';
+import {globalRankSelector} from '@store/modules/Tokenomics/selectors';
 import {PioneerIcon} from '@svg/PioneerIcon';
 import {t} from '@translations/i18n';
+import {formatNumber} from '@utils/numbers';
 import {font} from '@utils/styles';
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
@@ -15,6 +18,8 @@ import {rem} from 'rn-units';
 
 export const LevelCard = () => {
   const userReferralCount = useSelector(userReferralCountSelector);
+  const userId = useSelector(userIdSelector);
+  const globalRank = useSelector(globalRankSelector(userId));
 
   return (
     <CardBase
@@ -28,8 +33,12 @@ export const LevelCard = () => {
           <Text style={styles.valueText}>{userReferralCount}</Text>
         </View>
         <View style={styles.column}>
-          <Text style={styles.labelText}>{t('home.pioneer.rank')}</Text>
-          <Text style={styles.valueText}>606,683</Text>
+          {globalRank != null && (
+            <>
+              <Text style={styles.labelText}>{t('home.pioneer.rank')}</Text>
+              <Text style={styles.valueText}>{formatNumber(globalRank)}</Text>
+            </>
+          )}
         </View>
       </View>
       <Text style={styles.noteText}>

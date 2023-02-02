@@ -16,6 +16,7 @@ import {MiningCalculator} from '@screens/ProfileFlow/Profile/components/MiningCa
 import {Role} from '@screens/ProfileFlow/Profile/components/Role';
 import {userSelector} from '@store/modules/Account/selectors';
 import {contactsSelector} from '@store/modules/Contacts/selectors';
+import {TokenomicsActions} from '@store/modules/Tokenomics/actions';
 import {UsersActions} from '@store/modules/Users/actions';
 import {userByIdSelector} from '@store/modules/Users/selectors';
 import {isLoadingSelector} from '@store/modules/UtilityProcessStatuses/selectors';
@@ -65,6 +66,11 @@ export const Profile = memo(() => {
   useEffect(() => {
     if (!isOwner) {
       dispatch(UsersActions.GET_USER_BY_ID.START.create(route.params.userId));
+      dispatch(
+        TokenomicsActions.GET_RANKING_SUMMARY.START.create({
+          userId: route.params.userId,
+        }),
+      );
     }
   }, [dispatch, isOwner, route.params]);
 

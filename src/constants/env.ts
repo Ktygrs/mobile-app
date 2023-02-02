@@ -27,4 +27,15 @@ export const ENV = {
   TWITTER_CONSUMER_SECRET: config.TWITTER_CONSUMER_SECRET,
   FACEBOOK_APP_ID: config.FACEBOOK_APP_ID,
   MO_ENGAGE_APP_ID: config.MO_ENGAGE_APP_ID,
+  APP_AUTO_UPDATE_INTERVAL_SEC: Number(config.APP_AUTO_UPDATE_INTERVAL_SEC),
+  HOME_REFRESH_MIN_INTERVAL_SEC: Number(config.HOME_REFRESH_MIN_INTERVAL_SEC),
 };
+
+/**
+ * Check if all the ENV variables are successfully picked from the .env.app
+ */
+Object.entries(ENV).forEach(([key, value]) => {
+  if (value == null || (typeof value === 'number' && isNaN(value))) {
+    throw new Error(`Incorrect ENV variable for ${key}`);
+  }
+});

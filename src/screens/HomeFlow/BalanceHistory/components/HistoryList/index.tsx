@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {BalanceHistoryPoint} from '@api/tokenomics/types';
 import {Touchable} from '@components/Touchable';
 import {commonStyles} from '@constants/styles';
 import {
@@ -17,7 +18,6 @@ import {
   HistorySection,
   useGetHistorySections,
 } from '@screens/HomeFlow/BalanceHistory/components/HistoryList/hooks/useGetHistorySections';
-import {BalanceHistoryPoint} from '@screens/HomeFlow/BalanceHistory/components/HistoryList/mockData';
 import {t} from '@translations/i18n';
 import React, {useCallback, useMemo} from 'react';
 import {StyleSheet, View} from 'react-native';
@@ -33,7 +33,7 @@ export const HistoryList = ({
   scrollEventsHandlersHook,
 }: Props) => {
   const tabbarOffset = useBottomTabBarOffsetStyle();
-  const {sections, toggleSection, isLoading} = useGetHistorySections({
+  const {sections, loadNext, toggleSection, loading} = useGetHistorySections({
     selectedFilter,
   });
 
@@ -62,12 +62,12 @@ export const HistoryList = ({
   );
 
   const renderEmptyList = useCallback(() => {
-    return isLoading ? (
+    return loading ? (
       <HistoryListLoader />
     ) : (
       <EmptyHistory label={t('balance_history.no_data')} />
     );
-  }, [isLoading]);
+  }, [loading]);
 
   const listContentStyle = useMemo(
     () => [tabbarOffset.current, styles.listContent],
@@ -86,6 +86,7 @@ export const HistoryList = ({
         ListEmptyComponent={renderEmptyList}
         scrollEventsHandlersHook={scrollEventsHandlersHook}
         stickySectionHeadersEnabled={false}
+        onEndReached={loadNext}
       />
     </View>
   );

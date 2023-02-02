@@ -18,7 +18,6 @@ import {ReferralAcquisitionHistory} from '@screens/HomeFlow/Home/components/Over
 import {ReferralsCard} from '@screens/HomeFlow/Home/components/Overview/components/ReferralsCard';
 import {useCardTranslateY} from '@screens/HomeFlow/Home/components/Overview/hooks/useCardTranslateY';
 import {useScrollCollapse} from '@screens/HomeFlow/Home/components/Overview/hooks/useScrollCollapse';
-import {useGetBarGraphDataForStatsPeriod} from '@store/modules/Stats/hooks/useGetBarGraphDataForStatsPeriod';
 import {t} from '@translations/i18n';
 import React, {memo, useRef, useState} from 'react';
 import {Image, LayoutChangeEvent, Platform, StyleSheet} from 'react-native';
@@ -44,8 +43,6 @@ const SCROLL_BOTTOM_PADDING = rem(8);
 const SCROLL_BOTTOM_MARGIN = rem(24);
 const OVERSCROLL = isIOS ? 1000 : 0;
 
-const USER_GROWTH_STATS_PERIOD = 7;
-
 export const Overview = memo(({translateY, topOffset}: Props) => {
   const adoptionCardRef = useRef<FlipCardMethods>(null);
 
@@ -63,10 +60,6 @@ export const Overview = memo(({translateY, topOffset}: Props) => {
     fromHeight: CARDS_TOTAL_HEIGHT + SCROLL_BOTTOM_PADDING,
     toHeight: CARDS_COLLAPSED_HEIGHT + SCROLL_BOTTOM_PADDING,
   });
-
-  const {activeUsersData} = useGetBarGraphDataForStatsPeriod(
-    USER_GROWTH_STATS_PERIOD,
-  );
 
   const handleAdoptionPress = () => {
     adoptionCardRef.current?.changeSide();
@@ -117,7 +110,7 @@ export const Overview = memo(({translateY, topOffset}: Props) => {
                 onPress={handleAdoptionPress}
               />
             }
-            back={<OnlineUsersHistory data={activeUsersData} />}
+            back={<OnlineUsersHistory />}
             ref={adoptionCardRef}
           />
         </Animated.ScrollView>

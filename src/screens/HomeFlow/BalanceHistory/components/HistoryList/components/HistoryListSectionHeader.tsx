@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {BalanceDiff} from '@api/tokenomics/types';
 import {FormattedNumber} from '@components/Labels/FormattedNumber';
 import {IceLabel} from '@components/Labels/IceLabel';
 import {COLORS} from '@constants/colors';
-import {BalanceDiff} from '@screens/HomeFlow/BalanceHistory/components/HistoryList/mockData';
 import {dayjs} from '@services/dayjs';
 import {CalendarIcon} from '@svg/CalendarIcon';
 import {StarIcon} from '@svg/StarIcon';
+import {formatNumberString} from '@utils/numbers';
 import {font} from '@utils/styles';
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
@@ -32,7 +33,7 @@ export const HistoryListSectionHeader = ({balanceDiff, time}: Props) => {
           {balanceDiff.negative ? '-' : '+'}
         </Text>
         <FormattedNumber
-          number={balanceDiff.amount}
+          number={formatNumberString(balanceDiff.amount)}
           bodyStyle={styles.amountValueText}
           decimalsStyle={styles.amountDecimalsText}
           trim

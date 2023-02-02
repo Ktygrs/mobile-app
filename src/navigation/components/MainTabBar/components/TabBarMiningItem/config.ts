@@ -3,76 +3,100 @@
 import {LocalAudio} from '@audio';
 import {MINING_LONG_PRESS_ACTIVATION_SEC} from '@constants/timeouts';
 import {LottieAnimations} from '@lottie';
+import {MiningState} from '@store/modules/Tokenomics/types';
 import {t} from '@translations/i18n';
 import {AnimatedLottieViewProps} from 'lottie-react-native';
 
-type MiningState =
-  | 'inactive'
-  | 'active'
-  | 'restart'
-  | 'expire'
-  | 'holidayActive'
-  | 'holidayRestart'
-  | 'holidayExpire';
+type GestureConfig = {
+  showStackingModal?: boolean;
+  startMining?: boolean;
+  audioFeedback?: string;
+  hapticFeedback?: boolean;
+};
 
-export const MiningStateConfig: {
+export const MiningButtonConfig: {
   [key in MiningState]: {
     animation: AnimatedLottieViewProps['source'];
     tooltip?: string;
-    showModalTooltip?: boolean;
-    longPressActivation?: boolean;
-    audio?: string;
+    showStackingModalOnTransition?: boolean;
+    onTap?: GestureConfig;
+    onLongPress?: GestureConfig;
   };
 } = {
   inactive: {
     animation: LottieAnimations.miningInactive,
     tooltip: t('tabbar.mining_inactive_tooltip'),
-    audio: LocalAudio.startMining,
+    onTap: {
+      startMining: true,
+      audioFeedback: LocalAudio.startMining,
+      hapticFeedback: true,
+    },
   },
   active: {
     animation: LottieAnimations.miningActive,
-    showModalTooltip: true,
-    audio: LocalAudio.startMining,
+    showStackingModalOnTransition: true,
+    onTap: {
+      showStackingModal: true,
+    },
   },
   restart: {
     animation: LottieAnimations.miningRestart,
-    tooltip: t('tabbar.mining_reset_tooltip', {
-      seconds: MINING_LONG_PRESS_ACTIVATION_SEC,
-    }),
-    longPressActivation: true,
-    audio: LocalAudio.extendMining,
+    tooltip: t('tabbar.mining_reset_tooltip'),
+    onTap: {
+      showStackingModal: true,
+    },
+    onLongPress: {
+      startMining: true,
+      audioFeedback: LocalAudio.extendMining,
+      hapticFeedback: true,
+    },
   },
   expire: {
     animation: LottieAnimations.miningExpire,
-    tooltip: t('tabbar.mining_reset_tooltip', {
-      seconds: MINING_LONG_PRESS_ACTIVATION_SEC,
-    }),
-    longPressActivation: true,
-    audio: LocalAudio.extendMining,
+    tooltip: t('tabbar.mining_reset_tooltip'),
+    onTap: {
+      showStackingModal: true,
+    },
+    onLongPress: {
+      startMining: true,
+      audioFeedback: LocalAudio.extendMining,
+      hapticFeedback: true,
+    },
   },
   holidayActive: {
     animation: LottieAnimations.miningHolidayActive,
     tooltip: t('tabbar.mining_holiday_active'),
-    audio: LocalAudio.startMining,
+    showStackingModalOnTransition: true,
+    onTap: {
+      showStackingModal: true,
+    },
   },
   holidayRestart: {
     animation: LottieAnimations.miningHolidayRestart,
     tooltip: t('tabbar.mining_holiday_reset_tooltip', {
       seconds: MINING_LONG_PRESS_ACTIVATION_SEC,
     }),
-    longPressActivation: true,
-    audio: LocalAudio.extendMining,
+    onTap: {
+      showStackingModal: true,
+    },
+    onLongPress: {
+      startMining: true,
+      audioFeedback: LocalAudio.extendMining,
+      hapticFeedback: true,
+    },
   },
   holidayExpire: {
     animation: LottieAnimations.miningHolidayExpire,
     tooltip: t('tabbar.mining_holiday_reset_tooltip', {
       seconds: MINING_LONG_PRESS_ACTIVATION_SEC,
     }),
-    longPressActivation: true,
-    audio: LocalAudio.extendMining,
+    onTap: {
+      showStackingModal: true,
+    },
+    onLongPress: {
+      startMining: true,
+      audioFeedback: LocalAudio.extendMining,
+      hapticFeedback: true,
+    },
   },
 };
-
-export const MiningStateSequence = Object.keys(
-  MiningStateConfig,
-) as unknown as (keyof typeof MiningStateConfig)[];

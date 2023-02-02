@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {UserGrowth} from '@api/statistics/types';
+import {Adoption, UserGrowth} from '@api/statistics/types';
 import {StatsPeriod} from '@store/modules/Stats/types';
 import {createAction} from '@store/utils/actions/createAction';
 
@@ -13,6 +13,13 @@ const GET_USER_GROWTH_STATS = createAction('GET_USER_GROWTH_STATS', {
   FAILED: (errorMessage: string) => ({errorMessage}),
 });
 
-export const UserGrowthStatsActions = Object.freeze({
+const GET_ADOPTION = createAction('GET_ADOPTION', {
+  START: true,
+  SUCCESS: (adoption: Adoption) => ({adoption}),
+  FAILED: (errorMessage: string) => ({errorMessage}),
+});
+
+export const StatsActions = Object.freeze({
   GET_USER_GROWTH_STATS,
+  GET_ADOPTION,
 });

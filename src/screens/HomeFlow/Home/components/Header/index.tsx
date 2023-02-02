@@ -14,6 +14,8 @@ import {GreetingText} from '@screens/HomeFlow/Home/components/Header/components/
 import {MenuButton} from '@screens/HomeFlow/Home/components/Header/components/MenuButton';
 import {useTransitionAnimation} from '@screens/HomeFlow/Home/components/Header/hooks/useTransitionAnimation';
 import {userSelector} from '@store/modules/Account/selectors';
+import {balanceSummarySelector} from '@store/modules/Tokenomics/selectors';
+import {formatNumberString} from '@utils/numbers';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
@@ -34,6 +36,7 @@ export const HomeHeader = memo(({translateY, transitionOffset}: Props) => {
 
   const topOffset = useTopOffsetStyle();
   const user = useSelector(userSelector);
+  const balanceSummary = useSelector(balanceSummarySelector);
 
   const {currentAnimationState, fromAnimatedStyle, toAnimatedStyle} =
     useTransitionAnimation({
@@ -73,7 +76,9 @@ export const HomeHeader = memo(({translateY, transitionOffset}: Props) => {
           pointerEvents={'none'}
           style={[StyleSheet.absoluteFill, styles.balance, toAnimatedStyle]}>
           <FormattedNumber
-            number="20,249,999.99"
+            number={
+              balanceSummary ? formatNumberString(balanceSummary.total) : ''
+            }
             bodyStyle={styles.balanceText}
             decimalsStyle={styles.balanceDecimalsText}
           />

@@ -23,6 +23,7 @@ type Actions = ReturnType<
   | typeof AccountActions.USER_STATE_CHANGE.SUCCESS.create
   | typeof AccountActions.USER_STATE_CHANGE.FAILED.create
   | typeof AccountActions.UPDATE_ACCOUNT.SUCCESS.create
+  | typeof AccountActions.GET_ACCOUNT.SUCCESS.create
   | typeof ValidationActions.PHONE_VALIDATION.SUCCESS.create
   | typeof ValidationActions.EMAIL_VALIDATION.SUCCESS.create
 >;
@@ -49,6 +50,7 @@ function reducer(state = INITIAL_STATE, action: Actions): AccountState {
       case AccountActions.USER_STATE_CHANGE.FAILED.type:
         draft.isInitialized = true;
         break;
+      case AccountActions.GET_ACCOUNT.SUCCESS.type:
       case AccountActions.UPDATE_ACCOUNT.SUCCESS.type:
       case ValidationActions.PHONE_VALIDATION.SUCCESS.type:
       case ValidationActions.EMAIL_VALIDATION.SUCCESS.type:

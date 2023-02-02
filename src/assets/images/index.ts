@@ -53,5 +53,6 @@ export const Images = {
     updateRequired: require('./popup/please_update.png'),
     error: require('./popup/oops.png'),
     upToDate: require('./popup/already_updated.png'),
+    resurrection: require('./popup/resurrection.png'),
   },
 } as const;

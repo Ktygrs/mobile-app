@@ -4,7 +4,7 @@ import {User} from '@api/user/types';
 import {WelcomeStackParamList} from '@navigation/Welcome';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {DEFAULT_CONFIRM_NO_BUTTON} from '@screens/Dialogs/Confirm';
+import {DEFAULT_DIALOG_NO_BUTTON} from '@screens/Modals/PopUp/components/PopUpButton';
 import {AccountActions} from '@store/modules/Account/actions';
 import {userSelector} from '@store/modules/Account/selectors';
 import {
@@ -151,11 +151,11 @@ export const useWhoInvitedYou = () => {
   };
 
   const onSkip = () => {
-    navigation.navigate('Confirm', {
+    navigation.navigate('PopUp', {
       title: `${t('global.attention')}!`,
-      subtitle: t('whoInvitedYou.confirm_text'),
+      message: t('whoInvitedYou.confirm_text'),
       buttons: [
-        DEFAULT_CONFIRM_NO_BUTTON,
+        DEFAULT_DIALOG_NO_BUTTON,
         {
           label: t('button.yes_btn'),
           onPress: () => {

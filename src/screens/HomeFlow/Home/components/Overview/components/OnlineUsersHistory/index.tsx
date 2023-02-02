@@ -4,6 +4,7 @@ import {COLORS} from '@constants/colors';
 import {DEFAULT_FORMAT_LOCALE} from '@constants/formatting';
 import {Images} from '@images';
 import {CardBase} from '@screens/HomeFlow/Home/components/Overview/components/CardBase';
+import {useGetBarGraphDataForStatsPeriod} from '@screens/HomeFlow/Home/components/Overview/components/OnlineUsersHistory/hooks/useGetBarGraphDataForStatsPeriod';
 import {VerticalBar} from '@screens/HomeFlow/Home/components/Overview/components/VerticalBar';
 import {FriendIcon} from '@svg/FriendIcon';
 import {GraphIcon} from '@svg/GraphIcon';
@@ -14,15 +15,17 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {rem} from 'rn-units';
 
-type Props = {
-  data: {label: string; value: number}[];
-};
+const USER_GROWTH_STATS_PERIOD = 7;
 
 const Y_AXIS_HEIGHT = '100%';
 const BAR_HEIGHT = '90%';
 const NUMBER_OF_STEPS_Y = 5;
 
-export const OnlineUsersHistory = ({data}: Props) => {
+export const OnlineUsersHistory = () => {
+  const {activeUsersData: data} = useGetBarGraphDataForStatsPeriod(
+    USER_GROWTH_STATS_PERIOD,
+  );
+
   const maxValue = data.length ? Math.max(...data.map(d => d.value)) : 0;
   const minValue = data.length ? Math.min(...data.map(d => d.value)) : 0;
   const stepValue = data.length ? Math.ceil(maxValue / NUMBER_OF_STEPS_Y) : 0;
@@ -45,7 +48,7 @@ export const OnlineUsersHistory = ({data}: Props) => {
               const currentValue = stepValue * i ? stepValue * i : minValue;
               return (
                 <Text key={i} style={styles.yAxisText}>
-                  {formatNumber(currentValue, true)}
+                  {formatNumber(currentValue, 1, 'compact')}
                 </Text>
               );
             })}

@@ -63,12 +63,15 @@ export const Bar = ({
           {width},
         ]}>
         {!isLabelOutside && (
-          <BarLabel value={formatNumber(value, true)} color={COLORS.white} />
+          <BarLabel
+            value={formatNumber(value, 1, 'compact')}
+            color={COLORS.white}
+          />
         )}
       </Animated.View>
       {isLabelOutside && (
         <BarLabel
-          value={formatNumber(value, true)}
+          value={formatNumber(value, 1, 'compact')}
           color={COLORS.primaryLight}
         />
       )}

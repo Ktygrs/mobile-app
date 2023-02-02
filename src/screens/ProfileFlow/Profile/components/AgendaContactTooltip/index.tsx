@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {ContactAvatar} from '@components/ContactAvatar';
-import {Tooltip} from '@components/Tooltip/Tooltip';
+import {Tooltip} from '@components/Tooltip';
 import {COLORS} from '@constants/colors';
 import {AVATAR_SIZE} from '@screens/ProfileFlow/Profile/components/AvatarHeader';
 import {font} from '@utils/styles';

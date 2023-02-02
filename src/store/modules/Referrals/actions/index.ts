@@ -14,7 +14,7 @@ const GET_REFERRALS = ({
   createAction(
     'GET_REFERRALS',
     {
-      START: ({offset}: {offset: number}) => ({
+      START: ({offset = 0}: {offset?: number} = {}) => ({
         userId,
         referralType,
         offset,

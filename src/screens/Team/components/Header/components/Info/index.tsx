@@ -3,9 +3,11 @@
 import {FormattedNumber} from '@components/Labels/FormattedNumber';
 import {COLORS} from '@constants/colors';
 import {userReferralCountSelector} from '@store/modules/Referrals/selectors';
+import {balanceSummarySelector} from '@store/modules/Tokenomics/selectors';
 import {TeamInactiveIcon} from '@svg/TeamInactiveIcon';
 import {WalletIcon} from '@svg/WalletIcon';
 import {t} from '@translations/i18n';
+import {formatNumberString} from '@utils/numbers';
 import {font} from '@utils/styles';
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
@@ -16,7 +18,7 @@ export const INFO_HEIGHT = rem(84);
 
 export const Info = () => {
   const refsCount = useSelector(userReferralCountSelector);
-  const earningsValue = '121,985.42';
+  const balanceSummary = useSelector(balanceSummarySelector);
 
   return (
     <View style={styles.container}>
@@ -38,7 +40,11 @@ export const Info = () => {
           <Text style={styles.title}>{t('team.header.earnings')}</Text>
           <View style={styles.bodyContainer}>
             <FormattedNumber
-              number={earningsValue}
+              number={
+                balanceSummary
+                  ? formatNumberString(balanceSummary.totalReferrals)
+                  : ''
+              }
               bodyStyle={styles.valueText}
               decimalsStyle={styles.decimalsText}
               trim={true}

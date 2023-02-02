@@ -7,8 +7,7 @@ import {
   createNativeStackNavigator,
   NativeStackNavigationProp,
 } from '@react-navigation/native-stack';
-import {Confirm, ConfirmButton} from '@screens/Dialogs/Confirm';
-import {ErrorPopUp} from '@screens/PopUps/Error';
+import {PopUp, PopUpProps} from '@screens/Modals/PopUp';
 import {ClaimUsername} from '@screens/WelcomeFlow/ClaimUsername';
 import {ConfirmEmailCode} from '@screens/WelcomeFlow/ConfirmEmailCode';
 import {IceBonus} from '@screens/WelcomeFlow/IceBonus';
@@ -29,11 +28,7 @@ export type WelcomeStackParamList = {
   IceBonus: undefined;
   Onboarding: undefined;
   ErrorPopUp: {message: string};
-  Confirm: {
-    title?: string;
-    subtitle?: string;
-    buttons?: ConfirmButton[];
-  };
+  PopUp: PopUpProps;
 };
 
 const WelcomeStack = createNativeStackNavigator<WelcomeStackParamList>();
@@ -110,14 +105,9 @@ export function WelcomeNavigator() {
       <WelcomeStack.Screen name="IceBonus" component={IceBonus} />
       <WelcomeStack.Screen name="Onboarding" component={Onboarding} />
       <WelcomeStack.Screen
-        name="ErrorPopUp"
-        component={ErrorPopUp}
+        name="PopUp"
         options={modalOptions}
-      />
-      <WelcomeStack.Screen
-        name="Confirm"
-        options={modalOptions}
-        component={Confirm}
+        component={PopUp}
       />
     </WelcomeStack.Navigator>
   );

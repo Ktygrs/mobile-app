@@ -8,7 +8,7 @@ import {backOff} from 'exponential-backoff';
 import {requestInterceptor} from './interceptors/request';
 import {responseInterceptor} from './interceptors/response';
 
-const backOffOptions = {
+export const DEFAULT_BACK_OFF_OPTIONS = {
   delayFirstAttempt: true,
   jitter: 'full',
   numOfAttempts: 25,
@@ -49,6 +49,7 @@ setupApiClient(readClient);
 export async function post<TRequest, TResponse>(
   path: string,
   payload: TRequest,
+  backOffOptions = DEFAULT_BACK_OFF_OPTIONS,
 ): Promise<TResponse> {
   const response = await backOff(
     async () => writeClient.post<TResponse>(path, payload),
@@ -60,6 +61,7 @@ export async function post<TRequest, TResponse>(
 export async function patch<TRequest, TResponse>(
   path: string,
   payload: TRequest,
+  backOffOptions = DEFAULT_BACK_OFF_OPTIONS,
 ): Promise<TResponse> {
   const response = await backOff(
     async () => writeClient.patch<TResponse>(path, payload),
@@ -71,6 +73,7 @@ export async function patch<TRequest, TResponse>(
 export async function put<TRequest, TResponse>(
   path: string,
   payload: TRequest,
+  backOffOptions = DEFAULT_BACK_OFF_OPTIONS,
 ): Promise<TResponse> {
   const response = await backOff(
     async () => writeClient.put<TResponse>(path, payload),
@@ -81,7 +84,8 @@ export async function put<TRequest, TResponse>(
 
 export async function get<TResponse>(
   path: string,
-  queryParams?: {[key: string]: string | number},
+  queryParams?: {[key: string]: string | number | null | undefined} | null,
+  backOffOptions = DEFAULT_BACK_OFF_OPTIONS,
 ): Promise<TResponse> {
   const response = await backOff(
     async () => readClient.get<TResponse>(path, {params: queryParams}),
@@ -92,7 +96,8 @@ export async function get<TResponse>(
 
 export async function del<TResponse>(
   path: string,
-  queryParams?: {[key: string]: string | number},
+  queryParams?: {[key: string]: string | number | null | undefined} | null,
+  backOffOptions = DEFAULT_BACK_OFF_OPTIONS,
 ): Promise<TResponse> {
   const response = await backOff(
     async () => writeClient.delete<TResponse>(path, {params: queryParams}),
