@@ -1,13 +1,25 @@
 // SPDX-License-Identifier: BUSL-1.1
+import compactFormat from 'cldr-compact-number';
+import {isIOS} from 'rn-units';
 
 const formatters: {[key: string]: Intl.NumberFormat} = {};
 
 export function formatNumber(
   input: number,
   fractionDigits: number = 0,
-  //TODO:compact doesn't work on iOS https://github.com/facebook/hermes/issues/23#issuecomment-1253927200
   notation: 'standard' | 'scientific' | 'engineering' | 'compact' = 'standard',
 ) {
+  // Compact notation doesn't work on iOS:
+  // https://github.com/facebook/hermes/issues/23#issuecomment-1253927200
+  // Remove polyfill when implemented
+  if (notation === 'compact' && isIOS) {
+    return compactFormat(input, 'en', null, {
+      significantDigits: fractionDigits,
+      minimumFractionDigits: fractionDigits,
+      maximumFractionDigits: fractionDigits,
+    });
+  }
+
   const key = notation + fractionDigits;
 
   if (!formatters[key]) {
