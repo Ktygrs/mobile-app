@@ -6,16 +6,23 @@ import React, {forwardRef} from 'react';
 import {StyleProp, StyleSheet, ViewStyle} from 'react-native';
 import {rem} from 'rn-units';
 
+export type ActivityIndicatorTheme = 'light-content' | 'dark-content';
+
 interface Props {
   style?: StyleProp<ViewStyle>;
+  theme?: ActivityIndicatorTheme;
 }
 
 export const ActivityIndicator = forwardRef<LottieView, Props>(
-  ({style}, ref) => (
+  ({style, theme}, ref) => (
     <LottieView
       ref={ref}
       style={[styles.animation, style]}
-      source={LottieAnimations.loader}
+      source={
+        theme === 'dark-content'
+          ? LottieAnimations.whiteLoader
+          : LottieAnimations.loader
+      }
       autoPlay
       loop
     />

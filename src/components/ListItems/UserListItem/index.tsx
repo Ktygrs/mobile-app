@@ -5,15 +5,34 @@ import {Avatar} from '@components/Avatar/Avatar';
 import {stopPropagation} from '@components/KeyboardDismiss';
 import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
+import {flags} from '@flags';
 import {MainStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {getCountryByCode} from '@utils/country';
 import {font} from '@utils/styles';
 import React, {memo, ReactNode} from 'react';
-import {StyleProp, StyleSheet, Text, View, ViewStyle} from 'react-native';
+import {
+  Image,
+  StyleProp,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+} from 'react-native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
-import {rem} from 'rn-units';
+import {rem, screenHeight} from 'rn-units';
+
+const FLAG_WIDTH = rem(24);
+const FLAG_HEIGHT = (FLAG_WIDTH / 20) * 14;
+
+const SKELETON_HEIGHT = rem(46);
+const SKELETON_MARGIN = rem(16);
+
+export const SKELETONS_PER_SCREEN = Math.ceil(
+  screenHeight / (SKELETON_HEIGHT + SKELETON_MARGIN),
+);
+
+console.log('SKELETONS_PER_SCREEN', SKELETONS_PER_SCREEN);
 
 export const UserListItem = memo(
   ({
@@ -23,8 +42,6 @@ export const UserListItem = memo(
     user: User;
     AdditionalInfoComponent?: ReactNode;
   }) => {
-    const countryFlag = getCountryByCode(user.country).current?.flag;
-
     const navigation =
       useNavigation<NativeStackNavigationProp<MainStackParamList>>();
 
@@ -63,7 +80,12 @@ export const UserListItem = memo(
           </View>
         </Touchable>
         {AdditionalInfoComponent}
-        <Text style={styles.flag}>{countryFlag}</Text>
+        {user.country ? (
+          <Image
+            style={styles.flag}
+            source={flags[user.country?.toLowerCase()]}
+          />
+        ) : null}
       </View>
     );
   },
@@ -87,6 +109,7 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 1,
+    justifyContent: 'center',
   },
   imageContainer: {
     width: rem(46),
@@ -104,22 +127,26 @@ const styles = StyleSheet.create({
     bottom: -2,
   },
   nameText: {
-    paddingBottom: rem(3),
     marginRight: rem(5),
     ...font(16, null, 'bold', 'primaryDark'),
   },
   noteText: {
+    paddingTop: rem(3),
     ...font(13.5, null, 'medium', 'emperor'),
   },
   skeleton: {
-    height: rem(46),
-    borderRadius: rem(16),
+    height: SKELETON_HEIGHT,
+    borderRadius: SKELETON_MARGIN,
     marginTop: rem(14),
     alignSelf: 'stretch',
   },
   flag: {
-    ...font(26, null, undefined, undefined),
     marginLeft: rem(12),
+    width: FLAG_WIDTH,
+    height: FLAG_HEIGHT,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: COLORS.black01opacity,
   },
   touchArea: {
     flex: 1,

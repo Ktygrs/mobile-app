@@ -35,7 +35,7 @@ export const ModifyPhoneNumberForm = () => {
       }
       Button={
         <PrimaryButton
-          text={t('button.continue')}
+          text={t('confirm_phone.button')}
           onPress={modifyPhoneNumber}
           loading={isModifyPhoneLoading}
           disabled={!resendAvailable}

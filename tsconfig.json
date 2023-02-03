@@ -49,6 +49,7 @@
       "@images": ["src/assets/images/index"],
       "@audio": ["src/assets/audio/index"],
       "@lottie": ["src/assets/lottie/index"],
+      "@flags": ["src/assets/flags/index"],
       "@svg/*": ["src/assets/svg/*"],
       "@constants/*": ["src/constants/*"],
       "@translations/*": ["src/translations/*"],

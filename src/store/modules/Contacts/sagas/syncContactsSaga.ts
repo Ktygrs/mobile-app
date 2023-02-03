@@ -11,11 +11,7 @@ import {isAppActiveSelector} from '@store/modules/AppCommon/selectors';
 import {ContactsActions} from '@store/modules/Contacts/actions';
 import {isPermissionGrantedSelector} from '@store/modules/Permissions/selectors';
 import {getErrorMessage} from '@utils/errors';
-import {
-  beautifyPhoneNumber,
-  e164PhoneNumber,
-  hashPhoneNumber,
-} from '@utils/phoneNumber';
+import {e164PhoneNumber, hashPhoneNumber} from '@utils/phoneNumber';
 import {Contact, getAll} from 'react-native-contacts';
 import {
   call,
@@ -39,6 +35,16 @@ function* readyToSync(): Generator<SelectEffect, boolean, boolean> {
   return hasPermissions && isAuthorized && isAppActive;
 }
 
+function contactsComparator(c1: Contact, c2: Contact) {
+  const displayName1 = ((c1.givenName || c1.familyName || c1.middleName) ?? '')
+    .toLowerCase()
+    .trim();
+  const displayName2 = ((c2.givenName || c2.familyName || c2.middleName) ?? '')
+    .toLowerCase()
+    .trim();
+  return displayName1.localeCompare(displayName2);
+}
+
 export function* syncContactsSaga() {
   try {
     while (!(yield* readyToSync())) {
@@ -50,7 +56,7 @@ export function* syncContactsSaga() {
 
     const contacts: SagaReturnType<typeof getAll> = yield call(getAll);
     const agendaPhoneNumbers: string[] = [];
-    const filteredPhoneNumbers: Contact[] = contacts
+    const filteredContacts: Contact[] = contacts
       .map<Contact | null>((contact: Contact) => {
         if (
           contact.givenName.trim() === '' &&
@@ -60,35 +66,37 @@ export function* syncContactsSaga() {
           return null;
         }
 
-        const formattedPhoneNumbers: typeof contact.phoneNumbers = [];
+        let hasUserNumber = false;
         const validNumbers = contact.phoneNumbers.filter(record => {
           try {
-            const e164FormattedForHash = e164PhoneNumber(
-              record.number,
-              user.country,
-            );
-            const internationallyFormatted = beautifyPhoneNumber(
-              record.number,
-              user.country,
-            );
-            formattedPhoneNumbers.push({
-              ...record,
-              number: internationallyFormatted,
-            });
-            agendaPhoneNumbers.push(e164FormattedForHash);
-            return true;
+            if (record.number?.trim()?.length) {
+              const e164FormattedForHash = e164PhoneNumber(
+                record.number,
+                user.country,
+              );
+              if (e164FormattedForHash === user.phoneNumber) {
+                hasUserNumber = true;
+              }
+              agendaPhoneNumbers.push(e164FormattedForHash);
+              return true;
+            }
+            return false;
           } catch (error) {
             logError(error);
             return false;
           }
         });
 
+        if (hasUserNumber) {
+          return null;
+        }
         if (validNumbers.length > 0) {
-          return {...contact, phoneNumbers: formattedPhoneNumbers};
+          return {...contact, phoneNumbers: validNumbers};
         }
         return null;
       })
-      .filter(notNull);
+      .filter(notNull)
+      .sort(contactsComparator);
 
     const agendaPhoneNumberHashes: string[] = yield Promise.all(
       agendaPhoneNumbers.map(hashPhoneNumber),
@@ -117,9 +125,7 @@ export function* syncContactsSaga() {
       );
     }
 
-    yield put(
-      ContactsActions.SYNC_CONTACTS.SUCCESS.create(filteredPhoneNumbers),
-    );
+    yield put(ContactsActions.SYNC_CONTACTS.SUCCESS.create(filteredContacts));
   } catch (error) {
     yield put(
       ContactsActions.SYNC_CONTACTS.FAILED.create(getErrorMessage(error)),

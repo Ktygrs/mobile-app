@@ -6,7 +6,7 @@ describe('beautifyPhoneNumber', () => {
   });
 
   it('should return the formatted phone number with GB country code', () => {
-    expect(beautifyPhoneNumber('3234567890', 'GB')).toBe('+44 0323 456 7890');
+    expect(beautifyPhoneNumber('3234567890', 'GB')).toBe('+44 323 456 7890');
   });
 
   it('should return the formatted phone number even if its short with country code set', () => {

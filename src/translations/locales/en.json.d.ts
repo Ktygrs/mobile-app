@@ -93,9 +93,9 @@ export type Translations = {
   'errors.validation_error': null;
   'errors.multiple_accounts': null;
   'errors.wrong_phone_number': null;
-  'errors.wrong_phone_number_format': null;
   'errors.invalid_username': null;
   'errors.already_taken': {field: number | string};
+  'errors.phone_number_already_in_use': null;
   'errors.invalid_validation_code': null;
   'errors.validation_expired': null;
   'errors.validation_not_found': null;
@@ -261,7 +261,6 @@ export type Translations = {
   'users.ping': null;
   'users.active': null;
   'users.inactive': null;
-  'users.referralType.T0': null;
   'users.referralType.T1': null;
   'users.referralType.T2': null;
   'personal_information.first_name': null;
@@ -326,7 +325,8 @@ export type Translations = {
   'news.read_more': null;
   'news.today': null;
   'news.views': null;
-  'search.nothing_is_found': {query: number | string};
+  'search.empty': null;
+  'search.nothing_is_found': null;
   'search.search_by_country': null;
   'search.search_for_users': null;
   'tabbar.mining_inactive_tooltip': null;
@@ -335,8 +335,7 @@ export type Translations = {
   'tabbar.mining_holiday_active': null;
   'invite_friend.invite_button': null;
   'invite_friend.button_title': null;
-  'invite_friend.description_part1': null;
-  'invite_friend.description_part2': null;
+  'invite_friend.description': null;
   'balance_history.title': null;
   'balance_history.wallet': null;
   'balance_history.blockchain': null;
@@ -415,6 +414,7 @@ export type Translations = {
   'role.pioneer.description': null;
   'confirm_phone.modify_title': null;
   'confirm_phone.modify_description': null;
+  'confirm_phone.button': null;
   'settings-language-settings': null;
   'global-language': null;
   'global-flag': null;

@@ -143,10 +143,10 @@
     "removeInvalidCharacters": "Remove invalid characters.",
     "validation_error": "Some validation error",
     "multiple_accounts": "Email/phone number is associated with another account. Please log into that account to prove ownership, then logout and log back into this one. If you do not own that other account or are unable to log into it, please contact our support",
-    "wrong_phone_number": "Wrong phone number",
-    "wrong_phone_number_format": "Wrong phone number format",
+    "wrong_phone_number": "Invalid phone number, please try again",
     "invalid_username": "Nickname is invalid.",
     "already_taken": "{{field}} already taken",
+    "phone_number_already_in_use": "Phone number already in use",
     "invalid_validation_code": "Invalid code number, please try again!",
     "validation_expired": "Validation expired",
     "validation_not_found": "Validation not found",
@@ -382,7 +382,6 @@
     "active": "Active",
     "inactive": "Inactive",
     "referralType": {
-      "T0": "Inviter",
       "T1": "Tier 1",
       "T2": "Tier 2"
     }
@@ -465,7 +464,8 @@
     "views": "views"
   },
   "search": {
-    "nothing_is_found": "Nothing is found for \"{{query}}\"",
+    "empty": "Search for contacts, ice friends and members of your micro-community",
+    "nothing_is_found": "Nothing was found for your query",
     "search_by_country": "Search by country",
     "search_for_users": "Search for users"
   },
@@ -478,8 +478,7 @@
   "invite_friend": {
     "invite_button": "Invite Friend",
     "button_title": "Invite Friend",
-    "description_part1": "Your friend doesn’t have ",
-    "description_part2": ".\nSend him an invitation!"
+    "description": "Your friend is not yet on [[:ice]]. Send him an invitation!"
   },
   "balance_history": {
     "title": "Balance History",
@@ -590,8 +589,9 @@
     }
   },
   "confirm_phone": {
-    "modify_title": "Confirm New Phone",
-    "modify_description": "Please confirm your country code and enter your new phone number"
+    "modify_title": "Confirm Phone",
+    "modify_description": "Please confirm your country code and enter your phone number",
+    "button": "Confirm country and phone"
   },
   "settings-language-settings": "settings.language_settings",
   "global-language": "global.language",

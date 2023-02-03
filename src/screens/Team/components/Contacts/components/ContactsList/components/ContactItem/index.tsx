@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {stopPropagation} from '@components/KeyboardDismiss';
+import {Avatar} from '@components/Avatar/Avatar';
 import {UserListItemButton} from '@components/ListItems/UserListItem/components/UserListItemButton';
 import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
@@ -11,11 +11,14 @@ import {getContactAcronym, getContactName} from '@utils/contacts';
 import {stringToColor} from '@utils/string';
 import {font} from '@utils/styles';
 import React, {memo, useState} from 'react';
-import {LayoutAnimation, StyleSheet, Text, View} from 'react-native';
+import {LayoutAnimation, Pressable, StyleSheet, Text, View} from 'react-native';
 import {Contact} from 'react-native-contacts';
 import {rem} from 'rn-units';
 
 const phoneNumberLineHeight = rem(20);
+
+const AVATAR_SIZE = rem(46);
+const AVATAR_BORDER_RADIUS = rem(16);
 
 export const ContactItem = memo(
   ({
@@ -43,7 +46,9 @@ export const ContactItem = memo(
       }
     };
     return (
-      <View style={styles.contactContainer} {...stopPropagation}>
+      <Pressable
+        style={styles.contactContainer}
+        onPress={() => onInvite(contact)}>
         <View
           style={[
             styles.contactIcon,
@@ -56,6 +61,15 @@ export const ContactItem = memo(
           <Text style={styles.contactIconText}>
             {getContactAcronym(contact)}
           </Text>
+          {contact.thumbnailPath ? (
+            <Avatar
+              uri={contact.thumbnailPath}
+              size={AVATAR_SIZE}
+              borderRadius={AVATAR_BORDER_RADIUS}
+              allowFullScreen={false}
+              style={styles.avatarContainer}
+            />
+          ) : null}
           <Touchable
             disabled={phoneNumbers.length === 1}
             onPress={showAllNumbers}
@@ -84,7 +98,7 @@ export const ContactItem = memo(
           icon={<TeamContactInvite fill={COLORS.primaryDark} />}
           onPress={() => onInvite(contact)}
         />
-      </View>
+      </Pressable>
     );
   },
 );
@@ -97,15 +111,17 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 1,
+    justifyContent: 'center',
   },
   contactIcon: {
-    width: rem(46),
-    height: rem(46),
-    borderRadius: 16,
+    width: AVATAR_SIZE,
+    height: AVATAR_SIZE,
+    borderRadius: AVATAR_BORDER_RADIUS,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: rem(14),
   },
+  avatarContainer: {position: 'absolute'},
   name: {
     paddingBottom: rem(3),
     marginRight: rem(4),

@@ -48,8 +48,7 @@ export const beautifyPhoneNumber = (
     phone,
     countryCode as CountryCode,
   );
-  const nationalNumber = parsedNumber.format('NATIONAL');
-  return `+${parsedNumber.countryCallingCode} ${nationalNumber}`;
+  return parsedNumber.format('INTERNATIONAL');
 };
 
 export const hashPhoneNumber = (phone: string) => {

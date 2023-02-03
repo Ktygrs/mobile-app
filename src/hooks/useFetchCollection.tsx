@@ -82,5 +82,6 @@ export const useFetchCollection = <T,>({
     refresh,
     refreshing,
     fetch,
+    loading,
   };
 };

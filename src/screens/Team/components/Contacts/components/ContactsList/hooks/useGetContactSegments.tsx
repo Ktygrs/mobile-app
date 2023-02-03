@@ -1,14 +1,15 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {User} from '@api/user/types';
+import {SKELETONS_PER_SCREEN} from '@components/ListItems/UserListItem';
 import {useFetchCollection} from '@hooks/useFetchCollection';
 import {IceFriendsTitle} from '@screens/Team/components/Contacts/components/ContactsList/components/SectionHeader';
 import {contactsSelector} from '@store/modules/Contacts/selectors';
 import {ReferralsActions} from '@store/modules/Referrals/actions';
 import {referralsSelector} from '@store/modules/Referrals/selectors';
 import {t} from '@translations/i18n';
-import React from 'react';
-import {ReactNode, useEffect, useMemo} from 'react';
+import React, {useRef} from 'react';
+import {ReactNode, useEffect} from 'react';
 import {Contact} from 'react-native-contacts';
 import {useSelector} from 'react-redux';
 
@@ -24,6 +25,13 @@ export type ContactSectionDataItem =
   | {element: 'InviteFriendsButton'}
   | {element: 'Error'; message: string};
 
+const FETCH_COLLECTION_ARGS = {
+  selector: referralsSelector({referralType: 'CONTACTS'}),
+  action: ReferralsActions.GET_REFERRALS({referralType: 'CONTACTS'})(
+    'CONTACTS',
+  ),
+};
+
 export const useGetContactSegments = (focused: boolean) => {
   const contacts = useSelector(contactsSelector);
 
@@ -36,30 +44,22 @@ export const useGetContactSegments = (focused: boolean) => {
     hasNext,
     refresh,
     refreshing,
-  } = useFetchCollection(
-    useMemo(
-      () => ({
-        selector: referralsSelector({referralType: 'CONTACTS'}),
-        action: ReferralsActions.GET_REFERRALS({referralType: 'CONTACTS'})(
-          'CONTACTS',
-        ),
-      }),
-      [],
-    ),
-  );
+  } = useFetchCollection(FETCH_COLLECTION_ARGS);
 
+  const hasBeenFetchedRef = useRef(false);
   useEffect(() => {
-    if (focused) {
+    if (focused && !hasBeenFetchedRef.current) {
+      hasBeenFetchedRef.current = true;
       fetch({offset: 0});
     }
-  }, [fetch, focused]);
+  }, [fetch, focused, hasBeenFetchedRef]);
 
   let iceFriends: ContactSectionDataItem[] = [];
   if (!referrals.length) {
     if (error) {
       iceFriends = [{element: 'Error', message: error}];
     } else if (hasNext) {
-      iceFriends = [{element: 'Loading'}, {element: 'Loading'}];
+      iceFriends = Array(SKELETONS_PER_SCREEN).fill({element: 'Loading'});
     } else {
       iceFriends = [{element: 'InviteFriendsButton'}];
     }

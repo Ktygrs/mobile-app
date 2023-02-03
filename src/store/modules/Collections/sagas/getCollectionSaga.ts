@@ -17,8 +17,9 @@ export function* getCollectionSaga(
   {payload}: ReturnType<CollectionAction['START']['create']>,
 ) {
   try {
-    const {offset, limit = DEFAULT_PAGE_SIZE, query} = payload;
-    const {request} = actionsMap.get(action) ?? {};
+    const {request, defaultPageSize = DEFAULT_PAGE_SIZE} =
+      actionsMap.get(action) ?? {};
+    const {offset, limit = defaultPageSize, query} = payload;
     if (request) {
       const response: SagaReturnType<typeof request> = yield request({
         query,

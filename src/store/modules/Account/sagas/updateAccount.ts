@@ -69,10 +69,11 @@ export function* updateAccountSaga(action: ReturnType<typeof actionCreator>) {
           ),
         );
       }
-    } else if (isApiError(error, 400, 'INVALID_PHONE_NUMBER')) {
+    } else if (
+      isApiError(error, 400, 'INVALID_PHONE_NUMBER') ||
+      isApiError(error, 400, 'INVALID_PHONE_NUMBER_FORMAT')
+    ) {
       localizedError = t('errors.wrong_phone_number');
-    } else if (isApiError(error, 400, 'INVALID_PHONE_NUMBER_FORMAT')) {
-      localizedError = t('errors.wrong_phone_number_format');
     } else if (isApiError(error, 400, 'INVALID_USERNAME')) {
       localizedError = t('errors.invalid_username');
     } else if (isApiError(error, 404, 'USER_NOT_FOUND')) {
@@ -86,9 +87,12 @@ export function* updateAccountSaga(action: ReturnType<typeof actionCreator>) {
           localizedError = t('username.error.already_taken');
           break;
         case 'email':
-        case 'phoneNumber':
-        case 'phoneNumberHash':
           localizedError = t('errors.already_taken', {field});
+          break;
+        case 'phoneNumberHash':
+        case 'phoneNumber':
+          localizedError = t('errors.phone_number_already_in_use');
+          break;
       }
     } else if (checkProp(error, 'code') && error.code === Errors.InvalidEmail) {
       localizedError = t('errors.invalid_email');

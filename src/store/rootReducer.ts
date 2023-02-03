@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {accountReducer} from '@store/modules/Account/reducer';
+import {activeTab} from '@store/modules/ActiveTab/reducer';
 import {appCommonReducer} from '@store/modules/AppCommon/reducer';
 import {collectionsReducer} from '@store/modules/Collections/reducer';
 import {teamReducer} from '@store/modules/Contacts/reducer';
@@ -18,6 +19,7 @@ import {validationReducer} from '@store/modules/Validation/reducer';
 import {combineReducers} from 'redux';
 
 export const rootReducer = combineReducers({
+  activeTab: activeTab,
   appCommon: appCommonReducer,
   permissions: permissionsReducer,
   account: accountReducer,

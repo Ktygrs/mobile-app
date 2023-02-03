@@ -2,10 +2,8 @@
 
 import {ReferralType} from '@api/user/types';
 import {createSelector} from '@reduxjs/toolkit';
-import {logError} from '@services/logging';
 import {userIdSelector} from '@store/modules/Account/selectors';
 import {RootState} from '@store/rootReducer';
-import {beautifyPhoneNumber} from '@utils/phoneNumber';
 
 interface ReferralSelectorOptions {
   userId?: string;
@@ -23,21 +21,7 @@ const referralsSelectorWithMemo = createSelector(
   (referrals, userId, referralType) => {
     const referralData = referrals.data[userId]?.[referralType];
     return {
-      data: (referralData?.referrals ?? []).map(ref => {
-        if (!ref.phoneNumber) {
-          return ref;
-        }
-        try {
-          const formattedNumber = beautifyPhoneNumber(
-            ref.phoneNumber ?? '',
-            ref.country,
-          );
-          return {...ref, phoneNumber: formattedNumber};
-        } catch (error) {
-          logError(error);
-          return ref;
-        }
-      }),
+      data: referralData?.referrals ?? [],
       hasNext:
         !referralData || referralData.total > referralData.referrals.length,
       total: referralData?.total,

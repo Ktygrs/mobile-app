@@ -90,6 +90,8 @@ const processCollectionClearAction = (
     if (stateKey) {
       // @ts-ignore
       draft[stateKey] = CollectionsState[stateKey];
+      draft[stateKey].query = '';
+      draft[stateKey].hasNext = false;
     }
   }
 };

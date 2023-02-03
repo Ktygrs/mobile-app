@@ -43,7 +43,9 @@ export type User = {
   skipPhoneNumberValidation?: boolean | null;
 };
 
-export type ReferralType = 'CONTACTS' | 'T0' | 'T1' | 'T2';
+export type ReferralType = 'CONTACTS' | 'T1' | 'T2';
+export type AgendaType = 'AGENDA';
+export type TeamUserType = ReferralType | AgendaType;
 
 export type HiddenProfileElement =
   | 'globalRank'

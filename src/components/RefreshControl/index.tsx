@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {ActivityIndicator} from '@components/ActivityIndicator';
+import {
+  ActivityIndicator,
+  ActivityIndicatorTheme,
+} from '@components/ActivityIndicator';
 import {COLORS} from '@constants/colors';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
@@ -9,8 +12,10 @@ import {
   Platform,
   RefreshControl as RefreshControlBase,
   RefreshControlProps,
+  StyleProp,
   StyleSheet,
   Text,
+  ViewStyle,
 } from 'react-native';
 import Animated, {
   cancelAnimation,
@@ -24,19 +29,22 @@ import Animated, {
 } from 'react-native-reanimated';
 import {rem} from 'rn-units';
 
-type CustomRefreshControlProps = RefreshControlProps & {
+type RefreshIceIconProps = {
   translateY: SharedValue<number>;
+  refreshing: boolean;
+  style?: StyleProp<ViewStyle>;
+  theme?: ActivityIndicatorTheme;
 };
 
-const RefreshControlIos = ({
-  onRefresh,
-  refreshing,
-  progressViewOffset,
-  translateY,
-  ...props
-}: CustomRefreshControlProps) => {
-  const [showText, setShowText] = useState(true);
+type CustomRefreshControlProps = RefreshControlProps & RefreshIceIconProps;
 
+export function RefreshIceIcon({
+  translateY,
+  refreshing,
+  style,
+  theme,
+}: RefreshIceIconProps) {
+  const [showText, setShowText] = useState(true);
   const rotation = useSharedValue(0);
 
   const animatedContainerStyle = useAnimatedStyle(() => {
@@ -90,6 +98,31 @@ const RefreshControlIos = ({
   }, [refreshing]);
 
   return (
+    <Animated.View style={[styles.container, style, animatedContainerStyle]}>
+      <Animated.View style={[styles.iconContainer, animatedIconStyle]}>
+        <ActivityIndicator theme={theme} style={styles.iconContainer} />
+      </Animated.View>
+
+      <Text
+        style={[
+          styles.text,
+          theme === 'dark-content' && styles.whiteText,
+          showText ? styles.visible : styles.invisible,
+        ]}>
+        {t('global.pull_to_refresh')}
+      </Text>
+    </Animated.View>
+  );
+}
+
+const RefreshControlIos = ({
+  onRefresh,
+  refreshing,
+  progressViewOffset,
+  translateY,
+  ...props
+}: CustomRefreshControlProps) => {
+  return (
     <RefreshControlBase
       tintColor={'transparent'}
       colors={['transparent']}
@@ -97,16 +130,7 @@ const RefreshControlIos = ({
       refreshing={refreshing}
       onRefresh={onRefresh}
       {...props}>
-      <Animated.View style={[styles.container, animatedContainerStyle]}>
-        <Animated.View style={[styles.iconContainer, animatedIconStyle]}>
-          <ActivityIndicator style={styles.iconContainer} />
-        </Animated.View>
-
-        <Text
-          style={[styles.text, showText ? styles.visible : styles.invisible]}>
-          {t('global.pull_to_refresh')}
-        </Text>
-      </Animated.View>
+      <RefreshIceIcon refreshing={refreshing} translateY={translateY} />
     </RefreshControlBase>
   );
 };
@@ -144,6 +168,9 @@ const styles = StyleSheet.create({
   text: {
     marginTop: rem(1),
     ...font(10, undefined, 'regular', 'primaryLight'),
+  },
+  whiteText: {
+    color: COLORS.white,
   },
   visible: {
     opacity: 1,

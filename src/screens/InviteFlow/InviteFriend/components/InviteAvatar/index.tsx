@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   contactIconText: {
-    ...font(15, null, 'regular', 'white'),
+    ...font(40, 48, 'bold', 'white'),
   },
 });
 

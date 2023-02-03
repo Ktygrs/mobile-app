@@ -42,6 +42,7 @@ export const Header = memo(({isSearchActive, setIsSearchActive}: Props) => {
 
   const onClosePress = () => {
     setIsSearchActive(false);
+    dispatch(CollectionActions.SEARCH_USERS.CLEAR.create());
   };
 
   return (

@@ -11,14 +11,20 @@ import {
 import {SEARCH_RESULTS_OFFSET} from '@screens/Team/components/SearchResults';
 import React, {ReactNode, useEffect, useMemo, useRef} from 'react';
 import {Platform} from 'react-native';
+import {SharedValue} from 'react-native-reanimated';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 type Props = {
   children: ReactNode;
   isSearchActive: boolean;
+  animatedIndex?: SharedValue<number>;
 };
 
-export const DynamicHeight = ({children, isSearchActive}: Props) => {
+export const DynamicHeight = ({
+  children,
+  isSearchActive,
+  animatedIndex,
+}: Props) => {
   const sheetRef = useRef<BottomSheet>(null);
   const {top: topInset} = useSafeAreaInsets();
 
@@ -32,8 +38,11 @@ export const DynamicHeight = ({children, isSearchActive}: Props) => {
   );
 
   const snapPoints = useMemo(
-    () => [positions.collapsed, positions.expanded],
-    [positions],
+    () =>
+      isSearchActive
+        ? [positions.search, positions.expanded]
+        : [positions.collapsed, positions.expanded],
+    [positions, isSearchActive],
   );
 
   const isKeyboardShown = useIsKeyboardShown();
@@ -71,7 +80,9 @@ export const DynamicHeight = ({children, isSearchActive}: Props) => {
       handleComponent={null}
       handleHeight={0}
       animateOnMount={false}
-      enableOverDrag={false}
+      enableOverDrag={true}
+      animatedIndex={animatedIndex}
+      overDragResistanceFactor={10}
       backgroundStyle={commonStyles.baseSubScreen}
       /**
        * This is required to let child PagerView handle horizontal swipes

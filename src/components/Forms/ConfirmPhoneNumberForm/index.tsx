@@ -10,7 +10,11 @@ import {t} from '@translations/i18n';
 import {formatPhoneNumber} from '@utils/phoneNumber';
 import React from 'react';
 
-export const ConfirmPhoneNumberForm = () => {
+type Props = {
+  onGoBack?: () => void;
+};
+
+export const ConfirmPhoneNumberForm = ({onGoBack}: Props) => {
   const navigation = useNavigation();
   const {
     code,
@@ -44,7 +48,7 @@ export const ConfirmPhoneNumberForm = () => {
       }
       BackButton={
         <ConfirmCodeBack
-          onPress={navigation.goBack}
+          onPress={onGoBack ?? navigation.goBack}
           text={t('confirm_code.wrong_number')}
         />
       }

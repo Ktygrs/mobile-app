@@ -5,7 +5,6 @@ import {SearchIcon} from '@svg/SearchIcon';
 import {font} from '@utils/styles';
 import React, {forwardRef, Ref, useState} from 'react';
 import {
-  ActivityIndicator,
   NativeSyntheticEvent,
   StyleProp,
   StyleSheet,
@@ -26,13 +25,7 @@ export const SEARCH_INPUT_HEIGHT = rem(46);
 
 export const SearchInput = forwardRef(
   (
-    {
-      loading,
-      containerStyle,
-      onFocus,
-      onBlur,
-      ...textInputProps
-    }: SearchInputProps,
+    {containerStyle, onFocus, onBlur, ...textInputProps}: SearchInputProps,
     forwardedRef: Ref<TextInput>,
   ) => {
     const [focused, setFocused] = useState(false);
@@ -44,15 +37,11 @@ export const SearchInput = forwardRef(
           containerStyle,
         ]}>
         <View style={styles.searchButton}>
-          {loading ? (
-            <ActivityIndicator />
-          ) : (
-            <SearchIcon
-              width={rem(24)}
-              height={rem(24)}
-              color={COLORS.secondary}
-            />
-          )}
+          <SearchIcon
+            width={rem(24)}
+            height={rem(24)}
+            color={COLORS.secondary}
+          />
         </View>
         <TextInput
           style={styles.input}

@@ -26,10 +26,19 @@ export const getContactAcronym = ({
   familyName: string;
 }) => {
   if (familyName) {
-    return givenName.charAt(0) + familyName.charAt(0);
+    return (
+      String.fromCodePoint(givenName.codePointAt(0) ?? 0) +
+      String.fromCodePoint(familyName.codePointAt(0) ?? 0)
+    );
   } else {
     return givenName
       .split(' ')
-      .reduce((acr, word) => (acr.length < 2 ? acr + word.charAt(0) : acr), '');
+      .reduce(
+        (acr, word) =>
+          acr.length < 2
+            ? acr + String.fromCodePoint(word.codePointAt(0) ?? 0)
+            : acr,
+        '',
+      );
   }
 };

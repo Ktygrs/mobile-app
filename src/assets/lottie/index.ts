@@ -2,6 +2,7 @@
 
 export const LottieAnimations = {
   loader: require('./loader.json'),
+  whiteLoader: require('./white_loader.json'),
   splashLogo: require('./splash-logo.json'),
   miningActive: require('./mining-active.json'),
   miningInactive: require('./mining-inactive.json'),

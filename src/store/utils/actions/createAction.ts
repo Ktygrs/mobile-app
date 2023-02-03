@@ -37,6 +37,11 @@ export type ActionFactories<
   id?: string | number;
 };
 
+export type StartActionFactories = ActionFactories<
+  string,
+  {START: PayloadFunc | boolean}
+>;
+
 type ActionObject<
   ActionPartType,
   T extends StructureType,

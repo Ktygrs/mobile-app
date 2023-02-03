@@ -20,11 +20,13 @@ export const ListHeader = ({total, active, title, earnings}: Props) => {
   return (
     <View {...stopPropagation}>
       <View style={styles.header}>
-        <Text style={styles.title}>{`${t(
-          'users.active',
-        )}: ${active}/${total}`}</Text>
         <Text style={styles.title}>
-          {`${title}: ${earnings} `}
+          <Text style={styles.label}>{`${t('users.active')}: `}</Text>
+          {`${active}/${total}`}
+        </Text>
+        <Text style={styles.title}>
+          <Text style={styles.label}>{`${title}: `}</Text>
+          {earnings}
           <IceLabel iconSize={16} color={COLORS.primaryDark} />
         </Text>
       </View>
@@ -33,6 +35,9 @@ export const ListHeader = ({total, active, title, earnings}: Props) => {
 };
 
 const styles = StyleSheet.create({
+  label: {
+    ...font(14, null, 'regular', 'secondary'),
+  },
   title: {
     ...font(14, null, 'regular', 'primaryDark'),
   },

@@ -20,6 +20,7 @@ module.exports = api => {
             '@navigation': './src/navigation',
             '@images': './src/assets/images',
             '@lottie': './src/assets/lottie',
+            '@flags': './src/assets/flags',
             '@svg': './src/assets/svg',
             '@audio': './src/assets/audio',
             '@constants': './src/constants',

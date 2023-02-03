@@ -2,10 +2,9 @@
 
 import {IceLabel} from '@components/Labels/IceLabel';
 import {COLORS} from '@constants/colors';
-import {ContactSection} from '@screens/Team/components/Contacts/components/ContactsList/hooks/useGetContactSegments';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {isAndroid, rem} from 'rn-units';
 
@@ -25,15 +24,22 @@ export const IceFriendsTitle = () => {
   );
 };
 
-export const SectionHeader = ({section}: {section: ContactSection}) => {
+type SectionHeaderProps = {
+  title?: string | ReactNode;
+};
+
+export const SectionHeader = ({title}: SectionHeaderProps) => {
+  if (!title) {
+    return null;
+  }
   return (
     <View style={styles.titleContainer}>
-      {typeof section.title === 'string' ? (
+      {typeof title === 'string' ? (
         <View style={styles.header}>
-          <Text style={styles.title}>{section.title}</Text>
+          <Text style={styles.title}>{title}</Text>
         </View>
       ) : (
-        section.title
+        title
       )}
     </View>
   );

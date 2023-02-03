@@ -48,12 +48,14 @@ import {Settings} from '@screens/SettingsFlow/Settings';
 import {Staking} from '@screens/Staking';
 import {Team} from '@screens/Team';
 import {useTrackUserInfo} from '@store/modules/Account/hooks/useTrackUserInfo';
+import {ActiveTabActions, Tab} from '@store/modules/ActiveTab/actions';
 import {StatsPeriod} from '@store/modules/Stats/types';
 import React, {ComponentType, ReactNode, RefObject} from 'react';
 import {Image, View} from 'react-native';
 import {Contact} from 'react-native-contacts';
 import Animated from 'react-native-reanimated';
 import {SvgProps} from 'react-native-svg';
+import {useDispatch} from 'react-redux';
 
 export type MainTabsParamList = {
   HomeTab: undefined;
@@ -220,30 +222,43 @@ const MainTabBarComponent = (props: BottomTabBarProps) => (
   <MainTabBar {...props} />
 );
 
-const MainTabs = () => (
-  <Tabs.Navigator screenOptions={tabOptions} tabBar={MainTabBarComponent}>
-    <Tabs.Screen
-      name="HomeTab"
-      component={HomeTabStackNavigator}
-      options={{tabBarIcon: HomeIcon}}
-    />
-    <Tabs.Screen
-      name="TeamTab"
-      component={TeamTabStackNavigator}
-      options={{tabBarIcon: TeamIcon}}
-    />
-    <Tabs.Screen
-      name="NewsTab"
-      component={News}
-      options={{tabBarIcon: NewsIcon}}
-    />
-    <Tabs.Screen
-      name="ProfileTab"
-      component={ProfileTabStackNavigator}
-      options={{tabBarIcon: ProfileIcon}}
-    />
-  </Tabs.Navigator>
-);
+const MainTabs = () => {
+  const dispatch = useDispatch();
+  const getListeners = (tab: Tab) => {
+    return () => ({
+      tabPress: () =>
+        dispatch(ActiveTabActions.SET_ACTIVE_TAB.STATE.create(tab)),
+    });
+  };
+  return (
+    <Tabs.Navigator screenOptions={tabOptions} tabBar={MainTabBarComponent}>
+      <Tabs.Screen
+        name="HomeTab"
+        component={HomeTabStackNavigator}
+        options={{tabBarIcon: HomeIcon}}
+        listeners={getListeners('home')}
+      />
+      <Tabs.Screen
+        name="TeamTab"
+        component={TeamTabStackNavigator}
+        options={{tabBarIcon: TeamIcon}}
+        listeners={getListeners('team')}
+      />
+      <Tabs.Screen
+        name="NewsTab"
+        component={News}
+        options={{tabBarIcon: NewsIcon}}
+        listeners={getListeners('news')}
+      />
+      <Tabs.Screen
+        name="ProfileTab"
+        component={ProfileTabStackNavigator}
+        options={{tabBarIcon: ProfileIcon}}
+        listeners={getListeners('profile')}
+      />
+    </Tabs.Navigator>
+  );
+};
 
 export function MainNavigator() {
   useUpdateRequiredListener();

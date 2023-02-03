@@ -81,10 +81,11 @@ const styles = StyleSheet.create({
     paddingLeft: 0,
   },
   prefixText: {
-    ...font(16, 20, 'medium', 'secondary'),
+    ...font(16, 18, 'medium', 'secondary'),
     marginRight: rem(4),
   },
   valueText: {
-    ...font(16, 20, 'medium', 'codeFieldText'),
+    alignItems: 'center',
+    ...font(16, 19, 'medium', 'codeFieldText'),
   },
 });

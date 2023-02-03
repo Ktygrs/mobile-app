@@ -29,27 +29,36 @@ export const CollectionsState = {
 
 export const actionsMap = new Map<
   CollectionAction,
-  {stateKey: keyof typeof CollectionsState; request: CollectionApiRequest}
+  {
+    stateKey: keyof typeof CollectionsState;
+    request: CollectionApiRequest;
+    defaultPageSize: number;
+  }
 >([]);
 actionsMap.set(CollectionActions.GET_TOP_STATS_COUNTRIES, {
   stateKey: 'topStatsCountries',
   request: Api.statistics.getTopCountries,
+  defaultPageSize: 20,
 });
 actionsMap.set(CollectionActions.SEARCH_STATS_COUNTRIES, {
   stateKey: 'statsCountriesSearch',
   request: Api.statistics.getTopCountries,
+  defaultPageSize: 20,
 });
 actionsMap.set(CollectionActions.GET_TOP_MINERS, {
   stateKey: 'topMiners',
   request: Api.statistics.getTopMiners,
+  defaultPageSize: 20,
 });
 actionsMap.set(CollectionActions.SEARCH_MINERS, {
   stateKey: 'minersSearch',
   request: Api.statistics.getTopMiners,
+  defaultPageSize: 20,
 });
 actionsMap.set(CollectionActions.SEARCH_USERS, {
   stateKey: 'usersSearch',
   request: Api.user.searchUsers,
+  defaultPageSize: 30,
 });
 
 export type CollectionAction =

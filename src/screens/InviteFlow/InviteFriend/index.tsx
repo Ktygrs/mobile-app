@@ -4,7 +4,7 @@ import {IceLabel} from '@components/Labels/IceLabel';
 import {LinesBackground} from '@components/LinesBackground';
 import {PrimaryButton} from '@components/PrimaryButton';
 import {COLORS} from '@constants/colors';
-import {commonStyles} from '@constants/styles';
+import {commonStyles, smallHeightDevice} from '@constants/styles';
 import {useScrollShadow} from '@hooks/useScrollShadow';
 import {Header} from '@navigation/components/Header';
 import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
@@ -15,14 +15,14 @@ import InviteAvatar, {
 } from '@screens/InviteFlow/InviteFriend/components/InviteAvatar';
 import {ContactsActions} from '@store/modules/Contacts/actions';
 import {InviteIcon} from '@svg/InviteIcon';
-import {t} from '@translations/i18n';
+import {replaceString, t, tagRegex} from '@translations/i18n';
 import {getContactName} from '@utils/contacts';
 import {font} from '@utils/styles';
 import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useDispatch} from 'react-redux';
-import {rem, screenWidth} from 'rn-units';
+import {isAndroid, rem, screenWidth} from 'rn-units';
 
 const icon = require('./assets/images/inviteFromAgendaGrafik.png');
 export const INVITE_CARD_TOP_OFFSET = rem(63);
@@ -58,25 +58,38 @@ export const InviteFriend = () => {
         <Text style={styles.name}>{nameToDisplay}</Text>
         {phoneNumbers && <Text style={styles.number}>{phoneNumbers[0]}</Text>}
         <View style={[styles.card, commonStyles.baseSubScreen]}>
-          <View style={styles.iconContainer}>
+          <View style={styles.cardContent}>
             <Image source={icon} style={styles.icon} resizeMode="contain" />
-          </View>
-          <View style={styles.buttonContainer}>
-            <Text style={styles.description}>
-              {t('invite_friend.description_part1')}
-              <IceLabel color={COLORS.primaryDark} />
-              {t('invite_friend.description_part2')}
-            </Text>
-            <View style={styles.button}>
-              <PrimaryButton
-                onPress={onInvite}
-                text={t('invite_friend.button_title')}
-                icon={<InviteIcon width={24} height={23} fill={COLORS.white} />}
-                style={[
-                  styles.inviteButton,
-                  {marginBottom: bottomInset + rem(80)},
-                ]}
-              />
+            <View style={styles.buttonContainer}>
+              <View style={styles.descriptionContainer}>
+                <Text style={styles.description}>
+                  {replaceString(
+                    t('invite_friend.description'),
+                    tagRegex('ice'),
+                    (match, index) => (
+                      <IceLabel
+                        key={match + index}
+                        color={COLORS.primaryDark}
+                        iconOffsetY={isAndroid ? 2 : -1}
+                      />
+                    ),
+                  )}
+                </Text>
+              </View>
+              <View style={styles.button}>
+                <PrimaryButton
+                  onPress={onInvite}
+                  text={t('invite_friend.button_title')}
+                  icon={
+                    <InviteIcon
+                      width={rem(24)}
+                      height={rem(23)}
+                      fill={COLORS.white}
+                    />
+                  }
+                  style={[styles.inviteButton, {marginBottom: bottomInset}]}
+                />
+              </View>
             </View>
           </View>
         </View>
@@ -99,34 +112,45 @@ const styles = StyleSheet.create({
   },
   icon: {
     alignSelf: 'center',
-    maxHeight: rem(241),
+    width: smallHeightDevice ? rem(234) : rem(336),
+    height: smallHeightDevice ? rem(160) : rem(230),
   },
   card: {
     alignItems: 'center',
     flex: 1,
-    marginTop: rem(16),
+    marginTop: rem(26),
+  },
+  cardContent: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   name: {
-    marginTop: AVATAR_CONTAINER_SIDE_DIMENSION / 2 + rem(8),
+    marginTop: AVATAR_CONTAINER_SIDE_DIMENSION / 2 + rem(12),
     textAlign: 'center',
     ...font(17, 20, 'semibold', 'white'),
   },
   number: {
     textAlign: 'center',
-    ...font(17, 20, 'semibold', 'white'),
-    marginTop: rem(10),
+    ...font(13, 16, 'medium', 'secondaryFaint'),
+    marginTop: rem(4),
+  },
+  descriptionContainer: {
+    paddingHorizontal: smallHeightDevice ? rem(54) : rem(70),
   },
   description: {
     textAlign: 'center',
     ...font(17, 22, 'medium', 'primaryDark'),
-    marginBottom: rem(30),
   },
   buttonContainer: {
-    flex: 1,
-    justifyContent: 'flex-end',
+    paddingTop: smallHeightDevice ? rem(6) : rem(24),
   },
-  iconContainer: {flex: 1},
-  button: {width: screenWidth, alignItems: 'center', justifyContent: 'center'},
+  button: {
+    width: screenWidth,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: smallHeightDevice ? rem(20) : rem(24),
+  },
   inviteButton: {
     width: screenWidth - rem(100),
     backgroundColor: COLORS.primaryLight,

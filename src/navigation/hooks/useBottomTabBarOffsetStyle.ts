@@ -11,7 +11,7 @@ type Params = {
 
 export const useBottomTabBarOffsetStyle = ({extraOffset}: Params = {}) => {
   const tabBarHeight = useContext(BottomTabBarHeightContext) ?? 0;
-  const extraPadding = extraOffset ?? tabBarHeight ? rem(64) : rem(16);
+  const extraPadding = extraOffset ?? (tabBarHeight ? rem(64) : rem(16));
   return useMemo(
     () =>
       StyleSheet.create({

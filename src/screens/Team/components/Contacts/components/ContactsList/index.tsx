@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {ActivityIndicator} from '@components/ActivityIndicator';
 import {InviteButton} from '@components/InviteButton';
 import {
   UserListItem,
@@ -8,6 +9,7 @@ import {
 import {UserListPingButton} from '@components/ListItems/UserListItem/components/UserListPingButton';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {BottomSheetSectionList} from '@gorhom/bottom-sheet';
+import {BottomSheetSectionListMethods} from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetScrollable/types';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
 import {MainStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
@@ -19,26 +21,40 @@ import {
   ContactSectionDataItem,
   useGetContactSegments,
 } from '@screens/Team/components/Contacts/components/ContactsList/hooks/useGetContactSegments';
+import {AGENDA} from '@screens/Team/constants';
 import {hapticFeedback} from '@utils/device';
-import React, {useCallback} from 'react';
-import {
-  ActivityIndicator,
-  SectionListRenderItemInfo,
-  StyleSheet,
-  Text,
-} from 'react-native';
+import React, {useCallback, useEffect, useRef} from 'react';
+import {SectionListRenderItemInfo, StyleSheet, Text, View} from 'react-native';
 import {Contact} from 'react-native-contacts';
 import {rem} from 'rn-units';
 
 type Props = {
   focused: boolean;
+  addCollapsedSnapPointListener: (key: string, listener: () => void) => void;
 };
 
-export const ContactsList = ({focused}: Props) => {
+export const ContactsList = ({
+  focused,
+  addCollapsedSnapPointListener,
+}: Props) => {
   const tabbarOffset = useBottomTabBarOffsetStyle();
 
-  const {sections, loadNext, loadNextLoading, refresh, refreshing} =
+  const ref = useRef<BottomSheetSectionListMethods>(null);
+
+  const {sections, loadNext, loadNextLoading, refreshing} =
     useGetContactSegments(focused);
+
+  useEffect(() => {
+    addCollapsedSnapPointListener(AGENDA, () => {
+      if (ref.current && sections.length) {
+        ref.current.scrollToLocation({
+          animated: true,
+          itemIndex: 0,
+          sectionIndex: 0,
+        });
+      }
+    });
+  }, [addCollapsedSnapPointListener, ref, sections]);
 
   const navigation =
     useNavigation<NativeStackNavigationProp<MainStackParamList>>();
@@ -53,7 +69,7 @@ export const ContactsList = ({focused}: Props) => {
 
   const renderSectionHeader = useCallback(
     ({section}: {section: ContactSection}) => (
-      <SectionHeader section={section} />
+      <SectionHeader title={section.title} />
     ),
     [],
   );
@@ -92,14 +108,20 @@ export const ContactsList = ({focused}: Props) => {
 
   return (
     <BottomSheetSectionList<ContactSectionDataItem, ContactSection>
+      ref={ref}
       contentContainerStyle={[tabbarOffset.current, styles.container]}
       sections={sections}
       renderItem={renderItem}
       renderSectionHeader={renderSectionHeader}
-      ListFooterComponent={loadNextLoading ? ActivityIndicator : null}
+      ListFooterComponent={
+        loadNextLoading ? (
+          <View style={styles.loadingIndicator}>
+            <ActivityIndicator />
+          </View>
+        ) : null
+      }
       showsVerticalScrollIndicator={false}
-      onEndReached={loadNext}
-      onRefresh={refresh}
+      onEndReached={focused ? loadNext : null}
       refreshing={refreshing}
     />
   );
@@ -112,5 +134,9 @@ const styles = StyleSheet.create({
   },
   inviteButtonContainer: {
     marginHorizontal: 0,
+  },
+  loadingIndicator: {
+    alignItems: 'center',
+    flex: 1,
   },
 });
