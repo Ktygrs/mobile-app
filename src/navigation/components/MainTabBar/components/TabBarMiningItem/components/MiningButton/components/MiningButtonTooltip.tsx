@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignSelf: 'center',
     justifyContent: 'center',
-    bottom: rem(92),
+    bottom: rem(80),
   },
   tooltipText: {
     textAlign: 'center',
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   },
   chevron: {
     position: 'absolute',
-    bottom: -rem(7),
+    bottom: -rem(8),
     alignSelf: 'center',
     transform: [{rotate: '180deg'}],
   },

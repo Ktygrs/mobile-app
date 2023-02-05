@@ -26,6 +26,7 @@ export type MiningSummary = {
     standard: MiningRateSummary;
     total: MiningRateSummary;
     totalNoPreStakingBonus: MiningRateSummary;
+    positiveTotalNoPreStakingBonus: MiningRateSummary;
     type: 'negative' | 'positive' | 'none';
   };
   miningSession: MiningSession | null;

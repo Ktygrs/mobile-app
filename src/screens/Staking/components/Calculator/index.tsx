@@ -89,7 +89,9 @@ export const Calculator = memo(
         {miningRate && (
           <Text style={styles.currentRateText}>
             {t('staking.current_rate').toUpperCase()}:{' '}
-            {formatNumberString(miningRate.totalNoPreStakingBonus.amount)}{' '}
+            {formatNumberString(
+              miningRate.positiveTotalNoPreStakingBonus.amount,
+            )}{' '}
             <IceLabel iconSize={14} label={t('general.ice_per_hour')} />
           </Text>
         )}

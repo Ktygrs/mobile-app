@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {ENV} from '@constants/env';
+import {LINKS} from '@constants/links';
 import auth from '@react-native-firebase/auth';
 import {startAppleSignIn} from '@services/auth/signin/apple';
 import {startFacebookSignIn} from '@services/auth/signin/facebook';
@@ -62,7 +63,6 @@ export const signInWithPhoneNumber = async (phoneNumber: string) => {
 
 export const sendSignInLinkToEmail = async (email: string) => {
   return auth().sendSignInLinkToEmail(email, {
-    //TODO:configure prod dynamic links
     dynamicLinkDomain: ENV.DEEPLINK_DOMAIN,
     handleCodeInApp: true,
     iOS: {
@@ -72,7 +72,7 @@ export const sendSignInLinkToEmail = async (email: string) => {
       packageName: ENV.APP_ID ?? '',
       installApp: true,
     },
-    url: `https://${ENV.DEEPLINK_DOMAIN}/email-confirmation`,
+    url: LINKS.FIREBASE_NOTICE,
   });
 };
 

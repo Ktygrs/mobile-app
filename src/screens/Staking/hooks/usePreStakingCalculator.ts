@@ -25,7 +25,7 @@ export const usePreStakingCalculator = () => {
       }
 
       const noPreStakingBonus = parseNumber(
-        miningRates.totalNoPreStakingBonus.amount,
+        miningRates.positiveTotalNoPreStakingBonus.amount,
       );
 
       const {miningRate, bonus} = calculateStakingBonus({

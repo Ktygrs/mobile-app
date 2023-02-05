@@ -3,12 +3,25 @@
 import {logError} from '@services/logging';
 import Sound from 'react-native-sound';
 
-export const playLocalAudio = (audio: string) => {
-  const sound = new Sound(audio, Sound.MAIN_BUNDLE, error => {
-    if (error) {
-      logError(error);
-      return;
-    }
-    sound.play();
-  });
+const loadedAudio: {[path: string]: Promise<Sound>} = {};
+
+export const playLocalAudio = async (audioPath: string) => {
+  const sound = await loadLocalAudio(audioPath);
+  return new Promise(resolve => sound.play(resolve));
+};
+
+export const loadLocalAudio = (audioPath: string) => {
+  if (!loadedAudio[audioPath]) {
+    loadedAudio[audioPath] = new Promise((resolve, reject) => {
+      const sound = new Sound(audioPath, Sound.MAIN_BUNDLE, error => {
+        if (error) {
+          logError(error);
+          reject(error);
+        } else {
+          resolve(sound);
+        }
+      });
+    });
+  }
+  return loadedAudio[audioPath];
 };

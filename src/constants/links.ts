@@ -11,4 +11,5 @@ export const LINKS = {
   TERMS: t('links.terms'),
   MAIN: t('links.main'),
   BLOCK_EXPLORER: ENV.BLOCK_EXPLORER_URL,
+  FIREBASE_NOTICE: 'https://ice.io/firebase-notice',
 };

@@ -5,7 +5,6 @@ import {MiningButtonHandlers} from '@navigation/components/MainTabBar/components
 import {MiningButtonTooltip} from '@navigation/components/MainTabBar/components/TabBarMiningItem/components/MiningButton/components/MiningButtonTooltip';
 import {useMiningState} from '@navigation/components/MainTabBar/components/TabBarMiningItem/components/MiningButton/hooks/useMiningState';
 import {useStackingModal} from '@navigation/components/MainTabBar/components/TabBarMiningItem/components/MiningButton/hooks/useStackingModal';
-import {playLocalAudio} from '@services/audio';
 import {hapticFeedback} from '@utils/device';
 import React, {useEffect, useRef} from 'react';
 import {View} from 'react-native';
@@ -30,7 +29,7 @@ export const MiningButton = () => {
   }, [showStackingModal, stateConfig.showStackingModalOnTransition]);
 
   const gestureHandler = (gesture: 'onTap' | 'onLongPress') => {
-    return () => {
+    return async () => {
       const gestureConfig = stateConfig[gesture];
 
       if (!gestureConfig) {
@@ -46,7 +45,8 @@ export const MiningButton = () => {
       }
 
       if (gestureConfig.audioFeedback) {
-        playLocalAudio(gestureConfig.audioFeedback);
+        const audioFeedback = await gestureConfig.audioFeedback;
+        audioFeedback.play();
       }
 
       if (gestureConfig.startMining) {

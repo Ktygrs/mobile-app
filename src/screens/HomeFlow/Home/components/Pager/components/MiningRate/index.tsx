@@ -26,9 +26,6 @@ export const MiningRate = memo(() => {
     return null;
   }
 
-  const miningSign =
-    {positive: '+', negative: '-', none: ''}[miningRates.type] ?? '';
-
   return (
     <View style={[commonStyles.baseSubScreen, styles.container]}>
       <View style={styles.titleContainer}>
@@ -39,9 +36,9 @@ export const MiningRate = memo(() => {
         <FormattedNumber
           trim
           containerStyle={styles.miningValueContainer}
-          number={`${miningSign}${formatNumberString(
-            miningRates.total.amount,
-          )}`}
+          number={`${
+            {positive: '+', negative: '-', none: ''}[miningRates.type] ?? ''
+          }${formatNumberString(miningRates.total.amount)}`}
           bodyStyle={styles.miningValueText}
           decimalsStyle={styles.miningValueDecimalsText}
         />
@@ -51,16 +48,20 @@ export const MiningRate = memo(() => {
           iconSize={16}
           label={t('general.ice_per_hour')}
         />
-        <Text style={styles.rateIncreaseText}>
-          +{miningRates.total.bonuses?.total ?? 0}%
-        </Text>
+        {!!miningRates.total.bonuses?.total && (
+          <Text style={styles.rateIncreaseText}>
+            +{miningRates.total.bonuses.total}%
+          </Text>
+        )}
       </View>
       <View style={styles.baseContainer}>
         <Text style={styles.baseTitleText}>{t('home.mining_rate.base')}</Text>
         <FormattedNumber
           trim
           containerStyle={styles.baseValueContainer}
-          number={`${miningSign}${formatNumberString(miningRates.base.amount)}`}
+          number={`${
+            {positive: '+', negative: '', none: ''}[miningRates.type] ?? ''
+          }${formatNumberString(miningRates.base.amount)}`}
           bodyStyle={styles.baseValueText}
           decimalsStyle={styles.baseDecimalsText}
         />

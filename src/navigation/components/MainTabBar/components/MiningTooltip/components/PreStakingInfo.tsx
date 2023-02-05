@@ -10,6 +10,7 @@ import {
 } from '@navigation/components/MainTabBar/components/MiningTooltip/components/DataCell';
 import {
   balanceSummarySelector,
+  miningRatesSelector,
   preStakingSummarySelector,
 } from '@store/modules/Tokenomics/selectors';
 import {StakeIcon} from '@svg/StakeIcon';
@@ -23,6 +24,7 @@ import {useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
 export const PreStakingInfo = () => {
+  const miningRates = useSelector(miningRatesSelector);
   const preStakingSummary = useSelector(preStakingSummarySelector);
   const balanceSummary = useSelector(balanceSummarySelector);
 
@@ -77,7 +79,11 @@ export const PreStakingInfo = () => {
           height={rem(18)}
         />
         <Text style={styles.bonusLabelText}>{t('staking.bonus_label')}</Text>
-        <Text style={styles.bonusValueText}>+{preStakingSummary?.bonus}%</Text>
+        {miningRates && (
+          <Text style={styles.bonusValueText}>
+            +{miningRates.total.bonuses?.preStaking ?? 0}%
+          </Text>
+        )}
       </View>
     </>
   );

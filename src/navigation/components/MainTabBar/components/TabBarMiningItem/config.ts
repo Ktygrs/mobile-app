@@ -3,6 +3,7 @@
 import {LocalAudio} from '@audio';
 import {MINING_LONG_PRESS_ACTIVATION_SEC} from '@constants/timeouts';
 import {LottieAnimations} from '@lottie';
+import {loadLocalAudio} from '@services/audio';
 import {MiningState} from '@store/modules/Tokenomics/types';
 import {t} from '@translations/i18n';
 import {AnimatedLottieViewProps} from 'lottie-react-native';
@@ -10,7 +11,7 @@ import {AnimatedLottieViewProps} from 'lottie-react-native';
 type GestureConfig = {
   showStackingModal?: boolean;
   startMining?: boolean;
-  audioFeedback?: string;
+  audioFeedback?: ReturnType<typeof loadLocalAudio>;
   hapticFeedback?: boolean;
 };
 
@@ -28,7 +29,7 @@ export const MiningButtonConfig: {
     tooltip: t('tabbar.mining_inactive_tooltip'),
     onTap: {
       startMining: true,
-      audioFeedback: LocalAudio.startMining,
+      audioFeedback: loadLocalAudio(LocalAudio.startMining),
       hapticFeedback: true,
     },
   },
@@ -47,7 +48,7 @@ export const MiningButtonConfig: {
     },
     onLongPress: {
       startMining: true,
-      audioFeedback: LocalAudio.extendMining,
+      audioFeedback: loadLocalAudio(LocalAudio.extendMining),
       hapticFeedback: true,
     },
   },
@@ -59,7 +60,7 @@ export const MiningButtonConfig: {
     },
     onLongPress: {
       startMining: true,
-      audioFeedback: LocalAudio.extendMining,
+      audioFeedback: loadLocalAudio(LocalAudio.extendMining),
       hapticFeedback: true,
     },
   },
@@ -81,7 +82,7 @@ export const MiningButtonConfig: {
     },
     onLongPress: {
       startMining: true,
-      audioFeedback: LocalAudio.extendMining,
+      audioFeedback: loadLocalAudio(LocalAudio.extendMining),
       hapticFeedback: true,
     },
   },
@@ -95,7 +96,7 @@ export const MiningButtonConfig: {
     },
     onLongPress: {
       startMining: true,
-      audioFeedback: LocalAudio.extendMining,
+      audioFeedback: loadLocalAudio(LocalAudio.extendMining),
       hapticFeedback: true,
     },
   },
