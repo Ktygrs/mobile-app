@@ -20,7 +20,7 @@ const CIRCLE_SIZE = rem(48);
 const PROGRESS_WIDTH = rem(4);
 
 export const ProgressItem = ({total, completed}: Props) => {
-  const progreccInPercent = (completed / total) * 100;
+  const progressInPercent = (completed / total) * 100;
   return (
     <View style={styles.header}>
       <View style={[styles.amountWrapper, commonStyles.shadow]}>
@@ -28,7 +28,7 @@ export const ProgressItem = ({total, completed}: Props) => {
         <Text style={styles.amountTextSmall}>{t('global.of')}</Text>
         <Text style={styles.amountText}>{total}</Text>
         <ProgressCircleSvg
-          progress={progreccInPercent}
+          progress={progressInPercent}
           strokeWidth={PROGRESS_WIDTH}
           color={COLORS.shamrock}
           radius={CIRCLE_SIZE / 2 - PROGRESS_WIDTH / 2}
