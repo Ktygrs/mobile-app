@@ -59,7 +59,7 @@ export const Wallet = memo(() => {
           <IceLabel
             textStyle={styles.balanceCurrencyText}
             iconOffsetY={isAndroid ? -2 : 0}
-            iconSize={rem(22)}
+            iconSize={rem(20)}
           />
         </View>
         <Touchable
@@ -83,7 +83,7 @@ export const Wallet = memo(() => {
         />
         <IceLabel
           textStyle={styles.rateValueText}
-          iconOffsetY={-1}
+          iconOffsetY={0}
           iconSize={18}
           label={t('general.ice_per_hour')}
         />

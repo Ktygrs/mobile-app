@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {useState} from 'react';
+import {useLayoutEffect, useState} from 'react';
+import {Platform} from 'react-native';
 import {
   Extrapolate,
   interpolate,
@@ -51,11 +52,28 @@ export const useScrollCollapse = ({
     }
   }, [isCollapsed, toHeight]);
 
+  // START // Animation fix /////////////////////////////////////////////////
+  /**
+   * [Android] Height of animated view stuck in the ~middle of collapsed/expanded state.
+   * Only for initial render (next changes of HEIGHT fixes the problem).
+   * So added extra 1px to height and set it (extra height) to 0px after 500ms.
+   * Just to force rerender and recalculation of animated state
+   */
+  const [fakeExtraHeight, setFakeExtraHeight] = useState(
+    Platform.OS === 'android' ? 1 : 0,
+  );
+  useLayoutEffect(() => {
+    setTimeout(() => {
+      setFakeExtraHeight(0);
+    }, 500);
+  }, []);
+  // END // Animation fix /////////////////////////////////////////////////
+
   const collapseAnimatedStyle = useAnimatedStyle(() => {
     return {
-      height: containerHeight.value,
+      height: containerHeight.value + fakeExtraHeight,
     };
-  });
+  }, [fakeExtraHeight]);
 
   return {
     isCollapsed,

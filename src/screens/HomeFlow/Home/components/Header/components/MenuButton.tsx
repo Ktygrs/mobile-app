@@ -3,7 +3,7 @@
 import {Badge} from '@components/Badge';
 import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
-import {SMALL_BUTTON_HIT_SLOP} from '@constants/styles';
+import {MIDDLE_BUTTON_HIT_SLOP} from '@constants/styles';
 import {HomeTabStackParamList, MainStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -69,7 +69,7 @@ export const MenuButton = memo(() => {
 
   return (
     <Touchable
-      hitSlop={SMALL_BUTTON_HIT_SLOP}
+      hitSlop={MIDDLE_BUTTON_HIT_SLOP}
       ref={buttonRef}
       onPress={onMenuPress}>
       <CandyBoxMenuIcon stroke={COLORS.downriver} />

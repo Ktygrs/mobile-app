@@ -45,6 +45,6 @@ const styles = StyleSheet.create({
     ...font(15, 18, 'heavy', 'primaryDark'),
   },
   actionText: {
-    ...font(12, 14.4, 'medium', 'primaryDark'),
+    ...font(12.5, 14.4, 'medium', 'primaryDark'),
   },
 });
