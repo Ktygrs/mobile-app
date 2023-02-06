@@ -239,6 +239,9 @@ jobs:
     needs: [react-native]
     if: ${{ (github.event_name == 'pull_request' && github.event.pull_request.draft == false) || github.event_name == 'push'  }}
     runs-on: macOS-latest
+    env:
+      FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 180
+      FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 10
     steps:
       - uses: actions/cache@v3
         id: cache_all
