@@ -44,7 +44,7 @@ fields:
       <{{workflowRunUrl}}|{{runId}}>
     short: true
   - title: Commits
-    value: "{{#if payload.commits}}{{#each payload.commits}}<{{this.url}}|`{{truncate this.id 8}}`> - {{this.message}}\n{{/each}}{{/if}}"
+    value: "{{#if payload.commits}}{{#each payload.commits}}<{{this.url}}|`{{truncate this.id 8}}`>{{/each}}{{/if}}"
     short: false
 
 footer: >-
