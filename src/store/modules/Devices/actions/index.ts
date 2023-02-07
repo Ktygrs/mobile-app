@@ -11,7 +11,7 @@ const UPDATE_SETTINGS = createAction('SET_SETTINGS', {
 });
 
 const UPDATE_DEVICE_METADATA = createAction('SET_DEVICE_METADATA', {
-  START: () => {},
+  START: (payload: {forceUpdate?: boolean}) => payload,
   SUCCESS: () => {},
   FAILED: (errorMessage: string, errorCode?: string) => ({
     errorMessage,

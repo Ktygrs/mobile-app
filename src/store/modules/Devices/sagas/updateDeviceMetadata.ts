@@ -4,6 +4,7 @@ import {isApiError} from '@api/client';
 import {DeviceMetadata} from '@api/devices/types';
 import {Api} from '@api/index';
 import {DEVICE_METADATA_UPDATE_TIMEOUT_HOURS} from '@constants/timeouts';
+import messaging from '@react-native-firebase/messaging';
 import {dayjs} from '@services/dayjs';
 import {
   isAuthorizedSelector,
@@ -15,17 +16,27 @@ import {
   deviceUniqueIdSelector,
   lastMetadataUpdateSelector,
 } from '@store/modules/Devices/selectors';
+import {isPermissionGrantedSelector} from '@store/modules/Permissions/selectors';
 import {getErrorMessage} from '@utils/errors';
 import DeviceInfo from 'react-native-device-info';
 import {call, put, select} from 'redux-saga/effects';
 
-export function* updateDeviceMetadataSaga() {
+type Action = ReturnType<
+  typeof DeviceActions.UPDATE_DEVICE_METADATA.START.create
+>;
+
+export function* updateDeviceMetadataSaga(action: Action) {
   try {
+    const {forceUpdate} = action.payload;
     const isAuthorized: ReturnType<typeof isAuthorizedSelector> = yield select(
       isAuthorizedSelector,
     );
     const isAppActive: ReturnType<typeof isAppActiveSelector> = yield select(
       isAppActiveSelector,
+    );
+
+    const hasPushPermissions: boolean = yield select(
+      isPermissionGrantedSelector('pushNotifications'),
     );
 
     const lastUpdateDate: ReturnType<typeof lastMetadataUpdateSelector> =
@@ -34,7 +45,9 @@ export function* updateDeviceMetadataSaga() {
     const hoursFromLastUpdate = lastUpdateDate
       ? dayjs().diff(lastUpdateDate, 'hours')
       : 0;
+
     const shouldUpdateMetadata =
+      forceUpdate ||
       !lastUpdateDate ||
       hoursFromLastUpdate >= DEVICE_METADATA_UPDATE_TIMEOUT_HOURS;
 
@@ -61,6 +74,7 @@ export function* updateDeviceMetadataSaga() {
         installerPackageName,
         baseOS,
         bootloader,
+        pushNotificationToken,
       ] = yield Promise.all([
         DeviceInfo.getFingerprint(),
         DeviceInfo.getInstanceId(),
@@ -83,6 +97,7 @@ export function* updateDeviceMetadataSaga() {
         DeviceInfo.getInstallerPackageName(),
         DeviceInfo.getBaseOs(),
         DeviceInfo.getBootloader(),
+        hasPushPermissions ? messaging().getToken() : '',
       ]);
 
       const userId: ReturnType<typeof userIdSelector> = yield select(
@@ -122,7 +137,7 @@ export function* updateDeviceMetadataSaga() {
         bootloader: bootloader,
         codename,
         installerPackageName,
-        pushNotificationToken: '', //TODO: get fcm token from firebase messaging
+        pushNotificationToken,
         userId,
         deviceUniqueId,
       };

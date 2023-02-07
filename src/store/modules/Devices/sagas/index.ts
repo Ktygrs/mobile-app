@@ -27,6 +27,7 @@ export function* rootDevicesSaga() {
     ),
     takeLatest(
       [
+        DeviceActions.UPDATE_DEVICE_METADATA.START.type,
         AccountActions.USER_STATE_CHANGE.SUCCESS.type,
         AppCommonActions.APP_STATE_CHANGE.STATE.type,
       ],
