@@ -31,6 +31,7 @@ interface CodeInputProps extends TextInputProps {
 }
 
 export const DEFAULT_CELL_COUNT = 6;
+export const ERROR_SECTION_HEIGHT = rem(26);
 
 export const CodeInput = ({
   value,
@@ -139,7 +140,7 @@ const styles = StyleSheet.create({
     ...font(17, 26, 'semibold', 'codeFieldText'),
   },
   error: {
-    minHeight: rem(26),
+    minHeight: ERROR_SECTION_HEIGHT,
     marginTop: rem(8),
   },
   errorText: {

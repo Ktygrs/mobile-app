@@ -5,9 +5,12 @@ import {AccountActions} from '@store/modules/Account/actions';
 import {ValidationActions} from '@store/modules/Validation/actions';
 import produce from 'immer';
 
+export type TemporaryPhoneVerificationStepType = 'phone' | 'code';
+
 export interface State {
   temporaryPhoneNumber: string | null;
   temporaryEmail: string | null;
+  temporaryPhoneVerificationStep: TemporaryPhoneVerificationStepType;
   smsSentTimestamp: number | null;
   emailSentTimestamp: number | null;
 }
@@ -28,6 +31,7 @@ type Actions = ReturnType<
   | typeof ValidationActions.EMAIL_VALIDATION.SUCCESS.create
   | typeof ValidationActions.EMAIL_VALIDATION.FAILED.create
   | typeof ValidationActions.EMAIL_VALIDATION.RESET.create
+  | typeof ValidationActions.SET_TEMPORARY_PHONE_VERIFICATION_STEP.STATE.create
 >;
 
 const INITIAL_STATE: State = {
@@ -35,13 +39,19 @@ const INITIAL_STATE: State = {
   temporaryEmail: null,
   smsSentTimestamp: null,
   emailSentTimestamp: null,
+  temporaryPhoneVerificationStep: 'phone',
 };
 
 function reducer(state = INITIAL_STATE, action: Actions): State {
   return produce(state, draft => {
     switch (action.type) {
+      case ValidationActions.SET_TEMPORARY_PHONE_VERIFICATION_STEP.STATE.type:
+        draft.temporaryPhoneVerificationStep =
+          action.payload.temporaryPhoneVerificationStep;
+        break;
       case AccountActions.SIGN_IN_PHONE.SET_TEMP_PHONE.type:
         draft.temporaryPhoneNumber = action.payload.phoneNumber;
+        draft.temporaryPhoneVerificationStep = 'code';
         draft.smsSentTimestamp = dayjs().valueOf();
         break;
       case AccountActions.SIGN_IN_PHONE.RESEND_SUCCESS.type:
@@ -55,6 +65,7 @@ function reducer(state = INITIAL_STATE, action: Actions): State {
         const userInfo = action.payload.userInfo;
         if (userInfo?.phoneNumber) {
           draft.temporaryPhoneNumber = userInfo.phoneNumber;
+          draft.temporaryPhoneVerificationStep = 'code';
           draft.smsSentTimestamp = dayjs().valueOf();
         }
         if (userInfo?.email) {
@@ -67,6 +78,7 @@ function reducer(state = INITIAL_STATE, action: Actions): State {
       case ValidationActions.PHONE_VALIDATION.SUCCESS.type:
       case ValidationActions.PHONE_VALIDATION.RESET.type:
         draft.temporaryPhoneNumber = null;
+        draft.temporaryPhoneVerificationStep = 'phone';
         break;
       case ValidationActions.EMAIL_VALIDATION.SUCCESS.type:
       case ValidationActions.EMAIL_VALIDATION.RESET.type:

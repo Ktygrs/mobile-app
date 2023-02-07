@@ -4,16 +4,17 @@ import {Touchable} from '@components/Touchable';
 import {MIDDLE_BUTTON_HIT_SLOP} from '@constants/styles';
 import {font} from '@utils/styles';
 import React from 'react';
-import {StyleSheet, Text} from 'react-native';
+import {StyleProp, StyleSheet, Text, TextStyle} from 'react-native';
 
 type Props = {
   onPress: () => void;
   text: string;
+  textStyle?: StyleProp<TextStyle>;
 };
 
-export const ConfirmCodeBack = ({onPress, text}: Props) => (
+export const ConfirmCodeBack = ({onPress, text, textStyle}: Props) => (
   <Touchable onPress={onPress} hitSlop={MIDDLE_BUTTON_HIT_SLOP}>
-    <Text style={styles.buttonText}>{text}</Text>
+    <Text style={[styles.buttonText, textStyle]}>{text}</Text>
   </Touchable>
 );
 

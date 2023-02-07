@@ -4,11 +4,20 @@ import {UpdateAccountField} from '@components/Forms/components/UpdateAccountFiel
 import {useModifyPhoneNumber} from '@components/Forms/ModifyPhoneNumberForm/hooks/useModifyPhoneNumber';
 import {PhoneNumberInput} from '@components/Inputs/PhoneNumberInput';
 import {PrimaryButton} from '@components/PrimaryButton';
+import {Country} from '@constants/countries';
 import {useResendCountdown} from '@hooks/useResendCountdown';
 import {t} from '@translations/i18n';
 import React from 'react';
 
-export const ModifyPhoneNumberForm = () => {
+type Props = {
+  initialPhoneNumber?: string | null;
+  selectedCountry?: Country | null;
+};
+
+export const ModifyPhoneNumberForm = ({
+  initialPhoneNumber,
+  selectedCountry,
+}: Props) => {
   const {
     phoneNumberBody,
     onChangePhone,
@@ -16,7 +25,10 @@ export const ModifyPhoneNumberForm = () => {
     isModifyPhoneLoading,
     modifyPhoneFailedReason,
     smsSentTimestamp,
-  } = useModifyPhoneNumber();
+  } = useModifyPhoneNumber({
+    initialPhoneNumber,
+    selectedCountry,
+  });
   const {resendAvailable} = useResendCountdown({
     lastSendTimestamp: smsSentTimestamp,
   });
@@ -27,6 +39,7 @@ export const ModifyPhoneNumberForm = () => {
       description={t('confirm_phone.modify_description')}
       Input={
         <PhoneNumberInput
+          selectedCountry={selectedCountry}
           value={phoneNumberBody}
           onChangePhone={onChangePhone}
           editable={!isModifyPhoneLoading}

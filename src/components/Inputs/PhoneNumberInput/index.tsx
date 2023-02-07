@@ -22,7 +22,7 @@ export const PhoneNumberInput = ({
   onChangePhone,
   ...props
 }: Omit<CommonInputProps, 'label' | 'onChangeText'> & {
-  selectedCountry?: Country;
+  selectedCountry?: Country | null;
   onChangePhone: (phoneBody: string, iddCode: string) => void;
 }) => {
   const deviceLocation = useSelector(deviceLocationSelector);

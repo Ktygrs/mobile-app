@@ -1,11 +1,26 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Country} from '@constants/countries';
+import {getCountryByCode} from '@utils/country';
 import {
   CountryCode,
   formatIncompletePhoneNumber,
   parsePhoneNumberWithError,
 } from 'libphonenumber-js/min';
+import {PhoneNumber} from 'libphonenumber-js/types';
 import {sha256} from 'react-native-sha256';
+
+export function getCountryByPhoneNumber(phoneNumber: string | null): {
+  country: Country | null;
+  nationalNumber: string;
+} | null {
+  if (!phoneNumber) {
+    return null;
+  }
+  const parsedPhoneNumber: PhoneNumber = parsePhoneNumberWithError(phoneNumber);
+  const country = getCountryByCode(parsedPhoneNumber.country).current;
+  return {country, nationalNumber: parsedPhoneNumber.nationalNumber};
+}
 
 export const formatPhoneNumber = (
   phone: string,

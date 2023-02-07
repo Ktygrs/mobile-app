@@ -41,6 +41,7 @@ export type Translations = {
   'button.skip_all': null;
   'button.done': null;
   'button.confirm': null;
+  'button.do_this_later': null;
   'button.resurrect_me': null;
   'team.contacts_tab': null;
   'team.tierOne_tab': null;

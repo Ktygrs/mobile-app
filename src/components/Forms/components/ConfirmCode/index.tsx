@@ -13,10 +13,17 @@ type Props = {
   CodeInput: ReactNode;
   ResendButton: ReactNode;
   BackButton: ReactNode;
+  DoThisLaterButton?: ReactNode;
 };
 
 export const ConfirmCode = memo(
-  ({codeSource, CodeInput, ResendButton, BackButton}: Props) => {
+  ({
+    codeSource,
+    CodeInput,
+    ResendButton,
+    BackButton,
+    DoThisLaterButton,
+  }: Props) => {
     return (
       <View style={styles.container}>
         <Image
@@ -32,6 +39,9 @@ export const ConfirmCode = memo(
         <View style={styles.codeInput}>{CodeInput}</View>
         <View style={styles.resendButton}>{ResendButton}</View>
         <View style={styles.backButton}>{BackButton}</View>
+        {DoThisLaterButton ? (
+          <View style={styles.backButton}>{DoThisLaterButton}</View>
+        ) : null}
       </View>
     );
   },
@@ -67,10 +77,9 @@ const styles = StyleSheet.create({
     marginHorizontal: rem(6),
   },
   resendButton: {
-    marginTop: rem(25),
+    paddingTop: rem(10),
   },
   backButton: {
     marginTop: rem(36),
-    marginBottom: rem(18),
   },
 });

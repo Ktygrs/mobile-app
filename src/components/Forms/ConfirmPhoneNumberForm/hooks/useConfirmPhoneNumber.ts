@@ -15,7 +15,12 @@ import {
 import {useCallback, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
-export const useConfirmPhoneNumber = () => {
+type Props = {
+  onModifyPhoneNumber?: () => void;
+};
+
+export const useConfirmPhoneNumber = ({onModifyPhoneNumber}: Props) => {
+  const resetValidationOnGoBack = !onModifyPhoneNumber;
   const dispatch = useDispatch();
 
   const phoneNumber = useSelector(temporaryPhoneNumberSelector, () => true);
@@ -51,11 +56,17 @@ export const useConfirmPhoneNumber = () => {
   };
 
   // clean up on component unmount
-  useEffect(() => resetValidation, [resetValidation]);
+  useEffect(() => {
+    if (resetValidationOnGoBack) {
+      resetValidation();
+    }
+  }, [resetValidation, resetValidationOnGoBack]);
 
   const {code, setCode, validationError} = useCodeInput({
     validate,
-    resetValidation,
+    resetValidation: resetValidationOnGoBack
+      ? resetValidation
+      : onModifyPhoneNumber,
     clearError,
     validateResult,
   });

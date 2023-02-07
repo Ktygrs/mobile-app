@@ -9,7 +9,7 @@ export const temporaryEmailSelector = (state: RootState) =>
   state.validation.temporaryEmail;
 
 export const phoneVerificationStepSelector = (state: RootState) =>
-  state.validation.temporaryPhoneNumber ? 'code' : 'phone';
+  state.validation.temporaryPhoneVerificationStep;
 
 export const emailVerificationStepSelector = (state: RootState) =>
   state.validation.temporaryEmail ? 'code' : 'email';

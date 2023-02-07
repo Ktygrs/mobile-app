@@ -1,7 +1,17 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {User} from '@api/user/types';
+import {TemporaryPhoneVerificationStepType} from '@store/modules/Validation/reducer';
 import {createAction} from '@store/utils/actions/createAction';
+
+const SET_TEMPORARY_PHONE_VERIFICATION_STEP = createAction(
+  'SET_TEMPORARY_PHONE_VERIFICATION_STEP',
+  {
+    STATE: (payload: {
+      temporaryPhoneVerificationStep: TemporaryPhoneVerificationStepType;
+    }) => payload,
+  },
+);
 
 const USERNAME_VALIDATION = createAction('USERNAME_VALIDATION', {
   START: (username: string) => ({username}),
@@ -50,4 +60,5 @@ export const ValidationActions = Object.freeze({
   REF_USERNAME_VALIDATION,
   PHONE_VALIDATION,
   EMAIL_VALIDATION,
+  SET_TEMPORARY_PHONE_VERIFICATION_STEP,
 });

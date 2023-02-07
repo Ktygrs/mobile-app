@@ -10,8 +10,12 @@ import {useScreenFade} from '@screens/Team/components/Contacts/hooks/useScreenFa
 import {isPhoneNumberVerifiedSelector} from '@store/modules/Account/selectors';
 import {isPermissionGrantedSelector} from '@store/modules/Permissions/selectors';
 import {ValidationActions} from '@store/modules/Validation/actions';
-import {phoneVerificationStepSelector} from '@store/modules/Validation/selectors';
-import React, {useMemo} from 'react';
+import {
+  phoneVerificationStepSelector,
+  temporaryPhoneNumberSelector,
+} from '@store/modules/Validation/selectors';
+import {getCountryByPhoneNumber} from '@utils/phoneNumber';
+import React, {useCallback, useEffect, useMemo} from 'react';
 import {Animated, StyleSheet} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -28,24 +32,48 @@ export const Contacts = ({
     isPermissionGrantedSelector('contacts'),
   );
   const isPhoneNumberVerified = useSelector(isPhoneNumberVerifiedSelector);
-  const phoneVerificationStep = useSelector(phoneVerificationStepSelector);
+  const temporaryPhoneNumber = useSelector(temporaryPhoneNumberSelector);
+  const temporaryPhoneVerificationStep = useSelector(
+    phoneVerificationStepSelector,
+  );
 
   const currentScreen = useMemo(() => {
     if (!hasContactsPermissions) {
       return 'ContactsPermissions';
     } else if (isPhoneNumberVerified) {
       return 'ContactsList';
-    } else if (phoneVerificationStep === 'phone') {
+    } else if (temporaryPhoneVerificationStep === 'phone') {
       return 'ModifyPhoneNumber';
     } else {
       return 'ConfirmPhoneNumber';
     }
-  }, [hasContactsPermissions, isPhoneNumberVerified, phoneVerificationStep]);
+  }, [
+    hasContactsPermissions,
+    isPhoneNumberVerified,
+    temporaryPhoneVerificationStep,
+  ]);
 
   const dispatch = useDispatch();
-  const resetTempPhoneNumber = () => {
+  const resetTempPhoneNumber = useCallback(() => {
     dispatch(ValidationActions.PHONE_VALIDATION.RESET.create());
-  };
+  }, [dispatch]);
+  const onModifyPhoneNumber = useCallback(() => {
+    dispatch(
+      ValidationActions.SET_TEMPORARY_PHONE_VERIFICATION_STEP.STATE.create({
+        temporaryPhoneVerificationStep: 'phone',
+      }),
+    );
+  }, [dispatch]);
+  useEffect(() => {
+    if (isPhoneNumberVerified && temporaryPhoneNumber) {
+      resetTempPhoneNumber();
+    }
+  }, [
+    temporaryPhoneNumber,
+    isPhoneNumberVerified,
+    dispatch,
+    resetTempPhoneNumber,
+  ]);
 
   const {fadeStyle, visibleScreen} = useScreenFade(currentScreen);
 
@@ -58,18 +86,26 @@ export const Contacts = ({
     );
   }
 
+  const countryByPhoneNumber = getCountryByPhoneNumber(temporaryPhoneNumber);
+
   return (
     <BottomSheetScrollView>
       <Animated.View style={[styles.container, fadeStyle]}>
         {visibleScreen === 'ContactsPermissions' && <ContactsPermissions />}
         {visibleScreen === 'ModifyPhoneNumber' && (
           <VerticalOffset>
-            <ModifyPhoneNumberForm />
+            <ModifyPhoneNumberForm
+              initialPhoneNumber={countryByPhoneNumber?.nationalNumber}
+              selectedCountry={countryByPhoneNumber?.country}
+            />
           </VerticalOffset>
         )}
         {visibleScreen === 'ConfirmPhoneNumber' && (
           <VerticalOffset>
-            <ConfirmPhoneNumberForm onGoBack={resetTempPhoneNumber} />
+            <ConfirmPhoneNumberForm
+              onDoThisLater={resetTempPhoneNumber}
+              onModifyPhoneNumber={onModifyPhoneNumber}
+            />
           </VerticalOffset>
         )}
       </Animated.View>

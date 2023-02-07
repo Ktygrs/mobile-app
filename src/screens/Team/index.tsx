@@ -37,12 +37,13 @@ export const Team = memo(() => {
         isSearchActive={isSearchActive}
         setIsSearchActive={setIsSearchActive}
       />
-      <RefreshIceIcon
-        theme={'dark-content'}
-        style={styles.refreshIcon}
-        refreshing={refreshing}
-        translateY={translateY}
-      />
+      <View style={styles.refreshIceIconContainer}>
+        <RefreshIceIcon
+          theme={'dark-content'}
+          refreshing={refreshing}
+          translateY={translateY}
+        />
+      </View>
       <DynamicHeight
         isSearchActive={isSearchActive}
         animatedIndex={animatedIndex}>
@@ -59,7 +60,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  refreshIcon: {
-    position: 'relative',
+  refreshIceIconContainer: {
+    height: 0,
   },
 });

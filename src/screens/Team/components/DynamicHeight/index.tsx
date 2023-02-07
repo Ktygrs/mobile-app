@@ -66,7 +66,7 @@ export const DynamicHeight = ({
       sheetRef.current?.snapToPosition(positions.search);
     } else {
       if (Platform.OS === 'android') {
-        setTimeout(() => sheetRef.current?.snapToIndex(0), 500);
+        setTimeout(() => sheetRef.current?.snapToIndex(0), 100);
       } else {
         sheetRef.current?.snapToIndex(0);
       }

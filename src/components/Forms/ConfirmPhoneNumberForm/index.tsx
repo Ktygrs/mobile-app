@@ -5,16 +5,22 @@ import {ConfirmCodeBack} from '@components/Forms/components/ConfirmCode/componen
 import {useConfirmPhoneNumber} from '@components/Forms/ConfirmPhoneNumberForm/hooks/useConfirmPhoneNumber';
 import {CodeInput} from '@components/Inputs/CodeInput';
 import {ResendButton} from '@components/ResendButton';
+import {COLORS} from '@constants/colors';
 import {useNavigation} from '@react-navigation/native';
 import {t} from '@translations/i18n';
 import {formatPhoneNumber} from '@utils/phoneNumber';
 import React from 'react';
+import {StyleSheet} from 'react-native';
 
 type Props = {
-  onGoBack?: () => void;
+  onDoThisLater?: () => void;
+  onModifyPhoneNumber?: () => void;
 };
 
-export const ConfirmPhoneNumberForm = ({onGoBack}: Props) => {
+export const ConfirmPhoneNumberForm = ({
+  onDoThisLater,
+  onModifyPhoneNumber,
+}: Props) => {
   const navigation = useNavigation();
   const {
     code,
@@ -25,7 +31,7 @@ export const ConfirmPhoneNumberForm = ({onGoBack}: Props) => {
     validateLoading,
     isSuccessValidation,
     smsSentTimestamp,
-  } = useConfirmPhoneNumber();
+  } = useConfirmPhoneNumber({onModifyPhoneNumber});
 
   return (
     <ConfirmCode
@@ -48,10 +54,23 @@ export const ConfirmPhoneNumberForm = ({onGoBack}: Props) => {
       }
       BackButton={
         <ConfirmCodeBack
-          onPress={onGoBack ?? navigation.goBack}
+          onPress={onModifyPhoneNumber ?? navigation.goBack}
           text={t('confirm_code.wrong_number')}
         />
+      }
+      DoThisLaterButton={
+        onDoThisLater ? (
+          <ConfirmCodeBack
+            onPress={onDoThisLater}
+            text={t('button.do_this_later')}
+            textStyle={styles.doThisLaterText}
+          />
+        ) : null
       }
     />
   );
 };
+
+const styles = StyleSheet.create({
+  doThisLaterText: {color: COLORS.attention},
+});

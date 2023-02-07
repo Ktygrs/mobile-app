@@ -32,8 +32,6 @@ export const SKELETONS_PER_SCREEN = Math.ceil(
   screenHeight / (SKELETON_HEIGHT + SKELETON_MARGIN),
 );
 
-console.log('SKELETONS_PER_SCREEN', SKELETONS_PER_SCREEN);
-
 export const UserListItem = memo(
   ({
     user,
