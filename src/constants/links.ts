@@ -12,4 +12,5 @@ export const LINKS = {
   MAIN: t('links.main'),
   BLOCK_EXPLORER: ENV.BLOCK_EXPLORER_URL,
   FIREBASE_NOTICE: 'https://ice.io/firebase-notice',
+  KNOWLEDGE_BASE: 'https://ice.io/knowledge-base',
 };

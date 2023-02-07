@@ -3,6 +3,7 @@
 import {Badge} from '@components/Badge';
 import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
+import {LINKS} from '@constants/links';
 import {MIDDLE_BUTTON_HIT_SLOP} from '@constants/styles';
 import {HomeTabStackParamList, MainStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
@@ -14,6 +15,7 @@ import {ChatBubblesIcon} from '@svg/ChatBubblesIcon';
 import {StakeIcon} from '@svg/StakeIcon';
 import {StatsIcon} from '@svg/StatsIcon';
 import {t} from '@translations/i18n';
+import {openLinkWithInAppBrowser} from '@utils/device';
 import React, {memo, useRef} from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import {useSelector} from 'react-redux';
@@ -60,7 +62,11 @@ export const MenuButton = memo(() => {
           {
             icon: <ChatBubblesIcon color={COLORS.downriver} />,
             label: t('home.menu.help'),
-            onPress: () => {},
+            onPress: () => {
+              openLinkWithInAppBrowser({
+                url: LINKS.KNOWLEDGE_BASE,
+              });
+            },
           },
         ],
       });
