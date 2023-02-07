@@ -4,5 +4,5 @@ import {RootState} from '@store/rootReducer';
 
 import {rootSelector} from './rootSelector';
 
-export const getSearchQuery = (state: RootState) =>
-  rootSelector(state).searchQuery;
+export const getNewsIds = (state: RootState) =>
+  rootSelector(state).sortedItemIds;

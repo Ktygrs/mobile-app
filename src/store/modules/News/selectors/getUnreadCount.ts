@@ -4,5 +4,5 @@ import {RootState} from '@store/rootReducer';
 
 import {rootSelector} from './rootSelector';
 
-export const getNewsPostsByIds = (state: RootState) =>
-  rootSelector(state).items;
+export const getUnreadCount = (state: RootState) =>
+  rootSelector(state).unreadCount;

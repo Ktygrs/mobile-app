@@ -5,6 +5,11 @@ export type User = {
   username: string;
   profilePictureUrl: string;
 
+  /**
+   * example: 2022-01-03T16:20:52.156534Z
+   */
+  createdAt: string;
+
   city?: string | null;
   country?: string | null;
 

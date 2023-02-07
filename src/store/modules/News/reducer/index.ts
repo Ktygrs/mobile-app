@@ -1,34 +1,37 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {NewsPost} from '@api/news/types';
+import {NewsArticle} from '@api/news/types';
 import {NewsActions} from '@store/modules/News/actions';
 import produce from 'immer';
 
 export interface State {
+  featuredNewsId: string | undefined;
+
+  sortedItemIds: string[];
   items: {
-    [newsPostId: string]: NewsPost;
+    [newsArticleId: string]: NewsArticle;
   };
   hasMore: boolean;
-  searchQuery: string;
+
+  unreadCount: number;
 }
 
-const actionCreatorNewsLoad = NewsActions.NEWS_LOAD.SUCCESS.create;
-const actionCreatorFailedNewsLoad = NewsActions.NEWS_LOAD.FAILED.create;
-const actionCreatorNewsPostLoad =
-  NewsActions.NEWS_POST_LOAD(null).SUCCESS.create;
-const actionCreatorFailedNewsPostLoad =
-  NewsActions.NEWS_POST_LOAD(null).FAILED.create;
+const actionCreatorMarkViewed =
+  NewsActions.NEWS_ARTICLE_MARK_VIEWED(null).SUCCESS.create;
 
 type Actions =
-  | ReturnType<typeof actionCreatorNewsLoad>
-  | ReturnType<typeof actionCreatorFailedNewsLoad>
-  | ReturnType<typeof actionCreatorNewsPostLoad>
-  | ReturnType<typeof actionCreatorFailedNewsPostLoad>;
+  | ReturnType<typeof NewsActions.NEWS_LOAD.SUCCESS.create>
+  | ReturnType<typeof NewsActions.UNREAD_NEWS_COUNT_LOAD.SUCCESS.create>
+  | ReturnType<typeof actionCreatorMarkViewed>;
 
 const INITIAL_STATE: State = {
+  featuredNewsId: undefined,
+
+  sortedItemIds: [],
   items: {},
   hasMore: true,
-  searchQuery: '',
+
+  unreadCount: 0,
 };
 
 export function newsReducer(state = INITIAL_STATE, action: Actions): State {
@@ -36,17 +39,47 @@ export function newsReducer(state = INITIAL_STATE, action: Actions): State {
     switch (action.type) {
       case NewsActions.NEWS_LOAD.SUCCESS.type:
         {
-          const {news, hasMore, isRefresh} = action.payload;
+          const {newsIds, news, hasMore, isRefresh, featuredNewsArticle} =
+            action.payload;
 
           if (isRefresh) {
+            draft.sortedItemIds = newsIds;
             draft.items = news;
+
+            if (featuredNewsArticle) {
+              draft.featuredNewsId = featuredNewsArticle.id;
+              draft.items[featuredNewsArticle.id] = featuredNewsArticle;
+            } else {
+              draft.featuredNewsId = undefined;
+            }
           } else {
+            draft.sortedItemIds = [
+              ...new Set([...draft.sortedItemIds, ...newsIds]),
+            ];
+
             draft.items = {
+              ...draft.items,
               ...news,
             };
           }
 
           draft.hasMore = hasMore;
+        }
+        break;
+
+      case NewsActions.UNREAD_NEWS_COUNT_LOAD.SUCCESS.type:
+        {
+          const {count} = action.payload;
+
+          draft.unreadCount = count;
+        }
+        break;
+
+      case NewsActions.NEWS_ARTICLE_MARK_VIEWED(null).SUCCESS.type:
+        {
+          const {newsId} = action.payload;
+
+          draft.items[newsId].viewed = true;
         }
         break;
     }

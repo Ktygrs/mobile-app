@@ -142,6 +142,7 @@ export type Translations = {
   'global.data_hidden': null;
   'global.flag': null;
   'global.pull_to_refresh': null;
+  'global.date.today': null;
   'mining_calculator.result_label': null;
   'mining_calculator.active_inviter': null;
   'mining_calculator.tier_1_ref': null;
@@ -323,8 +324,7 @@ export type Translations = {
   'general.days_short': null;
   'news.news_feed': null;
   'news.read_more': null;
-  'news.today': null;
-  'news.views': null;
+  'news.views': {viewsCount: number | string};
   'search.empty': null;
   'search.nothing_is_found': null;
   'search.search_by_country': null;
@@ -376,7 +376,6 @@ export type Translations = {
   'notifications.add_both': null;
   'notifications.clear_title': null;
   'notifications.title': null;
-  'notification_feed_screen.today': null;
   'notification_feed_screen.yesterday': null;
   'notification_feed_screen.last_week': null;
   'notification_feed_screen.this_month': null;

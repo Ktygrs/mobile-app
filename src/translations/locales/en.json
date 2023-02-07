@@ -206,7 +206,10 @@
     "email_address": "Email address",
     "data_hidden": "data is hidden",
     "flag": "🇺🇸",
-    "pull_to_refresh": "pull to update"
+    "pull_to_refresh": "pull to update",
+    "date": {
+      "today": "Today"
+    }
   },
   "mining_calculator": {
     "result_label": "You will earn",
@@ -460,8 +463,7 @@
   "news": {
     "news_feed": "News Feed",
     "read_more": "Read more",
-    "today": "Today",
-    "views": "views"
+    "views": "{{viewsCount}} views"
   },
   "search": {
     "empty": "Search for contacts, ice friends and members of your micro-community",
@@ -529,7 +531,6 @@
     "title": "Notifications"
   },
   "notification_feed_screen": {
-    "today": "Today",
     "yesterday": "Yesterday",
     "last_week": "Last Week",
     "this_month": "This month",

@@ -1,13 +1,15 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {NewsPost} from '@api/news/types';
+import {NewsArticle} from '@api/news/types';
 import {createAction} from '@store/utils/actions/createAction';
 
-const NEWS_LOAD = createAction('NEWS_LOAD', {
+const NEWS_LOAD = createAction('NEWS/NEWS_LOAD', {
   START: (payload: {isRefresh: boolean}) => payload,
   SUCCESS: (payload: {
+    featuredNewsArticle: NewsArticle | undefined;
+    newsIds: string[];
     news: {
-      [key: string]: NewsPost;
+      [newsArticleId: string]: NewsArticle;
     };
     hasMore: boolean;
     isRefresh: boolean;
@@ -17,15 +19,19 @@ const NEWS_LOAD = createAction('NEWS_LOAD', {
   }),
 });
 
-const NEWS_POST_LOAD = createAction(
-  'NEWSPOST_LOAD',
+const UNREAD_NEWS_COUNT_LOAD = createAction('NEWS/UNREAD_NEWS_COUNT_LOAD', {
+  START: true,
+  SUCCESS: (payload: {count: number}) => payload,
+  FAILED: (errorMessage: string) => ({
+    errorMessage,
+  }),
+});
+
+const NEWS_ARTICLE_MARK_VIEWED = createAction(
+  'NEWS/NEWS_ARTICLE_MARK_VIEWED',
   {
-    START: (newsPostId: string) => ({
-      newsPostId,
-    }),
-    SUCCESS: ({newsPost}: {newsPost: NewsPost}) => ({
-      newsPost,
-    }),
+    START: (payload: {newsId: string}) => payload,
+    SUCCESS: (payload: {newsId: string}) => payload,
     FAILED: (errorMessage: string) => ({
       errorMessage,
     }),
@@ -37,5 +43,6 @@ const NEWS_POST_LOAD = createAction(
 
 export const NewsActions = Object.freeze({
   NEWS_LOAD,
-  NEWS_POST_LOAD,
+  UNREAD_NEWS_COUNT_LOAD,
+  NEWS_ARTICLE_MARK_VIEWED,
 });

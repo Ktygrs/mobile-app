@@ -15,7 +15,7 @@ export const orderDataBySections = (activities: Activity[]) => {
 
   sortedByTime.forEach((activity: Activity) => {
     const title = dayjs().calendar(dayjs(activity.time), {
-      sameDay: `${t('notification_feed_screen.today')}`,
+      sameDay: `${t('global.date.today')}`,
       lastDay: `${t('notification_feed_screen.yesterday')}`,
       lastWeek: `${t('notification_feed_screen.last_week')}`,
       sameElse: (date: dayjs.Dayjs) => {

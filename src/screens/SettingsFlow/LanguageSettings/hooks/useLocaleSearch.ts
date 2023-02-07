@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {SupportedLocale} from '@translations/i18n';
 import {debounce} from 'lodash';
 import {useMemo, useState} from 'react';
 
-export const useLocaleSearch = (availableLocales: string[]) => {
+export const useLocaleSearch = (availableLocales: SupportedLocale[]) => {
   const [locales, setLocales] = useState(availableLocales);
 
   const searchLocales = useMemo(

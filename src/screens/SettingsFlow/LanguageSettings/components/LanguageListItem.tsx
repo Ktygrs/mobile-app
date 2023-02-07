@@ -2,17 +2,17 @@
 
 import {CheckMark} from '@components/CheckMark';
 import {Touchable} from '@components/Touchable';
-import {t} from '@translations/i18n';
+import {SupportedLocale, t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
 import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
 import {rem} from 'rn-units';
 
 type Props = {
-  language: string;
+  language: SupportedLocale;
   selected: boolean;
   loading: boolean;
-  onSelect: (value: string) => void;
+  onSelect: (value: SupportedLocale) => void;
 };
 
 export const LanguageListItem = memo(

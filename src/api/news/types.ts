@@ -1,18 +1,15 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {ImageSourcePropType} from 'react-native';
+export type NewsArticleType = 'regular' | 'featured';
 
-/**
- * The news post type
- */
-export interface NewsPost {
+export interface NewsArticle {
+  createdAt: string;
   id: string;
-  title: string | null;
-  subtitle?: string | null;
-  description?: string | null;
-  placeholderUrl?: string | null;
-  createdAt?: Date | string | null;
-  illustration: ImageSourcePropType | null;
-  unread?: boolean;
-  viewed?: number | null;
+  imageUrl: string;
+  language: string;
+  title: string;
+  type: NewsArticleType;
+  url: string;
+  viewed: boolean;
+  views: number;
 }

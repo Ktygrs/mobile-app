@@ -2,6 +2,7 @@
 
 export const COLORS = {
   black: '#000000',
+  blackTransparent: '#00000000',
   white: '#FFFFFF',
   white02opacity: 'rgba(255,255,255, .2)',
   black01opacity: 'rgba(0,0,0,.1)',
@@ -30,6 +31,7 @@ export const COLORS = {
   gullGray: '#98A4BB',
   royalBlue: '#6556EE',
   toreaBay: '#0E3794',
+  toreaBay1: '#11359C',
   blueViolet: '#5F5DB1',
   gallery: '#EBEBEB',
   scorpion: '#575757',
@@ -52,4 +54,6 @@ export const COLORS = {
   adoptionGradient07: 'rgba(21, 57, 144, 0.7)',
   adoptionGradient001: 'rgba(21, 57, 144, 0.01)',
   completed: '#B0DEC8',
+  koromiko: '#FFBE6C',
+  neonCarrot: '#FEA43A',
 };

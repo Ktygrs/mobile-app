@@ -1,13 +1,17 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {getNewsListData} from './getNewsListData';
-import {getNewsPostsByIds} from './getNewsPostsByIds';
-import {getSearchQuery} from './getSearchQuery';
+import {getFeaturedNewsArticle} from './getFeaturedNewsArticle';
+import {getNewsArticle} from './getNewsArticle';
+import {getNewsByIds} from './getNewsByIds';
+import {getNewsIds} from './getNewsIds';
+import {getUnreadCount} from './getUnreadCount';
 import {hasMoreToLoad} from './hasMoreToLoad';
 
 export const NewsSelectors = Object.freeze({
-  getSearchQuery,
-  getNewsPostsByIds,
-  getNewsListData,
+  getFeaturedNewsArticle,
+  getNewsArticle,
+  getNewsByIds,
+  getNewsIds,
+  getUnreadCount,
   hasMoreToLoad,
 });

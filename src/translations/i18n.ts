@@ -12,15 +12,21 @@ const locales = {
   ro,
 };
 
+export type SupportedLocale = keyof typeof locales;
+
+const DEFAULT_LOCALE: SupportedLocale = 'en';
+
 const i18n = new I18n(locales);
 
-export const availableLocales = Object.keys(locales);
+export const availableLocales = Object.keys(locales) as SupportedLocale[];
 
 export const locale = RNLocalize.findBestAvailableLanguage(availableLocales);
 
-i18n.defaultLocale = 'en';
+i18n.defaultLocale = DEFAULT_LOCALE;
 
-export const appLocale = locale?.languageTag || i18n.defaultLocale;
+export const appLocale =
+  locale?.languageTag ||
+  (i18n.defaultLocale as Extract<SupportedLocale, typeof DEFAULT_LOCALE>);
 
 i18n.locale = appLocale;
 i18n.enableFallback = true;
