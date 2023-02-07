@@ -9,7 +9,13 @@ import {MainStackParamList} from '@navigation/Main';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {font} from '@utils/styles';
 import React from 'react';
-import {StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native';
+import {
+  InteractionManager,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import Animated, {SlideInDown} from 'react-native-reanimated';
 import {rem} from 'rn-units';
 
@@ -17,6 +23,7 @@ export const ActionSheet = () => {
   const {
     params: {title, buttons},
   } = useRoute<RouteProp<MainStackParamList, 'ActionSheet'>>();
+
   const navigation = useNavigation();
   const bottomOffsetStyle = useBottomOffsetStyle();
 
@@ -34,7 +41,15 @@ export const ActionSheet = () => {
                 key={index}
                 onPress={() => {
                   navigation.goBack();
-                  button.onPress();
+                  /** Its a modal dismiss collision, so without timeout Camera/Gallery
+                   * picker will be closed immediately
+                   * https://github.com/ivpusic/react-native-image-crop-picker/issues/1433
+                   */
+                  setTimeout(() => {
+                    InteractionManager.runAfterInteractions(() => {
+                      button.onPress();
+                    });
+                  }, 1000);
                 }}>
                 <View style={styles.button}>
                   <View style={styles.buttonIcon}>
