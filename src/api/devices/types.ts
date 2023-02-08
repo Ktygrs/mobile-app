@@ -54,6 +54,7 @@ export interface DeviceMetadata extends DeviceId {
   tags: string | null;
   type: string | null;
   userAgent: string | null;
+  tz: string;
 }
 
 export interface DeviceId {

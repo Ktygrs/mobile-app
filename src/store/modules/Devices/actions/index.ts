@@ -10,7 +10,7 @@ const UPDATE_SETTINGS = createAction('SET_SETTINGS', {
   FAILED: (errorMessage: string) => ({errorMessage}),
 });
 
-const UPDATE_DEVICE_METADATA = createAction('SET_DEVICE_METADATA', {
+const UPDATE_DEVICE_METADATA = createAction('UPDATE_DEVICE_METADATA', {
   START: (payload: {forceUpdate?: boolean}) => payload,
   SUCCESS: () => {},
   FAILED: (errorMessage: string, errorCode?: string) => ({

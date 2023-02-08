@@ -10,7 +10,10 @@ import {
   isAuthorizedSelector,
   userIdSelector,
 } from '@store/modules/Account/selectors';
-import {isAppActiveSelector} from '@store/modules/AppCommon/selectors';
+import {
+  isAppActiveSelector,
+  isAppInitializedSelector,
+} from '@store/modules/AppCommon/selectors';
 import {DeviceActions} from '@store/modules/Devices/actions';
 import {
   deviceUniqueIdSelector,
@@ -19,7 +22,7 @@ import {
 import {isPermissionGrantedSelector} from '@store/modules/Permissions/selectors';
 import {getErrorMessage} from '@utils/errors';
 import DeviceInfo from 'react-native-device-info';
-import {call, put, select} from 'redux-saga/effects';
+import {all, call, put, select} from 'redux-saga/effects';
 
 type Action = ReturnType<
   typeof DeviceActions.UPDATE_DEVICE_METADATA.START.create
@@ -27,17 +30,16 @@ type Action = ReturnType<
 
 export function* updateDeviceMetadataSaga(action: Action) {
   try {
-    const {forceUpdate} = action.payload;
+    const {forceUpdate} = action.payload ?? {};
+
     const isAuthorized: ReturnType<typeof isAuthorizedSelector> = yield select(
       isAuthorizedSelector,
     );
     const isAppActive: ReturnType<typeof isAppActiveSelector> = yield select(
       isAppActiveSelector,
     );
-
-    const hasPushPermissions: boolean = yield select(
-      isPermissionGrantedSelector('pushNotifications'),
-    );
+    const isAppInitialized: ReturnType<typeof isAppActiveSelector> =
+      yield select(isAppInitializedSelector);
 
     const lastUpdateDate: ReturnType<typeof lastMetadataUpdateSelector> =
       yield select(lastMetadataUpdateSelector);
@@ -51,100 +53,68 @@ export function* updateDeviceMetadataSaga(action: Action) {
       !lastUpdateDate ||
       hoursFromLastUpdate >= DEVICE_METADATA_UPDATE_TIMEOUT_HOURS;
 
-    if (isAuthorized && isAppActive && shouldUpdateMetadata) {
-      const [
-        fingerprint,
-        instanceId,
-        hardware,
-        product,
-        device,
-        type,
-        tags,
-        deviceName,
-        carrier,
-        manufacturer,
-        userAgent,
-        pinOrFingerprintSet,
-        emulator,
-        firstInstallTime,
-        lastUpdateTime,
-        apiLevel,
-        buildId,
-        codename,
-        installerPackageName,
-        baseOS,
-        bootloader,
-        pushNotificationToken,
-      ] = yield Promise.all([
-        DeviceInfo.getFingerprint(),
-        DeviceInfo.getInstanceId(),
-        DeviceInfo.getHardware(),
-        DeviceInfo.getProduct(),
-        DeviceInfo.getDevice(),
-        DeviceInfo.getType(),
-        DeviceInfo.getTags(),
-        DeviceInfo.getDeviceName(),
-        DeviceInfo.getCarrier(),
-        DeviceInfo.getManufacturer(),
-        DeviceInfo.getUserAgent(),
-        DeviceInfo.isPinOrFingerprintSet(),
-        DeviceInfo.isEmulator(),
-        DeviceInfo.getFirstInstallTime(),
-        DeviceInfo.getLastUpdateTime(),
-        DeviceInfo.getApiLevel(),
-        DeviceInfo.getBuildId(),
-        DeviceInfo.getCodename(),
-        DeviceInfo.getInstallerPackageName(),
-        DeviceInfo.getBaseOs(),
-        DeviceInfo.getBootloader(),
-        hasPushPermissions ? messaging().getToken() : '',
-      ]);
-
-      const userId: ReturnType<typeof userIdSelector> = yield select(
-        userIdSelector,
+    if (
+      isAuthorized &&
+      // wait the app to be initialized so the deviceUniqueId is populated
+      isAppInitialized &&
+      isAppActive &&
+      shouldUpdateMetadata
+    ) {
+      const hasPushPermissions: boolean = yield select(
+        isPermissionGrantedSelector('pushNotifications'),
       );
-      const deviceUniqueId: ReturnType<typeof deviceUniqueIdSelector> =
-        yield select(deviceUniqueIdSelector);
+      const timezoneOffset = new Date().getTimezoneOffset();
 
-      const collectedMetadata: DeviceMetadata = {
+      const data = {
+        userId: select(userIdSelector),
+        deviceUniqueId: select(deviceUniqueIdSelector),
         readableVersion: DeviceInfo.getReadableVersion(),
-        fingerprint,
-        instanceId,
-        hardware,
-        product,
-        device,
-        type,
-        tags,
+        fingerprint: DeviceInfo.getFingerprint(),
+        instanceId: DeviceInfo.getInstanceId(),
+        hardware: DeviceInfo.getHardware(),
+        product: DeviceInfo.getProduct(),
+        device: DeviceInfo.getDevice(),
+        type: DeviceInfo.getType(),
+        tags: DeviceInfo.getTags(),
+        deviceName: DeviceInfo.getDeviceName(),
+        carrier: DeviceInfo.getCarrier(),
+        manufacturer: DeviceInfo.getManufacturer(),
+        userAgent: DeviceInfo.getUserAgent(),
+        pinOrFingerprintSet: DeviceInfo.isPinOrFingerprintSet(),
+        emulator: DeviceInfo.isEmulator(),
+        firstInstallTime: DeviceInfo.getFirstInstallTime().then(time =>
+          time === -1 ? dayjs().valueOf() : time,
+        ),
+        lastUpdateTime: DeviceInfo.getLastUpdateTime().then(time =>
+          time === -1 ? dayjs().valueOf() : time,
+        ),
+        apiLevel: DeviceInfo.getApiLevel().then(apiLevel =>
+          apiLevel === -1 ? 999 : apiLevel,
+        ),
+        buildId: DeviceInfo.getBuildId(),
+        codename: DeviceInfo.getCodename(),
+        installerPackageName: DeviceInfo.getInstallerPackageName(),
+        baseOS: DeviceInfo.getBaseOs(),
+        bootloader: DeviceInfo.getBootloader(),
         deviceId: DeviceInfo.getDeviceId(),
         deviceType: DeviceInfo.getDeviceType(),
-        deviceName,
         brand: DeviceInfo.getBrand(),
-        carrier,
-        manufacturer,
-        userAgent,
         tablet: DeviceInfo.isTablet(),
-        pinOrFingerprintSet,
-        emulator,
-        firstInstallTime:
-          firstInstallTime === -1 ? dayjs().valueOf() : firstInstallTime,
-        lastUpdateTime:
-          lastUpdateTime === -1 ? dayjs().valueOf() : lastUpdateTime,
         systemName: DeviceInfo.getSystemName(),
         systemVersion: DeviceInfo.getSystemVersion(),
-        apiLevel: apiLevel === -1 ? 999 : apiLevel,
-        baseOS,
-        buildId,
-        bootloader: bootloader,
-        codename,
-        installerPackageName,
-        pushNotificationToken,
-        userId,
-        deviceUniqueId,
+        pushNotificationToken: hasPushPermissions ? messaging().getToken() : '',
+        tz:
+          (timezoneOffset >= 0 ? '+' : '-') +
+          dayjs.duration(Math.abs(timezoneOffset), 'm').format('HH:mm'),
       };
 
-      yield call(Api.devices.updateDeviceMetadata, {
-        metadata: collectedMetadata,
-      });
+      const resolvedMetadata: {
+        [key in keyof typeof data]: Awaited<typeof metadata[key]>;
+      } = yield all(data);
+
+      const metadata: DeviceMetadata = resolvedMetadata;
+
+      yield call(Api.devices.updateDeviceMetadata, {metadata});
 
       yield put(DeviceActions.UPDATE_DEVICE_METADATA.SUCCESS.create());
     }
