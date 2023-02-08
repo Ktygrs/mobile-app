@@ -11,7 +11,7 @@ export const MagnifierZoomOutIcon = (props: SvgProps) => (
       cy={14.375}
       r={11.875}
       stroke={props.color ?? COLORS.secondary}
-      stroke-width={8}
+      strokeWidth={2}
     />
     <Path
       d="M25.75 25L28.25 27.5"

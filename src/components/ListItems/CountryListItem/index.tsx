@@ -2,11 +2,13 @@
 
 import {COLORS} from '@constants/colors';
 import {DEFAULT_FORMAT_LOCALE} from '@constants/formatting';
+import {flags} from '@flags';
 import {TierTwoIcon} from '@svg/TierTwoIcon';
 import {getCountryByCode} from '@utils/country';
 import {font} from '@utils/styles';
 import React, {memo, ReactNode} from 'react';
 import {
+  Image,
   StyleProp,
   StyleSheet,
   Text,
@@ -14,7 +16,6 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import {rem} from 'rn-units';
 
 type Props = {
@@ -24,6 +25,9 @@ type Props = {
   nameStyle?: StyleProp<TextStyle>;
   containerStyle?: StyleProp<ViewStyle>;
 };
+
+const FLAG_WIDTH = rem(24);
+const FLAG_HEIGHT = (FLAG_WIDTH / 20) * 14;
 
 export const CountryListItem = memo(
   ({
@@ -41,7 +45,10 @@ export const CountryListItem = memo(
 
     return (
       <View style={[styles.container, containerStyle]}>
-        <Text style={styles.flagText}>{country.flag}</Text>
+        <Image
+          style={styles.flag}
+          source={flags[country.isoCode.toLowerCase()]}
+        />
         <Text style={[styles.nameText, nameStyle]} numberOfLines={1}>
           {country.name}
         </Text>
@@ -65,14 +72,6 @@ export const CountryListItem = memo(
   },
 );
 
-export const CountryListItemSkeleton = ({
-  containerStyle,
-}: {containerStyle?: StyleProp<ViewStyle>} = {}) => (
-  <SkeletonPlaceholder>
-    <View style={[styles.skeleton, containerStyle]} />
-  </SkeletonPlaceholder>
-);
-
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
@@ -80,13 +79,17 @@ const styles = StyleSheet.create({
     marginTop: rem(20),
     height: rem(30),
   },
-  flagText: {
-    ...font(30, 36),
-  },
   nameText: {
     flex: 1,
     marginLeft: rem(12),
-    ...font(15, 20, 'bold', 'primaryDark'),
+    ...font(15, 20, 'semibold', 'primaryDark'),
+  },
+  flag: {
+    width: FLAG_WIDTH,
+    height: FLAG_HEIGHT,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: COLORS.black01opacity,
   },
   users: {
     flexDirection: 'row',
@@ -94,11 +97,5 @@ const styles = StyleSheet.create({
   },
   usersText: {
     ...font(12, 20, 'bold', 'secondary'),
-  },
-  skeleton: {
-    height: rem(30),
-    borderRadius: rem(9),
-    marginTop: rem(20),
-    alignSelf: 'stretch',
   },
 });

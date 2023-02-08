@@ -1,10 +1,8 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {CountryStatistics} from '@api/statistics/types';
-import {
-  CountryListItem,
-  CountryListItemSkeleton,
-} from '@components/ListItems/CountryListItem';
+import {CountryListItem} from '@components/ListItems/CountryListItem';
+import {ListItemSkeleton} from '@components/ListItems/ListItemSkeleton';
 import {SectionHeader} from '@components/SectionHeader';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {useFetchCollection} from '@hooks/useFetchCollection';
@@ -22,7 +20,7 @@ const COUNTRIES_COUNT = 5;
 
 const SKELETONS = Array(COUNTRIES_COUNT)
   .fill(null)
-  .map((_, index) => <CountryListItemSkeleton key={index} />);
+  .map((_, index) => <ListItemSkeleton key={index} />);
 
 export const TopCountries = memo(() => {
   const navigation =

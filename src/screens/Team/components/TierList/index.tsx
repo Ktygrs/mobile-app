@@ -2,10 +2,10 @@
 
 import {ReferralType, User} from '@api/user/types';
 import {ActivityIndicator} from '@components/ActivityIndicator';
+import {ListItemSkeleton} from '@components/ListItems/ListItemSkeleton';
 import {
   SKELETONS_PER_SCREEN,
   UserListItem,
-  UserListItemSkeleton,
 } from '@components/ListItems/UserListItem';
 import {UserListPingButton} from '@components/ListItems/UserListItem/components/UserListPingButton';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
@@ -129,7 +129,7 @@ export const TierList = memo(
               {Array(SKELETONS_PER_SCREEN)
                 .fill(null)
                 .map((_, index) => (
-                  <UserListItemSkeleton key={index} />
+                  <ListItemSkeleton key={index} />
                 ))}
             </View>
           ) : (

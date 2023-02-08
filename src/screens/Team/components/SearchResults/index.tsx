@@ -1,10 +1,8 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {TeamUserType, User} from '@api/user/types';
-import {
-  UserListItem,
-  UserListItemSkeleton,
-} from '@components/ListItems/UserListItem';
+import {ListItemSkeleton} from '@components/ListItems/ListItemSkeleton';
+import {UserListItem} from '@components/ListItems/UserListItem';
 import {UserListPingButton} from '@components/ListItems/UserListItem/components/UserListPingButton';
 import {COLORS} from '@constants/colors';
 import {commonStyles, SCREEN_SIDE_OFFSET} from '@constants/styles';
@@ -116,7 +114,7 @@ export const SearchResults = memo(() => {
           {Array(VIEW_PORT_ITEMS_SIZE)
             .fill(null)
             .map((_, index) => (
-              <UserListItemSkeleton key={index} />
+              <ListItemSkeleton key={index} />
             ))}
         </>
       );

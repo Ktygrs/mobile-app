@@ -11,15 +11,7 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {font} from '@utils/styles';
 import React, {memo, ReactNode} from 'react';
-import {
-  Image,
-  StyleProp,
-  StyleSheet,
-  Text,
-  View,
-  ViewStyle,
-} from 'react-native';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import {Image, StyleSheet, Text, View} from 'react-native';
 import {rem, screenHeight} from 'rn-units';
 
 const FLAG_WIDTH = rem(24);
@@ -89,16 +81,6 @@ export const UserListItem = memo(
   },
 );
 
-export const UserListItemSkeleton = ({
-  containerStyle,
-}: {containerStyle?: StyleProp<ViewStyle>} = {}) => (
-  <SkeletonPlaceholder>
-    <View style={containerStyle}>
-      <View style={styles.skeleton} />
-    </View>
-  </SkeletonPlaceholder>
-);
-
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
@@ -131,12 +113,6 @@ const styles = StyleSheet.create({
   noteText: {
     paddingTop: rem(3),
     ...font(13.5, null, 'medium', 'emperor'),
-  },
-  skeleton: {
-    height: SKELETON_HEIGHT,
-    borderRadius: SKELETON_MARGIN,
-    marginTop: rem(14),
-    alignSelf: 'stretch',
   },
   flag: {
     marginLeft: rem(12),

@@ -2,10 +2,8 @@
 
 import {ActivityIndicator} from '@components/ActivityIndicator';
 import {InviteButton} from '@components/InviteButton';
-import {
-  UserListItem,
-  UserListItemSkeleton,
-} from '@components/ListItems/UserListItem';
+import {ListItemSkeleton} from '@components/ListItems/ListItemSkeleton';
+import {UserListItem} from '@components/ListItems/UserListItem';
 import {UserListPingButton} from '@components/ListItems/UserListItem/components/UserListPingButton';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {BottomSheetSectionList} from '@gorhom/bottom-sheet';
@@ -83,7 +81,7 @@ export const ContactsList = ({
         if (item.element === 'InviteFriendsButton') {
           return <InviteButton style={styles.inviteButtonContainer} />;
         } else if (item.element === 'Loading') {
-          return <UserListItemSkeleton />;
+          return <ListItemSkeleton />;
         } else if (item.element === 'Error') {
           return <Text>{item.message}</Text>;
         }

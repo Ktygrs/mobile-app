@@ -1,10 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {Miner} from '@api/statistics/types';
-import {
-  UserListItemCompact,
-  UserListItemCompactSkeleton,
-} from '@components/ListItems/UserListItemCompact';
+import {UserListItemCompact} from '@components/ListItems/UserListItemCompact';
 import {Touchable} from '@components/Touchable';
 import {MainNavigationParams} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
@@ -47,7 +44,6 @@ export const TopMiners = memo(() => {
       selector={collectionSelector('minersSearch')}
       action={CollectionActions.SEARCH_MINERS}
       renderItem={renderListItem}
-      SkeletonItem={UserListItemCompactSkeleton}
     />
   );
 });

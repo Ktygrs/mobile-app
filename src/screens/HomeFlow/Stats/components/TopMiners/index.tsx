@@ -1,10 +1,8 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {Miner} from '@api/statistics/types';
-import {
-  UserListItemCompact,
-  UserListItemCompactSkeleton,
-} from '@components/ListItems/UserListItemCompact';
+import {ListItemSkeleton} from '@components/ListItems/ListItemSkeleton';
+import {UserListItemCompact} from '@components/ListItems/UserListItemCompact';
 import {SectionHeader} from '@components/SectionHeader';
 import {Touchable} from '@components/Touchable';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
@@ -25,7 +23,7 @@ const MINERS_COUNT = 5;
 
 const SKELETONS = Array(MINERS_COUNT)
   .fill(null)
-  .map((_, index) => <UserListItemCompactSkeleton key={index} />);
+  .map((_, index) => <ListItemSkeleton key={index} />);
 
 export const TopMiners = memo(() => {
   const navigation =

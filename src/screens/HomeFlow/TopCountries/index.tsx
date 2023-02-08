@@ -1,10 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {CountryStatistics} from '@api/statistics/types';
-import {
-  CountryListItem,
-  CountryListItemSkeleton,
-} from '@components/ListItems/CountryListItem';
+import {CountryListItem} from '@components/ListItems/CountryListItem';
 import {CollectionList} from '@screens/Templates/CollectionList';
 import {CollectionActions} from '@store/modules/Collections';
 import {collectionSelector} from '@store/modules/Collections/selectors';
@@ -19,7 +16,6 @@ export const TopCountries = memo(() => {
       selector={collectionSelector('statsCountriesSearch')}
       action={CollectionActions.SEARCH_STATS_COUNTRIES}
       renderItem={renderListItem}
-      SkeletonItem={CountryListItemSkeleton}
     />
   );
 });

@@ -6,8 +6,7 @@ import {COLORS} from '@constants/colors';
 import {ClosedEye} from '@svg/ClosedEye';
 import {font} from '@utils/styles';
 import React, {memo, ReactNode} from 'react';
-import {StyleProp, StyleSheet, Text, View, ViewStyle} from 'react-native';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import {StyleSheet, Text, View} from 'react-native';
 import {isAndroid, rem} from 'rn-units';
 
 export const UserListItemCompact = memo(
@@ -65,14 +64,6 @@ export const UserListItemCompact = memo(
   },
 );
 
-export const UserListItemCompactSkeleton = ({
-  containerStyle,
-}: {containerStyle?: StyleProp<ViewStyle>} = {}) => (
-  <SkeletonPlaceholder>
-    <View style={[styles.skeleton, containerStyle]} />
-  </SkeletonPlaceholder>
-);
-
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
@@ -93,7 +84,7 @@ const styles = StyleSheet.create({
   },
   nameText: {
     flex: 1,
-    ...font(15, 20, 'medium', 'primaryDark'),
+    ...font(15, 20, 'semibold', 'primaryDark'),
   },
   hiddenNameContainer: {
     flex: 1,
@@ -108,11 +99,5 @@ const styles = StyleSheet.create({
   },
   iceText: {
     ...font(12, 20, 'semibold', 'secondary'),
-  },
-  skeleton: {
-    height: rem(40),
-    borderRadius: rem(9),
-    marginTop: rem(16),
-    alignSelf: 'stretch',
   },
 });
