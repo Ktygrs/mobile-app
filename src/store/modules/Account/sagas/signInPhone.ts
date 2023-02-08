@@ -2,6 +2,7 @@
 
 import {getAuthErrorMessage, signInWithPhoneNumber} from '@services/auth';
 import {AccountActions} from '@store/modules/Account/actions';
+import {t} from '@translations/i18n';
 import {getErrorMessage} from '@utils/errors';
 import {call, put, SagaReturnType, take} from 'redux-saga/effects';
 
@@ -10,6 +11,11 @@ export function* signInPhoneSaga(
 ) {
   try {
     const phoneNumber = startAction.payload.phoneNumber;
+
+    if (phoneNumber.trim() === '') {
+      throw new Error(t('errors.invalid_phone'));
+    }
+
     let confirmation: SagaReturnType<typeof signInWithPhoneNumber> = yield call(
       signInWithPhoneNumber,
       phoneNumber,

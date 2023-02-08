@@ -24,10 +24,17 @@ export const usePhoneAuth = () => {
 
   const smsSentTimestamp = useSelector(smsSentTimestampSelector);
 
+  const resetError = () => {
+    if (phoneAuthFailedReason) {
+      dispatch(AccountActions.SIGN_IN_PHONE.RESET);
+    }
+  };
+
   const signInWithPhoneNumber = () =>
     dispatch(AccountActions.SIGN_IN_PHONE.START.create(fullPhoneRef.current));
 
   const onChangePhone = (phoneBody: string, iddCode: string) => {
+    resetError();
     setPhoneNumberBody(phoneBody);
     fullPhoneRef.current = `${iddCode}${phoneBody}`;
   };
