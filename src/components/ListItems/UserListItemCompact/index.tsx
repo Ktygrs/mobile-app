@@ -29,6 +29,7 @@ export const UserListItemCompact = memo(
               uri={profilePictureUrl}
               size={rem(40)}
               borderRadius={rem(9)}
+              allowFullScreen={false}
             />
           ) : (
             <View style={styles.hiddenImage}>
