@@ -16,7 +16,7 @@ import {SetEmail} from '@screens/WelcomeFlow/SetEmail';
 import {WhoInvitedYou} from '@screens/WelcomeFlow/WhoInvitedYou';
 import {userSelector} from '@store/modules/Account/selectors';
 import {isOnboardingViewedSelector} from '@store/modules/Users/selectors';
-import {emailVerificationStepSelector} from '@store/modules/Validation/selectors';
+// import {emailVerificationStepSelector} from '@store/modules/Validation/selectors'; //TODO: temp email step disabling
 import React, {useEffect, useMemo, useRef} from 'react';
 import {useSelector} from 'react-redux';
 
@@ -37,7 +37,7 @@ const STEPS: (keyof WelcomeStackParamList)[] = [
   'Onboarding',
   'ClaimUsername',
   'WhoInvitedYou',
-  'SetEmail',
+  // 'SetEmail', //TODO: temp email step disabling
   'IceBonus',
 ];
 
@@ -46,7 +46,7 @@ export function WelcomeNavigator() {
   const user: ReturnType<typeof userSelector> = useSelector(userSelector);
   const isOnboardingViewed = useSelector(isOnboardingViewedSelector(user?.id));
 
-  const emailVerificationStep = useSelector(emailVerificationStepSelector);
+  // const emailVerificationStep = useSelector(emailVerificationStepSelector); //TODO: temp email step disabling
   const navigation =
     useNavigation<NativeStackNavigationProp<WelcomeStackParamList>>();
 
@@ -60,14 +60,17 @@ export function WelcomeNavigator() {
       return 'ClaimUsername';
     } else if (!finalizedSteps.includes('referral')) {
       return 'WhoInvitedYou';
-    } else if (!finalizedSteps.includes('email')) {
-      return emailVerificationStep === 'email'
-        ? 'SetEmail'
-        : 'ConfirmEmailCode';
-    } else {
+    }
+    //TODO: temp email step disabling
+    // else if (!finalizedSteps.includes('email')) {
+    //   return emailVerificationStep === 'email'
+    //     ? 'SetEmail'
+    //     : 'ConfirmEmailCode';
+    // }
+    else {
       return 'IceBonus';
     }
-  }, [emailVerificationStep, user, isOnboardingViewed]);
+  }, [user, isOnboardingViewed]);
 
   /**
    * `user` dependency is added here to handle properly navigation transitions

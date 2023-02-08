@@ -25,7 +25,7 @@ import {useSelector} from 'react-redux';
 const REQUIRED_AUTH_STEPS: RegistrationProcessFinalizedStep[] = [
   'username',
   'referral',
-  'email',
+  // 'email', //TODO: temp email step disabling
   'iceBonus',
 ];
 
