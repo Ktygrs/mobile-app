@@ -9,9 +9,7 @@ import {TwitterIcon} from '@svg/TwitterIcon';
 import * as React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {useDispatch} from 'react-redux';
-import {isIOS, rem} from 'rn-units';
-
-export const SOCIAL_BUTTONS_HEIGHT = rem(50);
+import {isIOS} from 'rn-units';
 
 export const SocialButtons = () => {
   const dispatch = useDispatch();
@@ -56,6 +54,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    height: SOCIAL_BUTTONS_HEIGHT,
   },
 });

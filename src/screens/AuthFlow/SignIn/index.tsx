@@ -10,10 +10,8 @@ import {useScrollEndOnKeyboardShown} from '@hooks/useScrollEndOnKeyboardShown';
 import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
 import {Divider} from '@screens/AuthFlow/SignIn/components/Divider';
 import {Header} from '@screens/AuthFlow/SignIn/components/Header';
-import {
-  SOCIAL_BUTTONS_HEIGHT,
-  SocialButtons,
-} from '@screens/AuthFlow/SignIn/components/SocialButtons';
+import {SocialButtons} from '@screens/AuthFlow/SignIn/components/SocialButtons';
+import {SOCIAL_BUTTON_SIZE} from '@screens/AuthFlow/SignIn/components/SocialButtons/components/SocialButton';
 import {SubmitButton} from '@screens/AuthFlow/SignIn/components/SubmitButton';
 import {Tab, Tabs} from '@screens/AuthFlow/SignIn/components/Tabs';
 import {useEmailAuth} from '@screens/AuthFlow/SignIn/hooks/useEmailAuth';
@@ -44,7 +42,7 @@ export const SignIn = () => {
   const [activeTab, setActiveTab] = useState<Tab>('email');
 
   return (
-    <KeyboardAvoider keyboardVerticalOffset={rem(15) - SOCIAL_BUTTONS_HEIGHT}>
+    <KeyboardAvoider keyboardVerticalOffset={rem(15) - SOCIAL_BUTTON_SIZE}>
       <ScrollView
         style={styles.container}
         contentContainerStyle={styles.containerContent}
