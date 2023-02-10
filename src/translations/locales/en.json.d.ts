@@ -43,6 +43,8 @@ export type Translations = {
   'button.confirm': null;
   'button.do_this_later': null;
   'button.resurrect_me': null;
+  'button.claim_bonus': null;
+  'button.close': null;
   'team.contacts_tab': null;
   'team.tierOne_tab': null;
   'team.tierTwo_tab': null;
@@ -485,4 +487,11 @@ export type Translations = {
   'links.privacy': null;
   'links.terms': null;
   'links.main': null;
+  'extra_bonus.claim_title': null;
+  'extra_bonus.claim_message': null;
+  'extra_bonus.link': null;
+  'extra_bonus.extra_message': null;
+  'extra_bonus.expired_title': null;
+  'extra_bonus.expired_message': null;
+  'extra_bonus.result_title': null;
 };

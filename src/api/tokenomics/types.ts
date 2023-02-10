@@ -32,6 +32,7 @@ export type MiningSummary = {
   miningSession: MiningSession | null;
   miningStreak?: number;
   remainingFreeMiningSessions?: number;
+  availableExtraBonus?: number;
 };
 
 export type BalanceSummary = {

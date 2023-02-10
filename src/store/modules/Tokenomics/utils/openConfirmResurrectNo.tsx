@@ -3,6 +3,7 @@
 import {ResurrectRequiredData} from '@api/tokenomics/types';
 import {Images} from '@images';
 import {navigate} from '@navigation/utils';
+import {Message} from '@screens/Modals/PopUp/components/Message';
 import {t} from '@translations/i18n';
 import {formatNumberString} from '@utils/numbers';
 import {font} from '@utils/styles';
@@ -27,9 +28,9 @@ export const openConfirmResurrectNo = (params: ResurrectRequiredData) => {
   navigate({
     name: 'PopUp',
     params: {
-      image: Images.popUp.resurrection,
+      imageProps: {source: Images.popUp.resurrection},
       title: t('pop_up.please_confirm'),
-      message,
+      message: <Message text={message} />,
       buttons: [
         {
           label: t('button.cancel'),
@@ -41,6 +42,7 @@ export const openConfirmResurrectNo = (params: ResurrectRequiredData) => {
           onPress: () => resultResolve('yes'),
         },
       ],
+      onDismiss: () => resultResolve('no'),
     },
   });
 

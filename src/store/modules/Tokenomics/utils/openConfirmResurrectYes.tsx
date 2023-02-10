@@ -11,7 +11,7 @@ export const openConfirmResurrectYes = () => {
   navigate({
     name: 'PopUp',
     params: {
-      image: Images.popUp.resurrection,
+      imageProps: {source: Images.popUp.resurrection},
       title: t('pop_up.please_confirm'),
       message: t('pop_up.resurrection_yes_confirm_message'),
       buttons: [
@@ -25,6 +25,7 @@ export const openConfirmResurrectYes = () => {
           onPress: () => resultResolve('yes'),
         },
       ],
+      onDismiss: () => resultResolve('no'),
     },
   });
 

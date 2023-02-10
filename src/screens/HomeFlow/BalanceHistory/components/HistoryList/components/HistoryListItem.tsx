@@ -7,8 +7,8 @@ import {COLORS} from '@constants/colors';
 import {commonStyles} from '@constants/styles';
 import {dayjs} from '@services/dayjs';
 import {ClockIcon} from '@svg/ClockIcon';
+import {CoinsStackIcon} from '@svg/CoinsStackIcon';
 import {FireIcon} from '@svg/FireIcon';
-import {StakeIcon} from '@svg/StakeIcon';
 import {formatNumberString} from '@utils/numbers';
 import {font} from '@utils/styles';
 import React from 'react';
@@ -37,7 +37,11 @@ export const HistoryListItem = ({balanceDiff, time}: Props) => {
         {balanceDiff.negative ? (
           <FireIcon color={COLORS.white} width={rem(18)} height={rem(24)} />
         ) : (
-          <StakeIcon color={COLORS.white} width={rem(18)} height={rem(18)} />
+          <CoinsStackIcon
+            color={COLORS.white}
+            width={rem(18)}
+            height={rem(18)}
+          />
         )}
       </View>
       <View style={styles.body}>

@@ -30,7 +30,7 @@ export const useUpdateRequiredListener = () => {
       updateMetadataPayload.errorCode === 'UPDATE_REQUIRED'
     ) {
       navigation.navigate('PopUp', {
-        image: Images.popUp.updateRequired,
+        imageProps: {source: Images.popUp.updateRequired},
         title: t('pop_up.update_now'),
         message: t('pop_up.update_now_text'),
         buttons: [

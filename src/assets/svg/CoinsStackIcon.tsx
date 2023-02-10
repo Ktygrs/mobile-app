@@ -5,7 +5,7 @@ import * as React from 'react';
 import Svg, {Path, SvgProps} from 'react-native-svg';
 import {rem} from 'rn-units';
 
-export const StakeIcon = ({
+export const CoinsStackIcon = ({
   height = rem(18),
   width = rem(18),
   color = COLORS.white,

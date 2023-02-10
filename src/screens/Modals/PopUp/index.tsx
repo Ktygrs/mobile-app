@@ -5,46 +5,57 @@ import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {MainStackParamList} from '@navigation/Main';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import {Banner} from '@screens/Modals/PopUp/components/Banner';
+import {CloseButton} from '@screens/Modals/PopUp/components/CloseButton';
+import {Message} from '@screens/Modals/PopUp/components/Message';
 import {
   PopUpButton,
   PopUpButtonProps,
 } from '@screens/Modals/PopUp/components/PopUpButton';
-import {InfoOutlineIcon} from '@svg/InfoOutlineIcon';
-import {font} from '@utils/styles';
+import {Title} from '@screens/Modals/PopUp/components/Title';
+import {Warning} from '@screens/Modals/PopUp/components/Warning';
+import AnimatedLottieView, {AnimatedLottieViewProps} from 'lottie-react-native';
 import React, {ReactNode, useEffect} from 'react';
 import {
   BackHandler,
   Image,
-  ImageSourcePropType,
+  ImageProps,
   StyleSheet,
-  Text,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import {rem} from 'rn-units';
 
 export type PopUpProps = {
-  image?: ImageSourcePropType;
+  imageProps?: ImageProps;
+  animationProps?: AnimatedLottieViewProps;
+  banner?: string | ReactNode;
   title?: string | ReactNode;
   message?: string | ReactNode;
   warning?: string | ReactNode;
-  buttons: PopUpButtonProps[];
+  buttons?: PopUpButtonProps[];
   dismissOnOutsideTouch?: boolean;
   dismissOnButtonPress?: boolean;
   dismissAndroidHardwareBack?: boolean;
+  showCloseButton?: boolean;
+  onDismiss?: () => void;
 };
 
 export const PopUp = () => {
   const {
     params: {
-      image,
+      imageProps,
+      animationProps,
+      banner,
       title,
       message,
       warning,
-      buttons,
+      buttons = [],
       dismissOnOutsideTouch = true,
       dismissOnButtonPress = true,
       dismissAndroidHardwareBack = false,
+      showCloseButton = false,
+      onDismiss,
     },
   } = useRoute<RouteProp<MainStackParamList, 'PopUp'>>();
   const navigation = useNavigation();
@@ -61,41 +72,62 @@ export const PopUp = () => {
       () => !dismissAndroidHardwareBack,
     );
     return () => backHandler.remove();
-  }, [dismissAndroidHardwareBack]);
+  }, [dismissAndroidHardwareBack, onDismiss]);
+
+  useEffect(() => () => onDismiss?.());
 
   return (
     <TouchableWithoutFeedback onPress={onPressOutside}>
       <View style={styles.background}>
         <View style={styles.container} {...stopPropagation}>
-          {!!image && (
-            <Image resizeMode={'contain'} style={styles.image} source={image} />
+          {!!imageProps && (
+            <Image
+              resizeMode={'contain'}
+              style={styles.image}
+              {...imageProps}
+            />
           )}
-          {!!title && <Text style={styles.titleText}>{title}</Text>}
-          {!!message && <Text style={styles.messageText}>{message}</Text>}
-          {!!warning && (
-            <View style={styles.warning}>
-              <InfoOutlineIcon
-                color={COLORS.primaryLight}
-                width={rem(13)}
-                height={rem(13)}
+          {!!animationProps && (
+            <View style={styles.animation}>
+              <AnimatedLottieView
+                autoPlay={true}
+                loop={true}
+                {...animationProps}
               />
-              <Text style={styles.warningText}>{warning}</Text>
             </View>
           )}
-          <View style={styles.buttons}>
-            {buttons.map((button, index) => (
-              <PopUpButton
-                {...button}
-                key={index}
-                onPress={() => {
-                  if (dismissOnButtonPress) {
-                    navigation.goBack();
-                  }
-                  button.onPress?.();
-                }}
-              />
+          {!!banner &&
+            (typeof banner === 'string' ? <Banner text={banner} /> : banner)}
+          {!!title &&
+            (typeof title === 'string' ? <Title text={title} /> : title)}
+          {!!message && typeof message === 'string' ? (
+            <Message text={message} />
+          ) : (
+            message
+          )}
+          {!!warning &&
+            (typeof warning === 'string' ? (
+              <Warning text={warning} />
+            ) : (
+              warning
             ))}
-          </View>
+          {buttons.length > 0 && (
+            <View style={styles.buttons}>
+              {buttons.map((button, index) => (
+                <PopUpButton
+                  {...button}
+                  key={index}
+                  onPress={() => {
+                    if (dismissOnButtonPress) {
+                      navigation.goBack();
+                    }
+                    button.onPress?.();
+                  }}
+                />
+              ))}
+            </View>
+          )}
+          {showCloseButton && <CloseButton style={styles.closeButton} />}
         </View>
       </View>
     </TouchableWithoutFeedback>
@@ -121,30 +153,21 @@ const styles = StyleSheet.create({
     width: rem(250),
     height: rem(230),
   },
-  titleText: {
-    ...font(24, 29, 'black', 'primaryDark'),
-    textAlign: 'center',
-  },
-  messageText: {
-    ...font(14, 20, 'medium', 'secondary'),
-    textAlign: 'center',
-    marginTop: rem(16),
-    marginHorizontal: rem(30),
-  },
-  warning: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: rem(20),
-    marginHorizontal: rem(30),
-  },
-  warningText: {
-    ...font(14, 20, 'medium', 'primaryLight'),
-    marginLeft: rem(8),
+  animation: {
+    marginTop: -rem(75),
+    marginBottom: -rem(15),
+    width: rem(250),
+    height: rem(250),
   },
   buttons: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginTop: rem(15),
     justifyContent: 'center',
+  },
+  closeButton: {
+    position: 'absolute',
+    top: rem(15),
+    right: rem(15),
   },
 });

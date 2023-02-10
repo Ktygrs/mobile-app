@@ -6,10 +6,12 @@ import {Api} from '@api/index';
 import {DEVICE_METADATA_UPDATE_TIMEOUT_HOURS} from '@constants/timeouts';
 import messaging from '@react-native-firebase/messaging';
 import {dayjs} from '@services/dayjs';
+import {AccountActions} from '@store/modules/Account/actions';
 import {
   isAuthorizedSelector,
   userIdSelector,
 } from '@store/modules/Account/selectors';
+import {AppCommonActions} from '@store/modules/AppCommon/actions';
 import {
   isAppActiveSelector,
   isAppInitializedSelector,
@@ -22,16 +24,21 @@ import {
 import {isPermissionGrantedSelector} from '@store/modules/Permissions/selectors';
 import {getTimezoneOffset} from '@utils/device';
 import {getErrorMessage} from '@utils/errors';
+import {checkProp} from '@utils/guards';
 import DeviceInfo from 'react-native-device-info';
 import {all, call, put, select} from 'redux-saga/effects';
 
 type Action = ReturnType<
-  typeof DeviceActions.UPDATE_DEVICE_METADATA.START.create
+  | typeof DeviceActions.UPDATE_DEVICE_METADATA.START.create
+  | typeof AccountActions.USER_STATE_CHANGE.SUCCESS.create
+  | typeof AppCommonActions.APP_INITIALIZED.STATE.create
+  | typeof AppCommonActions.APP_STATE_CHANGE.STATE.create
 >;
 
 export function* updateDeviceMetadataSaga(action: Action) {
   try {
-    const {forceUpdate} = action.payload ?? {};
+    const forceUpdate =
+      checkProp(action?.payload, 'forceUpdate') && action.payload.forceUpdate;
 
     const isAuthorized: ReturnType<typeof isAuthorizedSelector> = yield select(
       isAuthorizedSelector,

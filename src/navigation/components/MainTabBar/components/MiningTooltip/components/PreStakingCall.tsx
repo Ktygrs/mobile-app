@@ -9,7 +9,7 @@ import {
 import {MainStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {StakeIcon} from '@svg/StakeIcon';
+import {CoinsStackIcon} from '@svg/CoinsStackIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React from 'react';
@@ -37,7 +37,11 @@ export const PreStakingCall = () => {
         style={styles.button}
         textStyle={styles.buttonText}
         icon={
-          <StakeIcon color={COLORS.white} width={rem(18)} height={rem(18)} />
+          <CoinsStackIcon
+            color={COLORS.white}
+            width={rem(18)}
+            height={rem(18)}
+          />
         }
       />
     </>

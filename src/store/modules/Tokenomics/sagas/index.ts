@@ -8,9 +8,10 @@ import {getBalanceSummarySaga} from '@store/modules/Tokenomics/sagas/getBalanceS
 import {getMiningSummarySaga} from '@store/modules/Tokenomics/sagas/getMiningSummary';
 import {getPreStakingSummarySaga} from '@store/modules/Tokenomics/sagas/getPreStakingSummary';
 import {getRankingSummarySaga} from '@store/modules/Tokenomics/sagas/getRankingSummary';
+import {handleExtraBonusSaga} from '@store/modules/Tokenomics/sagas/handleExtraBonus';
 import {startMiningSessionSaga} from '@store/modules/Tokenomics/sagas/startMiningSession';
 import {startOrUpdatePreStakingSaga} from '@store/modules/Tokenomics/sagas/startPreStaking';
-import {all, takeLatest} from 'redux-saga/effects';
+import {all, takeLatest, takeLeading} from 'redux-saga/effects';
 
 export function* rootTokenomicsSaga() {
   yield all([
@@ -60,6 +61,10 @@ export function* rootTokenomicsSaga() {
     takeLatest(
       TokenomicsActions.GET_BALANCE_HISTORY.START.type,
       getBalanceHistorySaga,
+    ),
+    takeLeading(
+      TokenomicsActions.GET_MINING_SUMMARY.SUCCESS.type,
+      handleExtraBonusSaga,
     ),
   ]);
 }

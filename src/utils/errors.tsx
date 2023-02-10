@@ -27,7 +27,7 @@ export const showError = (errorIdentifier: string) => {
   navigate({
     name: 'PopUp',
     params: {
-      image: Images.popUp.error,
+      imageProps: {source: Images.popUp.error},
       title: t('pop_up.ups'),
       message: t('pop_up.try_again_text', {
         errorIdentifier: `TODO set error identifier: ${errorIdentifier}`,

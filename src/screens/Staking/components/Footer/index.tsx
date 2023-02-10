@@ -11,7 +11,7 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {DEFAULT_DIALOG_NO_BUTTON} from '@screens/Modals/PopUp/components/PopUpButton';
 import {usePreStaking} from '@screens/Staking/hooks/usePreStaking';
-import {StakeIcon} from '@svg/StakeIcon';
+import {CoinsStackIcon} from '@svg/CoinsStackIcon';
 import {replaceString, t, tagRegex} from '@translations/i18n';
 import {openLinkWithInAppBrowser} from '@utils/device';
 import {font} from '@utils/styles';
@@ -90,7 +90,11 @@ export const Footer = memo(({parameters}: Props) => {
         textStyle={styles.buttonText}
         style={[styles.button, buttonDisabled && styles.button_disabled]}
         icon={
-          <StakeIcon color={COLORS.white} width={rem(18)} height={rem(18)} />
+          <CoinsStackIcon
+            color={COLORS.white}
+            width={rem(18)}
+            height={rem(18)}
+          />
         }
         loading={preStakingLoading}
       />

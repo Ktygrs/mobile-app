@@ -3,6 +3,7 @@
 import {ResurrectRequiredData} from '@api/tokenomics/types';
 import {Images} from '@images';
 import {navigate} from '@navigation/utils';
+import {Message} from '@screens/Modals/PopUp/components/Message';
 import {dayjs} from '@services/dayjs';
 import {MedKitIcon} from '@svg/MedKitIcon';
 import {t} from '@translations/i18n';
@@ -36,9 +37,9 @@ export const openConfirmResurrect = (params: ResurrectRequiredData) => {
   navigate({
     name: 'PopUp',
     params: {
-      image: Images.popUp.resurrection,
+      imageProps: {source: Images.popUp.resurrection},
       title: t('pop_up.resurrection'),
-      message,
+      message: <Message text={message} />,
       warning: t('pop_up.resurrection_warning'),
       buttons: [
         {
@@ -53,6 +54,7 @@ export const openConfirmResurrect = (params: ResurrectRequiredData) => {
         },
       ],
       dismissOnButtonPress: false,
+      onDismiss: () => resultResolve('no'),
     },
   });
 

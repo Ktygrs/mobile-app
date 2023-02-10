@@ -12,4 +12,9 @@ export const LottieAnimations = {
   miningHolidayRestart: require('./mining-holiday-restart.json'),
   miningHolidayExpire: require('./mining-holiday-expire.json'),
   loadingLogoBlue: require('./loading-logo-blue.json'),
+  bonusBig: require('./bonus-big.json'),
+  bonusMedium: require('./bonus-medium.json'),
+  bonusSmall: require('./bonus-small.json'),
+  bonusClaim: require('./bonus-claim.json'),
+  bonusExpired: require('./bonus-expired.json'),
 };

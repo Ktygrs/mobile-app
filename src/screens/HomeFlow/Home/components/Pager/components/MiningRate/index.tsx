@@ -6,8 +6,8 @@ import {COLORS} from '@constants/colors';
 import {commonStyles} from '@constants/styles';
 import {PAGE_HEIGHT} from '@screens/HomeFlow/Home/components/Pager';
 import {miningRatesSelector} from '@store/modules/Tokenomics/selectors';
+import {CoinsStackIcon} from '@svg/CoinsStackIcon';
 import {MiningHammerIcon} from '@svg/MiningHammerIcon';
-import {StakeIcon} from '@svg/StakeIcon';
 import {StarIcon} from '@svg/StarIcon';
 import {TeamIcon} from '@svg/TeamIcon';
 import {t} from '@translations/i18n';
@@ -89,7 +89,11 @@ export const MiningRate = memo(() => {
           </Text>
         </View>
         <View style={styles.iconContainer}>
-          <StakeIcon fill={COLORS.white} width={rem(14)} height={rem(14)} />
+          <CoinsStackIcon
+            fill={COLORS.white}
+            width={rem(14)}
+            height={rem(14)}
+          />
           <Text style={styles.iconValueText}>
             +{miningRates.total.bonuses?.preStaking ?? 0}%
           </Text>

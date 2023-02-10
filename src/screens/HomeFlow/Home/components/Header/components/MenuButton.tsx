@@ -10,7 +10,7 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {CandyBoxMenuIcon} from '@svg/CandyBoxMenuIcon';
 import {ChatBubblesIcon} from '@svg/ChatBubblesIcon';
-import {StakeIcon} from '@svg/StakeIcon';
+import {CoinsStackIcon} from '@svg/CoinsStackIcon';
 import {StatsIcon} from '@svg/StatsIcon';
 import {t} from '@translations/i18n';
 import {openLinkWithInAppBrowser} from '@utils/device';
@@ -48,7 +48,7 @@ export const MenuButton = memo(() => {
           // },
           {
             icon: (
-              <StakeIcon
+              <CoinsStackIcon
                 width={rem(20)}
                 height={rem(20)}
                 color={COLORS.downriver}

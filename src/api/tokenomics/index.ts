@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {claimExtraBonus} from './claimExtraBonus';
 import {getBalanceHistory} from './getBalanceHistory';
 import {getBalanceSummary} from './getBalanceSummary';
 import {getMiningSummary} from './getMiningSummary';
@@ -16,4 +17,5 @@ export const tokenomics = Object.freeze({
   getRankingSummary,
   getBalanceHistory,
   startOrUpdatePreStaking,
+  claimExtraBonus,
 });

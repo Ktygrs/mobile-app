@@ -13,7 +13,7 @@ import {
   miningRatesSelector,
   preStakingSummarySelector,
 } from '@store/modules/Tokenomics/selectors';
-import {StakeIcon} from '@svg/StakeIcon';
+import {CoinsStackIcon} from '@svg/CoinsStackIcon';
 import {YearsOutlineIcon} from '@svg/YearsOutlineIcon';
 import {t} from '@translations/i18n';
 import {formatNumberString} from '@utils/numbers';
@@ -49,7 +49,7 @@ export const PreStakingInfo = () => {
         <DataCellSeparator />
         <DataCell
           icon={
-            <StakeIcon
+            <CoinsStackIcon
               width={rem(18)}
               height={rem(18)}
               color={COLORS.primaryLight}

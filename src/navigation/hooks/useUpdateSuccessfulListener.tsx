@@ -16,7 +16,7 @@ export const useUpdateSuccessfulListener = () => {
 
   useEffect(() => {
     navigation.navigate('PopUp', {
-      image: Images.popUp.upToDate,
+      imageProps: {source: Images.popUp.upToDate},
       title: t('pop_up.you_are_up_to_date'),
       message: t('pop_up.up_to_date_text'),
       buttons: [

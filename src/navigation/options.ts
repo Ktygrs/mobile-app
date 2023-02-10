@@ -13,6 +13,6 @@ export const screenOptions = {
 };
 
 export const modalOptions: NativeStackNavigationOptions = {
-  presentation: 'transparentModal',
+  presentation: 'containedTransparentModal',
   animation: 'fade',
 } as const;
