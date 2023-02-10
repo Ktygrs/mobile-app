@@ -24,7 +24,11 @@ import {rem} from 'rn-units';
 const NUMBER_OF_STEPS_Y = 5;
 const Y_AXIS_HEIGHT = '100%';
 
-export const ReferralAcquisitionHistory = () => {
+interface Props {
+  isCollapsed: boolean;
+}
+
+export const ReferralAcquisitionHistory = ({isCollapsed}: Props) => {
   const dispatch = useDispatch();
 
   const userReferralCount = useSelector(userReferralCountSelector);
@@ -41,25 +45,18 @@ export const ReferralAcquisitionHistory = () => {
 
   const maxTierOneRefValue = Math.max(...referralHistory.map(tier => tier.t1));
   const maxTierTwoRefValue = Math.max(...referralHistory.map(tier => tier.t2));
+  const maxValue = Math.max(maxTierOneRefValue, maxTierTwoRefValue);
 
-  const maxValue =
-    maxTierOneRefValue > maxTierTwoRefValue
-      ? maxTierOneRefValue
-      : maxTierTwoRefValue;
   const stepValue = Math.ceil(maxValue / NUMBER_OF_STEPS_Y);
   const lastXValue = stepValue * NUMBER_OF_STEPS_Y;
-
-  //TODO: implement system dependent date format
-  const getLabel = (date: string) => {
-    return dayjs(date).format('MM/DD');
-  };
 
   return (
     <CardBase
       backgroundImageSource={Images.backgrounds.referralsCardBg}
       headerTitle={t('home.referrals.title')}
       headerTitleIcon={<TrophyIcon fill={COLORS.white} />}
-      headerValueIcon={<Tiers />}>
+      headerValueIcon={<Tiers />}
+      isCollapsed={isCollapsed}>
       {isLoading ? (
         <ActivityIndicator style={StyleSheet.absoluteFill} size={'large'} />
       ) : userReferralCount === 0 ? (
@@ -78,20 +75,19 @@ export const ReferralAcquisitionHistory = () => {
                 );
               })}
           </View>
-          {referralHistory.map(item => {
-            const valuePercentageL1 = (item.t1 * 100) / lastXValue;
-            const valuePercentageL2 = (item.t2 * 100) / lastXValue;
-            const label = getLabel(item.date);
-            return (
-              <View style={styles.column} key={item.date}>
-                <UnitedVerticalBar
-                  valuePercentageB1={valuePercentageL1}
-                  valuePercentageB2={valuePercentageL2}
-                  label={label}
-                />
-              </View>
-            );
-          })}
+          {referralHistory
+            .map(({t1, t2, date}) => {
+              return (
+                <View style={styles.column} key={date}>
+                  <UnitedVerticalBar
+                    valuePercentageB1={(t1 * 100) / lastXValue}
+                    valuePercentageB2={(t2 * 100) / lastXValue}
+                    label={dayjs(date).format('MM/DD')}
+                  />
+                </View>
+              );
+            })
+            .reverse()}
         </View>
       )}
     </CardBase>

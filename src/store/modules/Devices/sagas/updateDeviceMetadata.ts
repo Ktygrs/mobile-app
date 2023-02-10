@@ -20,6 +20,7 @@ import {
   lastMetadataUpdateSelector,
 } from '@store/modules/Devices/selectors';
 import {isPermissionGrantedSelector} from '@store/modules/Permissions/selectors';
+import {getTimezoneOffset} from '@utils/device';
 import {getErrorMessage} from '@utils/errors';
 import DeviceInfo from 'react-native-device-info';
 import {all, call, put, select} from 'redux-saga/effects';
@@ -63,7 +64,6 @@ export function* updateDeviceMetadataSaga(action: Action) {
       const hasPushPermissions: boolean = yield select(
         isPermissionGrantedSelector('pushNotifications'),
       );
-      const timezoneOffset = new Date().getTimezoneOffset();
 
       const data = {
         userId: select(userIdSelector),
@@ -103,9 +103,7 @@ export function* updateDeviceMetadataSaga(action: Action) {
         systemName: DeviceInfo.getSystemName(),
         systemVersion: DeviceInfo.getSystemVersion(),
         pushNotificationToken: hasPushPermissions ? messaging().getToken() : '',
-        tz:
-          (timezoneOffset >= 0 ? '+' : '-') +
-          dayjs.duration(Math.abs(timezoneOffset), 'm').format('HH:mm'),
+        tz: getTimezoneOffset(),
       };
 
       const resolvedMetadata: {

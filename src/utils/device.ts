@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
+import {dayjs} from '@services/dayjs';
 import {logError} from '@services/logging';
 import {Linking} from 'react-native';
 import ReactNativeHapticFeedback, {
@@ -10,7 +11,7 @@ import {
   InAppBrowser,
   InAppBrowserOptions,
 } from 'react-native-inappbrowser-reborn';
-import {isIOS} from 'rn-units';
+import {isIOS, wait} from 'rn-units';
 
 export function hapticFeedback(type: HapticFeedbackTypes = 'soft') {
   const options = {
@@ -30,14 +31,14 @@ export const openSMS = async (phoneNumber: string, message: string) => {
   }
 };
 
-export const openLinkWithInAppBrowser = ({
+export const openLinkWithInAppBrowser = async ({
   url,
   options,
 }: {
   url: string;
   options?: InAppBrowserOptions;
 }) => {
-  return InAppBrowser.open(url, {
+  const config: InAppBrowserOptions = {
     // iOS Properties
     dismissButtonStyle: 'cancel',
     preferredBarTintColor: COLORS.primary,
@@ -58,5 +59,29 @@ export const openLinkWithInAppBrowser = ({
     enableDefaultShare: true,
     forceCloseOnRedirection: false,
     ...options,
-  });
+  };
+
+  try {
+    const result = await InAppBrowser.open(url, config);
+
+    return result;
+  } catch (error) {
+    // Sometimes browser stays open, you just need to close it manually
+    InAppBrowser.close();
+    await wait(300);
+
+    return InAppBrowser.open(url, config);
+  }
+};
+
+export const getTimezoneOffset = () => {
+  const timezoneOffset = new Date().getTimezoneOffset();
+
+  const sign = timezoneOffset >= 0 ? '+' : '-';
+
+  const formattedOffset = dayjs
+    .duration(Math.abs(timezoneOffset), 'm')
+    .format('HH:mm');
+
+  return `${sign}${formattedOffset}`;
 };

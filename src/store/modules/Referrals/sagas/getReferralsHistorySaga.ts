@@ -3,6 +3,7 @@
 import {Api} from '@api/index';
 import {userIdSelector} from '@store/modules/Account/selectors';
 import {ReferralsActions} from '@store/modules/Referrals/actions';
+import {getTimezoneOffset} from '@utils/device';
 import {getErrorMessage} from '@utils/errors';
 import {put, SagaReturnType, select} from 'redux-saga/effects';
 
@@ -13,7 +14,10 @@ export function* getReferralsHistorySaga() {
   try {
     const response: SagaReturnType<
       typeof Api.referrals.getReferralsHistoryByUserId
-    > = yield Api.referrals.getReferralsHistoryByUserId({userId});
+    > = yield Api.referrals.getReferralsHistoryByUserId({
+      userId,
+      tz: getTimezoneOffset(),
+    });
     yield put(ReferralsActions.GET_REFERRALS_HISTORY.SUCCESS.create(response));
   } catch (error) {
     yield put(

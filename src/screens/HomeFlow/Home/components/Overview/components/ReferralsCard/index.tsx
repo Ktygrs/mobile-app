@@ -18,7 +18,11 @@ import {StyleSheet, Text, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
-export const ReferralsCard = () => {
+interface Props {
+  isCollapsed: boolean;
+}
+
+export const ReferralsCard = ({isCollapsed}: Props) => {
   const userReferralCount = useSelector(userReferralCountSelector);
   const userT1ReferralCount = useSelector(userT1ReferralSelector);
   const userT2ReferralCount = useSelector(userT2ReferralSelector);
@@ -28,7 +32,8 @@ export const ReferralsCard = () => {
       headerTitle={t('home.referrals.title')}
       headerTitleIcon={<TrophyIcon fill={COLORS.white} />}
       headerValue={String(userReferralCount)}
-      headerValueIcon={<FriendsIcon fill={COLORS.white} />}>
+      headerValueIcon={<FriendsIcon fill={COLORS.white} />}
+      isCollapsed={isCollapsed}>
       {userReferralCount === 0 ? (
         <ReferralsEmptyState />
       ) : (

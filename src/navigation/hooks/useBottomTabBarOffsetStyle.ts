@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {BottomTabBarHeightContext} from '@react-navigation/bottom-tabs';
-import {useContext, useMemo} from 'react';
+import {MAIN_TAB_BAR_HEIGHT} from '@navigation/components/MainTabBar';
+import {TAB_BAR_MINING_ITEM_TOP_OFFSET} from '@navigation/components/MainTabBar/components/TabBarMiningItem';
+import {useMemo} from 'react';
 import {StyleSheet} from 'react-native';
 import {rem} from 'rn-units';
 
@@ -10,15 +11,15 @@ type Params = {
 };
 
 export const useBottomTabBarOffsetStyle = ({extraOffset}: Params = {}) => {
-  const tabBarHeight = useContext(BottomTabBarHeightContext) ?? 0;
-  const extraPadding = extraOffset ?? (tabBarHeight ? rem(64) : rem(16));
+  const extraPadding = extraOffset ?? TAB_BAR_MINING_ITEM_TOP_OFFSET + rem(16);
+
   return useMemo(
     () =>
       StyleSheet.create({
         current: {
-          paddingBottom: tabBarHeight + extraPadding,
+          paddingBottom: MAIN_TAB_BAR_HEIGHT + extraPadding,
         },
       }),
-    [tabBarHeight, extraPadding],
+    [extraPadding],
   );
 };

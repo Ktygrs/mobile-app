@@ -19,6 +19,8 @@ export const TabBarMiningItem = () => {
   );
 };
 
+export const TAB_BAR_MINING_ITEM_TOP_OFFSET = rem(42);
+
 const styles = StyleSheet.create({
   container: {
     height: MAIN_TAB_BAR_HEIGHT,
@@ -27,7 +29,7 @@ const styles = StyleSheet.create({
   button: {
     position: 'absolute',
     alignSelf: 'center',
-    top: rem(-42),
+    top: -TAB_BAR_MINING_ITEM_TOP_OFFSET,
     height: rem(100),
     width: rem(100),
     alignItems: 'center',

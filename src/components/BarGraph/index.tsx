@@ -24,18 +24,8 @@ export const getBarGraphHeight = (numberOfRows: number) => {
   return X_AXIS_HEIGHT + numberOfRows * ROW_HEIGHT;
 };
 
-function getMaxValue(data: BarGraphData[]) {
-  let max = 1;
-  for (const {value} of data) {
-    if (value > max) {
-      max = value;
-    }
-  }
-  return max;
-}
-
 export function getValueData(data: BarGraphData[]) {
-  const maxValue = getMaxValue(data);
+  const maxValue = Math.max(...data.map(({value}) => value));
   const stepValue = Math.ceil(maxValue / NUMBER_OF_STEPS_X);
   const numberOfSteps = Math.min(maxValue, NUMBER_OF_STEPS_X);
   const lastXValue = stepValue * numberOfSteps;
@@ -73,14 +63,20 @@ type BarItemProps = {
 };
 
 export const BarItem = memo(
-  ({item, maxWidth, sharedValue, maxValue, doAnimate}: BarItemProps) => {
+  ({
+    item: {label, value},
+    maxWidth,
+    sharedValue,
+    maxValue,
+    doAnimate,
+  }: BarItemProps) => {
     return (
-      <View style={styles.row} key={`${item.label}${item.value}`}>
-        <Text style={styles.yAxisText}>{item.label}</Text>
+      <View style={styles.row} key={`${label}${value}`}>
+        <Text style={styles.yAxisText}>{label}</Text>
         <Bar
           maxValue={maxValue}
           maxWidth={maxWidth}
-          value={item.value}
+          value={value}
           sharedValue={sharedValue}
           doAnimate={doAnimate}
         />

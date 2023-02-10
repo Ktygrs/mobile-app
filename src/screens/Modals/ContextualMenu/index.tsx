@@ -34,7 +34,7 @@ export const ContextualMenu = memo(() => {
               style={styles.menuItem}
               onPress={() => {
                 closeMenu();
-                setTimeout(button.onPress);
+                setTimeout(button.onPress, 100);
               }}>
               {button.icon && (
                 <View style={styles.menuItemIcon}>{button.icon}</View>

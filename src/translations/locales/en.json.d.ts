@@ -143,6 +143,7 @@ export type Translations = {
   'global.data_hidden': null;
   'global.flag': null;
   'global.pull_to_refresh': null;
+  'global.comingSoon': null;
   'global.date.today': null;
   'mining_calculator.result_label': null;
   'mining_calculator.active_inviter': null;

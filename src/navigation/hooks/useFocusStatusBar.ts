@@ -2,13 +2,8 @@
 
 import {useFocusEffect} from '@react-navigation/native';
 import {useCallback} from 'react';
-import {
-  EmitterSubscription,
-  Keyboard,
-  StatusBar,
-  StatusBarStyle,
-} from 'react-native';
-import {isIOS} from 'rn-units';
+import {Keyboard, StatusBar, StatusBarStyle} from 'react-native';
+import {isAndroid, isIOS} from 'rn-units';
 
 type Props = {
   style: StatusBarStyle;
@@ -18,19 +13,22 @@ type Props = {
 export const useFocusStatusBar = ({style, animated}: Props) =>
   useFocusEffect(
     useCallback(() => {
-      let subscription: EmitterSubscription;
-      if (isIOS) {
-        // the status-bar changes color to default on iOS when the keyboard is shown
-        subscription = Keyboard.addListener('keyboardWillShow', () => {
-          StatusBar.setBarStyle(style, animated);
-        });
+      StatusBar.setBarStyle(style, animated);
+
+      if (isAndroid) {
+        StatusBar.setBackgroundColor('transparent', animated);
+        StatusBar.setTranslucent(true);
       }
 
-      StatusBar.setBarStyle(style, animated);
-      return () => {
-        if (subscription) {
+      if (isIOS) {
+        // the status-bar changes color to default on iOS when the keyboard is shown
+        const subscription = Keyboard.addListener('keyboardWillShow', () => {
+          StatusBar.setBarStyle(style, animated);
+        });
+
+        return () => {
           subscription.remove();
-        }
-      };
+        };
+      }
     }, [animated, style]),
   );

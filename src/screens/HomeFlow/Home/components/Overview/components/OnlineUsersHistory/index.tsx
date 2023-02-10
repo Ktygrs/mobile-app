@@ -53,17 +53,18 @@ export const OnlineUsersHistory = () => {
               );
             })}
         </View>
-        {data.map(item => {
-          const valuePercentage = (item.value * 100) / lastXValue;
-          return (
-            <View style={styles.column} key={item.label}>
-              <VerticalBar
-                valuePercentage={valuePercentage}
-                label={item.label}
-              />
-            </View>
-          );
-        })}
+        {data
+          .map(({label, value}) => {
+            return (
+              <View key={label} style={styles.column}>
+                <VerticalBar
+                  valuePercentage={(value * 100) / lastXValue}
+                  label={label}
+                />
+              </View>
+            );
+          })
+          .reverse()}
       </View>
     </CardBase>
   );

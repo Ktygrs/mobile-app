@@ -2,15 +2,22 @@
 
 import {stopPropagation} from '@components/KeyboardDismiss';
 import {COLORS} from '@constants/colors';
-import {windowHeight} from '@constants/styles';
 import {MainStackParamList} from '@navigation/Main';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {Connector} from '@screens/Modals/Tooltip/assets/svg/Connector';
 import React from 'react';
 import {useState} from 'react';
 import {useEffect} from 'react';
-import {StyleSheet, TouchableWithoutFeedback, View} from 'react-native';
+import {
+  LayoutChangeEvent,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import {rem} from 'rn-units';
+
+// Sometimes because of rounding may lost pixel and it prevents empty line between elements
+const EXTRA_PIXELS_OVERLAP = 1;
 
 export const Tooltip = () => {
   const navigation = useNavigation();
@@ -32,6 +39,19 @@ export const Tooltip = () => {
     height: number;
   } | null>(null);
 
+  const [containerHeight, setContainerHeight] = useState(0);
+
+  const connectorHeight =
+    descriptionOffset *
+      // It is just "magic" multiplier number, previously it was 1.125
+      1.1579 +
+    EXTRA_PIXELS_OVERLAP;
+
+  const onLayout = (event: LayoutChangeEvent) => {
+    const {height} = event.nativeEvent.layout;
+    setContainerHeight(height);
+  };
+
   useEffect(() => {
     targetRef.current?.measure((_x, _y, width, height, pageX, pageY) => {
       // measure might return undefined values e.g. when underlying view is removed by android (removeClippedSubviews)
@@ -42,7 +62,7 @@ export const Tooltip = () => {
   }, [targetRef]);
 
   return (
-    <TouchableWithoutFeedback onPress={navigation.goBack}>
+    <TouchableWithoutFeedback onLayout={onLayout} onPress={navigation.goBack}>
       <View style={styles.container}>
         {targetData && (
           <>
@@ -70,11 +90,11 @@ export const Tooltip = () => {
                     style={[
                       styles.connector,
                       position === 'below'
-                        ? {bottom: -descriptionOffset}
-                        : {top: -descriptionOffset},
+                        ? {bottom: -(descriptionOffset + EXTRA_PIXELS_OVERLAP)}
+                        : {top: -(descriptionOffset + EXTRA_PIXELS_OVERLAP)},
                     ]}
-                    height={descriptionOffset * 1.125}
-                    width={descriptionOffset * 2}
+                    height={connectorHeight}
+                    width={(connectorHeight * 48) / 45}
                     color={COLORS.white}
                   />
                 </View>
@@ -96,7 +116,7 @@ export const Tooltip = () => {
                       }
                     : {
                         bottom:
-                          windowHeight -
+                          containerHeight -
                           targetData.y +
                           (targetCircleSize - targetData.height) / 2 +
                           descriptionOffset,

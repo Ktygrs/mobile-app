@@ -92,13 +92,13 @@ export const Overview = memo(({translateY, topOffset}: Props) => {
             isAndroid && shadowStyle,
           ]}
           contentContainerStyle={styles.scrolledContent}>
-          <LevelCard />
+          <LevelCard isCollapsed={isCollapsed} />
 
           <FlipCard
             disabled={isCollapsed}
             stylesContainer={styles.flipCardContainer}
-            front={<ReferralsCard />}
-            back={<ReferralAcquisitionHistory />}
+            front={<ReferralsCard isCollapsed={isCollapsed} />}
+            back={<ReferralAcquisitionHistory isCollapsed={isCollapsed} />}
           />
 
           <FlipCard

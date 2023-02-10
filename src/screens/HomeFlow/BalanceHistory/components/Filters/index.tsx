@@ -35,7 +35,7 @@ export type Filter = {
 
 export const FAST_FILTERS: {[key: string]: Filter} = {
   get DAY() {
-    const now = dayjs();
+    const now = dayjs().utc();
     return {
       type: 'day',
       start: now.format(),
@@ -43,7 +43,7 @@ export const FAST_FILTERS: {[key: string]: Filter} = {
     } as const;
   },
   get WEEK() {
-    const now = dayjs();
+    const now = dayjs().utc();
     return {
       type: 'week',
       start: now.format(),
@@ -51,7 +51,7 @@ export const FAST_FILTERS: {[key: string]: Filter} = {
     } as const;
   },
   get MONTH() {
-    const now = dayjs();
+    const now = dayjs().utc();
     return {
       type: 'month',
       start: now.format(),
@@ -85,8 +85,12 @@ export const Filters = ({
              * since from the calendar dates are coming without time
              * so after formatting they are pointing to the start of a day (00:00:00)
              */
-            start: dayjs(period.end).add(1, 'd').subtract(1, 's').format(),
-            end: dayjs(period.start).format(),
+            start: dayjs(period.end)
+              .utc()
+              .add(1, 'd')
+              .subtract(1, 's')
+              .format(),
+            end: dayjs(period.start).utc().format(),
           });
         } else if (selectedFilter.type === 'custom') {
           setFilter(FAST_FILTERS.DAY);

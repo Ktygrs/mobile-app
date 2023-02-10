@@ -3,6 +3,7 @@
 import {font} from '@utils/styles';
 import React, {ReactNode} from 'react';
 import {Image, ImageSourcePropType, StyleSheet, Text, View} from 'react-native';
+import Animated, {useAnimatedStyle, withTiming} from 'react-native-reanimated';
 import {rem} from 'rn-units';
 
 type Props = {
@@ -11,6 +12,7 @@ type Props = {
   headerTitleIcon?: ReactNode;
   headerValue?: string;
   headerValueIcon?: ReactNode;
+  isCollapsed?: boolean;
   children: ReactNode;
 };
 
@@ -24,8 +26,17 @@ export const CardBase = ({
   headerTitleIcon,
   headerValue,
   headerValueIcon,
+  isCollapsed = false,
   children,
 }: Props) => {
+  const animatedChildrenContainerStyle = useAnimatedStyle(() => {
+    return {
+      opacity: withTiming(isCollapsed ? 0 : 1, {
+        duration: 200,
+      }),
+    };
+  }, [isCollapsed]);
+
   return (
     <View style={styles.container}>
       <Image
@@ -41,7 +52,9 @@ export const CardBase = ({
         {headerValueIcon}
         <Text style={styles.valueText}>{headerValue}</Text>
       </View>
-      <View style={styles.body}>{children}</View>
+      <Animated.View style={[styles.body, animatedChildrenContainerStyle]}>
+        {children}
+      </Animated.View>
     </View>
   );
 };

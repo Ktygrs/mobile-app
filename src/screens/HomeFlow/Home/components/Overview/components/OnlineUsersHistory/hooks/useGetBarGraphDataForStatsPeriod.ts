@@ -14,7 +14,7 @@ export function useGetBarGraphDataForStatsPeriod(
 
   const usersBarGraphData: UsersBarGraphData = useMemo(() => {
     return timeSeriesToUsersData({
-      timeSeries: timeSeries,
+      timeSeries,
       statsPeriod,
     });
   }, [timeSeries, statsPeriod]);

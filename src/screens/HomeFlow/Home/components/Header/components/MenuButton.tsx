@@ -8,8 +8,6 @@ import {MIDDLE_BUTTON_HIT_SLOP} from '@constants/styles';
 import {HomeTabStackParamList, MainStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {notificationsCountSelector} from '@store/modules/Notifications/selectors';
-import {BellIcon} from '@svg/BellIcon';
 import {CandyBoxMenuIcon} from '@svg/CandyBoxMenuIcon';
 import {ChatBubblesIcon} from '@svg/ChatBubblesIcon';
 import {StakeIcon} from '@svg/StakeIcon';
@@ -18,7 +16,6 @@ import {t} from '@translations/i18n';
 import {openLinkWithInAppBrowser} from '@utils/device';
 import React, {memo, useRef} from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
-import {useSelector} from 'react-redux';
 import {rem, screenWidth} from 'rn-units';
 
 export const MenuButton = memo(() => {
@@ -27,7 +24,9 @@ export const MenuButton = memo(() => {
       NativeStackNavigationProp<MainStackParamList & HomeTabStackParamList>
     >();
 
-  const badgeCount = useSelector(notificationsCountSelector);
+  // TODO: Hide until functionality is ready
+  // const badgeCount = useSelector(notificationsCountSelector);
+  const badgeCount = 0;
 
   const buttonRef = useRef<TouchableOpacity>(null);
   const onMenuPress = () => {
@@ -38,11 +37,15 @@ export const MenuButton = memo(() => {
           right: screenWidth - x - rem(16),
         },
         buttons: [
-          {
-            icon: <BellIcon color={COLORS.downriver} />,
-            label: t('home.menu.notifications'),
-            onPress: () => navigation.navigate('Notifications'),
-          },
+          // TODO: Hide until functionality is ready
+          //
+          // import {BellIcon} from '@svg/BellIcon';
+          //
+          // {
+          //   icon: <BellIcon color={COLORS.downriver} />,
+          //   label: t('home.menu.notifications'),
+          //   onPress: () => navigation.navigate('Notifications'),
+          // },
           {
             icon: (
               <StakeIcon

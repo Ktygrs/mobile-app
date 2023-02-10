@@ -9,6 +9,7 @@ type Params = {
   endDate?: string | null;
   limit?: number | null;
   offset?: number | null;
+  tz: string;
 };
 
 export function getBalanceHistory({
@@ -17,6 +18,7 @@ export function getBalanceHistory({
   endDate,
   limit,
   offset,
+  tz,
 }: Params) {
   return get<BalanceHistoryPoint[]>(
     `/tokenomics/${userId}/balance-history`,
@@ -25,6 +27,7 @@ export function getBalanceHistory({
       endDate,
       limit,
       offset,
+      tz,
     },
     {
       ...DEFAULT_BACK_OFF_OPTIONS,

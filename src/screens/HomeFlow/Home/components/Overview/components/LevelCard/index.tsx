@@ -16,7 +16,11 @@ import {StyleSheet, Text, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
-export const LevelCard = () => {
+interface Props {
+  isCollapsed: boolean;
+}
+
+export const LevelCard = ({isCollapsed}: Props) => {
   const userReferralCount = useSelector(userReferralCountSelector);
   const userId = useSelector(userIdSelector);
   const globalRank = useSelector(globalRankSelector(userId));
@@ -26,7 +30,8 @@ export const LevelCard = () => {
       backgroundImageSource={Images.backgrounds.levelCardBg}
       headerTitle={t('home.pioneer.title')}
       headerTitleIcon={<PioneerIcon fill={COLORS.white} />}
-      headerValue={t('global.level') + ' 1'}>
+      headerValue={t('global.level') + ' 1'}
+      isCollapsed={isCollapsed}>
       <View style={styles.body}>
         <View style={styles.column}>
           <Text style={styles.labelText}>{t('home.pioneer.referrals')}</Text>

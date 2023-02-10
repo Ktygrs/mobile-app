@@ -10,9 +10,11 @@ import {
   TaskItem,
 } from '@screens/HomeFlow/Home/components/Tasks/components/TaskItem';
 import {taskItems} from '@screens/HomeFlow/Home/components/Tasks/tasks';
+import {ClockIcon} from '@svg/ClockIcon';
 import {t} from '@translations/i18n';
+import {font} from '@utils/styles';
 import React, {memo, useState} from 'react';
-import {LayoutChangeEvent, StyleSheet, View} from 'react-native';
+import {LayoutChangeEvent, StyleSheet, Text, View} from 'react-native';
 import Animated, {useAnimatedStyle, withTiming} from 'react-native-reanimated';
 import {rem} from 'rn-units';
 
@@ -51,42 +53,59 @@ export const Tasks = memo(() => {
   return (
     <>
       <SectionHeader title={t('home.tasks.title')} />
-      <View style={styles.container}>
-        <View style={styles.upcomingTasksLine} />
-        <View
-          style={[
-            styles.finishedTasksLine,
-            {
-              height:
-                ITEM_HEIGHT * (countCompletedItemsBeforeCurrentActive + 0.5),
-            },
-          ]}
-        />
 
-        {areAllTasksCompleted ? (
-          <CompletedItem
-            iceCount={250}
-            onPress={handleCompletedPress}
-            isExpanded={isExpanded}
-          />
+      {
+        // TODO: Hide until functionality is ready
+        false ? (
+          <View style={styles.container}>
+            <View style={styles.upcomingTasksLine} />
+            <View
+              style={[
+                styles.finishedTasksLine,
+                {
+                  height:
+                    ITEM_HEIGHT *
+                    (countCompletedItemsBeforeCurrentActive + 0.5),
+                },
+              ]}
+            />
+
+            {areAllTasksCompleted ? (
+              <CompletedItem
+                iceCount={250}
+                onPress={handleCompletedPress}
+                isExpanded={isExpanded}
+              />
+            ) : (
+              <ProgressItem
+                completed={countCompletedItems}
+                total={taskItems.length}
+              />
+            )}
+
+            <Animated.View
+              style={[
+                styles.itemsContainer,
+                !!itemsContainerHeight && itemsContainerStyle,
+              ]}
+              onLayout={onItemsContainerLayout}>
+              {taskItems.map(task => (
+                <TaskItem key={task.type} task={task} />
+              ))}
+            </Animated.View>
+          </View>
         ) : (
-          <ProgressItem
-            completed={countCompletedItems}
-            total={taskItems.length}
-          />
-        )}
+          <View style={styles.comingSoonContainer}>
+            <ClockIcon
+              width={rem(20)}
+              height={rem(20)}
+              color={COLORS.secondary}
+            />
 
-        <Animated.View
-          style={[
-            styles.itemsContainer,
-            !!itemsContainerHeight && itemsContainerStyle,
-          ]}
-          onLayout={onItemsContainerLayout}>
-          {taskItems.map(task => (
-            <TaskItem key={task.type} task={task} />
-          ))}
-        </Animated.View>
-      </View>
+            <Text style={styles.comingSoonText}>{t('global.comingSoon')}</Text>
+          </View>
+        )
+      }
     </>
   );
 });
@@ -113,5 +132,16 @@ const styles = StyleSheet.create({
 
   itemsContainer: {
     overflow: 'hidden',
+  },
+
+  comingSoonContainer: {
+    marginTop: rem(16),
+    padding: rem(16),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  comingSoonText: {
+    marginTop: rem(11),
+    ...font(15, 18, 'medium', 'secondary'),
   },
 });

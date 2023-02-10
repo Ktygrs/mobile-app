@@ -14,7 +14,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
 
 export const Notifications = () => {
-  useFocusStatusBar({style: 'light-content'});
+  useFocusStatusBar({style: 'dark-content'});
   const dispatch = useDispatch();
 
   const notifications = useSelector(getNotificationsListDataSelector);

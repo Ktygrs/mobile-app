@@ -2,6 +2,7 @@
 
 import {TimeSeries} from '@api/statistics/types';
 import {BarGraphData} from '@components/BarGraph/types';
+import {dayjs} from '@services/dayjs';
 import {STATS_PERIODS} from '@store/modules/Stats/constants';
 import {StatsPeriod, UsersBarGraphData} from '@store/modules/Stats/types';
 import {getPreviousDate} from '@utils/date';
@@ -29,22 +30,29 @@ export function timeSeriesToUsersData({
   timeSeries: TimeSeries[];
   statsPeriod: StatsPeriod;
 }): UsersBarGraphData {
-  const activeUsersData = timeSeries?.length
-    ? timeSeries.map((ts: TimeSeries, index: number) => {
-        return {
-          label: getPreviousDate(index),
-          value: ts.active,
-        };
-      })
-    : EMPTY_TIME_SERIES[statsPeriod];
-  const totalUsersData = timeSeries?.length
-    ? timeSeries.map((ts: TimeSeries, index: number) => {
-        return {
-          label: getPreviousDate(index),
-          value: ts.total,
-        };
-      })
-    : EMPTY_TIME_SERIES[statsPeriod];
+  if (!timeSeries?.length) {
+    return {
+      activeUsersData: EMPTY_TIME_SERIES[statsPeriod],
+      totalUsersData: EMPTY_TIME_SERIES[statsPeriod],
+    };
+  }
 
-  return {activeUsersData, totalUsersData};
+  const activeUsersData: BarGraphData[] = timeSeries.map(({date, active}) => {
+    return {
+      label: dayjs(date).format('MM/DD'),
+      value: active,
+    };
+  });
+
+  const totalUsersData: BarGraphData[] = timeSeries.map(({date, total}) => {
+    return {
+      label: dayjs(date).format('MM/DD'),
+      value: total,
+    };
+  });
+
+  return {
+    activeUsersData,
+    totalUsersData,
+  };
 }
