@@ -31,9 +31,10 @@ export function* startMiningSessionSaga(
       TokenomicsActions.START_MINING_SESSION.SUCCESS.create(miningSummary),
     );
   } catch (error) {
-    const errorMessage = getErrorMessage(error);
     yield put(
-      TokenomicsActions.START_MINING_SESSION.FAILED.create(errorMessage),
+      TokenomicsActions.START_MINING_SESSION.FAILED.create(
+        getErrorMessage(error),
+      ),
     );
     if (
       isApiError(error, 400, 'RACE_CONDITION') ||
@@ -50,7 +51,7 @@ export function* startMiningSessionSaga(
             : 0,
       });
     } else {
-      showError(errorMessage);
+      showError(error);
     }
     throw error;
   }

@@ -54,7 +54,7 @@ export const SearchResults = memo(() => {
   const tabbarOffset = useBottomTabBarOffsetStyle({
     extraOffset: SEARCH_HEIGHT + rem(64),
   });
-  const {sections, searchQuery, error, loading, refresh, refreshing} =
+  const {sections, searchQuery, loading, refresh, refreshing} =
     useGetSearchResultsSegments();
 
   const navigation =
@@ -149,22 +149,18 @@ export const SearchResults = memo(() => {
       ]}
       entering={FadeIn}
       exiting={FadeOut}>
-      {error ? (
-        <Text>{error}</Text>
-      ) : (
-        <SectionList
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={tabbarOffset.current}
-          keyboardDismissMode={'on-drag'}
-          renderItem={renderItem}
-          renderSectionHeader={renderSectionHeader}
-          ListEmptyComponent={renderEmptyList}
-          refreshing={refreshing}
-          onRefresh={searchQuery ? refresh : () => {}}
-          sections={sections}
-          initialNumToRender={VIEW_PORT_ITEMS_SIZE}
-        />
-      )}
+      <SectionList
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={tabbarOffset.current}
+        keyboardDismissMode={'on-drag'}
+        renderItem={renderItem}
+        renderSectionHeader={renderSectionHeader}
+        ListEmptyComponent={renderEmptyList}
+        refreshing={refreshing}
+        onRefresh={searchQuery ? refresh : () => {}}
+        sections={sections}
+        initialNumToRender={VIEW_PORT_ITEMS_SIZE}
+      />
     </Animated.View>
   );
 });

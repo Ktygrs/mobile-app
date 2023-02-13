@@ -3,7 +3,7 @@
 import {Api} from '@api/index';
 import {AccountActions} from '@store/modules/Account/actions';
 import {userIdSelector} from '@store/modules/Account/selectors';
-import {getErrorMessage, showError} from '@utils/errors';
+import {showError} from '@utils/errors';
 import {call, put, select} from 'redux-saga/effects';
 
 export function* deleteAccountSaga() {
@@ -15,9 +15,8 @@ export function* deleteAccountSaga() {
     yield put(AccountActions.DELETE_ACCOUNT.SUCCESS.create());
     yield put(AccountActions.SIGN_OUT.START.create());
   } catch (error) {
-    const localizedError = getErrorMessage(error);
-    yield put(AccountActions.DELETE_ACCOUNT.FAILED.create(localizedError));
-    showError(localizedError);
+    yield put(AccountActions.DELETE_ACCOUNT.FAILED.create());
+    showError(error);
     throw error;
   }
 }

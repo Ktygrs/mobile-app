@@ -10,7 +10,7 @@ import {userIdSelector} from '@store/modules/Account/selectors';
 import {ValidationActions} from '@store/modules/Validation/actions';
 import {temporaryEmailSelector} from '@store/modules/Validation/selectors';
 import {t} from '@translations/i18n';
-import {getErrorMessage, showError} from '@utils/errors';
+import {showError} from '@utils/errors';
 import {call, put, SagaReturnType, select} from 'redux-saga/effects';
 
 const actionCreator = ValidationActions.EMAIL_VALIDATION.START.create;
@@ -63,9 +63,8 @@ export function* validateEmailSaga(action: ReturnType<typeof actionCreator>) {
         ),
       );
     } else {
-      localizedError = getErrorMessage(error);
       yield put(ValidationActions.EMAIL_VALIDATION.RESET.create());
-      showError(localizedError);
+      showError(error);
     }
 
     throw error;

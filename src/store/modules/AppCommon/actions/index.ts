@@ -14,7 +14,8 @@ const APP_LOADED = createAction('APP_LOADED', {
 });
 
 const APP_INITIALIZED = createAction('APP_INITIALIZED', {
-  STATE: true,
+  SUCCESS: true,
+  FAILED: true,
 });
 
 const APP_STATE_CHANGE = createAction('APP_STATE_CHANGE', {

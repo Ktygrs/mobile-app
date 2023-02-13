@@ -122,6 +122,18 @@ export const isApiError = (
   );
 };
 
+export const isNetworkError = (
+  error: unknown,
+): error is AxiosError<{
+  code?: string;
+  data?: {[key: string]: unknown};
+  error?: string;
+}> => {
+  return (
+    axios.isAxiosError(error) && !error.response && error.code === 'ERR_NETWORK'
+  );
+};
+
 export const getApiErrorCode = (error: unknown) => {
   return axios.isAxiosError(error) ? error.response?.data.code : null;
 };

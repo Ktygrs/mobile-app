@@ -166,6 +166,8 @@ export const getAuthErrorMessage = (error: unknown) => {
       case 'auth/user-not-found':
         // Thrown if signing in with a credential from firebase.auth.EmailAuthProvider.credential and there is no user corresponding to the given email.
         return t('errors.user_not_found_for_email');
+      case 'auth/network-request-failed':
+        return t('errors.general_network_error');
     }
   }
 };

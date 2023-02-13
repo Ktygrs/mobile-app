@@ -6,7 +6,7 @@ import {AccountActions} from '@store/modules/Account/actions';
 import {userSelector} from '@store/modules/Account/selectors';
 import {t} from '@translations/i18n';
 import {validateEmail} from '@utils/email';
-import {getErrorMessage, showError} from '@utils/errors';
+import {showError} from '@utils/errors';
 import {checkProp} from '@utils/guards';
 import {e164PhoneNumber, hashPhoneNumber} from '@utils/phoneNumber';
 import {call, put, SagaReturnType, select} from 'redux-saga/effects';
@@ -102,8 +102,7 @@ export function* updateAccountSaga(action: ReturnType<typeof actionCreator>) {
       yield put(AccountActions.UPDATE_ACCOUNT.FAILED.create(localizedError));
     } else {
       yield put(AccountActions.UPDATE_ACCOUNT.RESET.create());
-      localizedError = getErrorMessage(error);
-      showError(localizedError);
+      showError(error);
     }
     throw error;
   }

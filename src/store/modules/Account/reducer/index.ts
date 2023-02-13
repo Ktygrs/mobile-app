@@ -7,7 +7,6 @@ import {ValidationActions} from '@store/modules/Validation/actions';
 import produce from 'immer';
 
 export interface AccountState {
-  isInitialized: boolean;
   isAdmin: boolean | null;
   token: string | null;
   user: User | null;
@@ -29,7 +28,6 @@ type Actions = ReturnType<
 >;
 
 const INITIAL_STATE: AccountState = {
-  isInitialized: false,
   isAdmin: null,
   token: null,
   user: null,
@@ -45,10 +43,6 @@ function reducer(state = INITIAL_STATE, action: Actions): AccountState {
       case AccountActions.USER_STATE_CHANGE.SUCCESS.type:
         draft.user = action.payload.user;
         draft.isAdmin = action.payload.isAdmin;
-        draft.isInitialized = true;
-        break;
-      case AccountActions.USER_STATE_CHANGE.FAILED.type:
-        draft.isInitialized = true;
         break;
       case AccountActions.GET_ACCOUNT.SUCCESS.type:
       case AccountActions.UPDATE_ACCOUNT.SUCCESS.type:
@@ -62,7 +56,6 @@ function reducer(state = INITIAL_STATE, action: Actions): AccountState {
       case AccountActions.SIGN_OUT.SUCCESS.type: {
         return {
           ...INITIAL_STATE,
-          isInitialized: true,
         };
       }
     }

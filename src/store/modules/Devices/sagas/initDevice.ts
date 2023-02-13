@@ -10,29 +10,38 @@ import {
 } from '@store/modules/Account/selectors';
 import {DeviceActions} from '@store/modules/Devices/actions';
 import i18n, {appLocale} from '@translations/i18n';
+import {getErrorMessage, showError} from '@utils/errors';
 import {syncUniqueId} from 'react-native-device-info';
 import {call, put, SagaReturnType, select} from 'redux-saga/effects';
 
 export function* initDeviceSaga() {
-  const isAuthorized: ReturnType<typeof isAuthorizedSelector> = yield select(
-    isAuthorizedSelector,
-  );
-  const deviceUniqueId: SagaReturnType<typeof syncUniqueId> = yield call(
-    syncUniqueId,
-  );
-
-  let settings: DeviceSettings | null = null;
-  if (isAuthorized) {
-    const userId: ReturnType<typeof userIdSelector> = yield select(
-      userIdSelector,
+  try {
+    const isAuthorized: ReturnType<typeof isAuthorizedSelector> = yield select(
+      isAuthorizedSelector,
     );
-    settings = yield call(getOrCreateDeviceSettings, {
-      userId,
-      deviceUniqueId,
-    });
-  }
+    const deviceUniqueId: SagaReturnType<typeof syncUniqueId> = yield call(
+      syncUniqueId,
+    );
 
-  yield put(DeviceActions.INIT_DEVICE.SUCCESS.create(deviceUniqueId, settings));
+    let settings: DeviceSettings | null = null;
+    if (isAuthorized) {
+      const userId: ReturnType<typeof userIdSelector> = yield select(
+        userIdSelector,
+      );
+      settings = yield call(getOrCreateDeviceSettings, {
+        userId,
+        deviceUniqueId,
+      });
+    }
+
+    yield put(
+      DeviceActions.INIT_DEVICE.SUCCESS.create(deviceUniqueId, settings),
+    );
+  } catch (error) {
+    yield put(DeviceActions.INIT_DEVICE.FAILED.create(getErrorMessage(error)));
+    showError(error);
+    throw error;
+  }
 }
 
 export function* getOrCreateDeviceSettings({

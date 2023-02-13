@@ -7,7 +7,7 @@ import {userIdSelector} from '@store/modules/Account/selectors';
 import {ValidationActions} from '@store/modules/Validation/actions';
 import {temporaryPhoneNumberSelector} from '@store/modules/Validation/selectors';
 import {t} from '@translations/i18n';
-import {getErrorMessage, showError} from '@utils/errors';
+import {showError} from '@utils/errors';
 import {e164PhoneNumber, hashPhoneNumber} from '@utils/phoneNumber';
 import {call, put, SagaReturnType, select} from 'redux-saga/effects';
 
@@ -68,9 +68,8 @@ export function* validatePhoneNumberSaga(
         ),
       );
     } else {
-      localizedError = getErrorMessage(error);
       yield put(ValidationActions.PHONE_VALIDATION.RESET.create());
-      showError(localizedError);
+      showError(error);
     }
     throw error;
   }

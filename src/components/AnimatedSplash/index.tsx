@@ -3,7 +3,7 @@
 import {COLORS} from '@constants/colors';
 import {useHandleLottieBackground} from '@hooks/useHandleLottieBackground';
 import {LottieAnimations} from '@lottie';
-import {isAppInitializedSelector} from '@store/modules/AppCommon/selectors';
+import {appInitStateSelector} from '@store/modules/AppCommon/selectors';
 import LottieView from 'lottie-react-native';
 import React, {useCallback, useRef, useState} from 'react';
 import {useEffect} from 'react';
@@ -12,7 +12,7 @@ import {useSelector} from 'react-redux';
 import {screenWidth} from 'rn-units';
 
 export const AnimatedSplash = () => {
-  const isAppInitialized = useSelector(isAppInitializedSelector);
+  const appInitState = useSelector(appInitStateSelector);
   const [animationFinished, setAnimationFinished] = useState(false);
   const [isSplashVisible, setIsSplashVisible] = useState(true);
   const lottieRef = useRef<LottieView>(null);
@@ -20,10 +20,10 @@ export const AnimatedSplash = () => {
   useHandleLottieBackground(lottieRef);
 
   useEffect(() => {
-    if (isAppInitialized && animationFinished && isSplashVisible) {
+    if (appInitState !== 'loading' && animationFinished && isSplashVisible) {
       setIsSplashVisible(false);
     }
-  }, [animationFinished, isAppInitialized, isSplashVisible]);
+  }, [animationFinished, appInitState, isSplashVisible]);
 
   const finishAnimation = useCallback((isCancelled: boolean) => {
     if (!isCancelled) {

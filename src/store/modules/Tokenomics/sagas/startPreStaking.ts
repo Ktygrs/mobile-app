@@ -28,11 +28,12 @@ export function* startOrUpdatePreStakingSaga({
       ),
     );
   } catch (error) {
-    const errorMessage = getErrorMessage(error);
-    showError(errorMessage);
     yield put(
-      TokenomicsActions.START_OR_UPDATE_PRE_STAKING.FAILED.create(errorMessage),
+      TokenomicsActions.START_OR_UPDATE_PRE_STAKING.FAILED.create(
+        getErrorMessage(error),
+      ),
     );
+    showError(error);
     throw error;
   }
 }

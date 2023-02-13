@@ -61,7 +61,9 @@
     "do_this_later": "Do this later",
     "resurrect_me": "Resurrect Me",
     "claim_bonus": "Claim Bonus",
-    "close": "Close"
+    "close": "Close",
+    "try_again": "Try Again",
+    "view_changelog": "View Changelog"
   },
   "team": {
     "contacts_tab": "Contacts",
@@ -170,7 +172,13 @@
     "min_username": "Minimum length is 4 characters.",
     "max_username": "Maximum length is 30 characters.",
     "code_expired": "The code has expired. Please ask for a new code.",
-    "too_many_requests": "Too many requests. Please try again later."
+    "too_many_requests": "Too many requests. Please try again later.",
+    "network_error_title": "No internet connection",
+    "network_error_message": "Your device does not have any active internet connection",
+    "unknown_error": "Some error occurred, please try again later",
+    "general_error_title": "Oups...",
+    "general_error_message": "Looks like something went wrong. Our team is working on fixing it right now",
+    "general_network_error": "A network error has occurred. Please check your connection."
   },
   "profile": {
     "my_roles": {
@@ -414,12 +422,6 @@
       "refer_yourself": "You can't refer yourself"
     }
   },
-  "error": {
-    "user_exist": "Username is already taken",
-    "general_error": "Some error occurred, please try again later",
-    "ref_not_found": "Referral introduced is invalid, or no longer exists",
-    "api_error": "Request failed with status {{status}} and code {{code}}"
-  },
   "staking": {
     "time_left": "Time Left",
     "mining_rate": "Mining Rate",
@@ -499,10 +501,6 @@
     "update_now": "Update Now",
     "please_update": "Please Update",
     "update_now_text": "You are using an old app version and need to update it in order to use it further",
-    "try_again": "Try Again",
-    "ups": "Oups...",
-    "try_again_text": "Looks like something went wrong. Our team is working on fixing it right now\n{{errorIdentifier}}",
-    "view_changelog": "View Changelog",
     "you_are_up_to_date": "You are up to date!",
     "up_to_date_text": "You are now using the latest version. Check all the changes below.",
     "resurrection": "Resurrection",

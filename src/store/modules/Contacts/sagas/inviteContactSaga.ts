@@ -28,9 +28,10 @@ export function* inviteContactSaga(
 
     yield put(ContactsActions.INVITE_CONTACT.SUCCESS.create(id));
   } catch (error) {
-    const localizedError = getErrorMessage(error);
-    yield put(ContactsActions.INVITE_CONTACT.FAILED.create(localizedError));
-    showError(localizedError);
+    yield put(
+      ContactsActions.INVITE_CONTACT.FAILED.create(getErrorMessage(error)),
+    );
+    showError(error);
     throw error;
   }
 }

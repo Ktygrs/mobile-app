@@ -14,7 +14,7 @@ export function* rootTeamSaga() {
       [
         ContactsActions.SYNC_CONTACTS.START.type,
         AppCommonActions.APP_STATE_CHANGE.STATE.type,
-        AppCommonActions.APP_INITIALIZED.STATE.type,
+        AppCommonActions.APP_INITIALIZED.SUCCESS.type,
         AccountActions.SIGN_OUT.SUCCESS.type,
       ],
       syncContactsSaga,

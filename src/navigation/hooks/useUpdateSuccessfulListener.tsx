@@ -22,7 +22,7 @@ export const useUpdateSuccessfulListener = () => {
       buttons: [
         {
           Icon: <ViewChangelog fill={COLORS.white} />,
-          label: t('pop_up.view_changelog'),
+          label: t('button.view_changelog'),
         },
       ],
     });

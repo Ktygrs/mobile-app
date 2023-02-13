@@ -6,7 +6,7 @@ import {getAuthenticatedUser} from '@services/auth';
 import {AccountActions} from '@store/modules/Account/actions';
 import {userInfoSelector, userSelector} from '@store/modules/Account/selectors';
 import {t} from '@translations/i18n';
-import {getErrorMessage} from '@utils/errors';
+import {getErrorMessage, showError} from '@utils/errors';
 import {e164PhoneNumber, hashPhoneNumber} from '@utils/phoneNumber';
 import {call, put, SagaReturnType, select} from 'redux-saga/effects';
 
@@ -53,6 +53,7 @@ export function* userStateChangeSaga() {
     yield put(
       AccountActions.USER_STATE_CHANGE.FAILED.create(getErrorMessage(error)),
     );
+    showError(error);
     throw error;
   }
 }

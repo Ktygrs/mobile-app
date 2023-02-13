@@ -62,7 +62,7 @@ const SIGN_IN_SOCIAL = createAction('SIGN_IN_SOCIAL', {
 const DELETE_ACCOUNT = createAction('DELETE_ACCOUNT', {
   START: true,
   SUCCESS: true,
-  FAILED: (errorMessage: string) => ({errorMessage}),
+  FAILED: true,
 });
 
 const UPDATE_REF_BY_USERNAME = createAction('UPDATE_REF_BY_USERNAME', {

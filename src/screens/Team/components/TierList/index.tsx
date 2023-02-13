@@ -22,7 +22,7 @@ import {referralsSelector} from '@store/modules/Referrals/selectors';
 import {balanceSummarySelector} from '@store/modules/Tokenomics/selectors';
 import {formatNumberString} from '@utils/numbers';
 import React, {memo, useCallback, useEffect, useMemo, useRef} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
@@ -56,7 +56,6 @@ export const TierList = memo(
     const {
       fetch,
       data: referrals,
-      error,
       hasNext,
       loadNext,
       refreshing,
@@ -105,10 +104,6 @@ export const TierList = memo(
         />
       );
     }, [total, active, headerTitle, balanceSummary, referralType]);
-
-    if (error) {
-      return <Text>{error}</Text>;
-    }
 
     return (
       <BottomSheetFlatList

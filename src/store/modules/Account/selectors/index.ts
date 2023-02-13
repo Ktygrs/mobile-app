@@ -17,9 +17,6 @@ export const userIdSelector = (state: RootState) =>
 
 export const isAuthorizedSelector = (state: RootState) => !!state.account.user;
 
-export const isAccountInitializedSelector = (state: RootState) =>
-  state.account.isInitialized;
-
 export const authTokenSelector = (state: RootState) => state.account.token;
 
 export const userSelector = (state: RootState) => state.account.user;

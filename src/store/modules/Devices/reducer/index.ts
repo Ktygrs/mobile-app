@@ -10,7 +10,6 @@ export interface State {
   settings: DeviceSettings | null;
   rollBackSettings: DeviceSettings | null;
   deviceUniqueId: string | null;
-  isInitialized: boolean;
   location: DeviceLocation | null;
   lastMetadataUpdateAt: string | null;
 }
@@ -29,7 +28,6 @@ const INITIAL_STATE: State = {
   settings: null,
   rollBackSettings: null,
   deviceUniqueId: null,
-  isInitialized: false,
   location: null,
   lastMetadataUpdateAt: null,
 };
@@ -41,7 +39,6 @@ function reducer(state = INITIAL_STATE, action: Actions): State {
         draft.deviceUniqueId = action.payload.deviceUniqueId;
         draft.rollBackSettings = action.payload.settings;
         draft.settings = action.payload.settings;
-        draft.isInitialized = true;
         break;
       case DeviceActions.UPDATE_SETTINGS.START.type:
         if (state.settings) {
@@ -65,7 +62,6 @@ function reducer(state = INITIAL_STATE, action: Actions): State {
           ...INITIAL_STATE,
           deviceUniqueId: state.deviceUniqueId,
           location: state.location,
-          isInitialized: true,
         };
     }
   });

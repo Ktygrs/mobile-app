@@ -45,6 +45,8 @@ export type Translations = {
   'button.resurrect_me': null;
   'button.claim_bonus': null;
   'button.close': null;
+  'button.try_again': null;
+  'button.view_changelog': null;
   'team.contacts_tab': null;
   'team.tierOne_tab': null;
   'team.tierTwo_tab': null;
@@ -120,6 +122,12 @@ export type Translations = {
   'errors.max_username': null;
   'errors.code_expired': null;
   'errors.too_many_requests': null;
+  'errors.network_error_title': null;
+  'errors.network_error_message': null;
+  'errors.unknown_error': null;
+  'errors.general_error_title': null;
+  'errors.general_error_message': null;
+  'errors.general_network_error': null;
   'profile.my_roles.title': null;
   'profile.mining_calculator': null;
   'profile.invite_friends': null;
@@ -283,10 +291,6 @@ export type Translations = {
   'username.error.not_found': null;
   'username.error.some_error': null;
   'username.error.refer_yourself': null;
-  'error.user_exist': null;
-  'error.general_error': null;
-  'error.ref_not_found': null;
-  'error.api_error': {status: number | string; code: number | string};
   'staking.time_left': null;
   'staking.mining_rate': null;
   'staking.appeal': null;
@@ -350,10 +354,6 @@ export type Translations = {
   'pop_up.update_now': null;
   'pop_up.please_update': null;
   'pop_up.update_now_text': null;
-  'pop_up.try_again': null;
-  'pop_up.ups': null;
-  'pop_up.try_again_text': {errorIdentifier: number | string};
-  'pop_up.view_changelog': null;
   'pop_up.you_are_up_to_date': null;
   'pop_up.up_to_date_text': null;
   'pop_up.resurrection': null;

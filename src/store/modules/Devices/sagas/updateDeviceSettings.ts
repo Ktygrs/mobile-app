@@ -60,7 +60,7 @@ export function* updateDeviceSettingsSaga(
     yield put(DeviceActions.UPDATE_SETTINGS.SUCCESS.create(updatedSetings));
     if (settings.language) {
       I18nManager.forceRTL(t('isRTL', {locale: settings.language}) === 'true');
-      RNRestart.Restart();
+      RNRestart.restart();
     }
   } catch (error) {
     yield put(

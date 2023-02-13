@@ -9,6 +9,7 @@ import {ProfileIcon} from '@navigation/components/MainTabBar/components/Icons/Pr
 import {TeamIcon} from '@navigation/components/MainTabBar/components/Icons/TeamIcon';
 import {useUpdateRequiredListener} from '@navigation/hooks/useUpdateRequiredListener';
 import {modalOptions, screenOptions, tabOptions} from '@navigation/options';
+import {navigationReadyResolver} from '@navigation/utils';
 import {
   BottomTabBarProps,
   createBottomTabNavigator,
@@ -50,7 +51,7 @@ import {Team} from '@screens/Team';
 import {useTrackUserInfo} from '@store/modules/Account/hooks/useTrackUserInfo';
 import {ActiveTabActions, Tab} from '@store/modules/ActiveTab/actions';
 import {StatsPeriod} from '@store/modules/Stats/types';
-import React, {ComponentType, ReactNode, RefObject} from 'react';
+import React, {ComponentType, ReactNode, RefObject, useEffect} from 'react';
 import {Image, View} from 'react-native';
 import {Contact} from 'react-native-contacts';
 import Animated from 'react-native-reanimated';
@@ -261,6 +262,16 @@ const MainTabs = () => {
 };
 
 export function MainNavigator() {
+  useEffect(navigationReadyResolver, []);
+
+  // TODO: Hide until functionality is ready
+  // Warning! Calling this hook with no internet leads to the app hanging (setTimeout, button handles, requests don't work)
+  // So:
+  //  1. The problem should be investigated
+  //  2. Should it be called only for authenticated users?
+  //    If so, then it should be called here instead of Router.tsx or even better, via sagas
+  //    + calling in Router.tsx leads to splash screen hanging if user doesn't have internet connection during the app opening
+  // useGetstreamListener();
   useUpdateRequiredListener();
   useTrackUserInfo();
   return (

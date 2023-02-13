@@ -31,7 +31,7 @@ import {all, call, put, select} from 'redux-saga/effects';
 type Action = ReturnType<
   | typeof DeviceActions.UPDATE_DEVICE_METADATA.START.create
   | typeof AccountActions.USER_STATE_CHANGE.SUCCESS.create
-  | typeof AppCommonActions.APP_INITIALIZED.STATE.create
+  | typeof AppCommonActions.APP_INITIALIZED.SUCCESS.create
   | typeof AppCommonActions.APP_STATE_CHANGE.STATE.create
 >;
 

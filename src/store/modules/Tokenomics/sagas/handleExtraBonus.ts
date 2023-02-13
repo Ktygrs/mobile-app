@@ -11,7 +11,7 @@ import {miningSummarySelector} from '@store/modules/Tokenomics/selectors';
 import {openBonusClaimed} from '@store/modules/Tokenomics/utils/openBonusClaimed';
 import {openBonusExpired} from '@store/modules/Tokenomics/utils/openBonusExpired';
 import {openClaimBonus} from '@store/modules/Tokenomics/utils/openClaimBonus';
-import {getErrorMessage, showError} from '@utils/errors';
+import {showError} from '@utils/errors';
 import {
   call,
   delay,
@@ -57,7 +57,7 @@ export function* handleExtraBonusSaga() {
       return;
     }
 
-    showError(getErrorMessage(error));
+    showError(error);
     throw error;
   }
 }
