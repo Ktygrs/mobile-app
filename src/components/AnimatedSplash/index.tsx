@@ -25,10 +25,10 @@ export const AnimatedSplash = () => {
     }
   }, [animationFinished, appInitState, isSplashVisible]);
 
-  const finishAnimation = useCallback((isCancelled: boolean) => {
-    if (!isCancelled) {
-      setAnimationFinished(true);
-    }
+  const finishAnimation = useCallback(() => {
+    // if (!isCancelled) {
+    setAnimationFinished(true);
+    // }
   }, []);
 
   if (!isSplashVisible) {
