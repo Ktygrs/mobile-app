@@ -35,7 +35,7 @@ export const useValidateUsername = (user: User, username: string) => {
           }
         }
       }, 600),
-    [dispatch, user],
+    [dispatch, user.username],
   );
 
   useEffect(() => {
