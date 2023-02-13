@@ -11,7 +11,8 @@ import {YearsIcon} from '@svg/YearsIcon';
 import {t} from '@translations/i18n';
 import {formatNumber, formatNumberString} from '@utils/numbers';
 import {font} from '@utils/styles';
-import React, {memo, useEffect, useRef} from 'react';
+import {throttle} from 'lodash';
+import React, {memo, useEffect, useMemo, useRef} from 'react';
 import {
   ActivityIndicator,
   StyleSheet,
@@ -49,15 +50,19 @@ export const Calculator = memo(
     const yearsValueRef = useRef(stakingYearsInitialValue);
     const allocationValueRef = useRef(allocationInitialValue);
 
-    const setValues = () => {
-      onParametersChange({
-        years: yearsValueRef.current,
-        allocation: allocationValueRef.current,
-      });
-    };
+    const setParameters = useMemo(
+      () =>
+        throttle(() => {
+          onParametersChange({
+            years: yearsValueRef.current,
+            allocation: allocationValueRef.current,
+          });
+        }, 200),
+      [onParametersChange],
+    );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(setValues, []);
+    useEffect(setParameters, []);
 
     return (
       <View style={[styles.container, commonStyles.shadow]}>
@@ -116,10 +121,10 @@ export const Calculator = memo(
           maximumValue={useSharedValue(availableStakingYearsMax)}
           step={availableStakingYearsMax - availableStakingYearsMin || 1}
           onValueChange={value => {
+            setParameters();
             yearsValueRef.current = value;
             yearsElementRef.current?.setNativeProps({text: value.toString()});
           }}
-          onSlidingComplete={setValues}
         />
         <View style={styles.sliderInfo}>
           <ChartIcon
@@ -142,12 +147,12 @@ export const Calculator = memo(
           maximumValue={useSharedValue(availableAllocationMax)}
           step={availableAllocationMax - availableAllocationMin || 1}
           onValueChange={value => {
+            setParameters();
             allocationValueRef.current = Math.round(value); // https://0.30000000000000004.com/
             allocationElementRef.current?.setNativeProps({
               text: `${allocationValueRef.current}%`,
             });
           }}
-          onSlidingComplete={setValues}
         />
         <Text style={styles.descriptionText}>{t('staking.description')}</Text>
       </View>

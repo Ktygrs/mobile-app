@@ -10,7 +10,8 @@ import {TierTwoIcon} from '@svg/TierTwoIcon';
 import {t} from '@translations/i18n';
 import {formatNumber} from '@utils/numbers';
 import {font} from '@utils/styles';
-import React, {memo, useEffect, useRef} from 'react';
+import {throttle} from 'lodash';
+import React, {memo, useEffect, useMemo, useRef} from 'react';
 import {
   ActivityIndicator,
   StyleSheet,
@@ -50,16 +51,20 @@ export const Calculator = memo(
     const tierTwoValueRef = useRef(TIER_TWO_DEFAULT);
     const activeMinersValueRef = useRef(ACTIVE_MINERS_DEFAULT);
 
-    const setValues = () => {
-      onParametersChange({
-        tierOneValue: tierOneValueRef.current,
-        tierTwoValue: tierTwoValueRef.current,
-        activeMinersPerc: activeMinersValueRef.current,
-      });
-    };
+    const setParameters = useMemo(
+      () =>
+        throttle(() => {
+          onParametersChange({
+            tierOneValue: tierOneValueRef.current,
+            tierTwoValue: tierTwoValueRef.current,
+            activeMinersPerc: activeMinersValueRef.current,
+          });
+        }, 200),
+      [onParametersChange],
+    );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(setValues, []);
+    useEffect(setParameters, []);
 
     return (
       <View style={[styles.container, commonStyles.shadow]}>
@@ -99,10 +104,10 @@ export const Calculator = memo(
           maximumValue={useSharedValue(TIER_ONE_MAX)}
           step={TIER_ONE_MAX}
           onValueChange={value => {
+            setParameters();
             tierOneValueRef.current = value;
             tierOneElementRef.current?.setNativeProps({text: value.toString()});
           }}
-          onSlidingComplete={setValues}
         />
         <View style={styles.sliderInfo}>
           <TierTwoIcon />
@@ -123,10 +128,10 @@ export const Calculator = memo(
           maximumValue={useSharedValue(TIER_TWO_MAX)}
           step={TIER_TWO_MAX}
           onValueChange={value => {
+            setParameters();
             tierTwoValueRef.current = value;
             tierTwoElementRef.current?.setNativeProps({text: value.toString()});
           }}
-          onSlidingComplete={setValues}
         />
         <View style={styles.sliderInfo}>
           <MiningIcon />
@@ -147,12 +152,12 @@ export const Calculator = memo(
           maximumValue={useSharedValue(ACTIVE_MINERS_MAX)}
           step={ACTIVE_MINERS_MAX}
           onValueChange={value => {
+            setParameters();
             activeMinersValueRef.current = Math.round(value); // https://0.30000000000000004.com/
             activeMinersElementRef.current?.setNativeProps({
               text: `${activeMinersValueRef.current}%`,
             });
           }}
-          onSlidingComplete={setValues}
         />
       </View>
     );
