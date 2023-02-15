@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
-import {DEFAULT_FORMAT_LOCALE} from '@constants/formatting';
 import {flags} from '@flags';
 import {TierTwoIcon} from '@svg/TierTwoIcon';
 import {getCountryByCode} from '@utils/country';
+import {formatNumber} from '@utils/numbers';
 import {font} from '@utils/styles';
 import React, {memo, ReactNode} from 'react';
 import {
@@ -59,10 +59,7 @@ export const CountryListItem = memo(
               width={rem(22)}
               height={rem(22)}
             />
-            <Text style={styles.usersText}>
-              {' '}
-              {userCount.toLocaleString(DEFAULT_FORMAT_LOCALE)}
-            </Text>
+            <Text style={styles.usersText}> {formatNumber(userCount)}</Text>
           </View>
         ) : (
           AdditionalInfoComponent
