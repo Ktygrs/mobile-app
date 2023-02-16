@@ -6,21 +6,20 @@ import {navigate} from '@navigation/utils';
 import {Message} from '@screens/Modals/PopUp/components/Message';
 import {dayjs} from '@services/dayjs';
 import {MedKitIcon} from '@svg/MedKitIcon';
-import {t} from '@translations/i18n';
+import {replaceString, t, tagRegex} from '@translations/i18n';
 import {getDurationString} from '@utils/date';
 import {formatNumberString} from '@utils/numbers';
 import {font} from '@utils/styles';
 import React from 'react';
 import {StyleSheet, Text} from 'react-native';
-import reactStringReplace from 'react-string-replace';
 
 export const openConfirmResurrect = (params: ResurrectRequiredData) => {
   let resultResolve: (value: 'yes' | 'no') => void;
   const resultPromise = new Promise<'yes' | 'no'>(r => (resultResolve = r));
 
-  let message = reactStringReplace(
+  let message = replaceString(
     t('pop_up.resurrection_message'),
-    '[[:amount]]',
+    tagRegex('amount'),
     (match, index) => (
       <Text key={match + index} style={styles.boldText}>
         {formatNumberString(params.amount)}
@@ -28,7 +27,7 @@ export const openConfirmResurrect = (params: ResurrectRequiredData) => {
     ),
   );
 
-  message = reactStringReplace(message, '[[:period]]', (match, index) => (
+  message = replaceString(message, tagRegex('period'), (match, index) => (
     <Text key={match + index} style={styles.boldText}>
       {getDurationString(dayjs.duration(params.duringTheLastXSeconds, 's'))}
     </Text>

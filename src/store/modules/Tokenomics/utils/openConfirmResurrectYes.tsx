@@ -1,19 +1,35 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {ResurrectRequiredData} from '@api/tokenomics/types';
 import {Images} from '@images';
 import {navigate} from '@navigation/utils';
-import {t} from '@translations/i18n';
+import {Message} from '@screens/Modals/PopUp/components/Message';
+import {replaceString, t, tagRegex} from '@translations/i18n';
+import {formatNumberString} from '@utils/numbers';
+import {font} from '@utils/styles';
+import React from 'react';
+import {StyleSheet, Text} from 'react-native';
 
-export const openConfirmResurrectYes = () => {
+export const openConfirmResurrectYes = (params: ResurrectRequiredData) => {
   let resultResolve: (value: 'yes' | 'no') => void;
   const resultPromise = new Promise<'yes' | 'no'>(r => (resultResolve = r));
+
+  const message = replaceString(
+    t('pop_up.resurrection_yes_confirm_message'),
+    tagRegex('amount'),
+    (match, index) => (
+      <Text key={match + index} style={styles.boldText}>
+        {formatNumberString(params.amount)}
+      </Text>
+    ),
+  );
 
   navigate({
     name: 'PopUp',
     params: {
       imageProps: {source: Images.popUp.resurrection},
       title: t('pop_up.please_confirm'),
-      message: t('pop_up.resurrection_yes_confirm_message'),
+      message: <Message text={message} />,
       buttons: [
         {
           text: t('button.cancel'),
@@ -31,3 +47,9 @@ export const openConfirmResurrectYes = () => {
 
   return resultPromise;
 };
+
+const styles = StyleSheet.create({
+  boldText: {
+    ...font(14, 20, 'bold', 'primaryDark'),
+  },
+});

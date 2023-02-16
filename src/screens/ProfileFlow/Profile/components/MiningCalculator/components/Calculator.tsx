@@ -78,7 +78,10 @@ export const Calculator = memo(
             <Text style={styles.resultValueText}>
               {result !== null ? (
                 <>
-                  {formatNumber(result, 2)}{' '}
+                  {formatNumber(result, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}{' '}
                   <IceLabel iconSize={24} label={t('general.ice_per_hour')} />
                 </>
               ) : null}

@@ -495,7 +495,7 @@ PODS:
     - React-Core
   - react-native-pager-view (6.1.1):
     - React-Core
-  - react-native-restart (0.0.24):
+  - react-native-restart (0.0.27):
     - React-Core
   - react-native-safe-area-context (4.4.1):
     - RCT-Folly
@@ -1056,7 +1056,7 @@ SPEC CHECKSUMS:
   react-native-flipper: 2d552a8178d839ef378220101fb7f0cd5b2a8003
   react-native-netinfo: f80db8cac2151405633324cb645c60af098ee461
   react-native-pager-view: 3c66c4e2f3ab423643d07b2c7041f8ac48395f72
-  react-native-restart: 45c8dca02491980f2958595333cbccd6877cb57e
+  react-native-restart: 7595693413fe3ca15893702f2c8306c62a708162
   react-native-safe-area-context: 99b24a0c5acd0d5dcac2b1a7f18c49ea317be99a
   react-native-twitter-signin: 423e8d20eb26fddc14852d3f1435a8b39358f49d
   React-perflogger: 8c79399b0500a30ee8152d0f9f11beae7fc36595

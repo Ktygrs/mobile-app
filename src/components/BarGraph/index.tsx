@@ -46,7 +46,11 @@ export const BarFooter = memo(
           .fill(null)
           .map((_, i) => (
             <Text key={i} style={styles.xAxisText}>
-              {formatNumber(stepValue * i, 0, 'compact')}
+              {formatNumber(stepValue * i, {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+                notation: 'compact',
+              })}
             </Text>
           ))}
       </View>

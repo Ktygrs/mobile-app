@@ -85,7 +85,7 @@ function* confirmResurrect(
 
   const warningConfirmResult =
     mainConfirmResult === 'yes'
-      ? yield call(openConfirmResurrectYes)
+      ? yield call(openConfirmResurrectYes, params)
       : yield call(openConfirmResurrectNo, params);
 
   if (warningConfirmResult === 'yes') {

@@ -49,7 +49,11 @@ export const OnlineUsersHistory = () => {
               const currentValue = stepValue * i ? stepValue * i : minValue;
               return (
                 <Text key={i} style={styles.yAxisText}>
-                  {formatNumber(currentValue, 1, 'compact')}
+                  {formatNumber(currentValue, {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 1,
+                    notation: 'compact',
+                  })}
                 </Text>
               );
             })}

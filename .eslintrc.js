@@ -52,6 +52,10 @@ module.exports = {
                 name: 'lottie-react-native',
                 message: 'Please use custom wrapper from @component/LottieView',
               },
+              {
+                name: 'react-string-replace',
+                message: 'Please use replaceString from @translations/i18n',
+              },
             ],
           },
         ],

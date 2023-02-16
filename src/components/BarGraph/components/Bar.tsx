@@ -53,6 +53,12 @@ export const Bar = ({
     return null;
   }
 
+  const barLabel = formatNumber(value, {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 1,
+    notation: 'compact',
+  });
+
   return (
     <View style={styles.container}>
       <Animated.View
@@ -62,18 +68,10 @@ export const Bar = ({
           doAnimate && animatedStyle,
           {width},
         ]}>
-        {!isLabelOutside && (
-          <BarLabel
-            value={formatNumber(value, 1, 'compact')}
-            color={COLORS.white}
-          />
-        )}
+        {!isLabelOutside && <BarLabel value={barLabel} color={COLORS.white} />}
       </Animated.View>
       {isLabelOutside && (
-        <BarLabel
-          value={formatNumber(value, 1, 'compact')}
-          color={COLORS.primaryLight}
-        />
+        <BarLabel value={barLabel} color={COLORS.primaryLight} />
       )}
     </View>
   );

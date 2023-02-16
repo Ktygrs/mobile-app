@@ -6,27 +6,34 @@ const formatters: {[key: string]: Intl.NumberFormat} = {};
 
 export function formatNumber(
   input: number,
-  fractionDigits: number = 0,
-  notation: 'standard' | 'scientific' | 'engineering' | 'compact' = 'standard',
+  {
+    minimumFractionDigits = 0,
+    maximumFractionDigits = 0,
+    notation = 'standard',
+  }: {
+    minimumFractionDigits?: number;
+    maximumFractionDigits?: number;
+    notation?: 'standard' | 'scientific' | 'engineering' | 'compact';
+  } = {},
 ) {
   // Compact notation doesn't work on iOS:
   // https://github.com/facebook/hermes/issues/23#issuecomment-1253927200
   // Remove polyfill when implemented
   if (notation === 'compact' && isIOS) {
     return compactFormat(input, 'en', null, {
-      significantDigits: fractionDigits,
-      minimumFractionDigits: fractionDigits,
-      maximumFractionDigits: fractionDigits,
+      significantDigits: minimumFractionDigits,
+      minimumFractionDigits,
+      maximumFractionDigits,
     });
   }
 
-  const key = notation + fractionDigits;
+  const key = notation + minimumFractionDigits + maximumFractionDigits;
 
   if (!formatters[key]) {
     formatters[key] = Intl.NumberFormat('en', {
       notation,
-      minimumFractionDigits: fractionDigits,
-      maximumFractionDigits: fractionDigits,
+      minimumFractionDigits,
+      maximumFractionDigits,
     });
   }
 

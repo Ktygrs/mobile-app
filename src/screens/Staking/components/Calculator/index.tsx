@@ -76,7 +76,10 @@ export const Calculator = memo(
             <>
               <Text style={styles.resultValueText}>
                 {calculatedResults
-                  ? `${formatNumber(calculatedResults.miningRate, 2)} `
+                  ? `${formatNumber(calculatedResults.miningRate, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })} `
                   : ''}
               </Text>
               <IceLabel

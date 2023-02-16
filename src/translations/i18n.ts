@@ -5,6 +5,7 @@ import ro from '@translations/locales/ro.json';
 // eslint-disable-next-line no-restricted-imports
 import {I18n, TranslateOptions} from 'i18n-js';
 import RNLocalize from 'react-native-localize';
+// eslint-disable-next-line no-restricted-imports
 import reactStringReplace from 'react-string-replace';
 
 const locales = {
