@@ -3,6 +3,7 @@
 import {BackButton} from '@components/BackButton';
 import {CodeInput} from '@components/Inputs/CodeInput';
 import {KeyboardAvoider} from '@components/KeyboardAvoider';
+import {LottieView} from '@components/LottieView';
 import {PrivacyTerms} from '@components/PrivacyTerms';
 import {ResendButton} from '@components/ResendButton';
 import {useScrollEndOnKeyboardShown} from '@hooks/useScrollEndOnKeyboardShown';
@@ -11,7 +12,6 @@ import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
 import {Description} from '@screens/AuthFlow/ConfirmPhone/components/Description';
 import {Header} from '@screens/AuthFlow/ConfirmPhone/components/Header';
 import {useConfirmPhone} from '@screens/AuthFlow/ConfirmPhone/hooks/useConfirmPhone';
-import LottieView from 'lottie-react-native';
 import React from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {rem, screenHeight} from 'rn-units';

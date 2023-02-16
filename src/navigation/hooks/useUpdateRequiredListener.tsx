@@ -35,8 +35,8 @@ export const useUpdateRequiredListener = () => {
         message: t('pop_up.update_now_text'),
         buttons: [
           {
-            Icon: <UpdateNow fill={COLORS.white} />,
-            label: t('pop_up.please_update'),
+            icon: <UpdateNow fill={COLORS.white} />,
+            text: t('pop_up.please_update'),
             onPress: () =>
               Linking.openURL(isIOS ? LINKS.APP_STORE : LINKS.PLAY_STORE).catch(
                 logError,

@@ -43,13 +43,13 @@ export const openConfirmResurrect = (params: ResurrectRequiredData) => {
       warning: t('pop_up.resurrection_warning'),
       buttons: [
         {
-          label: t('button.not_now'),
+          text: t('button.not_now'),
           preset: 'outlined',
           onPress: () => resultResolve('no'),
         },
         {
-          Icon: <MedKitIcon />,
-          label: t('button.resurrect_me'),
+          icon: <MedKitIcon />,
+          text: t('button.resurrect_me'),
           onPress: () => resultResolve('yes'),
         },
       ],

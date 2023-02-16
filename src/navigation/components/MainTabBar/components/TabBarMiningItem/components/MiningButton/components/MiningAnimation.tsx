@@ -1,27 +1,21 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {useHandleLottieBackground} from '@hooks/useHandleLottieBackground';
-import LottieView, {AnimatedLottieViewProps} from 'lottie-react-native';
-import React, {useRef} from 'react';
+import {LottieView, LottieViewProps} from '@components/LottieView';
+import React from 'react';
 import {StyleSheet} from 'react-native';
 import {rem} from 'rn-units';
 
 type Props = {
-  source: AnimatedLottieViewProps['source'];
+  source: LottieViewProps['source'];
 };
 
 export const MiningAnimation = ({source}: Props) => {
-  const lottieRef = useRef<LottieView>(null);
-
-  useHandleLottieBackground(lottieRef);
-
   return (
     <LottieView
       style={styles.animation}
       source={source}
       autoPlay={true}
       loop={true}
-      ref={lottieRef}
     />
   );
 };

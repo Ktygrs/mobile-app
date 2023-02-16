@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {stopPropagation} from '@components/KeyboardDismiss';
+import {LottieView, LottieViewProps} from '@components/LottieView';
 import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {MainStackParamList} from '@navigation/Main';
@@ -14,7 +15,6 @@ import {
 } from '@screens/Modals/PopUp/components/PopUpButton';
 import {Title} from '@screens/Modals/PopUp/components/Title';
 import {Warning} from '@screens/Modals/PopUp/components/Warning';
-import AnimatedLottieView, {AnimatedLottieViewProps} from 'lottie-react-native';
 import React, {ReactNode, useEffect} from 'react';
 import {
   BackHandler,
@@ -28,7 +28,7 @@ import {rem} from 'rn-units';
 
 export type PopUpProps = {
   imageProps?: ImageProps;
-  animationProps?: AnimatedLottieViewProps;
+  animationProps?: LottieViewProps;
   banner?: string | ReactNode;
   title?: string | ReactNode;
   message?: string | ReactNode;
@@ -89,11 +89,7 @@ export const PopUp = () => {
           )}
           {!!animationProps && (
             <View style={styles.animation}>
-              <AnimatedLottieView
-                autoPlay={true}
-                loop={true}
-                {...animationProps}
-              />
+              <LottieView autoPlay={true} loop={true} {...animationProps} />
             </View>
           )}
           {!!banner &&

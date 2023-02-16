@@ -16,12 +16,12 @@ export const openConfirmResurrectYes = () => {
       message: t('pop_up.resurrection_yes_confirm_message'),
       buttons: [
         {
-          label: t('button.cancel'),
+          text: t('button.cancel'),
           preset: 'outlined',
           onPress: () => resultResolve('no'),
         },
         {
-          label: t('button.confirm'),
+          text: t('button.confirm'),
           onPress: () => resultResolve('yes'),
         },
       ],

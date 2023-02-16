@@ -1,10 +1,12 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import LottieView from 'lottie-react-native';
+import {LottieViewMethods} from '@components/LottieView';
 import {RefObject, useEffect} from 'react';
 import {AppState} from 'react-native';
 
-export const useHandleLottieBackground = (lottieRef: RefObject<LottieView>) => {
+export const useHandleLottieBackground = (
+  lottieRef: RefObject<LottieViewMethods>,
+) => {
   /**
    * Lottie stops playing if the app goes background so we resume it manually
    */

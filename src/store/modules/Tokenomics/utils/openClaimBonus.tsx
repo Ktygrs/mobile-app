@@ -6,6 +6,7 @@ import {LINKS} from '@constants/links';
 import {LottieAnimations} from '@lottie';
 import {navigate} from '@navigation/utils';
 import {Message} from '@screens/Modals/PopUp/components/Message';
+import {PopUpButtonProps} from '@screens/Modals/PopUp/components/PopUpButton';
 import {Warning} from '@screens/Modals/PopUp/components/Warning';
 import {CoinsStackIcon} from '@svg/CoinsStackIcon';
 import {replaceString, t, tagRegex} from '@translations/i18n';
@@ -28,6 +29,12 @@ export const openClaimBonus = () => {
     ),
   );
 
+  const button: PopUpButtonProps = {
+    icon: <CoinsStackIcon />,
+    text: t('button.claim_bonus'),
+    style: styles.button,
+  };
+
   navigate({
     name: 'PopUp',
     params: {
@@ -42,13 +49,19 @@ export const openClaimBonus = () => {
       ),
       buttons: [
         {
-          Icon: <CoinsStackIcon />,
-          label: t('button.claim_bonus'),
-          containerStyle: styles.button,
+          ...button,
+          onPress: () => {
+            navigate({
+              name: 'PopUp',
+              params: {buttons: [{...button, loading: true}]},
+              merge: true,
+            });
+          },
         },
       ],
       dismissOnOutsideTouch: false,
       dismissAndroidHardwareBack: false,
+      dismissOnButtonPress: false,
       onDismiss: () => resultResolve(),
     },
   });

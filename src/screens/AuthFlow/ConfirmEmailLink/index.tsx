@@ -2,6 +2,7 @@
 
 import {BackButton} from '@components/BackButton';
 import {FullScreenLoading} from '@components/FullScreenLoading';
+import {LottieView} from '@components/LottieView';
 import {PrivacyTerms} from '@components/PrivacyTerms';
 import {Touchable} from '@components/Touchable';
 import {MIDDLE_BUTTON_HIT_SLOP} from '@constants/styles';
@@ -12,7 +13,6 @@ import {useConfirmEmailLink} from '@screens/AuthFlow/ConfirmEmailLink/hooks/useC
 import {PenWithFrameIcon} from '@svg/PenWithFrameIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
-import LottieView from 'lottie-react-native';
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {rem} from 'rn-units';

@@ -41,7 +41,7 @@ export const Footer = memo(({parameters}: Props) => {
       buttons: [
         DEFAULT_DIALOG_NO_BUTTON,
         {
-          label: t('button.confirm'),
+          text: t('button.confirm'),
           onPress: () => {
             if (parameters.current) {
               confirmPreStaking(parameters.current);

@@ -2,6 +2,7 @@
 
 import {isApiError} from '@api/client';
 import {Api} from '@api/index';
+import {navigationRef} from '@navigation/utils';
 import {
   isRegistrationCompleteSelector,
   userIdSelector,
@@ -12,6 +13,7 @@ import {openBonusClaimed} from '@store/modules/Tokenomics/utils/openBonusClaimed
 import {openBonusExpired} from '@store/modules/Tokenomics/utils/openBonusExpired';
 import {openClaimBonus} from '@store/modules/Tokenomics/utils/openClaimBonus';
 import {showError} from '@utils/errors';
+import {SagaIterator} from 'redux-saga';
 import {
   call,
   delay,
@@ -21,7 +23,7 @@ import {
   take,
 } from 'redux-saga/effects';
 
-export function* handleExtraBonusSaga() {
+export function* handleExtraBonusSaga(): SagaIterator {
   const miningSummary: ReturnType<typeof miningSummarySelector> = yield select(
     miningSummarySelector,
   );
@@ -51,13 +53,15 @@ export function* handleExtraBonusSaga() {
     }
   } catch (error) {
     if (isApiError(error, 409, 'EXTRA_BONUS_ALREADY_CLAIMED')) {
+      navigationRef.goBack(); // close the modal
       return;
     } else if (isApiError(error, 404, 'NO_EXTRA_BONUS_AVAILABLE')) {
       yield call(openBonusExpired);
       return;
     }
 
-    showError(error);
+    yield call(showError, error);
+    yield call(handleExtraBonusSaga);
     throw error;
   }
 }

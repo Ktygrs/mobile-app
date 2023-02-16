@@ -157,7 +157,7 @@ export const useWhoInvitedYou = () => {
       buttons: [
         DEFAULT_DIALOG_NO_BUTTON,
         {
-          label: t('button.yes_btn'),
+          text: t('button.yes_btn'),
           onPress: () => {
             dispatch(AccountActions.UPDATE_ACCOUNT.RESET.create());
             dispatch(ValidationActions.REF_USERNAME_VALIDATION.CLEAR.create());

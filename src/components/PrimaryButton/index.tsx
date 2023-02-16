@@ -16,14 +16,15 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import {rem} from 'rn-units';
 
-interface PrimaryButtonProps extends TouchableProps {
-  onPress: () => void;
+export interface PrimaryButtonProps extends TouchableProps {
   text: string;
+  onPress?: () => void;
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
   icon?: ReactNode;
   loading?: boolean;
   disabled?: boolean;
+  customBackground?: boolean;
 }
 
 export const PrimaryButton = ({
@@ -34,6 +35,7 @@ export const PrimaryButton = ({
   icon,
   loading = false,
   disabled = false,
+  customBackground = false,
   ...touchableProps
 }: PrimaryButtonProps) => {
   return (
@@ -42,15 +44,18 @@ export const PrimaryButton = ({
       style={[styles.button, disabled && styles.button_disabled, style]}
       {...touchableProps}
       disabled={disabled}>
-      {style && !('backgroundColor' in style) && !disabled && (
-        <LinearGradient
-          colors={[
-            COLORS.primaryButtonGradientStart,
-            COLORS.primaryButtonGradientEnd,
-          ]}
-          style={StyleSheet.absoluteFill}
-        />
-      )}
+      {style &&
+        !('backgroundColor' in style) &&
+        !disabled &&
+        !customBackground && (
+          <LinearGradient
+            colors={[
+              COLORS.primaryButtonGradientStart,
+              COLORS.primaryButtonGradientEnd,
+            ]}
+            style={StyleSheet.absoluteFill}
+          />
+        )}
       {icon ? <View style={styles.icon}>{icon}</View> : null}
       <Text style={[styles.text, textStyle]}>{text}</Text>
       {loading && (

@@ -43,7 +43,7 @@ export const useControlHandlers = (user: User) => {
       buttons: [
         DEFAULT_DIALOG_NO_BUTTON,
         {
-          label: t('button.continue'),
+          text: t('button.continue'),
           onPress: () => {
             navigation.navigate('ModifyEmail');
           },

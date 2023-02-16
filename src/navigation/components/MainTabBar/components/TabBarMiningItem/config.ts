@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {LocalAudio} from '@audio';
+import {LottieViewProps} from '@components/LottieView';
 import {MINING_LONG_PRESS_ACTIVATION_SEC} from '@constants/timeouts';
 import {LottieAnimations} from '@lottie';
 import {loadLocalAudio} from '@services/audio';
 import {MiningState} from '@store/modules/Tokenomics/types';
 import {t} from '@translations/i18n';
-import {AnimatedLottieViewProps} from 'lottie-react-native';
 
 type GestureConfig = {
   showStackingModal?: boolean;
@@ -17,7 +17,7 @@ type GestureConfig = {
 
 export const MiningButtonConfig: {
   [key in MiningState]: {
-    animation: AnimatedLottieViewProps['source'];
+    animation: LottieViewProps['source'];
     tooltip?: string;
     showStackingModalOnTransition?: boolean;
     onTap?: GestureConfig;

@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {LottieView} from '@components/LottieView';
 import {LottieAnimations} from '@lottie';
-import LottieView from 'lottie-react-native';
-import React, {forwardRef} from 'react';
+import React from 'react';
 import {StyleProp, StyleSheet, ViewStyle} from 'react-native';
 import {rem} from 'rn-units';
 
@@ -13,20 +13,17 @@ interface Props {
   theme?: ActivityIndicatorTheme;
 }
 
-export const ActivityIndicator = forwardRef<LottieView, Props>(
-  ({style, theme}, ref) => (
-    <LottieView
-      ref={ref}
-      style={[styles.animation, style]}
-      source={
-        theme === 'dark-content'
-          ? LottieAnimations.whiteLoader
-          : LottieAnimations.loader
-      }
-      autoPlay
-      loop
-    />
-  ),
+export const ActivityIndicator = ({style, theme}: Props) => (
+  <LottieView
+    style={[styles.animation, style]}
+    source={
+      theme === 'dark-content'
+        ? LottieAnimations.whiteLoader
+        : LottieAnimations.loader
+    }
+    autoPlay
+    loop
+  />
 );
 
 const styles = StyleSheet.create({

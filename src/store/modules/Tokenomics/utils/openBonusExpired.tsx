@@ -29,8 +29,8 @@ export const openBonusExpired = () => {
       ),
       buttons: [
         {
-          label: t('button.close'),
-          containerStyle: styles.button,
+          text: t('button.close'),
+          style: styles.button,
         },
       ],
       onDismiss: () => resultResolve(),

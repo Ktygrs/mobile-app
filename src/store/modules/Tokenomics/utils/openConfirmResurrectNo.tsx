@@ -33,12 +33,12 @@ export const openConfirmResurrectNo = (params: ResurrectRequiredData) => {
       message: <Message text={message} />,
       buttons: [
         {
-          label: t('button.cancel'),
+          text: t('button.cancel'),
           preset: 'outlined',
           onPress: () => resultResolve('no'),
         },
         {
-          label: t('button.confirm'),
+          text: t('button.confirm'),
           onPress: () => resultResolve('yes'),
         },
       ],

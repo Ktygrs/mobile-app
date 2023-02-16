@@ -22,7 +22,7 @@ export const useConfirmChangeLanguageDialog = () => {
           buttons: [
             DEFAULT_DIALOG_NO_BUTTON,
             {
-              label: t('button.change'),
+              text: t('button.change'),
               onPress: () => {
                 dispatch(
                   DeviceActions.UPDATE_SETTINGS.START.create({language}),

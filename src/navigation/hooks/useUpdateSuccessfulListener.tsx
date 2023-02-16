@@ -21,8 +21,8 @@ export const useUpdateSuccessfulListener = () => {
       message: t('pop_up.up_to_date_text'),
       buttons: [
         {
-          Icon: <ViewChangelog fill={COLORS.white} />,
-          label: t('button.view_changelog'),
+          icon: <ViewChangelog fill={COLORS.white} />,
+          text: t('button.view_changelog'),
         },
       ],
     });

@@ -48,6 +48,10 @@ module.exports = {
                 name: 'dayjs',
                 message: 'Please use dayjs from @services/dayjs',
               },
+              {
+                name: 'lottie-react-native',
+                message: 'Please use custom wrapper from @component/LottieView',
+              },
             ],
           },
         ],

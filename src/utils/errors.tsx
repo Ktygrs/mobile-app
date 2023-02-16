@@ -23,7 +23,14 @@ export const getErrorMessage = (error: unknown): string => {
 };
 
 export const showError = (error: unknown) => {
+  let dismissResolve: () => void;
+  const dismissPromise = new Promise<void>(r => (dismissResolve = r));
   navigate({
+    /**
+     * Setting a key to distinguish Error PopUp from other PopUps
+     * to display them over each other instead of substitution
+     */
+    key: 'Error',
     name: 'PopUp',
     params: {
       imageProps: {source: Images.popUp.error},
@@ -32,8 +39,10 @@ export const showError = (error: unknown) => {
         : t('errors.general_error_title'),
       message: getErrorMessage(error),
       buttons: [
-        {label: t('button.try_again'), Icon: <Oops fill={COLORS.white} />},
+        {text: t('button.try_again'), icon: <Oops fill={COLORS.white} />},
       ],
+      onDismiss: () => dismissResolve(),
     },
   });
+  return dismissPromise;
 };

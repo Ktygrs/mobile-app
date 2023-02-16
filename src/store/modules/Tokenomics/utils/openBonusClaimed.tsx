@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {LottieViewProps} from '@components/LottieView';
 import {Touchable} from '@components/Touchable';
 import {
   MEDIUM_BONUS_THRESHOLD,
@@ -11,14 +12,13 @@ import {navigate} from '@navigation/utils';
 import {Warning} from '@screens/Modals/PopUp/components/Warning';
 import {t} from '@translations/i18n';
 import {openLinkWithInAppBrowser} from '@utils/device';
-import {AnimatedLottieViewProps} from 'lottie-react-native';
 import React from 'react';
 
 export const openBonusClaimed = ({claimedBonus}: {claimedBonus: number}) => {
   let resultResolve: () => void;
   const resultPromise = new Promise<void>(r => (resultResolve = r));
 
-  let animationSource: AnimatedLottieViewProps['source'];
+  let animationSource: LottieViewProps['source'];
   if (claimedBonus <= SMALL_BONUS_THRESHOLD) {
     animationSource = LottieAnimations.bonusSmall;
   } else if (claimedBonus <= MEDIUM_BONUS_THRESHOLD) {
