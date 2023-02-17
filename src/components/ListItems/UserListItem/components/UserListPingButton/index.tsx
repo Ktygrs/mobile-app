@@ -2,25 +2,54 @@
 
 import {UserListItemButton} from '@components/ListItems/UserListItem/components/UserListItemButton';
 import {COLORS} from '@constants/colors';
+import {ReferralsActions} from '@store/modules/Referrals/actions';
+import {getReferralUserSelector} from '@store/modules/Referrals/selectors';
+import {isLoadingSelector} from '@store/modules/UtilityProcessStatuses/selectors';
 import {PingIcon} from '@svg/PingIcon';
 import {t} from '@translations/i18n';
+import isNil from 'lodash/isNil';
 import React from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 
 type Props = {
-  pinged?: boolean | null;
+  userId: string;
 };
 
-export const UserListPingButton = ({pinged}: Props) => {
-  if (pinged == null) {
+export const UserListPingButton = ({userId}: Props) => {
+  const dispatch = useDispatch();
+
+  const {pinged} = useSelector(
+    getReferralUserSelector({
+      userId,
+    }),
+  );
+
+  const isPingInProgress = useSelector(
+    isLoadingSelector.bind(null, ReferralsActions.PING_REFERRAL(userId)),
+  );
+
+  const isDisabled = pinged || isPingInProgress;
+
+  const onPress = () => {
+    dispatch(
+      ReferralsActions.PING_REFERRAL(userId).START.create({
+        userId,
+      }),
+    );
+  };
+
+  if (isNil(pinged)) {
     return null;
   }
 
   return (
     <UserListItemButton
-      disabled={pinged}
-      icon={<PingIcon fill={pinged ? COLORS.cadetBlue : COLORS.primaryDark} />}
+      disabled={isDisabled}
+      icon={
+        <PingIcon fill={isDisabled ? COLORS.cadetBlue : COLORS.primaryDark} />
+      }
       text={t('users.ping')}
-      onPress={() => {}}
+      onPress={onPress}
     />
   );
 };

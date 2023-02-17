@@ -6,47 +6,49 @@ import {COLORS} from '@constants/colors';
 import {MainStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {getReferralUserSelector} from '@store/modules/Referrals/selectors';
 import {LogoIcon} from '@svg/LogoIcon';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import {useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
-type Props = {
-  username: string;
-  profilePictureUrl: string;
-  isIceFriend: boolean;
+interface Props {
   userId: string;
-};
+}
 
 const DEFAULT_ICON_SIZE = rem(22);
 
-export const TeamMember = memo(
-  ({username, profilePictureUrl, isIceFriend, userId}: Props) => {
-    const navigation =
-      useNavigation<NativeStackNavigationProp<MainStackParamList>>();
-    return (
-      <Touchable onPress={() => navigation.navigate('UserProfile', {userId})}>
-        <View>
-          <Avatar
-            uri={profilePictureUrl}
-            size={rem(60)}
-            borderRadius={rem(20)}
-            allowFullScreen={false}
-          />
-          {isIceFriend && (
-            <View style={styles.friendIcon}>
-              <LogoIcon color={COLORS.white} width={rem(15)} height={rem(15)} />
-            </View>
-          )}
-        </View>
-        <Text style={styles.usernameText} numberOfLines={1}>
-          {username}
-        </Text>
-      </Touchable>
-    );
-  },
-);
+export const TeamMember = memo(({userId}: Props) => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+
+  const {username, profilePictureUrl, phoneNumber} = useSelector(
+    getReferralUserSelector({userId}),
+  );
+
+  return (
+    <Touchable onPress={() => navigation.navigate('UserProfile', {userId})}>
+      <View>
+        <Avatar
+          uri={profilePictureUrl}
+          size={rem(60)}
+          borderRadius={rem(20)}
+          allowFullScreen={false}
+        />
+        {!!phoneNumber && (
+          <View style={styles.friendIcon}>
+            <LogoIcon color={COLORS.white} width={rem(15)} height={rem(15)} />
+          </View>
+        )}
+      </View>
+      <Text style={styles.usernameText} numberOfLines={1}>
+        {username}
+      </Text>
+    </Touchable>
+  );
+});
 
 const styles = StyleSheet.create({
   usernameText: {

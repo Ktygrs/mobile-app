@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {ReferralType, User} from '@api/user/types';
+import {ReferralType} from '@api/user/types';
 import {ActivityIndicator} from '@components/ActivityIndicator';
 import {ListItemSkeleton} from '@components/ListItems/ListItemSkeleton';
 import {
@@ -22,7 +22,7 @@ import {referralsSelector} from '@store/modules/Referrals/selectors';
 import {balanceSummarySelector} from '@store/modules/Tokenomics/selectors';
 import {formatNumberString} from '@utils/numbers';
 import React, {memo, useCallback, useEffect, useMemo, useRef} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {ListRenderItem, StyleSheet, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
@@ -82,16 +82,17 @@ export const TierList = memo(
       }
     }, [fetch, focused, hasBeenFetchedRef]);
 
-    const renderItem = useCallback(({item}: {item: User}) => {
-      return (
-        <UserListItem
-          user={item}
-          AdditionalInfoComponent={
-            item.pinged != null && <UserListPingButton pinged={item.pinged} />
-          }
-        />
-      );
-    }, []);
+    const renderItem: ListRenderItem<typeof referrals[0]> = useCallback(
+      ({item: userId}) => {
+        return (
+          <UserListItem
+            userId={userId}
+            AdditionalInfoComponent={<UserListPingButton userId={userId} />}
+          />
+        );
+      },
+      [],
+    );
 
     const Header = useMemo(() => {
       const balance = balanceSummary?.[referralType === 'T1' ? 't1' : 't2'];

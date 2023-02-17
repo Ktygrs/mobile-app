@@ -8,15 +8,21 @@ import {getInitialCollectionState} from '@store/modules/Collections/reducer';
 import {CollectionApiRequest} from '@store/modules/Collections/sagas/getCollectionSaga';
 
 export const CollectionActions = Object.freeze({
-  GET_TOP_STATS_COUNTRIES: createCollectionAction<CountryStatistics>(
-    'GET_TOP_STATS_COUNTRIES',
+  GET_TOP_STATS_COUNTRIES: createCollectionAction<
+    CountryStatistics,
+    'GET_TOP_STATS_COUNTRIES'
+  >('GET_TOP_STATS_COUNTRIES'),
+  SEARCH_STATS_COUNTRIES: createCollectionAction<
+    CountryStatistics,
+    'SEARCH_STATS_COUNTRIES'
+  >('SEARCH_STATS_COUNTRIES'),
+  GET_TOP_MINERS: createCollectionAction<Miner, 'GET_TOP_MINERS'>(
+    'GET_TOP_MINERS',
   ),
-  SEARCH_STATS_COUNTRIES: createCollectionAction<CountryStatistics>(
-    'SEARCH_STATS_COUNTRIES',
+  SEARCH_MINERS: createCollectionAction<Miner, 'SEARCH_MINERS'>(
+    'SEARCH_MINERS',
   ),
-  GET_TOP_MINERS: createCollectionAction<Miner>('GET_TOP_MINERS'),
-  SEARCH_MINERS: createCollectionAction<Miner>('SEARCH_MINERS'),
-  SEARCH_USERS: createCollectionAction<User>('SEARCH_USERS'),
+  SEARCH_USERS: createCollectionAction<User, 'SEARCH_USERS'>('SEARCH_USERS'),
 });
 
 export const CollectionsState = {

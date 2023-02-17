@@ -4,23 +4,15 @@ import {ReferralHistoryRecord, Referrals} from '@api/referrals/types';
 import {ReferralType} from '@api/user/types';
 import {createAction} from '@store/utils/actions/createAction';
 
-const GET_REFERRALS = ({
-  userId,
-  referralType = 'T1',
-}: {
-  userId?: string;
-  referralType?: ReferralType;
-}) =>
+const GET_REFERRALS = ({referralType = 'T1'}: {referralType?: ReferralType}) =>
   createAction(
     'GET_REFERRALS',
     {
       START: ({offset = 0}: {offset?: number} = {}) => ({
-        userId,
         referralType,
         offset,
       }),
-      SUCCESS: (uId: string, offset: number, result: Referrals) => ({
-        userId: uId,
+      SUCCESS: (offset: number, result: Referrals) => ({
         referralType,
         offset,
         result,
@@ -40,7 +32,20 @@ const GET_REFERRALS_HISTORY = createAction('GET_REFERRALS_HISTORY', {
   }),
 });
 
+const PING_REFERRAL = createAction(
+  'REFERRALS/PING_REFERRAL',
+  {
+    START: (payload: {userId: string}) => payload,
+    SUCCESS: (payload: {userId: string}) => payload,
+    FAILED: (payload: {userId: string; errorMessage: string}) => payload,
+  },
+  {
+    isMultiInstanceProcess: true,
+  },
+);
+
 export const ReferralsActions = Object.freeze({
   GET_REFERRALS,
   GET_REFERRALS_HISTORY,
+  PING_REFERRAL,
 });

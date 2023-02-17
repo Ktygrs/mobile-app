@@ -26,5 +26,5 @@ const createActionStructure = <T>() => ({
   CLEAR: false,
 });
 
-export const createCollectionAction = <T>(key: string) =>
+export const createCollectionAction = <T, K extends string>(key: K) =>
   createAction(key, createActionStructure<T>());

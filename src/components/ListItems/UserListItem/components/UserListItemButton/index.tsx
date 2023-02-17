@@ -17,10 +17,10 @@ export const UserListItemButton = ({icon, text, onPress, disabled}: Props) => {
   return (
     <Touchable
       disabled={disabled}
-      style={disabled ? styles.disabledButton : styles.button}
+      style={[styles.button, disabled && styles.disabledButton]}
       onPress={onPress}>
       {icon}
-      <Text style={disabled ? styles.disabledText : styles.buttonText}>
+      <Text style={[styles.buttonText, disabled && styles.disabledText]}>
         {text}
       </Text>
     </Touchable>
@@ -40,15 +40,7 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
   },
   disabledButton: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-    borderWidth: 1,
     borderColor: COLORS.cadetBlue,
-    borderRadius: 9,
-    paddingHorizontal: 11,
-    paddingVertical: 2,
   },
   buttonText: {
     paddingLeft: 3,
@@ -56,8 +48,6 @@ const styles = StyleSheet.create({
     ...font(12, null, 'bold', 'primaryDark'),
   },
   disabledText: {
-    paddingLeft: 3,
-    textTransform: 'uppercase',
-    ...font(12, null, 'bold', 'cadetBlue'),
+    color: COLORS.cadetBlue,
   },
 });

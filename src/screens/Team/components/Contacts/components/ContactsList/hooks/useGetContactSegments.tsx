@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {User} from '@api/user/types';
 import {SKELETONS_PER_SCREEN} from '@components/ListItems/UserListItem';
 import {useFetchCollection} from '@hooks/useFetchCollection';
 import {IceFriendsTitle} from '@screens/Team/components/Contacts/components/ContactsList/components/SectionHeader';
@@ -20,7 +19,7 @@ export type ContactSection = {
 
 export type ContactSectionDataItem =
   | Contact
-  | User
+  | string
   | {element: 'Loading'}
   | {element: 'InviteFriendsButton'}
   | {element: 'Error'; message: string};

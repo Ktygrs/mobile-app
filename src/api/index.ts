@@ -2,6 +2,7 @@
 
 import {devices} from './devices';
 import {news} from './news';
+import {notifications} from './notifications';
 import {referrals} from './referrals';
 import {statistics} from './statistics';
 import {tokenomics} from './tokenomics';
@@ -16,4 +17,5 @@ export const Api = Object.freeze({
   devices,
   tokenomics,
   news,
+  notifications,
 });

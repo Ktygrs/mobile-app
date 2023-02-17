@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {User} from '@api/user/types';
 import {Avatar} from '@components/Avatar/Avatar';
 import {stopPropagation} from '@components/KeyboardDismiss';
 import {Touchable} from '@components/Touchable';
@@ -9,9 +8,11 @@ import {flags} from '@flags';
 import {MainStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {getReferralUserSelector} from '@store/modules/Referrals/selectors';
 import {font} from '@utils/styles';
 import React, {memo, ReactNode} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
+import {useSelector} from 'react-redux';
 import {rem, screenHeight} from 'rn-units';
 
 const FLAG_WIDTH = rem(24);
@@ -26,20 +27,26 @@ export const SKELETONS_PER_SCREEN = Math.ceil(
 
 export const UserListItem = memo(
   ({
-    user,
+    userId,
     AdditionalInfoComponent,
   }: {
-    user: User;
+    userId: string;
     AdditionalInfoComponent?: ReactNode;
   }) => {
     const navigation =
       useNavigation<NativeStackNavigationProp<MainStackParamList>>();
 
+    const user = useSelector(
+      getReferralUserSelector({
+        userId,
+      }),
+    );
+
     return (
       <View style={styles.container} {...stopPropagation}>
         <Touchable
           style={styles.touchArea}
-          onPress={() => navigation.navigate('UserProfile', {userId: user.id})}>
+          onPress={() => navigation.navigate('UserProfile', {userId})}>
           <View style={styles.imageContainer}>
             {user.profilePictureUrl && (
               <Avatar

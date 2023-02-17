@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {User} from '@api/user/types';
 import {ActivityIndicator} from '@components/ActivityIndicator';
 import {SectionHeader} from '@components/SectionHeader';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
@@ -13,7 +12,7 @@ import {ReferralsActions} from '@store/modules/Referrals/actions';
 import {referralsSelector} from '@store/modules/Referrals/selectors';
 import {t} from '@translations/i18n';
 import React, {memo, useCallback, useEffect, useMemo} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {ListRenderItem, StyleSheet, View} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {rem} from 'rn-units';
 
@@ -45,6 +44,13 @@ export const Team = memo(() => {
     [navigation],
   );
 
+  const renderItem: ListRenderItem<typeof referrals[0]> = useCallback(
+    ({item}) => {
+      return <TeamMember userId={item} />;
+    },
+    [],
+  );
+
   if (!referrals.length) {
     return null;
   }
@@ -59,7 +65,7 @@ export const Team = memo(() => {
       <FlatList
         horizontal
         data={referrals}
-        renderItem={renderTeamMember}
+        renderItem={renderItem}
         ItemSeparatorComponent={renderSeparator}
         ListFooterComponent={
           loadNextLoading ? (
@@ -73,17 +79,6 @@ export const Team = memo(() => {
     </>
   );
 });
-
-const renderTeamMember = ({item}: {item: User}) => {
-  return (
-    <TeamMember
-      userId={item.id}
-      username={item.username}
-      profilePictureUrl={item.profilePictureUrl}
-      isIceFriend={Boolean(item.phoneNumber)}
-    />
-  );
-};
 
 const renderSeparator = () => <View style={styles.separator} />;
 

@@ -22,7 +22,7 @@ import {
 import {AGENDA} from '@screens/Team/constants';
 import {hapticFeedback} from '@utils/device';
 import React, {useCallback, useEffect, useRef} from 'react';
-import {SectionListRenderItemInfo, StyleSheet, Text, View} from 'react-native';
+import {SectionListRenderItem, StyleSheet, Text, View} from 'react-native';
 import {Contact} from 'react-native-contacts';
 import {rem} from 'rn-units';
 
@@ -72,33 +72,39 @@ export const ContactsList = ({
     [],
   );
 
-  const renderItem = useCallback(
-    ({
-      item,
-      index,
-    }: SectionListRenderItemInfo<ContactSectionDataItem, ContactSection>) => {
-      if ('element' in item) {
-        if (item.element === 'InviteFriendsButton') {
-          return <InviteButton style={styles.inviteButtonContainer} />;
-        } else if (item.element === 'Loading') {
-          return <ListItemSkeleton />;
-        } else if (item.element === 'Error') {
-          return <Text>{item.message}</Text>;
-        }
-      } else if ('recordID' in item) {
-        return (
-          <ContactItem contact={item} index={index} onInvite={onInvitePress} />
-        );
-      } else if ('id' in item) {
+  const renderItem: SectionListRenderItem<
+    ContactSectionDataItem,
+    ContactSection
+  > = useCallback(
+    ({item, index}) => {
+      if (typeof item === 'string') {
         return (
           <UserListItem
-            user={item}
-            AdditionalInfoComponent={
-              item.pinged != null && <UserListPingButton pinged={item.pinged} />
-            }
+            userId={item}
+            AdditionalInfoComponent={<UserListPingButton userId={item} />}
           />
         );
       }
+
+      if ('element' in item) {
+        switch (item.element) {
+          case 'InviteFriendsButton':
+            return <InviteButton style={styles.inviteButtonContainer} />;
+
+          case 'Loading':
+            return <ListItemSkeleton />;
+
+          case 'Error':
+            return <Text>{item.message}</Text>;
+        }
+      }
+
+      if ('recordID' in item) {
+        return (
+          <ContactItem contact={item} index={index} onInvite={onInvitePress} />
+        );
+      }
+
       return null;
     },
     [onInvitePress],

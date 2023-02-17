@@ -2,24 +2,20 @@
 
 import {ReferralType} from '@api/user/types';
 import {createSelector} from '@reduxjs/toolkit';
-import {userIdSelector} from '@store/modules/Account/selectors';
 import {RootState} from '@store/rootReducer';
 
 interface ReferralSelectorOptions {
-  userId?: string;
   referralType: ReferralType;
 }
 
 const referralsSelectorWithMemo = createSelector(
   [
     (state: RootState) => state.referrals,
-    (state: RootState, {userId}: ReferralSelectorOptions) =>
-      userId ?? userIdSelector(state),
     (_state: RootState, {referralType}: ReferralSelectorOptions) =>
       referralType,
   ],
-  (referrals, userId, referralType) => {
-    const referralData = referrals.data[userId]?.[referralType];
+  (referrals, referralType) => {
+    const referralData = referrals.data[referralType];
     return {
       data: referralData?.referrals ?? [],
       hasNext:
@@ -33,6 +29,11 @@ const referralsSelectorWithMemo = createSelector(
 export const referralsSelector =
   (options: ReferralSelectorOptions) => (state: RootState) =>
     referralsSelectorWithMemo(state, options);
+
+export const getReferralUserSelector =
+  ({userId}: {userId: string}) =>
+  (state: RootState) =>
+    state.referrals.users[userId];
 
 export const referralHistorySelector = (state: RootState) =>
   state.referrals.history;

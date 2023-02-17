@@ -26,7 +26,13 @@ import {t} from '@translations/i18n';
 import {hapticFeedback} from '@utils/device';
 import {font} from '@utils/styles';
 import React, {memo, useCallback} from 'react';
-import {SectionList, StyleSheet, Text, View} from 'react-native';
+import {
+  SectionList,
+  SectionListRenderItem,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {Contact} from 'react-native-contacts';
 import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
 import {rem} from 'rn-units';
@@ -68,32 +74,31 @@ export const SearchResults = memo(() => {
     [navigation],
   );
 
-  const renderItem = useCallback(
-    ({item, index}: {item: User | Contact; index: number}) => {
-      if ('recordID' in item) {
-        return (
-          <ContactItem
-            key={item.recordID}
-            contact={item}
-            index={index}
-            onInvite={onInvitePress}
-          />
-        );
-      } else if ('id' in item) {
-        return (
-          <UserListItem
-            key={item.id}
-            user={item}
-            AdditionalInfoComponent={
-              item.pinged != null && <UserListPingButton pinged={item.pinged} />
-            }
-          />
-        );
-      }
-      return null;
-    },
-    [onInvitePress],
-  );
+  const renderItem: SectionListRenderItem<User | Contact, {key: TeamUserType}> =
+    useCallback(
+      ({item, index}) => {
+        if ('recordID' in item) {
+          return (
+            <ContactItem
+              key={item.recordID}
+              contact={item}
+              index={index}
+              onInvite={onInvitePress}
+            />
+          );
+        } else if ('id' in item) {
+          return (
+            <UserListItem
+              key={item.id}
+              userId={item.id}
+              AdditionalInfoComponent={<UserListPingButton userId={item.id} />}
+            />
+          );
+        }
+        return null;
+      },
+      [onInvitePress],
+    );
 
   const renderEmptyList = useCallback(() => {
     if (!searchQuery) {
