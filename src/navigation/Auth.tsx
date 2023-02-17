@@ -2,7 +2,7 @@
 
 import {Country} from '@constants/countries';
 import {modalOptions, screenOptions} from '@navigation/options';
-import {getCurrentRoute, navigationReadyResolver} from '@navigation/utils';
+import {getCurrentRoute} from '@navigation/utils';
 import {useNavigation} from '@react-navigation/native';
 import {
   createNativeStackNavigator,
@@ -57,8 +57,6 @@ export function AuthNavigator() {
       }
     });
   }, [authRoute, navigation]);
-
-  useEffect(navigationReadyResolver, []);
 
   return (
     <AuthStack.Navigator

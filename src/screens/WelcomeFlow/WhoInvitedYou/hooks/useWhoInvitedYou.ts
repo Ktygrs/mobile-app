@@ -28,59 +28,84 @@ export const useWhoInvitedYou = () => {
   const updateRefByUsernameError = useSelector(
     failedReasonSelector.bind(null, AccountActions.UPDATE_REF_BY_USERNAME),
   );
-
   const validationError = useSelector(
     failedReasonSelector.bind(null, ValidationActions.REF_USERNAME_VALIDATION),
   );
-  const validationLoading = useSelector(
-    isLoadingSelector.bind(null, ValidationActions.REF_USERNAME_VALIDATION),
-  );
-  const isSuccessUpdateAccount = useSelector(
-    isSuccessSelector.bind(null, AccountActions.UPDATE_ACCOUNT),
-  );
-
   const updateError = useSelector(
     failedReasonSelector.bind(null, AccountActions.UPDATE_ACCOUNT),
+  );
+
+  const isReferralUpdated = useSelector(
+    isSuccessSelector.bind(null, AccountActions.UPDATE_REF_BY_USERNAME),
+  );
+
+  const updateRefByUsernameLoading = useSelector(
+    isLoadingSelector.bind(null, AccountActions.UPDATE_REF_BY_USERNAME),
   );
   const updateLoading = useSelector(
     isLoadingSelector.bind(null, AccountActions.UPDATE_ACCOUNT),
   );
 
-  const initialReferredBy = useRef(user.referredBy);
   const [refUsername, setRefUsername] = useState('');
-  const [updateAccountFinished, setUpdateAccountFinished] = useState(false);
+  const [waitLoading, setWaitLoading] = useState(false);
+
+  const isTypedReferralUpdated = useRef(false);
 
   const onBack = () => {
     resetError();
-    removeUsernameStep(user);
+    resetStep(user);
   };
 
   const onChangeRefUsername = (text: string) => {
     setRefUsername(text);
+    resetError();
+    if (isReferralUpdated) {
+      isTypedReferralUpdated.current = false;
+      dispatch(AccountActions.UPDATE_REF_BY_USERNAME.RESET.create());
+    }
     if (text !== '') {
-      updateRefUsername(text);
+      dispatch(ValidationActions.REF_USERNAME_VALIDATION.START.create(text));
     }
   };
 
-  const resetError = useCallback(() => {
+  const onSubmit = () => {
+    Keyboard.dismiss();
+    isTypedReferralUpdated.current = false;
+    resetError();
+    dispatch(AccountActions.UPDATE_REF_BY_USERNAME.START.create(refUsername));
+  };
+
+  const onSkip = () => {
+    navigation.navigate('PopUp', {
+      title: `${t('global.attention')}!`,
+      message: t('whoInvitedYou.confirm_text'),
+      buttons: [
+        DEFAULT_DIALOG_NO_BUTTON,
+        {
+          text: t('button.yes_btn'),
+          onPress: () => {
+            dispatch(AccountActions.UPDATE_ACCOUNT.RESET.create());
+            dispatch(ValidationActions.REF_USERNAME_VALIDATION.CLEAR.create());
+            finalizeStep(user);
+          },
+        },
+      ],
+    });
+  };
+
+  const resetError = () => {
     if (validationError) {
       dispatch(ValidationActions.REF_USERNAME_VALIDATION.RESET.create());
     }
     if (updateRefByUsernameError) {
       dispatch(AccountActions.UPDATE_REF_BY_USERNAME.RESET.create());
     }
-    if (isSuccessUpdateAccount || updateError) {
+    if (updateError) {
       dispatch(AccountActions.UPDATE_ACCOUNT.RESET.create());
     }
-  }, [
-    dispatch,
-    validationError,
-    updateError,
-    isSuccessUpdateAccount,
-    updateRefByUsernameError,
-  ]);
+  };
 
-  const removeUsernameStep = (userToUpdate: User) => {
+  const resetStep = (userToUpdate: User) => {
     let finalizedSteps =
       userToUpdate.clientData?.registrationProcessFinalizedSteps ?? [];
     if (finalizedSteps.includes('username')) {
@@ -93,7 +118,7 @@ export const useWhoInvitedYou = () => {
             },
           },
           function* (freshUser) {
-            removeUsernameStep(freshUser);
+            resetStep(freshUser);
             return {retry: false};
           },
         ),
@@ -101,17 +126,7 @@ export const useWhoInvitedYou = () => {
     }
   };
 
-  const updateRefUsername = useCallback(
-    (newRefUsername: string) => {
-      resetError();
-      dispatch(
-        ValidationActions.REF_USERNAME_VALIDATION.START.create(newRefUsername),
-      );
-    },
-    [dispatch, resetError],
-  );
-
-  const updateFinalizedSteps = useCallback(
+  const finalizeStep = useCallback(
     (currentUser: User) => {
       const finalizedSteps =
         currentUser.clientData?.registrationProcessFinalizedSteps ?? [];
@@ -133,7 +148,7 @@ export const useWhoInvitedYou = () => {
               },
             },
             function* (freshUser) {
-              updateFinalizedSteps(freshUser);
+              finalizeStep(freshUser);
               return {retry: false};
             },
           ),
@@ -144,53 +159,31 @@ export const useWhoInvitedYou = () => {
     [dispatch],
   );
 
-  const onSubmit = () => {
-    Keyboard.dismiss();
-    resetError();
-    dispatch(AccountActions.UPDATE_REF_BY_USERNAME.START.create(refUsername));
-  };
-
-  const onSkip = () => {
-    navigation.navigate('PopUp', {
-      title: `${t('global.attention')}!`,
-      message: t('whoInvitedYou.confirm_text'),
-      buttons: [
-        DEFAULT_DIALOG_NO_BUTTON,
-        {
-          text: t('button.yes_btn'),
-          onPress: () => {
-            dispatch(AccountActions.UPDATE_ACCOUNT.RESET.create());
-            dispatch(ValidationActions.REF_USERNAME_VALIDATION.CLEAR.create());
-            updateFinalizedSteps(user);
-          },
-        },
-      ],
-    });
-  };
-
   useEffect(() => {
-    if (user.referredBy !== initialReferredBy.current) {
-      initialReferredBy.current = user.referredBy;
-      setUpdateAccountFinished(true);
+    /**
+     * We can't rely only on isReferralUpdated because if user is updated
+     * (e.g. on the next step), the code will run
+     */
+    if (isReferralUpdated && !isTypedReferralUpdated.current) {
+      isTypedReferralUpdated.current = true;
       /**
-       * Added 1 sec wait here so User can see the user validation result
-       * (green mark or red cross) inside text input before we update user account
+       * Small delay here so User can see the update result
+       * (green mark) inside text input, before we go forward
        */
-      wait(1000).then(() => {
-        updateFinalizedSteps(user);
+      setWaitLoading(true);
+      wait(500).then(() => {
+        finalizeStep(user);
+        setWaitLoading(false);
       });
     }
-  }, [updateFinalizedSteps, user]);
+  }, [dispatch, finalizeStep, isReferralUpdated, user]);
 
   return {
     refUsername,
+    error: updateError || validationError || updateRefByUsernameError,
+    isLoading: updateLoading || updateRefByUsernameLoading || waitLoading,
+    isReferralUpdated: isReferralUpdated && isTypedReferralUpdated.current,
     onChangeRefUsername,
-    validationError,
-    updateRefByUsernameError,
-    validationLoading,
-    updateAccountFinished,
-    updateError,
-    updateLoading,
     onSubmit,
     onSkip,
     onBack,

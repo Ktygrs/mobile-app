@@ -19,13 +19,10 @@ import {rem} from 'rn-units';
 export const WhoInvitedYou = () => {
   const {
     refUsername,
-    validationError,
-    updateRefByUsernameError,
-    validationLoading,
-    updateAccountFinished,
+    error,
+    isLoading,
+    isReferralUpdated,
     onChangeRefUsername,
-    updateError,
-    updateLoading,
     onSubmit,
     onBack,
   } = useWhoInvitedYou();
@@ -55,9 +52,8 @@ export const WhoInvitedYou = () => {
             />
           }
           value={refUsername}
-          errorText={validationError || updateRefByUsernameError || updateError}
-          loading={validationLoading}
-          validated={updateAccountFinished}
+          errorText={error}
+          validated={isReferralUpdated}
         />
       }
       info={
@@ -79,13 +75,8 @@ export const WhoInvitedYou = () => {
         <PrimaryButton
           text={t('button.complete')}
           onPress={onSubmit}
-          loading={updateLoading}
-          disabled={
-            refUsername === '' ||
-            !!validationError ||
-            !!updateRefByUsernameError ||
-            updateLoading
-          }
+          loading={isLoading}
+          disabled={!!error || !refUsername || isLoading}
         />
       }
     />

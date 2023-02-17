@@ -6,7 +6,6 @@ import {userSelector} from '@store/modules/Account/selectors';
 import {
   failedReasonSelector,
   isLoadingSelector,
-  isSuccessSelector,
 } from '@store/modules/UtilityProcessStatuses/selectors';
 import {ValidationActions} from '@store/modules/Validation/actions';
 import {useCallback, useEffect, useRef, useState} from 'react';
@@ -21,12 +20,6 @@ export const useClaimUsername = () => {
   const validationError = useSelector(
     failedReasonSelector.bind(null, ValidationActions.USERNAME_VALIDATION),
   );
-  const validationLoading = useSelector(
-    isLoadingSelector.bind(null, ValidationActions.USERNAME_VALIDATION),
-  );
-  const isSuccessUpdate = useSelector(
-    isSuccessSelector.bind(null, AccountActions.UPDATE_ACCOUNT),
-  );
   const updateError = useSelector(
     failedReasonSelector.bind(null, AccountActions.UPDATE_ACCOUNT),
   );
@@ -36,47 +29,40 @@ export const useClaimUsername = () => {
 
   const initialUsername = useRef(user.username);
   const [username, setUsername] = useState(user.username);
+  const [waitLoading, setWaitLoading] = useState(false);
+
+  const isUsernameUpdated =
+    !!username && username.toLowerCase() === user.username?.toLowerCase();
 
   const onSubmit = () => {
     Keyboard.dismiss();
-    if (username?.toLowerCase() !== user.username?.toLowerCase()) {
+    if (!isUsernameUpdated) {
       dispatch(
         AccountActions.UPDATE_ACCOUNT.START.create({username: username}),
       );
     } else {
-      /** Same username, no need to validate it */
-      updateFinalizedSteps(user);
+      finalizeStep(user);
     }
   };
 
   const onChangeUsername = (text: string) => {
     setUsername(text);
+    resetError();
     if (text !== '') {
-      updateUsername(text);
+      dispatch(ValidationActions.USERNAME_VALIDATION.START.create(text));
     }
   };
 
-  const isNextButtonDisabled =
-    !username || username === '' || !!validationError || updateLoading;
-
-  const resetError = useCallback(() => {
+  const resetError = () => {
     if (validationError) {
       dispatch(ValidationActions.USERNAME_VALIDATION.RESET.create());
     }
-    if (isSuccessUpdate || updateError) {
+    if (updateError) {
       dispatch(AccountActions.UPDATE_ACCOUNT.RESET.create());
     }
-  }, [validationError, dispatch, isSuccessUpdate, updateError]);
+  };
 
-  const updateUsername = useCallback(
-    (newUsername: string) => {
-      resetError();
-      dispatch(ValidationActions.USERNAME_VALIDATION.START.create(newUsername));
-    },
-    [dispatch, resetError],
-  );
-
-  const updateFinalizedSteps = useCallback(
+  const finalizeStep = useCallback(
     (currentUser: User) => {
       const finalizedSteps =
         currentUser.clientData?.registrationProcessFinalizedSteps ?? [];
@@ -99,7 +85,7 @@ export const useClaimUsername = () => {
                 'username',
               )
             ) {
-              updateFinalizedSteps(freshUser);
+              finalizeStep(freshUser);
             }
             return {retry: false};
           },
@@ -114,24 +100,23 @@ export const useClaimUsername = () => {
     if (user.username !== initialUsername.current) {
       initialUsername.current = user.username;
       /**
-       * Added 1 sec wait here so User can see the user validation result
-       * (green mark or red cross) inside text input before we update user account
+       * Small delay here so User can see the update result
+       * (green mark) inside text input, before we go forward
        */
-      wait(1000).then(() => {
-        updateFinalizedSteps(user);
+      setWaitLoading(true);
+      wait(500).then(() => {
+        finalizeStep(user);
+        setWaitLoading(false);
       });
     }
-  }, [updateFinalizedSteps, user]);
+  }, [finalizeStep, user]);
 
   return {
     username,
-    validationError,
-    validationLoading,
-    isSuccessUpdate,
-    updateError,
-    updateLoading,
+    error: updateError || validationError,
+    isLoading: updateLoading || waitLoading,
+    isUsernameUpdated,
     onChangeUsername,
     onSubmit,
-    isNextButtonDisabled,
   };
 };

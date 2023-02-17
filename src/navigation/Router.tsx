@@ -4,7 +4,7 @@ import {InitializationError} from '@components/InitializationError';
 import {AuthNavigator} from '@navigation/Auth';
 import {MainNavigator} from '@navigation/Main';
 import {theme} from '@navigation/theme';
-import {navigationRef} from '@navigation/utils';
+import {navigationReadyResolver, navigationRef} from '@navigation/utils';
 import {WelcomeNavigator} from '@navigation/Welcome';
 import {NavigationContainer} from '@react-navigation/native';
 import {routingInstrumentation} from '@services/logging';
@@ -18,7 +18,7 @@ import {useAppStateListener} from '@store/modules/AppCommon/hooks/useAppStateLis
 import {appInitStateSelector} from '@store/modules/AppCommon/selectors';
 import {useOpenUrlListener} from '@store/modules/Linking/hooks/useOpenUrlListener';
 import {useInitNotifications} from '@store/modules/PushNotifications/hooks/useInitNotifications';
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import RNBootSplash from 'react-native-bootsplash';
 import {useSelector} from 'react-redux';
 
@@ -26,6 +26,12 @@ function ActiveNavigator() {
   const user = useSelector(userSelector);
   const isRegistrationComplete = useSelector(isRegistrationCompleteSelector);
   const appInitState = useSelector(appInitStateSelector);
+
+  useEffect(() => {
+    if (appInitState === 'success') {
+      navigationReadyResolver();
+    }
+  }, [appInitState]);
 
   if (appInitState === 'loading') {
     return null;

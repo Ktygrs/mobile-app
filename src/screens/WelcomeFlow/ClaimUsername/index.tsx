@@ -18,12 +18,9 @@ import {rem} from 'rn-units';
 export const ClaimUsername = () => {
   const {
     username,
-    validationError,
-    isNextButtonDisabled,
-    validationLoading,
-    isSuccessUpdate,
-    updateError,
-    updateLoading,
+    error,
+    isLoading,
+    isUsernameUpdated,
     onChangeUsername,
     onSubmit,
   } = useClaimUsername();
@@ -51,9 +48,8 @@ export const ClaimUsername = () => {
             />
           }
           value={username}
-          errorText={validationError || updateError}
-          loading={validationLoading}
-          validated={isSuccessUpdate}
+          errorText={error}
+          validated={isUsernameUpdated}
         />
       }
       info={
@@ -75,8 +71,8 @@ export const ClaimUsername = () => {
         <PrimaryButton
           text={t('button.next_step')}
           onPress={onSubmit}
-          loading={updateLoading}
-          disabled={isNextButtonDisabled}
+          loading={isLoading}
+          disabled={isLoading || !!error || !username}
         />
       }
     />
