@@ -14,9 +14,13 @@ import {rem} from 'rn-units';
 
 type Props = {
   onChange?: (image: CropImage | null) => void;
+  updateAvatarLoading?: boolean;
 };
 
-export const UserAvatarHeader = ({onChange}: Props) => {
+export const UserAvatarHeader = ({
+  onChange,
+  updateAvatarLoading = false,
+}: Props) => {
   const user = useSelector(userSelector);
 
   return (
@@ -27,12 +31,13 @@ export const UserAvatarHeader = ({onChange}: Props) => {
           uri={user?.profilePictureUrl}
           style={styles.avatarImage}
           onChange={onChange}
+          loading={updateAvatarLoading}
         />
       ) : (
         <Avatar uri={user?.profilePictureUrl} style={styles.avatarImage} />
       )}
       <Text style={styles.usernameText} numberOfLines={1}>
-        {user?.username}
+        {`@${user?.username ?? ''}`}
       </Text>
     </View>
   );

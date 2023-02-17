@@ -71,6 +71,7 @@
     "react-native-confirmation-code-field": "^7.3.1",
     "react-native-contacts": "^7.0.5",
     "react-native-device-info": "^10.3.0",
+    "react-native-email-link": "^1.14.3",
     "react-native-fbsdk-next": "^11.1.0",
     "react-native-flipper": "0.163.0",
     "react-native-gesture-handler": "^2.8.0",

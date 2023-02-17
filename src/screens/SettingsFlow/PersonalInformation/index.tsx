@@ -29,7 +29,7 @@ import {useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
 export const PersonalInformation = memo(() => {
-  useFocusStatusBar({style: 'light-content'});
+  useFocusStatusBar({style: 'dark-content'});
   const tabbarOffset = useBottomTabBarOffsetStyle();
 
   const user = useSelector(userSelector) as User;

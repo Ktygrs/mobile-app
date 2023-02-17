@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {SupportedLocale} from '@translations/i18n';
+import {SupportedLocale} from '@translations/localeConfig';
 import {debounce} from 'lodash';
 import {useMemo, useState} from 'react';
 

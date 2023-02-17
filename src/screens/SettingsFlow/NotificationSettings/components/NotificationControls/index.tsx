@@ -1,117 +1,134 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {
-  NotificationChannel,
-  NotificationSettings,
-  NotificationType,
+  NotificationDeliveryChannel,
+  NotificationDomain,
+  NotificationDomainToggles,
 } from '@api/devices/types';
-import {COLORS} from '@constants/colors';
-import {commonStyles, SCREEN_SIDE_OFFSET} from '@constants/styles';
+import {MainNavigationParams} from '@navigation/Main';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {AllNotifications} from '@screens/SettingsFlow/NotificationSettings/components/NotificationControls/components/AllNotifications';
-import {
-  NotificationRow,
-  NotificationRowSeparator,
-} from '@screens/SettingsFlow/NotificationSettings/components/NotificationControls/components/NotificationRow';
+import {NotificationRow} from '@screens/SettingsFlow/NotificationSettings/components/NotificationControls/components/NotificationRow';
 import {useConfirmNotificationsDlg} from '@screens/SettingsFlow/NotificationSettings/components/NotificationControls/hooks/useConfirmNotificationsDlg';
 import {DeviceActions} from '@store/modules/Devices/actions';
 import {isPermissionGrantedSelector} from '@store/modules/Permissions/selectors';
 import {t} from '@translations/i18n';
-import React, {memo, useCallback} from 'react';
+import React, {useCallback} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
 type Props = {
-  disableAllNotifications: boolean;
-  notificationSettings: NotificationSettings;
+  notificationSettings: NotificationDomainToggles;
+  notificationDeliveryChannel: NotificationDeliveryChannel;
 };
 
-export const NotificationControls = memo(
-  ({disableAllNotifications, notificationSettings}: Props) => {
-    const dispatch = useDispatch();
+export const NotificationControls = ({
+  notificationSettings,
+  notificationDeliveryChannel,
+}: Props) => {
+  const dispatch = useDispatch();
+  const hasPushPermissions = useSelector(
+    isPermissionGrantedSelector('pushNotifications'),
+  );
 
-    const hasPushPermissions = useSelector(
-      isPermissionGrantedSelector('pushNotifications'),
-    );
+  const navigation =
+    useNavigation<NativeStackNavigationProp<MainNavigationParams>>();
 
-    const {openConfirmationDlg} = useConfirmNotificationsDlg();
+  const isPushNotificationChannel = notificationDeliveryChannel === 'push';
 
-    const notificationTypes = Object.keys(
-      notificationSettings,
-    ) as NotificationType[];
+  const {openConfirmationDlg} = useConfirmNotificationsDlg();
 
-    const setAllNotifications = useCallback(
-      (value: boolean) => {
+  const changeNotificationSettings = useCallback(
+    (type: NotificationDomain, value: boolean) => {
+      if (isPushNotificationChannel && !hasPushPermissions) {
+        openConfirmationDlg();
+      } else {
         dispatch(
-          DeviceActions.UPDATE_SETTINGS.START.create({
-            disableAllNotifications: value,
-          }),
+          DeviceActions.UPDATE_NOTIFICATION_CHANNEL.START.create(
+            {type, enabled: value},
+            notificationDeliveryChannel,
+          ),
         );
-      },
-      [dispatch],
-    );
+      }
+    },
+    [
+      dispatch,
+      hasPushPermissions,
+      isPushNotificationChannel,
+      notificationDeliveryChannel,
+      openConfirmationDlg,
+    ],
+  );
 
-    const changeNotificationSettings = useCallback(
-      (
-        type: NotificationType,
-        key: keyof NotificationChannel,
-        value: boolean,
-      ) => {
-        if (key === 'push' && !hasPushPermissions) {
-          openConfirmationDlg();
-        } else {
-          dispatch(
-            DeviceActions.UPDATE_SETTINGS.START.create({
-              notificationSettings: {[type]: {[key]: value}},
-            }),
+  const onDisableAllNotifications = useCallback(() => {
+    navigation.navigate('PopUp', {
+      title: t('settings.notifications.disable_notifications'),
+      message: t('settings.notifications.disable_notifications_description'),
+      buttons: [
+        {
+          text: t('button.disable'),
+          preset: 'outlined',
+          onPress: () => changeNotificationSettings('disable_all', false),
+        },
+        {
+          text: t('button.cancel'),
+        },
+      ],
+    });
+  }, [changeNotificationSettings, navigation]);
+
+  const disableAll = notificationSettings.find(
+    notificationSetting => notificationSetting.type === 'disable_all',
+  );
+  return (
+    <View style={styles.notificationsContainer}>
+      {notificationSettings.map(({type, enabled}) => {
+        if (type === 'disable_all') {
+          return (
+            <AllNotifications
+              key={type}
+              label={
+                enabled
+                  ? t('settings.notifications.turn_off_all')
+                  : t('settings.notifications.turn_on_all')
+              }
+              value={
+                isPushNotificationChannel
+                  ? enabled && hasPushPermissions
+                  : enabled
+              }
+              onValueChange={(value: boolean) => {
+                if (value) {
+                  changeNotificationSettings('disable_all', value);
+                } else {
+                  onDisableAllNotifications();
+                }
+              }}
+            />
           );
         }
-      },
-      [dispatch, hasPushPermissions, openConfirmationDlg],
-    );
-
-    return (
-      <>
-        <View style={[styles.list, commonStyles.shadow]}>
-          {notificationTypes.map((type, index) => {
-            const channelSettings = notificationSettings[type];
-            return (
-              <React.Fragment key={type}>
-                {index !== 0 && <NotificationRowSeparator />}
-                <NotificationRow
-                  type={type}
-                  pushEnabled={hasPushPermissions && channelSettings.push}
-                  emailEnabled={channelSettings.email}
-                  onChange={changeNotificationSettings}
-                />
-              </React.Fragment>
-            );
-          })}
-        </View>
-        <AllNotifications
-          label={t('settings.notifications.turn_off_all')}
-          value={disableAllNotifications}
-          onValueChange={setAllNotifications}
-        />
-      </>
-    );
-  },
-);
+        return (
+          <NotificationRow
+            key={type}
+            onPress={() => changeNotificationSettings(type, !enabled)}
+            type={type}
+            checked={enabled}
+            disabled={
+              !disableAll?.enabled &&
+              (!isPushNotificationChannel || hasPushPermissions)
+            }
+          />
+        );
+      })}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-  list: {
-    marginHorizontal: SCREEN_SIDE_OFFSET,
-    marginTop: rem(21),
-    borderRadius: rem(16),
-    backgroundColor: COLORS.white,
-  },
-  listSkeleton: {
-    height: rem(205),
-  },
-  allNotificationsSkeleton: {
-    marginTop: rem(42),
-    height: rem(20),
-    borderRadius: rem(10),
-    marginHorizontal: SCREEN_SIDE_OFFSET,
+  notificationsContainer: {
+    paddingHorizontal: rem(20),
+    paddingTop: rem(18),
   },
 });

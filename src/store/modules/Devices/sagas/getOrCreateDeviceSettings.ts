@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {isApiError} from '@api/client';
-import {DeviceSettings} from '@api/devices/types';
+import {DeviceSettings, NotificationDomainToggles} from '@api/devices/types';
 import {Api} from '@api/index';
 import {AccountActions} from '@store/modules/Account/actions';
 import {
@@ -9,10 +9,10 @@ import {
   userIdSelector,
 } from '@store/modules/Account/selectors';
 import {DeviceActions} from '@store/modules/Devices/actions';
-import i18n, {appLocale} from '@translations/i18n';
-import {getErrorMessage} from '@utils/errors';
+import i18n, {appLocale, setLocale} from '@translations/i18n';
+import {getErrorMessage, showError} from '@utils/errors';
 import {syncUniqueId} from 'react-native-device-info';
-import {call, put, SagaReturnType, select} from 'redux-saga/effects';
+import {all, call, put, SagaReturnType, select} from 'redux-saga/effects';
 
 export function* initDeviceSaga() {
   try {
@@ -35,10 +35,18 @@ export function* initDeviceSaga() {
     }
 
     yield put(
-      DeviceActions.INIT_DEVICE.SUCCESS.create(deviceUniqueId, settings),
+      DeviceActions.GET_OR_CREATE_DEVICE_SETTINGS.SUCCESS.create(
+        deviceUniqueId,
+        settings,
+      ),
     );
   } catch (error) {
-    yield put(DeviceActions.INIT_DEVICE.FAILED.create(getErrorMessage(error)));
+    yield put(
+      DeviceActions.GET_OR_CREATE_DEVICE_SETTINGS.FAILED.create(
+        getErrorMessage(error),
+      ),
+    );
+    showError(error);
     throw error;
   }
 }
@@ -51,13 +59,20 @@ export function* getOrCreateDeviceSettings({
   deviceUniqueId: string;
 }) {
   let settings: DeviceSettings;
+  let emailNotificationChannel: NotificationDomainToggles;
+  let pushNotificationChannel: NotificationDomainToggles;
   try {
-    settings = yield call(Api.devices.getUserDeviceSettings, {
-      userId,
-      deviceUniqueId,
-    });
+    [settings, emailNotificationChannel, pushNotificationChannel] = yield all([
+      call(Api.devices.getUserDeviceSettings, {
+        userId,
+        deviceUniqueId,
+      }),
+      call(Api.devices.getUserNotificationChannels, 'email'),
+      call(Api.devices.getUserNotificationChannels, 'push'),
+    ]);
+
     if (settings.language !== i18n.locale) {
-      i18n.locale = settings.language;
+      setLocale(settings.language);
       yield put(AccountActions.SYNC_LANGUAGE_CODE.STATE.create());
     }
   } catch (error) {
@@ -67,9 +82,15 @@ export function* getOrCreateDeviceSettings({
         {userId, deviceUniqueId},
         {language: appLocale},
       );
+      emailNotificationChannel = [];
+      pushNotificationChannel = [];
     } else {
       throw error;
     }
   }
-  return settings;
+  return {
+    ...settings,
+    emailNotificationSettings: emailNotificationChannel,
+    pushNotificationSettings: pushNotificationChannel,
+  };
 }

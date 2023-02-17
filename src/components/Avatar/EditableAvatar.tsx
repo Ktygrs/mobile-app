@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {ActivityIndicator} from '@components/ActivityIndicator';
 import {Avatar, AvatarProps} from '@components/Avatar/Avatar';
 import {usePickImage} from '@components/Avatar/hooks/usePickImage';
 import {Touchable} from '@components/Touchable';
@@ -22,10 +23,11 @@ const PEN_SIZE = rem(32);
 type Props = {
   onChange: (image: CropImage | null) => void;
   containerStyle?: StyleProp<ViewStyle>;
+  loading?: boolean;
 } & AvatarProps;
 
 export const EditableAvatar = memo(
-  ({uri, onChange, containerStyle, ...avatarProps}: Props) => {
+  ({uri, onChange, containerStyle, loading = false, ...avatarProps}: Props) => {
     const navigation =
       useNavigation<NativeStackNavigationProp<MainStackParamList>>();
 
@@ -74,8 +76,13 @@ export const EditableAvatar = memo(
         <Touchable
           style={styles.penWrapper}
           onPress={onEditPress}
+          disabled={loading}
           hitSlop={MIDDLE_BUTTON_HIT_SLOP}>
-          <CameraIcon />
+          {loading ? (
+            <ActivityIndicator style={styles.activityIndicator} />
+          ) : (
+            <CameraIcon />
+          )}
         </Touchable>
       </View>
     );
@@ -95,5 +102,8 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     marginHorizontal: 10,
     marginVertical: 10,
+  },
+  activityIndicator: {
+    ...StyleSheet.absoluteFillObject,
   },
 });

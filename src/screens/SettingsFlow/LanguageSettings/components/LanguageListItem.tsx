@@ -2,10 +2,11 @@
 
 import {CheckMark} from '@components/CheckMark';
 import {Touchable} from '@components/Touchable';
-import {SupportedLocale, t} from '@translations/i18n';
+import {COLORS} from '@constants/colors';
+import {localeConfig, SupportedLocale} from '@translations/localeConfig';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
-import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
+import {ActivityIndicator, Image, StyleSheet, Text, View} from 'react-native';
 import {rem} from 'rn-units';
 
 type Props = {
@@ -15,15 +16,17 @@ type Props = {
   onSelect: (value: SupportedLocale) => void;
 };
 
+const FLAG_WIDTH = rem(21);
+const FLAG_HEIGHT = (FLAG_WIDTH / 20) * 14;
+
 export const LanguageListItem = memo(
   ({language, selected, loading, onSelect}: Props) => {
+    const {flag, name} = localeConfig[language];
     return (
       <Touchable style={styles.container} onPress={() => onSelect(language)}>
-        <Text style={styles.flag} numberOfLines={1}>
-          {t('global.flag', {locale: language})}
-        </Text>
+        <Image style={styles.flag} source={flag} />
         <Text style={styles.languageText} numberOfLines={1}>
-          {t('global.language', {locale: language})}
+          {name}
         </Text>
         {selected && (
           <View style={styles.checkMarkWrapper}>
@@ -42,8 +45,12 @@ const styles = StyleSheet.create({
     paddingVertical: rem(10),
   },
   flag: {
-    marginLeft: rem(16),
-    ...font(20),
+    marginLeft: rem(12),
+    width: FLAG_WIDTH,
+    height: FLAG_HEIGHT,
+    borderRadius: 2,
+    borderWidth: 1,
+    borderColor: COLORS.black01opacity,
   },
   languageText: {
     flex: 1,

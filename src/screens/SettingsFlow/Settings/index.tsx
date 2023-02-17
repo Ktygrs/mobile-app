@@ -13,6 +13,7 @@ import {DeveloperMenuSection} from '@screens/SettingsFlow/Settings/components/Se
 import {LegalMenuSection} from '@screens/SettingsFlow/Settings/components/SettingsMenuSections/LegalMenuSection';
 import {ProfileMenuSection} from '@screens/SettingsFlow/Settings/components/SettingsMenuSections/ProfileMenuSection';
 import {SupportMenuSection} from '@screens/SettingsFlow/Settings/components/SettingsMenuSections/SupportMenuSection';
+import {useUpdateAvatar} from '@screens/SettingsFlow/Settings/hooks/useUpdateAvatar';
 import {isAdminSelector} from '@store/modules/Account/selectors';
 import {t} from '@translations/i18n';
 import React, {memo} from 'react';
@@ -25,6 +26,7 @@ export const Settings = memo(() => {
   const bottomOffset = useBottomTabBarOffsetStyle();
   const {scrollHandler, shadowStyle} = useScrollShadow();
   const isAdmin = useSelector(isAdminSelector);
+  const {updateAvatar, updateAvatarLoading} = useUpdateAvatar();
 
   return (
     <View style={styles.container}>
@@ -38,7 +40,10 @@ export const Settings = memo(() => {
         scrollEventThrottle={16}
         contentContainerStyle={bottomOffset.current}
         showsVerticalScrollIndicator={false}>
-        <UserAvatarHeader />
+        <UserAvatarHeader
+          onChange={updateAvatar}
+          updateAvatarLoading={updateAvatarLoading}
+        />
         <View style={commonStyles.baseSubScreen}>
           <ProfileMenuSection />
           <LegalMenuSection />

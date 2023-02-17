@@ -19,11 +19,11 @@ export type SwitchProps = {
   style?: StyleProp<ViewStyle>;
 };
 
-const CONTAINER_WIDTH = rem(18);
-const CONTAINER_HEIGHT = rem(12);
-const CONTAINER_BORDER_RADIUS = rem(7);
+const CONTAINER_WIDTH = rem(51);
+const CONTAINER_HEIGHT = rem(31);
+const CONTAINER_BORDER_RADIUS = rem(16);
 const CONTAINER_BORDER_WIDTH = 1;
-const BALL_SIZE = rem(8);
+const BALL_SIZE = rem(27);
 const BALL_SIDE_OFFSET = 1;
 
 export const Switch = ({value, onValueChange, style}: SwitchProps) => {
@@ -46,11 +46,6 @@ export const Switch = ({value, onValueChange, style}: SwitchProps) => {
           ),
         },
       ],
-      backgroundColor: interpolateColor(
-        stateSharedValue.value,
-        [0, 1],
-        [COLORS.primaryDark, COLORS.white],
-      ),
     };
   });
 
@@ -59,7 +54,7 @@ export const Switch = ({value, onValueChange, style}: SwitchProps) => {
       backgroundColor: interpolateColor(
         stateSharedValue.value,
         [0, 1],
-        [COLORS.white, COLORS.primaryDark],
+        [COLORS.periwinkleGray, COLORS.shamrock],
       ),
     };
   });
@@ -82,7 +77,7 @@ const styles = StyleSheet.create({
     width: CONTAINER_WIDTH,
     height: CONTAINER_HEIGHT,
     borderWidth: CONTAINER_BORDER_WIDTH,
-    borderColor: COLORS.primaryDark,
+    borderColor: COLORS.periwinkleGray,
     borderRadius: CONTAINER_BORDER_RADIUS,
     justifyContent: 'center',
   },
@@ -90,6 +85,14 @@ const styles = StyleSheet.create({
     width: BALL_SIZE,
     height: BALL_SIZE,
     borderRadius: BALL_SIZE / 2,
+    backgroundColor: COLORS.white,
+    shadowColor: COLORS.black,
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowRadius: 8,
+    shadowOpacity: 0.15,
   },
 });
 

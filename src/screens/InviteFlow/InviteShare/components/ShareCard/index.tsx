@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {ENV} from '@constants/env';
 import {LINKS} from '@constants/links';
 import {commonStyles} from '@constants/styles';
 import Clipboard from '@react-native-clipboard/clipboard';
@@ -16,22 +15,34 @@ import {
 import {usernameSelector} from '@store/modules/Account/selectors';
 import {t} from '@translations/i18n';
 import React, {useRef} from 'react';
-import {Share as ShareMore, StyleSheet, Vibration, View} from 'react-native';
+import {
+  Linking,
+  Share as ShareMore,
+  StyleSheet,
+  Vibration,
+  View,
+} from 'react-native';
+import {openComposer} from 'react-native-email-link';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Share, {ShareSingleOptions, Social} from 'react-native-share';
 import {useSelector} from 'react-redux';
-import {rem, screenWidth} from 'rn-units';
+import {isIOS, rem, screenWidth} from 'rn-units';
 
 const telegramIcon = require('../../assets/images/telegramIcon.png');
 const twitterIcon = require('../../assets/images/twitterIcon.png');
 const whatsAppIcon = require('../../assets/images/whatsAppIcon.png');
-const instagramIcon = require('../../assets/images/instagramIcon.png');
 const emailIcon = require('../../assets/images/emailIcon.png');
 const fbIcon = require('../../assets/images/newsfeedIcon.png');
 const copyIcon = require('../../assets/images/linkIcon.png');
 const moreIcon = require('../../assets/images/moreIcon.png');
+const smsIcon = require('../../assets/images/smsIcon.png');
 
 const buttons: SocialShareButtonType[] = [
+  {
+    type: 'WhatsApp',
+    title: t('invite_share.whatsapp'),
+    icon: whatsAppIcon,
+  },
   {
     type: 'Telegram',
     title: t('invite_share.telegram'),
@@ -43,14 +54,10 @@ const buttons: SocialShareButtonType[] = [
     icon: twitterIcon,
   },
   {
-    type: 'WhatsApp',
-    title: t('invite_share.whatsapp'),
-    icon: whatsAppIcon,
-  },
-  {
-    type: 'Instagram',
-    title: t('invite_share.instagram'),
-    icon: instagramIcon,
+    type: 'FB',
+    title: t('invite_share.fb'),
+    icon: fbIcon,
+    social: Share.Social.FACEBOOK,
   },
   {
     type: 'Email',
@@ -58,10 +65,9 @@ const buttons: SocialShareButtonType[] = [
     icon: emailIcon,
   },
   {
-    type: 'FB',
-    title: t('invite_share.fb'),
-    icon: fbIcon,
-    social: Share.Social.FACEBOOK,
+    type: 'Sms',
+    title: t('invite_share.sms'),
+    icon: smsIcon,
   },
   {
     type: 'CopyLink',
@@ -88,6 +94,7 @@ const ShareCard = () => {
         let moreOptions = {
           ...baseOptions,
           title: `${t('invite_share.share_message')}${url}`,
+          message: `${t('invite_share.share_message')}${url}`,
         };
         ShareMore.share(moreOptions);
         break;
@@ -121,7 +128,11 @@ const ShareCard = () => {
           ...baseOptions,
           social: Social.Email,
         };
-        await Share.shareSingle(emailOptions);
+
+        openComposer({
+          subject: emailOptions.subject,
+          body: `${emailOptions.message}${url}`,
+        });
         break;
       case 'FB':
         let fbOptions: ShareSingleOptions = {
@@ -130,16 +141,12 @@ const ShareCard = () => {
         };
         await Share.shareSingle(fbOptions);
         break;
-      case 'Instagram':
-        //TODO:: replace image
-        const instagramOptions = {
-          backgroundImage:
-            'https://e7.pngegg.com/pngimages/223/378/png-clipart-three-ice-cubes-three-ice-cubes-ice.png',
-          attributionURL: url,
-          social: Share.Social.INSTAGRAM_STORIES,
-          appId: ENV.FACEBOOK_APP_ID || '',
-        };
-        await Share.shareSingle(instagramOptions);
+      case 'Sms':
+        const devider = isIOS ? '&' : '?';
+
+        const path = `sms:${devider}body=${baseOptions.message}${url}`;
+
+        await Linking.openURL(path);
         break;
 
       default:

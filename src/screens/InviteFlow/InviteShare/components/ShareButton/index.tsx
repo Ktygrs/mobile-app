@@ -15,6 +15,7 @@ export type SocialType =
   | 'Twitter'
   | 'WhatsApp'
   | 'Instagram'
+  | 'Sms'
   | 'Email'
   | 'FB'
   | 'CopyLink'

@@ -1,25 +1,20 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import en, {Translations} from '@translations/locales/en.json';
-import ro from '@translations/locales/ro.json';
+import {localeConfig, SupportedLocale} from '@translations/localeConfig';
+import {Translations} from '@translations/locales/en.json';
 // eslint-disable-next-line no-restricted-imports
 import {I18n, TranslateOptions} from 'i18n-js';
 import RNLocalize from 'react-native-localize';
 // eslint-disable-next-line no-restricted-imports
 import reactStringReplace from 'react-string-replace';
 
-const locales = {
-  en,
-  ro,
-};
-
-export type SupportedLocale = keyof typeof locales;
-
 const DEFAULT_LOCALE: SupportedLocale = 'en';
 
-const i18n = new I18n(locales);
+const i18n = new I18n();
 
-export const availableLocales = Object.keys(locales) as SupportedLocale[];
+export const availableLocales = Object.keys(
+  localeConfig,
+) as Array<SupportedLocale>;
 
 export const locale = RNLocalize.findBestAvailableLanguage(availableLocales);
 
@@ -31,7 +26,7 @@ export const appLocale =
 
 i18n.locale = appLocale;
 i18n.enableFallback = true;
-i18n.translations = locales;
+i18n.translations = {[appLocale]: localeConfig[appLocale].translations};
 
 export default i18n;
 
@@ -59,3 +54,8 @@ export const tagRegex = (tag: string, isSingular = true) => {
 };
 
 export const replaceString = reactStringReplace;
+
+export const setLocale = (newLocale: SupportedLocale) => {
+  i18n.store({[newLocale]: localeConfig[newLocale].translations});
+  i18n.locale = newLocale;
+};

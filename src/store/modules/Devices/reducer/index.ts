@@ -15,13 +15,14 @@ export interface State {
 }
 
 type Actions = ReturnType<
-  | typeof DeviceActions.INIT_DEVICE.SUCCESS.create
+  | typeof DeviceActions.GET_OR_CREATE_DEVICE_SETTINGS.SUCCESS.create
   | typeof DeviceActions.UPDATE_SETTINGS.START.create
   | typeof DeviceActions.UPDATE_SETTINGS.SUCCESS.create
   | typeof DeviceActions.UPDATE_SETTINGS.FAILED.create
   | typeof AccountActions.SIGN_OUT.SUCCESS.create
   | typeof DeviceActions.UPDATE_DEVICE_LOCATION.SUCCESS.create
   | typeof DeviceActions.UPDATE_DEVICE_METADATA.SUCCESS.create
+  | typeof DeviceActions.UPDATE_NOTIFICATION_CHANNEL.SUCCESS.create
 >;
 
 const INITIAL_STATE: State = {
@@ -35,7 +36,7 @@ const INITIAL_STATE: State = {
 function reducer(state = INITIAL_STATE, action: Actions): State {
   return produce(state, draft => {
     switch (action.type) {
-      case DeviceActions.INIT_DEVICE.SUCCESS.type:
+      case DeviceActions.GET_OR_CREATE_DEVICE_SETTINGS.SUCCESS.type:
         draft.deviceUniqueId = action.payload.deviceUniqueId;
         draft.rollBackSettings = action.payload.settings;
         draft.settings = action.payload.settings;
@@ -56,6 +57,26 @@ function reducer(state = INITIAL_STATE, action: Actions): State {
         break;
       case DeviceActions.UPDATE_DEVICE_METADATA.SUCCESS.type:
         draft.lastMetadataUpdateAt = new Date().toISOString();
+        break;
+      case DeviceActions.UPDATE_NOTIFICATION_CHANNEL.SUCCESS.type:
+        const {
+          notificationChannel: {type, enabled},
+          notificationDeliveryChannel,
+        } = action.payload;
+        if (draft.settings) {
+          const key = (
+            {
+              email: 'emailNotificationSettings',
+              push: 'pushNotificationSettings',
+            } as const
+          )[notificationDeliveryChannel];
+          const notification = draft.settings[key].find(
+            notificationDomain => notificationDomain.type === type,
+          );
+          if (notification) {
+            notification.enabled = enabled;
+          }
+        }
         break;
       case AccountActions.SIGN_OUT.SUCCESS.type:
         return {

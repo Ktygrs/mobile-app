@@ -1,22 +1,22 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-export type NotificationChannel = {
-  email: boolean;
-  inApp: boolean;
-  push: boolean;
-  sms: boolean;
+import {SupportedLocale} from '@translations/localeConfig';
+
+export type NotificationDeliveryChannel = 'email' | 'push';
+
+export type NotificationDomain = string;
+
+export type NotificationDomainToggle = {
+  type: NotificationDomain;
+  enabled: boolean;
 };
 
-export type NotificationType = 'TEAM' | 'REMINDERS' | 'NEWS' | 'ACHIEVEMENTS';
-
-export type NotificationSettings = {
-  [key in NotificationType]: NotificationChannel;
-};
-
+export type NotificationDomainToggles = Array<NotificationDomainToggle>;
 export interface DeviceSettings extends DeviceId {
   disableAllNotifications: boolean;
-  language: string;
-  notificationSettings: NotificationSettings;
+  language: SupportedLocale;
+  pushNotificationSettings: NotificationDomainToggles;
+  emailNotificationSettings: NotificationDomainToggles;
 }
 
 export interface DeviceLocation {

@@ -13,3 +13,11 @@ export const deviceLocationSelector = (state: RootState) =>
 
 export const lastMetadataUpdateSelector = (state: RootState) =>
   state.devices.lastMetadataUpdateAt;
+
+export const emailNotificationByTypeSelector = (state: RootState) => {
+  return state.devices.settings?.emailNotificationSettings;
+};
+
+export const pushNotificationByTypeSelector = (state: RootState) => {
+  return state.devices.settings?.pushNotificationSettings;
+};

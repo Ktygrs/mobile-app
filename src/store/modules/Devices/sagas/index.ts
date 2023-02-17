@@ -3,20 +3,19 @@
 import {AccountActions} from '@store/modules/Account/actions';
 import {AppCommonActions} from '@store/modules/AppCommon/actions';
 import {DeviceActions} from '@store/modules/Devices/actions';
-import {initDeviceSaga} from '@store/modules/Devices/sagas/initDevice';
+import {initDeviceSaga} from '@store/modules/Devices/sagas/getOrCreateDeviceSettings';
 import {updateDeviceLocationSaga} from '@store/modules/Devices/sagas/updateDeviceLocation';
 import {updateDeviceMetadataSaga} from '@store/modules/Devices/sagas/updateDeviceMetadata';
 import {watchUpdateDeviceSettings} from '@store/modules/Devices/sagas/updateDeviceSettings';
+import {updateNotificationChannel} from '@store/modules/Devices/sagas/updateNotificationChannel';
 import {all, fork, takeLatest} from 'redux-saga/effects';
 
 export function* rootDevicesSaga() {
   yield all([
     takeLatest(
       [
-        DeviceActions.INIT_DEVICE.START.type,
+        DeviceActions.GET_OR_CREATE_DEVICE_SETTINGS.START.type,
         AccountActions.USER_STATE_CHANGE.SUCCESS.type,
-        // In case of USER_STATE_CHANGE.FAILED we still need to init device
-        // to hide loading and show the error to the user
         AccountActions.USER_STATE_CHANGE.FAILED.type,
       ],
       initDeviceSaga,
@@ -24,6 +23,10 @@ export function* rootDevicesSaga() {
     takeLatest(
       AppCommonActions.APP_INITIALIZED.SUCCESS.type,
       updateDeviceLocationSaga,
+    ),
+    takeLatest(
+      DeviceActions.UPDATE_NOTIFICATION_CHANNEL.START.type,
+      updateNotificationChannel,
     ),
     takeLatest(
       [

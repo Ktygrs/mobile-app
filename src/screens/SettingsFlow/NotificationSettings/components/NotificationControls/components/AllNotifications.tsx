@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {Switch} from '@components/Switch';
-import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
@@ -16,30 +15,27 @@ type Props = {
 export const AllNotifications = memo(({label, value, onValueChange}: Props) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.labelText} numberOfLines={2}>
+      <Text style={styles.title} numberOfLines={2}>
         {label}
       </Text>
-      <Switch
-        value={value}
-        onValueChange={onValueChange}
-        style={styles.switch}
-      />
+      <Switch value={value} onValueChange={onValueChange} />
     </View>
   );
-});
+}, propsAreEqual);
+
+function propsAreEqual(prev: Props, next: Props) {
+  return prev.value === next.value;
+}
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginHorizontal: SCREEN_SIDE_OFFSET,
-    marginTop: rem(42),
+    justifyContent: 'space-between',
+    paddingVertical: rem(12),
   },
-  labelText: {
-    flex: 1,
-    ...font(12, null, 'bold', 'primaryDark'),
-  },
-  switch: {
-    marginRight: rem(28),
+  title: {
+    ...font(16, 19, 'black', 'primaryDark'),
+    paddingBottom: rem(4),
   },
 });

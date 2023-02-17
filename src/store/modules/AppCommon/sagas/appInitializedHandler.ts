@@ -12,7 +12,7 @@ import {put, select, take} from 'redux-saga/effects';
 
 const INITIALIZE_ACTIONS = [
   AccountActions.USER_STATE_CHANGE,
-  DeviceActions.INIT_DEVICE,
+  DeviceActions.GET_OR_CREATE_DEVICE_SETTINGS,
 ];
 
 function* isModulesInitComplete() {

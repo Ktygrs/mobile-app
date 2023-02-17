@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {BadgeCategory} from '@api/badges/types';
+import {NotificationDeliveryChannel} from '@api/devices/types';
 import {Country} from '@constants/countries';
 import {MainTabBar} from '@navigation/components/MainTabBar';
 import {HomeIcon} from '@navigation/components/MainTabBar/components/Icons/HomeIcon';
@@ -141,7 +142,9 @@ export type ProfileTabStackParamList = {
   PersonalInformation: undefined;
   ModifyPhoneNumber: undefined;
   ConfirmPhoneNumber: undefined;
-  NotificationSettings: undefined;
+  NotificationSettings: {
+    notificationDeliveryChannel: NotificationDeliveryChannel;
+  };
   LanguageSettings: undefined;
   ModifyEmail: undefined;
   ConfirmEmail: undefined;

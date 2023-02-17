@@ -19,7 +19,7 @@ import {useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
 export const ModifyPhoneNumber = memo(() => {
-  useFocusStatusBar({style: 'light-content'});
+  useFocusStatusBar({style: 'dark-content'});
   const {scrollRef} = useScrollEndOnKeyboardShown();
   const tabbarOffset = useBottomTabBarOffsetStyle();
 

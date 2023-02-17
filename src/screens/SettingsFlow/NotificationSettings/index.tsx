@@ -7,31 +7,37 @@ import {useScrollShadow} from '@hooks/useScrollShadow';
 import {Header} from '@navigation/components/Header';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
 import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
+import {ProfileTabStackParamList} from '@navigation/Main';
+import {RouteProp, useRoute} from '@react-navigation/native';
 import {NotificationControls} from '@screens/SettingsFlow/NotificationSettings/components/NotificationControls';
-import {DeviceActions} from '@store/modules/Devices/actions';
-import {deviceSettingsSelector} from '@store/modules/Devices/selectors';
+import {useNotificationSettings} from '@screens/SettingsFlow/NotificationSettings/hooks/useNotificationSettings';
 import {t} from '@translations/i18n';
-import React, {memo, useEffect} from 'react';
+import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import Animated from 'react-native-reanimated';
-import {useDispatch, useSelector} from 'react-redux';
 
-export const NotificationSettings = memo(() => {
-  useFocusStatusBar({style: 'light-content'});
+export const NotificationSettings = () => {
+  const route =
+    useRoute<RouteProp<ProfileTabStackParamList, 'NotificationSettings'>>();
+  const notificationDeliveryChannel = route.params?.notificationDeliveryChannel;
+
+  useFocusStatusBar({style: 'dark-content'});
   const bottomOffset = useBottomTabBarOffsetStyle();
   const {scrollHandler, shadowStyle} = useScrollShadow();
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(DeviceActions.INIT_DEVICE.START.create());
-  }, [dispatch]);
-
-  const deviceSettings = useSelector(deviceSettingsSelector);
+  const isPushNotificationChannel = notificationDeliveryChannel === 'push';
+  const {notificationSettings} = useNotificationSettings(
+    isPushNotificationChannel,
+  );
 
   return (
     <View style={styles.container}>
       <Header
-        title={t('settings.notifications_title')}
+        title={
+          isPushNotificationChannel
+            ? t('settings.push_notifications_title')
+            : t('settings.email_notifications_title')
+        }
         containerStyle={shadowStyle}
       />
       <Animated.ScrollView
@@ -41,17 +47,17 @@ export const NotificationSettings = memo(() => {
         showsVerticalScrollIndicator={false}>
         <UserAvatarHeader />
         <View style={commonStyles.baseSubScreen}>
-          {!!deviceSettings && (
+          {notificationSettings ? (
             <NotificationControls
-              notificationSettings={deviceSettings.notificationSettings}
-              disableAllNotifications={deviceSettings.disableAllNotifications}
+              notificationSettings={notificationSettings}
+              notificationDeliveryChannel={notificationDeliveryChannel}
             />
-          )}
+          ) : null}
         </View>
       </Animated.ScrollView>
     </View>
   );
-});
+};
 
 const styles = StyleSheet.create({
   container: {

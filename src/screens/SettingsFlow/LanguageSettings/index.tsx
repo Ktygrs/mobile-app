@@ -12,7 +12,8 @@ import {useLocaleSearch} from '@screens/SettingsFlow/LanguageSettings/hooks/useL
 import {DeviceActions} from '@store/modules/Devices/actions';
 import {deviceSettingsSelector} from '@store/modules/Devices/selectors';
 import {isLoadingSelector} from '@store/modules/UtilityProcessStatuses/selectors';
-import {availableLocales, SupportedLocale, t} from '@translations/i18n';
+import {availableLocales, t} from '@translations/i18n';
+import {SupportedLocale} from '@translations/localeConfig';
 import {noop} from 'lodash';
 import React, {useCallback} from 'react';
 import {FlatList, ListRenderItem, StyleSheet} from 'react-native';
@@ -31,7 +32,7 @@ export const LanguageSettings = () => {
   const {openConfirmationDialog} = useConfirmChangeLanguageDialog();
 
   const renderLanguageListItem: ListRenderItem<SupportedLocale> = useCallback(
-    ({item: language}) => {
+    ({item: language}: {item: SupportedLocale}) => {
       const isSelected =
         deviceSettings?.language.toLowerCase() === language.toLowerCase();
       return (

@@ -5,7 +5,8 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {DEFAULT_DIALOG_NO_BUTTON} from '@screens/Modals/PopUp/components/PopUpButton';
 import {DeviceActions} from '@store/modules/Devices/actions';
-import {SupportedLocale, t} from '@translations/i18n';
+import {t} from '@translations/i18n';
+import {SupportedLocale} from '@translations/localeConfig';
 import {useCallback} from 'react';
 import {useDispatch} from 'react-redux';
 

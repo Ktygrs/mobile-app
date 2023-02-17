@@ -63,7 +63,8 @@
     "claim_bonus": "Claim Bonus",
     "close": "Close",
     "try_again": "Try Again",
-    "view_changelog": "View Changelog"
+    "view_changelog": "View Changelog",
+    "disable": "Disable"
   },
   "team": {
     "contacts_tab": "Contacts",
@@ -248,8 +249,7 @@
       "description": "Referral stats for the previous 5 days",
       "no_referrals_description": "You don't have any referrals yet",
       "users_tier_1": "Users tier 1",
-      "users_tier_2": "Users tier 2",
-      "no_referrals_description": "You don't have any referrals yet"
+      "users_tier_2": "Users tier 2"
     },
     "adoption": {
       "title": "ADOPTION",
@@ -321,18 +321,23 @@
     "legal": "Legal",
     "support": "Support",
     "personal_information_title": "Personal Information",
-    "personal_information_description": "Change your first and last name",
+    "personal_information_description": "Manage your profile details",
     "notifications_title": "Notifications",
     "notifications_description": "Manage your notifications here",
+    "push_notifications_title": "Push Notifications",
+    "push_notifications_description": "Customize your push notification settings",
+    "email_notifications_title": "Email Notifications",
+    "email_notifications_description": "Customize your email notification settings",
     "terms_title": "Terms of Service",
-    "terms_description": "Terms of use and conditions",
+    "terms_description": "Review our terms of service",
     "privacy_title": "Privacy Policy",
-    "privacy_description": "Read all about our privacy policy",
+    "privacy_description": "Learn about our privacy policy",
     "feedback_title": "Send Feedback",
-    "feedback_description": "Help us improve our mining app",
+    "feedback_description": "Share your thoughts with us",
     "invite_title": "Invite a Friend",
+    "invite_description": "Earn extra ice by inviting your friends",
     "delete_title": "Delete Account",
-    "delete_description_part1": "Erase your ",
+    "delete_description": "Erase your account",
     "delete_confirmation_title": "Are you sure you want to remove the account?",
     "delete_confirmation_yes": "Yes, erase",
     "logout_title": "Log Out",
@@ -346,13 +351,58 @@
     },
     "notifications": {
       "enable_prompt": "Notifications are not allowed. Do you want to enable them",
-      "turn_off_all": "TURN OFF ALL NOTIFICATIONS",
+      "turn_off_all": "Turn off all notifications",
+      "turn_on_all": "Turn on all notifications",
       "channel_achievements": "Achievements",
       "channel_news": "News",
       "channel_reminders": "Reminders",
       "channel_team": "Team",
       "type_push": "PUSH",
-      "type_email": "EMAIL"
+      "type_email": "EMAIL",
+      "disable_notifications": "Disable Notifications?",
+      "disable_notifications_description": "By disabling notifications you will not be able to receive updates when you can start mine, news or team information",
+      "domain": {
+        "disable_all": {
+          "title": "",
+          "description": ""
+        },
+        "weekly_stats": {
+          "title": "Weekly stats",
+          "description": "Receive notifications about your activity"
+        },
+        "weekly_report": {
+          "title": "Weekly report",
+          "description": "Receive notifications about your activity"
+        },
+        "achievements": {
+          "title": "Achievements",
+          "description": "Receive notifications about your progress"
+        },
+        "promotions": {
+          "title": "Promotions",
+          "description": "Receive notifications on how to grow your team and earn more"
+        },
+        "news": {
+          "title": "News",
+          "description": "Receive notifications from our team"
+        },
+        "micro_community": {
+          "title": "Micro-community",
+          "description": "Receive notifications about your team"
+        },
+        "daily_bonus": {
+          "title": "Daily bonus",
+          "description": "Receive notifications to claim your daily bonus"
+        },
+        "mining": {
+          "title": "Mining status",
+          "description": "Receive notifications about your mining activity"
+        },
+        "system": {
+          "title": "System",
+          "description": "Receive important notifications about the ice app"
+        }
+      }
     },
     "language_settings": "Language settings",
     "change_lang_confirm": {
@@ -362,7 +412,6 @@
     "profile_image": "Profile Image",
     "inapp_privacy_title": "Privacy",
     "inapp_privacy_description": "Manage your information here",
-    "delete_description_part2": " account",
     "developer": "Developer",
     "user_id": "User ID",
     "user_token": "User Token",
@@ -373,7 +422,7 @@
       "camera": "Camera"
     },
     "update_email_confirmation_title": "Update email?",
-    "update_email_confirmation_subtitle": "Changing the email will require you to re-login",
+    "update_email_confirmation_subtitle": "Changing your email address will require you to re-login. Are you sure you want to proceed?",
     "unlink_logins_title": "Unlink Logins",
     "unlink_logins_description": "You can unlink your logins from here"
   },
@@ -385,10 +434,11 @@
     "instagram": "Instagram",
     "email": "Email",
     "fb": "Newsfeed",
+    "sms": "SMS",
     "copy_link": "Copy link",
     "more": "More",
     "copied": "COPIED",
-    "share_message": "Join ice, the new global digital currency that can be mined just with your mobile. Find out more about the project here: ",
+    "share_message": "Hi! Join my team on ice Network and receive 10 ice coins when you create an account using my referral code. Download the app: ",
     "description_part1": "Spread the word and invite your friends. You earn ",
     "description_part2": " for each new referral you bring."
   },

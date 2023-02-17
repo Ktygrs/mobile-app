@@ -1,6 +1,11 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {DeviceLocation, DeviceSettings} from '@api/devices/types';
+import {
+  DeviceLocation,
+  DeviceSettings,
+  NotificationDeliveryChannel,
+  NotificationDomainToggle,
+} from '@api/devices/types';
 import {createAction} from '@store/utils/actions/createAction';
 import {DeepPartial} from 'redux';
 
@@ -19,14 +24,17 @@ const UPDATE_DEVICE_METADATA = createAction('UPDATE_DEVICE_METADATA', {
   }),
 });
 
-const INIT_DEVICE = createAction('INIT_DEVICE', {
-  START: () => {},
-  SUCCESS: (deviceUniqueId: string, settings: DeviceSettings | null) => ({
-    deviceUniqueId,
-    settings,
-  }),
-  FAILED: (errorMessage: string) => ({errorMessage}),
-});
+const GET_OR_CREATE_DEVICE_SETTINGS = createAction(
+  'GET_OR_CREATE_DEVICE_SETTINGS',
+  {
+    START: () => {},
+    SUCCESS: (deviceUniqueId: string, settings: DeviceSettings | null) => ({
+      deviceUniqueId,
+      settings,
+    }),
+    FAILED: (errorMessage: string) => ({errorMessage}),
+  },
+);
 
 const UPDATE_DEVICE_LOCATION = createAction('UPDATE_DEVICE_LOCATION', {
   START: (deviceUniqueId?: string) => ({deviceUniqueId}),
@@ -34,9 +42,25 @@ const UPDATE_DEVICE_LOCATION = createAction('UPDATE_DEVICE_LOCATION', {
   FAILED: (errorMessage: string) => ({errorMessage}),
 });
 
+const UPDATE_NOTIFICATION_CHANNEL = createAction(
+  'UPDATE_NOTIFICATION_CHANNEL',
+  {
+    START: (
+      notificationChannel: NotificationDomainToggle,
+      notificationDeliveryChannel: NotificationDeliveryChannel,
+    ) => ({notificationChannel, notificationDeliveryChannel}),
+    SUCCESS: (
+      notificationChannel: NotificationDomainToggle,
+      notificationDeliveryChannel: NotificationDeliveryChannel,
+    ) => ({notificationChannel, notificationDeliveryChannel}),
+    FAILED: (errorMessage: string) => ({errorMessage}),
+  },
+);
+
 export const DeviceActions = Object.freeze({
   UPDATE_SETTINGS,
-  INIT_DEVICE,
+  GET_OR_CREATE_DEVICE_SETTINGS,
   UPDATE_DEVICE_LOCATION,
   UPDATE_DEVICE_METADATA,
+  UPDATE_NOTIFICATION_CHANNEL,
 });
