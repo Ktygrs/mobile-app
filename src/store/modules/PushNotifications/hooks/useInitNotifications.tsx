@@ -41,7 +41,6 @@ export function useInitNotifications() {
   }, [dispatch, hasPushPermissions]);
 
   useEffect(() => {
-    messaging().getToken().then(console.log);
     const handleMessage = (
       message: FirebaseMessagingTypes.RemoteMessage | null,
     ) => {
