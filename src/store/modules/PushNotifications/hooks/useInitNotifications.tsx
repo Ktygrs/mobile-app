@@ -45,7 +45,6 @@ export function useInitNotifications() {
     const handleMessage = (
       message: FirebaseMessagingTypes.RemoteMessage | null,
     ) => {
-      console.log('handleMessage', message?.data, message?.data);
       if (message?.data?.deeplink) {
         dispatch(
           LinkingActions.HANDLE_URL.STATE.create(message?.data?.deeplink, true),
