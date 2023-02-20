@@ -59,10 +59,10 @@ import {SvgProps} from 'react-native-svg';
 import {useDispatch} from 'react-redux';
 
 export type MainTabsParamList = {
-  HomeTab: undefined;
-  TeamTab: undefined;
-  NewsTab: undefined;
-  ProfileTab: undefined;
+  HomeTab?: {screen?: string};
+  TeamTab?: {screen?: string};
+  NewsTab?: {screen?: string};
+  ProfileTab?: {screen?: string};
 };
 
 export type MainStackParamList = {

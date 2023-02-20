@@ -54,26 +54,47 @@ export function* handleUrlSaga(action: ReturnType<typeof actionCreator>) {
     case 'announcements':
       openLinkWithInAppBrowser({url});
       break;
+    case 'home':
     case 'mining':
-      navigate({name: 'HomeTab', params: undefined});
+      navigate({name: 'Home', params: undefined});
       break;
+    case 'pre-staking':
     case 'staking':
-      navigate({name: 'HomeTab', params: undefined});
+      navigate({name: 'Staking', params: undefined});
       break;
+    case 'stats':
     case 'weeklystats':
       navigate({name: 'Stats', params: undefined});
       break;
+    case 'invite':
     case 'invitefriends':
       navigate({name: 'InviteShare', params: undefined});
       break;
+    case 'team':
     case 'joined':
-      navigate({name: 'TeamTab', params: undefined});
+      navigate({name: 'TeamTab', params: {screen: 'Team'}});
       break;
     case 'news':
-      navigate({name: 'NewsTab', params: undefined});
+      navigate({name: 'NewsTab', params: {}});
       break;
     case 'level':
-      navigate({name: 'ProfileTab', params: undefined});
+      navigate({name: 'ProfileTab', params: {}});
+      break;
+    case 'profile':
+      const userId = query.userId ?? '';
+      switch (query.section) {
+        case 'roles':
+          navigate({name: 'Roles', params: {userId}});
+          break;
+        case 'badges':
+          navigate({name: 'Badges', params: {userId}});
+          break;
+        default:
+          navigate({
+            name: 'UserProfile',
+            params: {userId},
+          });
+      }
       break;
     case 'role':
       navigate({name: 'Roles', params: {userId: ''}});
@@ -82,10 +103,10 @@ export function* handleUrlSaga(action: ReturnType<typeof actionCreator>) {
       navigate({name: 'Badges', params: {userId: ''}}); //TODO: focus on badge
       break;
     case 'task':
-      navigate({name: 'HomeTab', params: undefined}); //TODO: focus on the task
+      navigate({name: 'HomeTab', params: {}}); //TODO: focus on the task
       break;
     case 'adoption':
-      navigate({name: 'HomeTab', params: undefined}); //TODO: focus on adoption card
+      navigate({name: 'HomeTab', params: {}}); //TODO: focus on adoption card
       break;
     case 'loginlinked':
       navigate({name: 'Settings', params: undefined});
