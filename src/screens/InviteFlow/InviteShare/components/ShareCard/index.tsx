@@ -93,13 +93,13 @@ const ShareCard = () => {
       case 'More':
         let moreOptions = {
           ...baseOptions,
-          title: `${t('invite_share.share_message')}${url}`,
-          message: `${t('invite_share.share_message')}${url}`,
+          title: `${t('invite_share.share_message')} ${url}`,
+          message: `${t('invite_share.share_message')} ${url}`,
         };
         ShareMore.share(moreOptions);
         break;
       case 'CopyLink':
-        Clipboard.setString(`${t('invite_share.share_message')}${url}`);
+        Clipboard.setString(`${t('invite_share.share_message')} ${url}`);
         Vibration.vibrate([0, 50]);
         copiedRef.current?.updateVisibleState(true);
         break;
@@ -131,7 +131,7 @@ const ShareCard = () => {
 
         openComposer({
           subject: emailOptions.subject,
-          body: `${emailOptions.message}${url}`,
+          body: `${emailOptions.message} ${url}`,
         });
         break;
       case 'FB':
@@ -144,7 +144,7 @@ const ShareCard = () => {
       case 'Sms':
         const devider = isIOS ? '&' : '?';
 
-        const path = `sms:${devider}body=${baseOptions.message}${url}`;
+        const path = `sms:${devider}body=${baseOptions.message} ${url}`;
 
         await Linking.openURL(path);
         break;
