@@ -63,7 +63,7 @@ export const HistoryListItem = ({balanceDiff, time}: Props) => {
       </View>
       <Text style={styles.relDiffText}>
         {balanceDiff.bonus > 0 && '+'}
-        {balanceDiff.bonus / 100}%
+        {balanceDiff.bonus}%
       </Text>
       <ClockIcon width={rem(14)} height={rem(14)} color={COLORS.primaryDark} />
       <Text style={styles.timeText}>{dayjs(time).format('LT')}</Text>

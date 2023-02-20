@@ -179,7 +179,10 @@ const HomeTabStackNavigator = () => (
 );
 
 const ProfileTabStackNavigator = () => (
-  <ProfileTabStack.Navigator screenOptions={screenOptions}>
+  <ProfileTabStack.Navigator
+    screenOptions={screenOptions}
+    // TODO: temp profile disabling -> remove initialRouteName or set MyProfile there
+    initialRouteName={'Settings'}>
     <ProfileTabStack.Screen name="MyProfile" component={Profile} />
     <ProfileTabStack.Screen name="Roles" component={Roles} />
     <ProfileTabStack.Screen

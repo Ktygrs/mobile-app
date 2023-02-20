@@ -26,7 +26,7 @@ export const HistoryListSectionHeader = ({balanceDiff, time}: Props) => {
       <StarIcon color={COLORS.secondary} width={rem(12)} height={rem(12)} />
       <Text style={styles.diffPercText}>
         {balanceDiff.bonus > 0 && '+'}
-        {balanceDiff.bonus / 100}%
+        {balanceDiff.bonus}%
       </Text>
       <View style={styles.amountContainer}>
         <Text style={styles.diffNumText}>
