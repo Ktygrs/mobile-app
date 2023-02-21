@@ -37,20 +37,10 @@ export function* handleUrlSaga(action: ReturnType<typeof actionCreator>) {
   }
 
   switch (path.toLowerCase()) {
-    case 'users':
-    case 'pinged':
-      // TODO: temp profile disabling
-      false &&
-        navigate({
-          name: 'UserProfile',
-          params: {userId: query.id ?? ''},
-        });
-      break;
     case 'browser':
       openLinkWithInAppBrowser({url: query.url ?? ''});
       break;
     case 'home':
-    case 'mining':
       switch (query.section) {
         case 'adoption':
         default:
@@ -61,30 +51,22 @@ export function* handleUrlSaga(action: ReturnType<typeof actionCreator>) {
       }
       break;
     case 'pre-staking':
-    case 'staking':
       navigate({name: 'Staking', params: undefined});
       break;
     case 'stats':
-    case 'weeklystats':
       navigate({
         name: 'HomeTab',
         params: {screen: 'Stats'},
       });
       break;
     case 'invite':
-    case 'invitefriends':
       navigate({name: 'InviteShare', params: undefined});
       break;
     case 'team':
-    case 'joined':
       navigate({name: 'TeamTab', params: {screen: 'Team'}});
       break;
     case 'news':
       navigate({name: 'NewsTab', params: {}});
-      break;
-    case 'level':
-      // TODO: temp profile disabling
-      false && navigate({name: 'ProfileTab', params: {}});
       break;
     case 'profile':
       // TODO: temp profile disabling
@@ -104,12 +86,6 @@ export function* handleUrlSaga(action: ReturnType<typeof actionCreator>) {
             });
         }
       }
-      break;
-    case 'role':
-      navigate({name: 'Roles', params: {userId: ''}});
-      break;
-    case 'badge':
-      navigate({name: 'Badges', params: {userId: ''}}); //TODO: focus on badge
       break;
     case 'task':
       navigate({name: 'HomeTab', params: {}}); //TODO: focus on the task
