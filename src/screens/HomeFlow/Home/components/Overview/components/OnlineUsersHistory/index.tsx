@@ -31,6 +31,7 @@ export const OnlineUsersHistory = () => {
 
   const maxValue = data.length ? Math.max(...data.map(d => d.value)) : 0;
   const minValue = data.length ? Math.min(...data.map(d => d.value)) : 0;
+
   const stepValue = data.length ? Math.ceil(maxValue / NUMBER_OF_STEPS_Y) : 0;
   const lastXValue = stepValue * NUMBER_OF_STEPS_Y;
 
