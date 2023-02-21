@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   hiddenView: {
     marginTop: rem(4),
     width: rem(60),
-    height: rem(26),
+    height: rem(24),
     borderRadius: rem(16),
     backgroundColor: COLORS.dodgerBlue,
     alignItems: 'center',
