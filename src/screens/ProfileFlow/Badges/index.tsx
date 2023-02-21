@@ -101,6 +101,6 @@ const styles = StyleSheet.create({
     marginHorizontal: SCREEN_SIDE_OFFSET,
   },
   inviteButton: {
-    marginTop: rem(18),
+    marginTop: rem(8),
   },
 });

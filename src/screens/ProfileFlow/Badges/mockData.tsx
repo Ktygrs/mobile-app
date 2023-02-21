@@ -15,7 +15,7 @@ export const BADGES: {[key in BadgeCategory]: Badge[]} = {
   social: [
     {
       title: 'ice Breaker',
-      description: 'Below 3 ice friends',
+      description: '< 3 ice friends',
       imageSource: Images.badges.iceBreaker.active,
       progressValue: 89.24,
       progressText: '',
