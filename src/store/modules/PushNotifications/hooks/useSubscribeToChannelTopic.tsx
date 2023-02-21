@@ -3,13 +3,13 @@
 import {NotificationDomain} from '@api/devices/types';
 import messaging from '@react-native-firebase/messaging';
 import {logError} from '@services/logging';
-import {useIsNotificationsChannelEnabled} from '@store/modules/Devices/hooks/useIsNotificationsChannelEnabled';
+import {useIsPushNotificationsChannelEnabled} from '@store/modules/Devices/hooks/useIsPushNotificationsChannelEnabled';
 import {deviceLanguageSelector} from '@store/modules/Devices/selectors';
 import {useEffect} from 'react';
 import {useSelector} from 'react-redux';
 
 export function useSubscribeToChannelTopic(channelName: NotificationDomain) {
-  const channelEnabled = useIsNotificationsChannelEnabled(channelName);
+  const channelEnabled = useIsPushNotificationsChannelEnabled(channelName);
   const language = useSelector(deviceLanguageSelector);
 
   useEffect(() => {

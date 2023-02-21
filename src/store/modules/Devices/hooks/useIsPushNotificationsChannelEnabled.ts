@@ -8,7 +8,7 @@ import {pushNotificationByTypeSelector} from '@store/modules/Devices/selectors';
 import {isPermissionGrantedSelector} from '@store/modules/Permissions/selectors';
 import {useSelector} from 'react-redux';
 
-export function useIsNotificationsChannelEnabled(
+export function useIsPushNotificationsChannelEnabled(
   channelName: NotificationDomain,
 ) {
   const hasPushPermissions = useSelector(
