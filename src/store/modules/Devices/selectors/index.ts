@@ -21,3 +21,7 @@ export const emailNotificationByTypeSelector = (state: RootState) => {
 export const pushNotificationByTypeSelector = (state: RootState) => {
   return state.devices.settings?.pushNotificationSettings;
 };
+
+export const deviceLanguageSelector = (state: RootState) => {
+  return state.devices.settings?.language;
+};

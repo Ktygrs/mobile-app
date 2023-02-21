@@ -4,6 +4,8 @@ import {ENV} from '@constants/env';
 import type {FirebaseMessagingTypes} from '@react-native-firebase/messaging';
 import messaging from '@react-native-firebase/messaging';
 import {DeviceActions} from '@store/modules/Devices/actions';
+import {useIsNotificationsChannelEnabled} from '@store/modules/Devices/hooks/useIsNotificationsChannelEnabled';
+import {deviceLanguageSelector} from '@store/modules/Devices/selectors';
 import {LinkingActions} from '@store/modules/Linking/actions';
 import {isPermissionGrantedSelector} from '@store/modules/Permissions/selectors';
 import {useEffect} from 'react';
@@ -39,6 +41,31 @@ export function useInitNotifications() {
        */
     ReactMoE.initialize(ENV.MO_ENGAGE_APP_ID ?? '');
   }, [dispatch, hasPushPermissions]);
+
+  const language = useSelector(deviceLanguageSelector);
+  const newsChannelEnabled = useIsNotificationsChannelEnabled('news');
+  const systemChannelEnabled = useIsNotificationsChannelEnabled('system');
+  useEffect(() => {
+    if (hasPushPermissions && newsChannelEnabled && language) {
+      messaging().subscribeToTopic(`news_${language}`).catch();
+    }
+    return () => {
+      if (language) {
+        messaging().unsubscribeFromTopic(`news_${language}`).catch();
+      }
+    };
+  }, [hasPushPermissions, newsChannelEnabled, language]);
+
+  useEffect(() => {
+    if (hasPushPermissions && systemChannelEnabled && language) {
+      messaging().subscribeToTopic(`system_${language}`).catch();
+    }
+    return () => {
+      if (language) {
+        messaging().unsubscribeFromTopic(`system_${language}`).catch();
+      }
+    };
+  }, [hasPushPermissions, systemChannelEnabled, language]);
 
   useEffect(() => {
     const handleMessage = (

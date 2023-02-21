@@ -56,7 +56,14 @@ export function* handleUrlSaga(action: ReturnType<typeof actionCreator>) {
       break;
     case 'home':
     case 'mining':
-      navigate({name: 'Home', params: undefined});
+      switch (query.section) {
+        case 'adoption':
+        default:
+          navigate({
+            name: 'HomeTab',
+            params: {screen: 'Home'},
+          });
+      }
       break;
     case 'pre-staking':
     case 'staking':
@@ -64,7 +71,10 @@ export function* handleUrlSaga(action: ReturnType<typeof actionCreator>) {
       break;
     case 'stats':
     case 'weeklystats':
-      navigate({name: 'Stats', params: undefined});
+      navigate({
+        name: 'HomeTab',
+        params: {screen: 'Stats'},
+      });
       break;
     case 'invite':
     case 'invitefriends':
@@ -78,22 +88,26 @@ export function* handleUrlSaga(action: ReturnType<typeof actionCreator>) {
       navigate({name: 'NewsTab', params: {}});
       break;
     case 'level':
-      navigate({name: 'ProfileTab', params: {}});
+      // TODO: temp profile disabling
+      false && navigate({name: 'ProfileTab', params: {}});
       break;
     case 'profile':
-      const userId = query.userId ?? '';
-      switch (query.section) {
-        case 'roles':
-          navigate({name: 'Roles', params: {userId}});
-          break;
-        case 'badges':
-          navigate({name: 'Badges', params: {userId}});
-          break;
-        default:
-          navigate({
-            name: 'UserProfile',
-            params: {userId},
-          });
+      // TODO: temp profile disabling
+      if (false) {
+        const userId = query.userId ?? '';
+        switch (query.section) {
+          case 'roles':
+            navigate({name: 'Roles', params: {userId}});
+            break;
+          case 'badges':
+            navigate({name: 'Badges', params: {userId}});
+            break;
+          default:
+            navigate({
+              name: 'UserProfile',
+              params: {userId},
+            });
+        }
       }
       break;
     case 'role':
