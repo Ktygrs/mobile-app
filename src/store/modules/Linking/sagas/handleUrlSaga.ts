@@ -49,11 +49,6 @@ export function* handleUrlSaga(action: ReturnType<typeof actionCreator>) {
     case 'browser':
       openLinkWithInAppBrowser({url: query.url ?? ''});
       break;
-    case 'followus':
-    case 'refjoined':
-    case 'announcements':
-      openLinkWithInAppBrowser({url});
-      break;
     case 'home':
     case 'mining':
       switch (query.section) {
@@ -121,9 +116,6 @@ export function* handleUrlSaga(action: ReturnType<typeof actionCreator>) {
       break;
     case 'adoption':
       navigate({name: 'HomeTab', params: {}}); //TODO: focus on adoption card
-      break;
-    case 'loginlinked':
-      navigate({name: 'Settings', params: undefined});
       break;
     default:
       if (!handledInApp) {
