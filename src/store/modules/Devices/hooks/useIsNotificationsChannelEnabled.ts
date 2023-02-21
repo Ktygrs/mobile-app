@@ -5,17 +5,25 @@ import {
   NotificationDomainToggles,
 } from '@api/devices/types';
 import {pushNotificationByTypeSelector} from '@store/modules/Devices/selectors';
+import {isPermissionGrantedSelector} from '@store/modules/Permissions/selectors';
 import {useSelector} from 'react-redux';
 
 export function useIsNotificationsChannelEnabled(
   channelName: NotificationDomain,
 ) {
+  const hasPushPermissions = useSelector(
+    isPermissionGrantedSelector('pushNotifications'),
+  );
   const settings: NotificationDomainToggles | undefined = useSelector(
     pushNotificationByTypeSelector,
   );
 
-  if (!settings) {
+  if (!hasPushPermissions) {
     return false;
+  }
+
+  if (!settings) {
+    return true;
   }
 
   for (const {type, enabled} of settings) {

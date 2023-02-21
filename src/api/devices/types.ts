@@ -4,19 +4,10 @@ import {SupportedLocale} from '@translations/localeConfig';
 
 export type NotificationDeliveryChannel = 'email' | 'push';
 
-export type NotificationDomain =
-  | 'weekly_stats'
-  | 'achievements'
-  | 'promotions'
-  | 'news'
-  | 'micro_community'
-  | 'mining'
-  | 'daily_bonus'
-  | 'system'
-  | 'disable_all';
+export type NotificationDomain = string;
 
 export type NotificationDomainToggle = {
-  type: string;
+  type: NotificationDomain;
   enabled: boolean;
 };
 
