@@ -87,12 +87,6 @@ export function* handleUrlSaga(action: ReturnType<typeof actionCreator>) {
         }
       }
       break;
-    case 'task':
-      navigate({name: 'HomeTab', params: {}}); //TODO: focus on the task
-      break;
-    case 'adoption':
-      navigate({name: 'HomeTab', params: {}}); //TODO: focus on adoption card
-      break;
     default:
       if (!handledInApp) {
         if (!isDeeplink && !isUniversalLink) {
