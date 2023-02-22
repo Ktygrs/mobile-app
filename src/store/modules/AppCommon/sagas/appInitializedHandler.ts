@@ -1,38 +1,37 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {AccountActions} from '@store/modules/Account/actions';
 import {AppCommonActions} from '@store/modules/AppCommon/actions';
-import {DeviceActions} from '@store/modules/Devices/actions';
 import {
-  isFailedSelector,
-  isSuccessSelector,
-} from '@store/modules/UtilityProcessStatuses/selectors';
-import {RootState} from '@store/rootReducer';
-import {put, select, take} from 'redux-saga/effects';
-
-const INITIALIZE_ACTIONS = [
-  AccountActions.USER_STATE_CHANGE,
-  DeviceActions.GET_OR_CREATE_DEVICE_SETTINGS,
-];
+  failedInitializeActionSelector,
+  initSuccessSelector,
+} from '@store/modules/AppCommon/selectors';
+import {failedReasonSelector} from '@store/modules/UtilityProcessStatuses/selectors';
+import {t} from '@translations/i18n';
+import {call, put, SagaReturnType, select, take} from 'redux-saga/effects';
 
 function* isModulesInitComplete() {
-  const initSuccess: boolean = yield select((state: RootState) => {
-    return !INITIALIZE_ACTIONS.find(
-      action => !isSuccessSelector(action, state),
-    );
-  });
+  const initSuccess: ReturnType<typeof initSuccessSelector> = yield select(
+    initSuccessSelector,
+  );
 
   if (initSuccess) {
     yield put(AppCommonActions.APP_INITIALIZED.SUCCESS.create());
     return true;
   }
 
-  const initFailed: boolean = yield select((state: RootState) => {
-    return !!INITIALIZE_ACTIONS.find(action => isFailedSelector(action, state));
-  });
+  const failedInitializeAction: ReturnType<
+    typeof failedInitializeActionSelector
+  > = yield select(failedInitializeActionSelector);
 
-  if (initFailed) {
-    yield put(AppCommonActions.APP_INITIALIZED.FAILED.create());
+  if (failedInitializeAction) {
+    const errorMessage: ReturnType<typeof failedReasonSelector> = yield select(
+      failedReasonSelector.bind(null, failedInitializeAction),
+    );
+    yield put(
+      AppCommonActions.APP_INITIALIZED.FAILED.create(
+        errorMessage ?? t('errors.general_error_message'),
+      ),
+    );
     return true;
   }
 
@@ -40,7 +39,11 @@ function* isModulesInitComplete() {
 }
 
 export function* appInitializedHandlerSaga() {
-  while (!(yield* isModulesInitComplete())) {
+  while (
+    !((yield call(isModulesInitComplete)) as SagaReturnType<
+      typeof isModulesInitComplete
+    >)
+  ) {
     yield take('*');
   }
 }

@@ -12,7 +12,7 @@ import {
   smsSentTimestampSelector,
   temporaryPhoneNumberSelector,
 } from '@store/modules/Validation/selectors';
-import {useCallback, useEffect} from 'react';
+import {useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 type Props = {
@@ -40,7 +40,9 @@ export const useConfirmPhoneNumber = ({onModifyPhoneNumber}: Props) => {
   const smsSentTimestamp = useSelector(smsSentTimestampSelector);
 
   const resendCode = () => {
-    dispatch(AccountActions.UPDATE_ACCOUNT.START.create({phoneNumber}));
+    if (phoneNumber) {
+      dispatch(AccountActions.VERIFY_PHONE_NUMBER.START.create(phoneNumber));
+    }
   };
 
   const resetValidation = useCallback(() => {
@@ -54,13 +56,6 @@ export const useConfirmPhoneNumber = ({onModifyPhoneNumber}: Props) => {
   const clearError = () => {
     dispatch(ValidationActions.PHONE_VALIDATION.CLEAR_ERROR.create());
   };
-
-  // clean up on component unmount
-  useEffect(() => {
-    if (resetValidationOnGoBack) {
-      resetValidation();
-    }
-  }, [resetValidation, resetValidationOnGoBack]);
 
   const {code, setCode, validationError} = useCodeInput({
     validate,

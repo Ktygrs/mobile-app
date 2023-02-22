@@ -76,12 +76,52 @@ export const sendSignInLinkToEmail = async (email: string) => {
   });
 };
 
+export const verifyBeforeUpdateEmail = async (email: string) => {
+  return auth().currentUser?.verifyBeforeUpdateEmail(email, {
+    url: `${LINKS.VERIFY_EMAIL}?email=${email}`,
+    iOS: {
+      bundleId: ENV.APP_ID,
+    },
+    android: {
+      packageName: ENV.APP_ID ?? '',
+    },
+  });
+};
+
+export const verifyPhoneNumber = (phoneNumber: string) => {
+  return new Promise<string>((resolve, reject) => {
+    auth()
+      .verifyPhoneNumber(phoneNumber, undefined, true)
+      .on('state_changed', phoneAuthSnapshot => {
+        switch (phoneAuthSnapshot.state) {
+          case 'sent':
+            resolve(phoneAuthSnapshot.verificationId);
+            break;
+          case 'error':
+          case 'timeout':
+            reject(phoneAuthSnapshot.error);
+            break;
+        }
+      });
+  });
+};
+
 export const signInWithEmailLink = async (email: string, emailLink: string) => {
   return auth().signInWithEmailLink(email, emailLink);
 };
 
 export const isSignInWithEmailLink = (emailLink: string) => {
   return auth().isSignInWithEmailLink(emailLink);
+};
+
+export const isUpdateEmailLink = (
+  query: Record<string, string | undefined>,
+) => {
+  if (query && checkProp(query, 'link')) {
+    const link = query.link as String;
+    return link.includes(LINKS.VERIFY_EMAIL);
+  }
+  return false;
 };
 
 const getSignInMethodForProvider = (provider: SocialSignInProvider) => {
@@ -137,6 +177,10 @@ export const getAuthErrorMessage = (error: unknown) => {
         return t('errors.code_expired');
       case 'auth/too-many-requests':
         return t('errors.too_many_requests');
+      case 'auth/credential-already-in-use':
+        return t('errors.credential_already_in_use');
+      case 'auth/email-already-in-use':
+        return t('errors.email_already_in_use');
       case 'auth/invalid-verification-code':
       case 'auth/invalid-verification-id':
         // Thrown if the credential is a firebase.auth.PhoneAuthProvider.credential and the verification code or verification ID of the credential is not valid.
@@ -168,6 +212,12 @@ export const getAuthErrorMessage = (error: unknown) => {
         return t('errors.user_not_found_for_email');
       case 'auth/network-request-failed':
         return t('errors.general_network_error');
+      case 'auth/user-token-expired':
+        // Thrown for example if user changed email and hasn't re-login yet
+        return t('errors.user_token_expired');
+      case 'auth/requires-recent-login':
+        // Thrown for example if user tries to change email and much time passed after the last sign in
+        return t('errors.requires_recent_login');
     }
   }
 };
@@ -178,4 +228,12 @@ export const getAuthLanguageCode = () => {
 
 export const setAuthLanguageCode = async (languageCode: string | null) => {
   return auth().setLanguageCode(languageCode);
+};
+
+export const updatePhoneNumber = async (
+  verificationId: string,
+  code: string,
+) => {
+  const credential = auth.PhoneAuthProvider.credential(verificationId, code);
+  return auth().currentUser?.updatePhoneNumber(credential);
 };

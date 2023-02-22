@@ -2,7 +2,7 @@
 
 import {ENV} from '@constants/env';
 import {navigate} from '@navigation/utils';
-import {isSignInWithEmailLink} from '@services/auth';
+import {isSignInWithEmailLink, isUpdateEmailLink} from '@services/auth';
 import {logError} from '@services/logging';
 import {AccountActions} from '@store/modules/Account/actions';
 import {LinkingActions} from '@store/modules/Linking/actions';
@@ -15,12 +15,26 @@ const actionCreator = LinkingActions.HANDLE_URL.STATE.create;
 
 export function* handleUrlSaga(action: ReturnType<typeof actionCreator>) {
   const {url, handledInApp} = action.payload;
+
   if (isSignInWithEmailLink(url)) {
     yield put(AccountActions.SIGN_IN_EMAIL.CONFIRM_TEMP_EMAIL.create(url));
     return;
   }
 
+  /** User updated email:
+   * this action requires force logout because firebase
+   * auth token expires immediately (a major account change)
+   * https://firebase.google.com/docs/auth/admin/manage-sessions
+   */
+
   const {path, query, isDeeplink, isUniversalLink} = parseUrl(url);
+
+  if (isUpdateEmailLink(query)) {
+    yield put(
+      AccountActions.VERIFY_BEFORE_UPDATE_EMAIL.CONFIRM_TEMP_EMAIL.create(url),
+    );
+    return;
+  }
 
   switch (path.toLowerCase()) {
     case 'users':

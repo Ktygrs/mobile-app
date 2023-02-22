@@ -69,7 +69,6 @@ const UPDATE_REF_BY_USERNAME = createAction('UPDATE_REF_BY_USERNAME', {
   START: (refUsername: string) => ({refUsername}),
   SUCCESS: (user: User) => ({user}),
   FAILED: (errorMessage: string) => ({errorMessage}),
-  CLEAR: false,
   RESET: true,
 });
 
@@ -100,6 +99,25 @@ const GET_ACCOUNT = createAction('GET_ACCOUNT', {
   FAILED: (errorMessage: string) => ({errorMessage}),
 });
 
+const VERIFY_BEFORE_UPDATE_EMAIL = createAction('VERIFY_BEFORE_UPDATE_EMAIL', {
+  START: (email: string) => ({email}),
+  SET_TEMP_EMAIL: (email: string) => ({email}),
+  CONFIRM_TEMP_EMAIL: (link: string) => ({link}),
+  SUCCESS: true,
+  FAILED: (errorMessage: string) => ({errorMessage}),
+  RESET: true,
+});
+
+const VERIFY_PHONE_NUMBER = createAction('VERIFY_PHONE_NUMBER', {
+  START: (phoneNumber: string) => ({phoneNumber}),
+  SUCCESS: (phoneNumber: string, verificationId: string) => ({
+    phoneNumber,
+    verificationId,
+  }),
+  FAILED: (errorMessage: string) => ({errorMessage}),
+  RESET: true,
+});
+
 export const AccountActions = Object.freeze({
   SET_TOKEN,
   SYNC_LANGUAGE_CODE,
@@ -112,4 +130,6 @@ export const AccountActions = Object.freeze({
   UPDATE_ACCOUNT,
   GET_ACCOUNT,
   USER_STATE_CHANGE,
+  VERIFY_BEFORE_UPDATE_EMAIL,
+  VERIFY_PHONE_NUMBER,
 });

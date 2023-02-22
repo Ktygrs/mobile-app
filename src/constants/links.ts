@@ -15,4 +15,6 @@ export const LINKS = {
   KNOWLEDGE_BASE: 'https://ice.io/knowledge-base',
   BONUSES: 'https://ice.io/bonuses',
   FEEDBACK_EMAIL: 'hi@ice.io',
+  CONFIRM_EMAIL: 'https://ice.io/firebase-confirm-email',
+  VERIFY_EMAIL: `https://${ENV.DEEPLINK_DOMAIN}/verify-email`,
 };

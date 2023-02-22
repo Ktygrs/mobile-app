@@ -5,8 +5,9 @@ import {
   failedReasonSelector,
   isLoadingSelector,
 } from '@store/modules/UtilityProcessStatuses/selectors';
-import {emailSentTimestampSelector} from '@store/modules/Validation/selectors';
-import {useEffect, useState} from 'react';
+import {ValidationActions} from '@store/modules/Validation/actions';
+import {useCallback, useEffect, useState} from 'react';
+import {Keyboard} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 
 export const useModifyEmail = () => {
@@ -14,20 +15,28 @@ export const useModifyEmail = () => {
   const [email, setEmail] = useState('');
 
   const modifyEmailFailedReason = useSelector(
-    failedReasonSelector.bind(null, AccountActions.UPDATE_ACCOUNT),
+    failedReasonSelector.bind(null, AccountActions.VERIFY_BEFORE_UPDATE_EMAIL),
   );
 
   const isModifyEmailLoading = useSelector(
-    isLoadingSelector.bind(null, AccountActions.UPDATE_ACCOUNT),
+    isLoadingSelector.bind(null, AccountActions.VERIFY_BEFORE_UPDATE_EMAIL),
   );
 
-  const emailSentTimestamp = useSelector(emailSentTimestampSelector);
-
-  const modifyEmail = () =>
-    dispatch(AccountActions.UPDATE_ACCOUNT.START.create({email}));
+  const modifyEmail = useCallback(() => {
+    Keyboard.dismiss();
+    dispatch(ValidationActions.EMAIL_VALIDATION.RESET.create());
+    dispatch(AccountActions.VERIFY_BEFORE_UPDATE_EMAIL.START.create(email));
+  }, [dispatch, email]);
 
   const onChangeEmail = (text: string) => {
+    resetError();
     setEmail(text);
+  };
+
+  const resetError = () => {
+    if (modifyEmailFailedReason) {
+      dispatch(AccountActions.VERIFY_BEFORE_UPDATE_EMAIL.RESET.create());
+    }
   };
 
   // clean up on component unmount
@@ -44,6 +53,5 @@ export const useModifyEmail = () => {
     modifyEmail,
     isModifyEmailLoading,
     modifyEmailFailedReason,
-    emailSentTimestamp,
   };
 };

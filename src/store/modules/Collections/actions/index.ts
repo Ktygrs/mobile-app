@@ -23,7 +23,7 @@ const createActionStructure = <T>() => ({
   FAILED: (errorMessage: string) => ({
     errorMessage,
   }),
-  CLEAR: false,
+  CLEAR: true,
 });
 
 export const createCollectionAction = <T, K extends string>(key: K) =>

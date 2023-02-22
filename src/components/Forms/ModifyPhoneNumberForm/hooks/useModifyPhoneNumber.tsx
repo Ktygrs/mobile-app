@@ -27,28 +27,34 @@ export const useModifyPhoneNumber = ({
   const fullPhoneRef = useRef('');
 
   const modifyPhoneFailedReason = useSelector(
-    failedReasonSelector.bind(null, AccountActions.UPDATE_ACCOUNT),
+    failedReasonSelector.bind(null, AccountActions.VERIFY_PHONE_NUMBER),
   );
 
   const isModifyPhoneLoading = useSelector(
-    isLoadingSelector.bind(null, AccountActions.UPDATE_ACCOUNT),
+    isLoadingSelector.bind(null, AccountActions.VERIFY_PHONE_NUMBER),
   );
 
   const smsSentTimestamp = useSelector(smsSentTimestampSelector);
 
-  const modifyPhoneNumber = () =>
-    dispatch(
-      AccountActions.UPDATE_ACCOUNT.START.create({
-        phoneNumber: e164PhoneNumber(
-          fullPhoneRef.current ||
-            `${selectedCountry?.iddCode ?? ''}${initialPhoneNumber ?? ''}`,
-        ),
-      }),
+  const modifyPhoneNumber = () => {
+    const formattedNumber = e164PhoneNumber(
+      fullPhoneRef.current ||
+        `${selectedCountry?.iddCode ?? ''}${initialPhoneNumber ?? ''}`,
     );
+    dispatch(AccountActions.VERIFY_PHONE_NUMBER.RESET.create());
+    dispatch(AccountActions.VERIFY_PHONE_NUMBER.START.create(formattedNumber));
+  };
 
   const onChangePhone = (phoneBody: string, iddCode: string) => {
+    resetError();
     setPhoneNumberBody(phoneBody);
     fullPhoneRef.current = `${iddCode}${phoneBody}`;
+  };
+
+  const resetError = () => {
+    if (modifyPhoneFailedReason) {
+      dispatch(AccountActions.VERIFY_PHONE_NUMBER.RESET.create());
+    }
   };
 
   // clean up on component unmount

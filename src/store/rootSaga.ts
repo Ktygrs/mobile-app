@@ -1,10 +1,12 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {logError} from '@services/logging';
+import {AccountActions} from '@store/modules/Account/actions';
 import {rootLinkingSaga} from '@store/modules/Linking/sagas';
 import {rootNotificationsSaga} from '@store/modules/Notifications/sagas';
 import {rootStatsSaga} from '@store/modules/Stats/sagas';
-import {all, call, spawn} from 'redux-saga/effects';
+import {SagaIterator} from 'redux-saga';
+import {all, call, cancel, spawn, take} from 'redux-saga/effects';
 
 import {rootAuthSaga} from './modules/Account/sagas';
 import {rootAppCommonSaga} from './modules/AppCommon/sagas';
@@ -18,7 +20,7 @@ import {rootTokenomicsSaga} from './modules/Tokenomics/sagas';
 import {rootUsersSaga} from './modules/Users/sagas';
 import {rootValidationSaga} from './modules/Validation/sagas';
 
-export function* rootSaga() {
+export function* rootSaga(): SagaIterator {
   const sagas = [
     rootAuthSaga,
     rootNewsSaga,
@@ -35,7 +37,7 @@ export function* rootSaga() {
     rootUsersSaga,
     rootTokenomicsSaga,
   ];
-  yield all([
+  const spawnedSagas = yield all([
     ...sagas.map(saga =>
       spawn(function* () {
         while (true) {
@@ -49,4 +51,12 @@ export function* rootSaga() {
       }),
     ),
   ]);
+  /**
+   * Restarting sagas on logout to prevent cases
+   * when running sagas can set user related data
+   * to the store after logout happened
+   */
+  yield take(AccountActions.SIGN_OUT.SUCCESS.type);
+  yield cancel(spawnedSagas);
+  yield call(rootSaga);
 }

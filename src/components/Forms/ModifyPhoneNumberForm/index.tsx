@@ -51,7 +51,7 @@ export const ModifyPhoneNumberForm = ({
           text={t('confirm_phone.button')}
           onPress={modifyPhoneNumber}
           loading={isModifyPhoneLoading}
-          disabled={!resendAvailable}
+          disabled={!resendAvailable || phoneNumberBody.trim() === ''}
         />
       }
     />

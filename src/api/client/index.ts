@@ -2,6 +2,7 @@
 
 import {getHeaders} from '@api/client/getHeaders';
 import {ENV} from '@constants/env';
+import {checkNetwork} from '@utils/network';
 import axios, {AxiosError, AxiosInstance} from 'axios';
 import {backOff} from 'exponential-backoff';
 
@@ -15,12 +16,26 @@ export const DEFAULT_BACK_OFF_OPTIONS = {
   maxDelay: 1000,
   startingDelay: 10,
   timeMultiple: 5,
-  retry: (error: unknown) => {
-    return (
+  retry: async (error: unknown) => {
+    if (
       axios.isAxiosError(error) &&
       error.response?.status != null &&
       error.response?.status >= 500
-    );
+    ) {
+      return true;
+    }
+
+    /**
+     * This may happen when the app comes from background
+     * and we perform an api call right away
+     * e.g. as a result of handling a deeplink / push notification press
+     */
+    if (isNetworkError(error)) {
+      const isConnected = await checkNetwork();
+      return !!isConnected;
+    }
+
+    return false;
   },
 } as const;
 

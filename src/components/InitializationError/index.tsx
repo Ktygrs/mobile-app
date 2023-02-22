@@ -3,17 +3,24 @@
 import {PrimaryButton} from '@components/PrimaryButton';
 import {COLORS} from '@constants/colors';
 import {Images} from '@images';
+import {AppCommonActions} from '@store/modules/AppCommon/actions';
+import {failedReasonSelector} from '@store/modules/UtilityProcessStatuses/selectors';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import RNRestart from 'react-native-restart';
+import {useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
 export const InitializationError = () => {
   const onTryAgainPress = () => {
     RNRestart.restart();
   };
+
+  const errorMessage = useSelector(
+    failedReasonSelector.bind(null, AppCommonActions.APP_INITIALIZED),
+  );
 
   return (
     <View style={styles.container}>
@@ -22,10 +29,8 @@ export const InitializationError = () => {
         style={styles.image}
         source={Images.popUp.error}
       />
-      <Text style={styles.titleText}>{t('errors.network_error_title')}</Text>
-      <Text style={styles.messageText}>
-        {t('errors.network_error_message')}
-      </Text>
+      <Text style={styles.titleText}>{t('errors.general_error_title')}</Text>
+      <Text style={styles.messageText}>{errorMessage}</Text>
       <PrimaryButton
         style={styles.button}
         onPress={onTryAgainPress}

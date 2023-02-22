@@ -1,5 +1,10 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {INITIALIZE_ACTIONS} from '@store/modules/AppCommon/constants';
+import {
+  isFailedSelector,
+  isSuccessSelector,
+} from '@store/modules/UtilityProcessStatuses/selectors';
 import {RootState} from '@store/rootReducer';
 
 export const isAppLoadedSelector = (state: RootState) =>
@@ -13,3 +18,11 @@ export const isAppInitializedSelector = (state: RootState) =>
 
 export const isAppActiveSelector = (state: RootState) =>
   state.appCommon.appState === 'active';
+
+export const failedInitializeActionSelector = (state: RootState) => {
+  return INITIALIZE_ACTIONS.find(action => isFailedSelector(action, state));
+};
+
+export const initSuccessSelector = (state: RootState) => {
+  return !INITIALIZE_ACTIONS.find(action => !isSuccessSelector(action, state));
+};

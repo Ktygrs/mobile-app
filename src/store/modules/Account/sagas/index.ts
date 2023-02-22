@@ -11,6 +11,8 @@ import {syncLanguageCodeSaga} from '@store/modules/Account/sagas/syncLanguageCod
 import {updateAccountSaga} from '@store/modules/Account/sagas/updateAccount';
 import {updateRefByUsernameSaga} from '@store/modules/Account/sagas/updateRefByUsernameSaga';
 import {userStateChangeSaga} from '@store/modules/Account/sagas/userStateChange';
+import {verifyBeforeUpdateEmailSaga} from '@store/modules/Account/sagas/verifyBeforeUpdateEmail';
+import {verifyPhoneNumberSaga} from '@store/modules/Account/sagas/verifyPhoneNumber';
 import {AppCommonActions} from '@store/modules/AppCommon/actions';
 import {all, takeLatest} from 'redux-saga/effects';
 
@@ -43,6 +45,14 @@ export function* rootAuthSaga() {
         AppCommonActions.INTERVAL_UPDATE.STATE.type,
       ],
       getAccountSaga,
+    ),
+    takeLatest(
+      AccountActions.VERIFY_BEFORE_UPDATE_EMAIL.START.type,
+      verifyBeforeUpdateEmailSaga,
+    ),
+    takeLatest(
+      AccountActions.VERIFY_PHONE_NUMBER.START.type,
+      verifyPhoneNumberSaga,
     ),
   ]);
 }

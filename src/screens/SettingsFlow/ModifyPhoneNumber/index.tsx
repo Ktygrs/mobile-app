@@ -36,7 +36,7 @@ export const ModifyPhoneNumber = memo(() => {
 
   return (
     <KeyboardAvoider
-      keyboardVerticalOffset={-tabbarOffset.current.paddingBottom + rem(20)}>
+      keyboardVerticalOffset={rem(20) - tabbarOffset.current.paddingBottom}>
       <Header title={t('personal_information.title')} />
       <ScrollView
         ref={scrollRef}

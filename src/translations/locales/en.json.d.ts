@@ -129,6 +129,10 @@ export type Translations = {
   'errors.general_error_title': null;
   'errors.general_error_message': null;
   'errors.general_network_error': null;
+  'errors.credential_already_in_use': null;
+  'errors.email_already_in_use': null;
+  'errors.user_token_expired': null;
+  'errors.requires_recent_login': null;
   'profile.my_roles.title': null;
   'profile.mining_calculator': null;
   'profile.invite_friends': null;
@@ -282,6 +286,7 @@ export type Translations = {
   'settings.profile_photo.edit': null;
   'settings.profile_photo.photo_gallery': null;
   'settings.profile_photo.camera': null;
+  'settings.confirm_email_confirmation_title': null;
   'settings.update_email_confirmation_title': null;
   'settings.update_email_confirmation_subtitle': null;
   'settings.unlink_logins_title': null;
@@ -429,6 +434,7 @@ export type Translations = {
   'confirm_email.link_instruction': null;
   'confirm_email.modify_title': null;
   'confirm_email.modify_description': null;
+  'confirm_email.same_email_error': null;
   'invalid_link.title': null;
   'invalid_link.description': null;
   'invalid_link.back_button_title': null;
@@ -447,6 +453,7 @@ export type Translations = {
   'confirm_phone.modify_title': null;
   'confirm_phone.modify_description': null;
   'confirm_phone.button': null;
+  'confirm_phone.same_phone_error': null;
   'settings-language-settings': null;
   'global-language': null;
   'global-flag': null;

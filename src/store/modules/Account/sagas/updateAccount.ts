@@ -5,15 +5,9 @@ import {Api} from '@api/index';
 import {AccountActions} from '@store/modules/Account/actions';
 import {userSelector} from '@store/modules/Account/selectors';
 import {t} from '@translations/i18n';
-import {validateEmail} from '@utils/email';
 import {showError} from '@utils/errors';
-import {checkProp} from '@utils/guards';
 import {e164PhoneNumber, hashPhoneNumber} from '@utils/phoneNumber';
 import {call, put, SagaReturnType, select} from 'redux-saga/effects';
-
-enum Errors {
-  InvalidEmail,
-}
 
 const actionCreator = AccountActions.UPDATE_ACCOUNT.START.create;
 
@@ -28,10 +22,6 @@ export function* updateAccountSaga(action: ReturnType<typeof actionCreator>) {
       checksum: user.checksum,
       ...action.payload.userInfo,
     };
-
-    if ('email' in userInfo && !validateEmail(userInfo.email ?? '')) {
-      throw {code: Errors.InvalidEmail};
-    }
 
     if (userInfo.phoneNumber) {
       const normalizedNumber = e164PhoneNumber(userInfo.phoneNumber);
@@ -94,8 +84,6 @@ export function* updateAccountSaga(action: ReturnType<typeof actionCreator>) {
           localizedError = t('errors.phone_number_already_in_use');
           break;
       }
-    } else if (checkProp(error, 'code') && error.code === Errors.InvalidEmail) {
-      localizedError = t('errors.invalid_email');
     }
 
     if (localizedError) {

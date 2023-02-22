@@ -179,7 +179,11 @@
     "unknown_error": "Some error occurred, please try again later",
     "general_error_title": "Oups...",
     "general_error_message": "Looks like something went wrong. Our team is working on fixing it right now",
-    "general_network_error": "A network error has occurred. Please check your connection."
+    "general_network_error": "A network error has occurred. Please check your connection.",
+    "credential_already_in_use": "This credential is already associated with a different user account.",
+    "email_already_in_use": "The email address is already in use by another account.",
+    "user_token_expired": "Your credentials is no longer valid. Please sign in again",
+    "requires_recent_login": "This operation is sensitive and requires recent authentication. Please sign in again"
   },
   "profile": {
     "my_roles": {
@@ -421,6 +425,7 @@
       "photo_gallery": "Photo Gallery",
       "camera": "Camera"
     },
+    "confirm_email_confirmation_title": "Confirm email?",
     "update_email_confirmation_title": "Update email?",
     "update_email_confirmation_subtitle": "Changing your email address will require you to re-login. Are you sure you want to proceed?",
     "unlink_logins_title": "Unlink Logins",
@@ -612,7 +617,8 @@
     "emailed_link_to": "We emailed a magic link to",
     "link_instruction": "Click the link to log in or sign up.",
     "modify_title": "Confirm New Email",
-    "modify_description": "Please enter your new email address"
+    "modify_description": "Please enter your new email address",
+    "same_email_error": "You can’t use the same e-mail"
   },
   "invalid_link": {
     "title": "Invalid link",
@@ -644,7 +650,8 @@
   "confirm_phone": {
     "modify_title": "Confirm Phone",
     "modify_description": "Please confirm your country code and enter your phone number",
-    "button": "Confirm country and phone"
+    "button": "Confirm country and phone",
+    "same_phone_error": "You can’t use the same number"
   },
   "settings-language-settings": "settings.language_settings",
   "global-language": "global.language",

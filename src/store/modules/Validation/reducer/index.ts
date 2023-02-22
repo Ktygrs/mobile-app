@@ -9,6 +9,7 @@ export type TemporaryPhoneVerificationStepType = 'phone' | 'code';
 
 export interface State {
   temporaryPhoneNumber: string | null;
+  temporaryVerificationId: string | null;
   temporaryEmail: string | null;
   temporaryPhoneVerificationStep: TemporaryPhoneVerificationStepType;
   smsSentTimestamp: number | null;
@@ -16,7 +17,6 @@ export interface State {
 }
 
 type Actions = ReturnType<
-  | typeof AccountActions.UPDATE_ACCOUNT.SUCCESS.create
   | typeof AccountActions.SIGN_OUT.SUCCESS.create
   | typeof AccountActions.SIGN_IN_PHONE.SET_TEMP_PHONE.create
   | typeof AccountActions.SIGN_IN_PHONE.SUCCESS.create
@@ -32,10 +32,16 @@ type Actions = ReturnType<
   | typeof ValidationActions.EMAIL_VALIDATION.FAILED.create
   | typeof ValidationActions.EMAIL_VALIDATION.RESET.create
   | typeof ValidationActions.SET_TEMPORARY_PHONE_VERIFICATION_STEP.STATE.create
+  | typeof AccountActions.VERIFY_BEFORE_UPDATE_EMAIL.SET_TEMP_EMAIL.create
+  | typeof AccountActions.VERIFY_BEFORE_UPDATE_EMAIL.RESET.create
+  | typeof AccountActions.VERIFY_BEFORE_UPDATE_EMAIL.SUCCESS.create
+  | typeof AccountActions.VERIFY_PHONE_NUMBER.SUCCESS.create
+  | typeof AccountActions.VERIFY_PHONE_NUMBER.RESET.create
 >;
 
 const INITIAL_STATE: State = {
   temporaryPhoneNumber: null,
+  temporaryVerificationId: null,
   temporaryEmail: null,
   smsSentTimestamp: null,
   emailSentTimestamp: null,
@@ -58,25 +64,23 @@ function reducer(state = INITIAL_STATE, action: Actions): State {
         draft.smsSentTimestamp = dayjs().valueOf();
         break;
       case AccountActions.SIGN_IN_EMAIL.SET_TEMP_EMAIL.type:
+      case AccountActions.VERIFY_BEFORE_UPDATE_EMAIL.SET_TEMP_EMAIL.type:
         draft.temporaryEmail = action.payload.email;
         draft.emailSentTimestamp = dayjs().valueOf();
         break;
-      case AccountActions.UPDATE_ACCOUNT.SUCCESS.type:
-        const userInfo = action.payload.userInfo;
-        if (userInfo?.phoneNumber) {
-          draft.temporaryPhoneNumber = userInfo.phoneNumber;
-          draft.temporaryPhoneVerificationStep = 'code';
-          draft.smsSentTimestamp = dayjs().valueOf();
-        }
-        if (userInfo?.email) {
-          draft.temporaryEmail = userInfo.email;
-          draft.emailSentTimestamp = dayjs().valueOf();
-        }
+      case AccountActions.VERIFY_PHONE_NUMBER.SUCCESS.type:
+        const {phoneNumber, verificationId} = action.payload;
+        draft.temporaryPhoneNumber = phoneNumber;
+        draft.temporaryVerificationId = verificationId;
+        draft.temporaryPhoneVerificationStep = 'code';
+        draft.smsSentTimestamp = dayjs().valueOf();
         break;
       case AccountActions.SIGN_IN_PHONE.SUCCESS.type:
       case AccountActions.SIGN_IN_PHONE.RESET.type:
+      case AccountActions.VERIFY_PHONE_NUMBER.RESET.type:
       case ValidationActions.PHONE_VALIDATION.SUCCESS.type:
       case ValidationActions.PHONE_VALIDATION.RESET.type:
+        draft.temporaryVerificationId = null;
         draft.temporaryPhoneNumber = null;
         draft.temporaryPhoneVerificationStep = 'phone';
         break;
@@ -84,6 +88,8 @@ function reducer(state = INITIAL_STATE, action: Actions): State {
       case ValidationActions.EMAIL_VALIDATION.RESET.type:
       case AccountActions.SIGN_IN_EMAIL.SUCCESS.type:
       case AccountActions.SIGN_IN_EMAIL.RESET.type:
+      case AccountActions.VERIFY_BEFORE_UPDATE_EMAIL.RESET.type:
+      case AccountActions.VERIFY_BEFORE_UPDATE_EMAIL.SUCCESS.type:
         draft.temporaryEmail = null;
         break;
       case ValidationActions.EMAIL_VALIDATION.FAILED.type:

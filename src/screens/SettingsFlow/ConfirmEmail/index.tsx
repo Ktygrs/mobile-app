@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {ConfirmEmailCodeForm} from '@components/Forms/ConfirmEmailCodeForm';
-import {KeyboardAvoider} from '@components/KeyboardAvoider';
+import {ConfirmEmailLinkForm} from '@components/Forms/ConfirmEmailLinkForm';
 import {UserAvatarHeader} from '@components/UserAvatarHeader';
+import {COLORS} from '@constants/colors';
 import {commonStyles} from '@constants/styles';
 import {useScrollEndOnKeyboardShown} from '@hooks/useScrollEndOnKeyboardShown';
 import {Header} from '@navigation/components/Header';
@@ -16,7 +16,6 @@ import {t} from '@translations/i18n';
 import React, {memo, useEffect} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {useSelector} from 'react-redux';
-import {rem} from 'rn-units';
 
 export const ConfirmEmail = memo(() => {
   useFocusStatusBar({style: 'light-content'});
@@ -30,30 +29,30 @@ export const ConfirmEmail = memo(() => {
 
   useEffect(() => {
     if (emailVerificationStep === 'email') {
-      navigation.navigate('PersonalInformation');
+      navigation.goBack();
     }
   }, [navigation, emailVerificationStep]);
 
   return (
-    <KeyboardAvoider
-      keyboardVerticalOffset={-tabbarOffset.current.paddingBottom + rem(20)}>
+    <>
       <Header title={t('personal_information.title')} />
       <ScrollView
         ref={scrollRef}
-        contentContainerStyle={[styles.containerContent, tabbarOffset.current]}
+        contentContainerStyle={[styles.containerContent]}
         keyboardShouldPersistTaps={'handled'}
         showsVerticalScrollIndicator={false}>
         <UserAvatarHeader />
-        <View style={commonStyles.baseSubScreen}>
-          <ConfirmEmailCodeForm />
+        <View style={[commonStyles.baseSubScreen, tabbarOffset.current]}>
+          <ConfirmEmailLinkForm />
         </View>
       </ScrollView>
-    </KeyboardAvoider>
+    </>
   );
 });
 
 const styles = StyleSheet.create({
   containerContent: {
     flexGrow: 1,
+    backgroundColor: COLORS.white,
   },
 });

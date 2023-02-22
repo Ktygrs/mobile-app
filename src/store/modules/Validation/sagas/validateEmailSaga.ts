@@ -24,16 +24,18 @@ export function* validateEmailSaga(action: ReturnType<typeof actionCreator>) {
     if (!temporaryEmail) {
       throw new Error('Temporary email number is null');
     }
-    let user: SagaReturnType<typeof Api.validations.validatePhoneNumber> =
-      yield call(Api.validations.validateEmail, {
+    let user: SagaReturnType<typeof Api.validations.validateEmail> = yield call(
+      Api.validations.validateEmail,
+      {
         userId,
         email: temporaryEmail,
         validationCode,
-      });
+      },
+    );
 
-    user = yield call(setEmailRegistrationStep, user);
+    yield call(setEmailRegistrationStep, user);
 
-    yield put(ValidationActions.EMAIL_VALIDATION.SUCCESS.create(user));
+    yield put(ValidationActions.EMAIL_VALIDATION.SUCCESS.create());
   } catch (error) {
     let localizedError = getAuthErrorMessage(error);
 

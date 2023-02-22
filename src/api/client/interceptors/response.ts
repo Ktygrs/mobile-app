@@ -23,10 +23,15 @@ function onRejected(instance: AxiosInstance) {
           if (!originalRequest.pliantRequestRetry) {
             const token = await getAuthToken();
 
-            originalRequest.pliantRequestRetry = true;
-            originalRequest.headers!.Authorization = `Bearer ${token}`;
-            store.dispatch(AccountActions.SET_TOKEN.STATE.create(token));
-            return instance(originalRequest);
+            /**
+             * token is null if user is already signed out
+             */
+            if (token) {
+              originalRequest.pliantRequestRetry = true;
+              originalRequest.headers!.Authorization = `Bearer ${token}`;
+              store.dispatch(AccountActions.SET_TOKEN.STATE.create(token));
+              return instance(originalRequest);
+            }
           } else {
             store.dispatch(AccountActions.SIGN_OUT.START.create());
           }

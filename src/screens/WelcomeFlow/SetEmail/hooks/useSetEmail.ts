@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {User} from '@api/user/types';
+import {WelcomeStackParamList} from '@navigation/Welcome';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {DEFAULT_DIALOG_NO_BUTTON} from '@screens/Modals/PopUp/components/PopUpButton';
 import {AccountActions} from '@store/modules/Account/actions';
 import {userSelector} from '@store/modules/Account/selectors';
 import {
@@ -8,13 +12,16 @@ import {
   isLoadingSelector,
 } from '@store/modules/UtilityProcessStatuses/selectors';
 import {ValidationActions} from '@store/modules/Validation/actions';
-import {useState} from 'react';
+import {t} from '@translations/i18n';
+import {useCallback, useState} from 'react';
 import {Keyboard} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 
 export const useSetEmail = () => {
   const dispatch = useDispatch();
   const user = useSelector(userSelector) as User;
+  const navigation =
+    useNavigation<NativeStackNavigationProp<WelcomeStackParamList>>();
 
   const updateError = useSelector(
     failedReasonSelector.bind(null, AccountActions.UPDATE_ACCOUNT),
@@ -54,18 +61,34 @@ export const useSetEmail = () => {
     removeRefStep(user);
   };
 
-  const onSubmit = () => {
+  const sendVerificationEmail = useCallback(() => {
     Keyboard.dismiss();
     dispatch(ValidationActions.EMAIL_VALIDATION.RESET.create());
-    dispatch(AccountActions.UPDATE_ACCOUNT.START.create({email}));
-  };
+    dispatch(AccountActions.VERIFY_BEFORE_UPDATE_EMAIL.START.create(email));
+  }, [dispatch, email]);
+
+  const onSubmitPress = useCallback(() => {
+    navigation.navigate('PopUp', {
+      title: t('settings.confirm_email_confirmation_title'),
+      message: t('settings.update_email_confirmation_subtitle'),
+      buttons: [
+        DEFAULT_DIALOG_NO_BUTTON,
+        {
+          text: t('button.continue'),
+          onPress: () => {
+            sendVerificationEmail();
+          },
+        },
+      ],
+    });
+  }, [navigation, sendVerificationEmail]);
 
   return {
     email,
     onChangeEmail,
     updateError,
     updateLoading,
-    onSubmit,
+    onSubmitPress,
     onBack,
   };
 };

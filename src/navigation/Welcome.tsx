@@ -7,9 +7,9 @@ import {
   createNativeStackNavigator,
   NativeStackNavigationProp,
 } from '@react-navigation/native-stack';
+import {ConfirmEmailLink} from '@screens/AuthFlow/ConfirmEmailLink';
 import {PopUp, PopUpProps} from '@screens/Modals/PopUp';
 import {ClaimUsername} from '@screens/WelcomeFlow/ClaimUsername';
-import {ConfirmEmailCode} from '@screens/WelcomeFlow/ConfirmEmailCode';
 import {IceBonus} from '@screens/WelcomeFlow/IceBonus';
 import {Onboarding} from '@screens/WelcomeFlow/Onboarding';
 import {SetEmail} from '@screens/WelcomeFlow/SetEmail';
@@ -24,7 +24,7 @@ export type WelcomeStackParamList = {
   ClaimUsername: undefined;
   WhoInvitedYou: undefined;
   SetEmail: undefined;
-  ConfirmEmailCode: undefined;
+  ConfirmEmailLink: undefined;
   IceBonus: undefined;
   Onboarding: undefined;
   ErrorPopUp: {message: string};
@@ -65,7 +65,7 @@ export function WelcomeNavigator() {
     // else if (!finalizedSteps.includes('email')) {
     //   return emailVerificationStep === 'email'
     //     ? 'SetEmail'
-    //     : 'ConfirmEmailCode';
+    //     : 'ConfirmEmailLink';
     // }
     else {
       return 'IceBonus';
@@ -102,8 +102,8 @@ export function WelcomeNavigator() {
       <WelcomeStack.Screen name="WhoInvitedYou" component={WhoInvitedYou} />
       <WelcomeStack.Screen name="SetEmail" component={SetEmail} />
       <WelcomeStack.Screen
-        name="ConfirmEmailCode"
-        component={ConfirmEmailCode}
+        name="ConfirmEmailLink"
+        component={ConfirmEmailLink}
       />
       <WelcomeStack.Screen name="IceBonus" component={IceBonus} />
       <WelcomeStack.Screen name="Onboarding" component={Onboarding} />

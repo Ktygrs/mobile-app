@@ -5,7 +5,6 @@ import {
   failedReasonSelector,
   isLoadingSelector,
 } from '@store/modules/UtilityProcessStatuses/selectors';
-import {emailSentTimestampSelector} from '@store/modules/Validation/selectors';
 import {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -21,8 +20,6 @@ export const useEmailAuth = () => {
     isLoadingSelector.bind(null, AccountActions.SIGN_IN_EMAIL),
   );
 
-  const emailSentTimestamp = useSelector(emailSentTimestampSelector);
-
   const signInWithEmail = () =>
     dispatch(AccountActions.SIGN_IN_EMAIL.START.create(email));
 
@@ -32,6 +29,5 @@ export const useEmailAuth = () => {
     signInWithEmail,
     isEmailAuthLoading,
     emailAuthFailedReason,
-    emailSentTimestamp,
   };
 };
