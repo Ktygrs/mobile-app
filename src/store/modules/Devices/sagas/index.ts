@@ -34,6 +34,7 @@ export function* rootDevicesSaga() {
         AccountActions.USER_STATE_CHANGE.SUCCESS.type,
         AppCommonActions.APP_INITIALIZED.SUCCESS.type,
         AppCommonActions.APP_STATE_CHANGE.STATE.type,
+        AppCommonActions.UPDATE_SPLASH_VISIBLE_STATE.HIDE.type,
       ],
       updateDeviceMetadataSaga,
     ),

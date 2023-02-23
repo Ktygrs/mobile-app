@@ -15,6 +15,7 @@ import {AppCommonActions} from '@store/modules/AppCommon/actions';
 import {
   isAppActiveSelector,
   isAppInitializedSelector,
+  isSplashHiddenSelector,
 } from '@store/modules/AppCommon/selectors';
 import {DeviceActions} from '@store/modules/Devices/actions';
 import {
@@ -46,6 +47,9 @@ export function* updateDeviceMetadataSaga(action: Action) {
     const isAppActive: ReturnType<typeof isAppActiveSelector> = yield select(
       isAppActiveSelector,
     );
+    const isSplashHidden: ReturnType<typeof isSplashHiddenSelector> =
+      yield select(isSplashHiddenSelector);
+
     const isAppInitialized: ReturnType<typeof isAppActiveSelector> =
       yield select(isAppInitializedSelector);
 
@@ -66,6 +70,7 @@ export function* updateDeviceMetadataSaga(action: Action) {
       // wait the app to be initialized so the deviceUniqueId is populated
       isAppInitialized &&
       isAppActive &&
+      isSplashHidden &&
       shouldUpdateMetadata
     ) {
       const hasPushPermissions: boolean = yield select(

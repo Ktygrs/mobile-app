@@ -4,6 +4,7 @@ import {COLORS} from '@constants/colors';
 import {Images} from '@images';
 import {CardBase} from '@screens/HomeFlow/Home/components/Overview/components/CardBase';
 import {ReferralsEmptyState} from '@screens/HomeFlow/Home/components/Overview/components/ReferralsEmptyState';
+import {isSplashHiddenSelector} from '@store/modules/AppCommon/selectors';
 import {
   userReferralCountSelector,
   userT1ReferralSelector,
@@ -26,6 +27,8 @@ export const ReferralsCard = ({isCollapsed}: Props) => {
   const userReferralCount = useSelector(userReferralCountSelector);
   const userT1ReferralCount = useSelector(userT1ReferralSelector);
   const userT2ReferralCount = useSelector(userT2ReferralSelector);
+  const isSplashHidden = useSelector(isSplashHiddenSelector);
+
   return (
     <CardBase
       backgroundImageSource={Images.backgrounds.referralsCardBg}
@@ -34,25 +37,31 @@ export const ReferralsCard = ({isCollapsed}: Props) => {
       headerValue={String(userReferralCount)}
       headerValueIcon={<FriendsIcon fill={COLORS.white} />}
       isCollapsed={isCollapsed}>
-      {userReferralCount === 0 ? (
-        <ReferralsEmptyState />
-      ) : (
+      {isSplashHidden && (
         <>
-          <View style={styles.body}>
-            <View style={styles.column}>
-              <Text style={styles.labelText}>
-                {t('home.referrals.users_tier_1')}
+          {userReferralCount === 0 ? (
+            <ReferralsEmptyState />
+          ) : (
+            <>
+              <View style={styles.body}>
+                <View style={styles.column}>
+                  <Text style={styles.labelText}>
+                    {t('home.referrals.users_tier_1')}
+                  </Text>
+                  <Text style={styles.valueText}>{userT1ReferralCount}</Text>
+                </View>
+                <View style={styles.column}>
+                  <Text style={styles.labelText}>
+                    {t('home.referrals.users_tier_2')}
+                  </Text>
+                  <Text style={styles.valueText}>{userT2ReferralCount}</Text>
+                </View>
+              </View>
+              <Text style={styles.noteText}>
+                {t('home.referrals.description')}
               </Text>
-              <Text style={styles.valueText}>{userT1ReferralCount}</Text>
-            </View>
-            <View style={styles.column}>
-              <Text style={styles.labelText}>
-                {t('home.referrals.users_tier_2')}
-              </Text>
-              <Text style={styles.valueText}>{userT2ReferralCount}</Text>
-            </View>
-          </View>
-          <Text style={styles.noteText}>{t('home.referrals.description')}</Text>
+            </>
+          )}
         </>
       )}
     </CardBase>

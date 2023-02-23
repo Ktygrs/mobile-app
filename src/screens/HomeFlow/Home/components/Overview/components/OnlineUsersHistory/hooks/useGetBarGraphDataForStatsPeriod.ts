@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {timeSeriesToUsersData} from '@screens/HomeFlow/Home/components/Overview/components/OnlineUsersHistory/utils/timeSeriesToGraphData';
+import {isSplashHiddenSelector} from '@store/modules/AppCommon/selectors';
 import {StatsActions} from '@store/modules/Stats/actions';
 import {getUserGrowthStatsSelector} from '@store/modules/Stats/selectors';
 import {StatsPeriod, UsersBarGraphData} from '@store/modules/Stats/types';
@@ -11,6 +12,7 @@ export function useGetBarGraphDataForStatsPeriod(
   statsPeriod: StatsPeriod,
 ): UsersBarGraphData {
   const timeSeries = useSelector(getUserGrowthStatsSelector(statsPeriod));
+  const isSplashHidden = useSelector(isSplashHiddenSelector);
 
   const usersBarGraphData: UsersBarGraphData = useMemo(() => {
     return timeSeriesToUsersData({
@@ -20,8 +22,10 @@ export function useGetBarGraphDataForStatsPeriod(
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(StatsActions.GET_USER_GROWTH_STATS.START.create(statsPeriod));
-  }, [dispatch, statsPeriod]);
+    if (isSplashHidden) {
+      dispatch(StatsActions.GET_USER_GROWTH_STATS.START.create(statsPeriod));
+    }
+  }, [dispatch, statsPeriod, isSplashHidden]);
 
   return usersBarGraphData;
 }

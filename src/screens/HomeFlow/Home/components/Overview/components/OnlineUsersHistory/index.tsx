@@ -5,6 +5,7 @@ import {Images} from '@images';
 import {CardBase} from '@screens/HomeFlow/Home/components/Overview/components/CardBase';
 import {useGetBarGraphDataForStatsPeriod} from '@screens/HomeFlow/Home/components/Overview/components/OnlineUsersHistory/hooks/useGetBarGraphDataForStatsPeriod';
 import {VerticalBar} from '@screens/HomeFlow/Home/components/Overview/components/VerticalBar';
+import {isSplashHiddenSelector} from '@store/modules/AppCommon/selectors';
 import {totalActiveUsersSelector} from '@store/modules/Stats/selectors';
 import {FriendIcon} from '@svg/FriendIcon';
 import {GraphIcon} from '@svg/GraphIcon';
@@ -27,6 +28,7 @@ export const OnlineUsersHistory = () => {
     USER_GROWTH_STATS_PERIOD,
   );
 
+  const isSplashHidden = useSelector(isSplashHiddenSelector);
   const totalActiveUsers = useSelector(totalActiveUsersSelector);
 
   const maxValue = data.length ? Math.max(...data.map(d => d.value)) : 0;
@@ -42,36 +44,38 @@ export const OnlineUsersHistory = () => {
       headerTitleIcon={<GraphIcon fill={COLORS.white} />}
       headerValue={formatNumber(totalActiveUsers)}
       headerValueIcon={<FriendIcon fill={COLORS.shamrock} />}>
-      <View style={styles.body}>
-        <View style={styles.yAxis}>
-          {Array(NUMBER_OF_STEPS_Y)
-            .fill('')
-            .map((_, i) => {
-              const currentValue = stepValue * i ? stepValue * i : minValue;
+      {isSplashHidden && (
+        <View style={styles.body}>
+          <View style={styles.yAxis}>
+            {Array(NUMBER_OF_STEPS_Y)
+              .fill('')
+              .map((_, i) => {
+                const currentValue = stepValue * i ? stepValue * i : minValue;
+                return (
+                  <Text key={i} style={styles.yAxisText}>
+                    {formatNumber(currentValue, {
+                      minimumFractionDigits: 0,
+                      maximumFractionDigits: 1,
+                      notation: 'compact',
+                    })}
+                  </Text>
+                );
+              })}
+          </View>
+          {data
+            .map(({label, value}) => {
               return (
-                <Text key={i} style={styles.yAxisText}>
-                  {formatNumber(currentValue, {
-                    minimumFractionDigits: 0,
-                    maximumFractionDigits: 1,
-                    notation: 'compact',
-                  })}
-                </Text>
+                <View key={label} style={styles.column}>
+                  <VerticalBar
+                    valuePercentage={(value * 100) / lastXValue}
+                    label={label}
+                  />
+                </View>
               );
-            })}
+            })
+            .reverse()}
         </View>
-        {data
-          .map(({label, value}) => {
-            return (
-              <View key={label} style={styles.column}>
-                <VerticalBar
-                  valuePercentage={(value * 100) / lastXValue}
-                  label={label}
-                />
-              </View>
-            );
-          })
-          .reverse()}
-      </View>
+      )}
     </CardBase>
   );
 };

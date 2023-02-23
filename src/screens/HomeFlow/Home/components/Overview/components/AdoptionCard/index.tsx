@@ -13,6 +13,7 @@ import {
   CARDS_COLLAPSED_HEIGHT,
   CARDS_TOTAL_HEIGHT,
 } from '@screens/HomeFlow/Home/components/Overview/components/CardBase';
+import {isSplashHiddenSelector} from '@store/modules/AppCommon/selectors';
 import {adoptionSelector} from '@store/modules/Stats/selectors';
 import {FriendsIcon} from '@svg/FriendsIcon';
 import {GraphIcon} from '@svg/GraphIcon';
@@ -61,7 +62,7 @@ const viewabilityConfig = {
 
 export const AdoptionCard = ({isCollapsed, onPress}: AdoptionCardProps) => {
   const adoption = useSelector(adoptionSelector);
-
+  const isSplashHidden = useSelector(isSplashHiddenSelector);
   const refFlatList = useRef<Animated.FlatList<AdoptionMilestone>>(null);
 
   const sharedItems = useSharedValue<ViewToken[]>([]);
@@ -165,7 +166,7 @@ export const AdoptionCard = ({isCollapsed, onPress}: AdoptionCardProps) => {
         resizeMode={'cover'}
         style={styles.backgroundImage}
       />
-      {adoption && (
+      {isSplashHidden && adoption && (
         <>
           <View style={[styles.scrollAbsoluteContainer, styles.card]}>
             <Animated.FlatList

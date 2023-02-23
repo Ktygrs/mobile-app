@@ -7,6 +7,7 @@ import {Tiers} from '@screens/HomeFlow/Home/components/Overview/components/Refer
 import {ReferralsEmptyState} from '@screens/HomeFlow/Home/components/Overview/components/ReferralsEmptyState';
 import {UnitedVerticalBar} from '@screens/HomeFlow/Home/components/Overview/components/UnitedVerticalBar';
 import {dayjs} from '@services/dayjs';
+import {isSplashHiddenSelector} from '@store/modules/AppCommon/selectors';
 import {ReferralsActions} from '@store/modules/Referrals/actions';
 import {
   referralHistorySelector,
@@ -41,6 +42,8 @@ export const ReferralAcquisitionHistory = ({isCollapsed}: Props) => {
     isLoadingSelector.bind(null, ReferralsActions.GET_REFERRALS_HISTORY),
   );
 
+  const isSplashHidden = useSelector(isSplashHiddenSelector);
+
   const referralHistory = useSelector(referralHistorySelector);
 
   const maxTierOneRefValue = Math.max(...referralHistory.map(tier => tier.t1));
@@ -57,7 +60,7 @@ export const ReferralAcquisitionHistory = ({isCollapsed}: Props) => {
       headerTitleIcon={<TrophyIcon fill={COLORS.white} />}
       headerValueIcon={<Tiers />}
       isCollapsed={isCollapsed}>
-      {isLoading ? (
+      {isLoading || !isSplashHidden ? (
         <ActivityIndicator style={StyleSheet.absoluteFill} size={'large'} />
       ) : userReferralCount === 0 ? (
         <ReferralsEmptyState />

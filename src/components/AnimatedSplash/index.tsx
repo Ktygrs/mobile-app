@@ -3,23 +3,28 @@
 import {LottieView} from '@components/LottieView';
 import {COLORS} from '@constants/colors';
 import {LottieAnimations} from '@lottie';
-import {appInitStateSelector} from '@store/modules/AppCommon/selectors';
+import {AppCommonActions} from '@store/modules/AppCommon/actions';
+import {
+  appInitStateSelector,
+  isSplashHiddenSelector,
+} from '@store/modules/AppCommon/selectors';
 import React, {useCallback, useState} from 'react';
 import {useEffect} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {screenWidth} from 'rn-units';
 
 export const AnimatedSplash = () => {
   const appInitState = useSelector(appInitStateSelector);
   const [animationFinished, setAnimationFinished] = useState(false);
-  const [isSplashVisible, setIsSplashVisible] = useState(true);
+  const isSplashHidden = useSelector(isSplashHiddenSelector);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (appInitState !== 'loading' && animationFinished && isSplashVisible) {
-      setIsSplashVisible(false);
+    if (appInitState !== 'loading' && animationFinished && !isSplashHidden) {
+      dispatch(AppCommonActions.UPDATE_SPLASH_VISIBLE_STATE.HIDE.create());
     }
-  }, [animationFinished, appInitState, isSplashVisible]);
+  }, [animationFinished, appInitState, isSplashHidden, dispatch]);
 
   const finishAnimation = useCallback((isCancelled: boolean) => {
     if (!isCancelled) {
@@ -27,7 +32,7 @@ export const AnimatedSplash = () => {
     }
   }, []);
 
-  if (!isSplashVisible) {
+  if (isSplashHidden) {
     return null;
   }
 
