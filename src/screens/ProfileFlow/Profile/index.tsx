@@ -105,7 +105,7 @@ export const Profile = memo(() => {
             setIsTooltipVisible(state => !state);
           }}
         />
-        {contactDetails && isTooltipVisible && (
+        {contactDetails && isTooltipVisible && !isOwner && (
           <AgendaContactTooltip contact={contactDetails} />
         )}
       </View>
