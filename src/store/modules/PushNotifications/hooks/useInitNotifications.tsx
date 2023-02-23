@@ -67,12 +67,7 @@ export function useInitNotifications() {
     const unsubscribeFromOnNotificationOpenedApp =
       messaging().onNotificationOpenedApp(handleMessage);
 
-    /*
-     * When any FCM payload is received, the listener callback is called with a `RemoteMessage`.
-     */
-    const unsubscribeFromOnMessage = messaging().onMessage(handleMessage);
     return () => {
-      unsubscribeFromOnMessage();
       unsubscribeFromOnNotificationOpenedApp();
     };
   }, [dispatch]);

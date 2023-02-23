@@ -1,9 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {
-  NotificationDomain,
-  NotificationDomainToggles,
-} from '@api/devices/types';
+import {NotificationDomain} from '@api/devices/types';
 import {pushNotificationByTypeSelector} from '@store/modules/Devices/selectors';
 import {isPermissionGrantedSelector} from '@store/modules/Permissions/selectors';
 import {useSelector} from 'react-redux';
@@ -14,9 +11,7 @@ export function useIsPushNotificationsChannelEnabled(
   const hasPushPermissions = useSelector(
     isPermissionGrantedSelector('pushNotifications'),
   );
-  const settings: NotificationDomainToggles | undefined = useSelector(
-    pushNotificationByTypeSelector,
-  );
+  const settings = useSelector(pushNotificationByTypeSelector);
 
   if (!hasPushPermissions) {
     return false;

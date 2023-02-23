@@ -14,6 +14,7 @@ import {
   BottomTabBarProps,
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
+import {NavigatorScreenParams} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {BalanceHistory} from '@screens/HomeFlow/BalanceHistory';
 import {Home} from '@screens/HomeFlow/Home';
@@ -59,10 +60,10 @@ import {SvgProps} from 'react-native-svg';
 import {useDispatch} from 'react-redux';
 
 export type MainTabsParamList = {
-  HomeTab: {screen?: string} | undefined;
-  TeamTab: {screen?: string} | undefined;
-  NewsTab: {screen?: string} | undefined;
-  ProfileTab: {screen?: string} | undefined;
+  HomeTab: NavigatorScreenParams<HomeTabStackParamList> | undefined;
+  TeamTab: NavigatorScreenParams<TeamTabStackParamList> | undefined;
+  NewsTab: undefined;
+  ProfileTab: NavigatorScreenParams<ProfileTabStackParamList> | undefined;
 };
 
 export type MainStackParamList = {

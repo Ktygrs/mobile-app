@@ -66,7 +66,7 @@ export function* handleUrlSaga(action: ReturnType<typeof actionCreator>) {
       navigate({name: 'TeamTab', params: {screen: 'Team'}});
       break;
     case 'news':
-      navigate({name: 'NewsTab', params: {}});
+      navigate({name: 'NewsTab', params: undefined});
       break;
     case 'profile':
       // TODO: temp profile disabling
