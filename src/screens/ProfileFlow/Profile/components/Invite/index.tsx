@@ -8,11 +8,22 @@ import {t} from '@translations/i18n';
 import {openLinkWithInAppBrowser} from '@utils/device';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+} from 'react-native';
 import {rem} from 'rn-units';
 
-export const Invite = memo(() => (
-  <View style={styles.container}>
+type Props = {
+  style?: StyleProp<ViewStyle>;
+};
+
+export const Invite = memo(({style}: Props) => (
+  <View style={[styles.container, style]}>
     <InviteButton />
     <Text style={styles.text}>
       {t('profile.invite_friends_engage')}

@@ -136,12 +136,8 @@ export const Profile = memo(() => {
             <>
               <Role user={user} />
               <Badges user={user} />
-              {isOwner && (
-                <>
-                  <Invite />
-                  <MiningCalculator />
-                </>
-              )}
+              <Invite style={styles.inviteSection} />
+              <MiningCalculator />
             </>
           )}
           {!userExist && !isLoading && (
@@ -178,7 +174,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     marginTop: rem(20),
-    height: rem(107),
+    height: rem(103),
     overflow: 'hidden',
   },
   ladderContainer: {
@@ -213,4 +209,5 @@ const styles = StyleSheet.create({
     marginHorizontal: rem(20),
     textAlign: 'center',
   },
+  inviteSection: {marginTop: 15},
 });

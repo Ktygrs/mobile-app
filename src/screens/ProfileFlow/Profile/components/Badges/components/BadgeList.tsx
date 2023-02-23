@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   },
   listContent: {
     paddingHorizontal: rem(10),
-    paddingVertical: rem(10),
+    paddingBottom: rem(10),
     backgroundColor: COLORS.white02opacity,
     borderTopLeftRadius: rem(20),
     borderBottomLeftRadius: rem(20),

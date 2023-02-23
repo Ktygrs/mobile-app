@@ -58,7 +58,7 @@ export const BadgeCard = memo(
           style={[
             styles.container,
             commonStyles.shadow,
-            index === 0 ? {marginLeft: 0} : null,
+            index === 0 ? styles.firstItem : null,
           ]}>
           <Image
             source={hidden ? imageInactive || {} : imageSource}
@@ -160,5 +160,8 @@ const styles = StyleSheet.create({
   hiddenText: {
     marginTop: rem(7),
     ...font(14, 17, 'bold', 'secondary'),
+  },
+  firstItem: {
+    marginLeft: 0,
   },
 });

@@ -216,7 +216,6 @@ const styles = StyleSheet.create({
     overflow: 'visible',
     backgroundColor: COLORS.white,
     zIndex: 1000,
-    marginTop: rem(4),
     ...commonStyles.shadow,
   },
   miniAvatarContainer: {

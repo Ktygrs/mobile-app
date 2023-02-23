@@ -10,6 +10,7 @@ import {LAST_BADGES} from '@screens/ProfileFlow/Profile/components/Badges/mockDa
 import {userSelector} from '@store/modules/Account/selectors';
 import {t} from '@translations/i18n';
 import React, {memo, useCallback, useState} from 'react';
+import {StyleSheet} from 'react-native';
 import {useSelector} from 'react-redux';
 
 type Props = {
@@ -40,8 +41,16 @@ export const Badges = memo(({user}: Props) => {
         title={title.toUpperCase()}
         action={t('button.view_all')}
         onActionPress={onViewAllPress}
+        style={styles.header}
       />
       <BadgeList loading={loading} user={user} data={LAST_BADGES} />
     </>
   );
+});
+
+const styles = StyleSheet.create({
+  header: {
+    paddingTop: 5,
+    height: 24,
+  },
 });
