@@ -77,7 +77,7 @@ export const LadderItem = ({
 const styles = StyleSheet.create({
   outerContainer: {
     paddingHorizontal: rem(8),
-    paddingVertical: rem(7),
+    paddingVertical: rem(2),
     borderRadius: rem(16),
   },
   editModeOuterContainer: {

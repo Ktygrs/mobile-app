@@ -124,7 +124,7 @@ export const Profile = memo(() => {
           <LinesBackground />
 
           <Text style={styles.usernameText} numberOfLines={1}>
-            {user?.username || ''}
+            {`@${user?.username}` || ''}
           </Text>
         </View>
         <View style={styles.ladderContainer}>
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
     // make bottom overscroll area white, otherwise it'd be of container color
     paddingBottom: 2000,
     marginBottom: -2000,
-    paddingTop: rem(39),
+    paddingTop: rem(2),
     marginTop: -rem(23),
   },
   imageContainer: {
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     paddingBottom: rem(30),
   },
   usernameText: {
-    marginTop: rem(70),
+    marginTop: rem(67),
     alignSelf: 'center',
     ...font(17, 20.4, 'semibold'),
   },

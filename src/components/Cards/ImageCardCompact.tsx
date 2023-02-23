@@ -18,7 +18,7 @@ import {rem} from 'rn-units';
 
 type Props = {
   title: string;
-  description: string;
+  description: string | ReactNode;
   imageSource: ImageSourcePropType;
   renderBody?: () => ReactNode;
   containerStyle?: StyleProp<ViewStyle>;
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     ...font(16, 19, 'bold', 'primaryDark'),
   },
   descriptionText: {
-    ...font(12, 15, 'regular', 'secondary'),
+    ...font(12, 14.4, 'medium', 'secondary'),
     marginTop: rem(4),
   },
 });

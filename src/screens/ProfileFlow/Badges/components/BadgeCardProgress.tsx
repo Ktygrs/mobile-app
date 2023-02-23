@@ -38,7 +38,6 @@ const styles = StyleSheet.create({
   container: {
     width: rem(100),
     marginRight: rem(14),
-    marginLeft: rem(24),
     marginTop: rem(4),
     justifyContent: 'center',
   },
@@ -60,6 +59,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.secondaryFaint,
     alignSelf: 'stretch',
     marginTop: rem(10),
+    overflow: 'hidden',
   },
   progressValue: {
     height: rem(8),

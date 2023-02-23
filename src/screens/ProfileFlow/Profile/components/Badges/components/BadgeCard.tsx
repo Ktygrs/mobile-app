@@ -25,6 +25,7 @@ type Props = {
   imageInactive?: ImageSourcePropType;
   hidden?: boolean;
   isProfilePrivacyEditMode?: boolean;
+  index?: number;
 };
 
 export const BadgeCard = memo(
@@ -37,6 +38,7 @@ export const BadgeCard = memo(
     progressValue,
     hidden = false,
     isProfilePrivacyEditMode = false,
+    index,
   }: Props) => {
     const navigation =
       useNavigation<NativeStackNavigationProp<ProfileTabStackParamList>>();
@@ -52,7 +54,12 @@ export const BadgeCard = memo(
 
     return (
       <Touchable onPress={onBadgePress}>
-        <View style={[styles.container, commonStyles.shadow]}>
+        <View
+          style={[
+            styles.container,
+            commonStyles.shadow,
+            index === 0 ? {marginLeft: 0} : null,
+          ]}>
           <Image
             source={hidden ? imageInactive || {} : imageSource}
             style={styles.icon}

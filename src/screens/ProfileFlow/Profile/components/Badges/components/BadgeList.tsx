@@ -29,13 +29,14 @@ export const BadgeList = ({
   const hidden = user?.hiddenProfileElements?.includes('badges');
 
   const renderItem = useCallback(
-    ({item}: {item: Badge | null}) => {
+    ({item, index}: {item: Badge | null; index: number}) => {
       if (item === null) {
         return <BadgeCardSkeleton />;
       }
 
       return (
         <BadgeCard
+          index={index}
           imageSource={item.imageSource}
           imageInactive={item.imageInactive}
           title={item.title}
