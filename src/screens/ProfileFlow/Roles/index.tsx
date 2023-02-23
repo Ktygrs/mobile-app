@@ -54,6 +54,7 @@ export const Roles = () => {
           tagline="Invite friends to join your team."
           description="You become an ambassador when at least 100 people joined your team. Every ambassador will get early access to new features."
           imageSource={Images.roles.ambassador}
+          containerStyle={styles.lastRole}
         />
       </Animated.ScrollView>
     </View>
@@ -69,5 +70,8 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     paddingHorizontal: rem(20),
     paddingTop: rem(10),
+  },
+  lastRole: {
+    marginBottom: 0,
   },
 });

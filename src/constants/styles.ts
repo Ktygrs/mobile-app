@@ -23,7 +23,7 @@ export const commonStyles = StyleSheet.create({
         shadowRadius: 6,
         shadowOpacity: 0.15,
       }
-    : {elevation: 4},
+    : {elevation: 3},
 });
 
 export const SMALL_BUTTON_HIT_SLOP = {top: 4, left: 4, bottom: 4, right: 4};
