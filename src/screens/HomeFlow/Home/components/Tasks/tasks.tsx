@@ -3,7 +3,6 @@
 import {COLORS} from '@constants/colors';
 import {InviteIcon} from '@svg/InviteIcon';
 import {LogoIcon} from '@svg/LogoIcon';
-import {ShareSvg} from '@svg/Share';
 import {TelegramSvg} from '@svg/Telegram';
 import {TwitterIcon} from '@svg/TwitterIcon';
 import {UserCircleSvg} from '@svg/UserCircle';
@@ -69,20 +68,11 @@ export const taskItems: Task[] = [
   },
   {
     type: 'invite5Friends',
-    completed: true,
+    completed: false,
     active: false,
     Icon: <InviteIcon fill={COLORS.white} width={21} height={20} />,
     iconBackground: COLORS.blueViolet,
     title: t('home.steps.step_six.title'),
     description: t('home.steps.step_six.description'),
-  },
-  {
-    type: 'socialShare',
-    completed: true,
-    active: false,
-    Icon: <ShareSvg />,
-    iconBackground: COLORS.bittersweet,
-    title: t('home.steps.step_seven.title'),
-    description: t('home.steps.step_seven.description'),
   },
 ];

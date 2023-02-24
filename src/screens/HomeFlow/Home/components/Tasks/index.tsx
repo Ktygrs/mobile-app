@@ -72,7 +72,6 @@ export const Tasks = memo(() => {
 
             {areAllTasksCompleted ? (
               <CompletedItem
-                iceCount={250}
                 onPress={handleCompletedPress}
                 isExpanded={isExpanded}
               />

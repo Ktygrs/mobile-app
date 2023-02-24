@@ -262,35 +262,31 @@
       "users": "\nusers"
     },
     "steps": {
-      "title": "Start here",
-      "description": "Complete the tasks below and earn 250 ",
+      "title": "Your progress",
+      "description": "Complete the tasks below and level up!",
       "step_one": {
         "title": "Claim your nickname",
-        "description": "Set it and start earning from your invite."
+        "description": "Set it and start earning from your invite"
       },
       "step_two": {
         "title": "Start mining",
-        "description": "Your first mining session."
+        "description": "Your first mining session"
       },
       "step_three": {
         "title": "Profile picture",
-        "description": "Upload your profile image."
+        "description": "Upload your profile image"
       },
       "step_four": {
         "title": "Join Telegram",
-        "description": "Be part of our community and join now."
+        "description": "Be part of our community and join now"
       },
       "step_five": {
         "title": "Follow us on Twitter",
-        "description": "Let’s keep in touch, follow us on twitter."
+        "description": "Let’s keep in touch, follow us on twitter"
       },
       "step_six": {
         "title": "Invite 5 Friends",
-        "description": "Create your team and increase your earnings."
-      },
-      "step_seven": {
-        "title": "Social Share",
-        "description": "Share it with your friends on social media."
+        "description": "Create your team and increase your earnings"
       }
     },
     "overview": {
@@ -303,7 +299,7 @@
       "help": "Help"
     },
     "tasks": {
-      "title": "TASKS"
+      "title": "ACHIEVEMENTS"
     },
     "team": {
       "title": "Team",
@@ -659,8 +655,8 @@
   "isRTL-2": "isRTL",
   "tasks": {
     "completed": {
-      "title": "Completed",
-      "description": "Congratulations, you have earned {{count}}"
+      "title": "Congratulations",
+      "description": "Keep mining ice daily to earn extra rewards!"
     }
   },
   "date_select": {

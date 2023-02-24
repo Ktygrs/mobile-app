@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {IceLabel} from '@components/Labels/IceLabel';
 import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {commonStyles, SCREEN_SIDE_OFFSET} from '@constants/styles';
@@ -14,7 +13,6 @@ import {StyleSheet, Text, View} from 'react-native';
 import {rem} from 'rn-units';
 
 type Props = {
-  iceCount: number;
   onPress: () => void;
   isExpanded: boolean;
 };
@@ -22,7 +20,7 @@ type Props = {
 const DONE_ICON_SIZE = rem(16);
 const TROPHY_ICON_SIZE = rem(36);
 
-export const CompletedItem = ({iceCount, onPress, isExpanded}: Props) => {
+export const CompletedItem = ({onPress, isExpanded}: Props) => {
   return (
     <Touchable
       style={[styles.container, commonStyles.shadow]}
@@ -45,8 +43,7 @@ export const CompletedItem = ({iceCount, onPress, isExpanded}: Props) => {
         <Text style={styles.title}>{t('tasks.completed.title')}</Text>
 
         <Text style={styles.description}>
-          {t('tasks.completed.description', {count: iceCount})}
-          <IceLabel color={COLORS.toreaBay} iconSize={14} />.
+          {t('tasks.completed.description')}
         </Text>
       </View>
 

@@ -32,12 +32,17 @@ export const SocialButtons = () => {
         Icon={GoogleIcon}
       />
 
-      <SocialButton
-        onPress={() =>
-          dispatch(AccountActions.SIGN_IN_SOCIAL.START.create('facebook'))
-        }
-        Icon={FacebookIcon}
-      />
+      {
+        // // TODO: temp facebook disabling until the provider is ready
+        false && (
+          <SocialButton
+            onPress={() =>
+              dispatch(AccountActions.SIGN_IN_SOCIAL.START.create('facebook'))
+            }
+            Icon={FacebookIcon}
+          />
+        )
+      }
 
       <SocialButton
         onPress={() =>

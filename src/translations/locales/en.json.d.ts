@@ -196,8 +196,6 @@ export type Translations = {
   'home.steps.step_five.description': null;
   'home.steps.step_six.title': null;
   'home.steps.step_six.description': null;
-  'home.steps.step_seven.title': null;
-  'home.steps.step_seven.description': null;
   'home.overview.title': null;
   'home.menu.notifications': null;
   'home.menu.staking': null;
@@ -459,7 +457,7 @@ export type Translations = {
   'global-flag': null;
   'isRTL-2': null;
   'tasks.completed.title': null;
-  'tasks.completed.description': {count: number | string};
+  'tasks.completed.description': null;
   'date_select.title': null;
   'button-next-step-Next-Step': null;
   'walkthrough.news.step_1.title': null;

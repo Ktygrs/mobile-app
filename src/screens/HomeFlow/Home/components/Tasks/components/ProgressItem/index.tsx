@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {IceLabel} from '@components/Labels/IceLabel';
 import {COLORS} from '@constants/colors';
 import {commonStyles} from '@constants/styles';
 import {ITEM_LEFT_POSITION} from '@screens/HomeFlow/Home/components/Tasks/components/TaskItem';
@@ -20,7 +19,7 @@ const CIRCLE_SIZE = rem(48);
 const PROGRESS_WIDTH = rem(4);
 
 export const ProgressItem = ({total, completed}: Props) => {
-  const progreccInPercent = (completed / total) * 100;
+  const progressInPercent = (completed / total) * 100;
   return (
     <View style={styles.header}>
       <View style={[styles.amountWrapper, commonStyles.shadow]}>
@@ -28,7 +27,7 @@ export const ProgressItem = ({total, completed}: Props) => {
         <Text style={styles.amountTextSmall}>{t('global.of')}</Text>
         <Text style={styles.amountText}>{total}</Text>
         <ProgressCircleSvg
-          progress={progreccInPercent}
+          progress={progressInPercent}
           strokeWidth={PROGRESS_WIDTH}
           color={COLORS.shamrock}
           radius={CIRCLE_SIZE / 2 - PROGRESS_WIDTH / 2}
@@ -37,10 +36,7 @@ export const ProgressItem = ({total, completed}: Props) => {
       </View>
       <View>
         <Text style={styles.title}>{t('home.steps.title')}</Text>
-        <Text style={styles.description}>
-          {t('home.steps.description')}
-          <IceLabel color={COLORS.toreaBay} iconSize={14} />.
-        </Text>
+        <Text style={styles.description}>{t('home.steps.description')}</Text>
       </View>
     </View>
   );
