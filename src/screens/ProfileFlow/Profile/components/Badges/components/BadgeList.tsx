@@ -16,6 +16,7 @@ type Props = {
   data: Badge[];
   user?: User | null;
   isProfilePrivacyEditMode?: boolean;
+  privacyInfoIsShown?: boolean;
 };
 
 const NUMBER_OF_SKELETONS = 5;
@@ -25,8 +26,10 @@ export const BadgeList = ({
   data,
   isProfilePrivacyEditMode,
   user,
+  privacyInfoIsShown,
 }: Props) => {
-  const hidden = user?.hiddenProfileElements?.includes('badges');
+  const hidden =
+    user?.hiddenProfileElements?.includes('badges') && privacyInfoIsShown;
 
   const renderItem = useCallback(
     ({item, index}: {item: Badge | null; index: number}) => {

@@ -23,7 +23,7 @@ import {isLoadingSelector} from '@store/modules/UtilityProcessStatuses/selectors
 import {t} from '@translations/i18n';
 import {e164PhoneNumber} from '@utils/phoneNumber';
 import {font} from '@utils/styles';
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useCallback, useEffect, useState} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {Contact} from 'react-native-contacts';
 import Animated, {
@@ -91,6 +91,12 @@ export const Profile = memo(() => {
     }
   }, [contacts, user]);
 
+  const [privacyInfoIsShown, setPrivacyInfoShow] = useState(true);
+
+  const showPrivacyHandler = useCallback(() => {
+    setPrivacyInfoShow(!privacyInfoIsShown);
+  }, [privacyInfoIsShown]);
+
   return (
     <View style={styles.container}>
       <View style={styles.touchArea}>
@@ -104,6 +110,8 @@ export const Profile = memo(() => {
           onContactPress={() => {
             setIsTooltipVisible(state => !state);
           }}
+          showPrivacyHandler={showPrivacyHandler}
+          privacyInfoIsShown={privacyInfoIsShown}
         />
         {contactDetails && isTooltipVisible && !isOwner && (
           <AgendaContactTooltip contact={contactDetails} />
@@ -128,14 +136,16 @@ export const Profile = memo(() => {
           </Text>
         </View>
         <View style={styles.ladderContainer}>
-          {userExist && <LadderBar user={user} />}
+          {userExist && (
+            <LadderBar privacyInfoIsShown={!privacyInfoIsShown} user={user} />
+          )}
           {!userExist && <View style={styles.emptyLadder} />}
         </View>
         <View style={[styles.card, commonStyles.baseSubScreen]}>
           {userExist && (
             <>
-              <Role user={user} />
-              <Badges user={user} />
+              <Role privacyInfoIsShown={!privacyInfoIsShown} user={user} />
+              <Badges privacyInfoIsShown={!privacyInfoIsShown} user={user} />
               <Invite style={styles.inviteSection} />
               <MiningCalculator />
             </>

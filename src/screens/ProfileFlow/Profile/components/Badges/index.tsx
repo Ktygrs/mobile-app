@@ -15,9 +15,10 @@ import {useSelector} from 'react-redux';
 
 type Props = {
   user: User | null;
+  privacyInfoIsShown?: boolean;
 };
 
-export const Badges = memo(({user}: Props) => {
+export const Badges = memo(({user, privacyInfoIsShown}: Props) => {
   const authUser = useSelector(userSelector);
   const isOwner = user?.id === authUser?.id;
 
@@ -43,7 +44,12 @@ export const Badges = memo(({user}: Props) => {
         onActionPress={onViewAllPress}
         style={styles.header}
       />
-      <BadgeList loading={loading} user={user} data={LAST_BADGES} />
+      <BadgeList
+        privacyInfoIsShown={privacyInfoIsShown}
+        loading={loading}
+        user={user}
+        data={LAST_BADGES}
+      />
     </>
   );
 });

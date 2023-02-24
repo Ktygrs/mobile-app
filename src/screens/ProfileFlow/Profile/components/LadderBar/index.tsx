@@ -13,10 +13,11 @@ import {rem} from 'rn-units';
 type Props = {
   isProfilePrivacyEditMode?: boolean;
   user: User;
+  privacyInfoIsShown?: boolean;
 };
 
 export const LadderBar = memo(
-  ({user, isProfilePrivacyEditMode = false}: Props) => {
+  ({user, isProfilePrivacyEditMode = false, privacyInfoIsShown}: Props) => {
     const globalRank = useSelector(globalRankSelector(user.id));
     const hiddenElements = user.hiddenProfileElements || [];
     const refNumber = (user.t1ReferralCount ?? 0) + (user.t2ReferralCount ?? 0);
@@ -29,7 +30,7 @@ export const LadderBar = memo(
           enabled={isProfilePrivacyEditMode}
           isProfilePrivacyEditMode={isProfilePrivacyEditMode}
           privacyType="globalRank"
-          hidden={hiddenElements.includes('globalRank')}
+          hidden={hiddenElements.includes('globalRank') && privacyInfoIsShown}
         />
         <LadderItem
           title={t('global.referrals').toUpperCase()}
@@ -37,7 +38,9 @@ export const LadderBar = memo(
           value={formatNumber(refNumber)}
           isProfilePrivacyEditMode={isProfilePrivacyEditMode}
           privacyType="referralCount"
-          hidden={hiddenElements.includes('referralCount')}
+          hidden={
+            hiddenElements.includes('referralCount') && privacyInfoIsShown
+          }
         />
         <LadderItem
           title={t('global.level').toUpperCase()}
@@ -45,7 +48,7 @@ export const LadderBar = memo(
           enabled={isProfilePrivacyEditMode}
           isProfilePrivacyEditMode={isProfilePrivacyEditMode}
           privacyType="level"
-          hidden={hiddenElements.includes('level')}
+          hidden={hiddenElements.includes('level') && privacyInfoIsShown}
         />
       </View>
     );

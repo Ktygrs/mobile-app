@@ -48,6 +48,8 @@ type Props = {
   isLoading?: boolean;
   contact: Contact | undefined;
   onContactPress: () => void;
+  showPrivacyHandler: () => void;
+  privacyInfoIsShown: boolean;
 };
 
 const MAX_SCROLL = 160;
@@ -62,6 +64,8 @@ export const AvatarHeader = memo(
     isLoading = false,
     contact,
     onContactPress,
+    showPrivacyHandler,
+    privacyInfoIsShown,
   }: Props) => {
     const {shadowStyle} = useScrollShadow({translateY: scrollY});
     const {top: topInset} = useSafeAreaInsets();
@@ -253,6 +257,13 @@ export const AvatarHeader = memo(
           )}
         </View>
         <View style={styles.rightContainer}>
+          {isOwner && user && user?.hiddenProfileElements?.length && (
+            <ShowPrivacyButton
+              containerStyle={styles.showPrivacyButton}
+              onPress={showPrivacyHandler}
+              privacyInfoIsShown={privacyInfoIsShown}
+            />
+          )}
           {isOwner && user && <SettingsButton />}
         </View>
       </Animated.View>
@@ -344,4 +355,5 @@ const styles = StyleSheet.create({
   activityIndicator: {
     ...StyleSheet.absoluteFillObject,
   },
+  showPrivacyButton: {marginRight: 16},
 });
