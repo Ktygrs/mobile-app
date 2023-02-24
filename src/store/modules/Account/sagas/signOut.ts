@@ -2,7 +2,10 @@
 
 import {stopTrackingCurrentUser} from '@services/analytics';
 import {signOut} from '@services/auth';
+import {logError} from '@services/logging';
 import {AccountActions} from '@store/modules/Account/actions';
+import {DeviceActions} from '@store/modules/Devices/actions';
+import {updateDeviceMetadataSaga} from '@store/modules/Devices/sagas/updateDeviceMetadata';
 import {showError} from '@utils/errors';
 import {checkProp} from '@utils/guards';
 import {call, put} from 'redux-saga/effects';
@@ -10,6 +13,17 @@ import {call, put} from 'redux-saga/effects';
 export function* signOutSaga() {
   try {
     yield call(stopTrackingCurrentUser);
+    try {
+      yield call(
+        updateDeviceMetadataSaga,
+        DeviceActions.UPDATE_DEVICE_METADATA.START.create({
+          forceUpdate: true,
+          clearDeviceMetadata: true,
+        }),
+      );
+    } catch (e) {
+      logError(e);
+    }
     yield call(signOut);
     yield put(AccountActions.SIGN_OUT.SUCCESS.create());
   } catch (error) {

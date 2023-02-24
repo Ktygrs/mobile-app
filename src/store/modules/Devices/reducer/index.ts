@@ -56,7 +56,7 @@ function reducer(state = INITIAL_STATE, action: Actions): State {
         draft.location = action.payload;
         break;
       case DeviceActions.UPDATE_DEVICE_METADATA.SUCCESS.type:
-        draft.lastMetadataUpdateAt = new Date().toISOString();
+        draft.lastMetadataUpdateAt = action.payload.lastMetadataUpdateAt;
         break;
       case DeviceActions.UPDATE_NOTIFICATION_CHANNEL.SUCCESS.type:
         const {

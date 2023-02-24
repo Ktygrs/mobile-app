@@ -3,6 +3,7 @@
 import {ENV} from '@constants/env';
 import type {FirebaseMessagingTypes} from '@react-native-firebase/messaging';
 import messaging from '@react-native-firebase/messaging';
+import {userIdSelector} from '@store/modules/Account/selectors';
 import {DeviceActions} from '@store/modules/Devices/actions';
 import {LinkingActions} from '@store/modules/Linking/actions';
 import {isPermissionGrantedSelector} from '@store/modules/Permissions/selectors';
@@ -18,6 +19,15 @@ export function useInitNotifications() {
   );
 
   const dispatch = useDispatch();
+  const userId = useSelector(userIdSelector);
+
+  useEffect(() => {
+    /*
+        Make sure you are setting the Push/InApp callback listeners before calling the initialize().
+        https://developers.moengage.com/hc/en-us/articles/4404205878676-Framework-Initialization
+       */
+    ReactMoE.initialize(ENV.MO_ENGAGE_APP_ID ?? '');
+  }, []);
 
   useEffect(() => {
     if (isIOS) {
@@ -33,13 +43,7 @@ export function useInitNotifications() {
     dispatch(
       DeviceActions.UPDATE_DEVICE_METADATA.START.create({forceUpdate: true}),
     );
-
-    /*
-        Make sure you are setting the Push/InApp callback listeners before calling the initialize().
-        https://developers.moengage.com/hc/en-us/articles/4404205878676-Framework-Initialization
-       */
-    ReactMoE.initialize(ENV.MO_ENGAGE_APP_ID ?? '');
-  }, [dispatch, hasPushPermissions]);
+  }, [dispatch, hasPushPermissions, userId]);
 
   useSubscribeToChannelTopic('news');
   useSubscribeToChannelTopic('system');

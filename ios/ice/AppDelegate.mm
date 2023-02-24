@@ -66,7 +66,7 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
    }
    sdkConfig.appGroupID = @"group.io.ice";
    #ifdef DEBUG
-    sdkConfig.enableLogs = true;
+    sdkConfig.enableLogs = false;
    #endif
    [[MoEngageInitializer sharedInstance] initializeDefaultSDKConfig:sdkConfig andLaunchOptions:launchOptions];
 
