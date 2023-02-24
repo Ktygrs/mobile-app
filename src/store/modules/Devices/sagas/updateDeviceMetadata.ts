@@ -38,16 +38,12 @@ type Action = ReturnType<
 
 export function* updateDeviceMetadataSaga(action: Action) {
   try {
-    const forceUpdate = checkProp(action?.payload, 'forceUpdate')
-      ? action.payload.forceUpdate
-      : undefined;
+    const forceUpdate =
+      checkProp(action?.payload, 'forceUpdate') && action.payload.forceUpdate;
 
-    const clearDeviceMetadata = checkProp(
-      action?.payload,
-      'clearDeviceMetadata',
-    )
-      ? action.payload.clearDeviceMetadata
-      : undefined;
+    const clearDeviceMetadata =
+      checkProp(action?.payload, 'clearDeviceMetadata') &&
+      action.payload.clearDeviceMetadata;
 
     const isAuthorized: ReturnType<typeof isAuthorizedSelector> = yield select(
       isAuthorizedSelector,
@@ -134,16 +130,9 @@ export function* updateDeviceMetadataSaga(action: Action) {
       } = yield all(data);
 
       const metadata: DeviceMetadata = resolvedMetadata;
-
       yield call(Api.devices.updateDeviceMetadata, {metadata});
 
-      yield put(
-        DeviceActions.UPDATE_DEVICE_METADATA.SUCCESS.create({
-          lastMetadataUpdateAt: clearDeviceMetadata
-            ? null
-            : new Date().toISOString(),
-        }),
-      );
+      yield put(DeviceActions.UPDATE_DEVICE_METADATA.SUCCESS.create());
     }
   } catch (error) {
     const errorMessage = getErrorMessage(error);

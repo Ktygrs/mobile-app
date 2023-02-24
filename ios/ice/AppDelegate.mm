@@ -65,9 +65,7 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
      sdkConfig.moeDataCenter = MODataCenterData_center_03;
    }
    sdkConfig.appGroupID = @"group.io.ice";
-   #ifdef DEBUG
-    sdkConfig.enableLogs = false;
-   #endif
+   sdkConfig.enableLogs = false;
    [[MoEngageInitializer sharedInstance] initializeDefaultSDKConfig:sdkConfig andLaunchOptions:launchOptions];
 
   RCTAppSetupPrepareApp(application);

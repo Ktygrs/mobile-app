@@ -7,7 +7,7 @@
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.usernotifications.service</string>
 		<key>NSExtensionPrincipalClass</key>
-		<string>NotificationService</string>
+		<string>FirebaseNotificationService</string>
 	</dict>
 	<key>CFBundleIdentifier</key>
 	<string>io.ice.app.staging.FirebaseNotificationService</string>

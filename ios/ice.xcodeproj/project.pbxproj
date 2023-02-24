@@ -32,7 +32,7 @@
 		CE47462C2976E21800D4F514 /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE255B6629756E6E00B4E00A /* UserNotificationsUI.framework */; };
 		CE47462E2977D92B00D4F514 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE255B6429756E1100B4E00A /* UserNotifications.framework */; };
 		CE645E159ACA4677A888DD2F /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 240CF5D2C7B7451C91F48E93 /* Lato-Bold.ttf */; };
-		CEE923BD29A5E69900787805 /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE923BC29A5E69900787805 /* NotificationService.m */; };
+		CEE923BD29A5E69900787805 /* FirebaseNotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE923BC29A5E69900787805 /* FirebaseNotificationService.m */; };
 		CEE923C129A5E69900787805 /* FirebaseNotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = CEE923B929A5E69900787805 /* FirebaseNotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		EF2A4EFD84224615B8057BAB /* Lato-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F95E99F6F9F94446AC813229 /* Lato-Black.ttf */; };
 /* End PBXBuildFile section */
@@ -131,8 +131,8 @@
 		CE4746242976D78D00D4F514 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE47462D2976E62700D4F514 /* NotificationService.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NotificationService.entitlements; sourceTree = "<group>"; };
 		CEE923B929A5E69900787805 /* FirebaseNotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = FirebaseNotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		CEE923BB29A5E69900787805 /* NotificationService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationService.h; sourceTree = "<group>"; };
-		CEE923BC29A5E69900787805 /* NotificationService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationService.m; sourceTree = "<group>"; };
+		CEE923BB29A5E69900787805 /* FirebaseNotificationService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirebaseNotificationService.h; sourceTree = "<group>"; };
+		CEE923BC29A5E69900787805 /* FirebaseNotificationService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirebaseNotificationService.m; sourceTree = "<group>"; };
 		CEE923BE29A5E69900787805 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CEE923C529A601DB00787805 /* FirebaseNotificationService.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FirebaseNotificationService.entitlements; sourceTree = "<group>"; };
 		D21EE4999145984618417D20 /* Pods-NotificationServices.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotificationServices.release.xcconfig"; path = "Target Support Files/Pods-NotificationServices/Pods-NotificationServices.release.xcconfig"; sourceTree = "<group>"; };
@@ -324,8 +324,8 @@
 			isa = PBXGroup;
 			children = (
 				CEE923C529A601DB00787805 /* FirebaseNotificationService.entitlements */,
-				CEE923BB29A5E69900787805 /* NotificationService.h */,
-				CEE923BC29A5E69900787805 /* NotificationService.m */,
+				CEE923BB29A5E69900787805 /* FirebaseNotificationService.h */,
+				CEE923BC29A5E69900787805 /* FirebaseNotificationService.m */,
 				CEE923BE29A5E69900787805 /* Info.plist */,
 			);
 			path = FirebaseNotificationService;
@@ -759,7 +759,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CEE923BD29A5E69900787805 /* NotificationService.m in Sources */,
+				CEE923BD29A5E69900787805 /* FirebaseNotificationService.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1232,11 +1232,11 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = YJJ6X8TG5Y;
+				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationService/Info.plist;
@@ -1313,11 +1313,11 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = FirebaseNotificationService/FirebaseNotificationService.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = YJJ6X8TG5Y;
+				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FirebaseNotificationService/Info.plist;
@@ -1333,6 +1333,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = io.ice.app.staging.FirebaseNotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";

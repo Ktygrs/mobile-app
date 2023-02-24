@@ -18,6 +18,7 @@ export function useIsPushNotificationsChannelEnabled(
   }
 
   if (!settings) {
+    // default is true. User has to explicitly disable em
     return true;
   }
 

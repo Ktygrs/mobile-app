@@ -1,16 +1,16 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-#import "NotificationService.h"
+#import "FirebaseNotificationService.h"
 #import "FirebaseMessaging.h"
 
-@interface NotificationService ()
+@interface FirebaseNotificationService ()
 
 @property (nonatomic, strong) void (^contentHandler)(UNNotificationContent *contentToDeliver);
 @property (nonatomic, strong) UNMutableNotificationContent *bestAttemptContent;
 
 @end
 
-@implementation NotificationService
+@implementation FirebaseNotificationService
 
 - (void)didReceiveNotificationRequest:(UNNotificationRequest *)request withContentHandler:(void (^)(UNNotificationContent * _Nonnull))contentHandler {
     self.contentHandler = contentHandler;
