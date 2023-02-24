@@ -1,10 +1,13 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {isApi4xxError, isNetworkError} from '@api/client';
+import {isAuthError} from '@services/auth';
 import {logError} from '@services/logging';
 import {AccountActions} from '@store/modules/Account/actions';
 import {rootLinkingSaga} from '@store/modules/Linking/sagas';
 import {rootNotificationsSaga} from '@store/modules/Notifications/sagas';
 import {rootStatsSaga} from '@store/modules/Stats/sagas';
+import {AppState} from 'react-native';
 import {SagaIterator} from 'redux-saga';
 import {all, call, cancel, spawn, take} from 'redux-saga/effects';
 
@@ -45,7 +48,9 @@ export function* rootSaga(): SagaIterator {
             yield call(saga);
             break;
           } catch (error) {
-            logError(error);
+            if (isUnexpectedError(error)) {
+              logError(error);
+            }
           }
         }
       }),
@@ -60,3 +65,31 @@ export function* rootSaga(): SagaIterator {
   yield cancel(spawnedSagas);
   yield call(rootSaga);
 }
+
+/**
+ * Check if error is actually a part of a problem
+ */
+const isUnexpectedError = (error: unknown) => {
+  /**
+   * Client errors
+   */
+  if (isApi4xxError(error)) {
+    return false;
+  }
+
+  /**
+   * All auth requests are 4xx
+   */
+  if (isAuthError(error)) {
+    return false;
+  }
+
+  /**
+   * Some started requests may fail when app goes background
+   */
+  if (isNetworkError(error) && AppState.currentState !== 'active') {
+    return false;
+  }
+
+  return true;
+};

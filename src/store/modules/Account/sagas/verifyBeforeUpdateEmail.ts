@@ -1,17 +1,23 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {User} from '@api/user/types';
-import {getAuthErrorMessage, verifyBeforeUpdateEmail} from '@services/auth';
+import {verifyBeforeUpdateEmail} from '@services/auth';
 import {AccountActions} from '@store/modules/Account/actions';
 import {updateAccountSaga} from '@store/modules/Account/sagas/updateAccount';
 import {userSelector} from '@store/modules/Account/selectors';
 import {t} from '@translations/i18n';
 import {validateEmail} from '@utils/email';
 import {getErrorMessage} from '@utils/errors';
+import {checkProp} from '@utils/guards';
 import {call, put, select, take} from 'redux-saga/effects';
 import Url from 'url-parse';
 
 const actionCreator = AccountActions.VERIFY_BEFORE_UPDATE_EMAIL.START.create;
+
+enum ValidateError {
+  InvalidEmail,
+  SameEmail,
+}
 
 export function* verifyBeforeUpdateEmailSaga({
   payload: {email},
@@ -19,9 +25,9 @@ export function* verifyBeforeUpdateEmailSaga({
   const user: User = yield select(userSelector);
   try {
     if (!validateEmail(email)) {
-      throw new Error(t('errors.invalid_email'));
+      throw {code: ValidateError.InvalidEmail};
     } else if (email === user?.email) {
-      throw new Error(t('confirm_email.same_email_error'));
+      throw {code: ValidateError.SameEmail};
     }
 
     yield call(verifyBeforeUpdateEmail, email);
@@ -68,9 +74,22 @@ export function* verifyBeforeUpdateEmailSaga({
       }
     }
   } catch (error) {
+    let validateError;
+
+    if (checkProp(error, 'code')) {
+      switch (error.code) {
+        case ValidateError.InvalidEmail:
+          validateError = t('errors.invalid_email');
+          break;
+        case ValidateError.SameEmail:
+          validateError = t('errors.same_email');
+          break;
+      }
+    }
+
     yield put(
       AccountActions.VERIFY_BEFORE_UPDATE_EMAIL.FAILED.create(
-        getAuthErrorMessage(error) ?? getErrorMessage(error),
+        validateError ?? getErrorMessage(error),
       ),
     );
 

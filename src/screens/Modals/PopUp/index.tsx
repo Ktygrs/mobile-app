@@ -36,7 +36,7 @@ export type PopUpProps = {
   buttons?: PopUpButtonProps[];
   dismissOnOutsideTouch?: boolean;
   dismissOnButtonPress?: boolean;
-  dismissAndroidHardwareBack?: boolean;
+  dismissOnAndroidHardwareBack?: boolean;
   showCloseButton?: boolean;
   onDismiss?: () => void;
 };
@@ -53,7 +53,7 @@ export const PopUp = () => {
       buttons = [],
       dismissOnOutsideTouch = true,
       dismissOnButtonPress = true,
-      dismissAndroidHardwareBack = false,
+      dismissOnAndroidHardwareBack = true,
       showCloseButton = false,
       onDismiss,
     },
@@ -69,10 +69,14 @@ export const PopUp = () => {
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
       'hardwareBackPress',
-      () => !dismissAndroidHardwareBack,
+      /**
+       * When true is returned the event will not be bubbled up
+       * & no other back action will execute
+       */
+      () => !dismissOnAndroidHardwareBack,
     );
     return () => backHandler.remove();
-  }, [dismissAndroidHardwareBack, onDismiss]);
+  }, [dismissOnAndroidHardwareBack, onDismiss]);
 
   useEffect(() => () => onDismiss?.());
 

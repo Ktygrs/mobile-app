@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {User} from '@api/user/types';
-import {getAuthErrorMessage, updatePhoneNumber} from '@services/auth';
+import {updatePhoneNumber} from '@services/auth';
 import {AccountActions} from '@store/modules/Account/actions';
 import {updateAccountSaga} from '@store/modules/Account/sagas/updateAccount';
 import {userSelector} from '@store/modules/Account/selectors';
@@ -35,9 +35,7 @@ export function* validatePhoneNumberSaga(
     yield put(ValidationActions.PHONE_VALIDATION.SUCCESS.create());
   } catch (error) {
     yield put(
-      ValidationActions.PHONE_VALIDATION.FAILED.create(
-        getAuthErrorMessage(error) ?? getErrorMessage(error),
-      ),
+      ValidationActions.PHONE_VALIDATION.FAILED.create(getErrorMessage(error)),
     );
 
     throw error;

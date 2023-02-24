@@ -4,13 +4,16 @@ import {isApiError, isNetworkError} from '@api/client';
 import {COLORS} from '@constants/colors';
 import {Images} from '@images';
 import {navigate} from '@navigation/utils';
+import {getAuthErrorMessage, isAuthError} from '@services/auth';
 import {Oops} from '@svg/PopUp/Oops';
 import {t} from '@translations/i18n';
 import {checkProp} from '@utils/guards';
 import React from 'react';
 
 export const getErrorMessage = (error: unknown): string => {
-  if (isNetworkError(error)) {
+  if (isAuthError(error)) {
+    return getAuthErrorMessage(error);
+  } else if (isNetworkError(error)) {
     return t('errors.network_error_message');
   } else if (isApiError(error)) {
     return t('errors.general_error_message');

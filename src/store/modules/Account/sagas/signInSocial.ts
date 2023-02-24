@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {getAuthErrorMessage, signInWithProvider} from '@services/auth';
+import {signInWithProvider} from '@services/auth';
 import {AccountActions} from '@store/modules/Account/actions';
 import {getErrorMessage} from '@utils/errors';
 import {call, put, SagaReturnType} from 'redux-saga/effects';
@@ -22,9 +22,7 @@ export function* signInSocialSaga(
   } catch (error) {
     //TODO:find out how to catch account-exists-with-different-credential -> run "unusual activity" flow
     yield put(
-      AccountActions.SIGN_IN_SOCIAL.FAILED.create(
-        getAuthErrorMessage(error) ?? getErrorMessage(error),
-      ),
+      AccountActions.SIGN_IN_SOCIAL.FAILED.create(getErrorMessage(error)),
     );
     throw error;
   }

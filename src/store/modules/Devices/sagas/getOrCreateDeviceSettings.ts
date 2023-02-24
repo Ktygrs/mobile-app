@@ -10,7 +10,7 @@ import {
 } from '@store/modules/Account/selectors';
 import {DeviceActions} from '@store/modules/Devices/actions';
 import i18n, {appLocale, setLocale} from '@translations/i18n';
-import {getErrorMessage, showError} from '@utils/errors';
+import {getErrorMessage} from '@utils/errors';
 import {syncUniqueId} from 'react-native-device-info';
 import {all, call, put, SagaReturnType, select} from 'redux-saga/effects';
 
@@ -46,7 +46,6 @@ export function* initDeviceSaga() {
         getErrorMessage(error),
       ),
     );
-    showError(error);
     throw error;
   }
 }

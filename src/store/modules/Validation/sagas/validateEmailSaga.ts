@@ -3,14 +3,13 @@
 import {getApiErrorCode, isApiError} from '@api/client';
 import {Api} from '@api/index';
 import {User} from '@api/user/types';
-import {getAuthErrorMessage} from '@services/auth';
 import {AccountActions} from '@store/modules/Account/actions';
 import {updateAccountSaga} from '@store/modules/Account/sagas/updateAccount';
 import {userIdSelector} from '@store/modules/Account/selectors';
 import {ValidationActions} from '@store/modules/Validation/actions';
 import {temporaryEmailSelector} from '@store/modules/Validation/selectors';
 import {t} from '@translations/i18n';
-import {showError} from '@utils/errors';
+import {getErrorMessage} from '@utils/errors';
 import {call, put, SagaReturnType, select} from 'redux-saga/effects';
 
 const actionCreator = ValidationActions.EMAIL_VALIDATION.START.create;
@@ -37,7 +36,7 @@ export function* validateEmailSaga(action: ReturnType<typeof actionCreator>) {
 
     yield put(ValidationActions.EMAIL_VALIDATION.SUCCESS.create());
   } catch (error) {
-    let localizedError = getAuthErrorMessage(error);
+    let localizedError = getErrorMessage(error);
 
     if (isApiError(error, 400, 'INVALID_VALIDATION_CODE')) {
       localizedError = t('errors.invalid_validation_code');
@@ -57,17 +56,12 @@ export function* validateEmailSaga(action: ReturnType<typeof actionCreator>) {
       }
     }
 
-    if (localizedError) {
-      yield put(
-        ValidationActions.EMAIL_VALIDATION.FAILED.create(
-          localizedError,
-          getApiErrorCode(error),
-        ),
-      );
-    } else {
-      yield put(ValidationActions.EMAIL_VALIDATION.RESET.create());
-      showError(error);
-    }
+    yield put(
+      ValidationActions.EMAIL_VALIDATION.FAILED.create(
+        localizedError,
+        getApiErrorCode(error),
+      ),
+    );
 
     throw error;
   }

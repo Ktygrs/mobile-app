@@ -78,13 +78,11 @@ export const Profile = memo(() => {
     if (user && user.phoneNumber && contacts?.length > 0) {
       const userContactDetails = contacts.find(contact => {
         return contact.phoneNumbers.find(phoneNumber => {
-          try {
-            const normalizedNumber = e164PhoneNumber(
-              phoneNumber.number,
-              user.country,
-            );
-            return normalizedNumber === user.phoneNumber;
-          } catch {}
+          const normalizedNumber = e164PhoneNumber(
+            phoneNumber.number,
+            user.country,
+          );
+          return normalizedNumber === user.phoneNumber;
         });
       });
       if (userContactDetails) {

@@ -133,6 +133,7 @@ export type Translations = {
   'errors.email_already_in_use': null;
   'errors.user_token_expired': null;
   'errors.requires_recent_login': null;
+  'errors.same_email': null;
   'profile.my_roles.title': null;
   'profile.mining_calculator': null;
   'profile.invite_friends': null;
@@ -434,7 +435,6 @@ export type Translations = {
   'confirm_email.link_instruction': null;
   'confirm_email.modify_title': null;
   'confirm_email.modify_description': null;
-  'confirm_email.same_email_error': null;
   'invalid_link.title': null;
   'invalid_link.description': null;
   'invalid_link.back_button_title': null;

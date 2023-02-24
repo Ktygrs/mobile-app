@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {User} from '@api/user/types';
-import {logError} from '@services/logging';
 import {AccountActions} from '@store/modules/Account/actions';
 import {
   isAuthorizedSelector,
@@ -68,23 +67,20 @@ export function* syncContactsSaga() {
 
         let hasUserNumber = false;
         const validNumbers = contact.phoneNumbers.filter(record => {
-          try {
-            if (record.number?.trim()?.length) {
-              const e164FormattedForHash = e164PhoneNumber(
-                record.number,
-                user.country,
-              );
-              if (e164FormattedForHash === user.phoneNumber) {
-                hasUserNumber = true;
-              }
+          if (record.number?.trim()?.length) {
+            const e164FormattedForHash = e164PhoneNumber(
+              record.number,
+              user.country,
+            );
+            if (e164FormattedForHash === user.phoneNumber) {
+              hasUserNumber = true;
+            }
+            if (e164FormattedForHash) {
               agendaPhoneNumbers.push(e164FormattedForHash);
               return true;
             }
-            return false;
-          } catch (error) {
-            logError(error);
-            return false;
           }
+          return false;
         });
 
         if (hasUserNumber) {

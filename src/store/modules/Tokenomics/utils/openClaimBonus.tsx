@@ -60,7 +60,7 @@ export const openClaimBonus = () => {
         },
       ],
       dismissOnOutsideTouch: false,
-      dismissAndroidHardwareBack: false,
+      dismissOnAndroidHardwareBack: false,
       dismissOnButtonPress: false,
       onDismiss: () => resultResolve(),
     },

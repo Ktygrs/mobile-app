@@ -170,55 +170,55 @@ export const getAuthenticatedUser = async (forceRefresh?: boolean) => {
   return null;
 };
 
-export const getAuthErrorMessage = (error: unknown) => {
-  if (checkProp(error, 'code')) {
-    switch (error.code) {
-      case 'auth/code-expired':
-        return t('errors.code_expired');
-      case 'auth/too-many-requests':
-        return t('errors.too_many_requests');
-      case 'auth/credential-already-in-use':
-        return t('errors.credential_already_in_use');
-      case 'auth/email-already-in-use':
-        return t('errors.email_already_in_use');
-      case 'auth/invalid-verification-code':
-      case 'auth/invalid-verification-id':
-        // Thrown if the credential is a firebase.auth.PhoneAuthProvider.credential and the verification code or verification ID of the credential is not valid.
-        return t('errors.invalid_validation_code');
-      case 'auth/invalid-phone-number':
-      case 'auth/missing-phone-number':
-        // Thrown if the phone number has an invalid format or missing.
-        return t('errors.invalid_phone');
-      case 'auth/user-disabled':
-        // Thrown if the user corresponding to the given credential has been disabled.
-        return t('errors.user_disabled');
-      case 'auth/invalid-email':
-        // Thrown if the email address is not valid.
-        return t('errors.invalid_email');
-      case 'auth/expired-action-code':
-        // Thrown if OTP in email link expires.
-        return t('errors.expired_action_code');
-      case 'auth/account-exists-with-different-credential':
-        // Thrown if there already exists an account with the email address asserted by the credential.
-        return t('errors.account_exists_with_different_credential');
-      case 'auth/invalid-credential':
-        // Thrown if the credential is malformed or has expired.
-        return t('errors.invalid_credential');
-      case 'auth/operation-not-allowed':
-        // Thrown if the type of account corresponding to the credential is not enabled. Enable the account type in the Firebase Console, under the Auth tab.
-        return t('errors.operation_not_allowed');
-      case 'auth/user-not-found':
-        // Thrown if signing in with a credential from firebase.auth.EmailAuthProvider.credential and there is no user corresponding to the given email.
-        return t('errors.user_not_found_for_email');
-      case 'auth/network-request-failed':
-        return t('errors.general_network_error');
-      case 'auth/user-token-expired':
-        // Thrown for example if user changed email and hasn't re-login yet
-        return t('errors.user_token_expired');
-      case 'auth/requires-recent-login':
-        // Thrown for example if user tries to change email and much time passed after the last sign in
-        return t('errors.requires_recent_login');
-    }
+export const getAuthErrorMessage = (error: {code: string}) => {
+  switch (error.code) {
+    case 'auth/code-expired':
+      return t('errors.code_expired');
+    case 'auth/too-many-requests':
+      return t('errors.too_many_requests');
+    case 'auth/credential-already-in-use':
+      return t('errors.credential_already_in_use');
+    case 'auth/email-already-in-use':
+      return t('errors.email_already_in_use');
+    case 'auth/invalid-verification-code':
+    case 'auth/invalid-verification-id':
+      // Thrown if the credential is a firebase.auth.PhoneAuthProvider.credential and the verification code or verification ID of the credential is not valid.
+      return t('errors.invalid_validation_code');
+    case 'auth/invalid-phone-number':
+    case 'auth/missing-phone-number':
+      // Thrown if the phone number has an invalid format or missing.
+      return t('errors.invalid_phone');
+    case 'auth/user-disabled':
+      // Thrown if the user corresponding to the given credential has been disabled.
+      return t('errors.user_disabled');
+    case 'auth/invalid-email':
+      // Thrown if the email address is not valid.
+      return t('errors.invalid_email');
+    case 'auth/expired-action-code':
+      // Thrown if OTP in email link expires.
+      return t('errors.expired_action_code');
+    case 'auth/account-exists-with-different-credential':
+      // Thrown if there already exists an account with the email address asserted by the credential.
+      return t('errors.account_exists_with_different_credential');
+    case 'auth/invalid-credential':
+      // Thrown if the credential is malformed or has expired.
+      return t('errors.invalid_credential');
+    case 'auth/operation-not-allowed':
+      // Thrown if the type of account corresponding to the credential is not enabled. Enable the account type in the Firebase Console, under the Auth tab.
+      return t('errors.operation_not_allowed');
+    case 'auth/user-not-found':
+      // Thrown if signing in with a credential from firebase.auth.EmailAuthProvider.credential and there is no user corresponding to the given email.
+      return t('errors.user_not_found_for_email');
+    case 'auth/network-request-failed':
+      return t('errors.general_network_error');
+    case 'auth/user-token-expired':
+      // Thrown for example if user changed email and hasn't re-login yet
+      return t('errors.user_token_expired');
+    case 'auth/requires-recent-login':
+      // Thrown for example if user tries to change email and much time passed after the last sign in
+      return t('errors.requires_recent_login');
+    default:
+      return error.code;
   }
 };
 
@@ -236,4 +236,12 @@ export const updatePhoneNumber = async (
 ) => {
   const credential = auth.PhoneAuthProvider.credential(verificationId, code);
   return auth().currentUser?.updatePhoneNumber(credential);
+};
+
+export const isAuthError = (error: unknown): error is {code: string} => {
+  return (
+    checkProp(error, 'code') &&
+    typeof error.code === 'string' &&
+    error.code.startsWith('auth/')
+  );
 };

@@ -17,11 +17,11 @@ describe('e164PhoneNumber', () => {
     expect(e164PhoneNumber(' 555-1212 ', 'US')).toBe('+15551212');
   });
 
-  it('should throw an error for invalid phone numbers', () => {
-    expect(() => e164PhoneNumber('invalid')).toThrowError();
+  it('should return null for invalid phone numbers', () => {
+    expect(e164PhoneNumber('invalid')).toBeNull();
   });
 
-  it('should throw an error for phone number without a country code', () => {
-    expect(() => e164PhoneNumber('99777333')).toThrowError();
+  it('should return null for phone number without a country code', () => {
+    expect(e164PhoneNumber('99777333')).toBe(null);
   });
 });

@@ -41,8 +41,12 @@ export const useModifyPhoneNumber = ({
       fullPhoneRef.current ||
         `${selectedCountry?.iddCode ?? ''}${initialPhoneNumber ?? ''}`,
     );
-    dispatch(AccountActions.VERIFY_PHONE_NUMBER.RESET.create());
-    dispatch(AccountActions.VERIFY_PHONE_NUMBER.START.create(formattedNumber));
+    if (formattedNumber) {
+      dispatch(AccountActions.VERIFY_PHONE_NUMBER.RESET.create());
+      dispatch(
+        AccountActions.VERIFY_PHONE_NUMBER.START.create(formattedNumber),
+      );
+    }
   };
 
   const onChangePhone = (phoneBody: string, iddCode: string) => {

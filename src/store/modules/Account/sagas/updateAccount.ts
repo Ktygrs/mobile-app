@@ -25,6 +25,11 @@ export function* updateAccountSaga(action: ReturnType<typeof actionCreator>) {
 
     if (userInfo.phoneNumber) {
       const normalizedNumber = e164PhoneNumber(userInfo.phoneNumber);
+
+      if (!normalizedNumber) {
+        throw new Error(t('errors.general_error_message'));
+      }
+
       userInfo.phoneNumber = normalizedNumber;
       userInfo.phoneNumberHash = yield call(hashPhoneNumber, normalizedNumber);
     }

@@ -45,7 +45,7 @@ export const useUpdateRequiredListener = () => {
         ],
         dismissOnOutsideTouch: false,
         dismissOnButtonPress: false,
-        dismissAndroidHardwareBack: true,
+        dismissOnAndroidHardwareBack: false,
       });
     }
   }, [navigation, updateMetadataPayload]);

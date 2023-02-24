@@ -183,7 +183,8 @@
     "credential_already_in_use": "This credential is already associated with a different user account.",
     "email_already_in_use": "The email address is already in use by another account.",
     "user_token_expired": "Your credentials is no longer valid. Please sign in again",
-    "requires_recent_login": "This operation is sensitive and requires recent authentication. Please sign in again"
+    "requires_recent_login": "This operation is sensitive and requires recent authentication. Please sign in again",
+    "same_email": "You can’t use the same e-mail"
   },
   "profile": {
     "my_roles": {
@@ -617,8 +618,7 @@
     "emailed_link_to": "We emailed a magic link to",
     "link_instruction": "Click the link to log in or sign up.",
     "modify_title": "Confirm New Email",
-    "modify_description": "Please enter your new email address",
-    "same_email_error": "You can’t use the same e-mail"
+    "modify_description": "Please enter your new email address"
   },
   "invalid_link": {
     "title": "Invalid link",

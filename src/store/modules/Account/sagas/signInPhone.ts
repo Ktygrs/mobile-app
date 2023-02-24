@@ -1,10 +1,15 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {getAuthErrorMessage, signInWithPhoneNumber} from '@services/auth';
+import {signInWithPhoneNumber} from '@services/auth';
 import {AccountActions} from '@store/modules/Account/actions';
 import {t} from '@translations/i18n';
 import {getErrorMessage} from '@utils/errors';
+import {checkProp} from '@utils/guards';
 import {call, put, SagaReturnType, take} from 'redux-saga/effects';
+
+enum ValidateError {
+  InvalidPhone,
+}
 
 export function* signInPhoneSaga(
   startAction: ReturnType<typeof AccountActions.SIGN_IN_PHONE.START.create>,
@@ -13,7 +18,7 @@ export function* signInPhoneSaga(
     const phoneNumber = startAction.payload.phoneNumber;
 
     if (phoneNumber.trim() === '') {
-      throw new Error(t('errors.invalid_phone'));
+      throw {code: ValidateError.InvalidPhone};
     }
 
     let confirmation: SagaReturnType<typeof signInWithPhoneNumber> = yield call(
@@ -47,7 +52,7 @@ export function* signInPhoneSaga(
           } catch (error) {
             yield put(
               AccountActions.SIGN_IN_PHONE.FAILED.create(
-                getAuthErrorMessage(error) ?? getErrorMessage(error),
+                getErrorMessage(error),
               ),
             );
           }
@@ -64,11 +69,15 @@ export function* signInPhoneSaga(
       }
     }
   } catch (error) {
-    yield put(
-      AccountActions.SIGN_IN_PHONE.FAILED.create(
-        getAuthErrorMessage(error) ?? getErrorMessage(error),
-      ),
-    );
-    throw error;
+    if (checkProp(error, 'code') && error.code === ValidateError.InvalidPhone) {
+      yield put(
+        AccountActions.SIGN_IN_PHONE.FAILED.create(t('errors.invalid_phone')),
+      );
+    } else {
+      yield put(
+        AccountActions.SIGN_IN_PHONE.FAILED.create(getErrorMessage(error)),
+      );
+      throw error;
+    }
   }
 }

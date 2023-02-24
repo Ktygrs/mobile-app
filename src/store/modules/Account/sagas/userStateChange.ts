@@ -50,10 +50,18 @@ export function* userStateChangeSaga() {
       yield put(AccountActions.USER_STATE_CHANGE.SUCCESS.create(null, null));
     }
   } catch (error) {
-    yield put(
-      AccountActions.USER_STATE_CHANGE.FAILED.create(getErrorMessage(error)),
-    );
+    let localizedError = getErrorMessage(error);
+
+    if (isApiError(error, 409, 'CONFLICT_WITH_ANOTHER_USER')) {
+      const field = error?.response?.data?.data?.field;
+      if (field !== 'id') {
+        localizedError = t('errors.multiple_accounts');
+      }
+    }
+
+    yield put(AccountActions.USER_STATE_CHANGE.FAILED.create(localizedError));
     showError(error);
+
     throw error;
   }
 }
@@ -85,36 +93,31 @@ function* createUser({
   firstName: string | null;
   lastName: string | null;
 }) {
-  try {
-    let normalizedNumber: string | null = null;
-    let phoneNumberHash: string | null = null;
-    if (phoneNumber) {
-      normalizedNumber = e164PhoneNumber(phoneNumber);
-      phoneNumberHash = yield call(hashPhoneNumber, normalizedNumber);
+  let normalizedNumber: string | null = null;
+  let phoneNumberHash: string | null = null;
+  if (phoneNumber) {
+    normalizedNumber = e164PhoneNumber(phoneNumber);
+
+    if (!normalizedNumber) {
+      throw new Error(t('errors.general_error_message'));
     }
 
-    let user: SagaReturnType<typeof Api.user.createUser> = yield call(
-      Api.user.createUser,
-      {
-        firstName,
-        lastName,
-        email,
-        phoneNumber: normalizedNumber,
-        phoneNumberHash,
-        clientData: {
-          registrationProcessFinalizedSteps: email ? ['email'] : [],
-        },
-      },
-    );
-
-    return user;
-  } catch (error) {
-    if (isApiError(error, 409, 'CONFLICT_WITH_ANOTHER_USER')) {
-      const field = error?.response?.data?.data?.field;
-      if (field !== 'id') {
-        throw new Error(t('errors.multiple_accounts'));
-      }
-    }
-    throw error;
+    phoneNumberHash = yield call(hashPhoneNumber, normalizedNumber);
   }
+
+  let user: SagaReturnType<typeof Api.user.createUser> = yield call(
+    Api.user.createUser,
+    {
+      firstName,
+      lastName,
+      email,
+      phoneNumber: normalizedNumber,
+      phoneNumberHash,
+      clientData: {
+        registrationProcessFinalizedSteps: email ? ['email'] : [],
+      },
+    },
+  );
+
+  return user;
 }

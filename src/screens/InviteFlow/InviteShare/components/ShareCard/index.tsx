@@ -12,8 +12,10 @@ import {
   SocialShareButtonType,
   SocialType,
 } from '@screens/InviteFlow/InviteShare/components/ShareButton';
+import {logError} from '@services/logging';
 import {usernameSelector} from '@store/modules/Account/selectors';
 import {t} from '@translations/i18n';
+import {checkProp} from '@utils/guards';
 import React, {useRef} from 'react';
 import {
   Linking,
@@ -89,68 +91,76 @@ const ShareCard = () => {
   const handleSocialButtonPress = async (type: SocialType) => {
     const url = `${LINKS.MAIN}@${username}`;
     const baseOptions = {message: t('invite_share.share_message'), url};
-    switch (type) {
-      case 'More':
-        let moreOptions = {
-          ...baseOptions,
-          title: `${t('invite_share.share_message')} ${url}`,
-          message: `${t('invite_share.share_message')} ${url}`,
-        };
-        ShareMore.share(moreOptions);
-        break;
-      case 'CopyLink':
-        Clipboard.setString(`${t('invite_share.share_message')} ${url}`);
-        Vibration.vibrate([0, 50]);
-        copiedRef.current?.updateVisibleState(true);
-        break;
-      case 'Telegram':
-        let telegramOptions: ShareSingleOptions = {
-          social: Social.Telegram,
-        };
-        await Share.shareSingle(telegramOptions);
-        break;
-      case 'Twitter':
-        let twitterOptions: ShareSingleOptions = {
-          ...baseOptions,
-          social: Social.Twitter,
-        };
-        await Share.shareSingle(twitterOptions);
-        break;
-      case 'WhatsApp':
-        let whatsappOptions: ShareSingleOptions = {
-          ...baseOptions,
-          social: Social.Whatsapp,
-        };
-        await Share.shareSingle(whatsappOptions);
-        break;
-      case 'Email':
-        let emailOptions: ShareSingleOptions = {
-          ...baseOptions,
-          social: Social.Email,
-        };
+    try {
+      switch (type) {
+        case 'More':
+          let moreOptions = {
+            ...baseOptions,
+            title: `${t('invite_share.share_message')} ${url}`,
+            message: `${t('invite_share.share_message')} ${url}`,
+          };
+          await ShareMore.share(moreOptions);
+          break;
+        case 'CopyLink':
+          Clipboard.setString(`${t('invite_share.share_message')} ${url}`);
+          Vibration.vibrate([0, 50]);
+          copiedRef.current?.updateVisibleState(true);
+          break;
+        case 'Telegram':
+          let telegramOptions: ShareSingleOptions = {
+            social: Social.Telegram,
+          };
+          await Share.shareSingle(telegramOptions);
+          break;
+        case 'Twitter':
+          let twitterOptions: ShareSingleOptions = {
+            ...baseOptions,
+            social: Social.Twitter,
+          };
+          await Share.shareSingle(twitterOptions);
+          break;
+        case 'WhatsApp':
+          let whatsappOptions: ShareSingleOptions = {
+            ...baseOptions,
+            social: Social.Whatsapp,
+          };
+          await Share.shareSingle(whatsappOptions);
+          break;
+        case 'Email':
+          let emailOptions: ShareSingleOptions = {
+            ...baseOptions,
+            social: Social.Email,
+          };
 
-        openComposer({
-          subject: emailOptions.subject,
-          body: `${emailOptions.message} ${url}`,
-        });
-        break;
-      case 'FB':
-        let fbOptions: ShareSingleOptions = {
-          ...baseOptions,
-          social: Social.Facebook,
-        };
-        await Share.shareSingle(fbOptions);
-        break;
-      case 'Sms':
-        const devider = isIOS ? '&' : '?';
+          await openComposer({
+            subject: emailOptions.subject,
+            body: `${emailOptions.message} ${url}`,
+          });
+          break;
+        case 'FB':
+          let fbOptions: ShareSingleOptions = {
+            ...baseOptions,
+            social: Social.Facebook,
+          };
+          await Share.shareSingle(fbOptions);
+          break;
+        case 'Sms':
+          const divider = isIOS ? '&' : '?';
 
-        const path = `sms:${devider}body=${baseOptions.message} ${url}`;
+          const path = `sms:${divider}body=${baseOptions.message} ${url}`;
 
-        await Linking.openURL(path);
-        break;
+          await Linking.openURL(path);
+          break;
 
-      default:
-        break;
+        default:
+          break;
+      }
+    } catch (error) {
+      // Share.shareSingle throws this error on iOS if app is not installed and it opens AppStore
+      if (checkProp(error, 'code') && error.code === 'ECOM.RNSHARE1') {
+        return;
+      }
+      logError(error);
     }
   };
 
