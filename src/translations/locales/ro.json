@@ -201,6 +201,20 @@
     },
     "roles": {
       "title": "Roluri"
+    },
+    "badge_types": {
+      "coin": {
+        "title": "Coins",
+        "description": "coins"
+      },
+      "social": {
+        "title": "Social",
+        "description": "friends"
+      },
+      "level": {
+        "title": "Level",
+        "description": "level"
+      }
     }
   },
   "global": {

@@ -146,6 +146,12 @@ export type Translations = {
   'profile.my_badges.title': null;
   'profile.badges.title': null;
   'profile.roles.title': null;
+  'profile.badge_types.coin.title': null;
+  'profile.badge_types.coin.description': null;
+  'profile.badge_types.social.title': null;
+  'profile.badge_types.social.description': null;
+  'profile.badge_types.level.title': null;
+  'profile.badge_types.level.description': null;
   'global.level': null;
   'global.referrals': null;
   'global.coins': null;
