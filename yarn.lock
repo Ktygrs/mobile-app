@@ -8411,10 +8411,10 @@ react-native-markdown-display@^7.0.0-alpha.2:
     prop-types "^15.7.2"
     react-native-fit-image "^1.5.5"
 
-react-native-moengage@8.1.2:
-  version "8.1.2"
-  resolved "https://registry.yarnpkg.com/react-native-moengage/-/react-native-moengage-8.1.2.tgz#297411e7c8d43dcf31a960f9ed84374961ad9e14"
-  integrity sha512-TgkZH7DVIxHUYTQ4YADIHJM8px2N7zwJ9uZOvmOGkGWjDM4xFBtZeMJXuOZkcCVwjdCM8/UhODm46knIENY6ew==
+react-native-moengage@8.4.0:
+  version "8.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-moengage/-/react-native-moengage-8.4.0.tgz#e52fd51e9a7f75647423ec187184ac6f0ffa5ca1"
+  integrity sha512-7YiGciPuFYmaRz/IvlOX7+uzyey7EfGg3ZMOuDU2/9dGvqrZxIPJBRbm/qJo/V8jJqIYEhiVFpZlpprtOi891g==
 
 react-native-pager-view@6.1.1:
   version "6.1.1"

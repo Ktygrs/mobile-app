@@ -52,14 +52,10 @@ target 'ice' do
 end
 
 target 'NotificationService' do
-  pod 'MoEngageRichNotification', '~>6.4.0'
-end
-
-target 'FirebaseNotificationService' do
-  pod 'GoogleUtilities', :modular_headers => true
   pod 'Firebase/Messaging'
+  pod 'GoogleUtilities', :modular_headers => true
+  pod 'MoEngageRichNotification'
 end
-
 
 post_install do |installer|
   react_native_post_install(

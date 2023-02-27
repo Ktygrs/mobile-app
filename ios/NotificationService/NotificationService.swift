@@ -2,6 +2,8 @@
 
 import UserNotifications
 import MoEngageRichNotification
+import FirebaseMessaging
+
 
 class NotificationService: UNNotificationServiceExtension {
 
@@ -9,11 +11,14 @@ class NotificationService: UNNotificationServiceExtension {
     var bestAttemptContent: UNMutableNotificationContent?
 
     override func didReceive(_ request: UNNotificationRequest, withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
-        MORichNotification.setAppGroupID("group.io.ice");
+        MoEngageSDKRichNotification.setAppGroupID("group.io.ice");
         self.contentHandler = contentHandler
         bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
-        
-        MORichNotification.handle(richNotificationRequest: request, withContentHandler: contentHandler)
+        if let _ = request.content.userInfo["moengage"] {
+          MoEngageSDKRichNotification.handle(richNotificationRequest: request, withContentHandler: contentHandler)
+        } else {
+          FIRMessaging.serviceExtension().populateNotificationContent(bestAttemptContent, withContentHandler: contentHandler)
+        }
     }
     
     override func serviceExtensionTimeWillExpire() {
