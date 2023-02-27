@@ -25,7 +25,7 @@ type Props = {
   inactiveImage: ReactNode;
   hidden?: boolean;
   isProfilePrivacyEditMode?: boolean;
-  index?: number;
+  isFirstItem?: boolean;
   type: BadgeCategory;
 };
 
@@ -39,7 +39,7 @@ export const BadgeCard = memo(
     progressValue,
     hidden = false,
     isProfilePrivacyEditMode = false,
-    index,
+    isFirstItem,
     type,
   }: Props) => {
     const navigation =
@@ -60,7 +60,7 @@ export const BadgeCard = memo(
           style={[
             styles.container,
             commonStyles.shadow,
-            index === 0 ? styles.firstItem : null,
+            isFirstItem ? styles.firstItem : null,
           ]}>
           <View style={styles.icon}>
             {!hidden ? activeImage : inactiveImage}

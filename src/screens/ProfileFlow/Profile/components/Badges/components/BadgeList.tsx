@@ -54,7 +54,7 @@ export const BadgeList = ({
 
       return (
         <BadgeCard
-          index={index}
+          isFirstItem={index === 0}
           activeImage={<ActiveImage />}
           inactiveImage={<InactiveImage />}
           title={item.name}
