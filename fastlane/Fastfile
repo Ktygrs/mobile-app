@@ -127,6 +127,7 @@ platform :ios do
             configuration: "Release",
             workspace: "./ios/ice.xcworkspace",
             export_method: export_method,
+            verbose: true,
         )
     end
 
