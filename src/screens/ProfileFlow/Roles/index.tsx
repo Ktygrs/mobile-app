@@ -42,17 +42,17 @@ export const Roles = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={[styles.scrollContent, bottomOffset.current]}>
         <Role
-          title="Pioneer"
-          tagline="Are you flesh and blood?"
-          description="Earn by checking in every 24 hours to show your commitment to the ice network and prove that you're a human, not a bot."
+          title={t('role.snowman.title')}
+          tagline={t('role.snowman.subtitle')}
+          description={t('role.snowman.description')}
           imageSource={Images.roles.pioneer}
           backgroundColor={COLORS.white}
           checked={true}
         />
         <Role
-          title="Ambassador"
-          tagline="Invite friends to join your team."
-          description="You become an ambassador when at least 100 people joined your team. Every ambassador will get early access to new features."
+          title={t('role.ambassador.title')}
+          tagline={t('role.ambassador.subtitle')}
+          description={t('role.ambassador.description')}
           imageSource={Images.roles.ambassador}
           containerStyle={styles.lastRole}
         />

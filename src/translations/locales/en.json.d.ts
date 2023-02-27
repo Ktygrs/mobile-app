@@ -447,8 +447,12 @@ export type Translations = {
   'ice_bonus.description': null;
   'ice_bonus.balance_label': null;
   'country_select.title': null;
-  'role.pioneer.title': null;
-  'role.pioneer.description': null;
+  'role.snowman.title': null;
+  'role.snowman.subtitle': null;
+  'role.snowman.description': null;
+  'role.ambassador.title': null;
+  'role.ambassador.subtitle': null;
+  'role.ambassador.description': null;
   'confirm_phone.modify_title': null;
   'confirm_phone.modify_description': null;
   'confirm_phone.button': null;

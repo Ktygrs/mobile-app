@@ -9,6 +9,7 @@ import {
   CurrentRoleCard,
   CurrentRoleSkeleton,
 } from '@screens/ProfileFlow/Profile/components/Role/components/CurrentRoleCard';
+import {t} from '@translations/i18n';
 import React, {memo, useState} from 'react';
 
 type Props = {
@@ -31,8 +32,8 @@ export const Role = memo(({user, privacyInfoIsShown}: Props) => {
           privacyInfoIsShown={privacyInfoIsShown}
           imageSource={Images.roles.pioneer}
           imageSourceHidden={Images.roles.pioneerInactive}
-          title={'Pioneer'}
-          description={'Are you flesh and blood?'}
+          title={t('role.snowman.title')}
+          description={t('role.snowman.subtitle')}
           user={user}
           onNextPress={() => {
             navigation.navigate('Roles', {userId: user?.id});

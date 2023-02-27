@@ -628,9 +628,15 @@
     "title": "Land auswählen"
   },
   "role": {
-    "pioneer": {
-      "title": "Pionier",
-      "description": "Bist du aus Fleisch und Blut?"
+    "snowman": {
+      "title": "Snowman",
+      "subtitle": "Build a snow empire",
+      "description": "Earn by checking in every 24 hours to show your commitment to the ice network and prove that you're a human, not a bot"
+    },
+    "ambassador": {
+      "title": "Ambassador",
+      "subtitle": "Ruler of the snow empire",
+      "description": "You become an ambassador when at least 100 people joined your team. Every ambassador will get early access to new features"
     }
   },
   "confirm_phone": {

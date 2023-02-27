@@ -603,15 +603,15 @@
   "profile_privacy_edit": {
     "step1": {
       "title": "1. Your Profile Statistics",
-      "description": "Tap on the blocks you want to\nhide from public eyes"
+      "description": "Tap on the blocks you want to hide from public eyes"
     },
     "step2": {
-      "description": "Tap on this block to hide it\nfrom public eyes",
+      "description": "Tap on this block to hide it from public eyes",
       "title": "2. Your Current Role"
     },
     "step3": {
       "title": "3. Your Earned Badges",
-      "description": "Tap here to hide your badges\nfrom public eyes"
+      "description": "Tap here to hide your badges from public eyes"
     }
   },
   "confirm_email": {
@@ -647,9 +647,15 @@
     "title": "Select country"
   },
   "role": {
-    "pioneer": {
-      "title": "Pioneer",
-      "description": "Are you flesh and blood?"
+    "snowman": {
+      "title": "Snowman",
+      "subtitle": "Build a snow empire",
+      "description": "Earn by checking in every 24 hours to show your commitment to the ice network and prove that you're a human, not a bot"
+    },
+    "ambassador": {
+      "title": "Ambassador",
+      "subtitle": "Ruler of the snow empire",
+      "description": "You become an ambassador when at least 100 people joined your team. Every ambassador will get early access to new features"
     }
   },
   "confirm_phone": {

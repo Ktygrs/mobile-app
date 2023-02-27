@@ -37,8 +37,8 @@ export const ProfilePrivacyEditStep2 = () => {
           <CurrentRoleCard
             imageSource={Images.roles.pioneer}
             imageSourceHidden={Images.roles.pioneerInactive}
-            title={t('role.pioneer.title')}
-            description={t('role.pioneer.description')}
+            title={t('role.snowman.title')}
+            description={t('role.snowman.description')}
             isProfilePrivacyEditMode
           />
         </View>
