@@ -14,7 +14,7 @@ import {HEADER_HEIGHT} from '@navigation/components/Header';
 import {BackButton} from '@navigation/components/Header/components/BackButton';
 import {SettingsButton} from '@navigation/components/Header/components/SettingsButton';
 import {ShowPrivacyButton} from '@navigation/components/Header/components/ShowPrivacyButton';
-import {CameraIcon} from '@svg/CameraIcon';
+import {AnimatedCameraIcon} from '@svg/AnimatedCameraIcon';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
 import {Image, StyleSheet, View, ViewStyle} from 'react-native';
@@ -23,6 +23,7 @@ import Animated, {
   AnimatedStyleProp,
   Extrapolate,
   interpolate,
+  interpolateColor,
   SharedValue,
   useAnimatedStyle,
   useDerivedValue,
@@ -39,6 +40,7 @@ const AVATAR_SMALL_SIZE = rem(36);
 const AVATAR_SMALL_RADIUS = rem(16);
 const AVATAR_RADIUS = rem(41);
 const MIN_WIDTH_SIDE_CONTAINERS = rem(80);
+const MIN_WIDTH_SMALL_SIDE_CONTAINERS = rem(40);
 
 type Props = {
   user?: User | null;
@@ -187,9 +189,22 @@ export const AvatarHeader = memo(
       uri,
     });
 
+    const iconAnimatedColor = useDerivedValue(() =>
+      interpolateColor(
+        scrollY.value,
+        [0, MAX_SCROLL],
+        [COLORS.primaryDark, COLORS.alabaster],
+      ),
+    );
+
     return (
       <Animated.View style={[styles.container, extraPadding, shadowStyle]}>
-        <View style={styles.leftContainer}>
+        <View
+          style={
+            user?.hiddenProfileElements?.length
+              ? styles.leftContainer
+              : styles.leftSmallContainer
+          }>
           <BackButton
             containerStyle={styles.backButton}
             color={COLORS.primaryDark}
@@ -230,7 +245,7 @@ export const AvatarHeader = memo(
               {updateAvatarLoading ? (
                 <ActivityIndicator style={styles.activityIndicator} />
               ) : (
-                <CameraIcon />
+                <AnimatedCameraIcon animatedColor={iconAnimatedColor} />
               )}
             </AnimatedTouchable>
           </View>
@@ -252,11 +267,16 @@ export const AvatarHeader = memo(
             <Animated.Text
               style={[styles.usernameText, textStyle]}
               numberOfLines={1}>
-              {user?.username}
+              {`@${user?.username}`}
             </Animated.Text>
           )}
         </View>
-        <View style={styles.rightContainer}>
+        <View
+          style={
+            user?.hiddenProfileElements?.length
+              ? styles.rightContainer
+              : styles.rightSmallContainer
+          }>
           {isOwner && user && user?.hiddenProfileElements?.length && (
             <ShowPrivacyButton
               containerStyle={styles.showPrivacyButton}
@@ -303,10 +323,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  rightSmallContainer: {
+    paddingRight: rem(16),
+    alignSelf: 'center',
+    minWidth: MIN_WIDTH_SMALL_SIDE_CONTAINERS,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   leftContainer: {
     paddingLeft: rem(16),
     alignSelf: 'center',
     minWidth: MIN_WIDTH_SIDE_CONTAINERS,
+  },
+  leftSmallContainer: {
+    paddingLeft: rem(16),
+    alignSelf: 'center',
+    minWidth: MIN_WIDTH_SMALL_SIDE_CONTAINERS,
   },
   imageContainer: {
     borderColor: COLORS.foam,
