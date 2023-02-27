@@ -23,6 +23,7 @@ export const BadgeList = ({
             top: index > 0,
             bottom: !!nextBadge,
           }}
+          index={index}
         />
       );
     },

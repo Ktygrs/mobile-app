@@ -1,19 +1,21 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {Badge} from '@api/badges/types';
+import {BadgeCategory, SummaryBadge} from '@api/badges/types';
 import {User} from '@api/user/types';
 import {COLORS} from '@constants/colors';
+import {Images} from '@images';
 import {
   BadgeCard,
   BadgeCardSkeleton,
 } from '@screens/ProfileFlow/Profile/components/Badges/components/BadgeCard';
+import {t} from '@translations/i18n';
 import React, {useCallback} from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 import {rem} from 'rn-units';
 
 type Props = {
   loading: boolean;
-  data: Badge[];
+  data: SummaryBadge[];
   user?: User | null;
   isProfilePrivacyEditMode?: boolean;
   privacyInfoIsShown?: boolean;
@@ -32,22 +34,31 @@ export const BadgeList = ({
     user?.hiddenProfileElements?.includes('badges') && privacyInfoIsShown;
 
   const renderItem = useCallback(
-    ({item, index}: {item: Badge | null; index: number}) => {
+    ({item, index}: {item: SummaryBadge | null; index: number}) => {
       if (item === null) {
         return <BadgeCardSkeleton />;
       }
 
+      const image = `${[item.type]}0_achieved_true`;
+      const inactiveImage = `${[item.type]}0_achieved_false`;
+      const categoryTransaltion = t(
+        `profile.badge_types.${item.type as BadgeCategory}.title`,
+      );
+
       return (
         <BadgeCard
           index={index}
-          imageSource={item.imageSource}
-          imageInactive={item.imageInactive}
-          title={item.title}
-          category={item.category}
-          progressText={item.progressText}
-          progressValue={item.progressValue}
+          imageSource={Images.badges[image as keyof typeof Images.badges]}
+          imageInactive={
+            Images.badges[inactiveImage as keyof typeof Images.badges]
+          }
+          title={item.name}
+          category={categoryTransaltion}
+          progressText={`${item.index + 1} of ${item.lastIndex + 1}`}
+          progressValue={((item.index + 1) * 100) / (item.lastIndex + 1)}
           hidden={hidden}
           isProfilePrivacyEditMode={isProfilePrivacyEditMode}
+          type={item.type}
         />
       );
     },

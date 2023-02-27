@@ -1,37 +1,24 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {Badge} from '@api/badges/types';
-import {Images} from '@images';
+import {SummaryBadge} from '@api/badges/types';
 
-export const LAST_BADGES: Badge[] = [
+export const LAST_BADGES: SummaryBadge[] = [
   {
-    title: 'ice Breaker',
-    category: 'social',
-    progressText: '2 of 5',
-    progressValue: 30,
-    imageSource: Images.badges.iceBreaker.active,
-    imageInactive: Images.badges.iceBreaker.inactive,
-    description: '',
-    active: true,
+    name: 'ice Breaker',
+    type: 'social',
+    index: 0,
+    lastIndex: 9,
   },
   {
-    title: 'Trouble Maker',
-    category: 'coins',
-    progressText: '3 of 5',
-    progressValue: 50,
-    imageSource: Images.badges.troubleMaker.active,
-    imageInactive: Images.badges.bigContender.inactive,
-    description: '',
-    active: true,
+    name: 'Poor George',
+    type: 'coin',
+    index: 0,
+    lastIndex: 9,
   },
   {
-    title: 'Snowy Plow',
-    category: 'level',
-    progressText: '2 of 10',
-    progressValue: 20,
-    imageSource: Images.badges.snowyPlow.active,
-    imageInactive: Images.badges.mastermind.inactive,
-    description: '',
-    active: true,
+    name: 'ice Soldier',
+    type: 'level',
+    index: 0,
+    lastIndex: 5,
   },
 ];

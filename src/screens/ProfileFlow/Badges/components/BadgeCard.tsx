@@ -1,19 +1,26 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {BadgeCategory} from '@api/badges/types';
 import {ImageCardCompact} from '@components/Cards/ImageCardCompact';
 import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
+import {Images} from '@images';
 import {BadgeProgress} from '@screens/ProfileFlow/Badges/components/BadgeCardProgress';
-import React, {ReactNode} from 'react';
-import {ImageSourcePropType, StyleSheet, View} from 'react-native';
+import {t} from '@translations/i18n';
+import React from 'react';
+import {StyleSheet, View} from 'react-native';
 import {rem} from 'rn-units';
 
 type Props = {
-  title: string;
-  description: string | ReactNode;
-  progressValue: number;
-  active?: boolean;
-  imageSource: ImageSourcePropType;
+  name: string;
+  type: string;
+  achieved: boolean;
+  percentageOfUsersInProgress: number;
+  achievingRange: {
+    fromInclusive?: number;
+    toInclusive?: number;
+  };
+  index: number;
   connector: {
     top?: boolean | null;
     bottom?: boolean | null;
@@ -21,12 +28,34 @@ type Props = {
 };
 
 export const BadgeCard = ({
-  title,
-  description,
-  imageSource,
-  progressValue,
+  name,
+  index,
+  type,
+  achieved,
+  percentageOfUsersInProgress,
+  achievingRange,
   connector = {},
 }: Props) => {
+  const image = `${[type]}${index}_achieved_${achieved}`;
+
+  let description = '';
+
+  if (achievingRange.fromInclusive && achievingRange.toInclusive) {
+    description = `${achievingRange.fromInclusive}-${
+      achievingRange.toInclusive
+    } ${t(`profile.badge_types.${type as BadgeCategory}.description`)}`;
+  }
+  if (!achievingRange?.toInclusive && achievingRange?.fromInclusive) {
+    description = `> ${achievingRange?.fromInclusive - 1} ${t(
+      `profile.badge_types.${type as BadgeCategory}.description`,
+    )}`;
+  }
+  if (!achievingRange?.fromInclusive && achievingRange?.toInclusive) {
+    description = `< ${achievingRange?.toInclusive + 1} ${t(
+      `profile.badge_types.${type as BadgeCategory}.description`,
+    )}`;
+  }
+
   return (
     <>
       {connector.top && (
@@ -36,10 +65,10 @@ export const BadgeCard = ({
         <View style={[styles.connector, styles.connectorBottom]} />
       )}
       <ImageCardCompact
-        title={title}
+        title={name}
         description={description}
-        imageSource={imageSource}
-        renderBody={() => <BadgeProgress value={progressValue} />}
+        imageSource={Images.badges[image as keyof typeof Images.badges]}
+        renderBody={() => <BadgeProgress value={percentageOfUsersInProgress} />}
         containerStyle={styles.containerActive}
       />
     </>

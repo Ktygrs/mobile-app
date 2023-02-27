@@ -18,7 +18,7 @@ import {rem} from 'rn-units';
 
 type Props = {
   title: string;
-  category: BadgeCategory;
+  category: string;
   progressText: string;
   progressValue: number;
   imageSource: ImageSourcePropType;
@@ -26,6 +26,7 @@ type Props = {
   hidden?: boolean;
   isProfilePrivacyEditMode?: boolean;
   index?: number;
+  type: BadgeCategory;
 };
 
 export const BadgeCard = memo(
@@ -39,6 +40,7 @@ export const BadgeCard = memo(
     hidden = false,
     isProfilePrivacyEditMode = false,
     index,
+    type,
   }: Props) => {
     const navigation =
       useNavigation<NativeStackNavigationProp<ProfileTabStackParamList>>();
@@ -48,9 +50,9 @@ export const BadgeCard = memo(
       if (isProfilePrivacyEditMode) {
         onUpdate('badges');
       } else {
-        navigation.navigate('Badges', {category});
+        navigation.navigate('Badges', {category: type});
       }
-    }, [category, navigation, onUpdate, isProfilePrivacyEditMode]);
+    }, [isProfilePrivacyEditMode, onUpdate, navigation, type]);
 
     return (
       <Touchable onPress={onBadgePress}>

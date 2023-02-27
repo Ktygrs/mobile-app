@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
+import {PeopleIcon} from '@svg/PeopleIcon';
 import {font} from '@utils/styles';
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
@@ -24,8 +25,9 @@ export const BadgeProgress = ({value: progressValue}: Props) => {
           style={styles.percLabelText}
           numberOfLines={2}
           adjustsFontSizeToFit>
-          of users
+          of
         </Text>
+        <PeopleIcon />
       </View>
       <View style={styles.progressBody}>
         <View style={[styles.progressValue, {width: `${progressValue}%`}]} />
@@ -36,7 +38,7 @@ export const BadgeProgress = ({value: progressValue}: Props) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: rem(100),
+    width: rem(85),
     marginRight: rem(14),
     marginTop: rem(4),
     justifyContent: 'center',
@@ -46,11 +48,12 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   percValueText: {
+    marginRight: rem(6),
     ...font(14, 17, 'bold', 'primaryDark'),
   },
   percLabelText: {
     textAlign: 'right',
-    flex: 1,
+    marginRight: rem(6),
     ...font(12, 15, 'medium', 'periwinkleGray'),
   },
   progressBody: {
