@@ -140,7 +140,7 @@
     "title": "Who invited you?",
     "description": "Enter the nickname of the person who invited you",
     "inputPlaceholder": "Enter nickname",
-    "dontHaveInvitationCode": "By completing this step, you and your friend will both receive a {{value}}% bonus on the mining rate when you are both mining in the same time.",
+    "dontHaveInvitationCode": "By completing this step, you and your friend will receive a {{value}}% bonus on the mining rate when you are mining simultaneously.",
     "confirm_text": "Are you sure that you would like to set a random member as your referral?\n\nThis cannot be undone!",
     "dontHaveCodeTip": "If you don't have an invitation code we will\nselect a random member as your referral!"
   },

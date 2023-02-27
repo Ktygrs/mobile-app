@@ -51,7 +51,7 @@ export const Team = memo(() => {
     [],
   );
 
-  if (!referrals.length) {
+  if (!referrals.length || referrals.length < 2) {
     return null;
   }
 

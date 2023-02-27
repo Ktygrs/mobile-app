@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {ActivityIndicator} from '@components/ActivityIndicator';
 import {Touchable, TouchableProps} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {font} from '@utils/styles';
 import React, {ReactNode} from 'react';
 import {
-  ActivityIndicator,
   StyleProp,
   StyleSheet,
   Text,
@@ -15,6 +15,8 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {rem} from 'rn-units';
+
+const INDICATOR_SIDE_DIMENSION = rem(24);
 
 export interface PrimaryButtonProps extends TouchableProps {
   text: string;
@@ -59,10 +61,9 @@ export const PrimaryButton = ({
       {icon ? <View style={styles.icon}>{icon}</View> : null}
       <Text style={[styles.text, textStyle]}>{text}</Text>
       {loading && (
-        <ActivityIndicator
-          style={styles.activityIndicator}
-          color={COLORS.white}
-        />
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator theme="dark-content" style={styles.indicator} />
+        </View>
       )}
     </Touchable>
   );
@@ -87,10 +88,16 @@ const styles = StyleSheet.create({
     marginHorizontal: rem(10),
     ...font(17, 20.4, 'semibold'),
   },
-  activityIndicator: {
+  loadingContainer: {
     position: 'absolute',
     top: 0,
     bottom: 0,
-    right: rem(16),
+    right: rem(15),
+    width: INDICATOR_SIDE_DIMENSION,
+    justifyContent: 'center',
+  },
+  indicator: {
+    width: INDICATOR_SIDE_DIMENSION,
+    height: INDICATOR_SIDE_DIMENSION,
   },
 });
