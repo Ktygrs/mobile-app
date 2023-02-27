@@ -4,6 +4,7 @@ import {isApi4xxError, isNetworkError} from '@api/client';
 import {isAuthError} from '@services/auth';
 import {logError} from '@services/logging';
 import {AccountActions} from '@store/modules/Account/actions';
+import {rootAnalyticsSaga} from '@store/modules/Analytics/sagas';
 import {rootLinkingSaga} from '@store/modules/Linking/sagas';
 import {rootNotificationsSaga} from '@store/modules/Notifications/sagas';
 import {rootStatsSaga} from '@store/modules/Stats/sagas';
@@ -28,6 +29,7 @@ export function* rootSaga(): SagaIterator {
     rootAuthSaga,
     rootNewsSaga,
     rootStatsSaga,
+    rootAnalyticsSaga,
     rootPermissionsSaga,
     rootReferralsSaga,
     rootCollectionsSaga,

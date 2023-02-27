@@ -48,7 +48,6 @@ import {PersonalInformation} from '@screens/SettingsFlow/PersonalInformation';
 import {Settings} from '@screens/SettingsFlow/Settings';
 import {Staking} from '@screens/Staking';
 import {Team} from '@screens/Team';
-import {useTrackUserInfo} from '@store/modules/Account/hooks/useTrackUserInfo';
 import {ActiveTabActions, Tab} from '@store/modules/ActiveTab/actions';
 import {StatsPeriod} from '@store/modules/Stats/types';
 import React, {ComponentType, ReactNode, RefObject} from 'react';
@@ -276,7 +275,6 @@ export function MainNavigator() {
   //    + calling in Router.tsx leads to splash screen hanging if user doesn't have internet connection during the app opening
   // useGetstreamListener();
   useUpdateRequiredListener();
-  useTrackUserInfo();
   return (
     <MainStack.Navigator screenOptions={screenOptions}>
       <MainStack.Screen name="MainTabs" component={MainTabs} />

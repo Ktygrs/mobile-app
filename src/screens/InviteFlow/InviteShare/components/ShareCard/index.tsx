@@ -10,10 +10,11 @@ import {
 import {
   ShareButton,
   SocialShareButtonType,
-  SocialType,
 } from '@screens/InviteFlow/InviteShare/components/ShareButton';
+import {SocialType} from '@screens/InviteFlow/InviteShare/components/ShareButton/types';
 import {logError} from '@services/logging';
 import {usernameSelector} from '@store/modules/Account/selectors';
+import {AnalyticsEventLogger} from '@store/modules/Analytics/constants';
 import {t} from '@translations/i18n';
 import {checkProp} from '@utils/guards';
 import React, {useRef} from 'react';
@@ -91,6 +92,7 @@ const ShareCard = () => {
   const handleSocialButtonPress = async (type: SocialType) => {
     const url = `${LINKS.MAIN}@${username}`;
     const baseOptions = {message: t('invite_share.share_message'), url};
+    AnalyticsEventLogger.trackInvite({inviteAppType: type});
     try {
       switch (type) {
         case 'More':

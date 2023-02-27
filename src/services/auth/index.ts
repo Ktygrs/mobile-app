@@ -155,6 +155,12 @@ export const getAuthToken = async () => {
   return auth().currentUser?.getIdToken() ?? null;
 };
 
+export const getAuthProvider = async () => {
+  return auth()
+    .currentUser?.getIdTokenResult()
+    .then(({claims}) => claims.firebase.sign_in_provider);
+};
+
 export const getAuthenticatedUser = async (forceRefresh?: boolean) => {
   const currentUser = auth().currentUser;
   if (currentUser) {

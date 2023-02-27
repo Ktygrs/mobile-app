@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {Api} from '@api/index';
+import {AnalyticsEventLogger} from '@store/modules/Analytics/constants';
 import {DeviceActions} from '@store/modules/Devices/actions';
 import {getErrorMessage} from '@utils/errors';
 import {call, put} from 'redux-saga/effects';
@@ -24,6 +25,10 @@ export function* updateNotificationChannel(
         notificationDeliveryChannel,
       ),
     );
+    AnalyticsEventLogger.trackNotificationSettingsUpdate({
+      notificationChannel,
+      notificationDeliveryChannel,
+    });
   } catch (error) {
     yield put(
       DeviceActions.UPDATE_NOTIFICATION_CHANNEL.FAILED.create(

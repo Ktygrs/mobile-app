@@ -20,6 +20,5 @@ export function* rootPermissionsSaga() {
       ],
       checkAllPermissionsSaga,
     ),
-    takeLatest(AppCommonActions.APP_LOADED.STATE.type, checkAllPermissionsSaga),
   ]);
 }

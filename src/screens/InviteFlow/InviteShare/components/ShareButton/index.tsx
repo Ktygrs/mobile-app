@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {Touchable} from '@components/Touchable';
+import {SocialType} from '@screens/InviteFlow/InviteShare/components/ShareButton/types';
 import {font} from '@utils/styles';
 import React from 'react';
 import {Image, StyleSheet, Text} from 'react-native';
@@ -9,17 +10,6 @@ import {rem, screenWidth} from 'rn-units';
 
 const BUTTON_LEFT_OFFSET = 32;
 const BUTTON_SIDE_DIMENSION = (screenWidth - BUTTON_LEFT_OFFSET * 5) / 4;
-
-export type SocialType =
-  | 'Telegram'
-  | 'Twitter'
-  | 'WhatsApp'
-  | 'Instagram'
-  | 'Sms'
-  | 'Email'
-  | 'FB'
-  | 'CopyLink'
-  | 'More';
 
 export type SocialShareButtonType = {
   type: SocialType;

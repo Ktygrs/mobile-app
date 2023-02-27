@@ -13,6 +13,10 @@ import {RouteProp, useRoute} from '@react-navigation/native';
 import InviteAvatar, {
   AVATAR_CONTAINER_SIDE_DIMENSION,
 } from '@screens/InviteFlow/InviteFriend/components/InviteAvatar';
+import {
+  AnalyticsEventLogger,
+  EVENT_NAMES,
+} from '@store/modules/Analytics/constants';
 import {ContactsActions} from '@store/modules/Contacts/actions';
 import {InviteIcon} from '@svg/InviteIcon';
 import {replaceString, t, tagRegex} from '@translations/i18n';
@@ -29,14 +33,17 @@ export const INVITE_CARD_TOP_OFFSET = rem(63);
 
 export const InviteFriend = () => {
   useFocusStatusBar({style: 'dark-content'});
-  const dispatch = useDispatch();
   const {bottom: bottomInset} = useSafeAreaInsets();
+  const dispatch = useDispatch();
   const route = useRoute<RouteProp<MainStackParamList, 'InviteFriend'>>();
   const contact = route.params?.contact;
   const {shadowStyle} = useScrollShadow();
 
   const onInvite = () => {
     dispatch(ContactsActions.INVITE_CONTACT.START.create(contact?.recordID));
+    AnalyticsEventLogger.trackEvent({
+      eventName: EVENT_NAMES.INVITE_CONTACT_BY_SMS,
+    });
   };
 
   const nameToDisplay = getContactName({

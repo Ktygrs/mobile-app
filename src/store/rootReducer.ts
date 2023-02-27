@@ -2,6 +2,7 @@
 
 import {accountReducer} from '@store/modules/Account/reducer';
 import {activeTab} from '@store/modules/ActiveTab/reducer';
+import {analyticsReducer} from '@store/modules/Analytics/reducer';
 import {appCommonReducer} from '@store/modules/AppCommon/reducer';
 import {collectionsReducer} from '@store/modules/Collections/reducer';
 import {teamReducer} from '@store/modules/Contacts/reducer';
@@ -20,6 +21,7 @@ import {combineReducers} from 'redux';
 
 export const rootReducer = combineReducers({
   activeTab: activeTab,
+  analytics: analyticsReducer,
   appCommon: appCommonReducer,
   permissions: permissionsReducer,
   account: accountReducer,

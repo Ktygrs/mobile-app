@@ -2,6 +2,7 @@
 
 import {InitializationError} from '@components/InitializationError';
 import {AuthNavigator} from '@navigation/Auth';
+import {useOnStateChange} from '@navigation/hooks/useOnStateChange';
 import {MainNavigator} from '@navigation/Main';
 import {theme} from '@navigation/theme';
 import {navigationReadyResolver, navigationRef} from '@navigation/utils';
@@ -64,8 +65,14 @@ export function Router() {
     RNBootSplash.hide();
   }, []);
 
+  const onStateChange = useOnStateChange();
+
   return (
-    <NavigationContainer ref={navigationRef} theme={theme} onReady={onReady}>
+    <NavigationContainer
+      ref={navigationRef}
+      theme={theme}
+      onReady={onReady}
+      onStateChange={onStateChange}>
       <ActiveNavigator />
     </NavigationContainer>
   );

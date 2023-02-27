@@ -4,6 +4,7 @@ import {isApiError} from '@api/client';
 import {Api} from '@api/index';
 import {ResurrectRequiredData} from '@api/tokenomics/types';
 import {userIdSelector} from '@store/modules/Account/selectors';
+import {AnalyticsActions} from '@store/modules/Analytics/actions';
 import {TokenomicsActions} from '@store/modules/Tokenomics/actions';
 import {isMiningActiveSelector} from '@store/modules/Tokenomics/selectors';
 import {openConfirmResurrect} from '@store/modules/Tokenomics/utils/openConfirmResurrect';
@@ -89,6 +90,12 @@ function* confirmResurrect(
       : yield call(openConfirmResurrectNo, params);
 
   if (warningConfirmResult === 'yes') {
+    yield put(
+      AnalyticsActions.UPDATE_RESURRECT_RESPONSE_TYPE.START.create({
+        resurrectResponseType:
+          mainConfirmResult === 'yes' ? 'accepted' : 'denied',
+      }),
+    );
     yield put(
       TokenomicsActions.START_MINING_SESSION.START.create({
         resurrect: mainConfirmResult === 'yes',

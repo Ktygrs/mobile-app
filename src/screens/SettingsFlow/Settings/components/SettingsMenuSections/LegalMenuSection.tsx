@@ -3,6 +3,10 @@
 import {LINKS} from '@constants/links';
 import {MenuItem} from '@screens/SettingsFlow/Settings/components/MenuItem.tsx';
 import {SectionTitle} from '@screens/SettingsFlow/Settings/components/SectionTitle';
+import {
+  AnalyticsEventLogger,
+  EVENT_NAMES,
+} from '@store/modules/Analytics/constants';
 import {PrivacyIcon} from '@svg/PrivacyIcon';
 import {TermsIcon} from '@svg/TermsIcon';
 import {t} from '@translations/i18n';
@@ -17,13 +21,23 @@ export const LegalMenuSection = () => {
         title={t('settings.terms_title')}
         description={t('settings.terms_description')}
         renderIcon={TermsIcon}
-        onPress={() => openLinkWithInAppBrowser({url: LINKS.TERMS})}
+        onPress={() => {
+          AnalyticsEventLogger.trackEvent({
+            eventName: EVENT_NAMES.TERMS_OF_SERVICE,
+          });
+          openLinkWithInAppBrowser({url: LINKS.TERMS});
+        }}
       />
       <MenuItem
         title={t('settings.privacy_title')}
         description={t('settings.privacy_description')}
         renderIcon={PrivacyIcon}
-        onPress={() => openLinkWithInAppBrowser({url: LINKS.PRIVACY})}
+        onPress={() => {
+          AnalyticsEventLogger.trackEvent({
+            eventName: EVENT_NAMES.PRIVACY_POLICY,
+          });
+          openLinkWithInAppBrowser({url: LINKS.PRIVACY});
+        }}
       />
     </>
   );

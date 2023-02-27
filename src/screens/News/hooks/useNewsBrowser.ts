@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {NewsArticle} from '@api/news/types';
+import {AnalyticsEventLogger} from '@store/modules/Analytics/constants';
 import {NewsActions} from '@store/modules/News/actions';
 import {openLinkWithInAppBrowser} from '@utils/device';
 import {useCallback} from 'react';
@@ -25,6 +26,7 @@ export function useNewsBrowser(newsArticle: NewsArticle | undefined) {
         );
       }
     });
+    AnalyticsEventLogger.trackOpenArticle({articleName: newsArticle.title});
   }, [newsArticle, dispatch]);
 
   return {

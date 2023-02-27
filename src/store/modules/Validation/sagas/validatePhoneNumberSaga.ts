@@ -5,6 +5,10 @@ import {updatePhoneNumber} from '@services/auth';
 import {AccountActions} from '@store/modules/Account/actions';
 import {updateAccountSaga} from '@store/modules/Account/sagas/updateAccount';
 import {userSelector} from '@store/modules/Account/selectors';
+import {
+  AnalyticsEventLogger,
+  EVENT_NAMES,
+} from '@store/modules/Analytics/constants';
 import {ValidationActions} from '@store/modules/Validation/actions';
 import {
   temporaryPhoneNumberSelector,
@@ -33,6 +37,9 @@ export function* validatePhoneNumberSaga(
     yield call(updatePhoneNumber, verificationId, validationCode);
     yield call(modifyPhoneNumber, user, temporaryPhoneNumber);
     yield put(ValidationActions.PHONE_VALIDATION.SUCCESS.create());
+    yield call(AnalyticsEventLogger.trackEvent, {
+      eventName: EVENT_NAMES.TEAM_NUMBER_CONFIRMED,
+    });
   } catch (error) {
     yield put(
       ValidationActions.PHONE_VALIDATION.FAILED.create(getErrorMessage(error)),

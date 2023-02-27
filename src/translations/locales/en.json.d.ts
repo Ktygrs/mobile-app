@@ -242,8 +242,6 @@ export type Translations = {
   'settings.confirm_phone.description': null;
   'settings.confirm_phone.button': null;
   'settings.notifications.enable_prompt': null;
-  'settings.notifications.turn_off_all': null;
-  'settings.notifications.turn_on_all': null;
   'settings.notifications.channel_achievements': null;
   'settings.notifications.channel_news': null;
   'settings.notifications.channel_reminders': null;

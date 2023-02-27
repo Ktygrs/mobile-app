@@ -8,6 +8,7 @@ import {
   isAuthorizedSelector,
   userIdSelector,
 } from '@store/modules/Account/selectors';
+import {AnalyticsAttributesLogger} from '@store/modules/Analytics/constants';
 import {DeviceActions} from '@store/modules/Devices/actions';
 import i18n, {appLocale, setLocale} from '@translations/i18n';
 import {getErrorMessage} from '@utils/errors';
@@ -40,6 +41,14 @@ export function* initDeviceSaga() {
         settings,
       ),
     );
+    if (settings) {
+      AnalyticsAttributesLogger.updateNotificationPreferences({
+        notificationDeliveryChannel: 'push',
+      });
+      AnalyticsAttributesLogger.updateNotificationPreferences({
+        notificationDeliveryChannel: 'email',
+      });
+    }
   } catch (error) {
     yield put(
       DeviceActions.GET_OR_CREATE_DEVICE_SETTINGS.FAILED.create(

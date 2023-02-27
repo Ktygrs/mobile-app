@@ -2,9 +2,11 @@
 
 import {isApiError} from '@api/client';
 import {Api} from '@api/index';
+import {startTrackingCurrentUser} from '@services/analytics';
 import {getAuthenticatedUser} from '@services/auth';
 import {AccountActions} from '@store/modules/Account/actions';
 import {userInfoSelector, userSelector} from '@store/modules/Account/selectors';
+import {AnalyticsActions} from '@store/modules/Analytics/actions';
 import {t} from '@translations/i18n';
 import {getErrorMessage, showError} from '@utils/errors';
 import {e164PhoneNumber, hashPhoneNumber} from '@utils/phoneNumber';
@@ -26,6 +28,9 @@ export function* userStateChangeSaga() {
 
       if (user === null) {
         user = yield call(getUser, authenticatedUser.uid);
+        if (user) {
+          yield put(AnalyticsActions.TRACK_SIGN_IN.START.create({user}));
+        }
       }
 
       if (user === null) {
@@ -35,9 +40,14 @@ export function* userStateChangeSaga() {
           firstName: userInfo?.firstName ?? null,
           lastName: userInfo?.lastName ?? null,
         });
+        yield put(AnalyticsActions.TRACK_SIGN_UP.SUCCESS.create());
+
         // Request firebase user once again after create-user to get updated claims
         // This forceRefresh triggers userStateChange
         yield call(getAuthenticatedUser, true);
+      }
+      if (user?.id) {
+        yield call(startTrackingCurrentUser, user.id);
       }
       yield put(
         AccountActions.USER_STATE_CHANGE.SUCCESS.create(

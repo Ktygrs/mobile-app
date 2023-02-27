@@ -3,6 +3,7 @@
 import {User} from '@api/user/types';
 import {AccountActions} from '@store/modules/Account/actions';
 import {userSelector} from '@store/modules/Account/selectors';
+import {AnalyticsActions} from '@store/modules/Analytics/actions';
 import {balanceSummarySelector} from '@store/modules/Tokenomics/selectors';
 import {isLoadingSelector} from '@store/modules/UtilityProcessStatuses/selectors';
 import {formatNumberString} from '@utils/numbers';
@@ -44,7 +45,10 @@ export const useIceBonus = () => {
     }
   };
 
-  const onSubmit = () => finishIceBonus(user);
+  const onSubmit = () => {
+    finishIceBonus(user);
+    dispatch(AnalyticsActions.TRACK_SIGN_UP.START.create({user}));
+  };
 
   return {
     currentBalance,

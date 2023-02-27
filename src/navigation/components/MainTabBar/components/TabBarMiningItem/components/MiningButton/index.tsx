@@ -5,13 +5,13 @@ import {MiningButtonHandlers} from '@navigation/components/MainTabBar/components
 import {MiningButtonTooltip} from '@navigation/components/MainTabBar/components/TabBarMiningItem/components/MiningButton/components/MiningButtonTooltip';
 import {useMiningState} from '@navigation/components/MainTabBar/components/TabBarMiningItem/components/MiningButton/hooks/useMiningState';
 import {useStackingModal} from '@navigation/components/MainTabBar/components/TabBarMiningItem/components/MiningButton/hooks/useStackingModal';
+import {AnalyticsEventLogger} from '@store/modules/Analytics/constants';
 import {hapticFeedback} from '@utils/device';
 import React, {useEffect, useRef} from 'react';
 import {View} from 'react-native';
 
 export const MiningButton = () => {
   const initialRender = useRef(true);
-
   const {
     stateConfig,
     miningStateTooltipSeen,
@@ -38,6 +38,7 @@ export const MiningButton = () => {
 
       if (gestureConfig.showStackingModal) {
         showStackingModal();
+        AnalyticsEventLogger.trackTapToMine({tapToMineActionType: 'Info'});
       }
 
       if (gestureConfig.hapticFeedback) {
@@ -50,6 +51,10 @@ export const MiningButton = () => {
       }
 
       if (gestureConfig.startMining) {
+        AnalyticsEventLogger.trackTapToMine({
+          tapToMineActionType:
+            gesture === 'onLongPress' ? 'Extended' : 'Default',
+        });
         startMiningSession();
       }
 

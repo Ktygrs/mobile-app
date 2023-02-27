@@ -11,6 +11,7 @@ export function* signOutSaga() {
   try {
     yield call(stopTrackingCurrentUser);
     yield call(signOut);
+    yield call(stopTrackingCurrentUser);
     yield put(AccountActions.SIGN_OUT.SUCCESS.create());
   } catch (error) {
     /**

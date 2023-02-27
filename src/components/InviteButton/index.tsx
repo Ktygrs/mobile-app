@@ -7,6 +7,10 @@ import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {MainStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {
+  AnalyticsEventLogger,
+  EVENT_NAMES,
+} from '@store/modules/Analytics/constants';
 import {InviteIcon} from '@svg/InviteIcon';
 import {LogoTransparentIcon} from '@svg/LogoTransparentIcon';
 import {t} from '@translations/i18n';
@@ -23,7 +27,12 @@ export const InviteButton = ({style}: Props = {}) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<MainStackParamList>>();
 
-  const onInvitePress = () => navigation.navigate('InviteShare');
+  const onInvitePress = () => {
+    navigation.navigate('InviteShare');
+    AnalyticsEventLogger.trackEvent({
+      eventName: EVENT_NAMES.INVITE_FRIENDS_BANNER_PRESSED,
+    });
+  };
 
   return (
     <Touchable style={[styles.button, style]} onPress={onInvitePress}>

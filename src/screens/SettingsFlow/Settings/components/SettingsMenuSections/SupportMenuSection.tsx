@@ -9,6 +9,10 @@ import {MenuItem} from '@screens/SettingsFlow/Settings/components/MenuItem.tsx';
 import {SectionTitle} from '@screens/SettingsFlow/Settings/components/SectionTitle';
 import {logError} from '@services/logging';
 import {AccountActions} from '@store/modules/Account/actions';
+import {
+  AnalyticsEventLogger,
+  EVENT_NAMES,
+} from '@store/modules/Analytics/constants';
 import {EraseIcon} from '@svg/EraseIcon';
 import {FeedbackIcon} from '@svg/FeedbackIcon';
 import {InviteIcon} from '@svg/InviteIcon';
@@ -30,9 +34,12 @@ export const SupportMenuSection = () => {
         title={t('settings.feedback_title')}
         description={t('settings.feedback_description')}
         renderIcon={FeedbackIcon}
-        onPress={() =>
-          Linking.openURL(`mailto:${LINKS.FEEDBACK_EMAIL}`).catch(logError)
-        }
+        onPress={() => {
+          Linking.openURL(`mailto:${LINKS.FEEDBACK_EMAIL}`).catch(logError);
+          AnalyticsEventLogger.trackEvent({
+            eventName: EVENT_NAMES.SEND_FEEDBACK,
+          });
+        }}
       />
       <MenuItem
         title={t('settings.invite_title')}

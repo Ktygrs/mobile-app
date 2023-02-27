@@ -352,8 +352,6 @@
     },
     "notifications": {
       "enable_prompt": "Notifications are not allowed. Do you want to enable them",
-      "turn_off_all": "Turn off all notifications",
-      "turn_on_all": "Turn on all notifications",
       "channel_achievements": "Achievements",
       "channel_news": "News",
       "channel_reminders": "Reminders",

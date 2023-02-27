@@ -7,6 +7,8 @@ source 'https://cdn.cocoapods.org/'
 platform :ios, '12.4'
 install! 'cocoapods', :deterministic_uuids => false, :warn_for_unused_master_specs_repo => false
 
+$RNFirebaseAnalyticsWithoutAdIdSupport = true
+
 target 'ice' do
 
   permissions_path = '../node_modules/react-native-permissions/ios'

@@ -66,7 +66,7 @@ public class MainApplication extends Application implements ReactApplication {
     MoEngage.Builder moEngage =
             new MoEngage.Builder(this, BuildConfig.MO_ENGAGE_APP_ID)
                 .configureNotificationMetaData(new NotificationConfig(R.drawable.ic_notification_icon_small, R.drawable.ic_notification_icon, R.color.splashscreen_bg, true, true, true))
-                .configureLogs(new LogConfig(LogLevel.VERBOSE, true));
+                .configureLogs(new LogConfig(LogLevel.ERROR, false));
     switch (BuildConfig.MO_ENGAGE_APP_DOMAIN) {
       case "DATA_CENTER_01": {
         moEngage.setDataCenter(DataCenter.DATA_CENTER_1);

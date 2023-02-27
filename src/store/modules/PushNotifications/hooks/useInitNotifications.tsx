@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {ENV} from '@constants/env';
+import {userIdSelector} from '@store/modules/Account/selectors';
 import {DeviceActions} from '@store/modules/Devices/actions';
 import {isPermissionGrantedSelector} from '@store/modules/Permissions/selectors';
 import {useEffect} from 'react';
@@ -14,7 +15,7 @@ export function useInitNotifications() {
   );
 
   const dispatch = useDispatch();
-
+  const userId = useSelector(userIdSelector);
   useEffect(() => {
     if (isIOS) {
       if (hasPushPermissions) {
@@ -35,5 +36,5 @@ export function useInitNotifications() {
         https://developers.moengage.com/hc/en-us/articles/4404205878676-Framework-Initialization
        */
     ReactMoE.initialize(ENV.MO_ENGAGE_APP_ID ?? '');
-  }, [dispatch, hasPushPermissions]);
+  }, [dispatch, hasPushPermissions, userId]);
 }

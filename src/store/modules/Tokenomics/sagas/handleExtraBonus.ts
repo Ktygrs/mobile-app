@@ -7,6 +7,7 @@ import {
   isRegistrationCompleteSelector,
   userIdSelector,
 } from '@store/modules/Account/selectors';
+import {AnalyticsEventLogger} from '@store/modules/Analytics/constants';
 import {TokenomicsActions} from '@store/modules/Tokenomics/actions';
 import {miningSummarySelector} from '@store/modules/Tokenomics/selectors';
 import {openBonusClaimed} from '@store/modules/Tokenomics/utils/openBonusClaimed';
@@ -47,6 +48,9 @@ export function* handleExtraBonusSaga(): SagaIterator {
         }),
       );
 
+      yield call(AnalyticsEventLogger.trackClaimBonus, {
+        claimBonusResult: 'Success',
+      });
       yield call(openBonusClaimed, {
         claimedBonus: extraBonus.availableExtraBonus,
       });
@@ -56,6 +60,9 @@ export function* handleExtraBonusSaga(): SagaIterator {
       navigationRef.goBack(); // close the modal
       return;
     } else if (isApiError(error, 404, 'NO_EXTRA_BONUS_AVAILABLE')) {
+      yield call(AnalyticsEventLogger.trackClaimBonus, {
+        claimBonusResult: 'Expired',
+      });
       yield call(openBonusExpired);
       return;
     }
