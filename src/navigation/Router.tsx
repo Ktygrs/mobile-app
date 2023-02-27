@@ -16,7 +16,6 @@ import {
 import {useAppLoadedListener} from '@store/modules/AppCommon/hooks/useAppLoadedListener';
 import {useAppStateListener} from '@store/modules/AppCommon/hooks/useAppStateListener';
 import {appInitStateSelector} from '@store/modules/AppCommon/selectors';
-import {useOpenUrlListener} from '@store/modules/Linking/hooks/useOpenUrlListener';
 import {useInitNotifications} from '@store/modules/PushNotifications/hooks/useInitNotifications';
 import React, {useCallback, useEffect} from 'react';
 import RNBootSplash from 'react-native-bootsplash';
@@ -56,7 +55,6 @@ export function Router() {
   useAppLoadedListener();
   useAppStateListener();
   useUserChangedListener();
-  useOpenUrlListener();
   useInitNotifications();
 
   const onReady = useCallback(() => {

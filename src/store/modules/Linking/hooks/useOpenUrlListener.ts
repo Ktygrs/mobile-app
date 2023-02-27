@@ -7,12 +7,12 @@ import {useDispatch} from 'react-redux';
 
 export const useOpenUrlListener = () => {
   const dispatch = useDispatch();
-  Linking.getInitialURL().then(url => {
-    if (url) {
-      dispatch(LinkingActions.HANDLE_URL.STATE.create(url, true));
-    }
-  });
   useEffect(() => {
+    Linking.getInitialURL().then(url => {
+      if (url) {
+        dispatch(LinkingActions.HANDLE_URL.STATE.create(url, true));
+      }
+    });
     const subscription = Linking.addEventListener('url', ({url}) => {
       dispatch(LinkingActions.HANDLE_URL.STATE.create(url, true));
     });

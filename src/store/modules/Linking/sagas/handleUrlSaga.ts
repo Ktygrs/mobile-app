@@ -38,7 +38,8 @@ export function* handleUrlSaga(action: ReturnType<typeof actionCreator>) {
 
   switch (path.toLowerCase()) {
     case 'browser':
-      openLinkWithInAppBrowser({url: query.url ?? ''});
+      const browserUrl = decodeURIComponent(query.url ?? '');
+      openLinkWithInAppBrowser({url: browserUrl});
       break;
     case 'home':
       switch (query.section) {

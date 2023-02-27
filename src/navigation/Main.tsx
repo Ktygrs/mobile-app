@@ -51,6 +51,8 @@ import {Staking} from '@screens/Staking';
 import {Team} from '@screens/Team';
 import {useTrackUserInfo} from '@store/modules/Account/hooks/useTrackUserInfo';
 import {ActiveTabActions, Tab} from '@store/modules/ActiveTab/actions';
+import {useOpenUrlListener} from '@store/modules/Linking/hooks/useOpenUrlListener';
+import {useSubscribeToPushNotifications} from '@store/modules/PushNotifications/hooks/useSubscribeToPushNotifications';
 import {StatsPeriod} from '@store/modules/Stats/types';
 import React, {ComponentType, ReactNode, RefObject} from 'react';
 import {Image, View} from 'react-native';
@@ -230,6 +232,9 @@ const MainTabBarComponent = (props: BottomTabBarProps) => (
 );
 
 const MainTabs = () => {
+  useSubscribeToPushNotifications();
+  useOpenUrlListener();
+
   const dispatch = useDispatch();
   const getListeners = (tab: Tab) => {
     return () => ({
