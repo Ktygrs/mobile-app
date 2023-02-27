@@ -116,29 +116,6 @@ export const Images = {
     level3_achieved_false: FlakeColonelInactiveIcon,
     level4_achieved_false: FrostGeneralInactiveIcon,
     level5_achieved_false: iceCommanderInactiveIcon,
-    iceBreaker: {
-      active: require('./badges/ice-breaker-active.png'),
-      inactive: require('./badges/cool-breeze-inactive.png'),
-    },
-    troubleMaker: {
-      active: require('./badges/trouble-maker-active.png'),
-    },
-    snowyPlow: {
-      active: require('./badges/snowy-plow-active.png'),
-    },
-    frozenMax: {
-      active: require('./badges/frozen-max-active.png'),
-    },
-    coolBreeze: {
-      inactive: require('./badges/cool-breeze-inactive.png'),
-    },
-    bigContender: {
-      inactive: require('./badges/big-contender-inactive.png'),
-    },
-    mastermind: {
-      inactive: require('./badges/mastermind-inactive.png'),
-      active: require('./badges/mastermind-active.png'),
-    },
   },
   phone: {
     confirmPhoneNumber: require('./phone/confirmPhoneNumber.png'),
