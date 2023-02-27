@@ -33,6 +33,7 @@ export const Team = memo(() => {
 
   //TODO:walk check why we call it here
   useShowWalkThrough({walkThroughType: 'team'});
+
   return (
     <View style={styles.container}>
       <LinesBackground />

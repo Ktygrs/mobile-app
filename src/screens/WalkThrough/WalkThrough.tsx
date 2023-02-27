@@ -51,6 +51,7 @@ interface WalkThroughProps {
   route: WalkThroughRouteProps;
 }
 
+//TODO: walk split and cleanup
 export function WalkThrough({route}: WalkThroughProps) {
   const {walkThroughType} = route.params;
   const numberOfSteps = WALK_THROUGH_NUMBER_OF_STEPS[walkThroughType] ?? 0;
