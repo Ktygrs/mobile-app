@@ -56,6 +56,10 @@ export const BadgeCard = ({
     )}`;
   }
 
+  const ImageSvg = Images.badges[
+    image as keyof typeof Images.badges
+  ] as React.ElementType;
+
   return (
     <>
       {connector.top && (
@@ -67,7 +71,7 @@ export const BadgeCard = ({
       <ImageCardCompact
         title={name}
         description={description}
-        imageSource={Images.badges[image as keyof typeof Images.badges]}
+        svgIcon={<ImageSvg width={rem(76)} height={rem(76)} />}
         renderBody={() => <BadgeProgress value={percentageOfUsersInProgress} />}
         containerStyle={styles.containerActive}
       />

@@ -45,13 +45,18 @@ export const BadgeList = ({
         `profile.badge_types.${item.type as BadgeCategory}.title`,
       );
 
+      const ActiveImage = Images.badges[
+        image as keyof typeof Images.badges
+      ] as React.ElementType;
+      const InactiveImage = Images.badges[
+        inactiveImage as keyof typeof Images.badges
+      ] as React.ElementType;
+
       return (
         <BadgeCard
           index={index}
-          imageSource={Images.badges[image as keyof typeof Images.badges]}
-          imageInactive={
-            Images.badges[inactiveImage as keyof typeof Images.badges]
-          }
+          activeImage={<ActiveImage />}
+          inactiveImage={<InactiveImage />}
           title={item.name}
           category={categoryTransaltion}
           progressText={`${item.index + 1} of ${item.lastIndex + 1}`}

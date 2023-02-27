@@ -11,8 +11,8 @@ import {useUpdateHiddenProfileElements} from '@store/modules/Account/hooks/useUp
 import {ClosedEye} from '@svg/ClosedEye';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
-import React, {memo, useCallback} from 'react';
-import {Image, ImageSourcePropType, StyleSheet, Text, View} from 'react-native';
+import React, {memo, ReactNode, useCallback} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import {rem} from 'rn-units';
 
@@ -21,8 +21,8 @@ type Props = {
   category: string;
   progressText: string;
   progressValue: number;
-  imageSource: ImageSourcePropType;
-  imageInactive?: ImageSourcePropType;
+  activeImage: ReactNode;
+  inactiveImage: ReactNode;
   hidden?: boolean;
   isProfilePrivacyEditMode?: boolean;
   index?: number;
@@ -31,8 +31,8 @@ type Props = {
 
 export const BadgeCard = memo(
   ({
-    imageSource,
-    imageInactive,
+    activeImage,
+    inactiveImage,
     title,
     category,
     progressText,
@@ -62,11 +62,9 @@ export const BadgeCard = memo(
             commonStyles.shadow,
             index === 0 ? styles.firstItem : null,
           ]}>
-          <Image
-            source={hidden ? imageInactive || {} : imageSource}
-            style={styles.icon}
-            resizeMode={'contain'}
-          />
+          <View style={styles.icon}>
+            {!hidden ? activeImage : inactiveImage}
+          </View>
           {!hidden ? (
             <>
               <Text
