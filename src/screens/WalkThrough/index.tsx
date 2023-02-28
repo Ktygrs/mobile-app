@@ -16,10 +16,12 @@ import {useDescriptionData} from '@screens/WalkThrough/hooks/useDescriptionData'
 import {useOnFinalize} from '@screens/WalkThrough/hooks/useOnFinalize';
 import {DescriptionRenderData} from '@screens/WalkThrough/types';
 import {userSelector} from '@store/modules/Account/selectors';
-import {WALK_THROUGH_NUMBER_OF_STEPS} from '@store/modules/WalkThrough/constants';
-import {getWalkThroughStepData} from '@store/modules/WalkThrough/selectors';
-import {getStepData} from '@store/modules/WalkThrough/selectors/utils';
-import {WalkThroughData} from '@store/modules/WalkThrough/types';
+import {
+  numberOfStepsSelector,
+  walkThroughStepDataSelector,
+} from '@store/modules/WalkThrough/selectors';
+import {WALK_THROUGH_STEPS} from '@store/modules/WalkThrough/steps';
+import {WalkThroughStep} from '@store/modules/WalkThrough/types';
 import {NextArrowSvg} from '@svg/NextArrow';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
@@ -54,23 +56,24 @@ interface WalkThroughProps {
 //TODO: walk split and cleanup + rename the file
 export function WalkThrough({route}: WalkThroughProps) {
   const {walkThroughType} = route.params;
-  const numberOfSteps = WALK_THROUGH_NUMBER_OF_STEPS[walkThroughType] ?? 0;
-  const [step, setStep] = useState(1);
-  const [stepData, setStepData] = useState<undefined | WalkThroughData>();
-  const {
-    version: stepVersion,
-    title,
-    linkText,
-  } = getStepData({
-    walkThroughType,
-    step,
-  });
-  const prevStepDataRef = useRef<WalkThroughData | null>(null);
+  const numberOfSteps = useSelector(numberOfStepsSelector(walkThroughType));
+  const [stepIndex, setStepIndex] = useState(1);
+  const [stepData, setStepData] = useState<WalkThroughStep>();
 
-  const stepDataCandidate: WalkThroughData | undefined = useSelector(
-    getWalkThroughStepData({walkThroughType, step}),
+  const stepDataCandidate = useSelector(
+    walkThroughStepDataSelector({
+      walkThroughType,
+      //TODO:get from selector
+      step: (
+        Object.keys(
+          WALK_THROUGH_STEPS[walkThroughType],
+        ) as (keyof typeof WALK_THROUGH_STEPS[typeof walkThroughType])[]
+      )[stepIndex],
+    }),
   );
-  const prevStepDataCandidateRef = useRef<WalkThroughData | null>(null);
+  //TODO:prevStepDataRef ??
+  const prevStepDataRef = useRef<WalkThroughStep>();
+  const prevStepDataCandidateRef = useRef<WalkThroughStep>();
 
   const user = useSelector(userSelector);
 
@@ -82,19 +85,16 @@ export function WalkThrough({route}: WalkThroughProps) {
     const walkThroughElement =
       user?.clientData?.walkTroughProgress?.[walkThroughType];
     if (walkThroughElement) {
-      if (stepVersion > walkThroughElement.version) {
+      if (stepDataCandidate.version > walkThroughElement.version) {
         if (
           prevStepDataCandidate &&
           prevStepDataCandidate !== prevStepDataRef.current
         ) {
           prevStepDataRef.current = prevStepDataCandidate;
-          if (prevStepDataCandidate.onNext) {
-            prevStepDataCandidate.onNext();
-          }
         }
         setStepData(stepDataCandidate);
       } else {
-        setStep((s: number) => s + 1);
+        setStepIndex((s: number) => s + 1);
       }
     } else {
       setStepData(stepDataCandidate);
@@ -102,11 +102,9 @@ export function WalkThrough({route}: WalkThroughProps) {
     prevStepDataCandidateRef.current = stepDataCandidate;
   }, [
     user?.clientData?.walkTroughProgress,
-    step,
     walkThroughType,
     stepDataCandidate,
     prevStepDataCandidateRef,
-    stepVersion,
   ]);
 
   const [elementHeight, setElementHeight] = useState(0);
@@ -127,12 +125,11 @@ export function WalkThrough({route}: WalkThroughProps) {
     };
   }, [circleOpacity, elementOpacity]);
   useEffect(() => {
-    const prevStepData = prevStepDataRef.current;
     if (isElementHeightSet && stepData) {
       cancelAnimation(elementOpacity);
       cancelAnimation(circleOpacity);
       elementOpacity.value = withDelay(
-        ANIMATION_DELAY * (prevStepData?.onNext ? 2 : 1),
+        ANIMATION_DELAY,
         withTiming(1, ANIMATION_CONFIG, () => {
           circleOpacity.value = withDelay(
             ANIMATION_DELAY,
@@ -160,25 +157,25 @@ export function WalkThrough({route}: WalkThroughProps) {
       );
     });
     const handler = setTimeout(() => {
-      if (stepData?.onNext) {
-        stepData.onNext();
-      }
-      setStep(s => s + 1);
+      setStepIndex(s => s + 1);
     }, ANIMATION_CONFIG.duration * 2 + ANIMATION_DELAY);
     return () => clearTimeout(handler);
-  }, [elementOpacity, circleOpacity, stepData]);
+  }, [elementOpacity, circleOpacity]);
 
   const onFinalise = useOnFinalize({walkThroughType});
 
-  const isLastStep = step === numberOfSteps;
-  const circlePosition = useCirclePosition({elementHeight, stepData});
-  const descriptionData = useDescriptionData({step, walkThroughType});
+  const isLastStep = stepIndex === numberOfSteps;
+  const circlePosition = useCirclePosition({
+    elementHeight,
+    elementData: stepData?.elementData,
+  });
+  const {descriptionData} = useDescriptionData({stepData});
 
-  if (!stepData) {
+  if (!stepData?.elementData) {
     return null;
   }
 
-  const {renderStepHighlight, icon} = stepData;
+  const {renderStepHighlight, icon} = stepData.elementData;
 
   return (
     <View style={styles.background}>
@@ -196,13 +193,13 @@ export function WalkThrough({route}: WalkThroughProps) {
           <View style={styles.row}>
             <View style={styles.titleContainer}>
               {icon ? <View style={styles.iconContainer}>{icon}</View> : null}
-              <Text style={styles.title}>{title}</Text>
+              <Text style={styles.title}>{stepData.title}</Text>
             </View>
             <View style={styles.progressBar}>
               <View
                 style={[
                   styles.progressIndicator,
-                  {width: `${(step / numberOfSteps) * 100}%`},
+                  {width: `${(stepIndex / numberOfSteps) * 100}%`},
                 ]}
               />
             </View>
@@ -230,7 +227,7 @@ export function WalkThrough({route}: WalkThroughProps) {
                           onPress={() => {
                             Linking.openURL(data.value ?? '');
                           }}>
-                          {linkText}
+                          {stepData.linkText}
                         </Text>
                       </Text>
                     );

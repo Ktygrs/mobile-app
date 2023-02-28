@@ -23,7 +23,7 @@ import {ListHeader} from '@screens/Team/components/TierList/components/Header';
 import {ReferralsActions} from '@store/modules/Referrals/actions';
 import {referralsSelector} from '@store/modules/Referrals/selectors';
 import {balanceSummarySelector} from '@store/modules/Tokenomics/selectors';
-import {useAddStepData} from '@store/modules/WalkThrough/hooks/useAddStepData';
+import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
 import {PingIcon} from '@svg/PingIcon';
 import {formatNumberString} from '@utils/numbers';
 import React, {
@@ -111,13 +111,13 @@ export const TierList = memo(
       return null;
     }, [referrals]);
 
-    const addStepData = useAddStepData('team');
+    const {setWalkthroughElementData} = useSetWalkthroughElementData('team');
     useEffect(() => {
       if (addSteps && offset && pingButton && headerHeight) {
         const top = offset + headerHeight - PADDING_VERTICAL;
-        addStepData({
-          step: 9,
-          stepData: {
+        setWalkthroughElementData({
+          step: 'a9',
+          elementData: {
             topPositionOfHighlightedElement: top,
             icon: (
               <PingIcon
@@ -138,7 +138,7 @@ export const TierList = memo(
           },
         });
       }
-    }, [addStepData, addSteps, offset, pingButton, headerHeight]);
+    }, [setWalkthroughElementData, addSteps, offset, pingButton, headerHeight]);
 
     const renderItem: ListRenderItem<typeof referrals[0]> = useCallback(
       ({item: userId}) => {

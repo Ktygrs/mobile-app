@@ -1,78 +1,71 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {WalkThroughStepData} from '@store/modules/WalkThrough/types';
+import {WalkThroughSteps} from '@store/modules/WalkThrough/types';
 import {t} from '@translations/i18n';
 
-export const WALK_THROUGH_STEPS_VERSIONS: {
-  [walkThroughType: string]: {[step: number]: WalkThroughStepData};
-} = {
+export const WALK_THROUGH_STEPS: WalkThroughSteps = {
   news: {
-    [1]: {
+    ['a1']: {
       version: 100,
       title: t('walkthrough.news.step_1.title'),
       description: t('walkthrough.news.step_1.description'),
     },
-    [2]: {
+    ['a2']: {
       version: 100,
       title: t('walkthrough.news.step_2.title'),
       description: t('walkthrough.news.step_2.description'),
     },
   },
   team: {
-    [1]: {
+    allowContactsButton: {
       version: 100,
       title: t('walkthrough.team.step_1.title'),
       description: t('walkthrough.team.step_1.description'),
     },
-    [2]: {
+    referrals: {
       version: 100,
       title: t('walkthrough.team.step_2.title'),
       description: t('walkthrough.team.step_2.description'),
     },
-    [3]: {
+    ['a3']: {
       version: 100,
       title: t('walkthrough.team.step_3.title'),
       description: t('walkthrough.team.step_3.description'),
     },
-    [4]: {
+    contacts: {
       version: 100,
       title: t('walkthrough.team.step_4.title'),
       description: t('walkthrough.team.step_4.description'),
     },
-    [5]: {
+    tierone: {
       version: 100,
       title: t('walkthrough.team.step_5.title'),
       description: t('walkthrough.team.step_5.description'),
       link: 'https://ice.io/#invite',
       linkText: t('news.read_more'),
     },
-    [6]: {
+    tiertwo: {
       version: 100,
       title: t('walkthrough.team.step_6.title'),
       description: t('walkthrough.team.step_5.description'),
       link: 'https://ice.io/#invite',
       linkText: t('news.read_more'),
     },
-    [7]: {
+    ['a7']: {
       version: 100,
       title: t('walkthrough.team.step_7.title'),
       description: t('walkthrough.team.step_7.description'),
     },
-    [8]: {
+    ['a8']: {
       version: 100,
       title: t('walkthrough.team.step_8.title'),
       description: t('walkthrough.team.step_8.description'),
     },
-    [9]: {
+    ['a9']: {
       version: 100,
       title: t('walkthrough.team.step_9.title'),
       description: t('walkthrough.team.step_9.description'),
     },
   },
+  home: {},
 };
-
-export const WALK_THROUGH_NUMBER_OF_STEPS: {[walkThroughType: string]: number} =
-  {
-    news: 2,
-    team: 9,
-  };

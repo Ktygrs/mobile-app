@@ -6,7 +6,7 @@ import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {SEARCH_HEIGHT} from '@screens/Team/components/Header/components/Search';
 import {userReferralCountSelector} from '@store/modules/Referrals/selectors';
 import {balanceSummarySelector} from '@store/modules/Tokenomics/selectors';
-import {useAddStepData} from '@store/modules/WalkThrough/hooks/useAddStepData';
+import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
 import {TeamInactiveIcon} from '@svg/TeamInactiveIcon';
 import {WalletIcon} from '@svg/WalletIcon';
 import {t} from '@translations/i18n';
@@ -88,13 +88,13 @@ export const Info = () => {
 
   const {top: topInset} = useSafeAreaInsets();
 
-  const addStepData = useAddStepData('team');
+  const {setWalkthroughElementData} = useSetWalkthroughElementData('team');
   const top = SEARCH_HEIGHT + topInset;
   useEffect(() => {
     const color = COLORS.primaryDark;
-    addStepData({
-      step: 2,
-      stepData: {
+    setWalkthroughElementData({
+      step: 'referrals',
+      elementData: {
         topPositionOfHighlightedElement: top,
         icon: (
           <TeamInactiveIcon width={rem(32)} height={rem(32)} color={color} />
@@ -110,12 +110,12 @@ export const Info = () => {
         ),
       },
     });
-  }, [addStepData, topInset, renderReferralsCell, top]);
+  }, [setWalkthroughElementData, topInset, renderReferralsCell, top]);
   useEffect(() => {
     const color = COLORS.primaryDark;
-    addStepData({
-      step: 3,
-      stepData: {
+    setWalkthroughElementData({
+      step: 'a3',
+      elementData: {
         topPositionOfHighlightedElement: top,
         icon: <WalletIcon width={rem(20)} height={rem(20)} color={color} />,
         renderStepHighlight: () => (
@@ -134,7 +134,7 @@ export const Info = () => {
         ),
       },
     });
-  }, [addStepData, topInset, renderEarningsCell, top]);
+  }, [setWalkthroughElementData, topInset, renderEarningsCell, top]);
 
   return (
     <View style={styles.container}>

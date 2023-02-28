@@ -2,7 +2,7 @@
 
 import {COLORS} from '@constants/colors';
 import {AllowContactsButton} from '@screens/Team/components/Contacts/components/ContactsPermissions/components/AllowContactsButton';
-import {useAddStepData} from '@store/modules/WalkThrough/hooks/useAddStepData';
+import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
 import {AddressBookIcon} from '@svg/AddressBookIcon';
 import {useEffect, useRef, useState} from 'react';
 import React from 'react';
@@ -12,7 +12,7 @@ import {rem} from 'rn-units';
 const WALKTHROUGH_ELEMENT_CONTAINER_PADDING = rem(20);
 
 export const useAllowContactsWalkthrough = () => {
-  const addStepData = useAddStepData('team');
+  const {setWalkthroughElementData} = useSetWalkthroughElementData('team');
   const [allowContactButtonY, setAllowContactButtonY] = useState(0);
   const allowContactsButtonRef = useRef<View>(null);
 
@@ -20,9 +20,9 @@ export const useAllowContactsWalkthrough = () => {
     if (allowContactButtonY) {
       const top =
         allowContactButtonY - WALKTHROUGH_ELEMENT_CONTAINER_PADDING * 2;
-      addStepData({
-        step: 1,
-        stepData: {
+      setWalkthroughElementData({
+        step: 'allowContactsButton',
+        elementData: {
           topPositionOfHighlightedElement: top,
           //TODO:walk set icon statically?
           icon: <AddressBookIcon color={COLORS.primaryLight} />,
@@ -36,7 +36,7 @@ export const useAllowContactsWalkthrough = () => {
         },
       });
     }
-  }, [addStepData, allowContactButtonY]);
+  }, [setWalkthroughElementData, allowContactButtonY]);
 
   const onAllowContactsButtonLayout = () => {
     /**

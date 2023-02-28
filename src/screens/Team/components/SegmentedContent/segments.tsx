@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
 export type SegmentData = {
   renderIcon: (active: boolean) => React.ReactNode;
   renderText: (active: boolean) => React.ReactNode;
-  key: string;
+  key: 'Contacts' | 'TierOne' | 'TierTwo';
 };
 
 export const SEGMENTS: Readonly<SegmentData[]> = [

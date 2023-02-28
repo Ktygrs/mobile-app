@@ -4,7 +4,7 @@ import {stopPropagation} from '@components/KeyboardDismiss';
 import {IceLabel} from '@components/Labels/IceLabel';
 import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
-import {useAddStepData} from '@store/modules/WalkThrough/hooks/useAddStepData';
+import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React, {useCallback, useEffect} from 'react';
@@ -33,7 +33,7 @@ export const ListHeader = ({
   earnings,
   onLayout,
 }: Props) => {
-  const addStepData = useAddStepData('team');
+  const {setWalkthroughElementData} = useSetWalkthroughElementData('team');
 
   const renderActiveUsers = useCallback(() => {
     return (
@@ -57,9 +57,9 @@ export const ListHeader = ({
   const top = offset - PADDING_VERTICAL * 2;
   useEffect(() => {
     if (addSteps && offset) {
-      addStepData({
-        step: 7,
-        stepData: {
+      setWalkthroughElementData({
+        step: 'a7',
+        elementData: {
           topPositionOfHighlightedElement: top,
           renderStepHighlight: () => (
             <View style={styles.walkthroughElementOuterContainer}>
@@ -73,12 +73,12 @@ export const ListHeader = ({
         },
       });
     }
-  }, [offset, addSteps, addStepData, renderActiveUsers, top]);
+  }, [offset, addSteps, setWalkthroughElementData, renderActiveUsers, top]);
   useEffect(() => {
     if (addSteps && offset) {
-      addStepData({
-        step: 8,
-        stepData: {
+      setWalkthroughElementData({
+        step: 'a8',
+        elementData: {
           topPositionOfHighlightedElement: top,
           renderStepHighlight: () => (
             <View
@@ -93,7 +93,7 @@ export const ListHeader = ({
         },
       });
     }
-  }, [offset, addSteps, addStepData, renderEarnings, top]);
+  }, [offset, addSteps, setWalkthroughElementData, renderEarnings, top]);
 
   return (
     <View {...stopPropagation} onLayout={onLayout}>

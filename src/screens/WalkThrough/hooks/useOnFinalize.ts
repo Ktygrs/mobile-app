@@ -4,7 +4,7 @@ import {User, WalkThroughType} from '@api/user/types';
 import {useNavigation} from '@react-navigation/native';
 import {AccountActions} from '@store/modules/Account/actions';
 import {userSelector} from '@store/modules/Account/selectors';
-import {getMaxStepVersion} from '@store/modules/WalkThrough/selectors/utils';
+import {maxWalkThroughTypeVersionSelector} from '@store/modules/WalkThrough/selectors';
 import {useDispatch, useSelector} from 'react-redux';
 
 type Props = {
@@ -15,6 +15,9 @@ export function useOnFinalize({walkThroughType}: Props) {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const user = useSelector(userSelector);
+  const maxStepsVersion = useSelector(
+    maxWalkThroughTypeVersionSelector(walkThroughType),
+  );
   const onFinalise = ({
     currentUser,
     isSkipped,
@@ -31,7 +34,7 @@ export function useOnFinalize({walkThroughType}: Props) {
               ...currentUser?.clientData?.walkTroughProgress,
               [walkThroughType]: {
                 type: walkThroughType,
-                version: getMaxStepVersion(walkThroughType),
+                version: maxStepsVersion,
                 finalized: !isSkipped,
               },
             },

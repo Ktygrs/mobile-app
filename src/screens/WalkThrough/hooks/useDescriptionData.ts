@@ -1,38 +1,37 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {WalkThroughType} from '@api/user/types';
 import {DescriptionRenderData} from '@screens/WalkThrough/types';
-import {getStepData} from '@store/modules/WalkThrough/selectors/utils';
+import {WalkThroughStep} from '@store/modules/WalkThrough/types';
 import {useMemo} from 'react';
 
 type Props = {
-  step: number;
-  walkThroughType: WalkThroughType;
+  stepData: WalkThroughStep | undefined;
 };
 
-export function useDescriptionData({step, walkThroughType}: Props) {
-  const {description, link} = getStepData({
-    walkThroughType,
-    step,
-  });
+export function useDescriptionData({stepData}: Props) {
   return useMemo(() => {
+    if (!stepData) {
+      return {descriptionData: []};
+    }
+
+    const {description, link} = stepData;
     const descriptionArray = description.split('[[:ice]]');
-    const renderData: DescriptionRenderData[] = [];
+    const descriptionData: DescriptionRenderData[] = [];
     const lastIndex = descriptionArray.length - 1;
     descriptionArray.forEach((value: string, index: number) => {
-      renderData.push({
+      descriptionData.push({
         type: 'text',
         value,
       });
       if (index !== lastIndex) {
-        renderData.push({
+        descriptionData.push({
           type: 'ice',
         });
       }
     });
     if (link) {
-      renderData.push({type: 'url', value: link});
+      descriptionData.push({type: 'url', value: link});
     }
-    return renderData;
-  }, [description, link]);
+    return {descriptionData};
+  }, [stepData]);
 }

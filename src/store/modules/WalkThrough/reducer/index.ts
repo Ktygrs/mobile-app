@@ -1,30 +1,32 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {WalkThroughActions} from '@store/modules/WalkThrough/actions';
-import {WalkThroughData} from '@store/modules/WalkThrough/types';
+import {WALK_THROUGH_STEPS} from '@store/modules/WalkThrough/steps';
+import {
+  WalkThroughStep,
+  WalkThroughSteps,
+} from '@store/modules/WalkThrough/types';
 import produce from 'immer';
 
 export interface WalkThroughState {
-  walkThroughMap: {[key: string]: WalkThroughData[]};
+  steps: WalkThroughSteps;
 }
 
 type Actions = ReturnType<
-  typeof WalkThroughActions.SET_WALK_THROUGH_STEP.STATE.create
+  typeof WalkThroughActions.SET_WALK_THROUGH_STEP_ELEMENT_DATA.STATE.create
 >;
 
 const INITIAL_STATE: WalkThroughState = {
-  walkThroughMap: {},
+  steps: WALK_THROUGH_STEPS,
 };
 
 function reducer(state = INITIAL_STATE, action: Actions): WalkThroughState {
   return produce(state, draft => {
     switch (action.type) {
-      case WalkThroughActions.SET_WALK_THROUGH_STEP.STATE.type: {
-        const {walkThroughData, walkThroughType, step} = action.payload;
-        if (!draft.walkThroughMap[walkThroughType]) {
-          draft.walkThroughMap[walkThroughType] = [];
-        }
-        draft.walkThroughMap[walkThroughType][step] = walkThroughData;
+      case WalkThroughActions.SET_WALK_THROUGH_STEP_ELEMENT_DATA.STATE.type: {
+        const {elementData, walkThroughType, step} = action.payload;
+        (draft.steps[walkThroughType][step] as WalkThroughStep).elementData =
+          elementData;
         break;
       }
     }

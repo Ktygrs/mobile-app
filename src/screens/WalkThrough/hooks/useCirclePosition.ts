@@ -4,21 +4,23 @@ import {
   CIRCLE_DIAMETER,
   CIRCLE_PADDING_VERTICAL,
 } from '@screens/WalkThrough/constants';
-import {WalkThroughData} from '@store/modules/WalkThrough/types';
+import {WalkThroughStep} from '@store/modules/WalkThrough/types';
 import {useMemo} from 'react';
 import {rem, screenHeight} from 'rn-units/index';
 
 type Props = {
   elementHeight: number;
-  stepData: undefined | WalkThroughData;
+  elementData: undefined | WalkThroughStep['elementData'];
 };
 
-export function useCirclePosition({elementHeight, stepData}: Props) {
+export function useCirclePosition({elementHeight, elementData}: Props) {
   return useMemo(() => {
-    if (stepData && elementHeight) {
-      const aboveSpace = stepData.topPositionOfHighlightedElement;
+    if (elementData && elementHeight) {
+      const aboveSpace = elementData.topPositionOfHighlightedElement;
       const belowSpace =
-        screenHeight - stepData.topPositionOfHighlightedElement - elementHeight;
+        screenHeight -
+        elementData.topPositionOfHighlightedElement -
+        elementHeight;
       if (aboveSpace > belowSpace) {
         if (CIRCLE_DIAMETER < aboveSpace) {
           return (
@@ -36,7 +38,7 @@ export function useCirclePosition({elementHeight, stepData}: Props) {
       } else {
         //  aboveSpace >= belowSpace
         const topStart =
-          stepData.topPositionOfHighlightedElement + elementHeight;
+          elementData.topPositionOfHighlightedElement + elementHeight;
         if (CIRCLE_DIAMETER < belowSpace) {
           return topStart + Math.min(rem(10), belowSpace - CIRCLE_DIAMETER);
         } else {
@@ -48,5 +50,5 @@ export function useCirclePosition({elementHeight, stepData}: Props) {
         }
       }
     }
-  }, [elementHeight, stepData]);
+  }, [elementHeight, elementData]);
 }

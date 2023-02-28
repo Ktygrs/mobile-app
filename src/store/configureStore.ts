@@ -43,12 +43,12 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActionPaths: [
           'payload.raceConditionStrategy',
-          'payload.walkThroughData',
+          'payload.elementData',
         ],
         ignoredPaths: [
           'utilityProcessStatuses.UPDATE_ACCOUNT.payload.raceConditionStrategy',
-          'utilityProcessStatuses.SET_WALK_THROUGH_STEP.payload.walkThroughData',
-          'walkThrough.walkThroughMap',
+          'utilityProcessStatuses.SET_WALK_THROUGH_STEP_ELEMENT_DATA.payload.elementData',
+          'walkThrough.steps',
         ],
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },

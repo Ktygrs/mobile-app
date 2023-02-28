@@ -14,7 +14,7 @@ import {INFO_HEIGHT} from '@screens/Team/components/Header/components/Info';
 import {SEARCH_HEIGHT} from '@screens/Team/components/Header/components/Search';
 import {TierList} from '@screens/Team/components/TierList';
 import {Listener} from '@screens/Team/types';
-import {useAddStepData} from '@store/modules/WalkThrough/hooks/useAddStepData';
+import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
 import {Indicator} from '@svg/Indicator';
 import {t} from '@translations/i18n';
 import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
@@ -25,7 +25,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {rem} from 'rn-units';
 import {screenWidth} from 'rn-units/index';
 
-import {SegmentData, SEGMENTS} from './segments';
+import {SEGMENTS} from './segments';
 
 enum SegmentIndex {
   ContactList,
@@ -62,28 +62,21 @@ export const SegmentedContent = memo(
     const offset =
       topInset + SEARCH_HEIGHT + INFO_HEIGHT + CONTAINER_PADDING_TOP;
 
-    const addStepData = useAddStepData('team');
+    const {setWalkthroughElementData} = useSetWalkthroughElementData('team');
     useEffect(() => {
       const top = offset - SEGMENTED_CONTROL_HEIGHT;
       const widthStyle = {width: `${100 / SEGMENTS.length}%`};
-      const stepOffset = 4;
-      SEGMENTS.forEach((segmentData: SegmentData, index: number) => {
-        const step = stepOffset + index;
+      SEGMENTS.forEach((segmentData, index) => {
         const sectionWidth =
           screenWidth - SCREEN_SIDE_OFFSET * 2 - DEFAULT_CONTAINER_MARGIN * 2;
         const leftStyle = {left: (sectionWidth / SEGMENTS.length) * index};
-        addStepData({
-          step,
-          stepData: {
+        setWalkthroughElementData({
+          step: segmentData.key.toLowerCase() as Lowercase<
+            typeof segmentData['key']
+          >,
+          elementData: {
             topPositionOfHighlightedElement: top,
             icon: segmentData.renderIcon(false),
-            onNext: () => {
-              if (index < SEGMENTS.length - 1) {
-                onCategoryChange(index + 1);
-              } else {
-                onCategoryChange(1);
-              }
-            },
             renderStepHighlight: () => (
               <View style={[styles.walkthroughElementContainer, {top}]}>
                 <View
@@ -110,7 +103,7 @@ export const SegmentedContent = memo(
           },
         });
       });
-    }, [addStepData, offset, onCategoryChange]);
+    }, [setWalkthroughElementData, offset, onCategoryChange]);
 
     return (
       <View style={styles.container}>
