@@ -50,7 +50,7 @@ import {PersonalInformation} from '@screens/SettingsFlow/PersonalInformation';
 import {Settings} from '@screens/SettingsFlow/Settings';
 import {Staking} from '@screens/Staking';
 import {Team} from '@screens/Team';
-import {WalkThrough} from '@screens/WalkThrough/WalkThrough';
+import {WalkThrough} from '@screens/WalkThrough';
 import {ActiveTabActions, Tab} from '@store/modules/ActiveTab/actions';
 import {useSubscribeToPushNotifications} from '@store/modules/PushNotifications/hooks/useSubscribeToPushNotifications';
 import {StatsPeriod} from '@store/modules/Stats/types';

@@ -51,7 +51,7 @@ interface WalkThroughProps {
   route: WalkThroughRouteProps;
 }
 
-//TODO: walk split and cleanup
+//TODO: walk split and cleanup + rename the file
 export function WalkThrough({route}: WalkThroughProps) {
   const {walkThroughType} = route.params;
   const numberOfSteps = WALK_THROUGH_NUMBER_OF_STEPS[walkThroughType] ?? 0;
@@ -276,7 +276,6 @@ const ICON_CONTAINER_SIZE = rem(32);
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    height: '100%',
     backgroundColor: COLORS.transparentBackground,
   },
   circleContainer: {

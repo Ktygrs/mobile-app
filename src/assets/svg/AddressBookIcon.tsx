@@ -3,9 +3,15 @@
 import {COLORS} from '@constants/colors';
 import * as React from 'react';
 import Svg, {Path, SvgProps} from 'react-native-svg';
+import {rem} from 'rn-units';
 
 export const AddressBookIcon = ({color = COLORS.white, ...props}: SvgProps) => (
-  <Svg width={20} height={22} fill="none" viewBox="0 0 20 22" {...props}>
+  <Svg
+    width={rem(20)}
+    height={rem(22)}
+    fill="none"
+    viewBox="0 0 20 22"
+    {...props}>
     <Path
       fill={color}
       d="M0 6h5v2H0zM9.5 12.377 13.35 8l1.198 1.054-3.85 4.377z"

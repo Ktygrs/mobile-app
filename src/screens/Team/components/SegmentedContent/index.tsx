@@ -57,7 +57,7 @@ export const SegmentedContent = memo(
       switcherRef.current?.changeSegment(event.nativeEvent.position);
     };
 
-    // TODO:walk cleanup + what if offset?
+    // TODO:walk cleanup + what is offset?
     const {top: topInset} = useSafeAreaInsets();
     const offset =
       topInset + SEARCH_HEIGHT + INFO_HEIGHT + CONTAINER_PADDING_TOP;

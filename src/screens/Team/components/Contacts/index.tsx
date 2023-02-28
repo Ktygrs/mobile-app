@@ -22,7 +22,6 @@ type ContactsProps = {
 
 export const Contacts = ({
   focused,
-  offset,
   addCollapsedSnapPointListener,
 }: ContactsProps) => {
   const hasContactsPermissions = useSelector(
@@ -64,9 +63,7 @@ export const Contacts = ({
   return (
     <BottomSheetScrollView>
       <Animated.View style={[styles.container, fadeStyle]}>
-        {visibleScreen === 'ContactsPermissions' && (
-          <ContactsPermissions offset={offset} />
-        )}
+        {visibleScreen === 'ContactsPermissions' && <ContactsPermissions />}
         {visibleScreen === 'ModifyPhoneNumber' && (
           <VerticalOffset>
             <ModifyPhoneNumber />

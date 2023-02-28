@@ -3,26 +3,18 @@
 import {WalkThroughType} from '@api/user/types';
 import {userSelector} from '@store/modules/Account/selectors';
 import {getMaxStepVersion} from '@store/modules/WalkThrough/selectors/utils';
-import {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 
-export function useHasStepsToShow(walkThroughType: WalkThroughType): boolean {
-  const [hasStepsToShow, setHasStepsToShow] = useState(false);
+export function useHasStepsToShow(walkThroughType: WalkThroughType) {
   const user = useSelector(userSelector);
 
-  useEffect(() => {
-    if (user) {
-      const walkThroughElement =
-        user?.clientData?.walkTroughProgress?.[walkThroughType];
-      if (walkThroughElement) {
-        const userVersion: number = walkThroughElement.version;
-        const maxStepVersion = getMaxStepVersion(walkThroughType);
-        setHasStepsToShow(maxStepVersion > userVersion);
-      } else {
-        setHasStepsToShow(true);
-      }
-    }
-  }, [user, walkThroughType]);
+  const walkThroughElement =
+    user?.clientData?.walkTroughProgress?.[walkThroughType];
+  if (walkThroughElement) {
+    const userVersion: number = walkThroughElement.version;
+    const maxStepVersion = getMaxStepVersion(walkThroughType);
+    return maxStepVersion > userVersion;
+  }
 
-  return hasStepsToShow;
+  return true;
 }

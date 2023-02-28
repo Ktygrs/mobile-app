@@ -62,7 +62,6 @@ export const Info = () => {
         <View style={styles.flexEndRow}>
           <WalletIcon width={rem(25)} height={rem(25)} color={COLORS.white} />
           <View style={styles.body2}>
-            {' '}
             {/* TODO: walk rename style */}
             <Text style={[styles.title, dynamicStyles.color]}>
               {t('team.header.earnings')}
