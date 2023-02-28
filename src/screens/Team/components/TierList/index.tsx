@@ -44,7 +44,6 @@ type Props = {
   headerTitle: string;
   focused: boolean;
   addCollapsedSnapPointListener: (key: string, listener: () => void) => void;
-  offset: number;
 };
 
 const CONTAINER_PADDING_TOP = rem(16);
@@ -58,11 +57,10 @@ export const TierList = memo(
     headerTitle,
     focused,
     addCollapsedSnapPointListener,
-    offset: propsOffset,
   }: Props) => {
     const tabbarOffset = useBottomTabBarOffsetStyle();
     const addSteps = referralType === 'T1';
-    const offset = propsOffset + CONTAINER_PADDING_TOP;
+    const offset = 0;
 
     const ref = useRef<BottomSheetFlatListMethods>(null);
     useEffect(() => {

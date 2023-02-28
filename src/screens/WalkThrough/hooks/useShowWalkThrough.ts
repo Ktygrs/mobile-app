@@ -10,6 +10,7 @@ import {useEffect} from 'react';
 type Props = {walkThroughType: WalkThroughType};
 
 export function useShowWalkThrough({walkThroughType}: Props) {
+  //TODO::check if element is populated -> hasStepsToShow
   const hasStepsToShow = useHasStepsToShow(walkThroughType);
   const navigation =
     useNavigation<NativeStackNavigationProp<MainNavigationParams>>();

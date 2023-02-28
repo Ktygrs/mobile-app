@@ -16,7 +16,6 @@ import {useSelector} from 'react-redux';
 
 type ContactsProps = {
   focused: boolean;
-  offset: number;
   addCollapsedSnapPointListener: (key: string, listener: () => void) => void;
 };
 

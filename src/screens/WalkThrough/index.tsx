@@ -47,7 +47,7 @@ interface WalkThroughProps {
 export function WalkThrough({route}: WalkThroughProps) {
   const {walkThroughType} = route.params;
   const numberOfSteps = useSelector(numberOfStepsSelector(walkThroughType));
-  const [stepIndex, setStepIndex] = useState(1);
+  const [stepIndex, setStepIndex] = useState(3);
   const [visibleStep, setVisibleStep] = useState<WalkThroughStep>();
 
   const stepDataCandidate = useSelector(
