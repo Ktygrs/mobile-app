@@ -664,80 +664,42 @@
         "title": "Released news"
       }
     },
-    "teams": {
-      "step_1": {
-        "title": "Allow contacts",
-        "description": "Sync your contacts and see who is already on [[:ice]]. In the future you will be able to send [[:ice]] to any of your contacts"
-      },
-      "step_2": {
-        "title": "Referrals",
-        "description": "Here you will see how many referrals you have in total. The more people you invite, the more you will earn."
-      },
-      "step_3": {
-        "title": "Earnings",
-        "description": "Your current balance is updated every hour and displayed here. It includes your direct & staked earnings together with the Tier 1 and Tier 2 earnings."
-      },
-      "step_4": {
-        "title": "Contacts",
-        "description": "This is the list with all your contacts, those that already have the app being displayed on top of the list."
-      },
-      "step_5": {
-        "title": "Tier 1",
-        "description": "Here you can see the list of your Tier 1 referrals. For each member mining in the same time with you, you will get extra 25% on your base current adoption mining rate."
-      },
-      "step_6": {
-        "title": "Tier 2",
-        "description": "Here you can see the list of your Tier 2 referrals. For each member mining in the same time with you, you will get extra 5% on your base current adoption mining rate."
-      },
-      "step_7": {
-        "title": "Active Users",
-        "description": "This is the current status of your referrals mining activity. They count as active when they are mining."
-      },
-      "step_8": {
-        "title": "Tier 1 Earnings",
-        "description": "Here you can see the list of your Tier 1 referrals. For each member mining in the same time with you, you will both get extra 25% on your base current adoption mining rate."
-      },
-      "step_9": {
-        "title": "Ping Button",
-        "description": "Notify your referrals to start their mining sessions. You can send one notification to each referral every 24h."
-      }
-    },
     "team": {
-      "step_1": {
+      "allow_contacts": {
         "title": "Allow contacts",
         "description": "Sync your contacts and see who is already on [[:ice]]. In the future you will be able to send [[:ice]] to any of your contacts"
       },
-      "step_2": {
+      "referrals": {
         "title": "Referrals",
         "description": "Here you will see how many referrals you have in total. The more people you invite, the more you will earn."
       },
-      "step_3": {
+      "earnings": {
         "title": "Earnings",
         "description": "Your current balance is updated every hour and displayed here. It includes your direct & staked earnings together with the Tier 1 and Tier 2 earnings."
       },
-      "step_4": {
+      "contacts": {
         "title": "Contacts",
         "description": "This is the list with all your contacts, those that already have the app being displayed on top of the list."
       },
-      "step_5": {
+      "tier_one": {
         "title": "Tier 1",
-        "description": "Here you can see the list of your Tier 1 referrals. For each member mining in the same time with you, you will get extra 25% on your base current adoption mining rate.",
+        "description": "Here you can see the list of your Tier 1 referrals. For each member mining in the same time with you, you will get extra 25% on your base current adoption mining rate. [[:link]]Read more[[/:link]]",
         "url": "https://ice.io/#invite"
       },
-      "step_6": {
+      "tier_two": {
         "title": "Tier 2",
-        "description": "Here you can see the list of your Tier 2 referrals. For each member mining in the same time with you, you will get extra 5% on your base current adoption mining rate.",
+        "description": "Here you can see the list of your Tier 2 referrals. For each member mining in the same time with you, you will get extra 5% on your base current adoption mining rate. [[:link]]Read more[[/:link]]",
         "url": "https://ice.io/#invite"
       },
-      "step_7": {
+      "active_users": {
         "title": "Active Users",
         "description": "This is the current status of your referrals mining activity. They count as active when they are mining."
       },
-      "step_8": {
+      "tier_one_earnings": {
         "title": "Tier 1 Earnings",
         "description": "Here you can see the list of your Tier 1 referrals. For each member mining in the same time with you, you will both get extra 25% on your base current adoption mining rate."
       },
-      "step_9": {
+      "ping": {
         "title": "Ping Button",
         "description": "Notify your referrals to start their mining sessions. You can send one notification to each referral every 24h."
       }

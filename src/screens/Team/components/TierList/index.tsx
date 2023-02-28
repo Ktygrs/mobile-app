@@ -116,7 +116,7 @@ export const TierList = memo(
       if (addSteps && offset && pingButton && headerHeight) {
         const top = offset + headerHeight - PADDING_VERTICAL;
         setWalkthroughElementData({
-          step: 'a9',
+          step: 'ping',
           elementData: {
             topPositionOfHighlightedElement: top,
             icon: (

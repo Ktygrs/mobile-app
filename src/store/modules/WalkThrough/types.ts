@@ -13,7 +13,6 @@ export type WalkThroughStepStaticData = {
   title: string;
   description: string;
   link?: string;
-  linkText?: string;
 };
 
 export interface WalkThroughStep extends WalkThroughStepStaticData {
@@ -26,15 +25,15 @@ export type WalkThroughSteps = {
     a2: WalkThroughStep;
   };
   team: {
-    allowContactsButton: WalkThroughStep;
+    allowContacts: WalkThroughStep;
     referrals: WalkThroughStep;
-    a3: WalkThroughStep;
+    earnings: WalkThroughStep;
     contacts: WalkThroughStep;
     tierone: WalkThroughStep;
     tiertwo: WalkThroughStep;
-    a7: WalkThroughStep;
-    a8: WalkThroughStep;
-    a9: WalkThroughStep;
+    activeUsers: WalkThroughStep;
+    tierOneEarnings: WalkThroughStep;
+    ping: WalkThroughStep;
   };
   home: {};
 };

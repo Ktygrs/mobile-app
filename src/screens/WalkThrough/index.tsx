@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {IceLabel} from '@components/Labels/IceLabel';
 import {COLORS} from '@constants/colors';
 import {Images} from '@images';
 import {MainStackParamList} from '@navigation/Main';
@@ -12,9 +11,8 @@ import {
   CIRCLE_PADDING_VERTICAL,
 } from '@screens/WalkThrough/constants';
 import {useCirclePosition} from '@screens/WalkThrough/hooks/useCirclePosition';
-import {useDescriptionData} from '@screens/WalkThrough/hooks/useDescriptionData';
 import {useOnFinalize} from '@screens/WalkThrough/hooks/useOnFinalize';
-import {DescriptionRenderData} from '@screens/WalkThrough/types';
+import {useParseDescription} from '@screens/WalkThrough/hooks/useParseDescription';
 import {userSelector} from '@store/modules/Account/selectors';
 import {
   numberOfStepsSelector,
@@ -26,15 +24,7 @@ import {NextArrowSvg} from '@svg/NextArrow';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {
-  Image,
-  Linking,
-  Platform,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import Animated, {
   cancelAnimation,
   useAnimatedStyle,
@@ -53,12 +43,12 @@ interface WalkThroughProps {
   route: WalkThroughRouteProps;
 }
 
-//TODO: walk split and cleanup + rename the file
+//TODO: walk split and cleanup
 export function WalkThrough({route}: WalkThroughProps) {
   const {walkThroughType} = route.params;
   const numberOfSteps = useSelector(numberOfStepsSelector(walkThroughType));
   const [stepIndex, setStepIndex] = useState(1);
-  const [stepData, setStepData] = useState<WalkThroughStep>();
+  const [visibleStep, setVisibleStep] = useState<WalkThroughStep>();
 
   const stepDataCandidate = useSelector(
     walkThroughStepDataSelector({
@@ -92,12 +82,12 @@ export function WalkThrough({route}: WalkThroughProps) {
         ) {
           prevStepDataRef.current = prevStepDataCandidate;
         }
-        setStepData(stepDataCandidate);
+        setVisibleStep(stepDataCandidate);
       } else {
         setStepIndex((s: number) => s + 1);
       }
     } else {
-      setStepData(stepDataCandidate);
+      setVisibleStep(stepDataCandidate);
     }
     prevStepDataCandidateRef.current = stepDataCandidate;
   }, [
@@ -125,7 +115,7 @@ export function WalkThrough({route}: WalkThroughProps) {
     };
   }, [circleOpacity, elementOpacity]);
   useEffect(() => {
-    if (isElementHeightSet && stepData) {
+    if (isElementHeightSet && visibleStep) {
       cancelAnimation(elementOpacity);
       cancelAnimation(circleOpacity);
       elementOpacity.value = withDelay(
@@ -137,14 +127,14 @@ export function WalkThrough({route}: WalkThroughProps) {
           );
         }),
       );
-      prevStepDataRef.current = stepData;
+      prevStepDataRef.current = visibleStep;
     }
   }, [
     circleOpacity,
     isElementHeightSet,
-    stepData,
     elementOpacity,
     prevStepDataRef,
+    visibleStep,
   ]);
 
   const onNext = useCallback(() => {
@@ -167,15 +157,16 @@ export function WalkThrough({route}: WalkThroughProps) {
   const isLastStep = stepIndex === numberOfSteps;
   const circlePosition = useCirclePosition({
     elementHeight,
-    elementData: stepData?.elementData,
+    elementData: visibleStep?.elementData,
   });
-  const {descriptionData} = useDescriptionData({stepData});
 
-  if (!stepData?.elementData) {
+  const {parsedDescription} = useParseDescription({visibleStep});
+
+  if (!visibleStep?.elementData) {
     return null;
   }
 
-  const {renderStepHighlight, icon} = stepData.elementData;
+  const {renderStepHighlight, icon} = visibleStep.elementData;
 
   return (
     <View style={styles.background}>
@@ -193,7 +184,7 @@ export function WalkThrough({route}: WalkThroughProps) {
           <View style={styles.row}>
             <View style={styles.titleContainer}>
               {icon ? <View style={styles.iconContainer}>{icon}</View> : null}
-              <Text style={styles.title}>{stepData.title}</Text>
+              <Text style={styles.title}>{visibleStep.title}</Text>
             </View>
             <View style={styles.progressBar}>
               <View
@@ -204,42 +195,7 @@ export function WalkThrough({route}: WalkThroughProps) {
               />
             </View>
           </View>
-          <Text style={styles.description}>
-            {descriptionData.map(
-              (data: DescriptionRenderData, index: number) => {
-                switch (data.type) {
-                  case 'ice':
-                    return (
-                      <IceLabel
-                        key={`${data.type}:${index}`}
-                        iconSize={16}
-                        iconOffsetY={Platform.OS === 'ios' ? rem(16) : rem(2)}
-                        color={COLORS.white}
-                        textStyle={styles.ice}
-                      />
-                    );
-                  case 'url': {
-                    return (
-                      <Text key={`${data.type}:${index}`}>
-                        {' '}
-                        <Text
-                          style={styles.underlineText}
-                          onPress={() => {
-                            Linking.openURL(data.value ?? '');
-                          }}>
-                          {stepData.linkText}
-                        </Text>
-                      </Text>
-                    );
-                  }
-                  default:
-                    return (
-                      <Text key={`${data.type}:${index}`}>{data.value}</Text>
-                    );
-                }
-              },
-            )}
-          </Text>
+          <Text style={styles.description}>{parsedDescription}</Text>
         </View>
         <View style={styles.row}>
           <Pressable onPress={() => onFinalise(true)} hitSlop={12}>
@@ -327,14 +283,6 @@ const styles = StyleSheet.create({
   description: {
     paddingTop: rem(16),
     ...font(14, 24, 'medium'),
-  },
-  underlineText: {
-    textDecorationLine: 'underline',
-  },
-  ice: {
-    ...font(14, 24, 'medium'),
-    borderWidth: 1,
-    borderColor: 'white',
   },
   skipAll: {
     ...font(14, 18, 'medium'),

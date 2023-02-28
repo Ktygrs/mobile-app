@@ -58,7 +58,7 @@ export const ListHeader = ({
   useEffect(() => {
     if (addSteps && offset) {
       setWalkthroughElementData({
-        step: 'a7',
+        step: 'activeUsers',
         elementData: {
           topPositionOfHighlightedElement: top,
           renderStepHighlight: () => (
@@ -77,7 +77,7 @@ export const ListHeader = ({
   useEffect(() => {
     if (addSteps && offset) {
       setWalkthroughElementData({
-        step: 'a8',
+        step: 'tierOneEarnings',
         elementData: {
           topPositionOfHighlightedElement: top,
           renderStepHighlight: () => (

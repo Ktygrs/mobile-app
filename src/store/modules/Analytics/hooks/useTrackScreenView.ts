@@ -11,7 +11,6 @@ export function useTrackScreenView() {
     const currentRoute = await getCurrentRoute();
     if (currentRoute?.name && previousRouteName !== currentRoute.name) {
       routeNameRef.current = currentRoute.name;
-      console.log('TRACK>>>', currentRoute.name);
       AnalyticsEventLogger.trackViewScreen({screenName: currentRoute.name});
     }
   }, [routeNameRef]);

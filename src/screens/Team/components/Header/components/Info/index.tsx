@@ -114,7 +114,7 @@ export const Info = () => {
   useEffect(() => {
     const color = COLORS.primaryDark;
     setWalkthroughElementData({
-      step: 'a3',
+      step: 'earnings',
       elementData: {
         topPositionOfHighlightedElement: top,
         icon: <WalletIcon width={rem(20)} height={rem(20)} color={color} />,

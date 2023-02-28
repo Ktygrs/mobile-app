@@ -21,7 +21,7 @@ export const useAllowContactsWalkthrough = () => {
       const top =
         allowContactButtonY - WALKTHROUGH_ELEMENT_CONTAINER_PADDING * 2;
       setWalkthroughElementData({
-        step: 'allowContactsButton',
+        step: 'allowContacts',
         elementData: {
           topPositionOfHighlightedElement: top,
           //TODO:walk set icon statically?
