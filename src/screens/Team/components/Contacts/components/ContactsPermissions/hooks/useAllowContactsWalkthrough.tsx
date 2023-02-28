@@ -13,13 +13,12 @@ const WALKTHROUGH_ELEMENT_CONTAINER_PADDING = rem(20);
 
 export const useAllowContactsWalkthrough = () => {
   const {setWalkthroughElementData} = useSetWalkthroughElementData('team');
-  const [allowContactButtonY, setAllowContactButtonY] = useState(0);
-  const allowContactsButtonRef = useRef<View>(null);
+  const [elementY, setElementY] = useState(0);
+  const elementRef = useRef<View>(null);
 
   useEffect(() => {
-    if (allowContactButtonY) {
-      const top =
-        allowContactButtonY - WALKTHROUGH_ELEMENT_CONTAINER_PADDING * 2;
+    if (elementY) {
+      const top = elementY - WALKTHROUGH_ELEMENT_CONTAINER_PADDING * 2;
       setWalkthroughElementData({
         step: 'allowContacts',
         elementData: {
@@ -36,25 +35,23 @@ export const useAllowContactsWalkthrough = () => {
         },
       });
     }
-  }, [setWalkthroughElementData, allowContactButtonY]);
+  }, [setWalkthroughElementData, setElementY, elementY]);
 
-  const onAllowContactsButtonLayout = () => {
+  const onElementLayout = () => {
     /**
      * Small timeout before measure because the content of the screen is wrapped with
      * BottomSheetScrollView and on Layout the button position is different
      */
     setTimeout(() => {
-      allowContactsButtonRef.current?.measure(
-        (x, y, width, height, pageX, pageY) => {
-          setAllowContactButtonY(pageY);
-        },
-      );
+      elementRef.current?.measure((x, y, width, height, pageX, pageY) => {
+        setElementY(pageY);
+      });
     }, 500);
   };
 
   return {
-    onAllowContactsButtonLayout,
-    allowContactsButtonRef,
+    onElementLayout,
+    elementRef,
   };
 };
 

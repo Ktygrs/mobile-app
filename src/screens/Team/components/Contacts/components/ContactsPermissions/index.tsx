@@ -16,8 +16,7 @@ const icon = require('@screens/Team/assets/images/teamAgendaNotShared.png');
 export const ContactsPermissions = () => {
   const tabbarOffset = useBottomTabBarOffsetStyle();
 
-  const {onAllowContactsButtonLayout, allowContactsButtonRef} =
-    useAllowContactsWalkthrough();
+  const {onElementLayout, elementRef} = useAllowContactsWalkthrough();
 
   return (
     <View style={[styles.container, tabbarOffset.current]}>
@@ -53,8 +52,8 @@ export const ContactsPermissions = () => {
         </Text>
         <View
           style={styles.buttonContainer}
-          ref={allowContactsButtonRef}
-          onLayout={onAllowContactsButtonLayout}>
+          ref={elementRef}
+          onLayout={onElementLayout}>
           <AllowContactsButton />
         </View>
       </View>
