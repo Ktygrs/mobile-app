@@ -9,8 +9,8 @@ import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
 import {LanguageListItem} from '@screens/SettingsFlow/LanguageSettings/components/LanguageListItem';
 import {useConfirmChangeLanguageDialog} from '@screens/SettingsFlow/LanguageSettings/hooks/useConfirmChangeLanguageDialog';
 import {useLocaleSearch} from '@screens/SettingsFlow/LanguageSettings/hooks/useLocaleSearch';
-import {DeviceActions} from '@store/modules/Devices/actions';
-import {deviceSettingsSelector} from '@store/modules/Devices/selectors';
+import {AccountActions} from '@store/modules/Account/actions';
+import {appLocaleSelector} from '@store/modules/Account/selectors';
 import {isLoadingSelector} from '@store/modules/UtilityProcessStatuses/selectors';
 import {availableLocales, t} from '@translations/i18n';
 import {SupportedLocale} from '@translations/localeConfig';
@@ -23,9 +23,11 @@ import {rem} from 'rn-units';
 export const LanguageSettings = () => {
   useFocusStatusBar({style: 'dark-content'});
   const bottomOffset = useBottomTabBarOffsetStyle();
-  const deviceSettings = useSelector(deviceSettingsSelector);
+
+  const appLocale = useSelector(appLocaleSelector);
+
   const isLoading = useSelector(
-    isLoadingSelector.bind(null, DeviceActions.UPDATE_SETTINGS),
+    isLoadingSelector.bind(null, AccountActions.UPDATE_ACCOUNT),
   );
 
   const {locales, searchLocales} = useLocaleSearch(availableLocales);
@@ -33,8 +35,8 @@ export const LanguageSettings = () => {
 
   const renderLanguageListItem: ListRenderItem<SupportedLocale> = useCallback(
     ({item: language}: {item: SupportedLocale}) => {
-      const isSelected =
-        deviceSettings?.language.toLowerCase() === language.toLowerCase();
+      const isSelected = appLocale.toLowerCase() === language.toLowerCase();
+
       return (
         <LanguageListItem
           key={language}
@@ -45,7 +47,7 @@ export const LanguageSettings = () => {
         />
       );
     },
-    [deviceSettings?.language, isLoading, openConfirmationDialog],
+    [appLocale, openConfirmationDialog, isLoading],
   );
 
   return (

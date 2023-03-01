@@ -4,7 +4,6 @@ import {DeviceLocation, DeviceSettings} from '@api/devices/types';
 import {AccountActions} from '@store/modules/Account/actions';
 import {DeviceActions} from '@store/modules/Devices/actions';
 import produce from 'immer';
-import {merge} from 'lodash';
 
 export interface State {
   settings: DeviceSettings | null;
@@ -16,9 +15,6 @@ export interface State {
 
 type Actions = ReturnType<
   | typeof DeviceActions.GET_OR_CREATE_DEVICE_SETTINGS.SUCCESS.create
-  | typeof DeviceActions.UPDATE_SETTINGS.START.create
-  | typeof DeviceActions.UPDATE_SETTINGS.SUCCESS.create
-  | typeof DeviceActions.UPDATE_SETTINGS.FAILED.create
   | typeof AccountActions.SIGN_OUT.SUCCESS.create
   | typeof DeviceActions.UPDATE_DEVICE_LOCATION.SUCCESS.create
   | typeof DeviceActions.UPDATE_DEVICE_METADATA.SUCCESS.create
@@ -40,17 +36,6 @@ function reducer(state = INITIAL_STATE, action: Actions): State {
         draft.deviceUniqueId = action.payload.deviceUniqueId;
         draft.rollBackSettings = action.payload.settings;
         draft.settings = action.payload.settings;
-        break;
-      case DeviceActions.UPDATE_SETTINGS.START.type:
-        if (state.settings) {
-          draft.settings = merge(draft.settings, action.payload);
-        }
-        break;
-      case DeviceActions.UPDATE_SETTINGS.SUCCESS.type:
-        draft.rollBackSettings = action.payload;
-        break;
-      case DeviceActions.UPDATE_SETTINGS.FAILED.type:
-        draft.settings = state.rollBackSettings;
         break;
       case DeviceActions.UPDATE_DEVICE_LOCATION.SUCCESS.type:
         draft.location = action.payload;

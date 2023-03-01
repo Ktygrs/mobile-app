@@ -151,13 +151,11 @@ export type Translations = {
   'global.coins': null;
   'global.social': null;
   'global.phone_number': null;
-  'global.language': null;
   'global.years': null;
   'global.of': null;
   'global.attention': null;
   'global.email_address': null;
   'global.data_hidden': null;
-  'global.flag': null;
   'global.pull_to_refresh': null;
   'global.comingSoon': null;
   'global.date.today': null;
@@ -315,7 +313,6 @@ export type Translations = {
   'personal_information.phone': null;
   'personal_information.email': null;
   'personal_information.username': null;
-  isRTL: null;
   'username.error.already_taken': null;
   'username.error.length': null;
   'username.error.invalid_characters': null;
@@ -450,14 +447,9 @@ export type Translations = {
   'confirm_phone.modify_description': null;
   'confirm_phone.button': null;
   'confirm_phone.same_phone_error': null;
-  'settings-language-settings': null;
-  'global-language': null;
-  'global-flag': null;
-  'isRTL-2': null;
   'tasks.completed.title': null;
   'tasks.completed.description': null;
   'date_select.title': null;
-  'button-next-step-Next-Step': null;
   'walkthrough.news.step_1.title': null;
   'walkthrough.news.step_1.description': null;
   'walkthrough.news.step_2.description': null;

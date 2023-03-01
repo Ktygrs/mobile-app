@@ -14,7 +14,7 @@ import {userStateChangeSaga} from '@store/modules/Account/sagas/userStateChange'
 import {verifyBeforeUpdateEmailSaga} from '@store/modules/Account/sagas/verifyBeforeUpdateEmail';
 import {verifyPhoneNumberSaga} from '@store/modules/Account/sagas/verifyPhoneNumber';
 import {AppCommonActions} from '@store/modules/AppCommon/actions';
-import {all, takeLatest} from 'redux-saga/effects';
+import {all, fork, takeLatest} from 'redux-saga/effects';
 
 export function* rootAuthSaga() {
   yield all([
@@ -28,13 +28,6 @@ export function* rootAuthSaga() {
       userStateChangeSaga,
     ),
     takeLatest(AccountActions.UPDATE_ACCOUNT.START.type, updateAccountSaga),
-    takeLatest(
-      [
-        AppCommonActions.APP_LOADED.STATE.type,
-        AccountActions.SYNC_LANGUAGE_CODE.STATE.type,
-      ],
-      syncLanguageCodeSaga,
-    ),
     takeLatest(
       AccountActions.UPDATE_REF_BY_USERNAME.START.type,
       updateRefByUsernameSaga,
@@ -54,5 +47,7 @@ export function* rootAuthSaga() {
       AccountActions.VERIFY_PHONE_NUMBER.START.type,
       verifyPhoneNumberSaga,
     ),
+
+    fork(syncLanguageCodeSaga),
   ]);
 }

@@ -13,10 +13,6 @@ const SET_TOKEN = createAction('SET_TOKEN', {
   STATE: (token: string | null) => ({token}),
 });
 
-const SYNC_LANGUAGE_CODE = createAction('SYNC_LANGUAGE_CODE', {
-  STATE: true,
-});
-
 const USER_STATE_CHANGE = createAction('USER_STATE_CHANGE', {
   START: true,
   SUCCESS: (user: User | null, isAdmin: boolean | null) => ({user, isAdmin}),
@@ -120,7 +116,6 @@ const VERIFY_PHONE_NUMBER = createAction('VERIFY_PHONE_NUMBER', {
 
 export const AccountActions = Object.freeze({
   SET_TOKEN,
-  SYNC_LANGUAGE_CODE,
   SIGN_IN_EMAIL,
   SIGN_IN_PHONE,
   SIGN_IN_SOCIAL,

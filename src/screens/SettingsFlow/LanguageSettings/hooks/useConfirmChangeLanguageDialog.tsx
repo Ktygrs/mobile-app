@@ -4,7 +4,7 @@ import {MainStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {DEFAULT_DIALOG_NO_BUTTON} from '@screens/Modals/PopUp/components/PopUpButton';
-import {DeviceActions} from '@store/modules/Devices/actions';
+import {AccountActions} from '@store/modules/Account/actions';
 import {t} from '@translations/i18n';
 import {SupportedLocale} from '@translations/localeConfig';
 import {useCallback} from 'react';
@@ -26,7 +26,9 @@ export const useConfirmChangeLanguageDialog = () => {
               text: t('button.change'),
               onPress: () => {
                 dispatch(
-                  DeviceActions.UPDATE_SETTINGS.START.create({language}),
+                  AccountActions.UPDATE_ACCOUNT.START.create({
+                    language,
+                  }),
                 );
               },
             },

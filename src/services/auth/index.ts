@@ -9,6 +9,7 @@ import {startGoogleSignIn} from '@services/auth/signin/google';
 import {startTwitterSignIn} from '@services/auth/signin/twitter';
 import {SocialSignInProvider} from '@services/auth/signin/types';
 import {t} from '@translations/i18n';
+import {SupportedLocale} from '@translations/localeConfig';
 import {checkProp} from '@utils/guards';
 
 export const signInWithGoogle = async () => {
@@ -232,7 +233,9 @@ export const getAuthLanguageCode = () => {
   return auth().languageCode;
 };
 
-export const setAuthLanguageCode = async (languageCode: string | null) => {
+export const setAuthLanguageCode = async (
+  languageCode: SupportedLocale | null,
+) => {
   return auth().setLanguageCode(languageCode);
 };
 

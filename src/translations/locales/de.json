@@ -199,13 +199,11 @@
     "coins": "Coins",
     "social": "Social",
     "phone_number": "Phone number",
-    "language": "English",
     "years": "Years",
     "of": "of",
     "attention": "Attention",
     "email_address": "Email address",
     "data_hidden": "data is hidden",
-    "flag": "🇩🇪",
     "pull_to_refresh": "pull to update"
   },
   "mining_calculator": {
@@ -439,7 +437,6 @@
     "email": "Email",
     "username": "Spitzname"
   },
-  "isRTL": "FALSCH",
   "username": {
     "error": {
       "already_taken": "Spitzname ist bereits vergeben.",
@@ -626,10 +623,6 @@
     "modify_title": "Neues Telefon bestätigen",
     "modify_description": "Bitte bestätigen Sie Ihre Landesvorwahl und geben Sie Ihre neue Telefonnummer ein"
   },
-  "settings-language-settings": "settings.language_settings",
-  "global-language": "Weltsprache",
-  "global-flag": "global.flag",
-  "isRTL-2": "istRTL",
   "tasks": {
     "completed": {
       "title": "Vollendet",
@@ -639,7 +632,6 @@
   "date_select": {
     "title": "Datum wählen"
   },
-  "button-next-step-Next-Step": "Nächster Schritt",
   "walkthrough": {
     "news": {
       "step_1": {

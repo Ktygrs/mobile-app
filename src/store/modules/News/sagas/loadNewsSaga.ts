@@ -2,10 +2,9 @@
 
 import {Api} from '@api/index';
 import {NewsArticle} from '@api/news/types';
-import {deviceSettingsSelector} from '@store/modules/Devices/selectors';
+import {appLocaleSelector} from '@store/modules/Account/selectors';
 import {NewsActions} from '@store/modules/News/actions';
 import {NewsSelectors} from '@store/modules/News/selectors';
-import {appLocale} from '@translations/i18n';
 import {getErrorMessage} from '@utils/errors';
 import {call, put, SagaReturnType, select} from 'redux-saga/effects';
 
@@ -16,10 +15,9 @@ export function* loadNewsSaga(
 ) {
   const {isRefresh} = action.payload;
 
-  const deviceSettings: SagaReturnType<typeof deviceSettingsSelector> =
-    yield select(deviceSettingsSelector);
-
-  const language = deviceSettings?.language ?? appLocale;
+  const locale: SagaReturnType<typeof appLocaleSelector> = yield select(
+    appLocaleSelector,
+  );
 
   const newsIds: SagaReturnType<typeof NewsSelectors.getNewsIds> = yield select(
     NewsSelectors.getNewsIds,
@@ -30,7 +28,7 @@ export function* loadNewsSaga(
       Api.news.getNews,
       {
         type: 'regular',
-        language,
+        language: locale,
         limit: NEWS_LOAD_LIMIT,
         offset: isRefresh ? 0 : newsIds.length,
       },
@@ -44,7 +42,7 @@ export function* loadNewsSaga(
         Api.news.getNews,
         {
           type: 'featured',
-          language,
+          language: locale,
           limit: 1,
           offset: 0,
         },

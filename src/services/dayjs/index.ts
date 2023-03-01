@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {logError} from '@services/logging';
-import {appLocale} from '@translations/i18n';
+import {getLocale} from '@translations/i18n';
+import {SupportedLocale} from '@translations/localeConfig';
 // eslint-disable-next-line no-restricted-imports
 import dayjs from 'dayjs';
 import calendar from 'dayjs/plugin/calendar';
@@ -11,20 +12,6 @@ import localizedFormat from 'dayjs/plugin/localizedFormat';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import utc from 'dayjs/plugin/utc';
 
-// https://day.js.org/docs/en/installation/typescript#locale-and-plugin-import
-switch (appLocale) {
-  case 'en':
-    require('dayjs/locale/en');
-    break;
-
-  case 'ro':
-    require('dayjs/locale/ro');
-    break;
-
-  default:
-    logError(`Setup '${appLocale}' locale properly for 'dayjs'`);
-}
-
 dayjs.extend(localizedFormat);
 dayjs.extend(isToday);
 dayjs.extend(relativeTime);
@@ -32,6 +19,28 @@ dayjs.extend(calendar);
 dayjs.extend(duration);
 dayjs.extend(utc);
 
-dayjs.locale(appLocale);
+export const setDayjsLocale = (locale: SupportedLocale) => {
+  // https://day.js.org/docs/en/installation/typescript#locale-and-plugin-import
+  switch (locale) {
+    case 'en':
+      require('dayjs/locale/en');
+      break;
+
+    case 'ro':
+      require('dayjs/locale/ro');
+      break;
+
+    case 'de':
+      require('dayjs/locale/de');
+      break;
+
+    default:
+      logError(`Setup '${locale}' locale properly for 'dayjs'`);
+  }
+
+  dayjs.locale(locale);
+};
+
+setDayjsLocale(getLocale());
 
 export {dayjs};

@@ -7,13 +7,6 @@ import {
   NotificationDomainToggle,
 } from '@api/devices/types';
 import {createAction} from '@store/utils/actions/createAction';
-import {DeepPartial} from 'redux';
-
-const UPDATE_SETTINGS = createAction('SET_SETTINGS', {
-  START: (settings: DeepPartial<DeviceSettings>) => settings,
-  SUCCESS: (settings: DeviceSettings) => settings,
-  FAILED: (errorMessage: string) => ({errorMessage}),
-});
 
 const UPDATE_DEVICE_METADATA = createAction('UPDATE_DEVICE_METADATA', {
   START: (payload: {forceUpdate?: boolean}) => payload,
@@ -58,7 +51,6 @@ const UPDATE_NOTIFICATION_CHANNEL = createAction(
 );
 
 export const DeviceActions = Object.freeze({
-  UPDATE_SETTINGS,
   GET_OR_CREATE_DEVICE_SETTINGS,
   UPDATE_DEVICE_LOCATION,
   UPDATE_DEVICE_METADATA,

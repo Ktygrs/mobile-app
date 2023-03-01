@@ -9,29 +9,14 @@ import {
 import {isAppActiveSelector} from '@store/modules/AppCommon/selectors';
 import {ContactsActions} from '@store/modules/Contacts/actions';
 import {isPermissionGrantedSelector} from '@store/modules/Permissions/selectors';
+import {waitForSelector} from '@store/utils/sagas/effects';
 import {getErrorMessage} from '@utils/errors';
 import {e164PhoneNumber, hashPhoneNumber} from '@utils/phoneNumber';
 import {Contact, getAll} from 'react-native-contacts';
-import {
-  call,
-  put,
-  SagaReturnType,
-  select,
-  SelectEffect,
-  take,
-} from 'redux-saga/effects';
+import {call, put, SagaReturnType, select} from 'redux-saga/effects';
 
 function notNull<V>(value: V | null): value is V {
   return value !== null;
-}
-
-function* readyToSync(): Generator<SelectEffect, boolean, boolean> {
-  const hasPermissions: boolean = yield select(
-    isPermissionGrantedSelector('contacts'),
-  );
-  const isAuthorized: boolean = yield select(isAuthorizedSelector);
-  const isAppActive: boolean = yield select(isAppActiveSelector);
-  return hasPermissions && isAuthorized && isAppActive;
 }
 
 function contactsComparator(c1: Contact, c2: Contact) {
@@ -46,9 +31,12 @@ function contactsComparator(c1: Contact, c2: Contact) {
 
 export function* syncContactsSaga() {
   try {
-    while (!(yield* readyToSync())) {
-      yield take('*');
-    }
+    yield call(waitForSelector, state => {
+      const hasPermissions = isPermissionGrantedSelector('contacts')(state);
+      const isAuthorized = isAuthorizedSelector(state);
+      const isAppActive = isAppActiveSelector(state);
+      return hasPermissions && isAuthorized && isAppActive;
+    });
 
     const user: User = yield select(userSelector);
     const phoneNumberHashes = new Set(user.agendaPhoneNumberHashes?.split(','));

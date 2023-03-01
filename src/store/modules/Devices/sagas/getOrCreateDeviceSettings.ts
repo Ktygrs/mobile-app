@@ -1,16 +1,13 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {isApiError} from '@api/client';
 import {DeviceSettings, NotificationDomainToggles} from '@api/devices/types';
 import {Api} from '@api/index';
-import {AccountActions} from '@store/modules/Account/actions';
 import {
   isAuthorizedSelector,
   userIdSelector,
 } from '@store/modules/Account/selectors';
 import {AnalyticsAttributesLogger} from '@store/modules/Analytics/constants';
 import {DeviceActions} from '@store/modules/Devices/actions';
-import i18n, {appLocale, setLocale} from '@translations/i18n';
 import {getErrorMessage} from '@utils/errors';
 import {syncUniqueId} from 'react-native-device-info';
 import {all, call, put, SagaReturnType, select} from 'redux-saga/effects';
@@ -66,39 +63,24 @@ export function* getOrCreateDeviceSettings({
   userId: string;
   deviceUniqueId: string;
 }) {
-  let settings: DeviceSettings;
   let emailNotificationChannel: NotificationDomainToggles;
   let pushNotificationChannel: NotificationDomainToggles;
   try {
-    [settings, emailNotificationChannel, pushNotificationChannel] = yield all([
-      call(Api.devices.getUserDeviceSettings, {
-        userId,
-        deviceUniqueId,
-      }),
+    [emailNotificationChannel, pushNotificationChannel] = yield all([
       call(Api.devices.getUserNotificationChannels, 'email'),
       call(Api.devices.getUserNotificationChannels, 'push'),
     ]);
-
-    if (settings.language !== i18n.locale) {
-      setLocale(settings.language);
-      yield put(AccountActions.SYNC_LANGUAGE_CODE.STATE.create());
-    }
   } catch (error) {
-    if (isApiError(error, 404, 'DEVICE_SETTINGS_NOT_FOUND')) {
-      settings = yield call(
-        Api.devices.createUserDeviceSettings,
-        {userId, deviceUniqueId},
-        {language: appLocale},
-      );
-      emailNotificationChannel = [];
-      pushNotificationChannel = [];
-    } else {
-      throw error;
-    }
+    throw error;
   }
-  return {
-    ...settings,
+
+  const deviceSettings: DeviceSettings = {
+    userId,
+    deviceUniqueId,
+    disableAllNotifications: false,
     emailNotificationSettings: emailNotificationChannel,
     pushNotificationSettings: pushNotificationChannel,
   };
+
+  return deviceSettings;
 }

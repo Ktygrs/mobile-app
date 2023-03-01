@@ -3,6 +3,8 @@
 import {RegistrationProcessFinalizedStep} from '@api/user/types';
 import {isOnboardingViewedSelector} from '@store/modules/Users/selectors';
 import {RootState} from '@store/rootReducer';
+import {getLocale} from '@translations/i18n';
+import {SupportedLocale} from '@translations/localeConfig';
 import {difference} from 'lodash';
 
 const REQUIRED_AUTH_STEPS: RegistrationProcessFinalizedStep[] = [
@@ -20,6 +22,12 @@ export const isAuthorizedSelector = (state: RootState) => !!state.account.user;
 export const authTokenSelector = (state: RootState) => state.account.token;
 
 export const userSelector = (state: RootState) => state.account.user;
+
+export const appLocaleSelector = (state: RootState): SupportedLocale => {
+  const user = userSelector(state);
+
+  return user?.language ?? getLocale();
+};
 
 export const isPhoneNumberVerifiedSelector = (state: RootState) =>
   state.account.user?.phoneNumber;

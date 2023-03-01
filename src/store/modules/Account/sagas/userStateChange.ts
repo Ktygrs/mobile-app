@@ -5,7 +5,11 @@ import {Api} from '@api/index';
 import {startTrackingCurrentUser} from '@services/analytics';
 import {getAuthenticatedUser} from '@services/auth';
 import {AccountActions} from '@store/modules/Account/actions';
-import {userInfoSelector, userSelector} from '@store/modules/Account/selectors';
+import {
+  appLocaleSelector,
+  userInfoSelector,
+  userSelector,
+} from '@store/modules/Account/selectors';
 import {AnalyticsActions} from '@store/modules/Analytics/actions';
 import {t} from '@translations/i18n';
 import {getErrorMessage, showError} from '@utils/errors';
@@ -103,6 +107,10 @@ function* createUser({
   firstName: string | null;
   lastName: string | null;
 }) {
+  const appLocale: SagaReturnType<typeof appLocaleSelector> = yield select(
+    appLocaleSelector,
+  );
+
   let normalizedNumber: string | null = null;
   let phoneNumberHash: string | null = null;
   if (phoneNumber) {
@@ -126,6 +134,7 @@ function* createUser({
       clientData: {
         registrationProcessFinalizedSteps: email ? ['email'] : [],
       },
+      language: appLocale,
     },
   );
 

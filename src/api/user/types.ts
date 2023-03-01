@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {SupportedLocale} from '@translations/localeConfig';
+
 export type User = {
   id: string;
   username: string;
@@ -9,6 +11,8 @@ export type User = {
    * example: 2022-01-03T16:20:52.156534Z
    */
   createdAt: string;
+
+  language: SupportedLocale;
 
   city?: string | null;
   country?: string | null;

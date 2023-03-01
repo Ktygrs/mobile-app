@@ -6,9 +6,9 @@ import {SMALL_BUTTON_HIT_SLOP} from '@constants/styles';
 import {ProfileTabStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {appLocaleSelector} from '@store/modules/Account/selectors';
 import {ChevronIcon} from '@svg/ChevronIcon';
-import i18n from '@translations/i18n';
-import {localeConfig, SupportedLocale} from '@translations/localeConfig';
+import {localeConfig} from '@translations/localeConfig';
 import {font} from '@utils/styles';
 import React from 'react';
 import {
@@ -19,6 +19,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
+import {useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
 const FLAG_WIDTH = rem(21);
@@ -36,7 +37,9 @@ export const LangButton = ({
   const navigation =
     useNavigation<NativeStackNavigationProp<ProfileTabStackParamList>>();
 
-  const {flag} = localeConfig[i18n.locale as SupportedLocale];
+  const appLocale = useSelector(appLocaleSelector);
+
+  const {flag} = localeConfig[appLocale];
 
   return (
     <Touchable
@@ -45,7 +48,7 @@ export const LangButton = ({
       <View style={[styles.container, containerStyle]}>
         <Image style={styles.flag} source={flag} />
         <Text style={[styles.langText, {color}]}>
-          {i18n.locale.toUpperCase()}
+          {appLocale.toUpperCase()}
         </Text>
         <ChevronIcon
           width={rem(5)}

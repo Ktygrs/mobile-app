@@ -4,9 +4,6 @@ import {DISABLE_ALL_NOTIFICATION_DOMAIN} from '@api/devices/constants';
 import {NotificationDeliveryChannel} from '@api/devices/types';
 import {RootState} from '@store/rootReducer';
 
-export const deviceSettingsSelector = (state: RootState) =>
-  state.devices.settings;
-
 export const deviceUniqueIdSelector = (state: RootState) =>
   state.devices.deviceUniqueId as string;
 

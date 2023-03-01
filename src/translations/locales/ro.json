@@ -209,13 +209,11 @@
     "coins": "Coins",
     "social": "Social",
     "phone_number": "Phone number",
-    "language": "English",
     "years": "Years",
     "of": "of",
     "attention": "Attention",
     "email_address": "Email address",
     "data_hidden": "data is hidden",
-    "flag": "🇷🇴",
     "pull_to_refresh": "pull to update"
   },
   "mining_calculator": {
@@ -457,7 +455,6 @@
     "email": "E-mail",
     "username": "Poreclă"
   },
-  "isRTL": "fals",
   "username": {
     "error": {
       "already_taken": "Porecla este deja luată.",
@@ -644,10 +641,6 @@
     "modify_title": "Confirmați telefonul nou",
     "modify_description": "Vă rugăm să confirmați codul de țară și să introduceți noul număr de telefon"
   },
-  "settings-language-settings": "setări.setări_limbă",
-  "global-language": "limbă.globală",
-  "global-flag": "steag global",
-  "isRTL-2": "este RTL",
   "tasks": {
     "completed": {
       "title": "Efectuat",
@@ -657,7 +650,6 @@
   "date_select": {
     "title": "Alegeți data"
   },
-  "button-next-step-Next-Step": "Urmatorul pas",
   "walkthrough": {
     "news": {
       "step_1": {

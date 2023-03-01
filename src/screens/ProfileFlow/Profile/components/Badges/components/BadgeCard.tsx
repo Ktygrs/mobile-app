@@ -9,7 +9,7 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {useUpdateHiddenProfileElements} from '@store/modules/Account/hooks/useUpdateHiddenProfileElements';
 import {ClosedEye} from '@svg/ClosedEye';
-import {translate} from '@translations/i18n';
+import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React, {memo, useCallback} from 'react';
 import {Image, ImageSourcePropType, StyleSheet, Text, View} from 'react-native';
@@ -85,7 +85,7 @@ export const BadgeCard = memo(
             <>
               <ClosedEye height={20} width={20} color={COLORS.secondary} />
               <Text style={styles.hiddenText} numberOfLines={1}>
-                {translate('profile.data_is_hidden')}
+                {t('profile.data_is_hidden')}
               </Text>
             </>
           )}

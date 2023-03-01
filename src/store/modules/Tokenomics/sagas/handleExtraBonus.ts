@@ -13,16 +13,10 @@ import {miningSummarySelector} from '@store/modules/Tokenomics/selectors';
 import {openBonusClaimed} from '@store/modules/Tokenomics/utils/openBonusClaimed';
 import {openBonusExpired} from '@store/modules/Tokenomics/utils/openBonusExpired';
 import {openClaimBonus} from '@store/modules/Tokenomics/utils/openClaimBonus';
+import {waitForSelector} from '@store/utils/sagas/effects';
 import {showError} from '@utils/errors';
 import {SagaIterator} from 'redux-saga';
-import {
-  call,
-  delay,
-  put,
-  SagaReturnType,
-  select,
-  take,
-} from 'redux-saga/effects';
+import {call, delay, put, SagaReturnType, select} from 'redux-saga/effects';
 
 export function* handleExtraBonusSaga(): SagaIterator {
   const miningSummary: ReturnType<typeof miningSummarySelector> = yield select(
@@ -35,7 +29,15 @@ export function* handleExtraBonusSaga(): SagaIterator {
 
   try {
     if (miningSummary?.availableExtraBonus) {
-      yield call(waitForRegistrationComplete);
+      yield call(waitForSelector, isRegistrationCompleteSelector);
+
+      /**
+       * Add small delay to let the main navigator to be displayed first.
+       * This fixes the bug when on fresh install,
+       * if a user gets availableExtraBonus during the welcome screens,
+       * the dialog is not displayed after the registration complete
+       */
+      yield delay(1000);
 
       yield call(openClaimBonus);
 
@@ -70,22 +72,5 @@ export function* handleExtraBonusSaga(): SagaIterator {
     yield call(showError, error);
     yield call(handleExtraBonusSaga);
     throw error;
-  }
-}
-
-function* waitForRegistrationComplete() {
-  while (
-    !((yield select(isRegistrationCompleteSelector)) as ReturnType<
-      typeof isRegistrationCompleteSelector
-    >)
-  ) {
-    yield take('*');
-    /**
-     * Add small delay to let the main navigator to be displayed first.
-     * This fixes the bug when on fresh install,
-     * if a user gets availableExtraBonus during the welcome screens,
-     * the dialog is not displayed after the registration complete
-     */
-    yield delay(1000);
   }
 }

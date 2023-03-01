@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {SupportedLocale} from '@translations/localeConfig';
-
 export type NotificationDeliveryChannel = 'email' | 'push';
 
 export type NotificationDomain = string;
@@ -14,7 +12,6 @@ export type NotificationDomainToggle = {
 export type NotificationDomainToggles = Array<NotificationDomainToggle>;
 export interface DeviceSettings extends DeviceId {
   disableAllNotifications: boolean;
-  language: SupportedLocale;
   pushNotificationSettings: NotificationDomainToggles;
   emailNotificationSettings: NotificationDomainToggles;
 }

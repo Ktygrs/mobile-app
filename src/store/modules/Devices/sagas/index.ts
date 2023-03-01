@@ -6,9 +6,8 @@ import {DeviceActions} from '@store/modules/Devices/actions';
 import {initDeviceSaga} from '@store/modules/Devices/sagas/getOrCreateDeviceSettings';
 import {updateDeviceLocationSaga} from '@store/modules/Devices/sagas/updateDeviceLocation';
 import {updateDeviceMetadataSaga} from '@store/modules/Devices/sagas/updateDeviceMetadata';
-import {watchUpdateDeviceSettings} from '@store/modules/Devices/sagas/updateDeviceSettings';
 import {updateNotificationChannel} from '@store/modules/Devices/sagas/updateNotificationChannel';
-import {all, fork, takeLatest} from 'redux-saga/effects';
+import {all, takeLatest} from 'redux-saga/effects';
 
 export function* rootDevicesSaga() {
   yield all([
@@ -38,6 +37,5 @@ export function* rootDevicesSaga() {
       ],
       updateDeviceMetadataSaga,
     ),
-    fork(watchUpdateDeviceSettings),
   ]);
 }

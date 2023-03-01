@@ -216,13 +216,11 @@
     "coins": "Coins",
     "social": "Social",
     "phone_number": "Phone number",
-    "language": "English",
     "years": "Years",
     "of": "of",
     "attention": "Attention",
     "email_address": "Email address",
     "data_hidden": "data is hidden",
-    "flag": "🇺🇸",
     "pull_to_refresh": "pull to update",
     "comingSoon": "Coming soon",
     "date": {
@@ -461,7 +459,6 @@
     "email": "Email",
     "username": "Nickname"
   },
-  "isRTL": "false",
   "username": {
     "error": {
       "already_taken": "Nickname is already taken.",
@@ -647,10 +644,6 @@
     "button": "Confirm country and phone",
     "same_phone_error": "You can’t use the same number"
   },
-  "settings-language-settings": "settings.language_settings",
-  "global-language": "global.language",
-  "global-flag": "global.flag",
-  "isRTL-2": "isRTL",
   "tasks": {
     "completed": {
       "title": "Congratulations",
@@ -660,7 +653,6 @@
   "date_select": {
     "title": "Choose date"
   },
-  "button-next-step-Next-Step": "Next Step",
   "walkthrough": {
     "news": {
       "step_1": {

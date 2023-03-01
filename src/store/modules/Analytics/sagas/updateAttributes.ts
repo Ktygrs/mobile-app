@@ -3,7 +3,6 @@
 import {RankingSummary} from '@api/tokenomics/types';
 import {Attributes} from '@services/analytics';
 import {userIdSelector, userSelector} from '@store/modules/Account/selectors';
-import {deviceSettingsSelector} from '@store/modules/Devices/selectors';
 import {isPermissionGrantedSelector} from '@store/modules/Permissions/selectors';
 import {
   miningSummarySelector,
@@ -45,23 +44,16 @@ function* updateUserAttributes() {
       'Profile Picture URL',
       user.profilePictureUrl ?? '',
     );
+    yield call(Attributes.trackUserAttribute, 'Language', user.language);
   }
 }
 
 function* updateDeviceAttributes() {
-  const deviceSettings: ReturnType<typeof deviceSettingsSelector> =
-    yield select(deviceSettingsSelector);
-
   yield call(Attributes.trackUserAttribute, 'OS', Platform.OS);
   const device: SagaReturnType<typeof DeviceInfo.getModel> = yield call(
     DeviceInfo.getModel,
   );
   yield call(Attributes.trackUserAttribute, 'Device', device);
-  yield call(
-    Attributes.trackUserAttribute,
-    'Language',
-    deviceSettings?.language ?? '',
-  );
   yield call(Attributes.trackUserAttribute, 'Timezone', getTimezoneOffset());
 }
 
