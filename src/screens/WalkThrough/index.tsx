@@ -46,6 +46,7 @@ export function WalkThrough({route}: WalkThroughProps) {
 
   const {elementAnimatedStyle, circleAnimatedStyle, runCloseAnimation} =
     useAnimatedStyles({
+      step,
       elementHeight,
       closeAnimationCallback: useCallback(() => {
         step?.after?.();

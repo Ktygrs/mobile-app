@@ -4,6 +4,7 @@ import {
   ANIMATION_CONFIG,
   ANIMATION_DELAY,
 } from '@screens/WalkThrough/constants';
+import {WalkThroughStep} from '@store/modules/WalkThrough/types';
 import {useCallback, useEffect} from 'react';
 import {
   cancelAnimation,
@@ -15,9 +16,11 @@ import {
 } from 'react-native-reanimated';
 
 export const useAnimatedStyles = ({
+  step,
   elementHeight,
   closeAnimationCallback,
 }: {
+  step: WalkThroughStep;
   elementHeight: number | undefined;
   closeAnimationCallback: () => void;
 }) => {
@@ -52,7 +55,7 @@ export const useAnimatedStyles = ({
         }),
       );
     }
-  }, [circleOpacity, elementHeight, elementOpacity]);
+  }, [circleOpacity, elementHeight, elementOpacity, step]);
 
   const runCloseAnimation = useCallback(() => {
     cancelAnimation(elementOpacity);
