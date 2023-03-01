@@ -10,12 +10,10 @@ export function* loadAchievementsSaga() {
     const achievements: SagaReturnType<
       typeof Api.achievements.getAchievements
     > = yield call(Api.achievements.getAchievements);
-    console.log(achievements);
     yield put(
       AchievementsActions.GET_ACHIEVEMENTS.SUCCESS.create({achievements}),
     );
   } catch (error) {
-    console.log(error);
     const errorMessage = getErrorMessage(error);
 
     yield put(AchievementsActions.GET_ACHIEVEMENTS.FAILED.create(errorMessage));
