@@ -29,9 +29,9 @@ export const Achievements = memo(() => {
   const [itemsContainerHeight, setItemsContainerHeight] = useState(0);
 
   const countCompletedItemsBeforeCurrentActive = 1;
-  // areAllTasksCompleted && isExpanded
-  //   ? countCompletedItems
-  //   : achievements.findIndex(v => v.active) + 1;
+  areAllTasksCompleted && isExpanded
+    ? countCompletedItems
+    : achievements.findIndex(achievement => !achievement.completed) + 1;
 
   const itemsContainerStyle = useAnimatedStyle(() => {
     return {
@@ -87,7 +87,7 @@ export const Achievements = memo(() => {
           onLayout={onItemsContainerLayout}>
           {achievements.map(achievement => (
             <AchievementItem
-              key={achievement.name}
+              key={achievement.type}
               achievement={achievement}
               active={true} // TODO:
             />

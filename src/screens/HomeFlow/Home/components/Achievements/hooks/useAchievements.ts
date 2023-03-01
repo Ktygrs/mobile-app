@@ -8,7 +8,8 @@ import {useDispatch, useSelector} from 'react-redux';
 export function useAchievements() {
   const dispatch = useDispatch();
 
-  const achievements = useSelector(getAchievements);
+  const achievements: ReturnType<typeof getAchievements> =
+    useSelector(getAchievements);
 
   useEffect(() => {
     dispatch(AchievementsActions.GET_ACHIEVEMENTS.START.create());

@@ -3,13 +3,10 @@
 import {ReactNode} from 'react';
 
 export interface Achievement {
-  name: AchievementType;
+  type: AchievementType;
   completed: boolean;
   data?: AchievementData;
   Icon?: ReactNode;
-  iconBackground?: string;
-  title?: string;
-  description?: string;
 }
 
 export type AchievementType =

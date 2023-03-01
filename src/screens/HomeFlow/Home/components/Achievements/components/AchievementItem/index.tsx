@@ -4,6 +4,8 @@ import {Achievement} from '@api/achievements/types';
 import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {commonStyles, SCREEN_SIDE_OFFSET} from '@constants/styles';
+import {AchievementIcon} from '@screens/HomeFlow/Home/components/Achievements/components/AchievementIcon';
+import {useAchievementItem} from '@screens/HomeFlow/Home/components/Achievements/hooks/useAchievementItem';
 import {LockIcon} from '@svg/LockIcon';
 import {TaskCompletedSvg} from '@svg/TaskCompleted';
 import {TaskNotCompletedSvg} from '@svg/TaskNotCompleted';
@@ -30,6 +32,7 @@ export const AchievementItem = ({
   achievement: Achievement;
   active: boolean;
 }) => {
+  const {iconBgColor, title, description} = useAchievementItem(achievement);
   const isLocked = !achievement.completed && !active;
   return (
     <Touchable
@@ -52,12 +55,8 @@ export const AchievementItem = ({
           height={BULLET_POINT_ICON_SIZE}
         />
       )}
-      <View
-        style={[
-          styles.iconContainer,
-          {backgroundColor: achievement.iconBackground},
-        ]}>
-        {/* {achievement.Icon} */}
+      <View style={[styles.iconContainer, {backgroundColor: iconBgColor}]}>
+        {<AchievementIcon type={achievement.type} />}
         {isLocked && (
           <View style={styles.lockIcon}>
             <LockIcon />
@@ -65,10 +64,8 @@ export const AchievementItem = ({
         )}
       </View>
       <View>
-        <Text style={active ? styles.activeTitle : styles.title}>
-          {achievement.title}
-        </Text>
-        <Text style={styles.description}>{achievement.description}</Text>
+        <Text style={active ? styles.activeTitle : styles.title}>{title}</Text>
+        <Text style={styles.description}>{description}</Text>
       </View>
       {isLocked ? (
         <View style={[StyleSheet.absoluteFill, styles.containerInactive]} />

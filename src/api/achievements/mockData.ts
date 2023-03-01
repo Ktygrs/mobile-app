@@ -4,27 +4,27 @@ import {Achievement} from '@api/achievements/types';
 
 export const mockedAchievements: Achievement[] = [
   {
-    name: 'claim_username',
+    type: 'claim_username',
     completed: true,
   },
   {
-    name: 'start_mining',
+    type: 'start_mining',
     completed: false,
   },
   {
-    name: 'upload_profile_picture',
+    type: 'upload_profile_picture',
     completed: false,
   },
   {
-    name: 'follow_us_on_twitter',
+    type: 'follow_us_on_twitter',
     completed: false,
   },
   {
-    name: 'join_telegram',
+    type: 'join_telegram',
     completed: false,
   },
   {
-    name: 'invite_friends',
+    type: 'invite_friends',
     completed: false,
     data: {
       requiredQuantity: 5,
