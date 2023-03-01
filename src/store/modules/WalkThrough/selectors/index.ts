@@ -7,9 +7,13 @@ import {RootState} from '@store/rootReducer';
 export const walkthroughStepCandidatesSelector = createSelector(
   [userSelector, (state: RootState) => state.walkThrough.steps],
   (user, steps) => {
+    if (!user) {
+      return [];
+    }
+
     return steps.filter(step => {
       const seenStepVersion =
-        user?.clientData?.walkTroughProgress?.[step.key]?.version ?? 0;
+        user.clientData?.walkTroughProgress?.[step.key]?.version ?? 0;
       console.log('seenStepVersion', seenStepVersion);
       return step.version > seenStepVersion && !!step.elementData;
     });

@@ -22,26 +22,15 @@ import {EmptyTier} from '@screens/Team/components/TierList/components/EmptyTier'
 import {ListHeader} from '@screens/Team/components/TierList/components/Header';
 import {ReferralsActions} from '@store/modules/Referrals/actions';
 import {referralsSelector} from '@store/modules/Referrals/selectors';
-import {balanceSummarySelector} from '@store/modules/Tokenomics/selectors';
 import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
 import {PingIcon} from '@svg/PingIcon';
-import {formatNumberString} from '@utils/numbers';
-import React, {
-  memo,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, {memo, useCallback, useEffect, useMemo, useRef} from 'react';
 import {ListRenderItem, StyleSheet, View} from 'react-native';
-import {useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
 type Props = {
   referralType: ReferralType;
   emptyTitle: string;
-  headerTitle: string;
   focused: boolean;
   addCollapsedSnapPointListener: (key: string, listener: () => void) => void;
 };
@@ -54,7 +43,6 @@ export const TierList = memo(
   ({
     referralType,
     emptyTitle,
-    headerTitle,
     focused,
     addCollapsedSnapPointListener,
   }: Props) => {
@@ -88,10 +76,7 @@ export const TierList = memo(
       ),
     );
 
-    const {total, active} = useSelector(referralsSelector({referralType}));
-
-    const balanceSummary = useSelector(balanceSummarySelector);
-
+    //TODO::to hook with useFetchCollection
     const hasBeenFetchedRef = useRef(false);
     useEffect(() => {
       if (focused && !hasBeenFetchedRef.current) {
@@ -100,7 +85,6 @@ export const TierList = memo(
       }
     }, [fetch, focused, hasBeenFetchedRef]);
 
-    const [headerHeight, setHeaderHeight] = useState(0);
     //TODO:walk check + cleanup
     const pingButton = useMemo(() => {
       if (referrals?.length) {
@@ -111,8 +95,8 @@ export const TierList = memo(
 
     const {setWalkthroughElementData} = useSetWalkthroughElementData();
     useEffect(() => {
-      if (addSteps && offset && pingButton && headerHeight) {
-        const top = offset + headerHeight - PADDING_VERTICAL;
+      if (addSteps && offset && pingButton) {
+        const top = offset - PADDING_VERTICAL;
         setWalkthroughElementData({
           stepKey: 'ping',
           elementData: {
@@ -136,7 +120,7 @@ export const TierList = memo(
           },
         });
       }
-    }, [setWalkthroughElementData, addSteps, offset, pingButton, headerHeight]);
+    }, [setWalkthroughElementData, addSteps, offset, pingButton]);
 
     const renderItem: ListRenderItem<typeof referrals[0]> = useCallback(
       ({item: userId}) => {
@@ -150,31 +134,9 @@ export const TierList = memo(
       [],
     );
 
-    //TODO:walk cleanup
     const Header = useMemo(() => {
-      const balance = balanceSummary?.[referralType === 'T1' ? 't1' : 't2'];
-      return (
-        <ListHeader
-          total={total ?? 0}
-          active={active ?? 0}
-          title={headerTitle}
-          addSteps={addSteps}
-          offset={offset}
-          earnings={balance ? formatNumberString(balance) : ''}
-          onLayout={({nativeEvent}) => {
-            setHeaderHeight(nativeEvent.layout.height);
-          }}
-        />
-      );
-    }, [
-      balanceSummary,
-      referralType,
-      total,
-      active,
-      headerTitle,
-      addSteps,
-      offset,
-    ]);
+      return <ListHeader referralType={referralType} focused={focused} />;
+    }, [referralType, focused]);
 
     return (
       <BottomSheetFlatList
