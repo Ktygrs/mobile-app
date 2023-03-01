@@ -13,6 +13,8 @@ export type WalkThroughStepStaticData = {
   title: string;
   description: string;
   link?: string;
+  before?: () => void;
+  after?: () => void;
 };
 
 export interface WalkThroughStep extends WalkThroughStepStaticData {

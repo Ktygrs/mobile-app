@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {navigate} from '@navigation/utils';
 import {WalkThroughSteps} from '@store/modules/WalkThrough/types';
 import {t} from '@translations/i18n';
 
@@ -24,7 +25,6 @@ export const WALK_THROUGH_STEPS: WalkThroughSteps = {
     },
     referrals: {
       version: 100,
-      //TODO:walk rename translations
       title: t('walkthrough.team.referrals.title'),
       description: t('walkthrough.team.referrals.description'),
       link: 'https://ice.io/#invite',
@@ -50,6 +50,9 @@ export const WALK_THROUGH_STEPS: WalkThroughSteps = {
       title: t('walkthrough.team.tier_two.title'),
       description: t('walkthrough.team.tier_two.description'),
       link: 'https://ice.io/#invite',
+      after: () => {
+        navigate({name: 'Team', params: {segmentIndex: 1}});
+      },
     },
     activeUsers: {
       version: 100,

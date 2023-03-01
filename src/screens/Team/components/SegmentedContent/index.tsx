@@ -6,12 +6,14 @@ import {
   SegmentedControlMethods,
 } from '@components/SegmentedControl';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
+import {TeamTabStackParamList} from '@navigation/Main';
+import {RouteProp, useRoute} from '@react-navigation/native';
 import {Contacts} from '@screens/Team/components/Contacts';
 import {useSegmentedControlWalkthrough} from '@screens/Team/components/SegmentedContent/hooks/useSegmentedControlWalkthrough';
 import {TierList} from '@screens/Team/components/TierList';
 import {Listener} from '@screens/Team/types';
 import {t} from '@translations/i18n';
-import React, {memo, useCallback, useRef, useState} from 'react';
+import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import PagerView, {PagerViewOnPageSelectedEvent} from 'react-native-pager-view';
 import {rem} from 'rn-units';
@@ -34,6 +36,8 @@ const CONTAINER_PADDING_TOP =
 
 export const SegmentedContent = memo(
   ({addCollapsedSnapPointListener}: Props) => {
+    const route = useRoute<RouteProp<TeamTabStackParamList, 'Team'>>();
+    const initialIndex = useRef(route.params?.segmentIndex);
     const [activeIndex, setActiveIndex] = useState<SegmentIndex>(0);
     const switcherRef = useRef<SegmentedControlMethods>(null);
     const pagerRef = useRef<PagerView>(null);
@@ -49,10 +53,19 @@ export const SegmentedContent = memo(
 
     const {elementRef, onElementLayout} = useSegmentedControlWalkthrough();
 
+    useEffect(() => {
+      const routeSegmentIndex = route.params?.segmentIndex;
+      if (routeSegmentIndex && initialIndex.current !== routeSegmentIndex) {
+        pagerRef.current?.setPage(routeSegmentIndex);
+        switcherRef.current?.changeSegment(routeSegmentIndex);
+        setActiveIndex(routeSegmentIndex);
+      }
+    }, [route.params?.segmentIndex]);
+
     return (
       <View style={styles.container}>
         <PagerView
-          initialPage={0}
+          initialPage={initialIndex.current}
           style={styles.flex}
           ref={pagerRef}
           onPageSelected={onPageChange}>
@@ -86,7 +99,7 @@ export const SegmentedContent = memo(
             segments={SEGMENTS}
             ref={switcherRef}
             onChange={onCategoryChange}
-            initialIndex={0}
+            initialIndex={initialIndex.current}
           />
         </View>
       </View>

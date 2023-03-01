@@ -48,7 +48,7 @@ export const useSegmentedControlWalkthrough = () => {
           >,
           elementData: {
             topPositionOfHighlightedElement: top,
-            icon: segmentData.renderIcon(false),
+            icon: segmentData.renderIcon(false), //TODO:???
             renderStepHighlight: () => (
               <View style={[styles.outerContainer, {top, left}]}>
                 <View style={styles.innerContainer}>

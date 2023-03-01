@@ -47,7 +47,7 @@ interface WalkThroughProps {
 export function WalkThrough({route}: WalkThroughProps) {
   const {walkThroughType} = route.params;
   const numberOfSteps = useSelector(numberOfStepsSelector(walkThroughType));
-  const [stepIndex, setStepIndex] = useState(3);
+  const [stepIndex, setStepIndex] = useState(5);
   const [visibleStep, setVisibleStep] = useState<WalkThroughStep>();
 
   const stepDataCandidate = useSelector(
@@ -82,6 +82,7 @@ export function WalkThrough({route}: WalkThroughProps) {
         ) {
           prevStepDataRef.current = prevStepDataCandidate;
         }
+        stepDataCandidate.before?.();
         setVisibleStep(stepDataCandidate);
       } else {
         setStepIndex((s: number) => s + 1);
@@ -147,10 +148,11 @@ export function WalkThrough({route}: WalkThroughProps) {
       );
     });
     const handler = setTimeout(() => {
+      stepDataCandidate.after?.();
       setStepIndex(s => s + 1);
     }, ANIMATION_CONFIG.duration * 2 + ANIMATION_DELAY);
     return () => clearTimeout(handler);
-  }, [elementOpacity, circleOpacity]);
+  }, [elementOpacity, stepDataCandidate, circleOpacity]);
 
   const onFinalise = useOnFinalize({walkThroughType});
 
