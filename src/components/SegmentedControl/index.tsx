@@ -1,10 +1,9 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {Touchable} from '@components/Touchable';
+import {Segment} from '@components/SegmentedControl/components/Segment';
+import {SegmentIndicator} from '@components/SegmentedControl/components/SegmentIndicator';
 import {COLORS} from '@constants/colors';
 import {commonStyles} from '@constants/styles';
-import {Indicator} from '@svg/Indicator';
-import {font} from '@utils/styles';
 import React, {
   forwardRef,
   ReactNode,
@@ -13,23 +12,16 @@ import React, {
   useMemo,
   useState,
 } from 'react';
+import {FlexStyle, StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
 import {
-  FlexStyle,
-  StyleProp,
-  StyleSheet,
-  Text,
-  View,
-  ViewStyle,
-} from 'react-native';
-import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
 import {rem} from 'rn-units';
 
-export const DEFAULT_CONTAINER_MARGIN = rem(8);
 export const SEGMENTED_CONTROL_HEIGHT = rem(52);
+export const SEGMENTED_CONTROL_HORIZONTAL_OFFSET = rem(8);
 
 type Segment = {
   text?: string;
@@ -94,7 +86,6 @@ export const SegmentedControl = forwardRef<
     const dynamicStyles = useMemo(
       () =>
         StyleSheet.create({
-          // eslint-disable-next-line react-native/no-unused-styles
           indicator: {
             width: `${segmentWidthPerc}%`,
           },
@@ -106,82 +97,40 @@ export const SegmentedControl = forwardRef<
       left: `${translateX.value}%`,
     }));
 
-    const renderSegment = (segment: Segment, index: number) => {
-      const active = activeIndex === index;
-      return (
-        <Touchable
-          key={segment.key}
-          onPress={() => {
-            onSegmentPress(index);
-          }}
-          style={styles.segment}>
-          {typeof segment.renderText === 'function' ? (
-            segment.renderText(active)
-          ) : (
-            <Text
-              style={[
-                styles.text,
-                active ? styles.activeText : styles.inactiveText,
-              ]}>
-              {segment.text ?? ''}
-            </Text>
-          )}
-        </Touchable>
-      );
-    };
-
     return (
       <View style={[styles.container, commonStyles.shadow, style]}>
         <View style={styles.body}>
-          <Animated.View
-            style={[styles.indicator, dynamicStyles.indicator, animatedStyles]}>
-            <Indicator
-              width={'100%'}
-              height={'100%'}
-              preserveAspectRatio="none"
-            />
-          </Animated.View>
-          {segments.map(renderSegment)}
+          <SegmentIndicator style={[dynamicStyles.indicator, animatedStyles]} />
+          {segments.map((segment, index) => {
+            const active = activeIndex === index;
+            return (
+              <Segment
+                key={segment.key}
+                style={styles.segment}
+                active={active}
+                segment={segment}
+                onPress={() => onSegmentPress(index)}
+              />
+            );
+          })}
         </View>
       </View>
     );
   },
 );
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     borderRadius: rem(16),
     backgroundColor: COLORS.white,
-    paddingHorizontal: DEFAULT_CONTAINER_MARGIN,
+    paddingHorizontal: SEGMENTED_CONTROL_HORIZONTAL_OFFSET,
     height: SEGMENTED_CONTROL_HEIGHT,
   },
   body: {
     flexDirection: 'row',
     flex: 1,
   },
-  indicator: {
-    borderRadius: rem(12),
-    marginVertical: DEFAULT_CONTAINER_MARGIN,
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    overflow: 'hidden',
-  },
   segment: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  text: {
-    marginTop: rem(4),
-    ...font(17, 20, 'semibold'),
-  },
-  activeText: {
-    color: COLORS.white,
-  },
-  inactiveText: {
-    color: COLORS.secondary,
   },
 });

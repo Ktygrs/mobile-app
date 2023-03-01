@@ -1,63 +1,80 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {
-  DEFAULT_CONTAINER_MARGIN,
   SEGMENTED_CONTROL_HEIGHT,
-  styles as segmentedControlStyles,
+  SEGMENTED_CONTROL_HORIZONTAL_OFFSET,
 } from '@components/SegmentedControl';
+import {Segment} from '@components/SegmentedControl/components/Segment';
+import {SegmentIndicator} from '@components/SegmentedControl/components/SegmentIndicator';
 import {COLORS} from '@constants/colors';
-import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {SEGMENTS} from '@screens/Team/components/SegmentedContent/segments';
 import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
-import {Indicator} from '@svg/Indicator';
 import {useEffect, useRef, useState} from 'react';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {rem, screenWidth} from 'rn-units';
+import {rem} from 'rn-units';
+
+const OUTER_VERTICAL_PADDING = rem(16);
+const OUTER_HORIZONTAL_PADDING = rem(16);
+const INNER_VERTICAL_PADDING = rem(12);
+const INNER_HORIZONTAL_PADDING = rem(20);
 
 export const useSegmentedControlWalkthrough = () => {
   const {setWalkthroughElementData} = useSetWalkthroughElementData('team');
-  const [elementY, setElementY] = useState(0);
+  const [elementParams, setElementParams] = useState<{
+    pageY: number;
+    pageX: number;
+    width: number;
+  }>();
   const elementRef = useRef<View>(null);
 
   useEffect(() => {
-    const top = elementY;
-    const widthStyle = {width: `${100 / SEGMENTS.length}%`};
-    SEGMENTS.forEach((segmentData, index) => {
-      const sectionWidth =
-        screenWidth - SCREEN_SIDE_OFFSET * 2 - DEFAULT_CONTAINER_MARGIN * 2;
-      const leftStyle = {left: (sectionWidth / SEGMENTS.length) * index};
-      setWalkthroughElementData({
-        step: segmentData.key.toLowerCase() as Lowercase<
-          typeof segmentData['key']
-        >,
-        elementData: {
-          topPositionOfHighlightedElement: top,
-          icon: segmentData.renderIcon(false),
-          renderStepHighlight: () => (
-            <View style={[styles.outerContainer, {top}]}>
-              <View style={[styles.innerContainer, widthStyle, leftStyle]}>
-                <View
-                  style={[segmentedControlStyles.indicator, styles.indicator]}>
-                  <Indicator
-                    width={'100%'}
-                    height={'100%'}
-                    preserveAspectRatio="none"
-                  />
+    if (elementParams) {
+      const top =
+        elementParams.pageY - OUTER_VERTICAL_PADDING - INNER_VERTICAL_PADDING;
+      SEGMENTS.forEach((segmentData, index) => {
+        const sectionWidth =
+          (elementParams.width - SEGMENTED_CONTROL_HORIZONTAL_OFFSET * 2) /
+          SEGMENTS.length;
+        const left =
+          elementParams.pageX +
+          sectionWidth * index -
+          OUTER_HORIZONTAL_PADDING -
+          INNER_HORIZONTAL_PADDING +
+          SEGMENTED_CONTROL_HORIZONTAL_OFFSET;
+        setWalkthroughElementData({
+          step: segmentData.key.toLowerCase() as Lowercase<
+            typeof segmentData['key']
+          >,
+          elementData: {
+            topPositionOfHighlightedElement: top,
+            icon: segmentData.renderIcon(false),
+            renderStepHighlight: () => (
+              <View style={[styles.outerContainer, {top, left}]}>
+                <View style={styles.innerContainer}>
+                  <View style={[styles.section, {width: sectionWidth}]}>
+                    <SegmentIndicator />
+                    <Segment active={true} segment={segmentData} />
+                  </View>
                 </View>
-                {segmentData.renderText(true)}
               </View>
-            </View>
-          ),
-        },
+            ),
+          },
+        });
       });
-    });
-  }, [setWalkthroughElementData, elementY]);
+    }
+  }, [setWalkthroughElementData, elementParams]);
 
   const onElementLayout = () => {
-    elementRef.current?.measure((x, y, width, height, pageX, pageY) => {
-      setElementY(pageY);
-    });
+    /**
+     * Small timeout before measure because the content of the screen is wrapped with
+     * BottomSheetScrollView and on Layout the button position is different
+     */
+    setTimeout(() => {
+      elementRef.current?.measure((x, y, width, height, pageX, pageY) => {
+        setElementParams({pageY, pageX, width});
+      });
+    }, 500);
   };
 
   return {
@@ -68,21 +85,22 @@ export const useSegmentedControlWalkthrough = () => {
 
 const styles = StyleSheet.create({
   outerContainer: {
-    marginHorizontal: SCREEN_SIDE_OFFSET,
     borderRadius: rem(20),
+    paddingVertical: OUTER_VERTICAL_PADDING,
+    paddingHorizontal: OUTER_HORIZONTAL_PADDING,
     backgroundColor: COLORS.white02opacity,
-    paddingHorizontal: DEFAULT_CONTAINER_MARGIN,
+    alignSelf: 'flex-start',
+    alignItems: 'center',
   },
   innerContainer: {
-    flexDirection: 'row',
+    borderRadius: rem(20),
+    paddingVertical: INNER_VERTICAL_PADDING,
+    paddingHorizontal: INNER_HORIZONTAL_PADDING,
+    backgroundColor: COLORS.white,
+  },
+  section: {
+    height: SEGMENTED_CONTROL_HEIGHT,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: rem(20),
-    backgroundColor: COLORS.white,
-    padding: rem(16),
-    height: SEGMENTED_CONTROL_HEIGHT,
-  },
-  indicator: {
-    width: '100%',
   },
 });
