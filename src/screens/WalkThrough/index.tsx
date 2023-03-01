@@ -5,7 +5,7 @@ import {COLORS} from '@constants/colors';
 import {MIDDLE_BUTTON_HIT_SLOP} from '@constants/styles';
 import {Images} from '@images';
 import {MainStackParamList} from '@navigation/Main';
-import {RouteProp} from '@react-navigation/native';
+import {RouteProp, useNavigation} from '@react-navigation/native';
 import {
   ANIMATION_CONFIG,
   ANIMATION_DELAY,
@@ -42,6 +42,7 @@ export function WalkThrough({route}: WalkThroughProps) {
   const {step, total, index} = route.params;
   const isLastStep = index === total - 1;
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const [elementHeight, setElementHeight] = useState(0);
   const [isElementHeightSet, setIsElementHeightSet] = useState(false);
@@ -94,9 +95,12 @@ export function WalkThrough({route}: WalkThroughProps) {
           stepKey: step.key,
         }),
       );
+      if (isLastStep) {
+        navigation.goBack();
+      }
     }, ANIMATION_CONFIG.duration * 2 + ANIMATION_DELAY);
     return () => clearTimeout(handler);
-  }, [elementOpacity, circleOpacity, step, dispatch]);
+  }, [elementOpacity, circleOpacity, step, dispatch, isLastStep, navigation]);
 
   // const onFinalise = useOnFinalize({walkThroughType});
 
