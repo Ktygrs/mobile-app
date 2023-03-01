@@ -7,30 +7,22 @@ import {Images} from '@images';
 import {MainStackParamList} from '@navigation/Main';
 import {RouteProp, useNavigation} from '@react-navigation/native';
 import {
-  ANIMATION_CONFIG,
-  ANIMATION_DELAY,
   CIRCLE_DIAMETER,
   CIRCLE_PADDING_VERTICAL,
 } from '@screens/WalkThrough/constants';
+import {useAnimatedStyles} from '@screens/WalkThrough/hooks/useAnimatedStyles';
 import {useCirclePosition} from '@screens/WalkThrough/hooks/useCirclePosition';
 import {useParseDescription} from '@screens/WalkThrough/hooks/useParseDescription';
 import {WalkThroughActions} from '@store/modules/WalkThrough/actions';
 import {NextArrowSvg} from '@svg/NextArrow';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
-import Animated, {
-  cancelAnimation,
-  useAnimatedStyle,
-  useSharedValue,
-  withDelay,
-  withTiming,
-} from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 import {useDispatch} from 'react-redux';
 import {rem} from 'rn-units';
 import {screenWidth} from 'rn-units/index';
-import {clearTimeout} from 'timers';
 
 type WalkThroughRouteProps = RouteProp<MainStackParamList, 'WalkThrough'>;
 
@@ -41,73 +33,32 @@ interface WalkThroughProps {
 export function WalkThrough({route}: WalkThroughProps) {
   const {step, total, index} = route.params;
   const isLastStep = index === total - 1;
+
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const [elementHeight, setElementHeight] = useState(0);
-  const [isElementHeightSet, setIsElementHeightSet] = useState(false);
-  const elementOpacity = useSharedValue(0);
-  const circleOpacity = useSharedValue(0);
-  const elementAnimatedStyle = useAnimatedStyle(() => ({
-    opacity: elementOpacity.value,
-  }));
-  const circleAnimatedStyle = useAnimatedStyle(() => ({
-    opacity: circleOpacity.value,
-  }));
-
-  useEffect(() => {
-    return () => {
-      cancelAnimation(elementOpacity);
-      cancelAnimation(circleOpacity);
-    };
-  }, [circleOpacity, elementOpacity]);
-
-  useEffect(() => {
-    if (isElementHeightSet && step) {
-      cancelAnimation(elementOpacity);
-      cancelAnimation(circleOpacity);
-      elementOpacity.value = withDelay(
-        ANIMATION_DELAY,
-        withTiming(1, ANIMATION_CONFIG, () => {
-          circleOpacity.value = withDelay(
-            ANIMATION_DELAY,
-            withTiming(1, ANIMATION_CONFIG),
-          );
-        }),
-      );
-    }
-  }, [circleOpacity, isElementHeightSet, elementOpacity, step]);
-
-  const onNext = useCallback(() => {
-    cancelAnimation(elementOpacity);
-    cancelAnimation(circleOpacity);
-    circleOpacity.value = withTiming(0, ANIMATION_CONFIG, () => {
-      elementOpacity.value = withDelay(
-        ANIMATION_DELAY,
-        withTiming(0, ANIMATION_CONFIG),
-      );
-    });
-    //TODO::use callback instead of timer
-    const handler = setTimeout(() => {
-      step?.after?.();
-      dispatch(
-        WalkThroughActions.COMPLETE_WALK_THROUGH_STEP.STATE.create({
-          stepKey: step.key,
-        }),
-      );
-      if (isLastStep) {
-        navigation.goBack();
-      }
-    }, ANIMATION_CONFIG.duration * 2 + ANIMATION_DELAY);
-    return () => clearTimeout(handler);
-  }, [elementOpacity, circleOpacity, step, dispatch, isLastStep, navigation]);
-
-  // const onFinalise = useOnFinalize({walkThroughType});
+  const [elementHeight, setElementHeight] = useState<number>();
 
   const circlePosition = useCirclePosition({
     elementHeight,
     elementData: step?.elementData,
   });
+
+  const {elementAnimatedStyle, circleAnimatedStyle, runCloseAnimation} =
+    useAnimatedStyles({
+      elementHeight,
+      closeAnimationCallback: useCallback(() => {
+        step?.after?.();
+        dispatch(
+          WalkThroughActions.COMPLETE_WALK_THROUGH_STEP.STATE.create({
+            stepKey: step.key,
+          }),
+        );
+        if (isLastStep) {
+          navigation.goBack();
+        }
+      }, [dispatch, isLastStep, navigation, step]),
+    });
 
   const {parsedDescription} = useParseDescription({step});
 
@@ -153,7 +104,7 @@ export function WalkThrough({route}: WalkThroughProps) {
           <Touchable
             style={styles.nextContainer}
             hitSlop={MIDDLE_BUTTON_HIT_SLOP}
-            onPress={onNext}>
+            onPress={runCloseAnimation}>
             <Text style={styles.next}>
               {isLastStep ? t('button.done') : t('button.next_step')}
             </Text>
@@ -165,7 +116,6 @@ export function WalkThrough({route}: WalkThroughProps) {
         style={elementAnimatedStyle}
         onLayout={({nativeEvent}) => {
           setElementHeight(nativeEvent.layout.height);
-          setIsElementHeightSet(true);
         }}>
         {renderStepHighlight()}
       </Animated.View>

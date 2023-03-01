@@ -9,7 +9,7 @@ import {useMemo} from 'react';
 import {rem, screenHeight} from 'rn-units/index';
 
 type Props = {
-  elementHeight: number;
+  elementHeight?: number;
   elementData: undefined | WalkThroughStep['elementData'];
 };
 
