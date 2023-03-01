@@ -67,6 +67,11 @@ export const Tooltip = () => {
         {targetData && (
           <>
             <View
+              /**
+               * Close tooltip by click on target item.
+               * So just ignore all events on it.
+               */
+              pointerEvents={'none'}
               {...stopPropagation}
               style={[
                 styles.target,
