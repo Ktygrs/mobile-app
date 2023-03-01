@@ -20,6 +20,10 @@ import {rem} from 'rn-units';
 export const Achievements = memo(() => {
   const {achievements} = useAchievements();
 
+  const currentActiveAchievementIndex = achievements.findIndex(
+    achievement => !achievement.completed,
+  );
+
   const countCompletedItems = achievements.filter(v => v.completed).length;
 
   const areAllTasksCompleted = countCompletedItems === achievements.length;
@@ -28,10 +32,10 @@ export const Achievements = memo(() => {
 
   const [itemsContainerHeight, setItemsContainerHeight] = useState(0);
 
-  const countCompletedItemsBeforeCurrentActive = 1;
-  areAllTasksCompleted && isExpanded
-    ? countCompletedItems
-    : achievements.findIndex(achievement => !achievement.completed) + 1;
+  const countCompletedItemsBeforeCurrentActive =
+    areAllTasksCompleted && isExpanded
+      ? countCompletedItems
+      : achievements.findIndex(achievement => !achievement.completed) + 1;
 
   const itemsContainerStyle = useAnimatedStyle(() => {
     return {
@@ -85,11 +89,11 @@ export const Achievements = memo(() => {
             !!itemsContainerHeight && itemsContainerStyle,
           ]}
           onLayout={onItemsContainerLayout}>
-          {achievements.map(achievement => (
+          {achievements.map((achievement, index) => (
             <AchievementItem
               key={achievement.type}
               achievement={achievement}
-              active={true} // TODO:
+              active={index === currentActiveAchievementIndex}
             />
           ))}
         </Animated.View>
