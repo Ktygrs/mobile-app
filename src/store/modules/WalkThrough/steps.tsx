@@ -61,7 +61,7 @@ export const WALK_THROUGH_STEPS: WalkThroughSteps = [
   },
   {
     key: 'ping',
-    version: 105,
+    version: 108,
     title: t('walkthrough.team.ping.title'),
     description: t('walkthrough.team.ping.description'),
   },

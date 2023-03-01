@@ -14,7 +14,6 @@ export const walkthroughStepCandidatesSelector = createSelector(
     return steps.filter(step => {
       const seenStepVersion =
         user.clientData?.walkTroughProgress?.[step.key]?.version ?? 0;
-      console.log('seenStepVersion', seenStepVersion);
       return step.version > seenStepVersion && !!step.elementData;
     });
   },
