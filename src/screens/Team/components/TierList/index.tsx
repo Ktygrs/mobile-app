@@ -12,16 +12,14 @@ import {
 import {UserListPingButton} from '@components/ListItems/UserListItem/components/UserListPingButton';
 import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
-import {
-  BottomSheetFlatList,
-  BottomSheetFlatListMethods,
-} from '@gorhom/bottom-sheet';
+import {BottomSheetFlatList} from '@gorhom/bottom-sheet';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
 import {EmptyTier} from '@screens/Team/components/TierList/components/EmptyTier';
 import {ListHeader} from '@screens/Team/components/TierList/components/Header';
 import {WalkthroughReferralItem} from '@screens/Team/components/TierList/components/WalkthroughReferralItem';
+import {useAddCollapsedSnapPointListener} from '@screens/Team/components/TierList/hooks/useAddCollapsedSnapPointListener';
 import {useFetchReferrals} from '@screens/Team/components/TierList/hooks/useFetchReferrals';
-import React, {memo, useCallback, useEffect, useMemo, useRef} from 'react';
+import React, {memo, useCallback, useMemo} from 'react';
 import {ListRenderItem, StyleSheet, View} from 'react-native';
 import {rem} from 'rn-units';
 
@@ -45,14 +43,10 @@ export const TierList = memo(
   }: Props) => {
     const tabbarOffset = useBottomTabBarOffsetStyle();
 
-    const ref = useRef<BottomSheetFlatListMethods>(null);
-    useEffect(() => {
-      addCollapsedSnapPointListener(referralType, () => {
-        if (ref.current) {
-          ref.current.scrollToOffset({animated: true, offset: 0});
-        }
-      });
-    }, [ref, addCollapsedSnapPointListener, referralType]);
+    const {bottomSheetRef} = useAddCollapsedSnapPointListener({
+      addListener: addCollapsedSnapPointListener,
+      referralType,
+    });
 
     const {referrals, loadNext, loadNextLoading, hasNext, refreshing} =
       useFetchReferrals({referralType, focused});
@@ -62,7 +56,6 @@ export const TierList = memo(
         if (index === 0 && referralType === 'T1' && focused) {
           return <WalkthroughReferralItem userId={userId} />;
         }
-
         return (
           <UserListItem
             userId={userId}
@@ -79,7 +72,7 @@ export const TierList = memo(
 
     return (
       <BottomSheetFlatList
-        ref={ref}
+        ref={bottomSheetRef}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={[tabbarOffset.current, styles.container]}
         ListHeaderComponent={Header}

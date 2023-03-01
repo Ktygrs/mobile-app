@@ -7,21 +7,20 @@ import {UserListItem} from '@components/ListItems/UserListItem';
 import {UserListPingButton} from '@components/ListItems/UserListItem/components/UserListPingButton';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {BottomSheetSectionList} from '@gorhom/bottom-sheet';
-import {BottomSheetSectionListMethods} from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetScrollable/types';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
 import {MainStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {ContactItem} from '@screens/Team/components/Contacts/components/ContactsList/components/ContactItem';
 import {SectionHeader} from '@screens/Team/components/Contacts/components/ContactsList/components/SectionHeader';
+import {useAddCollapsedSnapPointListener} from '@screens/Team/components/Contacts/components/ContactsList/hooks/useAddCollapsedSnapPointListener';
 import {
   ContactSection,
   ContactSectionDataItem,
   useGetContactSegments,
 } from '@screens/Team/components/Contacts/components/ContactsList/hooks/useGetContactSegments';
-import {AGENDA} from '@screens/Team/constants';
 import {hapticFeedback} from '@utils/device';
-import React, {useCallback, useEffect, useRef} from 'react';
+import React, {useCallback} from 'react';
 import {SectionListRenderItem, StyleSheet, Text, View} from 'react-native';
 import {Contact} from 'react-native-contacts';
 import {rem} from 'rn-units';
@@ -37,22 +36,13 @@ export const ContactsList = ({
 }: Props) => {
   const tabbarOffset = useBottomTabBarOffsetStyle();
 
-  const ref = useRef<BottomSheetSectionListMethods>(null);
-
   const {sections, loadNext, loadNextLoading, refreshing} =
     useGetContactSegments(focused);
 
-  useEffect(() => {
-    addCollapsedSnapPointListener(AGENDA, () => {
-      if (ref.current && sections.length) {
-        ref.current.scrollToLocation({
-          animated: true,
-          itemIndex: 0,
-          sectionIndex: 0,
-        });
-      }
-    });
-  }, [addCollapsedSnapPointListener, ref, sections]);
+  const {bottomSheetRef} = useAddCollapsedSnapPointListener({
+    addListener: addCollapsedSnapPointListener,
+    hasSections: sections.length > 0,
+  });
 
   const navigation =
     useNavigation<NativeStackNavigationProp<MainStackParamList>>();
@@ -112,7 +102,7 @@ export const ContactsList = ({
 
   return (
     <BottomSheetSectionList<ContactSectionDataItem, ContactSection>
-      ref={ref}
+      ref={bottomSheetRef}
       contentContainerStyle={[tabbarOffset.current, styles.container]}
       sections={sections}
       renderItem={renderItem}
