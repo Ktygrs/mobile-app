@@ -90,13 +90,19 @@ export const AdoptionCard = ({isCollapsed, onPress}: AdoptionCardProps) => {
   );
 
   const activeIndex = useMemo(() => {
-    if (adoption) {
-      const notAchievedIndex =
-        adoption.milestones.findIndex(({achievedAt}) => !achievedAt) ??
-        adoption.milestones.length;
-      return notAchievedIndex - 1;
+    if (!adoption) {
+      return 0;
     }
-    return 0;
+
+    const notAchievedIndex = adoption.milestones.findIndex(
+      ({achievedAt}) => !achievedAt,
+    );
+
+    if (notAchievedIndex === -1) {
+      return adoption.milestones.length - 1;
+    }
+
+    return notAchievedIndex - 1;
   }, [adoption]);
 
   const scrollToIndex = useCallback((index: number) => {
