@@ -14,6 +14,7 @@ import {permissionsReducer} from '@store/modules/Permissions/reducer';
 import {rateAppReducer} from '@store/modules/RateApp/reducer';
 import {referralsReducer} from '@store/modules/Referrals/reducer';
 import {statsReducer} from '@store/modules/Stats/reducer';
+import {tasksReducer} from '@store/modules/Tasks/reducer';
 import {tokenomicsReducer} from '@store/modules/Tokenomics/reducer';
 import {usersReducer} from '@store/modules/Users/reducer';
 import {processStatusesReducer} from '@store/modules/UtilityProcessStatuses/reducer';
@@ -39,6 +40,7 @@ export const rootReducer = combineReducers({
   users: usersReducer,
   tokenomics: tokenomicsReducer,
   rateApp: rateAppReducer,
+  tasks: tasksReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
