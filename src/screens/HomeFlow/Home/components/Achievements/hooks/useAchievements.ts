@@ -14,7 +14,7 @@ export function useAchievements() {
 
   useEffect(() => {
     // TODO: achievements: remove when api would be connected
-    if (!isEmpty(achievements)) {
+    if (isEmpty(achievements)) {
       dispatch(AchievementsActions.GET_ACHIEVEMENTS.START.create());
     }
   }, [dispatch, achievements]);
