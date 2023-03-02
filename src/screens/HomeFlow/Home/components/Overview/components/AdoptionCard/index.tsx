@@ -2,6 +2,7 @@
 
 import {AdoptionMilestone} from '@api/statistics/types';
 import {COLORS} from '@constants/colors';
+import {useAnimatedNumber} from '@hooks/useAnimatedNumber';
 import {Images} from '@images';
 import {
   LEVEL_ROW_HEIGHT,
@@ -64,6 +65,10 @@ export const AdoptionCard = ({isCollapsed, onPress}: AdoptionCardProps) => {
   const adoption = useSelector(adoptionSelector);
   const isSplashHidden = useSelector(isSplashHiddenSelector);
   const refFlatList = useRef<Animated.FlatList<AdoptionMilestone>>(null);
+
+  const animatedAdoptionTotalActiveUsers = useAnimatedNumber(
+    adoption?.totalActiveUsers ?? 0,
+  );
 
   const sharedItems = useSharedValue<ViewToken[]>([]);
 
@@ -212,7 +217,7 @@ export const AdoptionCard = ({isCollapsed, onPress}: AdoptionCardProps) => {
             </View>
             <FriendsIcon fill={COLORS.white} />
             <Text style={styles.valueText}>
-              {formatNumber(adoption.totalActiveUsers)}
+              {formatNumber(animatedAdoptionTotalActiveUsers)}
             </Text>
           </View>
         </>

@@ -2,6 +2,7 @@
 
 import {IceLabel} from '@components/Labels/IceLabel';
 import {COLORS} from '@constants/colors';
+import {useAnimatedNumber} from '@hooks/useAnimatedNumber';
 import {Images} from '@images';
 import {CardBase} from '@screens/HomeFlow/Home/components/Overview/components/CardBase';
 import {userIdSelector} from '@store/modules/Account/selectors';
@@ -27,6 +28,10 @@ export const LevelCard = ({isCollapsed}: Props) => {
   const globalRank = useSelector(globalRankSelector(userId));
   const isSplashHidden = useSelector(isSplashHiddenSelector);
 
+  const animatedUserReferralCount = useAnimatedNumber(userReferralCount);
+
+  const animatedGlobalRank = useAnimatedNumber(globalRank ?? 0);
+
   return (
     <CardBase
       backgroundImageSource={Images.backgrounds.levelCardBg}
@@ -41,14 +46,16 @@ export const LevelCard = ({isCollapsed}: Props) => {
               <Text style={styles.labelText}>
                 {t('home.pioneer.referrals')}
               </Text>
-              <Text style={styles.valueText}>{userReferralCount}</Text>
+              <Text style={styles.valueText}>
+                {formatNumber(animatedUserReferralCount)}
+              </Text>
             </View>
             <View style={styles.column}>
               {globalRank != null && (
                 <>
                   <Text style={styles.labelText}>{t('home.pioneer.rank')}</Text>
                   <Text style={styles.valueText}>
-                    {formatNumber(globalRank)}
+                    {formatNumber(animatedGlobalRank)}
                   </Text>
                 </>
               )}

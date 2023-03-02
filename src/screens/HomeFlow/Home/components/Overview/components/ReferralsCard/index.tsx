@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {COLORS} from '@constants/colors';
+import {useAnimatedNumber} from '@hooks/useAnimatedNumber';
 import {Images} from '@images';
 import {CardBase} from '@screens/HomeFlow/Home/components/Overview/components/CardBase';
 import {ReferralsEmptyState} from '@screens/HomeFlow/Home/components/Overview/components/ReferralsEmptyState';
@@ -13,6 +14,7 @@ import {
 import {FriendsIcon} from '@svg/FriendsIcon';
 import {TrophyIcon} from '@svg/TrophyIcon';
 import {t} from '@translations/i18n';
+import {formatNumber} from '@utils/numbers';
 import {font} from '@utils/styles';
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
@@ -29,12 +31,18 @@ export const ReferralsCard = ({isCollapsed}: Props) => {
   const userT2ReferralCount = useSelector(userT2ReferralSelector);
   const isSplashHidden = useSelector(isSplashHiddenSelector);
 
+  const animatedUserReferralCount = useAnimatedNumber(userReferralCount);
+
+  const animatedUserT1ReferralCount = useAnimatedNumber(userT1ReferralCount);
+
+  const animatedUserT2ReferralCount = useAnimatedNumber(userT2ReferralCount);
+
   return (
     <CardBase
       backgroundImageSource={Images.backgrounds.referralsCardBg}
       headerTitle={t('home.referrals.title')}
       headerTitleIcon={<TrophyIcon fill={COLORS.white} />}
-      headerValue={String(userReferralCount)}
+      headerValue={String(formatNumber(animatedUserReferralCount))}
       headerValueIcon={<FriendsIcon fill={COLORS.white} />}
       isCollapsed={isCollapsed}>
       {isSplashHidden && (
@@ -48,13 +56,17 @@ export const ReferralsCard = ({isCollapsed}: Props) => {
                   <Text style={styles.labelText}>
                     {t('home.referrals.users_tier_1')}
                   </Text>
-                  <Text style={styles.valueText}>{userT1ReferralCount}</Text>
+                  <Text style={styles.valueText}>
+                    {formatNumber(animatedUserT1ReferralCount)}
+                  </Text>
                 </View>
                 <View style={styles.column}>
                   <Text style={styles.labelText}>
                     {t('home.referrals.users_tier_2')}
                   </Text>
-                  <Text style={styles.valueText}>{userT2ReferralCount}</Text>
+                  <Text style={styles.valueText}>
+                    {formatNumber(animatedUserT2ReferralCount)}
+                  </Text>
                 </View>
               </View>
               <Text style={styles.noteText}>

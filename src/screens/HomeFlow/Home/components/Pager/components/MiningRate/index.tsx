@@ -4,6 +4,7 @@ import {FormattedNumber} from '@components/Labels/FormattedNumber';
 import {IceLabel} from '@components/Labels/IceLabel';
 import {COLORS} from '@constants/colors';
 import {commonStyles} from '@constants/styles';
+import {useAnimatedNumber} from '@hooks/useAnimatedNumber';
 import {PAGE_HEIGHT} from '@screens/HomeFlow/Home/components/Pager';
 import {miningRatesSelector} from '@store/modules/Tokenomics/selectors';
 import {CoinsStackIcon} from '@svg/CoinsStackIcon';
@@ -21,6 +22,32 @@ import {rem} from 'rn-units';
 export const MiningRate = memo(() => {
   const miningRates = useSelector(miningRatesSelector);
 
+  const animatedMiningRatesTotalAmount = useAnimatedNumber(
+    Number(miningRates?.total.amount ?? 0) *
+      {
+        positive: 1,
+        negative: -1,
+        none: 1,
+      }[miningRates?.type ?? 'none'],
+  );
+
+  const animatedMiningRatesBaseAmount = useAnimatedNumber(
+    Number(miningRates?.base.amount ?? 0),
+  );
+
+  const animatedMiningRatesTotalBonusesTier = useAnimatedNumber(
+    (miningRates?.total.bonuses?.t1 ?? 0) +
+      (miningRates?.total.bonuses?.t2 ?? 0),
+  );
+
+  const animatedMiningRateTotalBonusesExtra = useAnimatedNumber(
+    miningRates?.total.bonuses?.extra ?? 0,
+  );
+
+  const animatedMiningRateTotalBonusesPreStaking = useAnimatedNumber(
+    miningRates?.total.bonuses?.preStaking ?? 0,
+  );
+
   if (!miningRates) {
     //TODO: add loading
     return null;
@@ -36,9 +63,7 @@ export const MiningRate = memo(() => {
         <FormattedNumber
           trim
           containerStyle={styles.miningValueContainer}
-          number={`${
-            {positive: '+', negative: '-', none: ''}[miningRates.type] ?? ''
-          }${formatNumberString(miningRates.total.amount)}`}
+          number={formatNumberString(String(animatedMiningRatesTotalAmount))}
           bodyStyle={styles.miningValueText}
           decimalsStyle={styles.miningValueDecimalsText}
         />
@@ -59,9 +84,7 @@ export const MiningRate = memo(() => {
         <FormattedNumber
           trim
           containerStyle={styles.baseValueContainer}
-          number={`${
-            {positive: '+', negative: '', none: ''}[miningRates.type] ?? ''
-          }${formatNumberString(miningRates.base.amount)}`}
+          number={formatNumberString(String(animatedMiningRatesBaseAmount))}
           bodyStyle={styles.baseValueText}
           decimalsStyle={styles.baseDecimalsText}
         />
@@ -76,16 +99,13 @@ export const MiningRate = memo(() => {
         <View style={styles.iconContainer}>
           <TeamIcon />
           <Text style={styles.iconValueText}>
-            +
-            {(miningRates.total.bonuses?.t1 ?? 0) +
-              (miningRates.total.bonuses?.t2 ?? 0)}
-            %
+            {`+${animatedMiningRatesTotalBonusesTier}%`}
           </Text>
         </View>
         <View style={styles.iconContainer}>
           <StarIcon />
           <Text style={styles.iconValueText}>
-            +{miningRates.total.bonuses?.extra ?? 0}%
+            {`+${animatedMiningRateTotalBonusesExtra}%`}
           </Text>
         </View>
         <View style={styles.iconContainer}>
@@ -95,7 +115,7 @@ export const MiningRate = memo(() => {
             height={rem(14)}
           />
           <Text style={styles.iconValueText}>
-            +{miningRates.total.bonuses?.preStaking ?? 0}%
+            {`+${animatedMiningRateTotalBonusesPreStaking}%`}
           </Text>
         </View>
       </View>

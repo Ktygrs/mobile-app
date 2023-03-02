@@ -2,6 +2,7 @@
 
 import {useGetBarGraphDataForStatsPeriod} from '@components/BarGraph/hooks/useGetBarGraphDataForStatsPeriod';
 import {COLORS} from '@constants/colors';
+import {useAnimatedNumber} from '@hooks/useAnimatedNumber';
 import {Images} from '@images';
 import {CardBase} from '@screens/HomeFlow/Home/components/Overview/components/CardBase';
 import {VerticalBar} from '@screens/HomeFlow/Home/components/Overview/components/VerticalBar';
@@ -31,6 +32,8 @@ export const OnlineUsersHistory = () => {
   const isSplashHidden = useSelector(isSplashHiddenSelector);
   const totalActiveUsers = useSelector(totalActiveUsersSelector);
 
+  const animatedTotalActiveUsers = useAnimatedNumber(totalActiveUsers);
+
   const maxValue = data.length ? Math.max(...data.map(d => d.value)) : 0;
   const minValue = data.length ? Math.min(...data.map(d => d.value)) : 0;
 
@@ -42,7 +45,7 @@ export const OnlineUsersHistory = () => {
       backgroundImageSource={Images.backgrounds.adoptionCardBg}
       headerTitle={t('home.adoption.title')}
       headerTitleIcon={<GraphIcon fill={COLORS.white} />}
-      headerValue={formatNumber(totalActiveUsers)}
+      headerValue={formatNumber(animatedTotalActiveUsers)}
       headerValueIcon={<FriendIcon fill={COLORS.shamrock} />}>
       {isSplashHidden && (
         <View style={styles.body}>

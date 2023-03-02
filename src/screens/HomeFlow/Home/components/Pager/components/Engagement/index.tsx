@@ -2,6 +2,7 @@
 
 import {COLORS} from '@constants/colors';
 import {commonStyles} from '@constants/styles';
+import {useAnimatedNumber} from '@hooks/useAnimatedNumber';
 import {PAGE_HEIGHT} from '@screens/HomeFlow/Home/components/Pager';
 import {miningSummarySelector} from '@store/modules/Tokenomics/selectors';
 import {MiningHammerIcon} from '@svg/MiningHammerIcon';
@@ -14,6 +15,15 @@ import {rem} from 'rn-units';
 
 export const Engagement = memo(() => {
   const miningSummary = useSelector(miningSummarySelector);
+
+  const animatedMiningSummaryMiningStreak = useAnimatedNumber(
+    miningSummary?.miningStreak ?? 0,
+  );
+
+  const animatedMiningSummaryRemainingFreeMiningSessions = useAnimatedNumber(
+    miningSummary?.remainingFreeMiningSessions ?? 0,
+  );
+
   return (
     <View style={[commonStyles.baseSubScreen, styles.container]}>
       <View style={styles.titleContainer}>
@@ -23,12 +33,12 @@ export const Engagement = memo(() => {
       <View style={styles.valuesContainer}>
         <View style={styles.titleValueContainer}>
           <Text style={styles.title}>{t('home.engagement.streak')}</Text>
-          <Text style={styles.value}>{miningSummary?.miningStreak ?? 0}</Text>
+          <Text style={styles.value}>{animatedMiningSummaryMiningStreak}</Text>
         </View>
         <View style={[styles.titleValueContainer, styles.daysOff]}>
           <Text style={styles.title}>{t('home.engagement.days_off')}</Text>
           <Text style={styles.value}>
-            {miningSummary?.remainingFreeMiningSessions ?? 0}
+            {animatedMiningSummaryRemainingFreeMiningSessions}
           </Text>
         </View>
       </View>

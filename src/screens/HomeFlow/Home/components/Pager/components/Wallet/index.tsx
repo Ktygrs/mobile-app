@@ -5,6 +5,7 @@ import {IceLabel} from '@components/Labels/IceLabel';
 import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {commonStyles, SMALL_BUTTON_HIT_SLOP} from '@constants/styles';
+import {useAnimatedNumber} from '@hooks/useAnimatedNumber';
 import {MainNavigationParams} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -33,6 +34,19 @@ export const Wallet = memo(() => {
   const navigation =
     useNavigation<NativeStackNavigationProp<MainNavigationParams>>();
 
+  const animatedBalanceSummary = useAnimatedNumber(
+    Number(balanceSummary?.total ?? 0),
+  );
+
+  const animatedMiningRatesTotalAmount = useAnimatedNumber(
+    Number(miningRates?.total.amount ?? 0) *
+      {
+        positive: 1,
+        negative: -1,
+        none: 1,
+      }[miningRates?.type ?? 'none'],
+  );
+
   if (!balanceSummary || !miningRates) {
     //TODO: add loading
     return null;
@@ -50,9 +64,7 @@ export const Wallet = memo(() => {
           }
           <FormattedNumber
             containerStyle={styles.balanceValueContainer}
-            number={
-              balanceSummary ? formatNumberString(balanceSummary.total) : ''
-            }
+            number={formatNumberString(String(animatedBalanceSummary))}
             bodyStyle={styles.balanceValueText}
             decimalsStyle={styles.balanceValueDecimalsText}
           />
@@ -77,9 +89,7 @@ export const Wallet = memo(() => {
         <Text style={styles.rateLabelText}>{t('home.wallet.rate')} </Text>
         <FormattedNumber
           containerStyle={styles.rateValueContainer}
-          number={`${
-            {positive: '+', negative: '-', none: ''}[miningRates.type] ?? ''
-          }${miningRates && formatNumberString(miningRates.total.amount)}`}
+          number={formatNumberString(String(animatedMiningRatesTotalAmount))}
         />
         <IceLabel
           textStyle={styles.rateValueText}
