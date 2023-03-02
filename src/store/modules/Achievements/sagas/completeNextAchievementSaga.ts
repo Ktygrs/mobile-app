@@ -16,7 +16,7 @@ export function* completeNextAchievementSaga() {
   if (firstIncompleteIndex !== -1) {
     const updatedAchievements = [...achievements].map((item, index) => {
       if (index === firstIncompleteIndex) {
-        item.completed = true;
+        return Object.assign({}, item, {completed: true});
       }
       return item;
     });
