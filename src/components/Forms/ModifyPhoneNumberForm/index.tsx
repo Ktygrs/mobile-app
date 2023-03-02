@@ -7,16 +7,21 @@ import {PrimaryButton} from '@components/PrimaryButton';
 import {Country} from '@constants/countries';
 import {useResendCountdown} from '@hooks/useResendCountdown';
 import {t} from '@translations/i18n';
-import React from 'react';
+import React, {RefObject} from 'react';
+import {View} from 'react-native';
 
 type Props = {
   initialPhoneNumber?: string | null;
   selectedCountry?: Country | null;
+  phoneInputRef?: RefObject<View>;
+  onPhoneInputLayout?: () => void;
 };
 
 export const ModifyPhoneNumberForm = ({
   initialPhoneNumber,
   selectedCountry,
+  phoneInputRef,
+  onPhoneInputLayout,
 }: Props) => {
   const {
     phoneNumberBody,
@@ -38,13 +43,15 @@ export const ModifyPhoneNumberForm = ({
       title={t('confirm_phone.modify_title')}
       description={t('confirm_phone.modify_description')}
       Input={
-        <PhoneNumberInput
-          selectedCountry={selectedCountry}
-          value={phoneNumberBody}
-          onChangePhone={onChangePhone}
-          editable={!isModifyPhoneLoading}
-          errorText={modifyPhoneFailedReason}
-        />
+        <View ref={phoneInputRef} onLayout={onPhoneInputLayout}>
+          <PhoneNumberInput
+            selectedCountry={selectedCountry}
+            value={phoneNumberBody}
+            onChangePhone={onChangePhone}
+            editable={!isModifyPhoneLoading}
+            errorText={modifyPhoneFailedReason}
+          />
+        </View>
       }
       Button={
         <PrimaryButton

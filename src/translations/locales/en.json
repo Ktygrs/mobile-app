@@ -669,6 +669,10 @@
         "title": "Allow contacts",
         "description": "Sync your contacts and see who is already on [[:ice]]. In the future you will be able to send [[:ice]] to any of your contacts"
       },
+      "confirm_phone": {
+        "title": "Confirm phone",
+        "description": "Confirm your identity and allow your contacts to know that you are also a member of the ice network. Your phone number will not be shared with other third parties."
+      },
       "referrals": {
         "title": "Referrals",
         "description": "Here you will see how many referrals you have in total. The more people you invite, the more you will earn."

@@ -456,6 +456,8 @@ export type Translations = {
   'walkthrough.news.step_2.title': null;
   'walkthrough.team.allow_contacts.title': null;
   'walkthrough.team.allow_contacts.description': null;
+  'walkthrough.team.confirm_phone.title': null;
+  'walkthrough.team.confirm_phone.description': null;
   'walkthrough.team.referrals.title': null;
   'walkthrough.team.referrals.description': null;
   'walkthrough.team.earnings.title': null;

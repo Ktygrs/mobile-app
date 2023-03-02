@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {ModifyPhoneNumberForm} from '@components/Forms/ModifyPhoneNumberForm';
+import {useModifyPhoneNumberWalkthrough} from '@screens/Team/components/Contacts/components/ModifyPhoneNumber/hooks/useModifyPhoneNumberWalkthrough';
 import {temporaryPhoneNumberSelector} from '@store/modules/Validation/selectors';
 import {getCountryByPhoneNumber} from '@utils/phoneNumber';
 import React from 'react';
@@ -11,10 +12,14 @@ export const ModifyPhoneNumber = () => {
 
   const countryByPhoneNumber = getCountryByPhoneNumber(temporaryPhoneNumber);
 
+  const {elementRef, onElementLayout} = useModifyPhoneNumberWalkthrough();
+
   return (
     <ModifyPhoneNumberForm
       initialPhoneNumber={countryByPhoneNumber?.nationalNumber}
       selectedCountry={countryByPhoneNumber?.country}
+      phoneInputRef={elementRef}
+      onPhoneInputLayout={onElementLayout}
     />
   );
 };

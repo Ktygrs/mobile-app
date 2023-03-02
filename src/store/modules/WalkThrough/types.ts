@@ -10,6 +10,7 @@ export type WalkThroughElementData = {
 
 export type WalkthroughStepKey =
   | 'allowContacts'
+  | 'confirmPhone'
   | 'referrals'
   | 'earnings'
   | 'contacts'

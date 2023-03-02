@@ -12,6 +12,12 @@ export const WALK_THROUGH_STEPS: WalkThroughSteps = [
     description: t('walkthrough.team.allow_contacts.description'),
   },
   {
+    key: 'confirmPhone',
+    version: 114,
+    title: t('walkthrough.team.confirm_phone.title'),
+    description: t('walkthrough.team.confirm_phone.description'),
+  },
+  {
     key: 'referrals',
     version: 114,
     title: t('walkthrough.team.referrals.title'),

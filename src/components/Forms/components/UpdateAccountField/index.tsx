@@ -15,6 +15,8 @@ type Props = {
   Note?: ReactNode;
 };
 
+export const UPDATE_ACCOUNT_FIELD_BUTTON_OFFSET = rem(25);
+
 export function UpdateAccountField({
   title,
   description,
@@ -62,8 +64,7 @@ const styles = StyleSheet.create({
   },
   button: {
     flexGrow: 1,
-    marginTop: rem(25),
-    marginHorizontal: rem(30),
+    marginTop: UPDATE_ACCOUNT_FIELD_BUTTON_OFFSET,
     justifyContent: 'flex-end',
   },
 });
