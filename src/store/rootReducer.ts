@@ -11,6 +11,7 @@ import {linkingReducer} from '@store/modules/Linking/reducer';
 import {newsReducer} from '@store/modules/News/reducer';
 import {notificationsReducer} from '@store/modules/Notifications/reducer';
 import {permissionsReducer} from '@store/modules/Permissions/reducer';
+import {rateAppReducer} from '@store/modules/RateApp/reducer';
 import {referralsReducer} from '@store/modules/Referrals/reducer';
 import {statsReducer} from '@store/modules/Stats/reducer';
 import {tokenomicsReducer} from '@store/modules/Tokenomics/reducer';
@@ -37,6 +38,7 @@ export const rootReducer = combineReducers({
   notifications: notificationsReducer,
   users: usersReducer,
   tokenomics: tokenomicsReducer,
+  rateApp: rateAppReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

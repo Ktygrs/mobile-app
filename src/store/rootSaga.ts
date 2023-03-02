@@ -19,6 +19,7 @@ import {rootTeamSaga} from './modules/Contacts/sagas';
 import {rootDevicesSaga} from './modules/Devices/sagas';
 import {rootNewsSaga} from './modules/News/sagas';
 import {rootPermissionsSaga} from './modules/Permissions/sagas';
+import {rootRateAppSaga} from './modules/RateApp/sagas';
 import {rootReferralsSaga} from './modules/Referrals/sagas';
 import {rootTokenomicsSaga} from './modules/Tokenomics/sagas';
 import {rootUsersSaga} from './modules/Users/sagas';
@@ -41,6 +42,7 @@ export function* rootSaga(): SagaIterator {
     rootAppCommonSaga,
     rootUsersSaga,
     rootTokenomicsSaga,
+    rootRateAppSaga,
   ];
   const spawnedSagas = yield all([
     ...sagas.map(saga =>
