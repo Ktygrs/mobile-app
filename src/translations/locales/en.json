@@ -673,6 +673,10 @@
         "title": "Confirm phone",
         "description": "Confirm your identity and allow your contacts to know that you are also a member of the ice network. Your phone number will not be shared with other third parties."
       },
+      "contacts_list": {
+        "title": "List of contacts",
+        "description": "This is the list with all your contacts, those who already joined the        ice network being displayed on top of the list."
+      },
       "referrals": {
         "title": "Referrals",
         "description": "Here you will see how many referrals you have in total. The more people you invite, the more you will earn."

@@ -1,24 +1,30 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {UPDATE_ACCOUNT_FIELD_BUTTON_OFFSET} from '@components/Forms/components/UpdateAccountField';
-import {PhoneNumberInput} from '@components/Inputs/PhoneNumberInput';
-import {PrimaryButton} from '@components/PrimaryButton';
 import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
 import {PingIcon} from '@svg/PingIcon';
-import {t} from '@translations/i18n';
 import {useEffect, useRef, useState} from 'react';
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {SectionList, StyleSheet, View} from 'react-native';
 import {rem} from 'rn-units';
 
 const BORDER_RADIUS = rem(20);
 const OUTER_VERTICAL_PADDING = rem(16);
-const INNER_VERTICAL_PADDING = rem(20);
+const INNER_VERTICAL_PADDING = 0;
 
-//TODO:combine with useEarningsWalkthrough
-export const useModifyPhoneNumberWalkthrough = () => {
+export const useContactsListWalkthrough = ({
+  sections,
+  renderItem,
+  renderSectionHeader,
+}: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  sections: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  renderItem: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  renderSectionHeader: any;
+}) => {
   const {setWalkthroughElementData} = useSetWalkthroughElementData();
   const [elementData, setElementData] = useState<{
     pageY: number;
@@ -30,7 +36,7 @@ export const useModifyPhoneNumberWalkthrough = () => {
       const top =
         elementData.pageY - INNER_VERTICAL_PADDING - OUTER_VERTICAL_PADDING;
       setWalkthroughElementData({
-        stepKey: 'confirmPhone',
+        stepKey: 'contactsList',
         elementData: {
           topPositionOfHighlightedElement: top,
           icon: (
@@ -44,14 +50,10 @@ export const useModifyPhoneNumberWalkthrough = () => {
           renderStepHighlight: () => (
             <View style={styles.outerContainer}>
               <View style={[styles.innerContainer]} pointerEvents={'none'}>
-                <PhoneNumberInput
-                  value={''}
-                  onChangePhone={() => {}}
-                  editable={false}
-                />
-                <PrimaryButton
-                  text={t('confirm_phone.button')}
-                  style={styles.button}
+                <SectionList
+                  sections={sections}
+                  renderItem={renderItem}
+                  renderSectionHeader={renderSectionHeader}
                 />
               </View>
             </View>
@@ -59,6 +61,7 @@ export const useModifyPhoneNumberWalkthrough = () => {
         },
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [elementData, setWalkthroughElementData]);
 
   const onElementLayout = () => {
@@ -90,8 +93,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: SCREEN_SIDE_OFFSET / 2,
     marginHorizontal: SCREEN_SIDE_OFFSET,
     paddingVertical: INNER_VERTICAL_PADDING,
-  },
-  button: {
-    marginTop: UPDATE_ACCOUNT_FIELD_BUTTON_OFFSET,
+    paddingTop: rem(16),
   },
 });

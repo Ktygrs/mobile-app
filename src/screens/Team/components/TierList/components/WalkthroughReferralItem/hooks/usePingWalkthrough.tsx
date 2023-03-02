@@ -38,7 +38,7 @@ export const usePingWalkthrough = ({userId}: {userId: string}) => {
             />
           ),
           renderStepHighlight: () => (
-            <View style={[styles.outerContainer, {top, left}]}>
+            <View style={[styles.outerContainer, {left}]}>
               <View style={[styles.innerContainer]}>
                 <UserListPingButton userId={userId} />
               </View>

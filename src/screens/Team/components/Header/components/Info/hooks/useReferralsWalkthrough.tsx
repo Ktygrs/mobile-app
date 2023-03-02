@@ -30,7 +30,7 @@ export const useReferralsWalkthrough = () => {
             <TeamInactiveIcon width={rem(32)} height={rem(32)} color={color} />
           ),
           renderStepHighlight: () => (
-            <View style={[styles.outerContainer, {top}]}>
+            <View style={styles.outerContainer}>
               <View style={styles.innerContainer}>
                 <ReferralsCell color={color} />
               </View>

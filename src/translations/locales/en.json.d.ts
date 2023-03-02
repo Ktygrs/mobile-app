@@ -458,6 +458,8 @@ export type Translations = {
   'walkthrough.team.allow_contacts.description': null;
   'walkthrough.team.confirm_phone.title': null;
   'walkthrough.team.confirm_phone.description': null;
+  'walkthrough.team.contacts_list.title': null;
+  'walkthrough.team.contacts_list.description': null;
   'walkthrough.team.referrals.title': null;
   'walkthrough.team.referrals.description': null;
   'walkthrough.team.earnings.title': null;

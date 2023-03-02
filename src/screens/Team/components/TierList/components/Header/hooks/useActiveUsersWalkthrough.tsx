@@ -47,7 +47,7 @@ export const useActiveUsersWalkthrough = ({
         elementData: {
           topPositionOfHighlightedElement: top,
           renderStepHighlight: () => (
-            <View style={[styles.outerContainer, {top, left}]}>
+            <View style={[styles.outerContainer, {left}]}>
               <View style={[styles.innerContainer]}>
                 <ActiveUsers referralType={referralType} />
               </View>

@@ -46,7 +46,7 @@ export const useEarningsWalkthrough = ({
         elementData: {
           topPositionOfHighlightedElement: top,
           renderStepHighlight: () => (
-            <View style={[styles.outerContainer, {top, left}]}>
+            <View style={[styles.outerContainer, {left}]}>
               <View style={[styles.innerContainer]}>
                 <Earnings referralType={referralType} />
               </View>

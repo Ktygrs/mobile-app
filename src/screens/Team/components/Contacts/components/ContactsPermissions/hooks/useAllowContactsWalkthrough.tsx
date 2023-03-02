@@ -26,7 +26,7 @@ export const useAllowContactsWalkthrough = () => {
           //TODO:walk set icon statically?
           icon: <AddressBookIcon color={COLORS.primaryLight} />,
           renderStepHighlight: () => (
-            <View style={[styles.outerContainer, {top}]}>
+            <View style={styles.outerContainer}>
               <View style={styles.innerContainer}>
                 <AllowContactsButton />
               </View>

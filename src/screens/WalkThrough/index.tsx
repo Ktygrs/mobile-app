@@ -44,22 +44,20 @@ export function WalkThrough({route}: WalkThroughProps) {
     elementData: step?.elementData,
   });
 
+  const closeAnimationCallback = useCallback(() => {
+    step?.after?.();
+    dispatch(
+      WalkThroughActions.COMPLETE_WALK_THROUGH_STEP.STATE.create({
+        stepKey: step.key,
+      }),
+    );
+    if (isLastStep) {
+      navigation.goBack();
+    }
+  }, [dispatch, isLastStep, navigation, step]);
+
   const {elementAnimatedStyle, circleAnimatedStyle, runCloseAnimation} =
-    useAnimatedStyles({
-      step,
-      elementHeight,
-      closeAnimationCallback: useCallback(() => {
-        step?.after?.();
-        dispatch(
-          WalkThroughActions.COMPLETE_WALK_THROUGH_STEP.STATE.create({
-            stepKey: step.key,
-          }),
-        );
-        if (isLastStep) {
-          navigation.goBack();
-        }
-      }, [dispatch, isLastStep, navigation, step]),
-    });
+    useAnimatedStyles({step, elementHeight, closeAnimationCallback});
 
   const {parsedDescription} = useParseDescription({step});
 
@@ -114,7 +112,10 @@ export function WalkThrough({route}: WalkThroughProps) {
         </View>
       </Animated.View>
       <Animated.View
-        style={elementAnimatedStyle}
+        style={[
+          elementAnimatedStyle,
+          {top: step.elementData.topPositionOfHighlightedElement},
+        ]}
         onLayout={({nativeEvent}) => {
           setElementHeight(nativeEvent.layout.height);
         }}>

@@ -14,6 +14,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {ContactItem} from '@screens/Team/components/Contacts/components/ContactsList/components/ContactItem';
 import {SectionHeader} from '@screens/Team/components/Contacts/components/ContactsList/components/SectionHeader';
 import {useAddCollapsedSnapPointListener} from '@screens/Team/components/Contacts/components/ContactsList/hooks/useAddCollapsedSnapPointListener';
+import {useContactsListWalkthrough} from '@screens/Team/components/Contacts/components/ContactsList/hooks/useContactsListWalkthrough';
 import {
   ContactSection,
   ContactSectionDataItem,
@@ -100,24 +101,33 @@ export const ContactsList = ({
     [onInvitePress],
   );
 
+  const {elementRef, onElementLayout} = useContactsListWalkthrough({
+    sections,
+    renderItem,
+    renderSectionHeader,
+  });
+
   return (
-    <BottomSheetSectionList<ContactSectionDataItem, ContactSection>
-      ref={bottomSheetRef}
-      contentContainerStyle={[tabbarOffset.current, styles.container]}
-      sections={sections}
-      renderItem={renderItem}
-      renderSectionHeader={renderSectionHeader}
-      ListFooterComponent={
-        loadNextLoading ? (
-          <View style={styles.loadingIndicator}>
-            <ActivityIndicator />
-          </View>
-        ) : null
-      }
-      showsVerticalScrollIndicator={false}
-      onEndReached={focused ? loadNext : null}
-      refreshing={refreshing}
-    />
+    <>
+      <View ref={elementRef} onLayout={onElementLayout} />
+      <BottomSheetSectionList<ContactSectionDataItem, ContactSection>
+        ref={bottomSheetRef}
+        contentContainerStyle={[tabbarOffset.current, styles.container]}
+        sections={sections}
+        renderItem={renderItem}
+        renderSectionHeader={renderSectionHeader}
+        ListFooterComponent={
+          loadNextLoading ? (
+            <View style={styles.loadingIndicator}>
+              <ActivityIndicator />
+            </View>
+          ) : null
+        }
+        showsVerticalScrollIndicator={false}
+        onEndReached={focused ? loadNext : null}
+        refreshing={refreshing}
+      />
+    </>
   );
 };
 

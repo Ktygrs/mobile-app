@@ -28,7 +28,7 @@ export const useEarningsWalkthrough = () => {
           topPositionOfHighlightedElement: top,
           icon: <WalletIcon width={rem(20)} height={rem(20)} color={color} />,
           renderStepHighlight: () => (
-            <View style={[styles.outerContainer, {top}]}>
+            <View style={styles.outerContainer}>
               <View style={styles.innerContainer}>
                 <EarningsCell color={color} />
               </View>
