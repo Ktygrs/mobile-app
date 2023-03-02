@@ -2,7 +2,7 @@
 
 import {Achievement, AchievementType} from '@api/achievements/types';
 import {COLORS} from '@constants/colors';
-import {MainStackParamList} from '@navigation/Main';
+import {MainStackParamList, MainTabsParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {DEFAULT_DIALOG_NO_BUTTON} from '@screens/Modals/PopUp/components/PopUpButton';
@@ -41,6 +41,9 @@ const iconBackgrounds: {[key in AchievementType]: string} = {
 export function useAchievementItem(achievement: Achievement) {
   const navigation =
     useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+  const tabsNavigation =
+    useNavigation<NativeStackNavigationProp<MainTabsParamList>>();
+
   const dispatch = useDispatch();
 
   const {type} = achievement;
@@ -65,6 +68,7 @@ export function useAchievementItem(achievement: Achievement) {
         dispatch(TokenomicsActions.START_MINING_SESSION.START.create());
         break;
       case 'upload_profile_picture':
+        tabsNavigation.navigate('ProfileTab');
         break;
       case 'follow_us_on_twitter':
         break;
@@ -75,7 +79,7 @@ export function useAchievementItem(achievement: Achievement) {
       default:
         break;
     }
-  }, [dispatch, type]);
+  }, [dispatch, type, tabsNavigation]);
 
   return {
     showJoinTelegramModal,

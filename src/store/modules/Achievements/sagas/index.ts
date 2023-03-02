@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {AccountActions} from '@store/modules/Account/actions';
 import {AchievementsActions} from '@store/modules/Achievements/actions';
 import {completeNextAchievementSaga} from '@store/modules/Achievements/sagas/completeNextAchievementSaga';
 import {completeStartMiningAchievementSaga} from '@store/modules/Achievements/sagas/completeStartMiningAchievementSaga';
+import {completeUploadProfileAchievementSaga} from '@store/modules/Achievements/sagas/completeUploadProfileAchievementSaga';
 import {loadAchievementsSaga} from '@store/modules/Achievements/sagas/loadAchievementsSaga';
 import {TokenomicsActions} from '@store/modules/Tokenomics/actions';
 import {all, takeLeading} from 'redux-saga/effects';
@@ -26,6 +28,10 @@ export function* rootAchievementsSaga() {
     takeLeading(
       TokenomicsActions.START_MINING_SESSION.SUCCESS.type,
       completeStartMiningAchievementSaga,
+    ),
+    takeLeading(
+      AccountActions.UPDATE_ACCOUNT.SUCCESS.type,
+      completeUploadProfileAchievementSaga,
     ),
   ]);
 }
