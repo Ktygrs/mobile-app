@@ -3,7 +3,7 @@
 import {Achievement} from '@api/achievements/types';
 import {createAction} from '@store/utils/actions/createAction';
 
-const ACHIEVEMENTS_LOAD = createAction('ACHIEVEMENTS_LOAD', {
+const GET_ACHIEVEMENTS = createAction('GET_ACHIEVEMENTS', {
   START: () => {},
   SUCCESS: (payload: {achievements: Achievement[]}) => payload,
   FAILED: (errorMessage: string) => ({
@@ -16,6 +16,6 @@ const ACHIEVEMENT_MARK_COMPLETED = createAction('ACHIEVEMENT_MARK_COMPLETED', {
 });
 
 export const AchievementsActions = Object.freeze({
-  ACHIEVEMENTS_LOAD,
+  GET_ACHIEVEMENTS,
   ACHIEVEMENT_MARK_COMPLETED,
 });

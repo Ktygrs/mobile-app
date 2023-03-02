@@ -4,6 +4,7 @@ import {isApi4xxError, isNetworkError} from '@api/client';
 import {isAuthError} from '@services/auth';
 import {logError} from '@services/logging';
 import {AccountActions} from '@store/modules/Account/actions';
+import {rootAchievementsSaga} from '@store/modules/Achievements/sagas';
 import {rootAnalyticsSaga} from '@store/modules/Analytics/sagas';
 import {rootLinkingSaga} from '@store/modules/Linking/sagas';
 import {rootNotificationsSaga} from '@store/modules/Notifications/sagas';
@@ -45,6 +46,7 @@ export function* rootSaga(): SagaIterator {
     rootUsersSaga,
     rootTokenomicsSaga,
     rootRateAppSaga,
+    rootAchievementsSaga,
   ];
   const spawnedSagas = yield all([
     ...sagas.map(saga =>

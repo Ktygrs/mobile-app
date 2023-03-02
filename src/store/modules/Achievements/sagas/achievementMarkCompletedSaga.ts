@@ -18,16 +18,14 @@ export function* achievementMarkCompletedSaga(
     > = yield call(Api.achievements.completeAchievement, {name});
 
     yield put(
-      AchievementsActions.ACHIEVEMENTS_LOAD.SUCCESS.create({
+      AchievementsActions.GET_ACHIEVEMENTS.SUCCESS.create({
         achievements: updatedAchievements,
       }),
     );
   } catch (error) {
     const errorMessage = getErrorMessage(error);
 
-    yield put(
-      AchievementsActions.ACHIEVEMENTS_LOAD.FAILED.create(errorMessage),
-    );
+    yield put(AchievementsActions.GET_ACHIEVEMENTS.FAILED.create(errorMessage));
 
     throw error;
   }

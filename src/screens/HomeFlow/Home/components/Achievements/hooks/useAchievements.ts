@@ -11,7 +11,7 @@ export function useAchievements() {
   const achievements = useSelector(getAchievements);
 
   useEffect(() => {
-    dispatch(AchievementsActions.ACHIEVEMENTS_LOAD.START.create());
+    dispatch(AchievementsActions.GET_ACHIEVEMENTS.START.create());
   }, [dispatch]);
 
   return {

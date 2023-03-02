@@ -9,7 +9,7 @@ export interface State {
 }
 
 type Actions = ReturnType<
-  typeof AchievementsActions.ACHIEVEMENTS_LOAD.SUCCESS.create
+  typeof AchievementsActions.GET_ACHIEVEMENTS.SUCCESS.create
 >;
 
 const INITIAL_STATE: State = {
@@ -22,7 +22,7 @@ export function achievementsReducer(
 ): State {
   return produce(state, draft => {
     switch (action.type) {
-      case AchievementsActions.ACHIEVEMENTS_LOAD.SUCCESS.type:
+      case AchievementsActions.GET_ACHIEVEMENTS.SUCCESS.type:
         {
           const {achievements} = action.payload;
           draft.achievements = achievements;

@@ -1,13 +1,18 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {get} from '@api/client';
+import {mockedAchievements} from '@api/achievements/mockData';
 
+// import {get} from '@api/client';
 import {Achievement} from './types';
 
 /**
  * Returns an user tasks
  */
 
-export function getAchievements() {
-  return get<Achievement[]>('/achievements');
+export function getAchievements(): Promise<Achievement[]> {
+  /** Mocked data */
+  return new Promise(resolve => {
+    resolve(mockedAchievements);
+  });
+  // return get<Achievement[]>('/achievements').then(() => {});
 }

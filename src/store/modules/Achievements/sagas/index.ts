@@ -6,10 +6,10 @@ import {all, takeLeading} from 'redux-saga/effects';
 
 import {achievementMarkCompletedSaga} from './achievementMarkCompletedSaga';
 
-export function* rootTasksSaga() {
+export function* rootAchievementsSaga() {
   yield all([
     takeLeading(
-      AchievementsActions.ACHIEVEMENTS_LOAD.START.type,
+      AchievementsActions.GET_ACHIEVEMENTS.START.type,
       loadAchievementsSaga,
     ),
     takeLeading(
