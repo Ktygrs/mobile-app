@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Achievement} from '@api/achievements/types';
 import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {commonStyles, SCREEN_SIDE_OFFSET} from '@constants/styles';
-import {Task} from '@screens/HomeFlow/Home/components/Tasks/tasks';
 import {LockIcon} from '@svg/LockIcon';
 import {TaskCompletedSvg} from '@svg/TaskCompleted';
 import {TaskNotCompletedSvg} from '@svg/TaskNotCompleted';
@@ -23,16 +23,22 @@ export const ITEM_LEFT_POSITION =
   ITEM_HORIZONTAL_MARGIN + ITEM_HORIZONTAL_PADDING + BULLET_POINT_ICON_SIZE / 2;
 export const ITEM_HEIGHT = STEP_ICON_SIZE + ICON_VERTICAL_OFFSET * 2;
 
-export const TaskItem = ({task}: {task: Task}) => {
-  const isLocked = !task.completed && !task.active;
+export const AchievementItem = ({
+  achievement,
+  active,
+}: {
+  achievement: Achievement;
+  active: boolean;
+}) => {
+  const isLocked = !achievement.completed && !active;
   return (
     <Touchable
       style={[
         styles.container,
-        task.active ? [styles.containerActive, commonStyles.shadow] : null,
+        active ? [styles.containerActive, commonStyles.shadow] : null,
       ]}
-      disabled={!task.active}>
-      {task.completed ? (
+      disabled={!active}>
+      {achievement.completed ? (
         <TaskCompletedSvg
           fill={COLORS.shamrock}
           width={BULLET_POINT_ICON_SIZE}
@@ -47,8 +53,11 @@ export const TaskItem = ({task}: {task: Task}) => {
         />
       )}
       <View
-        style={[styles.iconContainer, {backgroundColor: task.iconBackground}]}>
-        {task.Icon}
+        style={[
+          styles.iconContainer,
+          {backgroundColor: achievement.iconBackground},
+        ]}>
+        {/* {achievement.Icon} */}
         {isLocked && (
           <View style={styles.lockIcon}>
             <LockIcon />
@@ -56,10 +65,10 @@ export const TaskItem = ({task}: {task: Task}) => {
         )}
       </View>
       <View>
-        <Text style={task.active ? styles.activeTitle : styles.title}>
-          {task.title}
+        <Text style={active ? styles.activeTitle : styles.title}>
+          {achievement.title}
         </Text>
-        <Text style={styles.description}>{task.description}</Text>
+        <Text style={styles.description}>{achievement.description}</Text>
       </View>
       {isLocked ? (
         <View style={[StyleSheet.absoluteFill, styles.containerInactive]} />

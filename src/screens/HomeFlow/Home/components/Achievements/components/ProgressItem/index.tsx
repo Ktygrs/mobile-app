@@ -2,7 +2,7 @@
 
 import {COLORS} from '@constants/colors';
 import {commonStyles} from '@constants/styles';
-import {ITEM_LEFT_POSITION} from '@screens/HomeFlow/Home/components/Tasks/components/TaskItem';
+import {ITEM_LEFT_POSITION} from '@screens/HomeFlow/Home/components/Achievements/components/AchievementItem';
 import {ProgressCircleSvg} from '@svg/ProgressCircle';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';

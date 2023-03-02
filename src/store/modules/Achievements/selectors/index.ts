@@ -2,6 +2,6 @@
 
 import {getAchievements} from './getAchievements';
 
-export const TasksSelectors = Object.freeze({
+export const AchievementsSelectors = Object.freeze({
   getAchievements,
 });

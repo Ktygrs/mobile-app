@@ -199,7 +199,12 @@ export type Translations = {
   'home.menu.staking': null;
   'home.menu.stats': null;
   'home.menu.help': null;
-  'home.tasks.title': null;
+  'home.achievements.title': null;
+  'home.achievements.completed.title': null;
+  'home.achievements.completed.description': null;
+  'home.achievements.popup.title': null;
+  'home.achievements.popup.description': null;
+  'home.achievements.popup.placeholder': null;
   'home.team.title': null;
   'home.team.view_team': null;
   'home.mining_rate.title': null;
@@ -447,8 +452,10 @@ export type Translations = {
   'confirm_phone.modify_description': null;
   'confirm_phone.button': null;
   'confirm_phone.same_phone_error': null;
-  'tasks.completed.title': null;
-  'tasks.completed.description': null;
+  'settings-language-settings': null;
+  'global-language': null;
+  'global-flag': null;
+  'isRTL-2': null;
   'date_select.title': null;
   'walkthrough.news.step_1.title': null;
   'walkthrough.news.step_1.description': null;

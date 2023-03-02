@@ -296,8 +296,17 @@
       "stats": "Stats",
       "help": "Help"
     },
-    "tasks": {
-      "title": "ACHIEVEMENTS"
+    "achievements": {
+      "title": "ACHIEVEMENTS",
+      "completed": {
+        "title": "Congratulations",
+        "description": "Keep mining ice daily to earn extra rewards!"
+      },
+      "popup": {
+        "title": "Join our Telegram channel",
+        "description": "Specify your nickname that is used in the telegram",
+        "placeholder": "Nickname"
+      }
     },
     "team": {
       "title": "Team",
@@ -644,12 +653,10 @@
     "button": "Confirm country and phone",
     "same_phone_error": "You can’t use the same number"
   },
-  "tasks": {
-    "completed": {
-      "title": "Congratulations",
-      "description": "Keep mining ice daily to earn extra rewards!"
-    }
-  },
+  "settings-language-settings": "settings.language_settings",
+  "global-language": "global.language",
+  "global-flag": "global.flag",
+  "isRTL-2": "isRTL",
   "date_select": {
     "title": "Choose date"
   },

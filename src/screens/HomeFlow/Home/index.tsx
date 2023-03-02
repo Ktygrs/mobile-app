@@ -5,10 +5,10 @@ import {COLORS} from '@constants/colors';
 import {commonStyles} from '@constants/styles';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
 import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
+import {Achievements} from '@screens/HomeFlow/Home/components/Achievements';
 import {HomeHeader} from '@screens/HomeFlow/Home/components/Header';
 import {Overview} from '@screens/HomeFlow/Home/components/Overview';
 import {PAGE_HEIGHT, Pager} from '@screens/HomeFlow/Home/components/Pager';
-import {Tasks} from '@screens/HomeFlow/Home/components/Tasks';
 import {Team} from '@screens/HomeFlow/Home/components/Team';
 import {useHomeRefresh} from '@screens/HomeFlow/Home/hooks/useHomeRefresh';
 import {useScrollHandler} from '@screens/HomeFlow/Home/hooks/useScrollHandler';
@@ -42,7 +42,7 @@ export const Home = memo(() => {
         <View style={commonStyles.baseSubScreen}>
           <Overview translateY={translateY} topOffset={PAGE_HEIGHT} />
           <Team />
-          <Tasks />
+          <Achievements />
         </View>
       </Animated.ScrollView>
     </View>
