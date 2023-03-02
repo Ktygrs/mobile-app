@@ -518,6 +518,9 @@ export type Translations = {
   'links.privacy': null;
   'links.terms': null;
   'links.main': null;
+  'links.twitterScheme': null;
+  'links.twitterAppUrl': null;
+  'links.twitterUrl': null;
   'extra_bonus.claim_title': null;
   'extra_bonus.claim_message': null;
   'extra_bonus.link': null;

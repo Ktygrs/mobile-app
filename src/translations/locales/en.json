@@ -775,7 +775,10 @@
     "pre_staking": "https://ice.io/pre-staking/",
     "privacy": "https://ice.io/privacy/",
     "terms": "https://ice.io/terms/",
-    "main": "https://ice.io/"
+    "main": "https://ice.io/",
+    "twitterScheme": "twitter://",
+    "twitterAppUrl": "twitter://user?screen_name=ice_blockchain",
+    "twitterUrl": "https://twitter.com/ice_blockchain"
   },
   "extra_bonus": {
     "claim_title": "Today’s Bonus",

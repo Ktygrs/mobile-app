@@ -6,9 +6,13 @@ import {MainStackParamList, MainTabsParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {DEFAULT_DIALOG_NO_BUTTON} from '@screens/Modals/PopUp/components/PopUpButton';
+import {logError} from '@services/logging';
+import {AchievementsActions} from '@store/modules/Achievements/actions';
 import {TokenomicsActions} from '@store/modules/Tokenomics/actions';
 import {t} from '@translations/i18n';
+import {openLinkWithInAppBrowser} from '@utils/device';
 import {useCallback} from 'react';
+import {Linking} from 'react-native';
 import {useDispatch} from 'react-redux';
 
 const titles: {[key in AchievementType]: string} = {
@@ -71,6 +75,20 @@ export function useAchievementItem(achievement: Achievement) {
         tabsNavigation.navigate('ProfileTab');
         break;
       case 'follow_us_on_twitter':
+        Linking.canOpenURL(t('links.twitterScheme'))
+          .then(supported => {
+            dispatch(
+              AchievementsActions.COMPLETE_NEXT_ACHIEVEMENT.STATE.create(),
+            );
+            if (supported) {
+              return Linking.openURL(t('links.twitterAppUrl'));
+            } else {
+              openLinkWithInAppBrowser({
+                url: t('links.twitterUrl'),
+              });
+            }
+          })
+          .catch(logError);
         break;
       case 'join_telegram':
         break;
