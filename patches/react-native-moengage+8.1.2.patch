@@ -1,0 +1,274 @@
+diff --git a/node_modules/react-native-moengage/src/index.ts b/node_modules/react-native-moengage/src/index.ts
+index 023c895..a2b68fb 100644
+--- a/node_modules/react-native-moengage/src/index.ts
++++ b/node_modules/react-native-moengage/src/index.ts
+@@ -149,7 +149,6 @@ var ReactMoE = {
+    */
+   setAppStatus: function (status: MoEAppStatus) {
+     commonValidationCheck();
+-    console.log("Will track whether it is a fresh install or update.");
+     let payload = getAppStatusJson(MoEHelper.appStatusToString(status),moeAppId);
+     if (Platform.OS == PLATFORM_ANDROID) {
+       MoERNAndroid.setAppStatus(payload);
+@@ -175,7 +174,6 @@ var ReactMoE = {
+       return;
+     }
+ 
+-    console.log("trackEvent with properties", properties);    
+    let payload= getMoEPropertiesJson(properties, eventName, moeAppId);
+ 
+     if (Platform.OS == PLATFORM_ANDROID) {
+@@ -191,7 +189,6 @@ var ReactMoE = {
+    */
+   setUserUniqueID: function (uniqueId: string) {
+     commonValidationCheck();
+-    console.log("Will set unique ID: " + uniqueId);
+     const payload = getUserAttributeJson(USER_ATTRIBUTE_UNIQUE_ID,uniqueId,GENERAL,moeAppId)
+     if (Platform.OS == PLATFORM_ANDROID) {
+       MoERNAndroid.setUserAttribute(payload);
+@@ -206,7 +203,6 @@ var ReactMoE = {
+    */
+   setAlias: function (alias: string) {
+     commonValidationCheck();
+-    console.log("Will set alias: " + alias);
+     let payload = getAliasJson(alias,moeAppId);
+     if (Platform.OS == PLATFORM_ANDROID) {
+       MoERNAndroid.setAlias(payload);
+@@ -221,7 +217,6 @@ var ReactMoE = {
+    */
+   setUserName: function (userName: string) {
+     commonValidationCheck();
+-    console.log("Will set username: " + userName);
+     const payload = getUserAttributeJson(USER_ATTRIBUTE_USER_NAME,userName,GENERAL,moeAppId)
+ 
+     if (Platform.OS == PLATFORM_ANDROID) {
+@@ -237,7 +232,6 @@ var ReactMoE = {
+    */
+   setUserFirstName: function (firstName: string) {
+     commonValidationCheck();
+-    console.log("Will set first name: " + firstName);
+     const payload = getUserAttributeJson(USER_ATTRIBUTE_USER_FIRST_NAME,firstName,GENERAL,moeAppId)
+ 
+     if (Platform.OS == PLATFORM_ANDROID) {
+@@ -253,7 +247,6 @@ var ReactMoE = {
+    */
+   setUserLastName: function (lastName: string) {
+     commonValidationCheck();
+-    console.log("Will set last name: " + lastName);
+     const payload = getUserAttributeJson(USER_ATTRIBUTE_USER_LAST_NAME,lastName,GENERAL,moeAppId)
+ 
+     if (Platform.OS == PLATFORM_ANDROID) {
+@@ -269,7 +262,6 @@ var ReactMoE = {
+    */
+   setUserEmailID: function (emailId: string) {
+     commonValidationCheck();
+-    console.log("Will set email-id " + emailId);
+     const payload = getUserAttributeJson(USER_ATTRIBUTE_USER_EMAIL,emailId,GENERAL,moeAppId)
+ 
+     if (Platform.OS == PLATFORM_ANDROID) {
+@@ -285,7 +277,6 @@ var ReactMoE = {
+    */
+   setUserContactNumber: function (mobileNumber: string) {
+     commonValidationCheck();
+-    console.log("Will set Mobile Number: " + mobileNumber);
+     const payload = getUserAttributeJson(USER_ATTRIBUTE_USER_MOBILE,mobileNumber,GENERAL,moeAppId)
+ 
+     if (Platform.OS == PLATFORM_ANDROID) {
+@@ -301,7 +292,6 @@ var ReactMoE = {
+    */
+   setUserBirthday: function (birthday: string) {
+     commonValidationCheck();
+-    console.log("Will set birthday: " + birthday);
+     const payload = getUserAttributeJson(USER_ATTRIBUTE_USER_BDAY,birthday,TIMESTAMP,moeAppId)
+ 
+     if (Platform.OS == PLATFORM_ANDROID) {
+@@ -317,8 +307,6 @@ var ReactMoE = {
+    */
+   setUserGender: function (gender: Object) {
+     commonValidationCheck();
+-    console.log("Will set gender: " + gender);
+-    
+     const payload = getUserAttributeJson(USER_ATTRIBUTE_USER_GENDER,gender,GENERAL,moeAppId)
+ 
+     if (Platform.OS == PLATFORM_ANDROID) {
+@@ -354,12 +342,6 @@ var ReactMoE = {
+    */
+   setUserAttribute: function (userAttributeName: string, userAttributeValue: Object) {
+     commonValidationCheck();
+-    console.log(
+-      "Will track user attribute [attributeName]: " +
+-      userAttributeName +
+-      " attributeValue: " +
+-      userAttributeValue
+-    );
+     const payload = getUserAttributeJson(userAttributeName,userAttributeValue,GENERAL,moeAppId)
+ 
+     if (Platform.OS == PLATFORM_ANDROID) {
+@@ -418,7 +400,6 @@ var ReactMoE = {
+    */
+   logout: function () {
+     commonValidationCheck();
+-    console.log("Will logout user");
+     if (Platform.OS == PLATFORM_ANDROID) {
+       MoERNAndroid.logout(getAppIdJson(moeAppId));
+     } else if (Platform.OS == PLATFORM_IOS) {
+@@ -431,7 +412,6 @@ var ReactMoE = {
+    */
+   showInApp: function () {
+     commonValidationCheck();
+-    console.log("Will try to show in-app.");
+     if (Platform.OS == PLATFORM_ANDROID) {
+       MoERNAndroid.showInApp(getAppIdJson(moeAppId));
+     } else if (Platform.OS == PLATFORM_IOS) {
+@@ -551,13 +531,11 @@ var ReactMoE = {
+    */
+   passFcmPushToken: function (pushToken: string) {
+     commonValidationCheck();
+-    console.log("Will process push token");
+     let payload = getMoEPushTokenJson(pushToken,PUSH_SERVICE_FCM,PLATFORM_ANDROID,moeAppId);
+ 
+     if (Platform.OS == PLATFORM_ANDROID) {
+       MoERNAndroid.passFcmPushToken(payload);
+     } else {
+-      console.log("This api is not supported on iOS platform.");
+     }
+   },
+   /**
+@@ -568,13 +546,11 @@ var ReactMoE = {
+    */
+   passFcmPushPayload: function (pushPayload: object) {
+     commonValidationCheck();
+-    console.log("Will process push payload.");
+     let payload = getMoEPushCampaignJson(pushPayload,PUSH_SERVICE_FCM,moeAppId)
+ 
+     if (Platform.OS == PLATFORM_ANDROID) {
+       MoERNAndroid.passFcmPushPayload(payload);
+     } else {
+-      console.log("This api is not supported on iOS platform.");
+     }
+   },
+ 
+@@ -583,9 +559,7 @@ var ReactMoE = {
+    */
+   registerForPush: function () {
+     commonValidationCheck();
+-    console.log("Will registerForPush");
+     if (Platform.OS == PLATFORM_ANDROID) {
+-      console.log("This api is not supported on android platform.");
+     } else if (Platform.OS == PLATFORM_IOS) {
+       MoERNiOS.registerForPush();
+     }
+@@ -596,9 +570,7 @@ var ReactMoE = {
+    */
+   disableInbox: function () {
+     commonValidationCheck();
+-    console.log("Will disableInbox");
+     if (Platform.OS == PLATFORM_ANDROID) {
+-      console.log("This api is not supported on android platform.");
+     } else if (Platform.OS == PLATFORM_IOS) {
+       MoERNiOS.disableInbox(getAppIdJson(moeAppId));
+     }
+@@ -616,7 +588,6 @@ var ReactMoE = {
+   },
+ 
+   optOutDataTracking: function (shouldOptOutDataTracking: boolean) {
+-    console.log("Will opt out data tracking");
+     let payload = getOptOutTrackingJson("data",shouldOptOutDataTracking,moeAppId);
+     if (Platform.OS == PLATFORM_ANDROID) {
+       MoERNAndroid.optOutDataTracking(payload);
+@@ -633,18 +604,15 @@ var ReactMoE = {
+    */
+   passPushKitPushToken: function (pushToken: string) {
+     commonValidationCheck();
+-    console.log("Will process push-kit push token");
+     let payload = getMoEPushTokenJson(pushToken,PUSH_SERVICE_PUSH_KIT,PLATFORM_ANDROID,moeAppId);
+ 
+     if (Platform.OS == PLATFORM_ANDROID) {
+       MoERNAndroid.passPushKitPushToken(payload);
+     } else {
+-      console.log("This api is not supported on iOS platform.");
+     }
+   },
+ 
+   enableSdk: function () {
+-    console.log("Will enable SDK");
+     let payload = getSdkStateJson(true,moeAppId)
+     if (Platform.OS == PLATFORM_ANDROID) {
+       MoERNAndroid.updateSdkState(payload);
+@@ -654,7 +622,6 @@ var ReactMoE = {
+   },
+ 
+   disableSdk: function () {
+-    console.log("Will disable SDK");
+     let payload = getSdkStateJson(false,moeAppId)
+ 
+     if (Platform.OS == PLATFORM_ANDROID) {
+@@ -665,7 +632,6 @@ var ReactMoE = {
+   },
+ 
+   onOrientationChanged: function () {
+-    console.log("Will process screen rotation.");
+     if (Platform.OS == PLATFORM_ANDROID) {
+       MoERNAndroid.onOrientationChanged();
+     }
+@@ -675,7 +641,6 @@ var ReactMoE = {
+    * API to enable Advertising Id tracking for Android.
+    */
+   enableAdIdTracking: function () {
+-    console.log("Will enable advertising-id tracking");
+     let payload = getAdIdTrackingJson(true,moeAppId);
+ 
+     if (Platform.OS == PLATFORM_ANDROID) {
+@@ -690,7 +655,6 @@ var ReactMoE = {
+    * Advertising Id tracking at some point.
+    */
+   disableAdIdTracking: function () {
+-    console.log("Will disable advertising-id tracking");
+     let payload = getAdIdTrackingJson(false,moeAppId);
+ 
+     if (Platform.OS == PLATFORM_ANDROID) {
+@@ -702,7 +666,6 @@ var ReactMoE = {
+    * API to enable Android Id tracking for Android.
+    */
+   enableAndroidIdTracking: function () {
+-    console.log("Will enable android-id tracking");
+     let payload = getAndroidIdTrackingJson(true,moeAppId);
+ 
+     if (Platform.OS == PLATFORM_ANDROID) {
+@@ -717,7 +680,6 @@ var ReactMoE = {
+    * Advertising Id tracking at some point.
+    */
+   disableAndroidIdTracking: function () {
+-    console.log("Will disable android-id tracking");
+     let payload = getAndroidIdTrackingJson(false,moeAppId);
+ 
+     if (Platform.OS == PLATFORM_ANDROID) {
+@@ -726,28 +688,24 @@ var ReactMoE = {
+   },
+ 
+   pushPermissionResponseAndroid: function (isGranted: boolean) {
+-    console.log("Will track permission response");
+     if (Platform.OS == PLATFORM_ANDROID) {
+       MoERNAndroid.permissionResponse(isGranted, MoEngagePermissionType.PUSH)
+     }
+   },
+ 
+   setupNotificationChannelsAndroid: function () {
+-    console.log("Will setup notification");
+     if (Platform.OS == PLATFORM_ANDROID) {
+       MoERNAndroid.setupNotificationChannels();
+     }
+   },
+ 
+   navigateToSettingsAndroid: function () {
+-    console.log("Will navigate to settings");
+     if (Platform.OS == PLATFORM_ANDROID) {
+       MoERNAndroid.navigateToSettings();
+     }
+   },
+ 
+   requestPushPermissionAndroid: function () {
+-    console.log("Will request push permission.");
+     if (Platform.OS == PLATFORM_ANDROID) {
+       MoERNAndroid.requestPushPermission();
+     }

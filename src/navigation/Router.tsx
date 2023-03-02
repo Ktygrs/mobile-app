@@ -2,7 +2,6 @@
 
 import {InitializationError} from '@components/InitializationError';
 import {AuthNavigator} from '@navigation/Auth';
-import {useOnStateChange} from '@navigation/hooks/useOnStateChange';
 import {MainNavigator} from '@navigation/Main';
 import {theme} from '@navigation/theme';
 import {navigationReadyResolver, navigationRef} from '@navigation/utils';
@@ -14,6 +13,7 @@ import {
   isRegistrationCompleteSelector,
   userSelector,
 } from '@store/modules/Account/selectors';
+import {useTrackScreenView} from '@store/modules/Analytics/hooks/useTrackScreenView';
 import {useAppLoadedListener} from '@store/modules/AppCommon/hooks/useAppLoadedListener';
 import {useAppStateListener} from '@store/modules/AppCommon/hooks/useAppStateListener';
 import {appInitStateSelector} from '@store/modules/AppCommon/selectors';
@@ -65,7 +65,10 @@ export function Router() {
     RNBootSplash.hide();
   }, []);
 
-  const onStateChange = useOnStateChange();
+  const trackScreenView = useTrackScreenView();
+  const onStateChange = useCallback(() => {
+    trackScreenView();
+  }, [trackScreenView]);
 
   return (
     <NavigationContainer
