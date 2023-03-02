@@ -6,8 +6,10 @@ import {MainStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {DEFAULT_DIALOG_NO_BUTTON} from '@screens/Modals/PopUp/components/PopUpButton';
+import {AchievementsActions} from '@store/modules/Achievements/actions';
 import {t} from '@translations/i18n';
 import {useCallback} from 'react';
+import {useDispatch} from 'react-redux';
 
 const titles: {[key in AchievementType]: string} = {
   claim_username: t('home.steps.step_one.title'),
@@ -39,6 +41,7 @@ const iconBackgrounds: {[key in AchievementType]: string} = {
 export function useAchievementItem(achievement: Achievement) {
   const navigation =
     useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+  const dispatch = useDispatch();
 
   const {type} = achievement;
 
@@ -56,10 +59,29 @@ export function useAchievementItem(achievement: Achievement) {
     });
   }, [navigation]);
 
+  const onPress = useCallback(() => {
+    dispatch(AchievementsActions.COMPLETE_NEXT_ACHIEVEMENT.STATE.create());
+    // switch (type) {
+    //   case 'claim_username':
+    //     break;
+    //   case 'start_mining':
+    //     break;
+    //   case 'upload_profile_picture':
+    //     break;
+    //   case 'follow_us_on_twitter':
+    //     break;
+    //   case 'join_telegram':
+    //     break;
+    //   case 'invite_friends':
+    //     break;
+    // }
+  }, [dispatch]);
+
   return {
     showJoinTelegramModal,
     title: titles[type],
     description: descriptions[type],
     iconBgColor: iconBackgrounds[type],
+    onPress,
   };
 }

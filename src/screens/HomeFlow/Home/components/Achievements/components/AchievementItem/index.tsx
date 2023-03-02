@@ -32,7 +32,8 @@ export const AchievementItem = ({
   achievement: Achievement;
   active: boolean;
 }) => {
-  const {iconBgColor, title, description} = useAchievementItem(achievement);
+  const {iconBgColor, title, description, onPress} =
+    useAchievementItem(achievement);
   const isLocked = !achievement.completed && !active;
   return (
     <Touchable
@@ -40,7 +41,8 @@ export const AchievementItem = ({
         styles.container,
         active ? [styles.containerActive, commonStyles.shadow] : null,
       ]}
-      disabled={!active}>
+      disabled={!active}
+      onPress={onPress}>
       {achievement.completed ? (
         <TaskCompletedSvg
           fill={COLORS.shamrock}
