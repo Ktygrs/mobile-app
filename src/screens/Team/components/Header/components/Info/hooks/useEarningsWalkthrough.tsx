@@ -4,7 +4,6 @@ import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {EarningsCell} from '@screens/Team/components/Header/components/Info/components/EarningsCell';
 import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
-import {WalletIcon} from '@svg/WalletIcon';
 import {useEffect, useRef, useState} from 'react';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
@@ -20,17 +19,15 @@ export const useEarningsWalkthrough = () => {
 
   useEffect(() => {
     if (elementY) {
-      const color = COLORS.primaryDark;
       const top = elementY - WALKTHROUGH_ELEMENT_CONTAINER_PADDING * 2;
       setWalkthroughElementData({
         stepKey: 'earnings',
         elementData: {
           topPositionOfHighlightedElement: top,
-          icon: <WalletIcon width={rem(20)} height={rem(20)} color={color} />,
           renderStepHighlight: () => (
             <View style={styles.outerContainer}>
               <View style={styles.innerContainer}>
-                <EarningsCell color={color} />
+                <EarningsCell color={COLORS.primaryDark} />
               </View>
             </View>
           ),

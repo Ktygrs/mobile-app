@@ -4,7 +4,6 @@ import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {ReferralsCell} from '@screens/Team/components/Header/components/Info/components/ReferralsCell';
 import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
-import {TeamInactiveIcon} from '@svg/TeamInactiveIcon';
 import {useEffect, useRef, useState} from 'react';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
@@ -20,19 +19,15 @@ export const useReferralsWalkthrough = () => {
 
   useEffect(() => {
     if (elementY) {
-      const color = COLORS.primaryDark;
       const top = elementY - WALKTHROUGH_ELEMENT_CONTAINER_PADDING * 2;
       setWalkthroughElementData({
         stepKey: 'referrals',
         elementData: {
           topPositionOfHighlightedElement: top,
-          icon: (
-            <TeamInactiveIcon width={rem(32)} height={rem(32)} color={color} />
-          ),
           renderStepHighlight: () => (
             <View style={styles.outerContainer}>
               <View style={styles.innerContainer}>
-                <ReferralsCell color={color} />
+                <ReferralsCell color={COLORS.primaryDark} />
               </View>
             </View>
           ),

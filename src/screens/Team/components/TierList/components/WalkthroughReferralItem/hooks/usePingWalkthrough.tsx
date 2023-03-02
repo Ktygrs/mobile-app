@@ -3,7 +3,6 @@
 import {UserListPingButton} from '@components/ListItems/UserListItem/components/UserListPingButton';
 import {COLORS} from '@constants/colors';
 import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
-import {PingIcon} from '@svg/PingIcon';
 import {useEffect, useRef, useState} from 'react';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
@@ -30,13 +29,6 @@ export const usePingWalkthrough = ({userId}: {userId: string}) => {
         stepKey: 'ping',
         elementData: {
           topPositionOfHighlightedElement: top,
-          icon: (
-            <PingIcon
-              fill={COLORS.primaryDark}
-              height={rem(16)}
-              width={rem(16)}
-            />
-          ),
           renderStepHighlight: () => (
             <View style={[styles.outerContainer, {left}]}>
               <View style={[styles.innerContainer]}>

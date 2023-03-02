@@ -26,26 +26,22 @@ const styles = StyleSheet.create({
 });
 
 export type SegmentData = {
-  renderIcon: (active: boolean) => React.ReactNode;
   renderText: (active: boolean) => React.ReactNode;
   key: 'Contacts' | 'TierOne' | 'TierTwo';
 };
 
 export const SEGMENTS: Readonly<SegmentData[]> = [
   {
-    renderIcon: (active: boolean) => (
-      <View style={styles.contactsIcon}>
-        <ContactsIcon
-          width={rem(20)}
-          height={rem(20)}
-          color={active ? COLORS.white : COLORS.secondary}
-        />
-      </View>
-    ),
-    renderText: function (active: boolean) {
+    renderText: (active: boolean) => {
       return (
         <View style={styles.row}>
-          {this.renderIcon(active)}
+          <View style={styles.contactsIcon}>
+            <ContactsIcon
+              width={rem(20)}
+              height={rem(20)}
+              color={active ? COLORS.white : COLORS.secondary}
+            />
+          </View>
           <Text
             style={[
               styles.text,
@@ -59,19 +55,16 @@ export const SEGMENTS: Readonly<SegmentData[]> = [
     key: 'Contacts',
   },
   {
-    renderIcon: (active: boolean) => (
-      <View style={styles.tierIcon}>
-        <TierOneIcon
-          width={rem(20)}
-          height={rem(20)}
-          fill={active ? COLORS.white : COLORS.secondary}
-        />
-      </View>
-    ),
     renderText: function (active: boolean) {
       return (
         <View style={styles.row}>
-          {this.renderIcon(active)}
+          <View style={styles.tierIcon}>
+            <TierOneIcon
+              width={rem(20)}
+              height={rem(20)}
+              fill={active ? COLORS.white : COLORS.secondary}
+            />
+          </View>
           <Text
             style={[
               styles.text,
@@ -85,19 +78,16 @@ export const SEGMENTS: Readonly<SegmentData[]> = [
     key: 'TierOne',
   },
   {
-    renderIcon: (active: boolean) => (
-      <View style={styles.tierTwoIcon}>
-        <TierTwoIcon
-          width={rem(20)}
-          height={rem(20)}
-          fill={active ? COLORS.white : COLORS.secondary}
-        />
-      </View>
-    ),
     renderText: function (active: boolean) {
       return (
         <View style={styles.row}>
-          {this.renderIcon(active)}
+          <View style={styles.tierTwoIcon}>
+            <TierTwoIcon
+              width={rem(20)}
+              height={rem(20)}
+              fill={active ? COLORS.white : COLORS.secondary}
+            />
+          </View>
           <Text
             style={[
               styles.text,

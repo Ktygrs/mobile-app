@@ -6,7 +6,6 @@ import {PrimaryButton} from '@components/PrimaryButton';
 import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
-import {PingIcon} from '@svg/PingIcon';
 import {t} from '@translations/i18n';
 import {useEffect, useRef, useState} from 'react';
 import React from 'react';
@@ -33,14 +32,6 @@ export const useModifyPhoneNumberWalkthrough = () => {
         stepKey: 'confirmPhone',
         elementData: {
           topPositionOfHighlightedElement: top,
-          icon: (
-            //TODO: fix icon
-            <PingIcon
-              fill={COLORS.primaryDark}
-              height={rem(16)}
-              width={rem(16)}
-            />
-          ),
           renderStepHighlight: () => (
             <View style={styles.outerContainer}>
               <View style={[styles.innerContainer]} pointerEvents={'none'}>

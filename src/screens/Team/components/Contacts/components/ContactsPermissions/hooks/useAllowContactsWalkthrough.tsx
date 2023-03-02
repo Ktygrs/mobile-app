@@ -3,7 +3,6 @@
 import {COLORS} from '@constants/colors';
 import {AllowContactsButton} from '@screens/Team/components/Contacts/components/ContactsPermissions/components/AllowContactsButton';
 import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
-import {AddressBookIcon} from '@svg/AddressBookIcon';
 import {useEffect, useRef, useState} from 'react';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
@@ -23,8 +22,6 @@ export const useAllowContactsWalkthrough = () => {
         stepKey: 'allowContacts',
         elementData: {
           topPositionOfHighlightedElement: top,
-          //TODO:walk set icon statically?
-          icon: <AddressBookIcon color={COLORS.primaryLight} />,
           renderStepHighlight: () => (
             <View style={styles.outerContainer}>
               <View style={styles.innerContainer}>

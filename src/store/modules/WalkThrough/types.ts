@@ -5,7 +5,6 @@ import * as React from 'react';
 export type WalkThroughElementData = {
   topPositionOfHighlightedElement: number;
   renderStepHighlight: () => React.ReactNode;
-  icon?: React.ReactNode;
 };
 
 export type WalkthroughStepKey =
@@ -27,6 +26,7 @@ export type WalkThroughStepStaticData = {
   title: string;
   description: string;
   link?: string;
+  Icon?: React.ReactNode;
   before?: () => void;
   after?: () => void;
 };
@@ -34,5 +34,3 @@ export type WalkThroughStepStaticData = {
 export interface WalkThroughStep extends WalkThroughStepStaticData {
   elementData?: WalkThroughElementData;
 }
-
-export type WalkThroughSteps = WalkThroughStep[];

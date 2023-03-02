@@ -2,12 +2,14 @@
 
 import {AccountActions} from '@store/modules/Account/actions';
 import {WalkThroughActions} from '@store/modules/WalkThrough/actions';
-import {WALK_THROUGH_STEPS} from '@store/modules/WalkThrough/steps';
-import {WalkThroughSteps} from '@store/modules/WalkThrough/types';
+import {
+  WalkThroughElementData,
+  WalkthroughStepKey,
+} from '@store/modules/WalkThrough/types';
 import produce from 'immer';
 
 export interface WalkThroughState {
-  steps: WalkThroughSteps;
+  stepElements: {[key in WalkthroughStepKey]?: WalkThroughElementData};
 }
 
 type Actions = ReturnType<
@@ -16,7 +18,7 @@ type Actions = ReturnType<
 >;
 
 const INITIAL_STATE: WalkThroughState = {
-  steps: WALK_THROUGH_STEPS,
+  stepElements: {},
 };
 
 function reducer(state = INITIAL_STATE, action: Actions): WalkThroughState {
@@ -24,10 +26,7 @@ function reducer(state = INITIAL_STATE, action: Actions): WalkThroughState {
     switch (action.type) {
       case WalkThroughActions.SET_WALK_THROUGH_STEP_ELEMENT_DATA.STATE.type: {
         const {elementData, stepKey} = action.payload;
-        const step = draft.steps.find(s => s.key === stepKey);
-        if (step) {
-          step.elementData = elementData;
-        }
+        draft.stepElements[stepKey] = elementData;
         break;
       }
       case AccountActions.SIGN_OUT.SUCCESS.type: {

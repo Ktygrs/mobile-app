@@ -48,7 +48,7 @@ export const store = configureStore({
         ignoredPaths: [
           'utilityProcessStatuses.UPDATE_ACCOUNT.payload.raceConditionStrategy',
           'utilityProcessStatuses.SET_WALK_THROUGH_STEP_ELEMENT_DATA.payload.elementData',
-          'walkThrough.steps',
+          'walkThrough.stepElements',
         ],
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
