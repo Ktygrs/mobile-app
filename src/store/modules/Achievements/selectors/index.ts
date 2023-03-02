@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {getTasks} from './getTasks';
+import {getAchievements} from './getAchievements';
 
 export const TasksSelectors = Object.freeze({
-  getTasks,
+  getAchievements,
 });

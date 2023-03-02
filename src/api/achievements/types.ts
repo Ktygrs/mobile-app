@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-export interface Task {
+export interface Achievement {
   name: string;
   completed: boolean;
-  data: TaskData;
+  data: AchievementData;
 }
 
-export interface TaskData {
+export interface AchievementData {
   requiredQuantity?: number;
   telegramUserHandle?: string;
   twitterUserHandle?: string;

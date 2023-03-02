@@ -4,4 +4,5 @@ import {RootState} from '@store/rootReducer';
 
 import {rootSelector} from './rootSelector';
 
-export const getTasks = (state: RootState) => rootSelector(state).tasks;
+export const getAchievements = (state: RootState) =>
+  rootSelector(state).achievements;
