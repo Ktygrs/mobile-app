@@ -15,14 +15,6 @@ const ACHIEVEMENT_MARK_COMPLETED = createAction('ACHIEVEMENT_MARK_COMPLETED', {
   START: (payload: {name: string}) => payload,
 });
 
-const UPDATE_NEED_ACHIEVEMENTS_REFRESH = createAction(
-  'UPDATE_NEED_ACHIEVEMENTS_REFRESH',
-  {
-    STATE: true,
-  },
-);
-
-// TODO: achievements: remove when api would be connected
 const COMPLETE_NEXT_ACHIEVEMENT = createAction('COMPLETE_NEXT_ACHIEVEMENT', {
   STATE: true,
 });
@@ -30,7 +22,5 @@ const COMPLETE_NEXT_ACHIEVEMENT = createAction('COMPLETE_NEXT_ACHIEVEMENT', {
 export const AchievementsActions = Object.freeze({
   GET_ACHIEVEMENTS,
   ACHIEVEMENT_MARK_COMPLETED,
-  UPDATE_NEED_ACHIEVEMENTS_REFRESH,
-  // TODO: achievements: remove when api would be connected
   COMPLETE_NEXT_ACHIEVEMENT,
 });

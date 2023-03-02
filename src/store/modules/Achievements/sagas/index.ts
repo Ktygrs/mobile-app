@@ -2,7 +2,9 @@
 
 import {AchievementsActions} from '@store/modules/Achievements/actions';
 import {completeNextAchievementSaga} from '@store/modules/Achievements/sagas/completeNextAchievementSaga';
+import {completeStartMiningAchievementSaga} from '@store/modules/Achievements/sagas/completeStartMiningAchievementSaga';
 import {loadAchievementsSaga} from '@store/modules/Achievements/sagas/loadAchievementsSaga';
+import {TokenomicsActions} from '@store/modules/Tokenomics/actions';
 import {all, takeLeading} from 'redux-saga/effects';
 
 import {achievementMarkCompletedSaga} from './achievementMarkCompletedSaga';
@@ -20,6 +22,10 @@ export function* rootAchievementsSaga() {
     takeLeading(
       AchievementsActions.COMPLETE_NEXT_ACHIEVEMENT.STATE.type,
       completeNextAchievementSaga,
+    ),
+    takeLeading(
+      TokenomicsActions.START_MINING_SESSION.SUCCESS.type,
+      completeStartMiningAchievementSaga,
     ),
   ]);
 }

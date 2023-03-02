@@ -1,22 +1,21 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {Achievement} from '@api/achievements/types';
+import {AccountActions} from '@store/modules/Account/actions';
 import {AchievementsActions} from '@store/modules/Achievements/actions';
 import produce from 'immer';
 
 export interface State {
   achievements: Achievement[];
-  needRefresh: boolean;
 }
 
 type Actions = ReturnType<
   | typeof AchievementsActions.GET_ACHIEVEMENTS.SUCCESS.create
-  | typeof AchievementsActions.UPDATE_NEED_ACHIEVEMENTS_REFRESH.STATE.create
+  | typeof AccountActions.SIGN_OUT.SUCCESS.create
 >;
 
 const INITIAL_STATE: State = {
   achievements: [],
-  needRefresh: false,
 };
 
 export function achievementsReducer(
@@ -29,12 +28,11 @@ export function achievementsReducer(
         {
           const {achievements} = action.payload;
           draft.achievements = achievements;
-          draft.needRefresh = false;
         }
         break;
-      case AchievementsActions.UPDATE_NEED_ACHIEVEMENTS_REFRESH.STATE.type:
-        draft.needRefresh = true;
-        break;
+      case AccountActions.SIGN_OUT.SUCCESS.type: {
+        return {...INITIAL_STATE};
+      }
     }
   });
 }

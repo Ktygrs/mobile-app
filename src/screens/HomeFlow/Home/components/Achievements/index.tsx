@@ -12,7 +12,7 @@ import {ProgressItem} from '@screens/HomeFlow/Home/components/Achievements/compo
 import {useAchievements} from '@screens/HomeFlow/Home/components/Achievements/hooks/useAchievements';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
-import React, {memo, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {LayoutChangeEvent, StyleSheet, View} from 'react-native';
 import Animated, {useAnimatedStyle, withTiming} from 'react-native-reanimated';
 import {rem} from 'rn-units';
@@ -26,9 +26,16 @@ export const Achievements = memo(() => {
 
   const countCompletedItems = achievements.filter(v => v.completed).length;
 
-  const areAllTasksCompleted = countCompletedItems === achievements.length;
+  const areAllTasksCompleted =
+    achievements.length > 0 && countCompletedItems === achievements.length;
 
   const [isExpanded, setIsExpanded] = useState(!areAllTasksCompleted);
+
+  useEffect(() => {
+    if (!areAllTasksCompleted) {
+      setIsExpanded(true);
+    }
+  }, [areAllTasksCompleted]);
 
   const [itemsContainerHeight, setItemsContainerHeight] = useState(0);
 

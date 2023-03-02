@@ -1,25 +1,44 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Achievement} from '@api/achievements/types';
+import {useFocusEffect} from '@react-navigation/native';
 import {AchievementsActions} from '@store/modules/Achievements/actions';
 import {getAchievements} from '@store/modules/Achievements/selectors/getAchievements';
-import {isEmpty} from 'lodash';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 export function useAchievements() {
   const dispatch = useDispatch();
 
+  const [currentAchievements, setCurrentAchievements] = useState<Achievement[]>(
+    [],
+  );
+
   const achievements: ReturnType<typeof getAchievements> =
     useSelector(getAchievements);
 
   useEffect(() => {
-    // TODO: achievements: remove when api would be connected
-    if (isEmpty(achievements)) {
+    if (achievements.length === 0) {
       dispatch(AchievementsActions.GET_ACHIEVEMENTS.START.create());
+    } else if (currentAchievements.length === 0 && achievements.length > 0) {
+      setCurrentAchievements(achievements);
     }
-  }, [dispatch, achievements]);
+  }, [dispatch, achievements, currentAchievements]);
+
+  useFocusEffect(() => {
+    if (
+      currentAchievements.length > 0 &&
+      achievements.length > 0 &&
+      JSON.stringify(currentAchievements) !== JSON.stringify(achievements)
+    ) {
+      /** Timeout so user can see the change active achievement animation */
+      setTimeout(() => {
+        setCurrentAchievements(achievements);
+      }, 500);
+    }
+  });
 
   return {
-    achievements,
+    achievements: currentAchievements,
   };
 }

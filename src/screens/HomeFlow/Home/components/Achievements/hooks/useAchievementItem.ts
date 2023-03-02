@@ -6,7 +6,7 @@ import {MainStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {DEFAULT_DIALOG_NO_BUTTON} from '@screens/Modals/PopUp/components/PopUpButton';
-import {AchievementsActions} from '@store/modules/Achievements/actions';
+import {TokenomicsActions} from '@store/modules/Tokenomics/actions';
 import {t} from '@translations/i18n';
 import {useCallback} from 'react';
 import {useDispatch} from 'react-redux';
@@ -60,22 +60,22 @@ export function useAchievementItem(achievement: Achievement) {
   }, [navigation]);
 
   const onPress = useCallback(() => {
-    dispatch(AchievementsActions.COMPLETE_NEXT_ACHIEVEMENT.STATE.create());
-    // switch (type) {
-    //   case 'claim_username':
-    //     break;
-    //   case 'start_mining':
-    //     break;
-    //   case 'upload_profile_picture':
-    //     break;
-    //   case 'follow_us_on_twitter':
-    //     break;
-    //   case 'join_telegram':
-    //     break;
-    //   case 'invite_friends':
-    //     break;
-    // }
-  }, [dispatch]);
+    switch (type) {
+      case 'start_mining':
+        dispatch(TokenomicsActions.START_MINING_SESSION.START.create());
+        break;
+      case 'upload_profile_picture':
+        break;
+      case 'follow_us_on_twitter':
+        break;
+      case 'join_telegram':
+        break;
+      case 'invite_friends':
+        break;
+      default:
+        break;
+    }
+  }, [dispatch, type]);
 
   return {
     showJoinTelegramModal,
