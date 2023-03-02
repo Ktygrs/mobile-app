@@ -134,7 +134,7 @@ export type HomeTabStackParamList = {
 };
 
 export type TeamTabStackParamList = {
-  Team: {segmentIndex?: number} | undefined;
+  Team: {segmentIndex?: number; snapPoint?: number} | undefined;
 };
 
 export type ProfileTabStackParamList = {

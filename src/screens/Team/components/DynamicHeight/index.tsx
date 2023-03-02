@@ -3,6 +3,8 @@
 import {commonStyles, windowHeight} from '@constants/styles';
 import BottomSheet from '@gorhom/bottom-sheet';
 import useIsKeyboardShown from '@hooks/useIsKeyboardShown';
+import {TeamTabStackParamList} from '@navigation/Main';
+import {RouteProp, useRoute} from '@react-navigation/native';
 import {INFO_HEIGHT} from '@screens/Team/components/Header/components/Info';
 import {
   SEARCH_HEIGHT,
@@ -25,6 +27,8 @@ export const DynamicHeight = ({
   isSearchActive,
   animatedIndex,
 }: Props) => {
+  const route = useRoute<RouteProp<TeamTabStackParamList, 'Team'>>();
+
   const sheetRef = useRef<BottomSheet>(null);
   const {top: topInset} = useSafeAreaInsets();
 
@@ -72,6 +76,12 @@ export const DynamicHeight = ({
       }
     }
   }, [isKeyboardShown, isSearchActive, positions.search]);
+
+  useEffect(() => {
+    if (route.params?.snapPoint != null) {
+      sheetRef.current?.snapToIndex(route.params.snapPoint);
+    }
+  }, [route.params?.snapPoint]);
 
   return (
     <BottomSheet

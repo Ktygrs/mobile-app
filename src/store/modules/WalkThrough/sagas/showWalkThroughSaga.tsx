@@ -19,19 +19,29 @@ export function* showWalkThroughSaga() {
       yield select(walkthroughStepCandidatesSelector);
 
     for (let i = 0; i < steps.length; i++) {
-      navigate({
+      const step = steps[i];
+
+      if (step.before) {
+        yield call(step.before);
+      }
+
+      yield navigate({
         name: 'WalkThrough',
         params: {
-          step: steps[i],
+          step: step,
           index: i,
           total: steps.length,
         },
       });
 
       const user: User = yield select(userSelector);
-      yield call(markWalkthroughStep, user, steps[i]);
+      yield call(markWalkthroughStep, user, step);
 
       yield take(WalkThroughActions.COMPLETE_WALK_THROUGH_STEP.STATE.type);
+
+      if (step.after) {
+        yield call(step.after);
+      }
     }
   }
 }

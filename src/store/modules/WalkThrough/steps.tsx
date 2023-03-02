@@ -17,14 +17,14 @@ import {rem} from 'rn-units';
 export const WALK_THROUGH_STEPS: WalkThroughStepStaticData[] = [
   {
     key: 'allowContacts',
-    version: 117,
+    version: 120,
     Icon: <AddressBookIcon color={COLORS.primaryLight} />,
     title: t('walkthrough.team.allow_contacts.title'),
     description: t('walkthrough.team.allow_contacts.description'),
   },
   {
     key: 'confirmPhone',
-    version: 117,
+    version: 120,
     Icon: (
       <PingIcon fill={COLORS.primaryDark} height={rem(16)} width={rem(16)} />
     ),
@@ -33,16 +33,22 @@ export const WALK_THROUGH_STEPS: WalkThroughStepStaticData[] = [
   },
   {
     key: 'contactsList',
-    version: 117,
+    version: 120,
     Icon: (
       <PingIcon fill={COLORS.primaryDark} height={rem(16)} width={rem(16)} />
     ),
     title: t('walkthrough.team.contacts_list.title'),
     description: t('walkthrough.team.contacts_list.description'),
+    before: () => {
+      navigate({name: 'Team', params: {snapPoint: 1}});
+    },
+    after: () => {
+      navigate({name: 'Team', params: {snapPoint: 0}});
+    },
   },
   {
     key: 'referrals',
-    version: 117,
+    version: 120,
     Icon: (
       <TeamInactiveIcon
         width={rem(32)}
@@ -56,7 +62,7 @@ export const WALK_THROUGH_STEPS: WalkThroughStepStaticData[] = [
   },
   {
     key: 'earnings',
-    version: 117,
+    version: 120,
     Icon: (
       <WalletIcon width={rem(20)} height={rem(20)} color={COLORS.primaryDark} />
     ),
@@ -65,7 +71,7 @@ export const WALK_THROUGH_STEPS: WalkThroughStepStaticData[] = [
   },
   {
     key: 'contacts',
-    version: 117,
+    version: 120,
     Icon: (
       <ContactsIcon width={rem(20)} height={rem(20)} color={COLORS.secondary} />
     ),
@@ -74,7 +80,7 @@ export const WALK_THROUGH_STEPS: WalkThroughStepStaticData[] = [
   },
   {
     key: 'tierone',
-    version: 117,
+    version: 120,
     Icon: (
       <TierOneIcon width={rem(20)} height={rem(20)} fill={COLORS.secondary} />
     ),
@@ -84,7 +90,7 @@ export const WALK_THROUGH_STEPS: WalkThroughStepStaticData[] = [
   },
   {
     key: 'tiertwo',
-    version: 117,
+    version: 120,
     Icon: (
       <TierTwoIcon width={rem(20)} height={rem(20)} fill={COLORS.secondary} />
     ),
@@ -97,19 +103,19 @@ export const WALK_THROUGH_STEPS: WalkThroughStepStaticData[] = [
   },
   {
     key: 'activeUsers',
-    version: 117,
+    version: 120,
     title: t('walkthrough.team.active_users.title'),
     description: t('walkthrough.team.active_users.description'),
   },
   {
     key: 'tierOneEarnings',
-    version: 117,
+    version: 120,
     title: t('walkthrough.team.tier_one_earnings.title'),
     description: t('walkthrough.team.tier_one_earnings.description'),
   },
   {
     key: 'ping',
-    version: 117,
+    version: 120,
     Icon: (
       <PingIcon fill={COLORS.primaryDark} height={rem(16)} width={rem(16)} />
     ),

@@ -27,7 +27,6 @@ export function WalkThrough({route}: WalkThroughProps) {
   const [elementHeight, setElementHeight] = useState<number>();
 
   const closeAnimationCallback = useCallback(() => {
-    step?.after?.();
     dispatch(
       WalkThroughActions.COMPLETE_WALK_THROUGH_STEP.STATE.create({
         stepKey: step.key,
