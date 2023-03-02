@@ -7,14 +7,11 @@ import {userSelector} from '@store/modules/Account/selectors';
 import {WalkThroughActions} from '@store/modules/WalkThrough/actions';
 import {walkthroughStepCandidatesSelector} from '@store/modules/WalkThrough/selectors';
 import {WalkThroughStep} from '@store/modules/WalkThrough/types';
-import {waitForSelector} from '@store/utils/sagas/effects';
 import {call, delay, put, select, take} from 'redux-saga/effects';
 
 export function* showWalkThroughSaga() {
   while (true) {
-    yield call(waitForSelector, state => {
-      return walkthroughStepCandidatesSelector(state).length > 0;
-    });
+    yield call(waitForWalkthroughStepCandidates);
 
     yield delay(500);
 
@@ -36,6 +33,20 @@ export function* showWalkThroughSaga() {
 
       yield take(WalkThroughActions.COMPLETE_WALK_THROUGH_STEP.STATE.type);
     }
+  }
+}
+
+function* waitForWalkthroughStepCandidates() {
+  while (
+    (
+      (yield select(walkthroughStepCandidatesSelector)) as ReturnType<
+        typeof walkthroughStepCandidatesSelector
+      >
+    ).length === 0
+  ) {
+    yield take(
+      WalkThroughActions.SET_WALK_THROUGH_STEP_ELEMENT_DATA.STATE.type,
+    );
   }
 }
 
