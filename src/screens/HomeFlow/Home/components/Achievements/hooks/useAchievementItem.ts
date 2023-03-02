@@ -2,10 +2,10 @@
 
 import {Achievement, AchievementType} from '@api/achievements/types';
 import {COLORS} from '@constants/colors';
+import {Images} from '@images';
 import {MainStackParamList, MainTabsParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {DEFAULT_DIALOG_NO_BUTTON} from '@screens/Modals/PopUp/components/PopUpButton';
 import {logError} from '@services/logging';
 import {AchievementsActions} from '@store/modules/Achievements/actions';
 import {TokenomicsActions} from '@store/modules/Tokenomics/actions';
@@ -14,6 +14,7 @@ import {openLinkWithInAppBrowser} from '@utils/device';
 import {useCallback} from 'react';
 import {Linking} from 'react-native';
 import {useDispatch} from 'react-redux';
+import {rem} from 'rn-units';
 
 const titles: {[key in AchievementType]: string} = {
   claim_username: t('home.steps.step_one.title'),
@@ -52,20 +53,6 @@ export function useAchievementItem(achievement: Achievement) {
 
   const {type} = achievement;
 
-  const showJoinTelegramModal = useCallback(() => {
-    navigation.navigate('PopUp', {
-      title: t('home.achievements.popup.title'),
-      message: t('home.achievements.popup.description'),
-      buttons: [
-        DEFAULT_DIALOG_NO_BUTTON,
-        {
-          text: t('button.confirm'),
-          onPress: () => {},
-        },
-      ],
-    });
-  }, [navigation]);
-
   const onPress = useCallback(() => {
     switch (type) {
       case 'start_mining':
@@ -91,16 +78,34 @@ export function useAchievementItem(achievement: Achievement) {
           .catch(logError);
         break;
       case 'join_telegram':
+        navigation.navigate('PopUp', {
+          imageProps: {
+            source: Images.popUp.telegram,
+            style: {width: rem(54), height: rem(54)},
+          },
+          textInputPlaceholder: t('home.achievements.popup.placeholder'),
+          title: t('home.achievements.popup.title'),
+          message: t('home.achievements.popup.description'),
+          buttons: [
+            {
+              text: t('button.cancel'),
+              preset: 'outlined',
+            },
+            {
+              text: t('button.confirm'),
+              onPress: () => {},
+            },
+          ],
+        });
         break;
       case 'invite_friends':
         break;
       default:
         break;
     }
-  }, [dispatch, type, tabsNavigation]);
+  }, [dispatch, type, tabsNavigation, navigation]);
 
   return {
-    showJoinTelegramModal,
     title: titles[type],
     description: descriptions[type],
     iconBgColor: iconBackgrounds[type],
