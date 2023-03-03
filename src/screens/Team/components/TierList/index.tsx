@@ -109,12 +109,12 @@ export const TierList = memo(
       return null;
     }, [referrals]);
 
-    const {setWalkthroughElementData} = useSetWalkthroughElementData('team');
+    const {setWalkthroughElementData} = useSetWalkthroughElementData();
     useEffect(() => {
       if (addSteps && offset && pingButton && headerHeight) {
         const top = offset + headerHeight - PADDING_VERTICAL;
         setWalkthroughElementData({
-          step: 'ping',
+          stepKey: 'ping',
           elementData: {
             topPositionOfHighlightedElement: top,
             icon: (

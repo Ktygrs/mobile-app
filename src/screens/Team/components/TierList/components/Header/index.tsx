@@ -33,7 +33,7 @@ export const ListHeader = ({
   earnings,
   onLayout,
 }: Props) => {
-  const {setWalkthroughElementData} = useSetWalkthroughElementData('team');
+  const {setWalkthroughElementData} = useSetWalkthroughElementData();
 
   const renderActiveUsers = useCallback(() => {
     return (
@@ -57,8 +57,9 @@ export const ListHeader = ({
   const top = offset - PADDING_VERTICAL * 2;
   useEffect(() => {
     if (addSteps && offset) {
+      console.log('>>>>>>>>');
       setWalkthroughElementData({
-        step: 'activeUsers',
+        stepKey: 'activeUsers',
         elementData: {
           topPositionOfHighlightedElement: top,
           renderStepHighlight: () => (
@@ -77,7 +78,7 @@ export const ListHeader = ({
   useEffect(() => {
     if (addSteps && offset) {
       setWalkthroughElementData({
-        step: 'tierOneEarnings',
+        stepKey: 'tierOneEarnings',
         elementData: {
           topPositionOfHighlightedElement: top,
           renderStepHighlight: () => (

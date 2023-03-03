@@ -12,7 +12,7 @@ import {rem} from 'rn-units';
 const WALKTHROUGH_ELEMENT_CONTAINER_PADDING = rem(20);
 
 export const useAllowContactsWalkthrough = () => {
-  const {setWalkthroughElementData} = useSetWalkthroughElementData('team');
+  const {setWalkthroughElementData} = useSetWalkthroughElementData();
   const [elementY, setElementY] = useState(0);
   const elementRef = useRef<View>(null);
 
@@ -20,7 +20,7 @@ export const useAllowContactsWalkthrough = () => {
     if (elementY) {
       const top = elementY - WALKTHROUGH_ELEMENT_CONTAINER_PADDING * 2;
       setWalkthroughElementData({
-        step: 'allowContacts',
+        stepKey: 'allowContacts',
         elementData: {
           topPositionOfHighlightedElement: top,
           //TODO:walk set icon statically?

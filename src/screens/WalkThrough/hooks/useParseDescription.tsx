@@ -8,24 +8,24 @@ import {Linking, StyleSheet, Text} from 'react-native';
 import {isIOS, rem} from 'rn-units';
 
 type Props = {
-  visibleStep: WalkThroughStep | undefined;
+  step: WalkThroughStep | undefined;
 };
 
-export function useParseDescription({visibleStep}: Props) {
+export function useParseDescription({step}: Props) {
   return useMemo(() => {
-    if (!visibleStep) {
+    if (!step) {
       return {parsedDescription: null};
     }
 
     let parsedDescription = replaceString(
-      visibleStep.description,
+      step.description,
       tagRegex('ice'),
       (match, index) => (
         <IceLabel key={match + index} iconOffsetY={isIOS ? rem(16) : rem(2)} />
       ),
     );
 
-    if (visibleStep.link) {
+    if (step.link) {
       parsedDescription = replaceString(
         parsedDescription,
         tagRegex('link', false),
@@ -35,7 +35,7 @@ export function useParseDescription({visibleStep}: Props) {
               key={match + index}
               style={styles.underlineText}
               onPress={() => {
-                Linking.openURL(visibleStep.link ?? '');
+                Linking.openURL(step.link ?? '');
               }}>
               {match}
             </Text>
@@ -45,7 +45,7 @@ export function useParseDescription({visibleStep}: Props) {
     }
 
     return {parsedDescription};
-  }, [visibleStep]);
+  }, [step]);
 }
 
 const styles = StyleSheet.create({

@@ -2,7 +2,6 @@
 
 import {BadgeCategory} from '@api/badges/types';
 import {NotificationDeliveryChannel} from '@api/devices/types';
-import {WalkThroughType} from '@api/user/types';
 import {Country} from '@constants/countries';
 import {MainTabBar} from '@navigation/components/MainTabBar';
 import {HomeIcon} from '@navigation/components/MainTabBar/components/Icons/HomeIcon';
@@ -54,6 +53,7 @@ import {WalkThrough} from '@screens/WalkThrough';
 import {ActiveTabActions, Tab} from '@store/modules/ActiveTab/actions';
 import {useSubscribeToPushNotifications} from '@store/modules/PushNotifications/hooks/useSubscribeToPushNotifications';
 import {StatsPeriod} from '@store/modules/Stats/types';
+import {WalkThroughStep} from '@store/modules/WalkThrough/types';
 import React, {ComponentType, ReactNode, RefObject} from 'react';
 import {Image, View} from 'react-native';
 import {Contact} from 'react-native-contacts';
@@ -115,7 +115,7 @@ export type MainStackParamList = {
   UserProfile: {userId: string} | undefined;
   Roles: {userId?: string} | undefined;
   Badges: {category?: BadgeCategory; userId?: string};
-  WalkThrough: {walkThroughType: WalkThroughType};
+  WalkThrough: {step: WalkThroughStep; total: number; index: number};
   ProfilePrivacyEditStep1: undefined;
   ProfilePrivacyEditStep2: undefined;
   ProfilePrivacyEditStep3: undefined;

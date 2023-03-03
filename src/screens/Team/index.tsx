@@ -9,7 +9,6 @@ import {SearchResults} from '@screens/Team/components/SearchResults';
 import {SegmentedContent} from '@screens/Team/components/SegmentedContent';
 import {useOnChangeToCollapsedSnapPoint} from '@screens/Team/hooks/useOnChangeToCollapsedSnapPoint';
 import {useOnRefresh} from '@screens/Team/hooks/useOnRefresh';
-import {useShowWalkThrough} from '@screens/WalkThrough/hooks/useShowWalkThrough';
 import React, {memo, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {
@@ -30,9 +29,6 @@ export const Team = memo(() => {
   const translateY = useDerivedValue(() =>
     interpolate(animatedIndex.value, [0, -0.1], [0, -100]),
   );
-
-  //TODO:walk check why we call it here
-  useShowWalkThrough({walkThroughType: 'team'});
 
   return (
     <View style={styles.container}>

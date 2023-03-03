@@ -14,27 +14,29 @@ const WALKTHROUGH_ELEMENT_CONTAINER_PADDING = rem(16);
 const BORDER_RADIUS = rem(20);
 
 export const useEarningsWalkthrough = () => {
-  const {setWalkthroughElementData} = useSetWalkthroughElementData('team');
+  const {setWalkthroughElementData} = useSetWalkthroughElementData();
   const [elementY, setElementY] = useState(0);
   const elementRef = useRef<View>(null);
 
   useEffect(() => {
-    const color = COLORS.primaryDark;
-    const top = elementY - WALKTHROUGH_ELEMENT_CONTAINER_PADDING * 2;
-    setWalkthroughElementData({
-      step: 'earnings',
-      elementData: {
-        topPositionOfHighlightedElement: top,
-        icon: <WalletIcon width={rem(20)} height={rem(20)} color={color} />,
-        renderStepHighlight: () => (
-          <View style={[styles.outerContainer, {top}]}>
-            <View style={styles.innerContainer}>
-              <EarningsCell color={color} />
+    if (elementY) {
+      const color = COLORS.primaryDark;
+      const top = elementY - WALKTHROUGH_ELEMENT_CONTAINER_PADDING * 2;
+      setWalkthroughElementData({
+        stepKey: 'earnings',
+        elementData: {
+          topPositionOfHighlightedElement: top,
+          icon: <WalletIcon width={rem(20)} height={rem(20)} color={color} />,
+          renderStepHighlight: () => (
+            <View style={[styles.outerContainer, {top}]}>
+              <View style={styles.innerContainer}>
+                <EarningsCell color={color} />
+              </View>
             </View>
-          </View>
-        ),
-      },
-    });
+          ),
+        },
+      });
+    }
   }, [elementY, setWalkthroughElementData]);
 
   const onElementLayout = () => {

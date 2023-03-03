@@ -20,7 +20,7 @@ const INNER_VERTICAL_PADDING = rem(12);
 const INNER_HORIZONTAL_PADDING = rem(20);
 
 export const useSegmentedControlWalkthrough = () => {
-  const {setWalkthroughElementData} = useSetWalkthroughElementData('team');
+  const {setWalkthroughElementData} = useSetWalkthroughElementData();
   const [elementParams, setElementParams] = useState<{
     pageY: number;
     pageX: number;
@@ -43,7 +43,7 @@ export const useSegmentedControlWalkthrough = () => {
           INNER_HORIZONTAL_PADDING +
           SEGMENTED_CONTROL_HORIZONTAL_OFFSET;
         setWalkthroughElementData({
-          step: segmentData.key.toLowerCase() as Lowercase<
+          stepKey: segmentData.key.toLowerCase() as Lowercase<
             typeof segmentData['key']
           >,
           elementData: {

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {WalkthroughStepKey} from '@store/modules/WalkThrough/types';
 import {SupportedLocale} from '@translations/localeConfig';
 
 export type User = {
@@ -63,10 +64,7 @@ export type HiddenProfileElement =
   | 'role'
   | 'badges';
 
-export type WalkThroughType = 'home' | 'team' | 'news';
-
-export type WalkThroughElement = {
-  type: WalkThroughType;
+export type WalkThroughStepProgress = {
   // To be future-proof. If we modify some screens we want to show that walkthrough again.
   // It should be a constant in the code, that we update when/if we change that specific UI.
   version: number;
@@ -82,6 +80,6 @@ export type RegistrationProcessFinalizedStep =
 
 export type ClientData = {
   registrationProcessFinalizedSteps?: RegistrationProcessFinalizedStep[];
-  walkTroughProgress?: {[key: string]: WalkThroughElement};
+  walkTroughProgress?: {[key in WalkthroughStepKey]?: WalkThroughStepProgress};
   miningStateTooltipSeen?: string[];
 };

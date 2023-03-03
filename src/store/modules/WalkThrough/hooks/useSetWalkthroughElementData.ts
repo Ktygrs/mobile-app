@@ -1,30 +1,31 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {WalkThroughType} from '@api/user/types';
 import {WalkThroughActions} from '@store/modules/WalkThrough/actions';
 import {
   WalkThroughElementData,
-  WalkThroughSteps,
+  WalkthroughStepKey,
 } from '@store/modules/WalkThrough/types';
 import {useCallback} from 'react';
 import {useDispatch} from 'react-redux';
 
-export function useSetWalkthroughElementData<
-  T extends WalkThroughType,
-  S extends keyof WalkThroughSteps[T],
->(walkThroughType: T) {
+export function useSetWalkthroughElementData() {
   const dispatch = useDispatch();
   const setWalkthroughElementData = useCallback(
-    ({step, elementData}: {step: S; elementData: WalkThroughElementData}) => {
+    ({
+      stepKey,
+      elementData,
+    }: {
+      stepKey: WalkthroughStepKey;
+      elementData: WalkThroughElementData;
+    }) => {
       dispatch(
         WalkThroughActions.SET_WALK_THROUGH_STEP_ELEMENT_DATA.STATE.create({
           elementData,
-          walkThroughType,
-          step: step as never,
+          stepKey,
         }),
       );
     },
-    [dispatch, walkThroughType],
+    [dispatch],
   );
 
   return {setWalkthroughElementData};

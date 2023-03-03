@@ -8,7 +8,19 @@ export type WalkThroughElementData = {
   icon?: React.ReactNode;
 };
 
+export type WalkthroughStepKey =
+  | 'allowContacts'
+  | 'referrals'
+  | 'earnings'
+  | 'contacts'
+  | 'tierone'
+  | 'tiertwo'
+  | 'activeUsers'
+  | 'tierOneEarnings'
+  | 'ping';
+
 export type WalkThroughStepStaticData = {
+  key: WalkthroughStepKey;
   version: number;
   title: string;
   description: string;
@@ -21,21 +33,4 @@ export interface WalkThroughStep extends WalkThroughStepStaticData {
   elementData?: WalkThroughElementData;
 }
 
-export type WalkThroughSteps = {
-  news: {
-    a1: WalkThroughStep;
-    a2: WalkThroughStep;
-  };
-  team: {
-    allowContacts: WalkThroughStep;
-    referrals: WalkThroughStep;
-    earnings: WalkThroughStep;
-    contacts: WalkThroughStep;
-    tierone: WalkThroughStep;
-    tiertwo: WalkThroughStep;
-    activeUsers: WalkThroughStep;
-    tierOneEarnings: WalkThroughStep;
-    ping: WalkThroughStep;
-  };
-  home: {};
-};
+export type WalkThroughSteps = WalkThroughStep[];

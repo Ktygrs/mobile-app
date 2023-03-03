@@ -14,29 +14,31 @@ const WALKTHROUGH_ELEMENT_CONTAINER_PADDING = rem(16);
 const BORDER_RADIUS = rem(20);
 
 export const useReferralsWalkthrough = () => {
-  const {setWalkthroughElementData} = useSetWalkthroughElementData('team');
+  const {setWalkthroughElementData} = useSetWalkthroughElementData();
   const [elementY, setElementY] = useState(0);
   const elementRef = useRef<View>(null);
 
   useEffect(() => {
-    const color = COLORS.primaryDark;
-    const top = elementY - WALKTHROUGH_ELEMENT_CONTAINER_PADDING * 2;
-    setWalkthroughElementData({
-      step: 'referrals',
-      elementData: {
-        topPositionOfHighlightedElement: top,
-        icon: (
-          <TeamInactiveIcon width={rem(32)} height={rem(32)} color={color} />
-        ),
-        renderStepHighlight: () => (
-          <View style={[styles.outerContainer, {top}]}>
-            <View style={styles.innerContainer}>
-              <ReferralsCell color={color} />
+    if (elementY) {
+      const color = COLORS.primaryDark;
+      const top = elementY - WALKTHROUGH_ELEMENT_CONTAINER_PADDING * 2;
+      setWalkthroughElementData({
+        stepKey: 'referrals',
+        elementData: {
+          topPositionOfHighlightedElement: top,
+          icon: (
+            <TeamInactiveIcon width={rem(32)} height={rem(32)} color={color} />
+          ),
+          renderStepHighlight: () => (
+            <View style={[styles.outerContainer, {top}]}>
+              <View style={styles.innerContainer}>
+                <ReferralsCell color={color} />
+              </View>
             </View>
-          </View>
-        ),
-      },
-    });
+          ),
+        },
+      });
+    }
   }, [elementY, setWalkthroughElementData]);
 
   const onElementLayout = () => {

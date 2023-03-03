@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
+import {MIDDLE_BUTTON_HIT_SLOP} from '@constants/styles';
 import {Images} from '@images';
 import {MainStackParamList} from '@navigation/Main';
 import {RouteProp} from '@react-navigation/native';
@@ -11,20 +13,13 @@ import {
   CIRCLE_PADDING_VERTICAL,
 } from '@screens/WalkThrough/constants';
 import {useCirclePosition} from '@screens/WalkThrough/hooks/useCirclePosition';
-import {useOnFinalize} from '@screens/WalkThrough/hooks/useOnFinalize';
 import {useParseDescription} from '@screens/WalkThrough/hooks/useParseDescription';
-import {userSelector} from '@store/modules/Account/selectors';
-import {
-  numberOfStepsSelector,
-  walkThroughStepDataSelector,
-} from '@store/modules/WalkThrough/selectors';
-import {WALK_THROUGH_STEPS} from '@store/modules/WalkThrough/steps';
-import {WalkThroughStep} from '@store/modules/WalkThrough/types';
+import {WalkThroughActions} from '@store/modules/WalkThrough/actions';
 import {NextArrowSvg} from '@svg/NextArrow';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import React, {useCallback, useEffect, useState} from 'react';
+import {Image, StyleSheet, Text, View} from 'react-native';
 import Animated, {
   cancelAnimation,
   useAnimatedStyle,
@@ -32,7 +27,7 @@ import Animated, {
   withDelay,
   withTiming,
 } from 'react-native-reanimated';
-import {useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {rem} from 'rn-units';
 import {screenWidth} from 'rn-units/index';
 import {clearTimeout} from 'timers';
@@ -43,60 +38,10 @@ interface WalkThroughProps {
   route: WalkThroughRouteProps;
 }
 
-//TODO: walk split and cleanup
 export function WalkThrough({route}: WalkThroughProps) {
-  const {walkThroughType} = route.params;
-  const numberOfSteps = useSelector(numberOfStepsSelector(walkThroughType));
-  const [stepIndex, setStepIndex] = useState(5);
-  const [visibleStep, setVisibleStep] = useState<WalkThroughStep>();
-
-  const stepDataCandidate = useSelector(
-    walkThroughStepDataSelector({
-      walkThroughType,
-      //TODO:get from selector
-      step: (
-        Object.keys(
-          WALK_THROUGH_STEPS[walkThroughType],
-        ) as (keyof typeof WALK_THROUGH_STEPS[typeof walkThroughType])[]
-      )[stepIndex],
-    }),
-  );
-  //TODO:prevStepDataRef ??
-  const prevStepDataRef = useRef<WalkThroughStep>();
-  const prevStepDataCandidateRef = useRef<WalkThroughStep>();
-
-  const user = useSelector(userSelector);
-
-  useEffect(() => {
-    if (!stepDataCandidate) {
-      return;
-    }
-    const prevStepDataCandidate = prevStepDataCandidateRef.current;
-    const walkThroughElement =
-      user?.clientData?.walkTroughProgress?.[walkThroughType];
-    if (walkThroughElement) {
-      if (stepDataCandidate.version > walkThroughElement.version) {
-        if (
-          prevStepDataCandidate &&
-          prevStepDataCandidate !== prevStepDataRef.current
-        ) {
-          prevStepDataRef.current = prevStepDataCandidate;
-        }
-        stepDataCandidate.before?.();
-        setVisibleStep(stepDataCandidate);
-      } else {
-        setStepIndex((s: number) => s + 1);
-      }
-    } else {
-      setVisibleStep(stepDataCandidate);
-    }
-    prevStepDataCandidateRef.current = stepDataCandidate;
-  }, [
-    user?.clientData?.walkTroughProgress,
-    walkThroughType,
-    stepDataCandidate,
-    prevStepDataCandidateRef,
-  ]);
+  const {step, total, index} = route.params;
+  const isLastStep = index === total - 1;
+  const dispatch = useDispatch();
 
   const [elementHeight, setElementHeight] = useState(0);
   const [isElementHeightSet, setIsElementHeightSet] = useState(false);
@@ -115,8 +60,9 @@ export function WalkThrough({route}: WalkThroughProps) {
       cancelAnimation(circleOpacity);
     };
   }, [circleOpacity, elementOpacity]);
+
   useEffect(() => {
-    if (isElementHeightSet && visibleStep) {
+    if (isElementHeightSet && step) {
       cancelAnimation(elementOpacity);
       cancelAnimation(circleOpacity);
       elementOpacity.value = withDelay(
@@ -128,15 +74,8 @@ export function WalkThrough({route}: WalkThroughProps) {
           );
         }),
       );
-      prevStepDataRef.current = visibleStep;
     }
-  }, [
-    circleOpacity,
-    isElementHeightSet,
-    elementOpacity,
-    prevStepDataRef,
-    visibleStep,
-  ]);
+  }, [circleOpacity, isElementHeightSet, elementOpacity, step]);
 
   const onNext = useCallback(() => {
     cancelAnimation(elementOpacity);
@@ -147,28 +86,32 @@ export function WalkThrough({route}: WalkThroughProps) {
         withTiming(0, ANIMATION_CONFIG),
       );
     });
+    //TODO::use callback instead of timer
     const handler = setTimeout(() => {
-      stepDataCandidate.after?.();
-      setStepIndex(s => s + 1);
+      step?.after?.();
+      dispatch(
+        WalkThroughActions.COMPLETE_WALK_THROUGH_STEP.STATE.create({
+          stepKey: step.key,
+        }),
+      );
     }, ANIMATION_CONFIG.duration * 2 + ANIMATION_DELAY);
     return () => clearTimeout(handler);
-  }, [elementOpacity, stepDataCandidate, circleOpacity]);
+  }, [elementOpacity, circleOpacity, step, dispatch]);
 
-  const onFinalise = useOnFinalize({walkThroughType});
+  // const onFinalise = useOnFinalize({walkThroughType});
 
-  const isLastStep = stepIndex === numberOfSteps;
   const circlePosition = useCirclePosition({
     elementHeight,
-    elementData: visibleStep?.elementData,
+    elementData: step?.elementData,
   });
 
-  const {parsedDescription} = useParseDescription({visibleStep});
+  const {parsedDescription} = useParseDescription({step});
 
-  if (!visibleStep?.elementData) {
+  if (!step?.elementData) {
     return null;
   }
 
-  const {renderStepHighlight, icon} = visibleStep.elementData;
+  const {renderStepHighlight, icon} = step.elementData;
 
   return (
     <View style={styles.background}>
@@ -186,13 +129,13 @@ export function WalkThrough({route}: WalkThroughProps) {
           <View style={styles.row}>
             <View style={styles.titleContainer}>
               {icon ? <View style={styles.iconContainer}>{icon}</View> : null}
-              <Text style={styles.title}>{visibleStep.title}</Text>
+              <Text style={styles.title}>{step.title}</Text>
             </View>
             <View style={styles.progressBar}>
               <View
                 style={[
                   styles.progressIndicator,
-                  {width: `${(stepIndex / numberOfSteps) * 100}%`},
+                  {width: `${(index / total) * 100}%`},
                 ]}
               />
             </View>
@@ -200,18 +143,18 @@ export function WalkThrough({route}: WalkThroughProps) {
           <Text style={styles.description}>{parsedDescription}</Text>
         </View>
         <View style={styles.row}>
-          <Pressable onPress={() => onFinalise(true)} hitSlop={12}>
+          <Touchable onPress={() => false} hitSlop={MIDDLE_BUTTON_HIT_SLOP}>
             <Text style={styles.skipAll}>{t('button.skip_all')}</Text>
-          </Pressable>
-          <Pressable
+          </Touchable>
+          <Touchable
             style={styles.nextContainer}
-            hitSlop={12}
-            onPress={isLastStep ? () => onFinalise(false) : onNext}>
+            hitSlop={MIDDLE_BUTTON_HIT_SLOP}
+            onPress={onNext}>
             <Text style={styles.next}>
               {isLastStep ? t('button.done') : t('button.next_step')}
             </Text>
             <NextArrowSvg style={styles.nextIconStyle} />
-          </Pressable>
+          </Touchable>
         </View>
       </Animated.View>
       <Animated.View

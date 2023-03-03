@@ -25,6 +25,7 @@ import {rootReferralsSaga} from './modules/Referrals/sagas';
 import {rootTokenomicsSaga} from './modules/Tokenomics/sagas';
 import {rootUsersSaga} from './modules/Users/sagas';
 import {rootValidationSaga} from './modules/Validation/sagas';
+import {rootWalkthroughSaga} from './modules/WalkThrough/sagas';
 
 export function* rootSaga(): SagaIterator {
   const sagas = [
@@ -45,6 +46,7 @@ export function* rootSaga(): SagaIterator {
     rootUsersSaga,
     rootTokenomicsSaga,
     rootRateAppSaga,
+    rootWalkthroughSaga,
   ];
   const spawnedSagas = yield all([
     ...sagas.map(saga =>

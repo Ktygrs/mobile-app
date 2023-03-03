@@ -1,26 +1,26 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {WalkThroughType} from '@api/user/types';
 import {
   WalkThroughElementData,
-  WalkThroughSteps,
+  WalkthroughStepKey,
 } from '@store/modules/WalkThrough/types';
 import {createAction} from '@store/utils/actions/createAction';
 
 const SET_WALK_THROUGH_STEP_ELEMENT_DATA = createAction(
   'SET_WALK_THROUGH_STEP_ELEMENT_DATA',
   {
-    STATE: <
-      T extends WalkThroughType,
-      S extends keyof WalkThroughSteps[T],
-    >(payload: {
-      walkThroughType: T;
-      step: S;
+    STATE: (payload: {
+      stepKey: WalkthroughStepKey;
       elementData: WalkThroughElementData;
     }) => payload,
   },
 );
 
+const COMPLETE_WALK_THROUGH_STEP = createAction('COMPLETE_WALK_THROUGH_STEP', {
+  STATE: (payload: {stepKey: WalkthroughStepKey}) => payload,
+});
+
 export const WalkThroughActions = Object.freeze({
   SET_WALK_THROUGH_STEP_ELEMENT_DATA,
+  COMPLETE_WALK_THROUGH_STEP,
 });

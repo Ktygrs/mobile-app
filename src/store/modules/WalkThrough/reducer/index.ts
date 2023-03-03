@@ -2,10 +2,7 @@
 
 import {WalkThroughActions} from '@store/modules/WalkThrough/actions';
 import {WALK_THROUGH_STEPS} from '@store/modules/WalkThrough/steps';
-import {
-  WalkThroughStep,
-  WalkThroughSteps,
-} from '@store/modules/WalkThrough/types';
+import {WalkThroughSteps} from '@store/modules/WalkThrough/types';
 import produce from 'immer';
 
 export interface WalkThroughState {
@@ -24,9 +21,11 @@ function reducer(state = INITIAL_STATE, action: Actions): WalkThroughState {
   return produce(state, draft => {
     switch (action.type) {
       case WalkThroughActions.SET_WALK_THROUGH_STEP_ELEMENT_DATA.STATE.type: {
-        const {elementData, walkThroughType, step} = action.payload;
-        (draft.steps[walkThroughType][step] as WalkThroughStep).elementData =
-          elementData;
+        const {elementData, stepKey} = action.payload;
+        const step = draft.steps.find(s => s.key === stepKey);
+        if (step) {
+          step.elementData = elementData;
+        }
         break;
       }
     }
