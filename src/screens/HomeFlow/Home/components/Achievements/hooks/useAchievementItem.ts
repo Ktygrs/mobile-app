@@ -2,7 +2,6 @@
 
 import {Achievement, AchievementType} from '@api/achievements/types';
 import {COLORS} from '@constants/colors';
-import {Images} from '@images';
 import {MainStackParamList, MainTabsParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -14,7 +13,6 @@ import {openLinkWithInAppBrowser} from '@utils/device';
 import {useCallback} from 'react';
 import {Linking} from 'react-native';
 import {useDispatch} from 'react-redux';
-import {rem} from 'rn-units';
 
 const titles: {[key in AchievementType]: string} = {
   claim_username: t('home.steps.step_one.title'),
@@ -46,6 +44,7 @@ const iconBackgrounds: {[key in AchievementType]: string} = {
 export function useAchievementItem(achievement: Achievement) {
   const navigation =
     useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+
   const tabsNavigation =
     useNavigation<NativeStackNavigationProp<MainTabsParamList>>();
 
@@ -78,25 +77,7 @@ export function useAchievementItem(achievement: Achievement) {
           .catch(logError);
         break;
       case 'join_telegram':
-        navigation.navigate('PopUp', {
-          imageProps: {
-            source: Images.popUp.telegram,
-            style: {width: rem(54), height: rem(54)},
-          },
-          textInputPlaceholder: t('home.achievements.popup.placeholder'),
-          title: t('home.achievements.popup.title'),
-          message: t('home.achievements.popup.description'),
-          buttons: [
-            {
-              text: t('button.cancel'),
-              preset: 'outlined',
-            },
-            {
-              text: t('button.confirm'),
-              onPress: () => {},
-            },
-          ],
-        });
+        navigation.navigate('JoinTelegramPopUp', {});
         break;
       case 'invite_friends':
         break;

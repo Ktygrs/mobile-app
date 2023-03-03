@@ -34,7 +34,7 @@ export function useAchievements() {
       /** Timeout so user can see the change active achievement animation */
       setTimeout(() => {
         setCurrentAchievements(achievements);
-      }, 500);
+      }, 1000);
     }
   });
 
