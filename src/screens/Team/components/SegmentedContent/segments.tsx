@@ -25,68 +25,89 @@ const styles = StyleSheet.create({
   tierTwoIcon: {marginLeft: rem(-4)},
 });
 
-export const SEGMENTS = [
+export type SegmentData = {
+  renderIcon: (active: boolean) => React.ReactNode;
+  renderText: (active: boolean) => React.ReactNode;
+  key: string;
+};
+
+export const SEGMENTS: Readonly<SegmentData[]> = [
   {
-    renderText: (active: boolean) => (
-      <View style={styles.row}>
-        <View style={styles.contactsIcon}>
-          <ContactsIcon
-            width={rem(20)}
-            height={rem(20)}
-            color={active ? COLORS.white : COLORS.secondary}
-          />
-        </View>
-        <Text
-          style={[
-            styles.text,
-            {color: active ? COLORS.white : COLORS.secondary},
-          ]}>
-          {t('team.contacts_tab')}
-        </Text>
+    renderIcon: (active: boolean) => (
+      <View style={styles.contactsIcon}>
+        <ContactsIcon
+          width={rem(20)}
+          height={rem(20)}
+          color={active ? COLORS.white : COLORS.secondary}
+        />
       </View>
     ),
+    renderText: function (active: boolean) {
+      return (
+        <View style={styles.row}>
+          {this.renderIcon(active)}
+          <Text
+            style={[
+              styles.text,
+              {color: active ? COLORS.white : COLORS.secondary},
+            ]}>
+            {t('team.contacts_tab')}
+          </Text>
+        </View>
+      );
+    },
     key: 'Contacts',
   },
   {
-    renderText: (active: boolean) => (
-      <View style={styles.row}>
-        <View style={styles.tierIcon}>
-          <TierOneIcon
-            width={rem(20)}
-            height={rem(20)}
-            fill={active ? COLORS.white : COLORS.secondary}
-          />
-        </View>
-        <Text
-          style={[
-            styles.text,
-            {color: active ? COLORS.white : COLORS.secondary},
-          ]}>
-          {t('users.referralType.T1')}
-        </Text>
+    renderIcon: (active: boolean) => (
+      <View style={styles.tierIcon}>
+        <TierOneIcon
+          width={rem(20)}
+          height={rem(20)}
+          fill={active ? COLORS.white : COLORS.secondary}
+        />
       </View>
     ),
+    renderText: function (active: boolean) {
+      return (
+        <View style={styles.row}>
+          {this.renderIcon(active)}
+          <Text
+            style={[
+              styles.text,
+              {color: active ? COLORS.white : COLORS.secondary},
+            ]}>
+            {t('users.referralType.T1')}
+          </Text>
+        </View>
+      );
+    },
     key: 'TierOne',
   },
   {
-    renderText: (active: boolean) => (
-      <View style={styles.row}>
-        <View style={styles.tierTwoIcon}>
-          <TierTwoIcon
-            width={rem(20)}
-            height={rem(20)}
-            fill={active ? COLORS.white : COLORS.secondary}
-          />
-        </View>
-        <Text
-          style={[
-            styles.text,
-            {color: active ? COLORS.white : COLORS.secondary},
-          ]}>
-          {t('users.referralType.T2')}
-        </Text>
+    renderIcon: (active: boolean) => (
+      <View style={styles.tierTwoIcon}>
+        <TierTwoIcon
+          width={rem(20)}
+          height={rem(20)}
+          fill={active ? COLORS.white : COLORS.secondary}
+        />
       </View>
     ),
+    renderText: function (active: boolean) {
+      return (
+        <View style={styles.row}>
+          {this.renderIcon(active)}
+          <Text
+            style={[
+              styles.text,
+              {color: active ? COLORS.white : COLORS.secondary},
+            ]}>
+            {t('users.referralType.T2')}
+          </Text>
+        </View>
+      );
+    },
     key: 'TierTwo',
   },
-] as const;
+];

@@ -41,9 +41,14 @@ export const store = configureStore({
     getDefaultMiddleware({
       // https://redux-toolkit.js.org/usage/usage-guide#working-with-non-serializable-data
       serializableCheck: {
-        ignoredActionPaths: ['payload.raceConditionStrategy'],
+        ignoredActionPaths: [
+          'payload.raceConditionStrategy',
+          'payload.walkThroughData',
+        ],
         ignoredPaths: [
           'utilityProcessStatuses.UPDATE_ACCOUNT.payload.raceConditionStrategy',
+          'utilityProcessStatuses.SET_WALK_THROUGH_STEP.payload.walkThroughData',
+          'walkThrough.walkThroughMap',
         ],
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },

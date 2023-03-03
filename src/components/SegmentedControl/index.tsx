@@ -28,7 +28,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import {rem} from 'rn-units';
 
-const DEFAULT_MARGIN = rem(8);
+export const DEFAULT_CONTAINER_MARGIN = rem(8);
 export const SEGMENTED_CONTROL_HEIGHT = rem(52);
 
 type Segment = {
@@ -148,11 +148,11 @@ export const SegmentedControl = forwardRef<
   },
 );
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     borderRadius: rem(16),
     backgroundColor: COLORS.white,
-    paddingHorizontal: DEFAULT_MARGIN,
+    paddingHorizontal: DEFAULT_CONTAINER_MARGIN,
     height: SEGMENTED_CONTROL_HEIGHT,
   },
   body: {
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
   },
   indicator: {
     borderRadius: rem(12),
-    marginVertical: DEFAULT_MARGIN,
+    marginVertical: DEFAULT_CONTAINER_MARGIN,
     position: 'absolute',
     top: 0,
     bottom: 0,

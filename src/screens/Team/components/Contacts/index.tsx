@@ -16,11 +16,13 @@ import {useSelector} from 'react-redux';
 
 type ContactsProps = {
   focused: boolean;
+  offset: number;
   addCollapsedSnapPointListener: (key: string, listener: () => void) => void;
 };
 
 export const Contacts = ({
   focused,
+  offset,
   addCollapsedSnapPointListener,
 }: ContactsProps) => {
   const hasContactsPermissions = useSelector(
@@ -62,7 +64,9 @@ export const Contacts = ({
   return (
     <BottomSheetScrollView>
       <Animated.View style={[styles.container, fadeStyle]}>
-        {visibleScreen === 'ContactsPermissions' && <ContactsPermissions />}
+        {visibleScreen === 'ContactsPermissions' && (
+          <ContactsPermissions offset={offset} />
+        )}
         {visibleScreen === 'ModifyPhoneNumber' && (
           <VerticalOffset>
             <ModifyPhoneNumber />

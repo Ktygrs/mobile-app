@@ -63,10 +63,10 @@ export type HiddenProfileElement =
   | 'role'
   | 'badges';
 
-export type WalkthroughType = 'Home' | 'Team' | 'News';
+export type WalkThroughType = 'home' | 'team' | 'news';
 
-export type WalkthroughElement = {
-  type: WalkthroughType;
+export type WalkThroughElement = {
+  type: WalkThroughType;
   // To be future-proof. If we modify some screens we want to show that walkthrough again.
   // It should be a constant in the code, that we update when/if we change that specific UI.
   version: number;
@@ -82,6 +82,6 @@ export type RegistrationProcessFinalizedStep =
 
 export type ClientData = {
   registrationProcessFinalizedSteps?: RegistrationProcessFinalizedStep[];
-  walkthroughProgress?: WalkthroughElement[];
+  walkTroughProgress?: {[key: string]: WalkThroughElement};
   miningStateTooltipSeen?: string[];
 };
