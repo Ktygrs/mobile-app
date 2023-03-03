@@ -9,15 +9,22 @@ import {showError} from '@utils/errors';
 import {checkProp} from '@utils/guards';
 import {call, put} from 'redux-saga/effects';
 
-export function* signOutSaga() {
+export function* signOutSaga(
+  signOutAction: ReturnType<typeof AccountActions.SIGN_OUT.START.create>,
+) {
   try {
-    yield call(
-      updateDeviceMetadataSaga,
-      DeviceActions.UPDATE_DEVICE_METADATA.START.create({
-        forceUpdate: true,
-        clearDeviceMetadata: true,
-      }),
-    );
+    const accountDeleted = signOutAction.payload.accountDeleted;
+
+    if (!accountDeleted) {
+      yield call(
+        updateDeviceMetadataSaga,
+        DeviceActions.UPDATE_DEVICE_METADATA.START.create({
+          forceUpdate: true,
+          clearDeviceMetadata: true,
+        }),
+      );
+    }
+
     yield call(signOut);
     yield call(stopTrackingCurrentUser);
     yield put(AccountActions.SIGN_OUT.SUCCESS.create());

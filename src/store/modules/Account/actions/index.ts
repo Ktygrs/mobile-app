@@ -20,7 +20,7 @@ const USER_STATE_CHANGE = createAction('USER_STATE_CHANGE', {
 });
 
 const SIGN_OUT = createAction('SIGN_OUT', {
-  START: true,
+  START: (accountDeleted?: boolean) => ({accountDeleted}),
   SUCCESS: true,
   FAILED: true,
 });
