@@ -3,7 +3,6 @@
 import {CommonInput} from '@components/Inputs/CommonInput';
 import {PrimaryButton} from '@components/PrimaryButton';
 import {COLORS} from '@constants/colors';
-import {ENV} from '@constants/env';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {FinalizeRegistrationStep} from '@screens/Templates/FinalizeRegistrationStep';
 import {BigHeader} from '@screens/Templates/FinalizeRegistrationStep/components/BigHeader';
@@ -59,13 +58,9 @@ export const WhoInvitedYou = () => {
       info={
         <Info
           text={
-            !ENV.REQUIRE_REFERRAL_REGISTRATION_STEP && (
-              <>
-                <Text style={styles.infoText}>
-                  {t('whoInvitedYou.dontHaveInvitationCode', {value: 25})}
-                </Text>
-              </>
-            )
+            <Text style={styles.infoText}>
+              {t('whoInvitedYou.dontHaveInvitationCode', {value: 25})}
+            </Text>
           }
           textStyle={styles.infoTextContainer}
           tooltip={t('whoInvitedYou.dontHaveCodeTip')}
