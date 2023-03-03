@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import {RootState} from '@store/rootReducer';
 import {Action} from 'redux';
 import {
   ActionPattern,
@@ -8,6 +9,8 @@ import {
   cancel,
   fork,
   HelperWorkerParameters,
+  SagaReturnType,
+  select,
   take,
 } from 'redux-saga/effects';
 
@@ -66,4 +69,12 @@ export function takeLeadingEveryUnique<
       }
     }
   });
+}
+
+export function* waitForSelector(selector: (state: RootState) => boolean) {
+  while (
+    ((yield select(selector)) as SagaReturnType<typeof selector>) === false
+  ) {
+    yield take('*');
+  }
 }
