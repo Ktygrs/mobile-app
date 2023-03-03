@@ -3,67 +3,69 @@
 import {
   SEGMENTED_CONTROL_HEIGHT,
   SegmentedControl,
-  SegmentedControlMethods,
 } from '@components/SegmentedControl';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {TeamTabStackParamList} from '@navigation/Main';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {Contacts} from '@screens/Team/components/Contacts';
+import {useContactsListWalkthrough} from '@screens/Team/components/SegmentedContent/hooks/useContactsListWalkthrough';
 import {useSegmentedControlWalkthrough} from '@screens/Team/components/SegmentedContent/hooks/useSegmentedControlWalkthrough';
+import {
+  SegmentIndex,
+  useSegmentedMethods,
+} from '@screens/Team/components/SegmentedContent/hooks/useSegmentedMethods';
 import {TierList} from '@screens/Team/components/TierList';
 import {Listener} from '@screens/Team/types';
 import {t} from '@translations/i18n';
-import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
+import React, {memo, useEffect, useRef} from 'react';
 import {StyleSheet, View} from 'react-native';
-import PagerView, {PagerViewOnPageSelectedEvent} from 'react-native-pager-view';
+import PagerView from 'react-native-pager-view';
 import {rem} from 'rn-units';
 
 import {SEGMENTS} from './segments';
-
-enum SegmentIndex {
-  ContactList,
-  Tier1List,
-  Tier2List,
-}
 
 type Props = {
   addCollapsedSnapPointListener: (key: string, listener: Listener) => void;
 };
 
-const SEGMENTED_CONTROL_PADDING_TOP = rem(20);
-const CONTAINER_PADDING_TOP =
+export const SEGMENTED_CONTROL_PADDING_TOP = rem(20);
+export const CONTAINER_PADDING_TOP =
   SEGMENTED_CONTROL_HEIGHT + SEGMENTED_CONTROL_PADDING_TOP;
 
 export const SegmentedContent = memo(
   ({addCollapsedSnapPointListener}: Props) => {
     const route = useRoute<RouteProp<TeamTabStackParamList, 'Team'>>();
     const initialIndex = useRef(route.params?.segmentIndex);
-    const [activeIndex, setActiveIndex] = useState<SegmentIndex>(0);
-    const switcherRef = useRef<SegmentedControlMethods>(null);
-    const pagerRef = useRef<PagerView>(null);
 
-    const onCategoryChange = useCallback((index: number) => {
-      pagerRef.current?.setPage(index);
-    }, []);
+    const {
+      activeIndex,
+      setSegmentIndex,
+      onPageChange,
+      onSegmentedControlChange,
+      switcherRef,
+      pagerRef,
+    } = useSegmentedMethods();
 
-    const onPageChange = (event: PagerViewOnPageSelectedEvent) => {
-      setActiveIndex(event.nativeEvent.position);
-      switcherRef.current?.changeSegment(event.nativeEvent.position);
-    };
+    const {
+      elementRef: segmentedControlRef,
+      onElementLayout: onSegmentedControlLayout,
+    } = useSegmentedControlWalkthrough();
 
-    const {elementRef, onElementLayout} = useSegmentedControlWalkthrough();
+    const {elementRef: contactsListRef, onElementLayout: onContactsListLayout} =
+      useContactsListWalkthrough();
 
     useEffect(() => {
       const routeSegmentIndex = route.params?.segmentIndex;
       if (routeSegmentIndex && initialIndex.current !== routeSegmentIndex) {
-        pagerRef.current?.setPage(routeSegmentIndex);
-        switcherRef.current?.changeSegment(routeSegmentIndex);
-        setActiveIndex(routeSegmentIndex);
+        setSegmentIndex(routeSegmentIndex);
       }
-    }, [route.params?.segmentIndex]);
+    }, [route.params?.segmentIndex, setSegmentIndex]);
 
     return (
-      <View style={styles.container}>
+      <View
+        style={styles.container}
+        ref={contactsListRef}
+        onLayout={onContactsListLayout}>
         <PagerView
           initialPage={initialIndex.current}
           style={styles.flex}
@@ -92,11 +94,14 @@ export const SegmentedContent = memo(
             />
           </View>
         </PagerView>
-        <View ref={elementRef} onLayout={onElementLayout} style={styles.tabbar}>
+        <View
+          ref={segmentedControlRef}
+          onLayout={onSegmentedControlLayout}
+          style={styles.tabbar}>
           <SegmentedControl
             segments={SEGMENTS}
             ref={switcherRef}
-            onChange={onCategoryChange}
+            onChange={onSegmentedControlChange}
             initialIndex={initialIndex.current}
           />
         </View>

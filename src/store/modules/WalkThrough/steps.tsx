@@ -33,7 +33,7 @@ export const WALK_THROUGH_STEPS: WalkThroughStepStaticData[] = [
   },
   {
     key: 'contactsList',
-    version: 120,
+    version: 122,
     Icon: (
       <PingIcon fill={COLORS.primaryDark} height={rem(16)} width={rem(16)} />
     ),
