@@ -675,7 +675,7 @@
       },
       "contacts_list": {
         "title": "List of contacts",
-        "description": "This is the list with all your contacts, those who already joined the        ice network being displayed on top of the list."
+        "description": "This is the list with all your contacts, those who already joined the [[:ice]] network being displayed on top of the list."
       },
       "referrals": {
         "title": "Referrals",

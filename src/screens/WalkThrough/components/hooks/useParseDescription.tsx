@@ -5,7 +5,6 @@ import {WalkThroughStep} from '@store/modules/WalkThrough/types';
 import {replaceString, tagRegex} from '@translations/i18n';
 import React, {useMemo} from 'react';
 import {Linking, StyleSheet, Text} from 'react-native';
-import {isIOS, rem} from 'rn-units';
 
 type Props = {
   step: WalkThroughStep | undefined;
@@ -20,9 +19,7 @@ export function useParseDescription({step}: Props) {
     let parsedDescription = replaceString(
       step.description,
       tagRegex('ice'),
-      (match, index) => (
-        <IceLabel key={match + index} iconOffsetY={isIOS ? rem(16) : rem(2)} />
-      ),
+      (match, index) => <IceLabel key={match + index} iconOffsetY={0} />,
     );
 
     if (step.link) {

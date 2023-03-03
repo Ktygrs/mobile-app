@@ -27,6 +27,7 @@ export type WalkThroughStepStaticData = {
   description: string;
   link?: string;
   Icon?: React.ReactNode;
+  circlePosition?: 'top' | 'bottom'; // otherwise automatically
   before?: () => void;
   after?: () => void;
 };
