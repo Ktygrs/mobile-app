@@ -55,7 +55,9 @@ export const StepCircle = ({
         ) : null}
         <Text style={styles.titleText}>{step.title}</Text>
       </View>
-      <Text style={styles.description}>{parsedDescription}</Text>
+      <Text style={styles.description} numberOfLines={4}>
+        {parsedDescription}
+      </Text>
       <View style={styles.controls}>
         <Touchable onPress={() => false} hitSlop={MIDDLE_BUTTON_HIT_SLOP}>
           <Text style={styles.skipAll}>{t('button.skip_all')}</Text>
@@ -91,7 +93,7 @@ const styles = StyleSheet.create({
     top: 0,
   },
   controls: {
-    marginTop: rem(50),
+    marginTop: rem(30),
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -108,6 +110,7 @@ const styles = StyleSheet.create({
   },
   description: {
     marginTop: rem(16),
+    height: rem(100),
     ...font(14, 24, 'medium'),
   },
   skipAll: {

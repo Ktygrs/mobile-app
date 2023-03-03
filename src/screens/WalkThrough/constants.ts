@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {smallHeightDevice} from '@constants/styles';
 import {screenWidth} from 'rn-units/index';
 
-export const CIRCLE_DIAMETER = screenWidth * 1.1;
+export const CIRCLE_DIAMETER = screenWidth * (smallHeightDevice ? 1 : 1.1);
 
 export const MAX_CIRCLE_OFFSCREEN = CIRCLE_DIAMETER * 0.2;
 

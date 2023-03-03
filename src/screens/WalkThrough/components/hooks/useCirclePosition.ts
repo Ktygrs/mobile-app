@@ -42,9 +42,9 @@ export function useCirclePosition({
       } else {
         if (CIRCLE_DIAMETER < belowSpace) {
           return {
-            bottom:
-              belowSpace -
-              CIRCLE_DIAMETER -
+            top:
+              elementTop +
+              elementHeight +
               Math.min(rem(10), belowSpace - CIRCLE_DIAMETER),
           };
         } else {
