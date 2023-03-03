@@ -9,6 +9,7 @@ import {useCallback} from 'react';
 import {useDispatch} from 'react-redux';
 
 export function useSetWalkthroughElementData() {
+  //TODO:check if we actually need to dispatch it (check version)
   const dispatch = useDispatch();
   const setWalkthroughElementData = useCallback(
     ({

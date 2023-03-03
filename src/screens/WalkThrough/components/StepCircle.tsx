@@ -21,6 +21,7 @@ type Props = {
   stepIndex: number;
   elementHeight: number | undefined;
   onNext: () => void;
+  onSkip: () => void;
   animatedStyle?: AnimatedStyleProp<ViewStyle>;
 };
 
@@ -30,6 +31,7 @@ export const StepCircle = ({
   stepIndex,
   elementHeight,
   onNext,
+  onSkip,
   animatedStyle,
 }: Props) => {
   const isLastStep = stepIndex === totalSteps - 1;
@@ -59,7 +61,7 @@ export const StepCircle = ({
         {parsedDescription}
       </Text>
       <View style={styles.controls}>
-        <Touchable onPress={() => false} hitSlop={MIDDLE_BUTTON_HIT_SLOP}>
+        <Touchable onPress={onSkip} hitSlop={MIDDLE_BUTTON_HIT_SLOP}>
           <Text style={styles.skipAll}>{t('button.skip_all')}</Text>
         </Touchable>
         <Touchable

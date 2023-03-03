@@ -2,11 +2,11 @@
 
 import {COLORS} from '@constants/colors';
 import {MainStackParamList} from '@navigation/Main';
-import {RouteProp, useNavigation} from '@react-navigation/native';
+import {RouteProp} from '@react-navigation/native';
 import {StepCircle} from '@screens/WalkThrough/components/StepCircle';
 import {useAnimatedStyles} from '@screens/WalkThrough/hooks/useAnimatedStyles';
 import {WalkThroughActions} from '@store/modules/WalkThrough/actions';
-import React, {useCallback, useState} from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import Animated from 'react-native-reanimated';
 import {useDispatch} from 'react-redux';
@@ -19,26 +19,29 @@ interface WalkThroughProps {
 
 export function WalkThrough({route}: WalkThroughProps) {
   const {step, total, index} = route.params;
-  const isLastStep = index === total - 1;
 
   const dispatch = useDispatch();
-  const navigation = useNavigation();
 
   const [elementHeight, setElementHeight] = useState<number>();
 
-  const closeAnimationCallback = useCallback(() => {
-    dispatch(
-      WalkThroughActions.COMPLETE_WALK_THROUGH_STEP.STATE.create({
-        stepKey: step.key,
-      }),
-    );
-    if (isLastStep) {
-      navigation.goBack();
-    }
-  }, [dispatch, isLastStep, navigation, step]);
-
   const {elementAnimatedStyle, circleAnimatedStyle, runCloseAnimation} =
-    useAnimatedStyles({step, elementHeight, closeAnimationCallback});
+    useAnimatedStyles({step, elementHeight});
+
+  const onNext = () => {
+    runCloseAnimation(() => {
+      dispatch(
+        WalkThroughActions.COMPLETE_WALK_THROUGH_STEP.STATE.create({
+          stepKey: step.key,
+        }),
+      );
+    });
+  };
+
+  const onSkip = () => {
+    runCloseAnimation(() => {
+      dispatch(WalkThroughActions.SKIP_WALK_THROUGH.STATE.create());
+    });
+  };
 
   if (!step.elementData) {
     return null;
@@ -49,7 +52,8 @@ export function WalkThrough({route}: WalkThroughProps) {
       <StepCircle
         elementHeight={elementHeight}
         step={step}
-        onNext={runCloseAnimation}
+        onNext={onNext}
+        onSkip={onSkip}
         animatedStyle={circleAnimatedStyle}
         totalSteps={total}
         stepIndex={index}

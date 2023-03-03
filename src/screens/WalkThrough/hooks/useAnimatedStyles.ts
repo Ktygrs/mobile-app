@@ -18,11 +18,9 @@ import {
 export const useAnimatedStyles = ({
   step,
   elementHeight,
-  closeAnimationCallback,
 }: {
   step: WalkThroughStep;
   elementHeight: number | undefined;
-  closeAnimationCallback: () => void;
 }) => {
   const elementOpacity = useSharedValue(0);
   const circleOpacity = useSharedValue(0);
@@ -57,18 +55,21 @@ export const useAnimatedStyles = ({
     }
   }, [circleOpacity, elementHeight, elementOpacity, step]);
 
-  const runCloseAnimation = useCallback(() => {
-    cancelAnimation(elementOpacity);
-    cancelAnimation(circleOpacity);
-    circleOpacity.value = withTiming(0, ANIMATION_CONFIG, () => {
-      elementOpacity.value = withDelay(
-        ANIMATION_DELAY,
-        withTiming(0, ANIMATION_CONFIG, () => {
-          runOnJS(closeAnimationCallback)();
-        }),
-      );
-    });
-  }, [elementOpacity, circleOpacity, closeAnimationCallback]);
+  const runCloseAnimation = useCallback(
+    (cb: () => void) => {
+      cancelAnimation(elementOpacity);
+      cancelAnimation(circleOpacity);
+      circleOpacity.value = withTiming(0, ANIMATION_CONFIG, () => {
+        elementOpacity.value = withDelay(
+          ANIMATION_DELAY,
+          withTiming(0, ANIMATION_CONFIG, () => {
+            runOnJS(cb)();
+          }),
+        );
+      });
+    },
+    [elementOpacity, circleOpacity],
+  );
 
   return {elementAnimatedStyle, circleAnimatedStyle, runCloseAnimation};
 };

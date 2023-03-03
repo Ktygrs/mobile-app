@@ -68,7 +68,6 @@ export type WalkThroughStepProgress = {
   // To be future-proof. If we modify some screens we want to show that walkthrough again.
   // It should be a constant in the code, that we update when/if we change that specific UI.
   version: number;
-  finalized: boolean;
 };
 
 export type RegistrationProcessFinalizedStep =

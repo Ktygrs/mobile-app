@@ -26,6 +26,11 @@ export const navigate = async (...params: NavigationParams) => {
   return navigationRef.navigate(...params);
 };
 
+export const goBack = async () => {
+  await navigationReady;
+  return navigationRef.goBack();
+};
+
 export const resetRoot = async (
   state?: PartialState<NavigationState> | NavigationState,
 ) => {
