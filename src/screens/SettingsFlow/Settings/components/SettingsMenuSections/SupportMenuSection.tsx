@@ -57,7 +57,7 @@ export const SupportMenuSection = () => {
         title={t('settings.delete_title')}
         description={t('settings.delete_description')}
         renderIcon={EraseIcon}
-        onPress={() => dispatch(AccountActions.DELETE_ACCOUNT.START)}
+        onPress={() => dispatch(AccountActions.DELETE_ACCOUNT.START.create())}
         confirmation={{
           title: t('settings.delete_confirmation_title'),
           yesText: t('settings.delete_confirmation_yes'),

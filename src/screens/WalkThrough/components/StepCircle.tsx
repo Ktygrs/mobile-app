@@ -101,10 +101,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   iconContainer: {
-    marginRight: rem(20),
+    marginRight: rem(12),
   },
   titleText: {
-    ...font(20, 27, 'bold'),
+    ...font(20, 24, 'bold'),
   },
   description: {
     marginTop: rem(16),

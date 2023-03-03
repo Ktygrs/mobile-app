@@ -55,7 +55,7 @@ export const CountryListItem = memo(
         {userCount ? (
           <View style={styles.users}>
             <TierTwoIcon
-              fill={COLORS.secondary}
+              color={COLORS.secondary}
               width={rem(22)}
               height={rem(22)}
             />

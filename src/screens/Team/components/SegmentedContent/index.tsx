@@ -8,7 +8,6 @@ import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {TeamTabStackParamList} from '@navigation/Main';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {Contacts} from '@screens/Team/components/Contacts';
-import {useContactsListWalkthrough} from '@screens/Team/components/SegmentedContent/hooks/useContactsListWalkthrough';
 import {useSegmentedControlWalkthrough} from '@screens/Team/components/SegmentedContent/hooks/useSegmentedControlWalkthrough';
 import {
   SegmentIndex,
@@ -51,9 +50,6 @@ export const SegmentedContent = memo(
       onElementLayout: onSegmentedControlLayout,
     } = useSegmentedControlWalkthrough();
 
-    const {elementRef: contactsListRef, onElementLayout: onContactsListLayout} =
-      useContactsListWalkthrough();
-
     useEffect(() => {
       const routeSegmentIndex = route.params?.segmentIndex;
       if (routeSegmentIndex && initialIndex.current !== routeSegmentIndex) {
@@ -62,10 +58,7 @@ export const SegmentedContent = memo(
     }, [route.params?.segmentIndex, setSegmentIndex]);
 
     return (
-      <View
-        style={styles.container}
-        ref={contactsListRef}
-        onLayout={onContactsListLayout}>
+      <View style={styles.container}>
         <PagerView
           initialPage={initialIndex.current}
           style={styles.flex}

@@ -4,9 +4,11 @@ import {COLORS} from '@constants/colors';
 import {navigate} from '@navigation/utils';
 import {WalkThroughStepStaticData} from '@store/modules/WalkThrough/types';
 import {AddressBookIcon} from '@svg/AddressBookIcon';
+import {CheckMarkFramedIcon} from '@svg/CheckMarkFramedIcon';
 import {ContactsIcon} from '@svg/ContactsIcon';
 import {PingIcon} from '@svg/PingIcon';
-import {TeamInactiveIcon} from '@svg/TeamInactiveIcon';
+import {SonarIcon} from '@svg/SonarIcon';
+import {TeamIcon} from '@svg/TeamIcon';
 import {TierOneIcon} from '@svg/TierOneIcon';
 import {TierTwoIcon} from '@svg/TierTwoIcon';
 import {WalletIcon} from '@svg/WalletIcon';
@@ -16,27 +18,61 @@ import {rem} from 'rn-units';
 
 export const WALK_THROUGH_STEPS: WalkThroughStepStaticData[] = [
   {
+    key: 'referrals',
+    version: 1,
+    Icon: <TeamIcon width={rem(26)} height={rem(26)} />,
+    title: t('walkthrough.team.referrals.title'),
+    description: t('walkthrough.team.referrals.description'),
+    link: 'https://ice.io/#invite',
+  },
+  {
+    key: 'earnings',
+    version: 1,
+    Icon: <WalletIcon width={rem(24)} height={rem(24)} />,
+    title: t('walkthrough.team.earnings.title'),
+    description: t('walkthrough.team.earnings.description'),
+  },
+  {
+    key: 'contacts',
+    version: 1,
+    Icon: <ContactsIcon width={rem(24)} height={rem(24)} />,
+    title: t('walkthrough.team.contacts.title'),
+    description: t('walkthrough.team.contacts.description'),
+  },
+  {
+    key: 'tierone',
+    version: 1,
+    Icon: <TierOneIcon width={rem(32)} height={rem(32)} />,
+    title: t('walkthrough.team.tier_one.title'),
+    description: t('walkthrough.team.tier_one.description'),
+    link: 'https://ice.io/#invite',
+  },
+  {
+    key: 'tiertwo',
+    version: 1,
+    Icon: <TierTwoIcon width={rem(32)} height={rem(32)} />,
+    title: t('walkthrough.team.tier_two.title'),
+    description: t('walkthrough.team.tier_two.description'),
+    link: 'https://ice.io/#invite',
+  },
+  {
     key: 'allowContacts',
-    version: 125,
-    Icon: <AddressBookIcon color={COLORS.primaryLight} />,
+    version: 1,
+    Icon: <AddressBookIcon />,
     title: t('walkthrough.team.allow_contacts.title'),
     description: t('walkthrough.team.allow_contacts.description'),
   },
   {
     key: 'confirmPhone',
-    version: 125,
-    Icon: (
-      <PingIcon fill={COLORS.primaryDark} height={rem(16)} width={rem(16)} />
-    ),
+    version: 1,
+    Icon: <CheckMarkFramedIcon />,
     title: t('walkthrough.team.confirm_phone.title'),
     description: t('walkthrough.team.confirm_phone.description'),
   },
   {
     key: 'contactsList',
-    version: 125,
-    Icon: (
-      <PingIcon fill={COLORS.primaryDark} height={rem(16)} width={rem(16)} />
-    ),
+    version: 1,
+    Icon: <ContactsIcon height={rem(24)} width={rem(24)} />,
     title: t('walkthrough.team.contacts_list.title'),
     description: t('walkthrough.team.contacts_list.description'),
     circlePosition: 'bottom',
@@ -48,78 +84,23 @@ export const WALK_THROUGH_STEPS: WalkThroughStepStaticData[] = [
     },
   },
   {
-    key: 'referrals',
-    version: 125,
-    Icon: (
-      <TeamInactiveIcon
-        width={rem(32)}
-        height={rem(32)}
-        color={COLORS.primaryDark}
-      />
-    ),
-    title: t('walkthrough.team.referrals.title'),
-    description: t('walkthrough.team.referrals.description'),
-    link: 'https://ice.io/#invite',
-  },
-  {
-    key: 'earnings',
-    version: 125,
-    Icon: (
-      <WalletIcon width={rem(20)} height={rem(20)} color={COLORS.primaryDark} />
-    ),
-    title: t('walkthrough.team.earnings.title'),
-    description: t('walkthrough.team.earnings.description'),
-  },
-  {
-    key: 'contacts',
-    version: 125,
-    Icon: (
-      <ContactsIcon width={rem(20)} height={rem(20)} color={COLORS.secondary} />
-    ),
-    title: t('walkthrough.team.contacts.title'),
-    description: t('walkthrough.team.contacts.description'),
-  },
-  {
-    key: 'tierone',
-    version: 125,
-    Icon: (
-      <TierOneIcon width={rem(20)} height={rem(20)} fill={COLORS.secondary} />
-    ),
-    title: t('walkthrough.team.tier_one.title'),
-    description: t('walkthrough.team.tier_one.description'),
-    link: 'https://ice.io/#invite',
-  },
-  {
-    key: 'tiertwo',
-    version: 125,
-    Icon: (
-      <TierTwoIcon width={rem(20)} height={rem(20)} fill={COLORS.secondary} />
-    ),
-    title: t('walkthrough.team.tier_two.title'),
-    description: t('walkthrough.team.tier_two.description'),
-    link: 'https://ice.io/#invite',
-    after: () => {
-      navigate({name: 'Team', params: {segmentIndex: 1}});
-    },
-  },
-  {
     key: 'activeUsers',
-    version: 125,
+    version: 1,
+    Icon: <SonarIcon />,
     title: t('walkthrough.team.active_users.title'),
     description: t('walkthrough.team.active_users.description'),
   },
   {
     key: 'tierOneEarnings',
-    version: 125,
+    version: 1,
+    Icon: <TierOneIcon width={rem(32)} height={rem(32)} />,
     title: t('walkthrough.team.tier_one_earnings.title'),
     description: t('walkthrough.team.tier_one_earnings.description'),
   },
   {
     key: 'ping',
-    version: 125,
-    Icon: (
-      <PingIcon fill={COLORS.primaryDark} height={rem(16)} width={rem(16)} />
-    ),
+    version: 1,
+    Icon: <PingIcon color={COLORS.white} height={rem(21)} width={rem(18)} />,
     title: t('walkthrough.team.ping.title'),
     description: t('walkthrough.team.ping.description'),
   },

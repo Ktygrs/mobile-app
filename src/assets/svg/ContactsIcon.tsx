@@ -3,9 +3,15 @@
 import {COLORS} from '@constants/colors';
 import * as React from 'react';
 import Svg, {Line, Path, Rect, SvgProps} from 'react-native-svg';
+import {rem} from 'rn-units';
 
 export const ContactsIcon = ({color = COLORS.white, ...props}: SvgProps) => (
-  <Svg width="16" height="16" viewBox="0 0 16 16" fill="none" {...props}>
+  <Svg
+    width={rem(16)}
+    height={rem(16)}
+    viewBox="0 0 16 16"
+    fill="none"
+    {...props}>
     <Path
       d="M9.83341 6.66683C9.83341 7.67935 9.0126 8.50016 8.00008 8.50016C6.98756 8.50016 6.16675 7.67935 6.16675 6.66683C6.16675 5.65431 6.98756 4.8335 8.00008 4.8335C9.0126 4.8335 9.83341 5.65431 9.83341 6.66683Z"
       stroke={color}

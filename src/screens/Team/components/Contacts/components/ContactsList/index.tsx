@@ -6,6 +6,7 @@ import {BottomSheetSectionList} from '@gorhom/bottom-sheet';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
 import {useAddCollapsedSnapPointListener} from '@screens/Team/components/Contacts/components/ContactsList/hooks/useAddCollapsedSnapPointListener';
 import {useContactsListRenderItems} from '@screens/Team/components/Contacts/components/ContactsList/hooks/useContactsListRenderItems';
+import {useContactsListWalkthrough} from '@screens/Team/components/Contacts/components/ContactsList/hooks/useContactsListWalkthrough';
 import {
   ContactSection,
   ContactSectionDataItem,
@@ -44,9 +45,12 @@ export const ContactsList = ({
     hasSections: sections.length > 0,
   });
 
+  const {onElementLayout: onContactsListLayout} = useContactsListWalkthrough();
+
   return (
     <BottomSheetSectionList<ContactSectionDataItem, ContactSection>
       ref={bottomSheetRef}
+      onLayout={onContactsListLayout}
       contentContainerStyle={[
         tabbarOffset.current,
         styles.container,

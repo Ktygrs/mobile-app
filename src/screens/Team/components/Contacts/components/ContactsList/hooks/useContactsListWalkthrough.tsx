@@ -11,7 +11,7 @@ import {SEARCH_INPUT_TOP_OFFSET} from '@screens/Team/components/Header/component
 import {SEGMENTED_CONTROL_PADDING_TOP} from '@screens/Team/components/SegmentedContent';
 import {SEGMENTS} from '@screens/Team/components/SegmentedContent/segments';
 import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
-import {useEffect, useRef, useState} from 'react';
+import {useEffect, useState} from 'react';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -23,7 +23,6 @@ const OUTER_VERTICAL_PADDING = rem(16);
 export const useContactsListWalkthrough = () => {
   const {setWalkthroughElementData} = useSetWalkthroughElementData();
   const [elementReady, setElementReady] = useState(false);
-  const elementRef = useRef<View>(null);
 
   const {top: topInset} = useSafeAreaInsets();
 
@@ -56,7 +55,6 @@ export const useContactsListWalkthrough = () => {
   };
 
   return {
-    elementRef,
     onElementLayout,
   };
 };

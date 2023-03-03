@@ -15,7 +15,7 @@ export const BarLabel = ({value, color}: Props) => {
   return (
     <View style={styles.container}>
       <TierOneIcon
-        fill={color}
+        color={color}
         width={rem(18)}
         height={rem(18)}
         style={styles.icon}

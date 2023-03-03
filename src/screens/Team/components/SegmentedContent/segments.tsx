@@ -10,21 +10,6 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {rem} from 'rn-units';
 
-const styles = StyleSheet.create({
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  text: {
-    ...font(17, 20, 'semibold', 'secondary'),
-    marginLeft: rem(4),
-  },
-  contactsIcon: {marginLeft: rem(-1)},
-  tierIcon: {marginLeft: rem(-5)},
-  tierTwoIcon: {marginLeft: rem(-4)},
-});
-
 export type SegmentData = {
   renderText: (active: boolean) => React.ReactNode;
   key: 'Contacts' | 'TierOne' | 'TierTwo';
@@ -60,9 +45,9 @@ export const SEGMENTS: Readonly<SegmentData[]> = [
         <View style={styles.row}>
           <View style={styles.tierIcon}>
             <TierOneIcon
-              width={rem(20)}
-              height={rem(20)}
-              fill={active ? COLORS.white : COLORS.secondary}
+              width={rem(24)}
+              height={rem(24)}
+              color={active ? COLORS.white : COLORS.secondary}
             />
           </View>
           <Text
@@ -83,9 +68,9 @@ export const SEGMENTS: Readonly<SegmentData[]> = [
         <View style={styles.row}>
           <View style={styles.tierTwoIcon}>
             <TierTwoIcon
-              width={rem(20)}
-              height={rem(20)}
-              fill={active ? COLORS.white : COLORS.secondary}
+              width={rem(24)}
+              height={rem(24)}
+              color={active ? COLORS.white : COLORS.secondary}
             />
           </View>
           <Text
@@ -101,3 +86,18 @@ export const SEGMENTS: Readonly<SegmentData[]> = [
     key: 'TierTwo',
   },
 ];
+
+const styles = StyleSheet.create({
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text: {
+    ...font(17, 20, 'semibold', 'secondary'),
+    marginLeft: rem(4),
+  },
+  contactsIcon: {marginLeft: rem(-1)},
+  tierIcon: {marginRight: rem(-5)},
+  tierTwoIcon: {marginRight: rem(-4)},
+});

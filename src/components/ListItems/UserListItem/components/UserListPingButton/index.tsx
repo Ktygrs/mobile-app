@@ -46,7 +46,7 @@ export const UserListPingButton = ({userId}: Props) => {
     <UserListItemButton
       disabled={isDisabled}
       icon={
-        <PingIcon fill={isDisabled ? COLORS.cadetBlue : COLORS.primaryDark} />
+        <PingIcon color={isDisabled ? COLORS.cadetBlue : COLORS.primaryDark} />
       }
       text={t('users.ping')}
       onPress={onPress}
