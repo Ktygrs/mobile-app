@@ -2,10 +2,12 @@
 
 import {AccountActions} from '@store/modules/Account/actions';
 import {AchievementsActions} from '@store/modules/Achievements/actions';
+import {completeInviteFriendsAchievementSaga} from '@store/modules/Achievements/sagas/completeInviteFriendsAchievementSaga';
 import {completeNextAchievementSaga} from '@store/modules/Achievements/sagas/completeNextAchievementSaga';
 import {completeStartMiningAchievementSaga} from '@store/modules/Achievements/sagas/completeStartMiningAchievementSaga';
 import {completeUploadProfileAchievementSaga} from '@store/modules/Achievements/sagas/completeUploadProfileAchievementSaga';
 import {loadAchievementsSaga} from '@store/modules/Achievements/sagas/loadAchievementsSaga';
+import {ReferralsActions} from '@store/modules/Referrals/actions';
 import {TokenomicsActions} from '@store/modules/Tokenomics/actions';
 import {all, takeLeading} from 'redux-saga/effects';
 
@@ -32,6 +34,10 @@ export function* rootAchievementsSaga() {
     takeLeading(
       AccountActions.UPDATE_ACCOUNT.SUCCESS.type,
       completeUploadProfileAchievementSaga,
+    ),
+    takeLeading(
+      ReferralsActions.GET_REFERRALS({referralType: 'T1'})('T1').START.type,
+      completeInviteFriendsAchievementSaga,
     ),
   ]);
 }
