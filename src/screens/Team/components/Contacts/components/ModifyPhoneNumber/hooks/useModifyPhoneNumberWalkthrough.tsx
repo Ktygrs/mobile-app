@@ -31,8 +31,8 @@ export const useModifyPhoneNumberWalkthrough = () => {
       setWalkthroughElementData({
         stepKey: 'confirmPhone',
         elementData: {
-          topPositionOfHighlightedElement: top,
-          renderStepHighlight: () => (
+          top,
+          render: () => (
             <View style={styles.outerContainer}>
               <View style={[styles.innerContainer]} pointerEvents={'none'}>
                 <PhoneNumberInput

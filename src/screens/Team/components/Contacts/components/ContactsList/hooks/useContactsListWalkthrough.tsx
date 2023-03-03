@@ -32,8 +32,8 @@ export const useContactsListWalkthrough = () => {
       setWalkthroughElementData({
         stepKey: 'contactsList',
         elementData: {
-          topPositionOfHighlightedElement: top,
-          renderStepHighlight: () => (
+          top,
+          render: () => (
             <View style={styles.outerContainer}>
               <View style={[styles.innerContainer]} pointerEvents={'none'}>
                 <ContactsListDummy containerStyle={styles.contactList} />

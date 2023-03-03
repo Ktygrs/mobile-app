@@ -23,8 +23,8 @@ export const useEarningsWalkthrough = () => {
       setWalkthroughElementData({
         stepKey: 'earnings',
         elementData: {
-          topPositionOfHighlightedElement: top,
-          renderStepHighlight: () => (
+          top,
+          render: () => (
             <View style={styles.outerContainer}>
               <View style={styles.innerContainer}>
                 <EarningsCell color={COLORS.primaryDark} />

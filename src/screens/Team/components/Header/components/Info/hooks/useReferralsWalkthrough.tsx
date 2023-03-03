@@ -23,8 +23,8 @@ export const useReferralsWalkthrough = () => {
       setWalkthroughElementData({
         stepKey: 'referrals',
         elementData: {
-          topPositionOfHighlightedElement: top,
-          renderStepHighlight: () => (
+          top,
+          render: () => (
             <View style={styles.outerContainer}>
               <View style={styles.innerContainer}>
                 <ReferralsCell color={COLORS.primaryDark} />

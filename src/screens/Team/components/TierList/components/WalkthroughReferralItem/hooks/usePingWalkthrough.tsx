@@ -28,8 +28,8 @@ export const usePingWalkthrough = ({userId}: {userId: string}) => {
       setWalkthroughElementData({
         stepKey: 'ping',
         elementData: {
-          topPositionOfHighlightedElement: top,
-          renderStepHighlight: () => (
+          top,
+          render: () => (
             <View style={[styles.outerContainer, {left}]}>
               <View style={[styles.innerContainer]}>
                 <UserListPingButton userId={userId} />

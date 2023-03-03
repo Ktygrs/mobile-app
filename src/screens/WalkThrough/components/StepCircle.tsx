@@ -36,7 +36,7 @@ export const StepCircle = ({
 
   const circlePosition = useCirclePosition({
     elementHeight,
-    elementTop: step.elementData?.topPositionOfHighlightedElement,
+    elementTop: step.elementData?.top,
     circlePosition: step.circlePosition,
   });
 

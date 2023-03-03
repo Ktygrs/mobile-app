@@ -3,8 +3,8 @@
 import * as React from 'react';
 
 export type WalkThroughElementData = {
-  topPositionOfHighlightedElement: number;
-  renderStepHighlight: () => React.ReactNode;
+  top: number;
+  render: () => React.ReactNode;
 };
 
 export type WalkthroughStepKey =

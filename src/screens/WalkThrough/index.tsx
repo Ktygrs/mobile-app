@@ -55,14 +55,11 @@ export function WalkThrough({route}: WalkThroughProps) {
         stepIndex={index}
       />
       <Animated.View
-        style={[
-          elementAnimatedStyle,
-          {top: step.elementData.topPositionOfHighlightedElement},
-        ]}
+        style={[elementAnimatedStyle, {top: step.elementData.top}]}
         onLayout={({nativeEvent}) => {
           setElementHeight(nativeEvent.layout.height);
         }}>
-        {step.elementData.renderStepHighlight()}
+        {step.elementData.render()}
       </Animated.View>
     </View>
   );

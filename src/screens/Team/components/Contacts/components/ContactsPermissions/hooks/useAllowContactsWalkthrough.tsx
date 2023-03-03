@@ -21,8 +21,8 @@ export const useAllowContactsWalkthrough = () => {
       setWalkthroughElementData({
         stepKey: 'allowContacts',
         elementData: {
-          topPositionOfHighlightedElement: top,
-          renderStepHighlight: () => (
+          top,
+          render: () => (
             <View style={styles.outerContainer}>
               <View style={styles.innerContainer}>
                 <AllowContactsButton />
