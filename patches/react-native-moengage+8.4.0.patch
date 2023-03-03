@@ -1,8 +1,39 @@
+diff --git a/node_modules/react-native-moengage/iOS/MoEReactBridge/MoEReactBridge.m b/node_modules/react-native-moengage/iOS/MoEReactBridge/MoEReactBridge.m
+index 0bf1e38..91e98f7 100644
+--- a/node_modules/react-native-moengage/iOS/MoEReactBridge/MoEReactBridge.m
++++ b/node_modules/react-native-moengage/iOS/MoEReactBridge/MoEReactBridge.m
+@@ -131,6 +131,26 @@ -(void)emitEvent:(NSDictionary*)payloadDict{
+ RCT_EXPORT_METHOD(registerForPushNotification)
+ {
+     [[MoEngagePluginBridge sharedInstance] registerForPush];
++    dispatch_async(dispatch_get_main_queue(), ^{
++        id<UIApplicationDelegate> appDelegate = [[UIApplication sharedApplication] delegate];
++        if ([appDelegate respondsToSelector:@selector(moEngageRegisterForRemoteNotifications)]) {
++          [appDelegate performSelector:@selector(moEngageRegisterForRemoteNotifications)];
++        }
++      });
++}
++
++#pragma mark- Deep Linking
++RCT_EXPORT_METHOD(getMoeDeeplink:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
++{
++    dispatch_async(dispatch_get_main_queue(), ^{
++        id<UIApplicationDelegate> appDelegate = [[UIApplication sharedApplication] delegate];
++        if ([appDelegate respondsToSelector:@selector(getMoeDeeplink)]) {
++          NSString *deeplink = [appDelegate performSelector:@selector(getMoeDeeplink)];
++          resolve(deeplink);
++        } else {
++          reject(@"-1", @"getMoeDeeplink not implemented", nil);
++        }
++      });
+ }
+ 
+ #pragma mark Show InApp
 diff --git a/node_modules/react-native-moengage/src/index.ts b/node_modules/react-native-moengage/src/index.ts
-index 023c895..a2b68fb 100644
+index bc139d8..64d4b85 100644
 --- a/node_modules/react-native-moengage/src/index.ts
 +++ b/node_modules/react-native-moengage/src/index.ts
-@@ -149,7 +149,6 @@ var ReactMoE = {
+@@ -151,7 +151,6 @@ var ReactMoE = {
     */
    setAppStatus: function (status: MoEAppStatus) {
      commonValidationCheck();
@@ -10,7 +41,7 @@ index 023c895..a2b68fb 100644
      let payload = getAppStatusJson(MoEHelper.appStatusToString(status),moeAppId);
      if (Platform.OS == PLATFORM_ANDROID) {
        MoERNAndroid.setAppStatus(payload);
-@@ -175,7 +174,6 @@ var ReactMoE = {
+@@ -177,7 +176,6 @@ var ReactMoE = {
        return;
      }
  
@@ -18,7 +49,7 @@ index 023c895..a2b68fb 100644
     let payload= getMoEPropertiesJson(properties, eventName, moeAppId);
  
      if (Platform.OS == PLATFORM_ANDROID) {
-@@ -191,7 +189,6 @@ var ReactMoE = {
+@@ -193,7 +191,6 @@ var ReactMoE = {
     */
    setUserUniqueID: function (uniqueId: string) {
      commonValidationCheck();
@@ -26,7 +57,7 @@ index 023c895..a2b68fb 100644
      const payload = getUserAttributeJson(USER_ATTRIBUTE_UNIQUE_ID,uniqueId,GENERAL,moeAppId)
      if (Platform.OS == PLATFORM_ANDROID) {
        MoERNAndroid.setUserAttribute(payload);
-@@ -206,7 +203,6 @@ var ReactMoE = {
+@@ -208,7 +205,6 @@ var ReactMoE = {
     */
    setAlias: function (alias: string) {
      commonValidationCheck();
@@ -34,7 +65,7 @@ index 023c895..a2b68fb 100644
      let payload = getAliasJson(alias,moeAppId);
      if (Platform.OS == PLATFORM_ANDROID) {
        MoERNAndroid.setAlias(payload);
-@@ -221,7 +217,6 @@ var ReactMoE = {
+@@ -223,7 +219,6 @@ var ReactMoE = {
     */
    setUserName: function (userName: string) {
      commonValidationCheck();
@@ -42,7 +73,7 @@ index 023c895..a2b68fb 100644
      const payload = getUserAttributeJson(USER_ATTRIBUTE_USER_NAME,userName,GENERAL,moeAppId)
  
      if (Platform.OS == PLATFORM_ANDROID) {
-@@ -237,7 +232,6 @@ var ReactMoE = {
+@@ -239,7 +234,6 @@ var ReactMoE = {
     */
    setUserFirstName: function (firstName: string) {
      commonValidationCheck();
@@ -50,7 +81,7 @@ index 023c895..a2b68fb 100644
      const payload = getUserAttributeJson(USER_ATTRIBUTE_USER_FIRST_NAME,firstName,GENERAL,moeAppId)
  
      if (Platform.OS == PLATFORM_ANDROID) {
-@@ -253,7 +247,6 @@ var ReactMoE = {
+@@ -255,7 +249,6 @@ var ReactMoE = {
     */
    setUserLastName: function (lastName: string) {
      commonValidationCheck();
@@ -58,7 +89,7 @@ index 023c895..a2b68fb 100644
      const payload = getUserAttributeJson(USER_ATTRIBUTE_USER_LAST_NAME,lastName,GENERAL,moeAppId)
  
      if (Platform.OS == PLATFORM_ANDROID) {
-@@ -269,7 +262,6 @@ var ReactMoE = {
+@@ -271,7 +264,6 @@ var ReactMoE = {
     */
    setUserEmailID: function (emailId: string) {
      commonValidationCheck();
@@ -66,7 +97,7 @@ index 023c895..a2b68fb 100644
      const payload = getUserAttributeJson(USER_ATTRIBUTE_USER_EMAIL,emailId,GENERAL,moeAppId)
  
      if (Platform.OS == PLATFORM_ANDROID) {
-@@ -285,7 +277,6 @@ var ReactMoE = {
+@@ -287,7 +279,6 @@ var ReactMoE = {
     */
    setUserContactNumber: function (mobileNumber: string) {
      commonValidationCheck();
@@ -74,7 +105,7 @@ index 023c895..a2b68fb 100644
      const payload = getUserAttributeJson(USER_ATTRIBUTE_USER_MOBILE,mobileNumber,GENERAL,moeAppId)
  
      if (Platform.OS == PLATFORM_ANDROID) {
-@@ -301,7 +292,6 @@ var ReactMoE = {
+@@ -303,7 +294,6 @@ var ReactMoE = {
     */
    setUserBirthday: function (birthday: string) {
      commonValidationCheck();
@@ -82,7 +113,7 @@ index 023c895..a2b68fb 100644
      const payload = getUserAttributeJson(USER_ATTRIBUTE_USER_BDAY,birthday,TIMESTAMP,moeAppId)
  
      if (Platform.OS == PLATFORM_ANDROID) {
-@@ -317,8 +307,6 @@ var ReactMoE = {
+@@ -319,8 +309,6 @@ var ReactMoE = {
     */
    setUserGender: function (gender: Object) {
      commonValidationCheck();
@@ -91,7 +122,7 @@ index 023c895..a2b68fb 100644
      const payload = getUserAttributeJson(USER_ATTRIBUTE_USER_GENDER,gender,GENERAL,moeAppId)
  
      if (Platform.OS == PLATFORM_ANDROID) {
-@@ -354,12 +342,6 @@ var ReactMoE = {
+@@ -356,12 +344,6 @@ var ReactMoE = {
     */
    setUserAttribute: function (userAttributeName: string, userAttributeValue: Object) {
      commonValidationCheck();
@@ -104,7 +135,7 @@ index 023c895..a2b68fb 100644
      const payload = getUserAttributeJson(userAttributeName,userAttributeValue,GENERAL,moeAppId)
  
      if (Platform.OS == PLATFORM_ANDROID) {
-@@ -418,7 +400,6 @@ var ReactMoE = {
+@@ -420,7 +402,6 @@ var ReactMoE = {
     */
    logout: function () {
      commonValidationCheck();
@@ -112,7 +143,7 @@ index 023c895..a2b68fb 100644
      if (Platform.OS == PLATFORM_ANDROID) {
        MoERNAndroid.logout(getAppIdJson(moeAppId));
      } else if (Platform.OS == PLATFORM_IOS) {
-@@ -431,7 +412,6 @@ var ReactMoE = {
+@@ -433,7 +414,6 @@ var ReactMoE = {
     */
    showInApp: function () {
      commonValidationCheck();
@@ -120,7 +151,7 @@ index 023c895..a2b68fb 100644
      if (Platform.OS == PLATFORM_ANDROID) {
        MoERNAndroid.showInApp(getAppIdJson(moeAppId));
      } else if (Platform.OS == PLATFORM_IOS) {
-@@ -551,13 +531,11 @@ var ReactMoE = {
+@@ -553,7 +533,6 @@ var ReactMoE = {
     */
    passFcmPushToken: function (pushToken: string) {
      commonValidationCheck();
@@ -128,13 +159,7 @@ index 023c895..a2b68fb 100644
      let payload = getMoEPushTokenJson(pushToken,PUSH_SERVICE_FCM,PLATFORM_ANDROID,moeAppId);
  
      if (Platform.OS == PLATFORM_ANDROID) {
-       MoERNAndroid.passFcmPushToken(payload);
-     } else {
--      console.log("This api is not supported on iOS platform.");
-     }
-   },
-   /**
-@@ -568,13 +546,11 @@ var ReactMoE = {
+@@ -570,7 +549,6 @@ var ReactMoE = {
     */
    passFcmPushPayload: function (pushPayload: object) {
      commonValidationCheck();
@@ -142,33 +167,23 @@ index 023c895..a2b68fb 100644
      let payload = getMoEPushCampaignJson(pushPayload,PUSH_SERVICE_FCM,moeAppId)
  
      if (Platform.OS == PLATFORM_ANDROID) {
-       MoERNAndroid.passFcmPushPayload(payload);
-     } else {
--      console.log("This api is not supported on iOS platform.");
-     }
-   },
- 
-@@ -583,9 +559,7 @@ var ReactMoE = {
+@@ -585,7 +563,6 @@ var ReactMoE = {
     */
    registerForPush: function () {
      commonValidationCheck();
 -    console.log("Will registerForPush");
      if (Platform.OS == PLATFORM_ANDROID) {
--      console.log("This api is not supported on android platform.");
+       console.log("This api is not supported on android platform.");
      } else if (Platform.OS == PLATFORM_IOS) {
-       MoERNiOS.registerForPush();
-     }
-@@ -596,9 +570,7 @@ var ReactMoE = {
+@@ -598,7 +575,6 @@ var ReactMoE = {
     */
    disableInbox: function () {
      commonValidationCheck();
 -    console.log("Will disableInbox");
      if (Platform.OS == PLATFORM_ANDROID) {
--      console.log("This api is not supported on android platform.");
+       console.log("This api is not supported on android platform.");
      } else if (Platform.OS == PLATFORM_IOS) {
-       MoERNiOS.disableInbox(getAppIdJson(moeAppId));
-     }
-@@ -616,7 +588,6 @@ var ReactMoE = {
+@@ -618,7 +594,6 @@ var ReactMoE = {
    },
  
    optOutDataTracking: function (shouldOptOutDataTracking: boolean) {
@@ -176,7 +191,7 @@ index 023c895..a2b68fb 100644
      let payload = getOptOutTrackingJson("data",shouldOptOutDataTracking,moeAppId);
      if (Platform.OS == PLATFORM_ANDROID) {
        MoERNAndroid.optOutDataTracking(payload);
-@@ -633,18 +604,15 @@ var ReactMoE = {
+@@ -635,7 +610,6 @@ var ReactMoE = {
     */
    passPushKitPushToken: function (pushToken: string) {
      commonValidationCheck();
@@ -184,10 +199,7 @@ index 023c895..a2b68fb 100644
      let payload = getMoEPushTokenJson(pushToken,PUSH_SERVICE_PUSH_KIT,PLATFORM_ANDROID,moeAppId);
  
      if (Platform.OS == PLATFORM_ANDROID) {
-       MoERNAndroid.passPushKitPushToken(payload);
-     } else {
--      console.log("This api is not supported on iOS platform.");
-     }
+@@ -646,7 +620,6 @@ var ReactMoE = {
    },
  
    enableSdk: function () {
@@ -195,7 +207,7 @@ index 023c895..a2b68fb 100644
      let payload = getSdkStateJson(true,moeAppId)
      if (Platform.OS == PLATFORM_ANDROID) {
        MoERNAndroid.updateSdkState(payload);
-@@ -654,7 +622,6 @@ var ReactMoE = {
+@@ -656,7 +629,6 @@ var ReactMoE = {
    },
  
    disableSdk: function () {
@@ -203,7 +215,7 @@ index 023c895..a2b68fb 100644
      let payload = getSdkStateJson(false,moeAppId)
  
      if (Platform.OS == PLATFORM_ANDROID) {
-@@ -665,7 +632,6 @@ var ReactMoE = {
+@@ -667,7 +639,6 @@ var ReactMoE = {
    },
  
    onOrientationChanged: function () {
@@ -211,7 +223,7 @@ index 023c895..a2b68fb 100644
      if (Platform.OS == PLATFORM_ANDROID) {
        MoERNAndroid.onOrientationChanged();
      }
-@@ -675,7 +641,6 @@ var ReactMoE = {
+@@ -677,7 +648,6 @@ var ReactMoE = {
     * API to enable Advertising Id tracking for Android.
     */
    enableAdIdTracking: function () {
@@ -219,7 +231,7 @@ index 023c895..a2b68fb 100644
      let payload = getAdIdTrackingJson(true,moeAppId);
  
      if (Platform.OS == PLATFORM_ANDROID) {
-@@ -690,7 +655,6 @@ var ReactMoE = {
+@@ -692,7 +662,6 @@ var ReactMoE = {
     * Advertising Id tracking at some point.
     */
    disableAdIdTracking: function () {
@@ -227,7 +239,7 @@ index 023c895..a2b68fb 100644
      let payload = getAdIdTrackingJson(false,moeAppId);
  
      if (Platform.OS == PLATFORM_ANDROID) {
-@@ -702,7 +666,6 @@ var ReactMoE = {
+@@ -704,7 +673,6 @@ var ReactMoE = {
     * API to enable Android Id tracking for Android.
     */
    enableAndroidIdTracking: function () {
@@ -235,7 +247,7 @@ index 023c895..a2b68fb 100644
      let payload = getAndroidIdTrackingJson(true,moeAppId);
  
      if (Platform.OS == PLATFORM_ANDROID) {
-@@ -717,7 +680,6 @@ var ReactMoE = {
+@@ -719,7 +687,6 @@ var ReactMoE = {
     * Advertising Id tracking at some point.
     */
    disableAndroidIdTracking: function () {
@@ -243,7 +255,7 @@ index 023c895..a2b68fb 100644
      let payload = getAndroidIdTrackingJson(false,moeAppId);
  
      if (Platform.OS == PLATFORM_ANDROID) {
-@@ -726,28 +688,24 @@ var ReactMoE = {
+@@ -728,28 +695,24 @@ var ReactMoE = {
    },
  
    pushPermissionResponseAndroid: function (isGranted: boolean) {
@@ -272,3 +284,27 @@ index 023c895..a2b68fb 100644
      if (Platform.OS == PLATFORM_ANDROID) {
        MoERNAndroid.requestPushPermission();
      }
+@@ -762,7 +725,6 @@ var ReactMoE = {
+    * @param {number} count - number of times push permission requested
+    */
+   updatePushPermissionRequestCountAndroid: function (count: number) {
+-    console.log("Will increment push permission request count");
+     let payload = getPushPermissionRequestCountJson(count, moeAppId);
+ 
+     if (Platform.OS == PLATFORM_ANDROID) {
+@@ -776,7 +738,6 @@ var ReactMoE = {
+    * Note: By default Device Id tracking is enabled
+    */
+   enableDeviceIdTracking: function () {
+-    console.log("Will enable device id tracking");
+     let payload = getDeviceIdTrackingJson(true, moeAppId);
+ 
+     if (Platform.OS == PLATFORM_ANDROID) {
+@@ -788,7 +749,6 @@ var ReactMoE = {
+    * API to disable Device Id tracking for Android.
+    */
+   disableDeviceIdTracking: function () {
+-    console.log("Will disable device id tracking");
+     let payload = getDeviceIdTrackingJson(false, moeAppId);
+ 
+     if (Platform.OS == PLATFORM_ANDROID) {

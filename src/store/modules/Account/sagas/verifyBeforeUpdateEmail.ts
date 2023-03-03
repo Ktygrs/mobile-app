@@ -56,6 +56,12 @@ export function* verifyBeforeUpdateEmailSaga({
               yield put(
                 AccountActions.VERIFY_BEFORE_UPDATE_EMAIL.SUCCESS.create(),
               );
+              /**
+               * User updated email:
+               * this action requires force logout because firebase
+               * auth token expires immediately (a major account change)
+               * https://firebase.google.com/docs/auth/admin/manage-sessions
+               */
               yield put(AccountActions.SIGN_OUT.START.create());
               finished = true;
             }

@@ -41,6 +41,10 @@ export function* updateDeviceMetadataSaga(action: Action) {
     const forceUpdate =
       checkProp(action?.payload, 'forceUpdate') && action.payload.forceUpdate;
 
+    const clearDeviceMetadata =
+      checkProp(action?.payload, 'clearDeviceMetadata') &&
+      action.payload.clearDeviceMetadata;
+
     const isAuthorized: ReturnType<typeof isAuthorizedSelector> = yield select(
       isAuthorizedSelector,
     );
@@ -114,7 +118,10 @@ export function* updateDeviceMetadataSaga(action: Action) {
         tablet: DeviceInfo.isTablet(),
         systemName: DeviceInfo.getSystemName(),
         systemVersion: DeviceInfo.getSystemVersion(),
-        pushNotificationToken: hasPushPermissions ? messaging().getToken() : '',
+        pushNotificationToken:
+          hasPushPermissions && !clearDeviceMetadata
+            ? messaging().getToken()
+            : '',
         tz: getTimezoneOffset(),
       };
 

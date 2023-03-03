@@ -27,12 +27,12 @@
       <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/FACEBOOK_CLIENT_TOKEN"/>
       <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_notification_icon" />
+            android:resource="@drawable/ic_stat_notification"
+            tools:replace="android:resource" />
       <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/splashscreen_bg"
             tools:replace="android:resource"/>
-
       <service android:name="com.moengage.firebase.MoEFireBaseMessagingService"
                android:exported="false">
           <intent-filter>

@@ -55,7 +55,7 @@ gradle.properties
 google-services.json
 GoogleService-Info.plist
 ios/ice/Info.plist
-NotificationService.entitlements
+FirebaseNotificationService.entitlements
 sentry.properties
 
 # fastlane

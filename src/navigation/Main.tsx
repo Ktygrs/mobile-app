@@ -14,6 +14,7 @@ import {
   BottomTabBarProps,
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
+import {NavigatorScreenParams} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {BalanceHistory} from '@screens/HomeFlow/BalanceHistory';
 import {Home} from '@screens/HomeFlow/Home';
@@ -49,6 +50,7 @@ import {Settings} from '@screens/SettingsFlow/Settings';
 import {Staking} from '@screens/Staking';
 import {Team} from '@screens/Team';
 import {ActiveTabActions, Tab} from '@store/modules/ActiveTab/actions';
+import {useSubscribeToPushNotifications} from '@store/modules/PushNotifications/hooks/useSubscribeToPushNotifications';
 import {StatsPeriod} from '@store/modules/Stats/types';
 import React, {ComponentType, ReactNode, RefObject} from 'react';
 import {Image, View} from 'react-native';
@@ -58,10 +60,10 @@ import {SvgProps} from 'react-native-svg';
 import {useDispatch} from 'react-redux';
 
 export type MainTabsParamList = {
-  HomeTab: undefined;
-  TeamTab: undefined;
+  HomeTab: NavigatorScreenParams<HomeTabStackParamList> | undefined;
+  TeamTab: NavigatorScreenParams<TeamTabStackParamList> | undefined;
   NewsTab: undefined;
-  ProfileTab: undefined;
+  ProfileTab: NavigatorScreenParams<ProfileTabStackParamList> | undefined;
 };
 
 export type MainStackParamList = {
@@ -228,6 +230,8 @@ const MainTabBarComponent = (props: BottomTabBarProps) => (
 );
 
 const MainTabs = () => {
+  useSubscribeToPushNotifications();
+
   const dispatch = useDispatch();
   const getListeners = (tab: Tab) => {
     return () => ({

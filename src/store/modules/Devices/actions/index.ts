@@ -9,7 +9,8 @@ import {
 import {createAction} from '@store/utils/actions/createAction';
 
 const UPDATE_DEVICE_METADATA = createAction('UPDATE_DEVICE_METADATA', {
-  START: (payload: {forceUpdate?: boolean}) => payload,
+  START: (payload: {forceUpdate?: boolean; clearDeviceMetadata?: boolean}) =>
+    payload,
   SUCCESS: () => {},
   FAILED: (errorMessage: string, errorCode?: string) => ({
     errorMessage,

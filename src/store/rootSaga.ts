@@ -7,6 +7,7 @@ import {AccountActions} from '@store/modules/Account/actions';
 import {rootAnalyticsSaga} from '@store/modules/Analytics/sagas';
 import {rootLinkingSaga} from '@store/modules/Linking/sagas';
 import {rootNotificationsSaga} from '@store/modules/Notifications/sagas';
+import {rootPushNotificationsSaga} from '@store/modules/PushNotifications/sagas';
 import {rootStatsSaga} from '@store/modules/Stats/sagas';
 import {AppState} from 'react-native';
 import {SagaIterator} from 'redux-saga';
@@ -38,6 +39,7 @@ export function* rootSaga(): SagaIterator {
     rootValidationSaga,
     rootDevicesSaga,
     rootLinkingSaga,
+    rootPushNotificationsSaga,
     rootNotificationsSaga,
     rootAppCommonSaga,
     rootUsersSaga,

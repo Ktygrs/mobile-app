@@ -56,21 +56,31 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 
    NSString *moeAppId = [ReactNativeConfig envFor:@"MO_ENGAGE_APP_ID"];
    NSString *moeDomain = [ReactNativeConfig envFor:@"MO_ENGAGE_APP_DOMAIN"];
-   MOSDKConfig* sdkConfig = [[MOSDKConfig alloc] initWithAppID:moeAppId];
+   MoEngageSDKConfig* sdkConfig = [[MoEngageSDKConfig alloc] initWithAppID:moeAppId];
    if ([moeDomain isEqualToString:@"DATA_CENTER_01"]) {
-     sdkConfig.moeDataCenter = MODataCenterData_center_01;
+     sdkConfig.moeDataCenter = MoEngageDataCenterData_center_01;
    } else if ([moeDomain isEqualToString:@"DATA_CENTER_02"]) {
-     sdkConfig.moeDataCenter = MODataCenterData_center_02;
+     sdkConfig.moeDataCenter = MoEngageDataCenterData_center_02;
    } else if ([moeDomain isEqualToString:@"DATA_CENTER_03"]) {
-     sdkConfig.moeDataCenter = MODataCenterData_center_03;
+     sdkConfig.moeDataCenter = MoEngageDataCenterData_center_03;
    }
    sdkConfig.appGroupID = @"group.io.ice";
    sdkConfig.enableLogs = false;
    [[MoEngageInitializer sharedInstance] initializeDefaultSDKConfig:sdkConfig andLaunchOptions:launchOptions];
 
+  [UNUserNotificationCenter currentNotificationCenter].delegate = self;
+
   RCTAppSetupPrepareApp(application);
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
+  
+  // Check if the app was launched from a notification
+  if (launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
+      NSDictionary *notificationPayload = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+      if (notificationPayload[@"app_extra"][@"moe_deeplink"]) {
+        self.moeDeeplink = notificationPayload[@"app_extra"][@"moe_deeplink"];
+      }
+  }
 
 #if RCT_NEW_ARCH_ENABLED
   _contextContainer = std::make_shared<facebook::react::ContextContainer const>();
@@ -100,6 +110,14 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   rootView.loadingView = vc.view;
 
   return YES;
+}
+
+- (void)moEngageRegisterForRemoteNotifications {
+  [[MoEngageSDKMessaging sharedInstance] registerForRemoteNotificationWithCategories:nil andUserNotificationCenterDelegate:self];
+}
+
+- (NSString *)getMoeDeeplink {
+    return self.moeDeeplink;
 }
 
 - (BOOL)application:(UIApplication *)application

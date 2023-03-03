@@ -3,7 +3,6 @@
 import {DISABLE_ALL_NOTIFICATION_DOMAIN} from '@api/devices/constants';
 import {
   NotificationDeliveryChannel,
-  NotificationDomain,
   NotificationDomainToggles,
 } from '@api/devices/types';
 import {MainNavigationParams} from '@navigation/Main';
@@ -42,7 +41,7 @@ export const NotificationControls = ({
   const {openConfirmationDlg} = useConfirmNotificationsDlg();
 
   const changeNotificationSettings = useCallback(
-    (type: NotificationDomain, value: boolean) => {
+    (type: string, value: boolean) => {
       if (isPushNotificationChannel && !hasPushPermissions) {
         openConfirmationDlg();
       } else {

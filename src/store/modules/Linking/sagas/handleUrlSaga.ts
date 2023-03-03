@@ -5,10 +5,12 @@ import {navigate} from '@navigation/utils';
 import {isSignInWithEmailLink, isUpdateEmailLink} from '@services/auth';
 import {logError} from '@services/logging';
 import {AccountActions} from '@store/modules/Account/actions';
+import {isSplashHiddenSelector} from '@store/modules/AppCommon/selectors';
 import {LinkingActions} from '@store/modules/Linking/actions';
+import {waitForSelector} from '@store/utils/sagas/effects';
 import {openLinkWithInAppBrowser} from '@utils/device';
 import {Linking} from 'react-native';
-import {put} from 'redux-saga/effects';
+import {call, put} from 'redux-saga/effects';
 import Url from 'url-parse';
 
 const actionCreator = LinkingActions.HANDLE_URL.STATE.create;
@@ -21,12 +23,6 @@ export function* handleUrlSaga(action: ReturnType<typeof actionCreator>) {
     return;
   }
 
-  /** User updated email:
-   * this action requires force logout because firebase
-   * auth token expires immediately (a major account change)
-   * https://firebase.google.com/docs/auth/admin/manage-sessions
-   */
-
   const {path, query, isDeeplink, isUniversalLink} = parseUrl(url);
 
   if (isUpdateEmailLink(query)) {
@@ -36,59 +32,65 @@ export function* handleUrlSaga(action: ReturnType<typeof actionCreator>) {
     return;
   }
 
+  yield call(waitForSelector, isSplashHiddenSelector);
+
   switch (path.toLowerCase()) {
-    case 'users':
-    case 'pinged':
-      // TODO: temp profile disabling
-      false &&
-        navigate({
-          name: 'UserProfile',
-          params: {userId: query.id ?? ''},
-        });
-      break;
     case 'browser':
-      openLinkWithInAppBrowser({url: query.url ?? ''});
+      if (query.url) {
+        const browserUrl = decodeURIComponent(query.url);
+        const parsedUrl = new Url(browserUrl);
+        if (!parsedUrl.protocol) {
+          throw new Error(`Invalid url ${browserUrl}`);
+        }
+        openLinkWithInAppBrowser({url: browserUrl});
+      }
       break;
-    case 'followus':
-    case 'refjoined':
-    case 'announcements':
-      openLinkWithInAppBrowser({url});
+    case 'home':
+      switch (query.section) {
+        case 'adoption':
+        default:
+          navigate({
+            name: 'HomeTab',
+            params: {screen: 'Home'},
+          });
+      }
       break;
-    case 'mining':
-      navigate({name: 'HomeTab', params: undefined});
+    case 'pre-staking':
+      navigate({name: 'Staking', params: undefined});
       break;
-    case 'staking':
-      navigate({name: 'HomeTab', params: undefined});
+    case 'stats':
+      navigate({
+        name: 'HomeTab',
+        params: {screen: 'Stats'},
+      });
       break;
-    case 'weeklystats':
-      navigate({name: 'Stats', params: undefined});
-      break;
-    case 'invitefriends':
+    case 'invite':
       navigate({name: 'InviteShare', params: undefined});
       break;
-    case 'joined':
-      navigate({name: 'TeamTab', params: undefined});
+    case 'team':
+      navigate({name: 'TeamTab', params: {screen: 'Team'}});
       break;
     case 'news':
       navigate({name: 'NewsTab', params: undefined});
       break;
-    case 'level':
-      navigate({name: 'ProfileTab', params: undefined});
-      break;
-    case 'role':
-      navigate({name: 'Roles', params: {userId: ''}});
-      break;
-    case 'badge':
-      navigate({name: 'Badges', params: {userId: ''}}); //TODO: focus on badge
-      break;
-    case 'task':
-      navigate({name: 'HomeTab', params: undefined}); //TODO: focus on the task
-      break;
-    case 'adoption':
-      navigate({name: 'HomeTab', params: undefined}); //TODO: focus on adoption card
-      break;
-    case 'loginlinked':
-      navigate({name: 'Settings', params: undefined});
+    case 'profile':
+      // TODO: temp profile disabling
+      if (false) {
+        const userId = query.userId ?? '';
+        switch (query.section) {
+          case 'roles':
+            navigate({name: 'Roles', params: {userId}});
+            break;
+          case 'badges':
+            navigate({name: 'Badges', params: {userId}});
+            break;
+          default:
+            navigate({
+              name: 'UserProfile',
+              params: {userId},
+            });
+        }
+      }
       break;
     default:
       if (!handledInApp) {

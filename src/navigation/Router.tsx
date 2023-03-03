@@ -54,10 +54,10 @@ function ActiveNavigator() {
 }
 
 export function Router() {
+  useOpenUrlListener();
   useAppLoadedListener();
   useAppStateListener();
   useUserChangedListener();
-  useOpenUrlListener();
   useInitNotifications();
 
   const onReady = useCallback(() => {
