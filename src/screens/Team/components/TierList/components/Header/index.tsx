@@ -28,12 +28,8 @@ export const ListHeader = ({referralType, focused}: Props) => {
   return (
     <View {...stopPropagation}>
       <View style={styles.header}>
-        <View ref={activeUsersElementRef}>
-          <ActiveUsers referralType={referralType} />
-        </View>
-        <View ref={earningsElementRef}>
-          <Earnings referralType={referralType} />
-        </View>
+        <ActiveUsers referralType={referralType} ref={activeUsersElementRef} />
+        <Earnings referralType={referralType} ref={earningsElementRef} />
       </View>
     </View>
   );
