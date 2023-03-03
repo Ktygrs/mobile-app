@@ -11,6 +11,7 @@ import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {Message} from '@screens/Modals/PopUp/components/Message';
 import {PopUpButton} from '@screens/Modals/PopUp/components/PopUpButton';
 import {Title} from '@screens/Modals/PopUp/components/Title';
+import {AchievementsActions} from '@store/modules/Achievements/actions';
 import {ManIcon} from '@svg/ManIcon';
 import {t} from '@translations/i18n';
 import React, {useEffect, useState} from 'react';
@@ -21,6 +22,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
+import {useDispatch} from 'react-redux';
 import {rem} from 'rn-units';
 
 export type JoinTelegramPopUpProps = {
@@ -42,6 +44,7 @@ export const JoinTelegramPopUp = () => {
   const navigation = useNavigation();
   const isKeyboardShown = useIsKeyboardShown();
   const [text, setText] = useState('@');
+  const dispatch = useDispatch();
 
   const onPressOutside = () => {
     if (dismissOnOutsideTouch) {
@@ -71,6 +74,15 @@ export const JoinTelegramPopUp = () => {
     } else {
       setText(inputText);
     }
+  };
+
+  const handleConfirmation = () => {
+    /** TODO: achievements: replace with update account call when api is connected
+     * call completeJoinTelegramAchievementSaga on UPDATE_ACCOUNT.SUCCESS
+     */
+
+    dispatch(AchievementsActions.COMPLETE_NEXT_ACHIEVEMENT.STATE.create());
+    navigation.goBack();
   };
 
   return (
@@ -116,7 +128,7 @@ export const JoinTelegramPopUp = () => {
             />
             <PopUpButton
               text={t('button.confirm')}
-              onPress={() => {}}
+              onPress={handleConfirmation}
               disabled={text.length < 2}
             />
           </View>

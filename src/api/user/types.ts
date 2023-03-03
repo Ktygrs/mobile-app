@@ -84,4 +84,5 @@ export type ClientData = {
   registrationProcessFinalizedSteps?: RegistrationProcessFinalizedStep[];
   walkthroughProgress?: WalkthroughElement[];
   miningStateTooltipSeen?: string[];
+  telegramUserHandle?: string;
 };
