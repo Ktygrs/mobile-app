@@ -80,6 +80,7 @@ export function useAchievementItem(achievement: Achievement) {
         navigation.navigate('JoinTelegramPopUp', {});
         break;
       case 'invite_friends':
+        navigation.navigate('InviteShare');
         break;
       default:
         break;
