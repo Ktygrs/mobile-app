@@ -2,7 +2,7 @@
   "welcome": {
     "page1": {
       "title": "Welcome to ice",
-      "description": "[[:ice]] is a digital currency that you can mine on your phone. ice is owned and operated by every day users like yourself."
+      "description": "[[:ice]] is a digital currency that you can earn with your phone. ice is owned and operated by every day users like yourself."
     },
     "page2": {
       "title": "Planet Friendly",
@@ -15,15 +15,15 @@
     },
     "page4": {
       "title": "Stay Connected",
-      "description": "Tap [[:iceLogo]] and start mining today with our free, energy-light mobile app. Your daily tap ensures that [[:bold]]ice[[/:bold]] ends up in the hands of real humans, not bots."
+      "description": "Tap [[:iceLogo]] for your daily check-in with our free, energy-light mobile app. Your daily tap ensures that ice ends up in the hands of real humans, not bots."
     },
     "page5": {
       "title": "Refer & Earn",
-      "description": "Invite your friends and earn (both of you) up to {{value}}% bonus on your base mining rate for each friend that joins your team."
+      "description": "Invite your friends and earn (both of you) up to {{value}}% bonus on your base earning rate for each friend that joins your team."
     },
     "page6": {
       "title": "Notifications",
-      "description_part1": "[[:ice]] mining sessions only last for {{value}} hours. Would you like to receive a notification when your current session ends?",
+      "description_part1": "[[:ice]] check-in sessions only last for {{value}} hours. Would you like to receive a notification when your current session ends?",
       "description_part2": "Don’t worry, we will not spam you!",
       "not_now": "Not now"
     }
@@ -140,7 +140,7 @@
     "title": "Who invited you?",
     "description": "Enter the nickname of the person who invited you",
     "inputPlaceholder": "Enter nickname",
-    "dontHaveInvitationCode": "By completing this step, you and your friend will receive a {{value}}% bonus on the mining rate when you are mining simultaneously.",
+    "dontHaveInvitationCode": "By completing this step, you and your friend will receive a {{value}}% bonus on the base earning rate when you are both checking-in at the same time.",
     "confirm_text": "Are you sure that you would like to set a random member as your referral?\n\nThis cannot be undone!",
     "dontHaveCodeTip": "If you don't have an invitation code we will\nselect a random member as your referral!"
   },
@@ -190,7 +190,7 @@
     "my_roles": {
       "title": "My Role"
     },
-    "mining_calculator": "mining calculator",
+    "mining_calculator": "earnings calculator",
     "invite_friends": "Invite Friends",
     "invite_friends_engage": "Spread the word and invite your friends. The more referrals, the more you’ll earn!",
     "global_rank": "global rank",
@@ -232,12 +232,12 @@
     "active_inviter": "Active inviter",
     "tier_1_ref": "Tier 1 referrals",
     "tier_2_ref": "Tier 2 referrals",
-    "active_miners": "Active miners"
+    "active_miners": "Active referrals"
   },
   "home": {
     "wallet": {
       "title": "WALLET",
-      "rate": "MINING RATE",
+      "rate": "EARNING RATE",
       "balance": "CURRENT BALANCE"
     },
     "pioneer": {
@@ -304,12 +304,12 @@
       "view_team": "view team"
     },
     "mining_rate": {
-      "title": "MINING RATE",
+      "title": "EARNING RATE",
       "base": "Base"
     },
     "engagement": {
       "title": "ENGAGEMENT",
-      "description": "Streak refers to how many consecutive days you have mined.\nFor each 6 consecutive days you receive one day off.",
+      "description": "Streak refers to how many consecutive days you have checked-in.\nFor each 6 consecutive days you receive one day off.",
       "streak": "STREAK",
       "days_off": "DAYS OFF"
     }
@@ -357,7 +357,7 @@
       "type_push": "PUSH",
       "type_email": "EMAIL",
       "disable_notifications": "Disable Notifications?",
-      "disable_notifications_description": "By disabling notifications you will not be able to receive updates when you can start mine, news or team information",
+      "disable_notifications_description": "By disabling notifications you will not be able to receive updates when you can start checking-in, news or team information",
       "domain": {
         "disable_all": {
           "title": "",
@@ -392,8 +392,8 @@
           "description": "Receive notifications to claim your daily bonus"
         },
         "mining": {
-          "title": "Mining status",
-          "description": "Receive notifications about your mining activity"
+          "title": "Session status",
+          "description": "Receive notifications about your check-in activity"
         },
         "system": {
           "title": "System",
@@ -471,9 +471,9 @@
   },
   "staking": {
     "time_left": "Time Left",
-    "mining_rate": "Mining Rate",
-    "appeal": "Boost your mining rate",
-    "benefits_description": "Pre-stake your mining rewards for up to {{periodYears}} years and increase your mining rate by up to {{ratePercentages}}%",
+    "mining_rate": "Earning Rate",
+    "appeal": "Boost your earning rate",
+    "benefits_description": "Pre-stake your ice rewards for up to {{periodYears}} years and increase your earning rate by up to {{ratePercentages}}%",
     "bonus_label": "Pre-Staking Bonus",
     "period_label": "Staked Period",
     "title": "Pre-Staking",
@@ -492,9 +492,9 @@
     "active": "Active users",
     "total": "Total users",
     "user_growth": "User growth",
-    "top_miners": "Top miners",
+    "top_miners": "Top users",
     "top_countries": "Top countries",
-    "online_miners": "Online miners",
+    "online_miners": "Online users",
     "detailed_information": "Detailed information"
   },
   "update_required": {
@@ -525,9 +525,9 @@
     "search_for_users": "Search for users"
   },
   "tabbar": {
-    "mining_inactive_tooltip": "Tap here to start your first mining session",
-    "mining_reset_tooltip": "Press for 1 second to reset your mining session",
-    "mining_holiday_reset_tooltip": "You are using a Day Off! Press for 1 second to reset your mining session",
+    "mining_inactive_tooltip": "Tap here to start your first check-in session",
+    "mining_reset_tooltip": "Press for 1 second to reset your check-in session",
+    "mining_holiday_reset_tooltip": "You are using a Day Off! Press for 1 second to reset your check-in session",
     "mining_holiday_active": "You are using a Day Off!"
   },
   "invite_friend": {
@@ -774,7 +774,7 @@
     "claim_title": "Today’s Bonus",
     "claim_message": "It’s time for your today’s bonus, please tap on the [[:bold]]“Claim Bonus”[[/:bold]] button bellow",
     "link": "Find out more",
-    "extra_message": "You have received your daily extra bonus on your mining rate",
+    "extra_message": "You have received your daily extra bonus on your earning rate",
     "expired_title": "Bonus Expired",
     "expired_message": "Unfortunately, today's bonus has expired. Stay tuned for the next notification!",
     "result_title": "Congratulations"

@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {useGetBarGraphDataForStatsPeriod} from '@components/BarGraph/hooks/useGetBarGraphDataForStatsPeriod';
 import {COLORS} from '@constants/colors';
 import {Images} from '@images';
 import {CardBase} from '@screens/HomeFlow/Home/components/Overview/components/CardBase';
-import {useGetBarGraphDataForStatsPeriod} from '@screens/HomeFlow/Home/components/Overview/components/OnlineUsersHistory/hooks/useGetBarGraphDataForStatsPeriod';
 import {VerticalBar} from '@screens/HomeFlow/Home/components/Overview/components/VerticalBar';
 import {isSplashHiddenSelector} from '@store/modules/AppCommon/selectors';
 import {totalActiveUsersSelector} from '@store/modules/Stats/selectors';

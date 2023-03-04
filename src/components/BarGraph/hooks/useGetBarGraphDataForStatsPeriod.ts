@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {timeSeriesToUsersData} from '@screens/HomeFlow/Home/components/Overview/components/OnlineUsersHistory/utils/timeSeriesToGraphData';
+import {timeSeriesToUsersData} from '@components/BarGraph/utils/timeSeriesToGraphData';
 import {isSplashHiddenSelector} from '@store/modules/AppCommon/selectors';
 import {StatsActions} from '@store/modules/Stats/actions';
 import {getUserGrowthStatsSelector} from '@store/modules/Stats/selectors';

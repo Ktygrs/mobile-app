@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {BarGraph, getBarGraphHeight} from '@components/BarGraph';
+import {useGetBarGraphDataForStatsPeriod} from '@components/BarGraph/hooks/useGetBarGraphDataForStatsPeriod';
 import {SectionHeader} from '@components/SectionHeader';
 import {
   SegmentedControl,
@@ -9,7 +10,6 @@ import {
 import {HomeTabStackParamList} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {useGetBarGraphDataForStatsPeriod} from '@screens/HomeFlow/Home/components/Overview/components/OnlineUsersHistory/hooks/useGetBarGraphDataForStatsPeriod';
 import {t} from '@translations/i18n';
 import React, {memo, useCallback, useRef} from 'react';
 import {StyleSheet, View} from 'react-native';

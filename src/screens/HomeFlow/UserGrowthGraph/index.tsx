@@ -7,6 +7,7 @@ import {
   ROW_HEIGHT,
   Y_AXIS_WIDTH,
 } from '@components/BarGraph';
+import {useGetBarGraphDataForStatsPeriod} from '@components/BarGraph/hooks/useGetBarGraphDataForStatsPeriod';
 import {LinesBackground} from '@components/LinesBackground';
 import {SectionHeader} from '@components/SectionHeader';
 import {COLORS} from '@constants/colors';
@@ -17,7 +18,6 @@ import {useFocusStatusBar} from '@navigation/hooks/useFocusStatusBar';
 import {useScreenTransitionEnd} from '@navigation/hooks/useScreenTransitionEnd';
 import {HomeTabStackParamList} from '@navigation/Main';
 import {RouteProp, useRoute} from '@react-navigation/native';
-import {useGetBarGraphDataForStatsPeriod} from '@screens/HomeFlow/Home/components/Overview/components/OnlineUsersHistory/hooks/useGetBarGraphDataForStatsPeriod';
 import {PeriodSelect} from '@screens/HomeFlow/Stats/components/UsersGrowthGraph/components/PeriodSelect';
 import {STATS_PERIODS} from '@store/modules/Stats/constants';
 import {StatsPeriod} from '@store/modules/Stats/types';
