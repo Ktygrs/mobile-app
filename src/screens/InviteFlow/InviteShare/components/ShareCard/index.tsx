@@ -18,13 +18,7 @@ import {AnalyticsEventLogger} from '@store/modules/Analytics/constants';
 import {t} from '@translations/i18n';
 import {checkProp} from '@utils/guards';
 import React, {useRef} from 'react';
-import {
-  Linking,
-  Share as ShareMore,
-  StyleSheet,
-  Vibration,
-  View,
-} from 'react-native';
+import {Linking, StyleSheet, Vibration, View} from 'react-native';
 import {openComposer} from 'react-native-email-link';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Share, {ShareSingleOptions, Social} from 'react-native-share';
@@ -98,10 +92,9 @@ const ShareCard = () => {
         case 'More':
           let moreOptions = {
             ...baseOptions,
-            title: `${t('invite_share.share_message')} ${url}`,
             message: `${t('invite_share.share_message')} ${url}`,
           };
-          await ShareMore.share(moreOptions);
+          await Share.open(moreOptions);
           break;
         case 'CopyLink':
           Clipboard.setString(`${t('invite_share.share_message')} ${url}`);
