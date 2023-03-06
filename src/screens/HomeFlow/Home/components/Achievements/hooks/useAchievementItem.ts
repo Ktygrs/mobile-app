@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {Achievement, AchievementType} from '@api/achievements/types';
-import {COLORS} from '@constants/colors';
+import {Achievement} from '@api/achievements/types';
 import {MainNavigationParams} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {achievements} from '@screens/HomeFlow/Home/components/Achievements/achievements';
 import {logError} from '@services/logging';
 import {AchievementsActions} from '@store/modules/Achievements/actions';
 import {TokenomicsActions} from '@store/modules/Tokenomics/actions';
@@ -13,33 +13,6 @@ import {openLinkWithInAppBrowser} from '@utils/device';
 import {useCallback} from 'react';
 import {Linking} from 'react-native';
 import {useDispatch} from 'react-redux';
-
-const titles: {[key in AchievementType]: string} = {
-  claim_username: t('home.steps.step_one.title'),
-  start_mining: t('home.steps.step_two.title'),
-  upload_profile_picture: t('home.steps.step_three.title'),
-  follow_us_on_twitter: t('home.steps.step_five.title'),
-  join_telegram: t('home.steps.step_four.title'),
-  invite_friends: t('home.steps.step_six.title'),
-};
-
-const descriptions: {[key in AchievementType]: string} = {
-  claim_username: t('home.steps.step_one.description'),
-  start_mining: t('home.steps.step_two.description'),
-  upload_profile_picture: t('home.steps.step_three.description'),
-  follow_us_on_twitter: t('home.steps.step_five.description'),
-  join_telegram: t('home.steps.step_four.description'),
-  invite_friends: t('home.steps.step_six.description'),
-};
-
-const iconBackgrounds: {[key in AchievementType]: string} = {
-  claim_username: COLORS.dodgerBlue,
-  start_mining: COLORS.downriver,
-  upload_profile_picture: COLORS.gullGray,
-  follow_us_on_twitter: COLORS.toreaBay,
-  join_telegram: COLORS.royalBlue,
-  invite_friends: COLORS.blueViolet,
-};
 
 export function useAchievementItem(achievement: Achievement) {
   const navigation =
@@ -85,9 +58,9 @@ export function useAchievementItem(achievement: Achievement) {
   }, [dispatch, type, navigation]);
 
   return {
-    title: titles[type],
-    description: descriptions[type],
-    iconBgColor: iconBackgrounds[type],
+    title: achievements[type].title,
+    description: achievements[type].description,
+    iconBgColor: achievements[type].iconBgColor,
     onPress,
   };
 }
