@@ -1,17 +1,15 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {UserListPingButton} from '@components/ListItems/UserListItem/components/UserListPingButton';
-import {COLORS} from '@constants/colors';
+import {WalkThroughElementContainer} from '@screens/WalkThrough/components/WalkThroughElementContainer';
 import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
 import {useEffect, useRef, useState} from 'react';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {rem} from 'rn-units';
 
-const WALKTHROUGH_ELEMENT_CONTAINER_PADDING = rem(20);
-const BORDER_RADIUS = rem(20);
+const CONTAINER_PADDING = rem(20);
 
-//TODO:combine with useEarningsWalkthrough
 export const usePingWalkthrough = ({userId}: {userId: string}) => {
   const {setWalkthroughElementData} = useSetWalkthroughElementData();
   const [elementData, setElementData] = useState<{
@@ -22,19 +20,18 @@ export const usePingWalkthrough = ({userId}: {userId: string}) => {
 
   useEffect(() => {
     if (elementData) {
-      const top = elementData.pageY - WALKTHROUGH_ELEMENT_CONTAINER_PADDING * 2;
-      const left =
-        elementData.pageX - WALKTHROUGH_ELEMENT_CONTAINER_PADDING * 2;
+      const top = elementData.pageY - CONTAINER_PADDING * 2;
+      const left = elementData.pageX - CONTAINER_PADDING * 2;
       setWalkthroughElementData({
         stepKey: 'ping',
         elementData: {
           top,
           render: () => (
-            <View style={[styles.outerContainer, {left}]}>
-              <View style={[styles.innerContainer]}>
-                <UserListPingButton userId={userId} />
-              </View>
-            </View>
+            <WalkThroughElementContainer
+              outerStyle={[styles.outerContainer, {left}]}
+              innerStyle={styles.innerContainer}>
+              <UserListPingButton userId={userId} />
+            </WalkThroughElementContainer>
           ),
         },
       });
@@ -58,16 +55,11 @@ export const usePingWalkthrough = ({userId}: {userId: string}) => {
 const styles = StyleSheet.create({
   outerContainer: {
     alignSelf: 'flex-start',
-    //TODO:set to constants?
-    borderRadius: BORDER_RADIUS,
-    backgroundColor: COLORS.white02opacity,
-    padding: WALKTHROUGH_ELEMENT_CONTAINER_PADDING,
+    padding: CONTAINER_PADDING,
     justifyContent: 'center',
   },
   innerContainer: {
-    borderRadius: BORDER_RADIUS,
-    backgroundColor: COLORS.white,
-    padding: WALKTHROUGH_ELEMENT_CONTAINER_PADDING,
+    padding: CONTAINER_PADDING,
     alignItems: 'center',
     justifyContent: 'center',
   },

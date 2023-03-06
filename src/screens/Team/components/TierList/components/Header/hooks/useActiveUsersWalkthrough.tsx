@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {ReferralType} from '@api/user/types';
-import {COLORS} from '@constants/colors';
 import {ActiveUsers} from '@screens/Team/components/TierList/components/Header/components/ActiveUsers';
+import {WalkThroughElementContainer} from '@screens/WalkThrough/components/WalkThroughElementContainer';
 import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
 import {useEffect, useRef, useState} from 'react';
 import React from 'react';
@@ -10,9 +10,7 @@ import {StyleSheet, View} from 'react-native';
 import {rem} from 'rn-units';
 
 const WALKTHROUGH_ELEMENT_CONTAINER_PADDING = rem(20);
-const BORDER_RADIUS = rem(20);
 
-//TODO:combine with useEarningsWalkthrough
 export const useActiveUsersWalkthrough = ({
   referralType,
   focused,
@@ -47,11 +45,11 @@ export const useActiveUsersWalkthrough = ({
         elementData: {
           top,
           render: () => (
-            <View style={[styles.outerContainer, {left}]}>
-              <View style={[styles.innerContainer]}>
-                <ActiveUsers referralType={referralType} />
-              </View>
-            </View>
+            <WalkThroughElementContainer
+              outerStyle={[styles.outerContainer, {left}]}
+              innerStyle={styles.innerContainer}>
+              <ActiveUsers referralType={referralType} />
+            </WalkThroughElementContainer>
           ),
         },
       });
@@ -66,15 +64,10 @@ export const useActiveUsersWalkthrough = ({
 const styles = StyleSheet.create({
   outerContainer: {
     alignSelf: 'flex-start',
-    //TODO:set to constants?
-    borderRadius: BORDER_RADIUS,
-    backgroundColor: COLORS.white02opacity,
     padding: WALKTHROUGH_ELEMENT_CONTAINER_PADDING,
     justifyContent: 'center',
   },
   innerContainer: {
-    borderRadius: BORDER_RADIUS,
-    backgroundColor: COLORS.white,
     padding: WALKTHROUGH_ELEMENT_CONTAINER_PADDING,
     alignItems: 'center',
     justifyContent: 'center',

@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {COLORS} from '@constants/colors';
 import {AllowContactsButton} from '@screens/Team/components/Contacts/components/ContactsPermissions/components/AllowContactsButton';
+import {WalkThroughElementContainer} from '@screens/WalkThrough/components/WalkThroughElementContainer';
 import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
 import {useEffect, useRef, useState} from 'react';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {rem} from 'rn-units';
 
-const WALKTHROUGH_ELEMENT_CONTAINER_PADDING = rem(20);
+const CONTAINER_PADDING = rem(20);
 
 export const useAllowContactsWalkthrough = () => {
   const {setWalkthroughElementData} = useSetWalkthroughElementData();
@@ -17,17 +17,17 @@ export const useAllowContactsWalkthrough = () => {
 
   useEffect(() => {
     if (elementY) {
-      const top = elementY - WALKTHROUGH_ELEMENT_CONTAINER_PADDING * 2;
+      const top = elementY - CONTAINER_PADDING * 2;
       setWalkthroughElementData({
         stepKey: 'allowContacts',
         elementData: {
           top,
           render: () => (
-            <View style={styles.outerContainer}>
-              <View style={styles.innerContainer}>
-                <AllowContactsButton />
-              </View>
-            </View>
+            <WalkThroughElementContainer
+              outerStyle={styles.outerContainer}
+              innerStyle={styles.innerContainer}>
+              <AllowContactsButton />
+            </WalkThroughElementContainer>
           ),
         },
       });
@@ -55,13 +55,9 @@ export const useAllowContactsWalkthrough = () => {
 const styles = StyleSheet.create({
   outerContainer: {
     alignSelf: 'center',
-    borderRadius: rem(20),
-    backgroundColor: COLORS.white02opacity,
-    padding: WALKTHROUGH_ELEMENT_CONTAINER_PADDING,
+    padding: CONTAINER_PADDING,
   },
   innerContainer: {
-    borderRadius: rem(20),
-    backgroundColor: COLORS.white,
-    padding: WALKTHROUGH_ELEMENT_CONTAINER_PADDING,
+    padding: CONTAINER_PADDING,
   },
 });
