@@ -24,7 +24,7 @@ export const TopMiners = memo(() => {
         key={item.userId ?? uniqueId()}
         onPress={() => {
           // TODO: temp profile disabling
-          if (item.userId && false) {
+          if (item.userId) {
             navigation.navigate('UserProfile', {userId: item.userId!});
           }
         }}>
