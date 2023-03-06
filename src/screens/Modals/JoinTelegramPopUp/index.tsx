@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {CommonInput} from '@components/Inputs/CommonInput';
+import {KeyboardAvoider} from '@components/KeyboardAvoider';
 import {stopPropagation} from '@components/KeyboardDismiss';
 import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
-import useIsKeyboardShown from '@hooks/useIsKeyboardShown';
 import {Images} from '@images';
 import {useNavigation} from '@react-navigation/native';
 import {Message} from '@screens/Modals/PopUp/components/Message';
@@ -26,7 +26,6 @@ import {rem} from 'rn-units';
 
 export const JoinTelegramPopUp = () => {
   const navigation = useNavigation();
-  const isKeyboardShown = useIsKeyboardShown();
   const [text, setText] = useState('@');
   const dispatch = useDispatch();
 
@@ -68,53 +67,50 @@ export const JoinTelegramPopUp = () => {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={onPressOutside}>
-      <View style={[styles.background]}>
-        <View
-          style={[
-            styles.container,
-            isKeyboardShown ? {marginTop: -rem(150)} : {},
-          ]}
-          {...stopPropagation}>
-          <Image
-            resizeMode={'contain'}
-            style={styles.image}
-            source={Images.popUp.telegram}
-          />
-          <Title text={t('home.achievements.popup.title')} />
-          <Message text={t('home.achievements.popup.description')} />
+    <KeyboardAvoider>
+      <TouchableWithoutFeedback onPress={onPressOutside}>
+        <View style={[styles.background]}>
+          <View style={[styles.container]} {...stopPropagation}>
+            <Image
+              resizeMode={'contain'}
+              style={styles.image}
+              source={Images.popUp.telegram}
+            />
+            <Title text={t('home.achievements.popup.title')} />
+            <Message text={t('home.achievements.popup.description')} />
 
-          <CommonInput
-            label={t('home.achievements.popup.placeholder')}
-            onChangeText={onChangeText}
-            icon={
-              <ManIcon
-                color={COLORS.secondary}
-                width={rem(16)}
-                height={rem(16)}
+            <CommonInput
+              label={t('home.achievements.popup.placeholder')}
+              onChangeText={onChangeText}
+              icon={
+                <ManIcon
+                  color={COLORS.secondary}
+                  width={rem(16)}
+                  height={rem(16)}
+                />
+              }
+              value={text}
+              containerStyle={styles.textInputStyle}
+            />
+
+            <View style={styles.buttons}>
+              <PopUpButton
+                text={t('button.cancel')}
+                preset="outlined"
+                onPress={() => {
+                  navigation.goBack();
+                }}
               />
-            }
-            value={text}
-            containerStyle={styles.textInputStyle}
-          />
-
-          <View style={styles.buttons}>
-            <PopUpButton
-              text={t('button.cancel')}
-              preset="outlined"
-              onPress={() => {
-                navigation.goBack();
-              }}
-            />
-            <PopUpButton
-              text={t('button.confirm')}
-              onPress={handleConfirmation}
-              disabled={text.length < 2}
-            />
+              <PopUpButton
+                text={t('button.confirm')}
+                onPress={handleConfirmation}
+                disabled={text.length < 2}
+              />
+            </View>
           </View>
         </View>
-      </View>
-    </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoider>
   );
 };
 
