@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {CommonInput} from '@components/Inputs/CommonInput';
 import {stopPropagation} from '@components/KeyboardDismiss';
 import {LottieView, LottieViewProps} from '@components/LottieView';
 import {COLORS} from '@constants/colors';
@@ -16,8 +15,7 @@ import {
 } from '@screens/Modals/PopUp/components/PopUpButton';
 import {Title} from '@screens/Modals/PopUp/components/Title';
 import {Warning} from '@screens/Modals/PopUp/components/Warning';
-import {ManIcon} from '@svg/ManIcon';
-import React, {ReactNode, useEffect, useState} from 'react';
+import React, {ReactNode, useEffect} from 'react';
 import {
   BackHandler,
   Image,
@@ -60,12 +58,9 @@ export const PopUp = () => {
       dismissOnAndroidHardwareBack = true,
       showCloseButton = false,
       onDismiss,
-      textInputPlaceholder,
-      onChangeText = () => {},
     },
   } = useRoute<RouteProp<MainStackParamList, 'PopUp'>>();
   const navigation = useNavigation();
-  const [text, setText] = useState('');
 
   const onPressOutside = () => {
     if (dismissOnOutsideTouch) {
@@ -118,24 +113,6 @@ export const PopUp = () => {
             ) : (
               warning
             ))}
-          {!!textInputPlaceholder && (
-            <CommonInput
-              label={textInputPlaceholder}
-              onChangeText={value => {
-                setText(value);
-                onChangeText(value);
-              }}
-              icon={
-                <ManIcon
-                  color={COLORS.secondary}
-                  width={rem(16)}
-                  height={rem(16)}
-                />
-              }
-              value={text}
-              containerStyle={styles.textInputStyle}
-            />
-          )}
           {buttons.length > 0 && (
             <View style={styles.buttons}>
               {buttons.map((button, index) => (
@@ -194,9 +171,5 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: rem(15),
     right: rem(15),
-  },
-  textInputStyle: {
-    marginHorizontal: rem(20),
-    marginTop: rem(20),
   },
 });

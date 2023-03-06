@@ -6,8 +6,7 @@ import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import useIsKeyboardShown from '@hooks/useIsKeyboardShown';
 import {Images} from '@images';
-import {MainStackParamList} from '@navigation/Main';
-import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {Message} from '@screens/Modals/PopUp/components/Message';
 import {PopUpButton} from '@screens/Modals/PopUp/components/PopUpButton';
 import {Title} from '@screens/Modals/PopUp/components/Title';
@@ -25,31 +24,14 @@ import {
 import {useDispatch} from 'react-redux';
 import {rem} from 'rn-units';
 
-export type JoinTelegramPopUpProps = {
-  dismissOnOutsideTouch?: boolean;
-  dismissOnButtonPress?: boolean;
-  dismissOnAndroidHardwareBack?: boolean;
-  onDismiss?: () => void;
-};
-
 export const JoinTelegramPopUp = () => {
-  const {
-    params: {
-      dismissOnOutsideTouch = true,
-      dismissOnButtonPress = true,
-      dismissOnAndroidHardwareBack = true,
-      onDismiss,
-    },
-  } = useRoute<RouteProp<MainStackParamList, 'JoinTelegramPopUp'>>();
   const navigation = useNavigation();
   const isKeyboardShown = useIsKeyboardShown();
   const [text, setText] = useState('@');
   const dispatch = useDispatch();
 
   const onPressOutside = () => {
-    if (dismissOnOutsideTouch) {
-      navigation.goBack();
-    }
+    navigation.goBack();
   };
 
   useEffect(() => {
@@ -59,12 +41,10 @@ export const JoinTelegramPopUp = () => {
        * When true is returned the event will not be bubbled up
        * & no other back action will execute
        */
-      () => !dismissOnAndroidHardwareBack,
+      () => true,
     );
     return () => backHandler.remove();
-  }, [dismissOnAndroidHardwareBack, onDismiss]);
-
-  useEffect(() => () => onDismiss?.());
+  }, []);
 
   const onChangeText = (inputText: string) => {
     if (inputText === '') {
@@ -81,7 +61,9 @@ export const JoinTelegramPopUp = () => {
      * call completeJoinTelegramAchievementSaga on UPDATE_ACCOUNT.SUCCESS
      */
 
-    dispatch(AchievementsActions.COMPLETE_NEXT_ACHIEVEMENT.STATE.create());
+    dispatch(
+      AchievementsActions.COMPLETE_CURRENT_ACTIVE_ACHIEVEMENT.STATE.create(),
+    );
     navigation.goBack();
   };
 
@@ -121,9 +103,7 @@ export const JoinTelegramPopUp = () => {
               text={t('button.cancel')}
               preset="outlined"
               onPress={() => {
-                if (dismissOnButtonPress) {
-                  navigation.goBack();
-                }
+                navigation.goBack();
               }}
             />
             <PopUpButton

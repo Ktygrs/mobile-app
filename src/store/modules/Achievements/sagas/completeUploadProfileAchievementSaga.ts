@@ -4,7 +4,6 @@ import {User} from '@api/user/types';
 import {AccountActions} from '@store/modules/Account/actions';
 import {AchievementsActions} from '@store/modules/Achievements/actions';
 import {getAchievements} from '@store/modules/Achievements/selectors/getAchievements';
-import {hasUncompletedAchievements} from '@store/modules/Achievements/selectors/hasUncompletedAchievements';
 import {
   actionPayloadSelector,
   isSuccessSelector,
@@ -26,9 +25,6 @@ export function* completeUploadProfileAchievementSaga() {
   );
 
   if (isSuccessUpdate && checkProp(updatePayload, 'userInfo')) {
-    const hasUncompleted: ReturnType<typeof hasUncompletedAchievements> =
-      yield select(hasUncompletedAchievements);
-
     const miningAchievement = achievements.find(
       achievement => achievement.type === 'upload_profile_picture',
     );
@@ -36,11 +32,12 @@ export function* completeUploadProfileAchievementSaga() {
     const userInfo = updatePayload.userInfo as Partial<User>;
     if (
       userInfo.profilePicture &&
-      hasUncompleted &&
       miningAchievement &&
       !miningAchievement.completed
     ) {
-      yield put(AchievementsActions.COMPLETE_NEXT_ACHIEVEMENT.STATE.create());
+      yield put(
+        AchievementsActions.COMPLETE_CURRENT_ACTIVE_ACHIEVEMENT.STATE.create(),
+      );
     }
   }
 }

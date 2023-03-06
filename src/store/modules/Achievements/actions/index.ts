@@ -15,12 +15,15 @@ const ACHIEVEMENT_MARK_COMPLETED = createAction('ACHIEVEMENT_MARK_COMPLETED', {
   START: (payload: {name: string}) => payload,
 });
 
-const COMPLETE_NEXT_ACHIEVEMENT = createAction('COMPLETE_NEXT_ACHIEVEMENT', {
-  STATE: true,
-});
+const COMPLETE_CURRENT_ACTIVE_ACHIEVEMENT = createAction(
+  'COMPLETE_CURRENT_ACTIVE_ACHIEVEMENT',
+  {
+    STATE: true,
+  },
+);
 
 export const AchievementsActions = Object.freeze({
   GET_ACHIEVEMENTS,
   ACHIEVEMENT_MARK_COMPLETED,
-  COMPLETE_NEXT_ACHIEVEMENT,
+  COMPLETE_CURRENT_ACTIVE_ACHIEVEMENT,
 });

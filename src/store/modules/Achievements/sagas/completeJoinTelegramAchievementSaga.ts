@@ -4,7 +4,6 @@ import {User} from '@api/user/types';
 import {AccountActions} from '@store/modules/Account/actions';
 import {AchievementsActions} from '@store/modules/Achievements/actions';
 import {getAchievements} from '@store/modules/Achievements/selectors/getAchievements';
-import {hasUncompletedAchievements} from '@store/modules/Achievements/selectors/hasUncompletedAchievements';
 import {
   actionPayloadSelector,
   isSuccessSelector,
@@ -25,24 +24,22 @@ export function* completeJoinTelegramAchievementSaga() {
     actionPayloadSelector.bind(null, AccountActions.UPDATE_ACCOUNT),
   );
 
-  if (isSuccessUpdate && checkProp(updatePayload, 'user')) {
-    const hasUncompleted: ReturnType<typeof hasUncompletedAchievements> =
-      yield select(hasUncompletedAchievements);
-
+  if (isSuccessUpdate && checkProp(updatePayload, 'userInfo')) {
     const joinTelegramAchievement = achievements.find(
       achievement => achievement.type === 'join_telegram',
     );
 
-    const user = updatePayload.user as Partial<User>;
+    const user = updatePayload.userInfo as Partial<User>;
 
     if (
       user.clientData?.telegramUserHandle &&
-      hasUncompleted &&
       joinTelegramAchievement &&
       !joinTelegramAchievement.completed
     ) {
       // TODO: achievements: replace with API call when api would be connected
-      yield put(AchievementsActions.COMPLETE_NEXT_ACHIEVEMENT.STATE.create());
+      yield put(
+        AchievementsActions.COMPLETE_CURRENT_ACTIVE_ACHIEVEMENT.STATE.create(),
+      );
     }
   }
 }

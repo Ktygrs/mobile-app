@@ -2,7 +2,7 @@
 
 import {Achievement, AchievementType} from '@api/achievements/types';
 import {COLORS} from '@constants/colors';
-import {MainStackParamList, MainTabsParamList} from '@navigation/Main';
+import {MainNavigationParams} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {logError} from '@services/logging';
@@ -43,10 +43,7 @@ const iconBackgrounds: {[key in AchievementType]: string} = {
 
 export function useAchievementItem(achievement: Achievement) {
   const navigation =
-    useNavigation<NativeStackNavigationProp<MainStackParamList>>();
-
-  const tabsNavigation =
-    useNavigation<NativeStackNavigationProp<MainTabsParamList>>();
+    useNavigation<NativeStackNavigationProp<MainNavigationParams>>();
 
   const dispatch = useDispatch();
 
@@ -58,13 +55,13 @@ export function useAchievementItem(achievement: Achievement) {
         dispatch(TokenomicsActions.START_MINING_SESSION.START.create());
         break;
       case 'upload_profile_picture':
-        tabsNavigation.navigate('ProfileTab');
+        navigation.navigate('ProfileTab');
         break;
       case 'follow_us_on_twitter':
         Linking.canOpenURL(t('links.twitterScheme'))
           .then(supported => {
             dispatch(
-              AchievementsActions.COMPLETE_NEXT_ACHIEVEMENT.STATE.create(),
+              AchievementsActions.COMPLETE_CURRENT_ACTIVE_ACHIEVEMENT.STATE.create(),
             );
             if (supported) {
               return Linking.openURL(t('links.twitterAppUrl'));
@@ -77,7 +74,7 @@ export function useAchievementItem(achievement: Achievement) {
           .catch(logError);
         break;
       case 'join_telegram':
-        navigation.navigate('JoinTelegramPopUp', {});
+        navigation.navigate('JoinTelegramPopUp');
         break;
       case 'invite_friends':
         navigation.navigate('InviteShare');
@@ -85,7 +82,7 @@ export function useAchievementItem(achievement: Achievement) {
       default:
         break;
     }
-  }, [dispatch, type, tabsNavigation, navigation]);
+  }, [dispatch, type, navigation]);
 
   return {
     title: titles[type],

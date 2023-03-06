@@ -4,7 +4,7 @@ import {Achievement} from '@api/achievements/types';
 import {useFocusEffect} from '@react-navigation/native';
 import {AchievementsActions} from '@store/modules/Achievements/actions';
 import {getAchievements} from '@store/modules/Achievements/selectors/getAchievements';
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 export function useAchievements() {
@@ -25,18 +25,20 @@ export function useAchievements() {
     }
   }, [dispatch, achievements, currentAchievements]);
 
-  useFocusEffect(() => {
-    if (
-      currentAchievements.length > 0 &&
-      achievements.length > 0 &&
-      JSON.stringify(currentAchievements) !== JSON.stringify(achievements)
-    ) {
-      /** Timeout so user can see the change active achievement animation */
-      setTimeout(() => {
-        setCurrentAchievements(achievements);
-      }, 1000);
-    }
-  });
+  useFocusEffect(
+    useCallback(() => {
+      if (
+        currentAchievements.length > 0 &&
+        achievements.length > 0 &&
+        JSON.stringify(currentAchievements) !== JSON.stringify(achievements)
+      ) {
+        /** Timeout so user can see the change active achievement animation */
+        setTimeout(() => {
+          setCurrentAchievements(achievements);
+        }, 1000);
+      }
+    }, [achievements, currentAchievements]),
+  );
 
   return {
     achievements: currentAchievements,

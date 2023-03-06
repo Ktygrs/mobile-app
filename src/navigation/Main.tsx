@@ -29,10 +29,7 @@ import {ActionSheet} from '@screens/Modals/ActionSheet';
 import {ContextualMenu} from '@screens/Modals/ContextualMenu';
 import {CountrySelect} from '@screens/Modals/CountrySelect';
 import {DateSelect} from '@screens/Modals/DateSelector';
-import {
-  JoinTelegramPopUp,
-  JoinTelegramPopUpProps,
-} from '@screens/Modals/JoinTelegramPopUp';
+import {JoinTelegramPopUp} from '@screens/Modals/JoinTelegramPopUp';
 import {PopUp, PopUpProps} from '@screens/Modals/PopUp';
 import {ProfilePrivacyEditStep1} from '@screens/Modals/ProfilePrivacyEdit/step1';
 import {ProfilePrivacyEditStep2} from '@screens/Modals/ProfilePrivacyEdit/step2';
@@ -73,7 +70,7 @@ export type MainTabsParamList = {
 export type MainStackParamList = {
   MainTabs: undefined;
   PopUp: PopUpProps;
-  JoinTelegramPopUp: JoinTelegramPopUpProps;
+  JoinTelegramPopUp: undefined;
   Tooltip: {
     position: 'above' | 'below';
     targetRef: RefObject<View>;

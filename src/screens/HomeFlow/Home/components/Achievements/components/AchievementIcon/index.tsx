@@ -39,5 +39,5 @@ export const AchievementIcon = memo(({type}: Props) => {
     }
     return icon;
   };
-  return <>{iconForType()}</>;
+  return iconForType();
 });

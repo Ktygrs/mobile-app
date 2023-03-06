@@ -24,7 +24,7 @@ export function* rootAchievementsSaga() {
       achievementMarkCompletedSaga,
     ),
     takeLeading(
-      AchievementsActions.COMPLETE_NEXT_ACHIEVEMENT.STATE.type,
+      AchievementsActions.COMPLETE_CURRENT_ACTIVE_ACHIEVEMENT.STATE.type,
       completeNextAchievementSaga,
     ),
     takeLeading(
