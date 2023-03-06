@@ -3,11 +3,11 @@
 import {Touchable} from '@components/Touchable';
 import {MIDDLE_BUTTON_HIT_SLOP} from '@constants/styles';
 import {Images} from '@images';
+import {NextButton} from '@screens/WalkThrough/components/StepCircle/components/NextButton';
 import {useCirclePosition} from '@screens/WalkThrough/components/StepCircle/hooks/useCirclePosition';
 import {useParseDescription} from '@screens/WalkThrough/components/StepCircle/hooks/useParseDescription';
 import {CIRCLE_DIAMETER} from '@screens/WalkThrough/constants';
 import {WalkThroughStep} from '@store/modules/WalkThrough/types';
-import {NextArrowSvg} from '@svg/NextArrow';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React from 'react';
@@ -34,8 +34,6 @@ export const StepCircle = ({
   onSkip,
   animatedStyle,
 }: Props) => {
-  const isLastStep = stepIndex === totalSteps - 1;
-
   const circlePosition = useCirclePosition({
     elementHeight,
     elementTop: step.elementData?.top,
@@ -64,15 +62,11 @@ export const StepCircle = ({
         <Touchable onPress={onSkip} hitSlop={MIDDLE_BUTTON_HIT_SLOP}>
           <Text style={styles.skipAll}>{t('button.skip_all')}</Text>
         </Touchable>
-        <Touchable
-          style={styles.nextContainer}
-          hitSlop={MIDDLE_BUTTON_HIT_SLOP}
-          onPress={onNext}>
-          <Text style={styles.next}>
-            {isLastStep ? t('button.done') : t('button.next_step')}
-          </Text>
-          <NextArrowSvg style={styles.nextIconStyle} />
-        </Touchable>
+        <NextButton
+          totalSteps={totalSteps}
+          stepIndex={stepIndex}
+          onPress={onNext}
+        />
       </View>
     </Animated.View>
   );
@@ -118,12 +112,4 @@ const styles = StyleSheet.create({
   skipAll: {
     ...font(14, 17, 'medium'),
   },
-  nextContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  next: {
-    ...font(17, 21, 'bold'),
-  },
-  nextIconStyle: {marginLeft: rem(12)},
 });

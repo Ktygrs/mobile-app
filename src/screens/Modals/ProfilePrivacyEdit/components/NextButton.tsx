@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {Touchable} from '@components/Touchable';
-import {NextArrowSvg} from '@svg/NextArrow';
+import {NextArrow} from '@svg/NextArrow';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React from 'react';
@@ -18,7 +18,7 @@ export const NextButton = ({style, onPress, text}: Props) => {
   return (
     <Touchable style={[styles.container, style]} onPress={onPress}>
       <Text style={styles.text}>{text || t('button.next_step')}</Text>
-      <NextArrowSvg style={{marginLeft: rem(12)}} />
+      <NextArrow style={styles.arrow} />
     </Touchable>
   );
 };
@@ -33,5 +33,8 @@ const styles = StyleSheet.create({
   },
   text: {
     ...font(17, 20.4, 'bold'),
+  },
+  arrow: {
+    marginLeft: rem(12),
   },
 });
