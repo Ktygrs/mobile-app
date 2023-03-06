@@ -2,7 +2,7 @@
 
 export type Badge = {
   name: string;
-  type: string;
+  type: BadgeType;
   achieved: boolean;
   percentageOfUsersInProgress: number;
   achievingRange: {
@@ -11,11 +11,11 @@ export type Badge = {
   };
 };
 
-export type BadgeCategory = 'social' | 'coin' | 'level';
+export type BadgeType = 'social' | 'coin' | 'level';
 
 export type SummaryBadge = {
   name: string;
-  type: BadgeCategory;
+  type: BadgeType;
   index: number;
   lastIndex: number;
 };

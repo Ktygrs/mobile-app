@@ -189,6 +189,7 @@
     "global_rank": "rang global",
     "view_all_roles": "vezi toate rolurile",
     "data_is_hidden": "datele sunt ascunse",
+    "progress_text": "{{value}} of {{total}}",
     "not_found": {
       "title": "Utilizatorul nu a fost găsit",
       "description": "hopa, nu am putut găsi acest utilizator"

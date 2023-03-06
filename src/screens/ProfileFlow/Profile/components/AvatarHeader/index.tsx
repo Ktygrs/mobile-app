@@ -51,7 +51,7 @@ type Props = {
   contact: Contact | undefined;
   onContactPress: () => void;
   showPrivacyHandler: () => void;
-  privacyInfoIsShown: boolean;
+  isPrivacyInfoShown: boolean;
 };
 
 const MAX_SCROLL = 160;
@@ -67,7 +67,7 @@ export const AvatarHeader = memo(
     contact,
     onContactPress,
     showPrivacyHandler,
-    privacyInfoIsShown,
+    isPrivacyInfoShown,
   }: Props) => {
     const {shadowStyle} = useScrollShadow({translateY: scrollY});
     const {top: topInset} = useSafeAreaInsets();
@@ -243,7 +243,7 @@ export const AvatarHeader = memo(
               disabled={updateAvatarLoading}
               hitSlop={MIDDLE_BUTTON_HIT_SLOP}>
               {updateAvatarLoading ? (
-                <ActivityIndicator style={styles.activityIndicator} />
+                <ActivityIndicator style={StyleSheet.absoluteFill} />
               ) : (
                 <AnimatedCameraIcon animatedColor={iconAnimatedColor} />
               )}
@@ -281,7 +281,7 @@ export const AvatarHeader = memo(
             <ShowPrivacyButton
               containerStyle={styles.showPrivacyButton}
               onPress={showPrivacyHandler}
-              privacyInfoIsShown={privacyInfoIsShown}
+              isPrivacyInfoShown={isPrivacyInfoShown}
             />
           )}
           {isOwner && user && <SettingsButton />}
@@ -383,9 +383,6 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     marginHorizontal: 10,
     marginVertical: 10,
-  },
-  activityIndicator: {
-    ...StyleSheet.absoluteFillObject,
   },
   showPrivacyButton: {marginRight: 16},
 });

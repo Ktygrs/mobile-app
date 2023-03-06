@@ -91,11 +91,11 @@ export const Profile = memo(() => {
     }
   }, [contacts, user]);
 
-  const [privacyInfoIsShown, setPrivacyInfoShow] = useState(true);
+  const [isPrivacyInfoShown, setPrivacyInfoShow] = useState(true);
 
   const showPrivacyHandler = useCallback(() => {
-    setPrivacyInfoShow(!privacyInfoIsShown);
-  }, [privacyInfoIsShown]);
+    setPrivacyInfoShow(!isPrivacyInfoShown);
+  }, [isPrivacyInfoShown]);
 
   return (
     <View style={styles.container}>
@@ -111,7 +111,7 @@ export const Profile = memo(() => {
             setIsTooltipVisible(state => !state);
           }}
           showPrivacyHandler={showPrivacyHandler}
-          privacyInfoIsShown={privacyInfoIsShown}
+          isPrivacyInfoShown={isPrivacyInfoShown}
         />
         {contactDetails && isTooltipVisible && !isOwner && (
           <AgendaContactTooltip contact={contactDetails} />
@@ -137,15 +137,15 @@ export const Profile = memo(() => {
         </View>
         <View style={styles.ladderContainer}>
           {userExist && (
-            <LadderBar privacyInfoIsShown={!privacyInfoIsShown} user={user} />
+            <LadderBar isPrivacyInfoShown={!isPrivacyInfoShown} user={user} />
           )}
           {!userExist && <View style={styles.emptyLadder} />}
         </View>
         <View style={[styles.card, commonStyles.baseSubScreen]}>
           {userExist && (
             <>
-              <Role privacyInfoIsShown={!privacyInfoIsShown} user={user} />
-              <Badges privacyInfoIsShown={!privacyInfoIsShown} user={user} />
+              <Role isPrivacyInfoShown={!isPrivacyInfoShown} user={user} />
+              <Badges isPrivacyInfoShown={!isPrivacyInfoShown} user={user} />
               <Invite style={styles.inviteSection} />
               <MiningCalculator />
             </>

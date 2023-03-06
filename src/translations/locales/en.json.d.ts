@@ -141,6 +141,7 @@ export type Translations = {
   'profile.global_rank': null;
   'profile.view_all_roles': null;
   'profile.data_is_hidden': null;
+  'profile.progress_text': {value: number | string; total: number | string};
   'profile.not_found.title': null;
   'profile.not_found.description': null;
   'profile.my_badges.title': null;

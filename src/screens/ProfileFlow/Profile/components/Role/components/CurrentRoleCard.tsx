@@ -21,7 +21,7 @@ type Props = {
   onNextPress?: () => void;
   imageSourceHidden?: ImageSourcePropType;
   isProfilePrivacyEditMode?: boolean;
-  privacyInfoIsShown?: boolean;
+  isPrivacyInfoShown?: boolean;
 };
 
 export const CurrentRoleCard = ({
@@ -32,12 +32,12 @@ export const CurrentRoleCard = ({
   imageSourceHidden,
   isProfilePrivacyEditMode = false,
   user,
-  privacyInfoIsShown,
+  isPrivacyInfoShown,
 }: Props) => {
   const {onUpdate} = useUpdateHiddenProfileElements();
 
   const hidden =
-    user?.hiddenProfileElements?.includes('role') && privacyInfoIsShown;
+    user?.hiddenProfileElements?.includes('role') && isPrivacyInfoShown;
   return (
     <View
       style={[

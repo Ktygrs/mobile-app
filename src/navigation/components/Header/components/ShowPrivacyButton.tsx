@@ -11,7 +11,7 @@ import {StyleProp, View, ViewStyle} from 'react-native';
 type Props = {
   containerStyle?: StyleProp<ViewStyle>;
   color?: string;
-  privacyInfoIsShown: boolean;
+  isPrivacyInfoShown: boolean;
   onPress: () => void;
 };
 
@@ -19,12 +19,12 @@ export const ShowPrivacyButton = ({
   containerStyle,
   color = COLORS.primaryDark,
   onPress,
-  privacyInfoIsShown,
+  isPrivacyInfoShown,
 }: Props) => {
   return (
     <View style={containerStyle}>
       <Touchable onPress={onPress} hitSlop={SMALL_BUTTON_HIT_SLOP}>
-        {privacyInfoIsShown ? (
+        {isPrivacyInfoShown ? (
           <ClosedEyeIcon color={color} />
         ) : (
           <OpenedEyeIcon color={color} />

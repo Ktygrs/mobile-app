@@ -2,6 +2,7 @@
 
 import {COLORS} from '@constants/colors';
 import {PeopleIcon} from '@svg/PeopleIcon';
+import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
@@ -25,7 +26,7 @@ export const BadgeProgress = ({value: progressValue}: Props) => {
           style={styles.percLabelText}
           numberOfLines={2}
           adjustsFontSizeToFit>
-          of
+          {t('global.of')}
         </Text>
         <PeopleIcon />
       </View>

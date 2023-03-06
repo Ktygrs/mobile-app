@@ -179,6 +179,7 @@
     "global_rank": "Globaler Rang",
     "view_all_roles": "alle Rollen anzeigen",
     "data_is_hidden": "Daten werden ausgeblendet",
+    "progress_text": "{{value}} of {{total}}",
     "not_found": {
       "title": "Benutzer wurde nicht gefunden",
       "description": "Hoppla, wir konnten diesen Benutzer nicht finden"

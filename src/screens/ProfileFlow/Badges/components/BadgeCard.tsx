@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {BadgeCategory} from '@api/badges/types';
+import {BadgeType} from '@api/badges/types';
 import {ImageCardCompact} from '@components/Cards/ImageCardCompact';
 import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
@@ -13,7 +13,7 @@ import {rem} from 'rn-units';
 
 type Props = {
   name: string;
-  type: string;
+  type: BadgeType;
   achieved: boolean;
   percentageOfUsersInProgress: number;
   achievingRange: {
@@ -43,16 +43,16 @@ export const BadgeCard = ({
   if (achievingRange.fromInclusive && achievingRange.toInclusive) {
     description = `${achievingRange.fromInclusive}-${
       achievingRange.toInclusive
-    } ${t(`profile.badge_types.${type as BadgeCategory}.description`)}`;
+    } ${t(`profile.badge_types.${type}.description`)}`;
   }
   if (!achievingRange?.toInclusive && achievingRange?.fromInclusive) {
     description = `> ${achievingRange?.fromInclusive - 1} ${t(
-      `profile.badge_types.${type as BadgeCategory}.description`,
+      `profile.badge_types.${type}.description`,
     )}`;
   }
   if (!achievingRange?.fromInclusive && achievingRange?.toInclusive) {
     description = `< ${achievingRange?.toInclusive + 1} ${t(
-      `profile.badge_types.${type as BadgeCategory}.description`,
+      `profile.badge_types.${type}.description`,
     )}`;
   }
 

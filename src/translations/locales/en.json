@@ -196,6 +196,7 @@
     "global_rank": "global rank",
     "view_all_roles": "view all roles",
     "data_is_hidden": "data is hidden",
+    "progress_text": "{{value}} of {{total}}",
     "not_found": {
       "title": "User was not found",
       "description": "oops, we couldn't find this user"

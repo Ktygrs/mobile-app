@@ -1,18 +1,25 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {COLORS} from '@constants/colors';
 import * as React from 'react';
 import Svg, {Path, SvgProps} from 'react-native-svg';
+import {rem} from 'rn-units';
 
-export const iceLegendInactiveIcon = (props: SvgProps) => (
+export const iceLegendInactiveIcon = ({
+  width = rem(76),
+  height = rem(76),
+  color = COLORS.linkWater2,
+  ...props
+}: SvgProps) => (
   <Svg
-    width={props.width}
-    height={props.height}
+    width={width}
+    height={height}
     fill="none"
     viewBox="0 0 500 500"
     {...props}>
     <Path
       d="M126.7 408.7s-12.6 12.7-10.5 23.9c0 0 47.1 9 81.8-2.8 0 0 62.9 14.3 110.6-9.7 0 0 48.5 20 81.9 3.9l4.2-4.4s-8.9-14.1-37.3-28.5l-3-4.2 8.1-4.2-5.8-8.9V365l-2.3-11.8 5.5-1.2 6.6 2.8-.4 5.2 35.4 14.5 5.2-6-6.7-7.5 32 4-4.3-11.8 41.7 1.4-17.4-16.5 38-6.5-17.2-15.3 20.4-17.5-20.4-2.1 11.4-15.8-39.6 7.4 3.3-17.1-46.2 28 .9-12.9-6.6 5.2-3.6-6.8-15.1 6.1-8 18.1-7.8 1.1-6.3-17.4.6-10.5 1.8-14.3h-9.8s-.2-13-4.2-17.7c0 0 56.6-87.5-36-144.5 0 0-2.7-9-12-16.8l-1-7.7s15.3-12.9 14.2-31.4l-2.4-4.6-20.7 12.3s-3.5-2.8-8.6-2.4c0 0-17.8-7.8-25.7-7l-7-7-9.8 5.9s-22.8-1.3-36.3 16.5l-1.1 1.5-15.2-8.8s-5.6-2.6-6.6 4.4c0 0-3.6 15 5.3 25l1.7 2s-11.6 5.9-11.7 15.5c0 0-47.9 29.7-52.2 75.2 0 0-2.1 27 2.4 44.3 0 0-51.7 7-67.5 45.2 0 0-25.7 50.5 16.8 90.4-.4 0 8.5 39 56.5 50.6Z"
-      fill="#D7EAF4"
+      fill={color}
     />
   </Svg>
 );

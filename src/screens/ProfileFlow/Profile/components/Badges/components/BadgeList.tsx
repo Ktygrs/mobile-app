@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {BadgeCategory, SummaryBadge} from '@api/badges/types';
+import {SummaryBadge} from '@api/badges/types';
 import {User} from '@api/user/types';
 import {COLORS} from '@constants/colors';
 import {Images} from '@images';
@@ -18,7 +18,7 @@ type Props = {
   data: SummaryBadge[];
   user?: User | null;
   isProfilePrivacyEditMode?: boolean;
-  privacyInfoIsShown?: boolean;
+  isPrivacyInfoShown?: boolean;
 };
 
 const NUMBER_OF_SKELETONS = 5;
@@ -28,10 +28,10 @@ export const BadgeList = ({
   data,
   isProfilePrivacyEditMode,
   user,
-  privacyInfoIsShown,
+  isPrivacyInfoShown,
 }: Props) => {
   const hidden =
-    user?.hiddenProfileElements?.includes('badges') && privacyInfoIsShown;
+    user?.hiddenProfileElements?.includes('badges') && isPrivacyInfoShown;
 
   const renderItem = useCallback(
     ({item, index}: {item: SummaryBadge | null; index: number}) => {
@@ -41,10 +41,6 @@ export const BadgeList = ({
 
       const image = `${[item.type]}0_achieved_true`;
       const inactiveImage = `${[item.type]}0_achieved_false`;
-      const categoryTransaltion = t(
-        `profile.badge_types.${item.type as BadgeCategory}.title`,
-      );
-
       const ActiveImage = Images.badges[
         image as keyof typeof Images.badges
       ] as React.ElementType;
@@ -52,18 +48,20 @@ export const BadgeList = ({
         inactiveImage as keyof typeof Images.badges
       ] as React.ElementType;
 
+      const value = item.index + 1;
+      const total = item.lastIndex + 1;
+
       return (
         <BadgeCard
           isFirstItem={index === 0}
           activeImage={<ActiveImage />}
           inactiveImage={<InactiveImage />}
           title={item.name}
-          category={categoryTransaltion}
-          progressText={`${item.index + 1} of ${item.lastIndex + 1}`}
-          progressValue={((item.index + 1) * 100) / (item.lastIndex + 1)}
+          category={item.type}
+          progressText={t('profile.progress_text', {value, total})}
+          progressValue={(value * 100) / total}
           hidden={hidden}
           isProfilePrivacyEditMode={isProfilePrivacyEditMode}
-          type={item.type}
         />
       );
     },

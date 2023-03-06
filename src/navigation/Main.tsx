@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {BadgeCategory} from '@api/badges/types';
+import {BadgeType} from '@api/badges/types';
 import {NotificationDeliveryChannel} from '@api/devices/types';
 import {Country} from '@constants/countries';
 import {MainTabBar} from '@navigation/components/MainTabBar';
@@ -112,7 +112,7 @@ export type MainStackParamList = {
   };
   UserProfile: {userId: string} | undefined;
   Roles: {userId?: string} | undefined;
-  Badges: {category?: BadgeCategory; userId?: string};
+  Badges: {category?: BadgeType; userId?: string};
   ProfilePrivacyEditStep1: undefined;
   ProfilePrivacyEditStep2: undefined;
   ProfilePrivacyEditStep3: undefined;
@@ -137,7 +137,7 @@ export type TeamTabStackParamList = {
 export type ProfileTabStackParamList = {
   MyProfile: undefined;
   Roles: {userId?: string} | undefined;
-  Badges: {category?: BadgeCategory; userId?: string};
+  Badges: {category?: BadgeType; userId?: string};
   Settings: undefined;
   PersonalInformation: undefined;
   ModifyPhoneNumber: undefined;

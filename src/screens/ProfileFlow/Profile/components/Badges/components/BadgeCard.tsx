@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {BadgeCategory} from '@api/badges/types';
+import {BadgeType} from '@api/badges/types';
 import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {commonStyles} from '@constants/styles';
@@ -18,7 +18,7 @@ import {rem} from 'rn-units';
 
 type Props = {
   title: string;
-  category: string;
+  category: BadgeType;
   progressText: string;
   progressValue: number;
   activeImage: ReactNode;
@@ -26,7 +26,6 @@ type Props = {
   hidden?: boolean;
   isProfilePrivacyEditMode?: boolean;
   isFirstItem?: boolean;
-  type: BadgeCategory;
 };
 
 export const BadgeCard = memo(
@@ -40,7 +39,6 @@ export const BadgeCard = memo(
     hidden = false,
     isProfilePrivacyEditMode = false,
     isFirstItem,
-    type,
   }: Props) => {
     const navigation =
       useNavigation<NativeStackNavigationProp<ProfileTabStackParamList>>();
@@ -50,9 +48,11 @@ export const BadgeCard = memo(
       if (isProfilePrivacyEditMode) {
         onUpdate('badges');
       } else {
-        navigation.navigate('Badges', {category: type});
+        navigation.navigate('Badges', {category});
       }
-    }, [isProfilePrivacyEditMode, onUpdate, navigation, type]);
+    }, [category, isProfilePrivacyEditMode, onUpdate, navigation]);
+
+    const categoryTransaltion = t(`profile.badge_types.${category}.title`);
 
     return (
       <Touchable onPress={onBadgePress}>
@@ -60,12 +60,19 @@ export const BadgeCard = memo(
           style={[
             styles.container,
             commonStyles.shadow,
-            isFirstItem ? styles.firstItem : null,
+            isFirstItem && styles.firstItem,
           ]}>
           <View style={styles.icon}>
-            {!hidden ? activeImage : inactiveImage}
+            {hidden ? inactiveImage : activeImage}
           </View>
-          {!hidden ? (
+          {hidden ? (
+            <>
+              <ClosedEye height={20} width={20} color={COLORS.secondary} />
+              <Text style={styles.hiddenText} numberOfLines={1}>
+                {t('profile.data_is_hidden')}
+              </Text>
+            </>
+          ) : (
             <>
               <Text
                 style={styles.titleText}
@@ -83,17 +90,10 @@ export const BadgeCard = memo(
                   style={styles.categoryText}
                   numberOfLines={1}
                   adjustsFontSizeToFit={true}>
-                  {category}
+                  {categoryTransaltion}
                 </Text>
                 <Text style={styles.progressText}>{progressText}</Text>
               </View>
-            </>
-          ) : (
-            <>
-              <ClosedEye height={20} width={20} color={COLORS.secondary} />
-              <Text style={styles.hiddenText} numberOfLines={1}>
-                {t('profile.data_is_hidden')}
-              </Text>
             </>
           )}
         </View>

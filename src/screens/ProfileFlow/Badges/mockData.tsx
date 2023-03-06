@@ -1,16 +1,16 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {Badge, BadgeCategory} from '@api/badges/types';
+import {Badge, BadgeType} from '@api/badges/types';
 import {t} from '@translations/i18n';
 import {capitalizeFirstLetter} from '@utils/string';
 
-export const CATEGORIES: ReadonlyArray<{text: string; key: BadgeCategory}> = [
+export const CATEGORIES: ReadonlyArray<{text: string; key: BadgeType}> = [
   {text: capitalizeFirstLetter(t('global.social')), key: 'social'},
   {text: capitalizeFirstLetter(t('global.coins')), key: 'coin'},
   {text: capitalizeFirstLetter(t('global.level')), key: 'level'},
 ];
 
-export const BADGES: {[key in BadgeCategory]: Badge[]} = {
+export const BADGES: {[key in BadgeType]: Badge[]} = {
   social: [
     {
       name: 'ice Breaker',
