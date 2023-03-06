@@ -1,25 +1,20 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {AchievementsActions} from '@store/modules/Achievements/actions';
-import {getAchievements} from '@store/modules/Achievements/selectors/getAchievements';
+import {getAchievementByType} from '@store/modules/Achievements/selectors/getAchievementByType';
 import {referralsSelector} from '@store/modules/Referrals/selectors';
 import {put, select} from 'redux-saga/effects';
 
 export function* completeInviteFriendsAchievementSaga() {
-  const achievements: ReturnType<typeof getAchievements> = yield select(
-    getAchievements,
-  );
+  const achievement: ReturnType<ReturnType<typeof getAchievementByType>> =
+    yield select(getAchievementByType({type: 'invite_friends'}));
 
   const {total} = yield select(referralsSelector({referralType: 'T1'}));
 
-  const inviteFriendsAchievement = achievements.find(
-    achievement => achievement.type === 'invite_friends',
-  );
-
-  const requiredInvitesCount = inviteFriendsAchievement?.data?.requiredQuantity;
+  const requiredInvitesCount = achievement?.data?.requiredQuantity;
   if (
-    inviteFriendsAchievement &&
-    !inviteFriendsAchievement.completed &&
+    achievement &&
+    !achievement.completed &&
     requiredInvitesCount &&
     total - 1 >= requiredInvitesCount
   ) {
