@@ -25,12 +25,14 @@ export const InviteShare = memo(() => {
     current: {paddingTop},
   } = useTopOffsetStyle();
 
+  const top = HEADER_HEIGHT + paddingTop + rem(12);
+
   return (
     <View style={styles.container}>
       <Header color={COLORS.primaryDark} title={t('invite_share.title')} />
       <View style={styles.shareSubstrate} />
       <Image
-        style={[styles.bg, {top: HEADER_HEIGHT + paddingTop + rem(12)}]}
+        style={[styles.bg, {top}]}
         source={Images.backgrounds.linesBg}
         resizeMode="stretch"
       />
