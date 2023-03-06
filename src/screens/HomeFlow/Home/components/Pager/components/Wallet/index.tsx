@@ -20,7 +20,7 @@ import {InfoOutlineIcon} from '@svg/InfoOutlineIcon';
 import {t} from '@translations/i18n';
 import {formatNumberString} from '@utils/numbers';
 import {font} from '@utils/styles';
-import React, {memo} from 'react';
+import React, {memo, useMemo} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {isAndroid, rem} from 'rn-units';
@@ -47,6 +47,24 @@ export const Wallet = memo(() => {
       }[miningRates?.type ?? 'none'],
   );
 
+  const rateValueTextStyle = useMemo(() => {
+    if (animatedMiningRatesTotalAmount > 0) {
+      return {
+        color: COLORS.shamrock,
+      };
+    }
+
+    if (animatedMiningRatesTotalAmount < 0) {
+      return {
+        color: COLORS.attention,
+      };
+    }
+
+    return {
+      color: COLORS.white,
+    };
+  }, [animatedMiningRatesTotalAmount]);
+
   if (!balanceSummary || !miningRates) {
     //TODO: add loading
     return null;
@@ -58,15 +76,30 @@ export const Wallet = memo(() => {
       <View style={styles.balanceContainer}>
         <View style={styles.balanceValue}>
           {
-            {positive: <ArrowUp />, negative: <ArrowDown />, none: ''}[
-              miningRates.type
-            ]
+            {
+              positive: (
+                <View style={styles.balanceValueArrow}>
+                  <ArrowUp color={COLORS.white} />
+                </View>
+              ),
+              negative: (
+                <View
+                  style={[
+                    styles.balanceValueArrow,
+                    styles.balanceValueArrowNegative,
+                  ]}>
+                  <ArrowDown color={COLORS.white} />
+                </View>
+              ),
+              none: '',
+            }[miningRates.type]
           }
           <FormattedNumber
             containerStyle={styles.balanceValueContainer}
             number={formatNumberString(String(animatedBalanceSummary))}
             bodyStyle={styles.balanceValueText}
             decimalsStyle={styles.balanceValueDecimalsText}
+            trim
           />
           <IceLabel
             textStyle={styles.balanceCurrencyText}
@@ -86,10 +119,13 @@ export const Wallet = memo(() => {
         </Touchable>
       </View>
       <View style={styles.miningRate}>
-        <Text style={styles.rateLabelText}>{t('home.wallet.rate')} </Text>
+        <Text style={styles.rateLabelText}>{t('home.wallet.rate')}</Text>
         <FormattedNumber
           containerStyle={styles.rateValueContainer}
+          bodyStyle={rateValueTextStyle}
+          decimalsStyle={rateValueTextStyle}
           number={formatNumberString(String(animatedMiningRatesTotalAmount))}
+          trim
         />
         <IceLabel
           textStyle={styles.rateValueText}
@@ -121,7 +157,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  balanceValueArrow: {
+    paddingVertical: rem(6),
+    paddingHorizontal: rem(7),
+    borderRadius: rem(16),
+    backgroundColor: COLORS.shamrock,
+  },
+  balanceValueArrowNegative: {
+    backgroundColor: COLORS.attention,
+  },
   balanceValueContainer: {
+    marginLeft: rem(10),
     marginRight: rem(6),
   },
   balanceValueText: {
