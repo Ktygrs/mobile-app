@@ -111,6 +111,7 @@ const ShareCard = () => {
         case 'Telegram':
           let telegramOptions: ShareSingleOptions = {
             social: Social.Telegram,
+            message: `${baseOptions.message} ${url}`,
           };
           await Share.shareSingle(telegramOptions);
           break;
