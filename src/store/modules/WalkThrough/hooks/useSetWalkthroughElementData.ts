@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {store} from '@store/configureStore';
 import {WalkThroughActions} from '@store/modules/WalkThrough/actions';
+import {isStepHasToBeShownSelector} from '@store/modules/WalkThrough/selectors';
 import {
   WalkThroughElementData,
   WalkthroughStepKey,
@@ -9,7 +11,6 @@ import {useCallback} from 'react';
 import {useDispatch} from 'react-redux';
 
 export function useSetWalkthroughElementData() {
-  //TODO:check if we actually need to dispatch it (check version)
   const dispatch = useDispatch();
   const setWalkthroughElementData = useCallback(
     ({
@@ -19,12 +20,17 @@ export function useSetWalkthroughElementData() {
       stepKey: WalkthroughStepKey;
       elementData: WalkThroughElementData;
     }) => {
-      dispatch(
-        WalkThroughActions.SET_WALK_THROUGH_STEP_ELEMENT_DATA.STATE.create({
-          elementData,
-          stepKey,
-        }),
+      const isStepHasToBeShown = isStepHasToBeShownSelector(stepKey)(
+        store.getState(),
       );
+      if (isStepHasToBeShown) {
+        dispatch(
+          WalkThroughActions.SET_WALK_THROUGH_STEP_ELEMENT_DATA.STATE.create({
+            elementData,
+            stepKey,
+          }),
+        );
+      }
     },
     [dispatch],
   );
