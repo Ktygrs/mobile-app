@@ -10,8 +10,9 @@ import {SEARCH_INPUT_TOP_OFFSET} from '@screens/Team/components/Header/component
 import {SEGMENTED_CONTROL_PADDING_TOP} from '@screens/Team/components/SegmentedContent';
 import {SEGMENTS} from '@screens/Team/components/SegmentedContent/segments';
 import {WalkThroughElementContainer} from '@screens/WalkThrough/components/WalkThroughElementContainer';
+import {useMeasureWalkthroughElement} from '@store/modules/WalkThrough/hooks/useMeasureWalkthroughElement';
 import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -21,12 +22,13 @@ const OUTER_CONTAINER_VERTICAL_PADDING = rem(16);
 
 export const useContactsListWalkthrough = () => {
   const {setWalkthroughElementData} = useSetWalkthroughElementData();
-  const [elementReady, setElementReady] = useState(false);
+
+  const {elementRef, measureElement} = useMeasureWalkthroughElement();
 
   const {top: topInset} = useSafeAreaInsets();
 
   useEffect(() => {
-    if (elementReady) {
+    if (elementRef) {
       const top =
         topInset + SEARCH_INPUT_TOP_OFFSET - OUTER_CONTAINER_VERTICAL_PADDING;
       setWalkthroughElementData({
@@ -47,12 +49,10 @@ export const useContactsListWalkthrough = () => {
         },
       });
     }
-  }, [elementReady, setWalkthroughElementData, topInset]);
+  }, [elementRef, setWalkthroughElementData, topInset]);
 
   const onElementLayout = () => {
-    setTimeout(() => {
-      setElementReady(true);
-    }, 500);
+    measureElement();
   };
 
   return {

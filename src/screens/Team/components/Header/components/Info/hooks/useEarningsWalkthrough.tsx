@@ -4,22 +4,24 @@ import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {EarningsCell} from '@screens/Team/components/Header/components/Info/components/EarningsCell';
 import {WalkThroughElementContainer} from '@screens/WalkThrough/components/WalkThroughElementContainer';
+import {useMeasureWalkthroughElement} from '@store/modules/WalkThrough/hooks/useMeasureWalkthroughElement';
 import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
-import {useEffect, useRef, useState} from 'react';
+import {useEffect} from 'react';
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {rem} from 'rn-units';
 
 const CONTAINER_VERTICAL_PADDING = rem(16);
 
 export const useEarningsWalkthrough = () => {
   const {setWalkthroughElementData} = useSetWalkthroughElementData();
-  const [elementY, setElementY] = useState(0);
-  const elementRef = useRef<View>(null);
+
+  const {elementRef, elementData, measureElement} =
+    useMeasureWalkthroughElement();
 
   useEffect(() => {
-    if (elementY) {
-      const top = elementY - CONTAINER_VERTICAL_PADDING * 2;
+    if (elementData) {
+      const top = elementData.pageY - CONTAINER_VERTICAL_PADDING * 2;
       setWalkthroughElementData({
         stepKey: 'earnings',
         elementData: {
@@ -34,12 +36,10 @@ export const useEarningsWalkthrough = () => {
         },
       });
     }
-  }, [elementY, setWalkthroughElementData]);
+  }, [elementData, setWalkthroughElementData]);
 
   const onElementLayout = () => {
-    elementRef.current?.measure((x, y, width, height, pageX, pageY) => {
-      setElementY(pageY);
-    });
+    measureElement();
   };
 
   return {

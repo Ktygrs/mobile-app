@@ -7,11 +7,16 @@ import {
 import {Segment} from '@components/SegmentedControl/components/Segment';
 import {SegmentIndicator} from '@components/SegmentedControl/components/SegmentIndicator';
 import {COLORS} from '@constants/colors';
+import {INFO_HEIGHT} from '@screens/Team/components/Header/components/Info';
+import {SEARCH_HEIGHT} from '@screens/Team/components/Header/components/Search';
+import {SEGMENTED_CONTROL_PADDING_TOP} from '@screens/Team/components/SegmentedContent';
 import {SEGMENTS} from '@screens/Team/components/SegmentedContent/segments';
+import {useMeasureWalkthroughElement} from '@store/modules/WalkThrough/hooks/useMeasureWalkthroughElement';
 import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
-import {useEffect, useRef, useState} from 'react';
+import {useEffect} from 'react';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {rem} from 'rn-units';
 
 const OUTER_VERTICAL_PADDING = rem(16);
@@ -21,23 +26,30 @@ const INNER_HORIZONTAL_PADDING = rem(20);
 
 export const useSegmentedControlWalkthrough = () => {
   const {setWalkthroughElementData} = useSetWalkthroughElementData();
-  const [elementParams, setElementParams] = useState<{
-    pageY: number;
-    pageX: number;
-    width: number;
-  }>();
-  const elementRef = useRef<View>(null);
+
+  const {elementRef, elementData, measureElement} =
+    useMeasureWalkthroughElement();
+
+  const {top: topInset} = useSafeAreaInsets();
 
   useEffect(() => {
-    if (elementParams) {
+    if (elementData) {
+      /**
+       * Not using pageY since on layout pageY is incorrect because of BottomSheet
+       */
       const top =
-        elementParams.pageY - OUTER_VERTICAL_PADDING - INNER_VERTICAL_PADDING;
+        topInset +
+        SEARCH_HEIGHT +
+        INFO_HEIGHT -
+        OUTER_VERTICAL_PADDING -
+        INNER_VERTICAL_PADDING +
+        SEGMENTED_CONTROL_PADDING_TOP;
       SEGMENTS.forEach((segmentData, index) => {
         const sectionWidth =
-          (elementParams.width - SEGMENTED_CONTROL_HORIZONTAL_OFFSET * 2) /
+          (elementData.width - SEGMENTED_CONTROL_HORIZONTAL_OFFSET * 2) /
           SEGMENTS.length;
         const left =
-          elementParams.pageX +
+          elementData.pageX +
           sectionWidth * index -
           OUTER_HORIZONTAL_PADDING -
           INNER_HORIZONTAL_PADDING +
@@ -62,18 +74,10 @@ export const useSegmentedControlWalkthrough = () => {
         });
       });
     }
-  }, [setWalkthroughElementData, elementParams]);
+  }, [elementData, setWalkthroughElementData, topInset]);
 
   const onElementLayout = () => {
-    /**
-     * Small timeout before measure because the content of the screen is wrapped with
-     * BottomSheetScrollView and on Layout the button position is different
-     */
-    setTimeout(() => {
-      elementRef.current?.measure((x, y, width, height, pageX, pageY) => {
-        setElementParams({pageY, pageX, width});
-      });
-    }, 500);
+    measureElement();
   };
 
   return {

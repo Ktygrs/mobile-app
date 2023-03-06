@@ -17,7 +17,7 @@ export function* showWalkThroughSaga() {
   while (true) {
     yield call(waitForWalkthroughStepCandidates);
 
-    yield delay(500);
+    yield delay(1000);
 
     const steps: ReturnType<typeof walkthroughStepCandidatesSelector> =
       yield select(walkthroughStepCandidatesSelector);
@@ -54,14 +54,14 @@ export function* showWalkThroughSaga() {
         yield goBack();
       }
 
+      if (step.after) {
+        yield call(step.after);
+      }
+
       if (action.type === WalkThroughActions.SKIP_WALK_THROUGH.STATE.type) {
         yield goBack();
         yield call(markAllWalkthroughSteps, user);
         return;
-      }
-
-      if (step.after) {
-        yield call(step.after);
       }
     }
   }

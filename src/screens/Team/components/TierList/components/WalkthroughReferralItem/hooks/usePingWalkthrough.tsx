@@ -2,21 +2,20 @@
 
 import {UserListPingButton} from '@components/ListItems/UserListItem/components/UserListPingButton';
 import {WalkThroughElementContainer} from '@screens/WalkThrough/components/WalkThroughElementContainer';
+import {useMeasureWalkthroughElement} from '@store/modules/WalkThrough/hooks/useMeasureWalkthroughElement';
 import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
-import {useEffect, useRef, useState} from 'react';
+import {useEffect} from 'react';
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {rem} from 'rn-units';
 
 const CONTAINER_PADDING = rem(20);
 
 export const usePingWalkthrough = ({userId}: {userId: string}) => {
   const {setWalkthroughElementData} = useSetWalkthroughElementData();
-  const [elementData, setElementData] = useState<{
-    pageX: number;
-    pageY: number;
-  }>();
-  const elementRef = useRef<View>(null);
+
+  const {elementRef, elementData, measureElement} =
+    useMeasureWalkthroughElement();
 
   useEffect(() => {
     if (elementData) {
@@ -39,11 +38,7 @@ export const usePingWalkthrough = ({userId}: {userId: string}) => {
   }, [elementData, setWalkthroughElementData, userId]);
 
   const onElementLayout = () => {
-    setTimeout(() => {
-      elementRef.current?.measure((x, y, width, height, pageX, pageY) => {
-        setElementData({pageY, pageX});
-      });
-    }, 500);
+    measureElement();
   };
 
   return {

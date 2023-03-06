@@ -3,10 +3,11 @@
 import {ReferralType} from '@api/user/types';
 import {Earnings} from '@screens/Team/components/TierList/components/Header/components/Earnings';
 import {WalkThroughElementContainer} from '@screens/WalkThrough/components/WalkThroughElementContainer';
+import {useMeasureWalkthroughElement} from '@store/modules/WalkThrough/hooks/useMeasureWalkthroughElement';
 import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
-import {useEffect, useRef, useState} from 'react';
+import {useEffect} from 'react';
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {rem} from 'rn-units';
 
 const CONTAINER_PADDING = rem(20);
@@ -19,21 +20,15 @@ export const useEarningsWalkthrough = ({
   focused: boolean;
 }) => {
   const {setWalkthroughElementData} = useSetWalkthroughElementData();
-  const [elementData, setElementData] = useState<{
-    pageX: number;
-    pageY: number;
-  }>();
-  const elementRef = useRef<View>(null);
+
+  const {elementRef, elementData, measureElement} =
+    useMeasureWalkthroughElement();
 
   useEffect(() => {
     if (focused && referralType === 'T1') {
-      setTimeout(() => {
-        elementRef.current?.measure((x, y, width, height, pageX, pageY) => {
-          setElementData({pageY, pageX});
-        });
-      }, 500);
+      measureElement();
     }
-  }, [focused, referralType]);
+  }, [focused, measureElement, referralType]);
 
   useEffect(() => {
     if (elementData) {

@@ -5,11 +5,12 @@ import {PhoneNumberInput} from '@components/Inputs/PhoneNumberInput';
 import {PrimaryButton} from '@components/PrimaryButton';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {WalkThroughElementContainer} from '@screens/WalkThrough/components/WalkThroughElementContainer';
+import {useMeasureWalkthroughElement} from '@store/modules/WalkThrough/hooks/useMeasureWalkthroughElement';
 import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
 import {t} from '@translations/i18n';
-import {useEffect, useRef, useState} from 'react';
+import {useEffect} from 'react';
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {rem} from 'rn-units';
 
 const OUTER_CONTAINER_VERTICAL_PADDING = rem(16);
@@ -17,10 +18,9 @@ const INNER_CONTAINER_VERTICAL_PADDING = rem(20);
 
 export const useModifyPhoneNumberWalkthrough = () => {
   const {setWalkthroughElementData} = useSetWalkthroughElementData();
-  const [elementData, setElementData] = useState<{
-    pageY: number;
-  }>();
-  const elementRef = useRef<View>(null);
+
+  const {elementRef, elementData, measureElement} =
+    useMeasureWalkthroughElement();
 
   useEffect(() => {
     if (elementData) {
@@ -54,11 +54,7 @@ export const useModifyPhoneNumberWalkthrough = () => {
   }, [elementData, setWalkthroughElementData]);
 
   const onElementLayout = () => {
-    setTimeout(() => {
-      elementRef.current?.measure((x, y, width, height, pageX, pageY) => {
-        setElementData({pageY});
-      });
-    }, 500);
+    measureElement();
   };
 
   return {

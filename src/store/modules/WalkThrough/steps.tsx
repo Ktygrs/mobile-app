@@ -14,12 +14,12 @@ import {TierTwoIcon} from '@svg/TierTwoIcon';
 import {WalletIcon} from '@svg/WalletIcon';
 import {t} from '@translations/i18n';
 import React from 'react';
-import {rem} from 'rn-units';
+import {rem, wait} from 'rn-units';
 
 export const WALK_THROUGH_STEPS: WalkThroughStepStaticData[] = [
   {
     key: 'referrals',
-    version: 3,
+    version: 8,
     Icon: <TeamIcon width={rem(26)} height={rem(26)} />,
     title: t('walkthrough.team.referrals.title'),
     description: t('walkthrough.team.referrals.description'),
@@ -27,21 +27,21 @@ export const WALK_THROUGH_STEPS: WalkThroughStepStaticData[] = [
   },
   {
     key: 'earnings',
-    version: 3,
+    version: 8,
     Icon: <WalletIcon width={rem(24)} height={rem(24)} />,
     title: t('walkthrough.team.earnings.title'),
     description: t('walkthrough.team.earnings.description'),
   },
   {
     key: 'contacts',
-    version: 3,
+    version: 8,
     Icon: <ContactsIcon width={rem(24)} height={rem(24)} />,
     title: t('walkthrough.team.contacts.title'),
     description: t('walkthrough.team.contacts.description'),
   },
   {
     key: 'tierone',
-    version: 3,
+    version: 8,
     Icon: <TierOneIcon width={rem(32)} height={rem(32)} />,
     title: t('walkthrough.team.tier_one.title'),
     description: t('walkthrough.team.tier_one.description'),
@@ -49,7 +49,7 @@ export const WALK_THROUGH_STEPS: WalkThroughStepStaticData[] = [
   },
   {
     key: 'tiertwo',
-    version: 3,
+    version: 8,
     Icon: <TierTwoIcon width={rem(32)} height={rem(32)} />,
     title: t('walkthrough.team.tier_two.title'),
     description: t('walkthrough.team.tier_two.description'),
@@ -57,49 +57,51 @@ export const WALK_THROUGH_STEPS: WalkThroughStepStaticData[] = [
   },
   {
     key: 'allowContacts',
-    version: 3,
+    version: 8,
     Icon: <AddressBookIcon />,
     title: t('walkthrough.team.allow_contacts.title'),
     description: t('walkthrough.team.allow_contacts.description'),
   },
   {
     key: 'confirmPhone',
-    version: 3,
+    version: 8,
     Icon: <CheckMarkFramedIcon />,
     title: t('walkthrough.team.confirm_phone.title'),
     description: t('walkthrough.team.confirm_phone.description'),
   },
   {
     key: 'contactsList',
-    version: 3,
+    version: 8,
     Icon: <ContactsIcon height={rem(24)} width={rem(24)} />,
     title: t('walkthrough.team.contacts_list.title'),
     description: t('walkthrough.team.contacts_list.description'),
     circlePosition: 'bottom',
     before: () => {
       navigate({name: 'Team', params: {snapPoint: 1}});
+      return wait(500);
     },
     after: () => {
       navigate({name: 'Team', params: {snapPoint: 0}});
+      return wait(500);
     },
   },
   {
     key: 'activeUsers',
-    version: 3,
+    version: 8,
     Icon: <SonarIcon />,
     title: t('walkthrough.team.active_users.title'),
     description: t('walkthrough.team.active_users.description'),
   },
   {
     key: 'tierOneEarnings',
-    version: 3,
+    version: 8,
     Icon: <TierOneIcon width={rem(32)} height={rem(32)} />,
     title: t('walkthrough.team.tier_one_earnings.title'),
     description: t('walkthrough.team.tier_one_earnings.description'),
   },
   {
     key: 'ping',
-    version: 3,
+    version: 8,
     Icon: <PingIcon color={COLORS.white} height={rem(21)} width={rem(18)} />,
     title: t('walkthrough.team.ping.title'),
     description: t('walkthrough.team.ping.description'),
