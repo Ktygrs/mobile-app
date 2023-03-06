@@ -16,16 +16,16 @@ import {FrozenPurseActiveIcon} from './badges/svg/FrozenPurseActiveIcon';
 import {FrozenPurseInactiveIcon} from './badges/svg/FrozenPurseInactiveIcon';
 import {GlacialPollyActiveIcon} from './badges/svg/GlacialPollyActiveIcon';
 import {GlacialPollyInactiveIcon} from './badges/svg/GlacialPollyInactiveIcon';
-import {iceBreakerActiveIcon} from './badges/svg/iceBreakerActiveIcon';
-import {iceBreakerInactiveIcon} from './badges/svg/iceBreakerInactiveIcon';
-import {iceCommanderActiveIcon} from './badges/svg/iceCommanderActiveIcon';
-import {iceCommanderInactiveIcon} from './badges/svg/iceCommanderInactiveIcon';
-import {iceCubeSwaggerActiveIcon} from './badges/svg/iceCubeSwaggerActiveIcon';
-import {iceCubeSwaggerInactiveIcon} from './badges/svg/iceCubeSwaggerInactiveIcon';
-import {iceLegendActiveIcon} from './badges/svg/iceLegendActiveIcon';
-import {iceLegendInactiveIcon} from './badges/svg/iceLegendInactiveIcon';
-import {iceSoldierActiveIcon} from './badges/svg/iceSoldierActiveIcon';
-import {iceSoldierInactiveIcon} from './badges/svg/iceSoldierInactiveIcon';
+import {IceBreakerActiveIcon} from './badges/svg/iceBreakerActiveIcon';
+import {IceBreakerInactiveIcon} from './badges/svg/iceBreakerInactiveIcon';
+import {IceCommanderActiveIcon} from './badges/svg/iceCommanderActiveIcon';
+import {IceCommanderInactiveIcon} from './badges/svg/iceCommanderInactiveIcon';
+import {IceCubeSwaggerActiveIcon} from './badges/svg/iceCubeSwaggerActiveIcon';
+import {IceCubeSwaggerInactiveIcon} from './badges/svg/iceCubeSwaggerInactiveIcon';
+import {IceLegendActiveIcon} from './badges/svg/iceLegendActiveIcon';
+import {IceLegendInactiveIcon} from './badges/svg/iceLegendInactiveIcon';
+import {IceSoldierActiveIcon} from './badges/svg/iceSoldierActiveIcon';
+import {IceSoldierInactiveIcon} from './badges/svg/iceSoldierInactiveIcon';
 import {IglooBrokerActiveIcon} from './badges/svg/IglooBrokerActiveIcon';
 import {IglooBrokerInactiveIcon} from './badges/svg/IglooBrokerInactiveIcon';
 import {NorthStormActiveIcon} from './badges/svg/NorthStormActiveIcon';
@@ -64,7 +64,7 @@ export const Images = {
     pioneerInactive: require('./roles/pioneer-inactive.png'),
   },
   badges: {
-    social0_achieved_true: iceBreakerActiveIcon,
+    social0_achieved_true: IceBreakerActiveIcon,
     social1_achieved_true: TroubleMakerActiveIcon,
     social2_achieved_true: SnowyPlowerActiveIcon,
     social3_achieved_true: ArcticPranksterActiveIcon,
@@ -73,8 +73,8 @@ export const Images = {
     social6_achieved_true: PolarMachineActiveIcon,
     social7_achieved_true: NorthStormActiveIcon,
     social8_achieved_true: SnowFallActiveIcon,
-    social9_achieved_true: iceLegendActiveIcon,
-    social0_achieved_false: iceBreakerInactiveIcon,
+    social9_achieved_true: IceLegendActiveIcon,
+    social0_achieved_false: IceBreakerInactiveIcon,
     social1_achieved_false: TroubleMakerInactiveIcon,
     social2_achieved_false: SnowyPlowerInactiveIcon,
     social3_achieved_false: ArcticPranksterInactiveIcon,
@@ -83,11 +83,11 @@ export const Images = {
     social6_achieved_false: PolarMachineInactiveIcon,
     social7_achieved_false: NorthStormInactiveIcon,
     social8_achieved_false: SnowFallInactiveIcon,
-    social9_achieved_false: iceLegendInactiveIcon,
+    social9_achieved_false: IceLegendInactiveIcon,
     coin0_achieved_true: PoorGeorgeActiveIcon,
     coin1_achieved_true: FrozenPurseActiveIcon,
     coin2_achieved_true: ArcticAssistantActiveIcon,
-    coin3_achieved_true: iceCubeSwaggerActiveIcon,
+    coin3_achieved_true: IceCubeSwaggerActiveIcon,
     coin4_achieved_true: PolarConsultantActiveIcon,
     coin5_achieved_true: IglooBrokerActiveIcon,
     coin6_achieved_true: SnowyAccountantActiveIcon,
@@ -97,25 +97,25 @@ export const Images = {
     coin0_achieved_false: PoorGeorgeInactiveIcon,
     coin1_achieved_false: FrozenPurseInactiveIcon,
     coin2_achieved_false: ArcticAssistantInactiveIcon,
-    coin3_achieved_false: iceCubeSwaggerInactiveIcon,
+    coin3_achieved_false: IceCubeSwaggerInactiveIcon,
     coin4_achieved_false: PolarConsultantInactiveIcon,
     coin5_achieved_false: IglooBrokerInactiveIcon,
     coin6_achieved_false: SnowyAccountantInactiveIcon,
     coin7_achieved_false: WinterBankerInactiveIcon,
     coin8_achieved_false: ColdDirectorInactiveIcon,
     coin9_achieved_false: RichieRichInactiveIcon,
-    level0_achieved_true: iceSoldierActiveIcon,
+    level0_achieved_true: IceSoldierActiveIcon,
     level1_achieved_true: WindSergeantActiveIcon,
     level2_achieved_true: SnowLieutenantActiveIcon,
     level3_achieved_true: FlakeColonelActiveIcon,
     level4_achieved_true: FrostGeneralActiveIcon,
-    level5_achieved_true: iceCommanderActiveIcon,
-    level0_achieved_false: iceSoldierInactiveIcon,
+    level5_achieved_true: IceCommanderActiveIcon,
+    level0_achieved_false: IceSoldierInactiveIcon,
     level1_achieved_false: WindSergeantInactiveIcon,
     level2_achieved_false: SnowLieutenantInactiveIcon,
     level3_achieved_false: FlakeColonelInactiveIcon,
     level4_achieved_false: FrostGeneralInactiveIcon,
-    level5_achieved_false: iceCommanderInactiveIcon,
+    level5_achieved_false: IceCommanderInactiveIcon,
   },
   phone: {
     confirmPhoneNumber: require('./phone/confirmPhoneNumber.png'),

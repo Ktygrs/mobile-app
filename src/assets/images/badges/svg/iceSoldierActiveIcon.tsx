@@ -4,7 +4,7 @@ import * as React from 'react';
 import Svg, {Path, SvgProps} from 'react-native-svg';
 import {rem} from 'rn-units';
 
-export const iceSoldierActiveIcon = ({
+export const IceSoldierActiveIcon = ({
   width = rem(76),
   height = rem(76),
   ...props
