@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {
   Easing,
   runOnJS,
@@ -9,13 +9,26 @@ import {
   withTiming,
 } from 'react-native-reanimated';
 
-export function useAnimatedNumber(value: number) {
-  const [animatedValue, setAnimatedValue] = useState(0);
+export function useAnimatedNumber(
+  value: number,
+  formatter: (value: number) => string = v => `${v}`,
+) {
+  const [animatedValue, setAnimatedValue] = useState('0');
 
   const sharedValue = useSharedValue<number>(0);
 
+  const updateValue = useCallback(
+    (newValue: number) => {
+      const newFormattedValue = formatter(newValue);
+      if (newFormattedValue !== animatedValue) {
+        setAnimatedValue(newFormattedValue);
+      }
+    },
+    [animatedValue, formatter],
+  );
+
   useDerivedValue(() => {
-    runOnJS(setAnimatedValue)(sharedValue.value);
+    runOnJS(updateValue)(sharedValue.value);
   });
 
   useEffect(() => {

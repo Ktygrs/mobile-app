@@ -29,10 +29,17 @@ export const MiningRate = memo(() => {
         negative: -1,
         none: 1,
       }[miningRates?.type ?? 'none'],
+    v => `${v > 0 ? '+' : ''}${formatNumberString(String(v))}`,
   );
 
   const animatedMiningRatesBaseAmount = useAnimatedNumber(
-    parseNumber(miningRates?.base.amount ?? '0'),
+    parseNumber(miningRates?.base.amount ?? '0') *
+      {
+        positive: 1,
+        negative: -1,
+        none: 1,
+      }[miningRates?.type ?? 'none'],
+    v => `${v > 0 ? '+' : ''}${formatNumberString(String(v))}`,
   );
 
   const animatedMiningRatesTotalBonusesTier = useAnimatedNumber(
@@ -63,7 +70,7 @@ export const MiningRate = memo(() => {
         <FormattedNumber
           trim
           containerStyle={styles.miningValueContainer}
-          number={formatNumberString(String(animatedMiningRatesTotalAmount))}
+          number={animatedMiningRatesTotalAmount}
           bodyStyle={styles.miningValueText}
           decimalsStyle={styles.miningValueDecimalsText}
         />
@@ -84,7 +91,7 @@ export const MiningRate = memo(() => {
         <FormattedNumber
           trim
           containerStyle={styles.baseValueContainer}
-          number={formatNumberString(String(animatedMiningRatesBaseAmount))}
+          number={animatedMiningRatesBaseAmount}
           bodyStyle={styles.baseValueText}
           decimalsStyle={styles.baseDecimalsText}
         />

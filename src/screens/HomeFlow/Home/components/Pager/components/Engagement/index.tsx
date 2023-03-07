@@ -7,6 +7,7 @@ import {PAGE_HEIGHT} from '@screens/HomeFlow/Home/components/Pager';
 import {miningSummarySelector} from '@store/modules/Tokenomics/selectors';
 import {MiningHammerIcon} from '@svg/MiningHammerIcon';
 import {t} from '@translations/i18n';
+import {formatNumber} from '@utils/numbers';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
@@ -18,10 +19,20 @@ export const Engagement = memo(() => {
 
   const animatedMiningSummaryMiningStreak = useAnimatedNumber(
     miningSummary?.miningStreak ?? 0,
+    v =>
+      formatNumber(v, {
+        maximumFractionDigits: 0,
+        minimumFractionDigits: 0,
+      }),
   );
 
   const animatedMiningSummaryRemainingFreeMiningSessions = useAnimatedNumber(
     miningSummary?.remainingFreeMiningSessions ?? 0,
+    v =>
+      formatNumber(v, {
+        maximumFractionDigits: 0,
+        minimumFractionDigits: 0,
+      }),
   );
 
   return (

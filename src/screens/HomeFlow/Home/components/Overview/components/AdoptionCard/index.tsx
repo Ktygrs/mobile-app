@@ -68,6 +68,7 @@ export const AdoptionCard = ({isCollapsed, onPress}: AdoptionCardProps) => {
 
   const animatedAdoptionTotalActiveUsers = useAnimatedNumber(
     adoption?.totalActiveUsers ?? 0,
+    formatNumber,
   );
 
   const sharedItems = useSharedValue<ViewToken[]>([]);
@@ -217,7 +218,7 @@ export const AdoptionCard = ({isCollapsed, onPress}: AdoptionCardProps) => {
             </View>
             <FriendsIcon fill={COLORS.white} />
             <Text style={styles.valueText}>
-              {formatNumber(animatedAdoptionTotalActiveUsers)}
+              {animatedAdoptionTotalActiveUsers}
             </Text>
           </View>
         </>

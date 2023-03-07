@@ -28,9 +28,12 @@ export const LevelCard = ({isCollapsed}: Props) => {
   const globalRank = useSelector(globalRankSelector(userId));
   const isSplashHidden = useSelector(isSplashHiddenSelector);
 
-  const animatedUserReferralCount = useAnimatedNumber(userReferralCount);
+  const animatedUserReferralCount = useAnimatedNumber(
+    userReferralCount,
+    formatNumber,
+  );
 
-  const animatedGlobalRank = useAnimatedNumber(globalRank ?? 0);
+  const animatedGlobalRank = useAnimatedNumber(globalRank ?? 0, formatNumber);
 
   return (
     <CardBase
@@ -46,17 +49,13 @@ export const LevelCard = ({isCollapsed}: Props) => {
               <Text style={styles.labelText}>
                 {t('home.pioneer.referrals')}
               </Text>
-              <Text style={styles.valueText}>
-                {formatNumber(animatedUserReferralCount)}
-              </Text>
+              <Text style={styles.valueText}>{animatedUserReferralCount}</Text>
             </View>
             <View style={styles.column}>
               {globalRank != null && (
                 <>
                   <Text style={styles.labelText}>{t('home.pioneer.rank')}</Text>
-                  <Text style={styles.valueText}>
-                    {formatNumber(animatedGlobalRank)}
-                  </Text>
+                  <Text style={styles.valueText}>{animatedGlobalRank}</Text>
                 </>
               )}
             </View>

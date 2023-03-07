@@ -31,18 +31,27 @@ export const ReferralsCard = ({isCollapsed}: Props) => {
   const userT2ReferralCount = useSelector(userT2ReferralSelector);
   const isSplashHidden = useSelector(isSplashHiddenSelector);
 
-  const animatedUserReferralCount = useAnimatedNumber(userReferralCount);
+  const animatedUserReferralCount = useAnimatedNumber(
+    userReferralCount,
+    formatNumber,
+  );
 
-  const animatedUserT1ReferralCount = useAnimatedNumber(userT1ReferralCount);
+  const animatedUserT1ReferralCount = useAnimatedNumber(
+    userT1ReferralCount,
+    formatNumber,
+  );
 
-  const animatedUserT2ReferralCount = useAnimatedNumber(userT2ReferralCount);
+  const animatedUserT2ReferralCount = useAnimatedNumber(
+    userT2ReferralCount,
+    formatNumber,
+  );
 
   return (
     <CardBase
       backgroundImageSource={Images.backgrounds.referralsCardBg}
       headerTitle={t('home.referrals.title')}
       headerTitleIcon={<TrophyIcon fill={COLORS.white} />}
-      headerValue={formatNumber(animatedUserReferralCount)}
+      headerValue={animatedUserReferralCount}
       headerValueIcon={<FriendsIcon fill={COLORS.white} />}
       isCollapsed={isCollapsed}>
       {isSplashHidden && (
@@ -57,7 +66,7 @@ export const ReferralsCard = ({isCollapsed}: Props) => {
                     {t('home.referrals.users_tier_1')}
                   </Text>
                   <Text style={styles.valueText}>
-                    {formatNumber(animatedUserT1ReferralCount)}
+                    {animatedUserT1ReferralCount}
                   </Text>
                 </View>
                 <View style={styles.column}>
@@ -65,7 +74,7 @@ export const ReferralsCard = ({isCollapsed}: Props) => {
                     {t('home.referrals.users_tier_2')}
                   </Text>
                   <Text style={styles.valueText}>
-                    {formatNumber(animatedUserT2ReferralCount)}
+                    {animatedUserT2ReferralCount}
                   </Text>
                 </View>
               </View>

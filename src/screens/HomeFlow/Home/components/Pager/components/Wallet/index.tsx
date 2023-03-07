@@ -36,6 +36,7 @@ export const Wallet = memo(() => {
 
   const animatedBalanceSummary = useAnimatedNumber(
     parseNumber(balanceSummary?.total ?? '0'),
+    v => formatNumberString(String(v)),
   );
 
   const animatedMiningRatesTotalAmount = useAnimatedNumber(
@@ -45,19 +46,22 @@ export const Wallet = memo(() => {
         negative: -1,
         none: 1,
       }[miningRates?.type ?? 'none'],
+    v => `${v > 0 ? '+' : ''}${formatNumberString(String(v))}`,
   );
 
   const rateValueTextStyle = useMemo(() => {
-    if (animatedMiningRatesTotalAmount > 0) {
-      return {
-        color: COLORS.shamrock,
-      };
-    }
+    const firstSign = animatedMiningRatesTotalAmount.slice(0, 1);
 
-    if (animatedMiningRatesTotalAmount < 0) {
-      return {
-        color: COLORS.attention,
-      };
+    switch (firstSign) {
+      case '+':
+        return {
+          color: COLORS.shamrock,
+        };
+
+      case '-':
+        return {
+          color: COLORS.attention,
+        };
     }
 
     return {
@@ -96,7 +100,7 @@ export const Wallet = memo(() => {
           }
           <FormattedNumber
             containerStyle={styles.balanceValueContainer}
-            number={formatNumberString(String(animatedBalanceSummary))}
+            number={animatedBalanceSummary}
             bodyStyle={styles.balanceValueText}
             decimalsStyle={styles.balanceValueDecimalsText}
             trim
@@ -124,7 +128,7 @@ export const Wallet = memo(() => {
           containerStyle={styles.rateValueContainer}
           bodyStyle={rateValueTextStyle}
           decimalsStyle={rateValueTextStyle}
-          number={formatNumberString(String(animatedMiningRatesTotalAmount))}
+          number={animatedMiningRatesTotalAmount}
           trim
         />
         <IceLabel

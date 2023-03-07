@@ -32,7 +32,10 @@ export const OnlineUsersHistory = () => {
   const isSplashHidden = useSelector(isSplashHiddenSelector);
   const totalActiveUsers = useSelector(totalActiveUsersSelector);
 
-  const animatedTotalActiveUsers = useAnimatedNumber(totalActiveUsers);
+  const animatedTotalActiveUsers = useAnimatedNumber(
+    totalActiveUsers,
+    formatNumber,
+  );
 
   const maxValue = data.length ? Math.max(...data.map(d => d.value)) : 0;
   const minValue = data.length ? Math.min(...data.map(d => d.value)) : 0;
@@ -45,7 +48,7 @@ export const OnlineUsersHistory = () => {
       backgroundImageSource={Images.backgrounds.adoptionCardBg}
       headerTitle={t('home.adoption.title')}
       headerTitleIcon={<GraphIcon fill={COLORS.white} />}
-      headerValue={formatNumber(animatedTotalActiveUsers)}
+      headerValue={animatedTotalActiveUsers}
       headerValueIcon={<FriendIcon fill={COLORS.shamrock} />}>
       {isSplashHidden && (
         <View style={styles.body}>
