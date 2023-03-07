@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {Achievement} from '@api/achievements/types';
+import {AchievementType} from '@api/achievements/types';
 import {LINKS} from '@constants/links';
 import {MainNavigationParams} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
@@ -14,13 +14,11 @@ import {useCallback} from 'react';
 import {Linking} from 'react-native';
 import {useDispatch} from 'react-redux';
 
-export function useAchievementItem(achievement: Achievement) {
+export function useAchievementItem(type: AchievementType) {
   const navigation =
     useNavigation<NativeStackNavigationProp<MainNavigationParams>>();
 
   const dispatch = useDispatch();
-
-  const {type} = achievement;
 
   const onPress = useCallback(() => {
     switch (type) {

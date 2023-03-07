@@ -1,16 +1,16 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {Achievement} from '@api/achievements/types';
+import {Achievement, AchievementType} from '@api/achievements/types';
 import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {commonStyles, SCREEN_SIDE_OFFSET} from '@constants/styles';
-import {AchievementIcon} from '@screens/HomeFlow/Home/components/Achievements/components/AchievementIcon';
+import {achievements} from '@screens/HomeFlow/Home/components/Achievements/achievements';
 import {useAchievementItem} from '@screens/HomeFlow/Home/components/Achievements/hooks/useAchievementItem';
 import {LockIcon} from '@svg/LockIcon';
 import {TaskCompletedSvg} from '@svg/TaskCompleted';
 import {TaskNotCompletedSvg} from '@svg/TaskNotCompleted';
 import {font} from '@utils/styles';
-import React from 'react';
+import React, {memo} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {rem} from 'rn-units';
 
@@ -25,6 +25,14 @@ export const ITEM_LEFT_POSITION =
   ITEM_HORIZONTAL_MARGIN + ITEM_HORIZONTAL_PADDING + BULLET_POINT_ICON_SIZE / 2;
 export const ITEM_HEIGHT = STEP_ICON_SIZE + ICON_VERTICAL_OFFSET * 2;
 
+interface AchievementIconProps {
+  type: AchievementType;
+}
+
+const AchievementIcon = memo(({type}: AchievementIconProps) => {
+  return achievements[type].icon;
+});
+
 export const AchievementItem = ({
   achievement,
   active,
@@ -32,9 +40,11 @@ export const AchievementItem = ({
   achievement: Achievement;
   active: boolean;
 }) => {
-  const {iconBgColor, title, description, onPress} =
-    useAchievementItem(achievement);
+  const {iconBgColor, title, description, onPress} = useAchievementItem(
+    achievement.type,
+  );
   const isLocked = !achievement.completed && !active;
+
   return (
     <Touchable
       style={[
@@ -58,7 +68,7 @@ export const AchievementItem = ({
         />
       )}
       <View style={[styles.iconContainer, {backgroundColor: iconBgColor}]}>
-        {<AchievementIcon type={achievement.type} />}
+        <AchievementIcon type={achievement.type} />
         {isLocked && (
           <View style={styles.lockIcon}>
             <LockIcon />
