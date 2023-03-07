@@ -42,7 +42,7 @@ export const ReferralsCard = ({isCollapsed}: Props) => {
       backgroundImageSource={Images.backgrounds.referralsCardBg}
       headerTitle={t('home.referrals.title')}
       headerTitleIcon={<TrophyIcon fill={COLORS.white} />}
-      headerValue={String(formatNumber(animatedUserReferralCount))}
+      headerValue={formatNumber(animatedUserReferralCount)}
       headerValueIcon={<FriendsIcon fill={COLORS.white} />}
       isCollapsed={isCollapsed}>
       {isSplashHidden && (
