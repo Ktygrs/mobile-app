@@ -17,7 +17,7 @@ export function* completeInviteFriendsTaskSaga() {
     task &&
     !task.completed &&
     requiredInvitesCount &&
-    total - 1 >= requiredInvitesCount
+    total >= requiredInvitesCount
   ) {
     // TODO: tasks: replace with API call when api would be connected
     yield put(TasksActions.COMPLETE_CURRENT_ACTIVE_TASK.STATE.create());
