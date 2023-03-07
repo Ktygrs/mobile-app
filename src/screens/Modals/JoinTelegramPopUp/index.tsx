@@ -10,7 +10,7 @@ import {useNavigation} from '@react-navigation/native';
 import {Message} from '@screens/Modals/PopUp/components/Message';
 import {PopUpButton} from '@screens/Modals/PopUp/components/PopUpButton';
 import {Title} from '@screens/Modals/PopUp/components/Title';
-import {AchievementsActions} from '@store/modules/Achievements/actions';
+import {TasksActions} from '@store/modules/Tasks/actions';
 import {ManIcon} from '@svg/ManIcon';
 import {t} from '@translations/i18n';
 import React, {useEffect, useState} from 'react';
@@ -60,9 +60,7 @@ export const JoinTelegramPopUp = () => {
      * call completeJoinTelegramAchievementSaga on UPDATE_ACCOUNT.SUCCESS
      */
 
-    dispatch(
-      AchievementsActions.COMPLETE_CURRENT_ACTIVE_ACHIEVEMENT.STATE.create(),
-    );
+    dispatch(TasksActions.COMPLETE_CURRENT_ACTIVE_TASK.STATE.create());
     navigation.goBack();
   };
 

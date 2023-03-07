@@ -4,12 +4,12 @@ import {isApi4xxError, isNetworkError} from '@api/client';
 import {isAuthError} from '@services/auth';
 import {logError} from '@services/logging';
 import {AccountActions} from '@store/modules/Account/actions';
-import {rootAchievementsSaga} from '@store/modules/Achievements/sagas';
 import {rootAnalyticsSaga} from '@store/modules/Analytics/sagas';
 import {rootLinkingSaga} from '@store/modules/Linking/sagas';
 import {rootNotificationsSaga} from '@store/modules/Notifications/sagas';
 import {rootPushNotificationsSaga} from '@store/modules/PushNotifications/sagas';
 import {rootStatsSaga} from '@store/modules/Stats/sagas';
+import {rootTasksSaga} from '@store/modules/Tasks/sagas';
 import {AppState} from 'react-native';
 import {SagaIterator} from 'redux-saga';
 import {all, call, cancel, spawn, take} from 'redux-saga/effects';
@@ -46,7 +46,7 @@ export function* rootSaga(): SagaIterator {
     rootUsersSaga,
     rootTokenomicsSaga,
     rootRateAppSaga,
-    rootAchievementsSaga,
+    rootTasksSaga,
   ];
   const spawnedSagas = yield all([
     ...sagas.map(saga =>

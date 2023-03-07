@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {accountReducer} from '@store/modules/Account/reducer';
-import {achievementsReducer} from '@store/modules/Achievements/reducer';
 import {activeTab} from '@store/modules/ActiveTab/reducer';
 import {analyticsReducer} from '@store/modules/Analytics/reducer';
 import {appCommonReducer} from '@store/modules/AppCommon/reducer';
@@ -15,6 +14,7 @@ import {permissionsReducer} from '@store/modules/Permissions/reducer';
 import {rateAppReducer} from '@store/modules/RateApp/reducer';
 import {referralsReducer} from '@store/modules/Referrals/reducer';
 import {statsReducer} from '@store/modules/Stats/reducer';
+import {tasksReducer} from '@store/modules/Tasks/reducer';
 import {tokenomicsReducer} from '@store/modules/Tokenomics/reducer';
 import {usersReducer} from '@store/modules/Users/reducer';
 import {processStatusesReducer} from '@store/modules/UtilityProcessStatuses/reducer';
@@ -40,7 +40,7 @@ export const rootReducer = combineReducers({
   users: usersReducer,
   tokenomics: tokenomicsReducer,
   rateApp: rateAppReducer,
-  achievements: achievementsReducer,
+  tasks: tasksReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
