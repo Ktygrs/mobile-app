@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {User} from '@api/user/types';
-import {goBack, navigate} from '@navigation/utils';
+import {getCurrentRoute, goBack, navigate} from '@navigation/utils';
 import {AccountActions} from '@store/modules/Account/actions';
 import {userSelector} from '@store/modules/Account/selectors';
 import {WalkThroughActions} from '@store/modules/WalkThrough/actions';
@@ -11,12 +11,18 @@ import {
   WalkThroughStep,
   WalkthroughStepKey,
 } from '@store/modules/WalkThrough/types';
-import {call, delay, put, select, take} from 'redux-saga/effects';
+import {
+  call,
+  delay,
+  put,
+  SagaReturnType,
+  select,
+  take,
+} from 'redux-saga/effects';
 
 export function* showWalkThroughSaga() {
   while (true) {
     yield call(waitForWalkthroughStepCandidates);
-
     yield delay(1000);
 
     const steps: ReturnType<typeof walkthroughStepCandidatesSelector> =
@@ -52,18 +58,32 @@ export function* showWalkThroughSaga() {
         yield call(step.after);
       }
 
-      if (action.type === WalkThroughActions.SKIP_WALK_THROUGH.STATE.type) {
-        yield goBack();
-        yield call(markAllWalkthroughSteps, user);
-        break;
-      } else if (
+      if (
+        action.type === WalkThroughActions.SKIP_WALK_THROUGH.STATE.type ||
         action.type === WalkThroughActions.RESTART_WALK_THROUGH.STATE.type ||
         isLast
       ) {
-        yield goBack();
+        yield call(closeWalkthrough);
+
+        if (action.type === WalkThroughActions.SKIP_WALK_THROUGH.STATE.type) {
+          yield call(markAllWalkthroughSteps, user);
+        }
+
         break;
       }
     }
+  }
+}
+
+function* closeWalkthrough() {
+  const currentRoute: SagaReturnType<typeof getCurrentRoute> = yield call(
+    getCurrentRoute,
+  );
+  /**
+   * Walkthrough might be already closed e.g. as a result of step.after
+   */
+  if (currentRoute?.name === 'WalkThrough') {
+    yield goBack();
   }
 }
 
