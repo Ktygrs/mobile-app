@@ -7,15 +7,11 @@ import {
 import {Segment} from '@components/SegmentedControl/components/Segment';
 import {SegmentIndicator} from '@components/SegmentedControl/components/SegmentIndicator';
 import {COLORS} from '@constants/colors';
-import {INFO_HEIGHT} from '@screens/Team/components/Header/components/Info';
-import {SEARCH_HEIGHT} from '@screens/Team/components/Header/components/Search';
-import {SEGMENTED_CONTROL_PADDING_TOP} from '@screens/Team/components/SegmentedContent';
 import {SEGMENTS} from '@screens/Team/components/SegmentedContent/segments';
 import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
 import {useRef} from 'react';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {rem} from 'rn-units';
 
 const OUTER_VERTICAL_PADDING = rem(16);
@@ -27,8 +23,6 @@ export const useSegmentedControlWalkthrough = () => {
   const elementRef = useRef<View>(null);
 
   const {setWalkthroughElementData} = useSetWalkthroughElementData();
-
-  const {top: topInset} = useSafeAreaInsets();
 
   const onElementLayout = () => {
     SEGMENTS.forEach((segmentData, index) => {
@@ -48,17 +42,11 @@ export const useSegmentedControlWalkthrough = () => {
         stepKey,
         elementData: {
           getRef: () => elementRef,
-          getTop: () => {
-            /**
-             * TODO: user pageY
-             */
+          getTop: measurements => {
             return (
-              topInset +
-              SEARCH_HEIGHT +
-              INFO_HEIGHT -
+              measurements.pageY -
               OUTER_VERTICAL_PADDING -
-              INNER_VERTICAL_PADDING +
-              SEGMENTED_CONTROL_PADDING_TOP
+              INNER_VERTICAL_PADDING
             );
           },
           render: measurements => {
