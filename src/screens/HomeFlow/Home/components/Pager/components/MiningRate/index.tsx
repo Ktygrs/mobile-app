@@ -12,7 +12,7 @@ import {MiningHammerIcon} from '@svg/MiningHammerIcon';
 import {StarIcon} from '@svg/StarIcon';
 import {TeamIcon} from '@svg/TeamIcon';
 import {t} from '@translations/i18n';
-import {formatNumberString} from '@utils/numbers';
+import {formatNumberString, parseNumber} from '@utils/numbers';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
@@ -23,7 +23,7 @@ export const MiningRate = memo(() => {
   const miningRates = useSelector(miningRatesSelector);
 
   const animatedMiningRatesTotalAmount = useAnimatedNumber(
-    Number(miningRates?.total.amount ?? 0) *
+    parseNumber(miningRates?.total.amount ?? '0') *
       {
         positive: 1,
         negative: -1,
@@ -32,7 +32,7 @@ export const MiningRate = memo(() => {
   );
 
   const animatedMiningRatesBaseAmount = useAnimatedNumber(
-    Number(miningRates?.base.amount ?? 0),
+    parseNumber(miningRates?.base.amount ?? '0'),
   );
 
   const animatedMiningRatesTotalBonusesTier = useAnimatedNumber(

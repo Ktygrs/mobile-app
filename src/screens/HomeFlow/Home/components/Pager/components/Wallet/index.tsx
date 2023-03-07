@@ -18,7 +18,7 @@ import {ArrowDown} from '@svg/ArrowDown';
 import {ArrowUp} from '@svg/ArrowUp';
 import {InfoOutlineIcon} from '@svg/InfoOutlineIcon';
 import {t} from '@translations/i18n';
-import {formatNumberString} from '@utils/numbers';
+import {formatNumberString, parseNumber} from '@utils/numbers';
 import {font} from '@utils/styles';
 import React, {memo, useMemo} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
@@ -35,11 +35,11 @@ export const Wallet = memo(() => {
     useNavigation<NativeStackNavigationProp<MainNavigationParams>>();
 
   const animatedBalanceSummary = useAnimatedNumber(
-    Number(balanceSummary?.total ?? 0),
+    parseNumber(balanceSummary?.total ?? '0'),
   );
 
   const animatedMiningRatesTotalAmount = useAnimatedNumber(
-    Number(miningRates?.total.amount ?? 0) *
+    parseNumber(miningRates?.total.amount ?? '0') *
       {
         positive: 1,
         negative: -1,
