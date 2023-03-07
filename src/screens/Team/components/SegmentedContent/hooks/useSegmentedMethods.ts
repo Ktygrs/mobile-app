@@ -25,17 +25,10 @@ export const useSegmentedMethods = () => {
     switcherRef.current?.changeSegment(event.nativeEvent.position);
   };
 
-  const setSegmentIndex = useCallback((index: SegmentIndex) => {
-    pagerRef.current?.setPage(index);
-    switcherRef.current?.changeSegment(index);
-    setActiveIndex(index);
-  }, []);
-
   return {
     activeIndex,
     onPageChange,
     onSegmentedControlChange,
-    setSegmentIndex,
     switcherRef,
     pagerRef,
   };

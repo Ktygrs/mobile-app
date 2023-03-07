@@ -5,8 +5,6 @@ import {
   SegmentedControl,
 } from '@components/SegmentedControl';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
-import {TeamTabStackParamList} from '@navigation/Main';
-import {RouteProp, useRoute} from '@react-navigation/native';
 import {Contacts} from '@screens/Team/components/Contacts';
 import {useSegmentedControlWalkthrough} from '@screens/Team/components/SegmentedContent/hooks/useSegmentedControlWalkthrough';
 import {
@@ -16,7 +14,7 @@ import {
 import {TierList} from '@screens/Team/components/TierList';
 import {Listener} from '@screens/Team/types';
 import {t} from '@translations/i18n';
-import React, {memo, useEffect, useRef} from 'react';
+import React, {memo} from 'react';
 import {StyleSheet, View} from 'react-native';
 import PagerView from 'react-native-pager-view';
 import {rem} from 'rn-units';
@@ -33,12 +31,8 @@ export const CONTAINER_PADDING_TOP =
 
 export const SegmentedContent = memo(
   ({addCollapsedSnapPointListener}: Props) => {
-    const route = useRoute<RouteProp<TeamTabStackParamList, 'Team'>>();
-    const initialIndex = useRef(route.params?.segmentIndex);
-
     const {
       activeIndex,
-      setSegmentIndex,
       onPageChange,
       onSegmentedControlChange,
       switcherRef,
@@ -50,17 +44,10 @@ export const SegmentedContent = memo(
       onElementLayout: onSegmentedControlLayout,
     } = useSegmentedControlWalkthrough();
 
-    useEffect(() => {
-      const routeSegmentIndex = route.params?.segmentIndex;
-      if (routeSegmentIndex && initialIndex.current !== routeSegmentIndex) {
-        setSegmentIndex(routeSegmentIndex);
-      }
-    }, [route.params?.segmentIndex, setSegmentIndex]);
-
     return (
       <View style={styles.container}>
         <PagerView
-          initialPage={initialIndex.current}
+          initialPage={0}
           style={styles.flex}
           ref={pagerRef}
           onPageSelected={onPageChange}>
@@ -95,7 +82,7 @@ export const SegmentedContent = memo(
             segments={SEGMENTS}
             ref={switcherRef}
             onChange={onSegmentedControlChange}
-            initialIndex={initialIndex.current}
+            initialIndex={0}
           />
         </View>
       </View>

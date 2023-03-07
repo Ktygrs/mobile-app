@@ -4,13 +4,10 @@ import {ReferralType} from '@api/user/types';
 import {ActivityIndicator} from '@components/ActivityIndicator';
 import {ListItemSkeleton} from '@components/ListItems/ListItemSkeleton';
 import {
-  FLAG_FONT_SIZE,
-  FLAG_MARGIN_LEFT,
   SKELETONS_PER_SCREEN,
   UserListItem,
 } from '@components/ListItems/UserListItem';
 import {UserListPingButton} from '@components/ListItems/UserListItem/components/UserListPingButton';
-import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {BottomSheetFlatList} from '@gorhom/bottom-sheet';
 import {useBottomTabBarOffsetStyle} from '@navigation/hooks/useBottomTabBarOffsetStyle';
@@ -31,8 +28,6 @@ type Props = {
 };
 
 const CONTAINER_PADDING_TOP = rem(16);
-const BORDER_RADIUS = 20;
-const PADDING_VERTICAL = rem(12);
 
 export const TierList = memo(
   ({
@@ -113,26 +108,6 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: SCREEN_SIDE_OFFSET,
     paddingTop: CONTAINER_PADDING_TOP,
-  },
-  walkthroughElementOuterContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    marginRight: FLAG_MARGIN_LEFT + rem(FLAG_FONT_SIZE),
-  },
-  walkthroughElementContainer: {
-    paddingHorizontal: SCREEN_SIDE_OFFSET / 2,
-    paddingVertical: PADDING_VERTICAL,
-    borderRadius: BORDER_RADIUS,
-    backgroundColor: COLORS.white02opacity,
-  },
-  walkthroughElementInnerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: SCREEN_SIDE_OFFSET / 2,
-    borderRadius: BORDER_RADIUS,
-    paddingVertical: PADDING_VERTICAL,
-    backgroundColor: COLORS.white,
   },
   loadingIndicator: {
     alignItems: 'center',
