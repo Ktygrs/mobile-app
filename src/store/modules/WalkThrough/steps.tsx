@@ -14,7 +14,8 @@ import {TierTwoIcon} from '@svg/TierTwoIcon';
 import {WalletIcon} from '@svg/WalletIcon';
 import {t} from '@translations/i18n';
 import React from 'react';
-import {rem, wait} from 'rn-units';
+import {delay} from 'redux-saga/effects';
+import {rem} from 'rn-units';
 
 export const WALK_THROUGH_STEPS: WalkThroughStepStaticData[] = [
   {
@@ -38,13 +39,13 @@ export const WALK_THROUGH_STEPS: WalkThroughStepStaticData[] = [
     title: t('walkthrough.team.contacts_list.title'),
     description: t('walkthrough.team.contacts_list.description'),
     circlePosition: 'bottom',
-    before: () => {
-      navigate({name: 'Team', params: {snapPoint: 1}});
-      return wait(500);
+    before: function* () {
+      yield navigate({name: 'Team', params: {snapPoint: 1}});
+      yield delay(500);
     },
-    after: () => {
-      navigate({name: 'Team', params: {snapPoint: 0}});
-      return wait(500);
+    after: function* () {
+      yield navigate({name: 'Team', params: {snapPoint: 0}});
+      yield delay(500);
     },
   },
   {

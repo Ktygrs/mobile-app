@@ -41,14 +41,12 @@ export function* showWalkThroughSaga() {
       const action: ReturnType<
         | typeof WalkThroughActions.COMPLETE_WALK_THROUGH_STEP.STATE.create
         | typeof WalkThroughActions.SKIP_WALK_THROUGH.STATE.create
+        | typeof WalkThroughActions.RESTART_WALK_THROUGH.STATE.create
       > = yield take([
         WalkThroughActions.COMPLETE_WALK_THROUGH_STEP.STATE.type,
         WalkThroughActions.SKIP_WALK_THROUGH.STATE.type,
+        WalkThroughActions.RESTART_WALK_THROUGH.STATE.type,
       ]);
-
-      if (isLast) {
-        yield goBack();
-      }
 
       if (step.after) {
         yield call(step.after);
@@ -57,7 +55,13 @@ export function* showWalkThroughSaga() {
       if (action.type === WalkThroughActions.SKIP_WALK_THROUGH.STATE.type) {
         yield goBack();
         yield call(markAllWalkthroughSteps, user);
-        return;
+        break;
+      } else if (
+        action.type === WalkThroughActions.RESTART_WALK_THROUGH.STATE.type ||
+        isLast
+      ) {
+        yield goBack();
+        break;
       }
     }
   }

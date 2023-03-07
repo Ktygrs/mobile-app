@@ -26,11 +26,7 @@ export const useAllowContactsWalkthrough = () => {
 
   useEffect(() => {
     if (hasContactsPermissions) {
-      dispatch(
-        WalkThroughActions.COMPLETE_WALK_THROUGH_STEP.STATE.create({
-          stepKey: 'allowContacts',
-        }),
-      );
+      dispatch(WalkThroughActions.RESTART_WALK_THROUGH.STATE.create());
     }
   }, [dispatch, hasContactsPermissions]);
 

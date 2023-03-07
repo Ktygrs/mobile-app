@@ -49,11 +49,21 @@ export function WalkThrough({route}: WalkThroughProps) {
 
   useEffect(() => {
     setElementMeasurements(null);
-    step.elementData
-      ?.getRef()
-      .current?.measure((x, y, width, height, pageX, pageY) => {
+    const ref = step.elementData?.getRef()?.current;
+    if (ref) {
+      ref.measure((x, y, width, height, pageX, pageY) => {
         setElementMeasurements({x, y, width, height, pageY, pageX});
       });
+    } else {
+      setElementMeasurements({
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0,
+        pageY: 0,
+        pageX: 0,
+      });
+    }
   }, [step]);
 
   if (!step.elementData || !elementMeasurements) {

@@ -11,7 +11,6 @@ import {SEGMENTED_CONTROL_PADDING_TOP} from '@screens/Team/components/SegmentedC
 import {SEGMENTS} from '@screens/Team/components/SegmentedContent/segments';
 import {WalkThroughElementContainer} from '@screens/WalkThrough/components/WalkThroughElementContainer';
 import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
-import {useRef} from 'react';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -22,15 +21,13 @@ const OUTER_CONTAINER_VERTICAL_PADDING = rem(16);
 export const useContactsListWalkthrough = () => {
   const {setWalkthroughElementData} = useSetWalkthroughElementData();
 
-  const elementRef = useRef<View>(null);
-
   const {top: topInset} = useSafeAreaInsets();
 
   const onElementLayout = () => {
     setWalkthroughElementData({
       stepKey: 'contactsList',
       elementData: {
-        getRef: () => elementRef,
+        getRef: () => null,
         getTop: () => {
           return (
             topInset +

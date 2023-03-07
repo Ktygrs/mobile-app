@@ -13,7 +13,7 @@ export type ElementMeasurements = {
 };
 
 export type WalkThroughElementData = {
-  getRef: () => RefObject<View>;
+  getRef: () => RefObject<View> | null;
   getTop: (measurements: ElementMeasurements) => number;
   render: (measurements: ElementMeasurements) => ReactNode;
 };
