@@ -20,6 +20,7 @@ type Props = {
   totalSteps: number;
   stepIndex: number;
   elementHeight: number | undefined;
+  elementTop: number | undefined;
   onNext: () => void;
   onSkip: () => void;
   animatedStyle?: AnimatedStyleProp<ViewStyle>;
@@ -30,13 +31,14 @@ export const StepCircle = ({
   totalSteps,
   stepIndex,
   elementHeight,
+  elementTop,
   onNext,
   onSkip,
   animatedStyle,
 }: Props) => {
   const circlePosition = useCirclePosition({
     elementHeight,
-    elementTop: step.elementData?.top,
+    elementTop,
     circlePosition: step.circlePosition,
   });
 

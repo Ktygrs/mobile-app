@@ -1,10 +1,21 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import * as React from 'react';
+import {ReactNode, RefObject} from 'react';
+import {View} from 'react-native';
+
+export type ElementMeasurements = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  pageX: number;
+  pageY: number;
+};
 
 export type WalkThroughElementData = {
-  top: number;
-  render: () => React.ReactNode;
+  getRef: () => RefObject<View>;
+  getTop: (measurements: ElementMeasurements) => number;
+  render: (measurements: ElementMeasurements) => ReactNode;
 };
 
 export type WalkthroughStepKey =

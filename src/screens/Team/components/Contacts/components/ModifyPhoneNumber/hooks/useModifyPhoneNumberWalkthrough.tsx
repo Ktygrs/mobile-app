@@ -5,56 +5,50 @@ import {PhoneNumberInput} from '@components/Inputs/PhoneNumberInput';
 import {PrimaryButton} from '@components/PrimaryButton';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {WalkThroughElementContainer} from '@screens/WalkThrough/components/WalkThroughElementContainer';
-import {useMeasureWalkthroughElement} from '@store/modules/WalkThrough/hooks/useMeasureWalkthroughElement';
 import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
 import {t} from '@translations/i18n';
-import {useEffect} from 'react';
-import React from 'react';
-import {StyleSheet} from 'react-native';
+import React, {useRef} from 'react';
+import {StyleSheet, View} from 'react-native';
 import {rem} from 'rn-units';
 
 const OUTER_CONTAINER_VERTICAL_PADDING = rem(16);
 const INNER_CONTAINER_VERTICAL_PADDING = rem(20);
 
 export const useModifyPhoneNumberWalkthrough = () => {
+  const elementRef = useRef<View>(null);
+
   const {setWalkthroughElementData} = useSetWalkthroughElementData();
 
-  const {elementRef, elementData, measureElement} =
-    useMeasureWalkthroughElement();
-
-  useEffect(() => {
-    if (elementData) {
-      const top =
-        elementData.pageY -
-        INNER_CONTAINER_VERTICAL_PADDING -
-        OUTER_CONTAINER_VERTICAL_PADDING;
-      setWalkthroughElementData({
-        stepKey: 'confirmPhone',
-        elementData: {
-          top,
-          render: () => (
-            <WalkThroughElementContainer
-              outerStyle={styles.outerContainer}
-              innerStyle={styles.innerContainer}
-              pointerEvents={'none'}>
-              <PhoneNumberInput
-                value={''}
-                onChangePhone={() => {}}
-                editable={false}
-              />
-              <PrimaryButton
-                text={t('confirm_phone.button')}
-                style={styles.button}
-              />
-            </WalkThroughElementContainer>
-          ),
-        },
-      });
-    }
-  }, [elementData, setWalkthroughElementData]);
-
   const onElementLayout = () => {
-    measureElement();
+    setWalkthroughElementData({
+      stepKey: 'confirmPhone',
+      elementData: {
+        getRef: () => elementRef,
+        getTop: measurements => {
+          return (
+            measurements.pageY -
+            INNER_CONTAINER_VERTICAL_PADDING -
+            OUTER_CONTAINER_VERTICAL_PADDING
+          );
+        },
+        render: () => (
+          <WalkThroughElementContainer
+            outerStyle={styles.outerContainer}
+            innerStyle={styles.innerContainer}
+            pointerEvents={'none'}>
+            <PhoneNumberInput
+              value={''}
+              onChangePhone={() => {}}
+              editable={false}
+            />
+            <PrimaryButton
+              text={t('confirm_phone.button')}
+              style={styles.button}
+            />
+          </WalkThroughElementContainer>
+        ),
+      },
+    });
   };
 
   return {

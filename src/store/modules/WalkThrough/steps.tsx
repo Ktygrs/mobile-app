@@ -18,6 +18,36 @@ import {rem, wait} from 'rn-units';
 
 export const WALK_THROUGH_STEPS: WalkThroughStepStaticData[] = [
   {
+    key: 'allowContacts',
+    version: 1,
+    Icon: <AddressBookIcon />,
+    title: t('walkthrough.team.allow_contacts.title'),
+    description: t('walkthrough.team.allow_contacts.description'),
+  },
+  {
+    key: 'confirmPhone',
+    version: 1,
+    Icon: <CheckMarkFramedIcon />,
+    title: t('walkthrough.team.confirm_phone.title'),
+    description: t('walkthrough.team.confirm_phone.description'),
+  },
+  {
+    key: 'contactsList',
+    version: 1,
+    Icon: <ContactsIcon height={rem(24)} width={rem(24)} />,
+    title: t('walkthrough.team.contacts_list.title'),
+    description: t('walkthrough.team.contacts_list.description'),
+    circlePosition: 'bottom',
+    before: () => {
+      navigate({name: 'Team', params: {snapPoint: 1}});
+      return wait(500);
+    },
+    after: () => {
+      navigate({name: 'Team', params: {snapPoint: 0}});
+      return wait(500);
+    },
+  },
+  {
     key: 'referrals',
     version: 1,
     Icon: <TeamIcon width={rem(26)} height={rem(26)} />,
@@ -47,36 +77,6 @@ export const WALK_THROUGH_STEPS: WalkThroughStepStaticData[] = [
     title: t('walkthrough.team.segmented_control_tier_two.title'),
     description: t('walkthrough.team.segmented_control_tier_two.description'),
     link: 'https://ice.io/#invite',
-  },
-  {
-    key: 'allowContacts',
-    version: 1,
-    Icon: <AddressBookIcon />,
-    title: t('walkthrough.team.allow_contacts.title'),
-    description: t('walkthrough.team.allow_contacts.description'),
-  },
-  {
-    key: 'confirmPhone',
-    version: 1,
-    Icon: <CheckMarkFramedIcon />,
-    title: t('walkthrough.team.confirm_phone.title'),
-    description: t('walkthrough.team.confirm_phone.description'),
-  },
-  {
-    key: 'contactsList',
-    version: 1,
-    Icon: <ContactsIcon height={rem(24)} width={rem(24)} />,
-    title: t('walkthrough.team.contacts_list.title'),
-    description: t('walkthrough.team.contacts_list.description'),
-    circlePosition: 'bottom',
-    before: () => {
-      navigate({name: 'Team', params: {snapPoint: 1}});
-      return wait(500);
-    },
-    after: () => {
-      navigate({name: 'Team', params: {snapPoint: 0}});
-      return wait(500);
-    },
   },
   {
     key: 'activeUsers',

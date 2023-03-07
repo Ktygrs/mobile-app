@@ -3,11 +3,10 @@
 import {ReferralType} from '@api/user/types';
 import {ActiveUsers} from '@screens/Team/components/TierList/components/Header/components/ActiveUsers';
 import {WalkThroughElementContainer} from '@screens/WalkThrough/components/WalkThroughElementContainer';
-import {useMeasureWalkthroughElement} from '@store/modules/WalkThrough/hooks/useMeasureWalkthroughElement';
 import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
-import {useEffect} from 'react';
+import {useEffect, useRef} from 'react';
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {rem} from 'rn-units';
 
 const WALKTHROUGH_ELEMENT_CONTAINER_PADDING = rem(20);
@@ -19,37 +18,36 @@ export const useActiveUsersWalkthrough = ({
   referralType: ReferralType;
   focused: boolean;
 }) => {
-  const {setWalkthroughElementData} = useSetWalkthroughElementData();
+  const elementRef = useRef<View>(null);
 
-  const {elementRef, elementData, measureElement} =
-    useMeasureWalkthroughElement();
+  const {setWalkthroughElementData} = useSetWalkthroughElementData();
 
   useEffect(() => {
     if (focused && referralType === 'T1') {
-      measureElement();
-    }
-  }, [focused, measureElement, referralType]);
-
-  useEffect(() => {
-    if (elementData) {
-      const top = elementData.pageY - WALKTHROUGH_ELEMENT_CONTAINER_PADDING * 2;
-      const left =
-        elementData.pageX - WALKTHROUGH_ELEMENT_CONTAINER_PADDING * 2;
       setWalkthroughElementData({
         stepKey: 'activeUsers',
         elementData: {
-          top,
-          render: () => (
-            <WalkThroughElementContainer
-              outerStyle={[styles.outerContainer, {left}]}
-              innerStyle={styles.innerContainer}>
-              <ActiveUsers referralType={referralType} />
-            </WalkThroughElementContainer>
-          ),
+          getRef: () => elementRef,
+          getTop: measurements => {
+            return (
+              measurements.pageY - WALKTHROUGH_ELEMENT_CONTAINER_PADDING * 2
+            );
+          },
+          render: measurements => {
+            const left =
+              measurements.pageX - WALKTHROUGH_ELEMENT_CONTAINER_PADDING * 2;
+            return (
+              <WalkThroughElementContainer
+                outerStyle={[styles.outerContainer, {left}]}
+                innerStyle={styles.innerContainer}>
+                <ActiveUsers referralType={referralType} />
+              </WalkThroughElementContainer>
+            );
+          },
         },
       });
     }
-  }, [elementData, referralType, setWalkthroughElementData]);
+  }, [focused, referralType, setWalkthroughElementData]);
 
   return {
     elementRef,

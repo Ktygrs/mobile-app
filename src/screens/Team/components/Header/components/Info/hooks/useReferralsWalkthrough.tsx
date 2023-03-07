@@ -4,42 +4,36 @@ import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {ReferralsCell} from '@screens/Team/components/Header/components/Info/components/ReferralsCell';
 import {WalkThroughElementContainer} from '@screens/WalkThrough/components/WalkThroughElementContainer';
-import {useMeasureWalkthroughElement} from '@store/modules/WalkThrough/hooks/useMeasureWalkthroughElement';
 import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
-import {useEffect} from 'react';
+import {useRef} from 'react';
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {rem} from 'rn-units';
 
 const CONTAINER_VERTICAL_PADDING = rem(16);
 
 export const useReferralsWalkthrough = () => {
+  const elementRef = useRef<View>(null);
+
   const {setWalkthroughElementData} = useSetWalkthroughElementData();
 
-  const {elementRef, elementData, measureElement} =
-    useMeasureWalkthroughElement();
-
-  useEffect(() => {
-    if (elementData) {
-      const top = elementData.pageY - CONTAINER_VERTICAL_PADDING * 2;
-      setWalkthroughElementData({
-        stepKey: 'referrals',
-        elementData: {
-          top,
-          render: () => (
-            <WalkThroughElementContainer
-              outerStyle={styles.outerContainer}
-              innerStyle={styles.innerContainer}>
-              <ReferralsCell color={COLORS.primaryDark} />
-            </WalkThroughElementContainer>
-          ),
-        },
-      });
-    }
-  }, [elementData, setWalkthroughElementData]);
-
   const onElementLayout = () => {
-    measureElement();
+    setWalkthroughElementData({
+      stepKey: 'referrals',
+      elementData: {
+        getRef: () => elementRef,
+        getTop: measurements => {
+          return measurements.pageY - CONTAINER_VERTICAL_PADDING * 2;
+        },
+        render: () => (
+          <WalkThroughElementContainer
+            outerStyle={styles.outerContainer}
+            innerStyle={styles.innerContainer}>
+            <ReferralsCell color={COLORS.primaryDark} />
+          </WalkThroughElementContainer>
+        ),
+      },
+    });
   };
 
   return {

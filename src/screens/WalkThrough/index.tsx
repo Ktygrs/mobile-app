@@ -6,7 +6,8 @@ import {RouteProp} from '@react-navigation/native';
 import {StepCircle} from '@screens/WalkThrough/components/StepCircle';
 import {useAnimatedStyles} from '@screens/WalkThrough/hooks/useAnimatedStyles';
 import {WalkThroughActions} from '@store/modules/WalkThrough/actions';
-import React, {useState} from 'react';
+import {ElementMeasurements} from '@store/modules/WalkThrough/types';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import Animated from 'react-native-reanimated';
 import {useDispatch} from 'react-redux';
@@ -19,6 +20,9 @@ interface WalkThroughProps {
 
 export function WalkThrough({route}: WalkThroughProps) {
   const {step, total, index} = route.params;
+
+  const [elementMeasurements, setElementMeasurements] =
+    useState<ElementMeasurements | null>(null);
 
   const dispatch = useDispatch();
 
@@ -43,14 +47,24 @@ export function WalkThrough({route}: WalkThroughProps) {
     });
   };
 
-  if (!step.elementData) {
-    return null;
+  useEffect(() => {
+    setElementMeasurements(null);
+    step.elementData
+      ?.getRef()
+      .current?.measure((x, y, width, height, pageX, pageY) => {
+        setElementMeasurements({x, y, width, height, pageY, pageX});
+      });
+  }, [step]);
+
+  if (!step.elementData || !elementMeasurements) {
+    return <View style={styles.background} />;
   }
 
   return (
     <View style={styles.background}>
       <StepCircle
         elementHeight={elementHeight}
+        elementTop={step.elementData.getTop(elementMeasurements)}
         step={step}
         onNext={onNext}
         onSkip={onSkip}
@@ -59,11 +73,14 @@ export function WalkThrough({route}: WalkThroughProps) {
         stepIndex={index}
       />
       <Animated.View
-        style={[elementAnimatedStyle, {top: step.elementData.top}]}
+        style={[
+          elementAnimatedStyle,
+          {top: step.elementData.getTop(elementMeasurements)},
+        ]}
         onLayout={({nativeEvent}) => {
           setElementHeight(nativeEvent.layout.height);
         }}>
-        {step.elementData.render()}
+        {step.elementData.render(elementMeasurements)}
       </Animated.View>
     </View>
   );

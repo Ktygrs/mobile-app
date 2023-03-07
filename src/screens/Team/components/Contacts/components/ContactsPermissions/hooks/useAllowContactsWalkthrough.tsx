@@ -4,11 +4,10 @@ import {AllowContactsButton} from '@screens/Team/components/Contacts/components/
 import {WalkThroughElementContainer} from '@screens/WalkThrough/components/WalkThroughElementContainer';
 import {isPermissionGrantedSelector} from '@store/modules/Permissions/selectors';
 import {WalkThroughActions} from '@store/modules/WalkThrough/actions';
-import {useMeasureWalkthroughElement} from '@store/modules/WalkThrough/hooks/useMeasureWalkthroughElement';
 import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
-import {useEffect} from 'react';
+import {useEffect, useRef} from 'react';
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
@@ -17,10 +16,9 @@ const CONTAINER_PADDING = rem(20);
 export const useAllowContactsWalkthrough = () => {
   const dispatch = useDispatch();
 
-  const {setWalkthroughElementData} = useSetWalkthroughElementData();
+  const elementRef = useRef<View>(null);
 
-  const {elementRef, elementData, measureElement} =
-    useMeasureWalkthroughElement();
+  const {setWalkthroughElementData} = useSetWalkthroughElementData();
 
   const hasContactsPermissions = useSelector(
     isPermissionGrantedSelector('contacts'),
@@ -36,27 +34,21 @@ export const useAllowContactsWalkthrough = () => {
     }
   }, [dispatch, hasContactsPermissions]);
 
-  useEffect(() => {
-    if (elementData) {
-      const top = elementData.pageY - CONTAINER_PADDING * 2;
-      setWalkthroughElementData({
-        stepKey: 'allowContacts',
-        elementData: {
-          top,
-          render: () => (
-            <WalkThroughElementContainer
-              outerStyle={styles.outerContainer}
-              innerStyle={styles.innerContainer}>
-              <AllowContactsButton />
-            </WalkThroughElementContainer>
-          ),
-        },
-      });
-    }
-  }, [setWalkthroughElementData, elementData]);
-
   const onElementLayout = () => {
-    measureElement();
+    setWalkthroughElementData({
+      stepKey: 'allowContacts',
+      elementData: {
+        getRef: () => elementRef,
+        getTop: measurements => measurements.pageY - CONTAINER_PADDING * 2,
+        render: () => (
+          <WalkThroughElementContainer
+            outerStyle={styles.outerContainer}
+            innerStyle={styles.innerContainer}>
+            <AllowContactsButton />
+          </WalkThroughElementContainer>
+        ),
+      },
+    });
   };
 
   return {

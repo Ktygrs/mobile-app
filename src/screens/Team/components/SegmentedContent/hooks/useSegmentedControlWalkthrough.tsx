@@ -11,9 +11,8 @@ import {INFO_HEIGHT} from '@screens/Team/components/Header/components/Info';
 import {SEARCH_HEIGHT} from '@screens/Team/components/Header/components/Search';
 import {SEGMENTED_CONTROL_PADDING_TOP} from '@screens/Team/components/SegmentedContent';
 import {SEGMENTS} from '@screens/Team/components/SegmentedContent/segments';
-import {useMeasureWalkthroughElement} from '@store/modules/WalkThrough/hooks/useMeasureWalkthroughElement';
 import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
-import {useEffect} from 'react';
+import {useRef} from 'react';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -25,52 +24,54 @@ const INNER_VERTICAL_PADDING = rem(12);
 const INNER_HORIZONTAL_PADDING = rem(20);
 
 export const useSegmentedControlWalkthrough = () => {
-  const {setWalkthroughElementData} = useSetWalkthroughElementData();
+  const elementRef = useRef<View>(null);
 
-  const {elementRef, elementData, measureElement} =
-    useMeasureWalkthroughElement();
+  const {setWalkthroughElementData} = useSetWalkthroughElementData();
 
   const {top: topInset} = useSafeAreaInsets();
 
-  useEffect(() => {
-    if (elementData) {
-      /**
-       * Not using pageY since on layout pageY is incorrect because of BottomSheet
-       */
-      const top =
-        topInset +
-        SEARCH_HEIGHT +
-        INFO_HEIGHT -
-        OUTER_VERTICAL_PADDING -
-        INNER_VERTICAL_PADDING +
-        SEGMENTED_CONTROL_PADDING_TOP;
-      SEGMENTS.forEach((segmentData, index) => {
-        const stepKey = (
-          {
-            Contacts: null,
-            TierOne: 'segmentedControlTierOne',
-            TierTwo: 'segmentedControlTierTwo',
-          } as const
-        )[segmentData.key];
+  const onElementLayout = () => {
+    SEGMENTS.forEach((segmentData, index) => {
+      const stepKey = (
+        {
+          Contacts: null,
+          TierOne: 'segmentedControlTierOne',
+          TierTwo: 'segmentedControlTierTwo',
+        } as const
+      )[segmentData.key];
 
-        if (!stepKey) {
-          return;
-        }
+      if (!stepKey) {
+        return;
+      }
 
-        const sectionWidth =
-          (elementData.width - SEGMENTED_CONTROL_HORIZONTAL_OFFSET * 2) /
-          SEGMENTS.length;
-        const left =
-          elementData.pageX +
-          sectionWidth * index -
-          OUTER_HORIZONTAL_PADDING -
-          INNER_HORIZONTAL_PADDING +
-          SEGMENTED_CONTROL_HORIZONTAL_OFFSET;
-        setWalkthroughElementData({
-          stepKey,
-          elementData: {
-            top,
-            render: () => (
+      setWalkthroughElementData({
+        stepKey,
+        elementData: {
+          getRef: () => elementRef,
+          getTop: () => {
+            /**
+             * TODO: user pageY
+             */
+            return (
+              topInset +
+              SEARCH_HEIGHT +
+              INFO_HEIGHT -
+              OUTER_VERTICAL_PADDING -
+              INNER_VERTICAL_PADDING +
+              SEGMENTED_CONTROL_PADDING_TOP
+            );
+          },
+          render: measurements => {
+            const sectionWidth =
+              (measurements.width - SEGMENTED_CONTROL_HORIZONTAL_OFFSET * 2) /
+              SEGMENTS.length;
+            const left =
+              measurements.pageX +
+              sectionWidth * index -
+              OUTER_HORIZONTAL_PADDING -
+              INNER_HORIZONTAL_PADDING +
+              SEGMENTED_CONTROL_HORIZONTAL_OFFSET;
+            return (
               <View style={[styles.outerContainer, {left}]}>
                 <View style={styles.innerContainer}>
                   <View style={[styles.section, {width: sectionWidth}]}>
@@ -79,15 +80,11 @@ export const useSegmentedControlWalkthrough = () => {
                   </View>
                 </View>
               </View>
-            ),
+            );
           },
-        });
+        },
       });
-    }
-  }, [elementData, setWalkthroughElementData, topInset]);
-
-  const onElementLayout = () => {
-    measureElement();
+    });
   };
 
   return {
