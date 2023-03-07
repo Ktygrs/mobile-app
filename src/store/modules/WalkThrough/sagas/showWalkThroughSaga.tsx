@@ -32,11 +32,7 @@ export function* showWalkThroughSaga() {
 
       yield navigate({
         name: 'WalkThrough',
-        params: {
-          step: step,
-          index: i,
-          total: steps.length,
-        },
+        params: {step, index: i, total: steps.length},
       });
 
       const user: User = yield select(userSelector);

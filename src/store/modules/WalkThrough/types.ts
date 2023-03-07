@@ -13,9 +13,8 @@ export type WalkthroughStepKey =
   | 'contactsList'
   | 'referrals'
   | 'earnings'
-  | 'contacts'
-  | 'tierone'
-  | 'tiertwo'
+  | 'segmentedControlTierOne'
+  | 'segmentedControlTierTwo'
   | 'activeUsers'
   | 'tierOneEarnings'
   | 'ping';

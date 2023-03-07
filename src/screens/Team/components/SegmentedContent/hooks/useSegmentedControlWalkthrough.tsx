@@ -45,6 +45,18 @@ export const useSegmentedControlWalkthrough = () => {
         INNER_VERTICAL_PADDING +
         SEGMENTED_CONTROL_PADDING_TOP;
       SEGMENTS.forEach((segmentData, index) => {
+        const stepKey = (
+          {
+            Contacts: null,
+            TierOne: 'segmentedControlTierOne',
+            TierTwo: 'segmentedControlTierTwo',
+          } as const
+        )[segmentData.key];
+
+        if (!stepKey) {
+          return;
+        }
+
         const sectionWidth =
           (elementData.width - SEGMENTED_CONTROL_HORIZONTAL_OFFSET * 2) /
           SEGMENTS.length;
@@ -55,9 +67,7 @@ export const useSegmentedControlWalkthrough = () => {
           INNER_HORIZONTAL_PADDING +
           SEGMENTED_CONTROL_HORIZONTAL_OFFSET;
         setWalkthroughElementData({
-          stepKey: segmentData.key.toLowerCase() as Lowercase<
-            typeof segmentData['key']
-          >,
+          stepKey,
           elementData: {
             top,
             render: () => (

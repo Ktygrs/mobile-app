@@ -685,16 +685,12 @@
         "title": "Earnings",
         "description": "Your current balance is updated every hour and displayed here. It includes your direct & staked earnings together with the Tier 1 and Tier 2 earnings."
       },
-      "contacts": {
-        "title": "Contacts",
-        "description": "This is the list with all your contacts, those that already have the app being displayed on top of the list."
-      },
-      "tier_one": {
+      "segmented_control_tier_one": {
         "title": "Tier 1",
         "description": "Here you can see the list of your Tier 1 referrals. For each member mining in the same time with you, you will get extra 25% on your base current adoption mining rate. [[:link]]Read more[[/:link]]",
         "url": "https://ice.io/#invite"
       },
-      "tier_two": {
+      "segmented_control_tier_two": {
         "title": "Tier 2",
         "description": "Here you can see the list of your Tier 2 referrals. For each member mining in the same time with you, you will get extra 5% on your base current adoption mining rate. [[:link]]Read more[[/:link]]",
         "url": "https://ice.io/#invite"
