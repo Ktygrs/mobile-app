@@ -39,7 +39,7 @@ export const AchievementItem = ({
     <Touchable
       style={[
         styles.container,
-        active ? [styles.containerActive, commonStyles.shadow] : null,
+        active && [styles.containerActive, commonStyles.shadow],
       ]}
       disabled={!active}
       onPress={onPress}>
@@ -66,7 +66,9 @@ export const AchievementItem = ({
         )}
       </View>
       <View>
-        <Text style={active ? styles.activeTitle : styles.title}>{title}</Text>
+        <Text style={[styles.title, active && styles.titleActive]}>
+          {title}
+        </Text>
         <Text style={styles.description}>{description}</Text>
       </View>
       {isLocked ? (
@@ -104,8 +106,8 @@ const styles = StyleSheet.create({
   title: {
     ...font(12, 14, 'bold', 'downriver'),
   },
-  activeTitle: {
-    ...font(12, 14, 'bold', 'cornflowerBlue'),
+  titleActive: {
+    color: COLORS.cornflowerBlue,
   },
   description: {
     marginTop: rem(4),

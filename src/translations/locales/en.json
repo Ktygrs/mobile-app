@@ -653,10 +653,6 @@
     "button": "Confirm country and phone",
     "same_phone_error": "You can’t use the same number"
   },
-  "settings-language-settings": "settings.language_settings",
-  "global-language": "global.language",
-  "global-flag": "global.flag",
-  "isRTL-2": "isRTL",
   "date_select": {
     "title": "Choose date"
   },
@@ -775,10 +771,7 @@
     "pre_staking": "https://ice.io/pre-staking/",
     "privacy": "https://ice.io/privacy/",
     "terms": "https://ice.io/terms/",
-    "main": "https://ice.io/",
-    "twitterScheme": "twitter://",
-    "twitterAppUrl": "twitter://user?screen_name=ice_blockchain",
-    "twitterUrl": "https://twitter.com/ice_blockchain"
+    "main": "https://ice.io/"
   },
   "extra_bonus": {
     "claim_title": "Today’s Bonus",

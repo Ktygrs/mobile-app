@@ -39,8 +39,6 @@ export type PopUpProps = {
   dismissOnAndroidHardwareBack?: boolean;
   showCloseButton?: boolean;
   onDismiss?: () => void;
-  textInputPlaceholder?: string | undefined;
-  onChangeText?: (text: string) => void;
 };
 
 export const PopUp = () => {

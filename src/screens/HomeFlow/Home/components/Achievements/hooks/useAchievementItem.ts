@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {Achievement} from '@api/achievements/types';
+import {LINKS} from '@constants/links';
 import {MainNavigationParams} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -8,7 +9,6 @@ import {achievements} from '@screens/HomeFlow/Home/components/Achievements/achie
 import {logError} from '@services/logging';
 import {AchievementsActions} from '@store/modules/Achievements/actions';
 import {TokenomicsActions} from '@store/modules/Tokenomics/actions';
-import {t} from '@translations/i18n';
 import {openLinkWithInAppBrowser} from '@utils/device';
 import {useCallback} from 'react';
 import {Linking} from 'react-native';
@@ -31,16 +31,16 @@ export function useAchievementItem(achievement: Achievement) {
         navigation.navigate('ProfileTab');
         break;
       case 'follow_us_on_twitter':
-        Linking.canOpenURL(t('links.twitterScheme'))
+        Linking.canOpenURL(LINKS.TWITTER_SCHEME)
           .then(supported => {
             dispatch(
               AchievementsActions.COMPLETE_CURRENT_ACTIVE_ACHIEVEMENT.STATE.create(),
             );
             if (supported) {
-              return Linking.openURL(t('links.twitterAppUrl'));
+              return Linking.openURL(LINKS.TWITTER_APP_URL);
             } else {
               openLinkWithInAppBrowser({
-                url: t('links.twitterUrl'),
+                url: LINKS.TWITTER_PROFILE_URL,
               });
             }
           })
@@ -51,8 +51,6 @@ export function useAchievementItem(achievement: Achievement) {
         break;
       case 'invite_friends':
         navigation.navigate('InviteShare');
-        break;
-      default:
         break;
     }
   }, [dispatch, type, navigation]);

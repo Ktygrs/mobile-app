@@ -452,10 +452,6 @@ export type Translations = {
   'confirm_phone.modify_description': null;
   'confirm_phone.button': null;
   'confirm_phone.same_phone_error': null;
-  'settings-language-settings': null;
-  'global-language': null;
-  'global-flag': null;
-  'isRTL-2': null;
   'date_select.title': null;
   'walkthrough.news.step_1.title': null;
   'walkthrough.news.step_1.description': null;
@@ -518,9 +514,6 @@ export type Translations = {
   'links.privacy': null;
   'links.terms': null;
   'links.main': null;
-  'links.twitterScheme': null;
-  'links.twitterAppUrl': null;
-  'links.twitterUrl': null;
   'extra_bonus.claim_title': null;
   'extra_bonus.claim_message': null;
   'extra_bonus.link': null;

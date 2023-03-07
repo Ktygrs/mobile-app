@@ -17,4 +17,7 @@ export const LINKS = {
   FEEDBACK_EMAIL: 'hi@ice.io',
   CONFIRM_EMAIL: 'https://ice.io/firebase-confirm-email',
   VERIFY_EMAIL: `https://${ENV.DEEPLINK_DOMAIN}/verify-email`,
+  TWITTER_SCHEME: 'twitter://',
+  TWITTER_APP_URL: 'twitter://user?screen_name=ice_blockchain',
+  TWITTER_PROFILE_URL: 'https://twitter.com/ice_blockchain',
 };
