@@ -15,6 +15,7 @@ import React, {ReactNode, useEffect, useMemo, useRef} from 'react';
 import {Platform} from 'react-native';
 import {SharedValue} from 'react-native-reanimated';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {isIOS} from 'rn-units';
 
 type Props = {
   children: ReactNode;
@@ -32,14 +33,18 @@ export const DynamicHeight = ({
   const sheetRef = useRef<BottomSheet>(null);
   const {top: topInset} = useSafeAreaInsets();
 
-  const positions = useMemo(
-    () => ({
-      expanded: windowHeight - topInset - SEARCH_INPUT_TOP_OFFSET,
-      collapsed: windowHeight - topInset - SEARCH_HEIGHT - INFO_HEIGHT,
-      search: windowHeight - topInset - SEARCH_HEIGHT - SEARCH_RESULTS_OFFSET,
-    }),
-    [topInset],
-  );
+  const positions = useMemo(() => {
+    /**
+     * On Android topInset is not included to the windowHeight
+     */
+    const windowTopInset = isIOS ? topInset : 0;
+    return {
+      expanded: windowHeight - windowTopInset - SEARCH_INPUT_TOP_OFFSET,
+      collapsed: windowHeight - windowTopInset - SEARCH_HEIGHT - INFO_HEIGHT,
+      search:
+        windowHeight - windowTopInset - SEARCH_HEIGHT - SEARCH_RESULTS_OFFSET,
+    };
+  }, [topInset]);
 
   const snapPoints = useMemo(
     () =>

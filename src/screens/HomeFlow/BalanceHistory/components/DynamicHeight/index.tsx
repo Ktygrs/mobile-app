@@ -10,6 +10,7 @@ import {
 } from '@screens/HomeFlow/BalanceHistory/components/PagerHeader';
 import React, {ReactNode, useMemo} from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {isIOS} from 'rn-units';
 
 type Props = {
   children: ReactNode;
@@ -18,19 +19,22 @@ type Props = {
 export const DynamicHeight = ({children}: Props) => {
   const {top: topInset} = useSafeAreaInsets();
 
-  const positions = useMemo(
-    () => ({
-      expanded: windowHeight - topInset - HEADER_HEIGHT,
+  const positions = useMemo(() => {
+    /**
+     * On Android topInset is not included to the windowHeight
+     */
+    const windowTopInset = isIOS ? topInset : 0;
+    return {
+      expanded: windowHeight - windowTopInset - HEADER_HEIGHT,
       collapsed:
         windowHeight -
-        topInset -
+        windowTopInset -
         HEADER_HEIGHT -
         PAGER_HEADER_HEIGHT / 2 -
         PAGER_HEADER_BUMP_HEIGHT -
         CARD_BODY_TOP_OFFSET,
-    }),
-    [topInset],
-  );
+    };
+  }, [topInset]);
 
   const snapPoints = useMemo(
     () => [positions.collapsed, positions.expanded],
