@@ -62,7 +62,7 @@ export const Tasks = memo(() => {
 
   return (
     <>
-      <SectionHeader title={t('home.achievements.title')} />
+      <SectionHeader title={t('home.tasks.achievements')} />
 
       <View style={styles.container}>
         <View style={styles.upcomingTasksLine} />

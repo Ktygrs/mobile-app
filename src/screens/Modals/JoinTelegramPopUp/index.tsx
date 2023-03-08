@@ -74,11 +74,11 @@ export const JoinTelegramPopUp = () => {
               style={styles.image}
               source={Images.popUp.telegram}
             />
-            <Title text={t('home.achievements.popup.title')} />
-            <Message text={t('home.achievements.popup.description')} />
+            <Title text={t('home.tasks.popup.title')} />
+            <Message text={t('home.tasks.popup.description')} />
 
             <CommonInput
-              label={t('home.achievements.popup.placeholder')}
+              label={t('home.tasks.popup.placeholder')}
               onChangeText={onChangeText}
               icon={
                 <ManIcon

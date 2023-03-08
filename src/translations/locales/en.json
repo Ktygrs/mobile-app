@@ -260,8 +260,18 @@
       "users": "\nusers"
     },
     "tasks": {
+      "achievements": "ACHIEVEMENTS",
       "title": "Your progress",
       "description": "Complete the tasks below and level up!",
+      "completed": {
+        "title": "Congratulations",
+        "description": "Keep mining ice daily to earn extra rewards!"
+      },
+      "popup": {
+        "title": "Join our Telegram channel",
+        "description": "Specify your nickname that is used in the telegram",
+        "placeholder": "Nickname"
+      },
       "claim_username": {
         "title": "Claim your nickname",
         "description": "Set it and start earning from your invite"
@@ -295,18 +305,6 @@
       "staking": "Staking",
       "stats": "Stats",
       "help": "Help"
-    },
-    "achievements": {
-      "title": "ACHIEVEMENTS",
-      "completed": {
-        "title": "Congratulations",
-        "description": "Keep mining ice daily to earn extra rewards!"
-      },
-      "popup": {
-        "title": "Join our Telegram channel",
-        "description": "Specify your nickname that is used in the telegram",
-        "placeholder": "Nickname"
-      }
     },
     "team": {
       "title": "Team",

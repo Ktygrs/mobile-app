@@ -180,8 +180,14 @@ export type Translations = {
   'home.adoption.title': null;
   'home.adoption.level': null;
   'home.adoption.users': null;
+  'home.tasks.achievements': null;
   'home.tasks.title': null;
   'home.tasks.description': null;
+  'home.tasks.completed.title': null;
+  'home.tasks.completed.description': null;
+  'home.tasks.popup.title': null;
+  'home.tasks.popup.description': null;
+  'home.tasks.popup.placeholder': null;
   'home.tasks.claim_username.title': null;
   'home.tasks.claim_username.description': null;
   'home.tasks.start_mining.title': null;
@@ -199,12 +205,6 @@ export type Translations = {
   'home.menu.staking': null;
   'home.menu.stats': null;
   'home.menu.help': null;
-  'home.achievements.title': null;
-  'home.achievements.completed.title': null;
-  'home.achievements.completed.description': null;
-  'home.achievements.popup.title': null;
-  'home.achievements.popup.description': null;
-  'home.achievements.popup.placeholder': null;
   'home.team.title': null;
   'home.team.view_team': null;
   'home.mining_rate.title': null;

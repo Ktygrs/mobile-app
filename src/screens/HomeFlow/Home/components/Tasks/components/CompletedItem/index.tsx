@@ -40,12 +40,10 @@ export const CompletedItem = ({onPress, isExpanded}: Props) => {
       </View>
 
       <View style={styles.textsWrapper}>
-        <Text style={styles.title}>
-          {t('home.achievements.completed.title')}
-        </Text>
+        <Text style={styles.title}>{t('home.tasks.completed.title')}</Text>
 
         <Text style={styles.description}>
-          {t('home.achievements.completed.description')}
+          {t('home.tasks.completed.description')}
         </Text>
       </View>
 
