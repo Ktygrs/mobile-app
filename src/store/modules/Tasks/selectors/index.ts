@@ -23,6 +23,9 @@ export const taskByTypeSelector = (options: Options) => (state: RootState) =>
 
 export const tasksSelector = (state: RootState) => state.tasks.list;
 
-export const hasUncompletedTasksSelector = (state: RootState) => {
-  return !!state.tasks.list.find(task => !task.completed);
-};
+export const hasUncompletedTasksSelector = createSelector(
+  tasksSelector,
+  tasks => {
+    return tasks.some(task => !task.completed);
+  },
+);

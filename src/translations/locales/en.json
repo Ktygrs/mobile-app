@@ -259,30 +259,30 @@
       "level": "level",
       "users": "\nusers"
     },
-    "steps": {
+    "tasks": {
       "title": "Your progress",
       "description": "Complete the tasks below and level up!",
-      "step_one": {
+      "claim_username": {
         "title": "Claim your nickname",
         "description": "Set it and start earning from your invite"
       },
-      "step_two": {
+      "start_mining": {
         "title": "Start mining",
         "description": "Your first mining session"
       },
-      "step_three": {
+      "upload_profile_picture": {
         "title": "Profile picture",
         "description": "Upload your profile image"
       },
-      "step_four": {
+      "join_telegram": {
         "title": "Join Telegram",
         "description": "Be part of our community and join now"
       },
-      "step_five": {
+      "follow_us_on_twitter": {
         "title": "Follow us on Twitter",
         "description": "Let’s keep in touch, follow us on twitter"
       },
-      "step_six": {
+      "invite_friends": {
         "title": "Invite 5 Friends",
         "description": "Create your team and increase your earnings"
       }

@@ -9,6 +9,7 @@ import {TASKS} from '@screens/HomeFlow/Home/components/Tasks/tasks';
 import {logError} from '@services/logging';
 import {TasksActions} from '@store/modules/Tasks/actions';
 import {TokenomicsActions} from '@store/modules/Tokenomics/actions';
+import {t} from '@translations/i18n';
 import {openLinkWithInAppBrowser} from '@utils/device';
 import {useCallback} from 'react';
 import {Linking} from 'react-native';
@@ -52,8 +53,8 @@ export function useTaskItem(type: TaskType) {
   }, [dispatch, type, navigation]);
 
   return {
-    title: TASKS[type].title,
-    description: TASKS[type].description,
+    title: t(`home.tasks.${type}.title`),
+    description: t(`home.tasks.${type}.description`),
     iconBgColor: TASKS[type].iconBgColor,
     onPress,
   };

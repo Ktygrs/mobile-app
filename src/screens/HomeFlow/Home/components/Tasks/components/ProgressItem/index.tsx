@@ -35,8 +35,8 @@ export const ProgressItem = ({total, completed}: Props) => {
         />
       </View>
       <View>
-        <Text style={styles.title}>{t('home.steps.title')}</Text>
-        <Text style={styles.description}>{t('home.steps.description')}</Text>
+        <Text style={styles.title}>{t('home.tasks.title')}</Text>
+        <Text style={styles.description}>{t('home.tasks.description')}</Text>
       </View>
     </View>
   );
