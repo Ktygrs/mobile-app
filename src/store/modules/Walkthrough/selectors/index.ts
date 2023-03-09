@@ -10,7 +10,7 @@ import {
 import {RootState} from '@store/rootReducer';
 
 export const walkthroughStepCandidatesSelector = createSelector(
-  [userSelector, (state: RootState) => state.walkthroughReducer.stepElements],
+  [userSelector, (state: RootState) => state.walkthrough.stepElements],
   (user, stepElements) => {
     if (!user) {
       return [];

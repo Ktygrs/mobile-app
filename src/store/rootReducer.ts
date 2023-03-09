@@ -40,7 +40,7 @@ export const rootReducer = combineReducers({
   users: usersReducer,
   tokenomics: tokenomicsReducer,
   rateApp: rateAppReducer,
-  walkthroughReducer: walkthroughReducer,
+  walkthrough: walkthroughReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
