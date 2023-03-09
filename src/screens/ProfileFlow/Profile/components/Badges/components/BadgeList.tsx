@@ -40,12 +40,8 @@ export const BadgeList = ({
         return <BadgeCardSkeleton />;
       }
 
-      const image = `${[
-        item.type,
-      ]}0_achieved_true` as keyof typeof Images.badges;
-      const inactiveImage = `${[
-        item.type,
-      ]}0_achieved_false` as keyof typeof Images.badges;
+      const image = `${item.type}0_achieved_true` as const;
+      const inactiveImage = `${item.type}0_achieved_false` as const;
       const ActiveImage = Images.badges[image];
       const InactiveImage = Images.badges[inactiveImage];
 

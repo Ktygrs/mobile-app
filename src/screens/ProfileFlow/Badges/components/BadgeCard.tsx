@@ -36,7 +36,8 @@ export const BadgeCard = ({
   achievingRange,
   connector = {},
 }: Props) => {
-  const imagePath = `${[type]}${index}_achieved_${achieved}`;
+  const imagePath =
+    `${type}${index}_achieved_${achieved}` as keyof typeof Images.badges;
 
   let description = '';
 
@@ -74,7 +75,7 @@ export const BadgeCard = ({
     }
   }
 
-  const image = Images.badges[imagePath as keyof typeof Images.badges];
+  const image = Images.badges[imagePath];
 
   return (
     <>
