@@ -73,11 +73,12 @@ export function takeLeadingEveryUnique<
 
 export function* waitForSelector(
   selector: (state: RootState) => boolean,
-  actionType = '*',
+  options: {takePattern?: ActionPattern} = {},
 ) {
+  const {takePattern = '*'} = options;
   while (
     ((yield select(selector)) as SagaReturnType<typeof selector>) === false
   ) {
-    yield take(actionType);
+    yield take(takePattern);
   }
 }

@@ -26,7 +26,10 @@ export function* showWalkthroughSaga() {
     yield call(
       waitForSelector,
       state => walkthroughStepCandidatesSelector(state).length > 0,
-      WalkthroughActions.SET_WALKTHROUGH_STEP_ELEMENT_DATA.STATE.type,
+      {
+        takePattern:
+          WalkthroughActions.SET_WALKTHROUGH_STEP_ELEMENT_DATA.STATE.type,
+      },
     );
 
     /**
