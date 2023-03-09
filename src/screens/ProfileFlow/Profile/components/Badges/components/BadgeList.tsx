@@ -8,9 +8,11 @@ import {
   BadgeCard,
   BadgeCardSkeleton,
 } from '@screens/ProfileFlow/Profile/components/Badges/components/BadgeCard';
+import {isPrivacyInfoShownSelector} from '@store/modules/Account/selectors';
 import {t} from '@translations/i18n';
 import React, {useCallback} from 'react';
 import {FlatList, ListRenderItem, StyleSheet} from 'react-native';
+import {useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
 type Props = {
@@ -18,7 +20,6 @@ type Props = {
   data: SummaryBadge[];
   user?: User | null;
   isProfilePrivacyEditMode?: boolean;
-  isPrivacyInfoShown?: boolean;
 };
 
 const NUMBER_OF_SKELETONS = 5;
@@ -28,10 +29,10 @@ export const BadgeList = ({
   data,
   isProfilePrivacyEditMode,
   user,
-  isPrivacyInfoShown,
 }: Props) => {
+  const isPrivacyInfoShown = useSelector(isPrivacyInfoShownSelector);
   const hidden =
-    user?.hiddenProfileElements?.includes('badges') && isPrivacyInfoShown;
+    user?.hiddenProfileElements?.includes('badges') && !isPrivacyInfoShown;
 
   const renderItem: ListRenderItem<SummaryBadge> = useCallback(
     ({item, index}) => {

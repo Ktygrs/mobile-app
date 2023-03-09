@@ -114,6 +114,10 @@ const VERIFY_PHONE_NUMBER = createAction('VERIFY_PHONE_NUMBER', {
   RESET: true,
 });
 
+const SET_PRIVACY_INFO_SHOW = createAction('SET_PRIVACY_INFO_SHOW', {
+  STATE: (isPrivacyInfoShown: boolean) => ({isPrivacyInfoShown}),
+});
+
 export const AccountActions = Object.freeze({
   SET_TOKEN,
   SIGN_IN_EMAIL,
@@ -127,4 +131,5 @@ export const AccountActions = Object.freeze({
   USER_STATE_CHANGE,
   VERIFY_BEFORE_UPDATE_EMAIL,
   VERIFY_PHONE_NUMBER,
+  SET_PRIVACY_INFO_SHOW,
 });

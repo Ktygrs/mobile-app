@@ -14,10 +14,10 @@ import React, {memo, useState} from 'react';
 
 type Props = {
   user: User | null;
-  isPrivacyInfoShown?: boolean;
+  isOwner?: boolean;
 };
 
-export const Role = memo(({user, isPrivacyInfoShown}: Props) => {
+export const Role = memo(({user, isOwner}: Props) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<ProfileTabStackParamList>>();
   const [loading, setLoading] = useState(true);
@@ -29,7 +29,7 @@ export const Role = memo(({user, isPrivacyInfoShown}: Props) => {
         <CurrentRoleSkeleton />
       ) : (
         <CurrentRoleCard
-          isPrivacyInfoShown={isPrivacyInfoShown}
+          isOwner={isOwner}
           imageSource={Images.roles.pioneer}
           imageSourceHidden={Images.roles.pioneerInactive}
           title={t('role.snowman.title')}

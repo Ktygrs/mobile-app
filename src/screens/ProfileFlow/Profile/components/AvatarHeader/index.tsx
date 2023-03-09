@@ -50,8 +50,6 @@ type Props = {
   isLoading?: boolean;
   contact: Contact | undefined;
   onContactPress: () => void;
-  showPrivacyHandler: () => void;
-  isPrivacyInfoShown: boolean;
 };
 
 const MAX_SCROLL = 160;
@@ -66,8 +64,6 @@ export const AvatarHeader = memo(
     isLoading = false,
     contact,
     onContactPress,
-    showPrivacyHandler,
-    isPrivacyInfoShown,
   }: Props) => {
     const {shadowStyle} = useScrollShadow({translateY: scrollY});
     const {top: topInset} = useSafeAreaInsets();
@@ -235,17 +231,19 @@ export const AvatarHeader = memo(
                 </>
               )}
             </Animated.View>
-            <AnimatedTouchable
-              style={[penAnimatedStyle, styles.penWrapper]}
-              onPress={onEditPress}
-              disabled={updateAvatarLoading}
-              hitSlop={MIDDLE_BUTTON_HIT_SLOP}>
-              {updateAvatarLoading ? (
-                <ActivityIndicator style={StyleSheet.absoluteFill} />
-              ) : (
-                <AnimatedCameraIcon animatedColor={iconAnimatedColor} />
-              )}
-            </AnimatedTouchable>
+            {isOwner && (
+              <AnimatedTouchable
+                style={[penAnimatedStyle, styles.penWrapper]}
+                onPress={onEditPress}
+                disabled={updateAvatarLoading}
+                hitSlop={MIDDLE_BUTTON_HIT_SLOP}>
+                {updateAvatarLoading ? (
+                  <ActivityIndicator style={StyleSheet.absoluteFill} />
+                ) : (
+                  <AnimatedCameraIcon animatedColor={iconAnimatedColor} />
+                )}
+              </AnimatedTouchable>
+            )}
           </View>
           {contact && (
             <AnimatedTouchable
@@ -275,11 +273,7 @@ export const AvatarHeader = memo(
             !user?.hiddenProfileElements?.length && styles.rightSmallContainer,
           ]}>
           {isOwner && user && user?.hiddenProfileElements?.length && (
-            <ShowPrivacyButton
-              containerStyle={styles.showPrivacyButton}
-              onPress={showPrivacyHandler}
-              isPrivacyInfoShown={isPrivacyInfoShown}
-            />
+            <ShowPrivacyButton containerStyle={styles.showPrivacyButton} />
           )}
           {isOwner && user && <SettingsButton />}
         </View>

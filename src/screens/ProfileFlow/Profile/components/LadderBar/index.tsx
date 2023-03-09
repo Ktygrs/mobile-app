@@ -2,6 +2,7 @@
 
 import {User} from '@api/user/types';
 import {LadderItem} from '@screens/ProfileFlow/Profile/components/LadderBar/components/LadderItem';
+import {isPrivacyInfoShownSelector} from '@store/modules/Account/selectors';
 import {globalRankSelector} from '@store/modules/Tokenomics/selectors';
 import {t} from '@translations/i18n';
 import {formatNumber} from '@utils/numbers';
@@ -13,12 +14,12 @@ import {rem} from 'rn-units';
 type Props = {
   isProfilePrivacyEditMode?: boolean;
   user: User;
-  isPrivacyInfoShown?: boolean;
 };
 
 export const LadderBar = memo(
-  ({user, isProfilePrivacyEditMode = false, isPrivacyInfoShown}: Props) => {
+  ({user, isProfilePrivacyEditMode = false}: Props) => {
     const globalRank = useSelector(globalRankSelector(user.id));
+    const isPrivacyInfoShown = useSelector(isPrivacyInfoShownSelector);
     const hiddenElements = user.hiddenProfileElements || [];
     const refNumber = (user.t1ReferralCount ?? 0) + (user.t2ReferralCount ?? 0);
 
@@ -30,7 +31,7 @@ export const LadderBar = memo(
           enabled={isProfilePrivacyEditMode}
           isProfilePrivacyEditMode={isProfilePrivacyEditMode}
           privacyType="globalRank"
-          hidden={hiddenElements.includes('globalRank') && isPrivacyInfoShown}
+          hidden={hiddenElements.includes('globalRank') && !isPrivacyInfoShown}
         />
         <LadderItem
           title={t('global.referrals').toUpperCase()}
@@ -39,7 +40,7 @@ export const LadderBar = memo(
           isProfilePrivacyEditMode={isProfilePrivacyEditMode}
           privacyType="referralCount"
           hidden={
-            hiddenElements.includes('referralCount') && isPrivacyInfoShown
+            hiddenElements.includes('referralCount') && !isPrivacyInfoShown
           }
         />
         <LadderItem
@@ -48,7 +49,7 @@ export const LadderBar = memo(
           enabled={isProfilePrivacyEditMode}
           isProfilePrivacyEditMode={isProfilePrivacyEditMode}
           privacyType="level"
-          hidden={hiddenElements.includes('level') && isPrivacyInfoShown}
+          hidden={hiddenElements.includes('level') && !isPrivacyInfoShown}
         />
       </View>
     );
