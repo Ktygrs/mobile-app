@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {Touchable} from '@components/Touchable';
-import {NextArrow} from '@svg/NextArrow';
+import {NextArrowIcon} from '@svg/NextArrowIcon';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React from 'react';
@@ -18,7 +18,7 @@ export const NextButton = ({style, onPress, text}: Props) => {
   return (
     <Touchable style={[styles.container, style]} onPress={onPress}>
       <Text style={styles.text}>{text || t('button.next_step')}</Text>
-      <NextArrow style={styles.arrow} />
+      <NextArrowIcon style={styles.arrow} />
     </Touchable>
   );
 };

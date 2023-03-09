@@ -5,7 +5,7 @@ import * as React from 'react';
 import {Path, Svg, SvgProps} from 'react-native-svg';
 import {rem} from 'rn-units';
 
-export const NextArrow = (props: SvgProps) => {
+export const NextArrowIcon = (props: SvgProps) => {
   return (
     <Svg
       width={rem(24)}

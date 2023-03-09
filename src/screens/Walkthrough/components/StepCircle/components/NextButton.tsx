@@ -3,7 +3,7 @@
 import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {MIDDLE_BUTTON_HIT_SLOP} from '@constants/styles';
-import {NextArrow} from '@svg/NextArrow';
+import {NextArrowIcon} from '@svg/NextArrowIcon';
 import {ProgressCircleSvg} from '@svg/ProgressCircle';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
@@ -31,7 +31,7 @@ export const NextButton = ({totalSteps, stepIndex, onPress}: Props) => {
         {isLastStep ? t('button.done') : t('button.next_step')}
       </Text>
       {isLastStep ? (
-        <NextArrow />
+        <NextArrowIcon />
       ) : (
         <View style={styles.progressContainer}>
           <ProgressCircleSvg
@@ -41,7 +41,7 @@ export const NextButton = ({totalSteps, stepIndex, onPress}: Props) => {
             radius={CIRCLE_RADIUS - PROGRESS_WIDTH / 2}
             style={styles.progressCircle}
           />
-          <NextArrow />
+          <NextArrowIcon />
         </View>
       )}
     </Touchable>
