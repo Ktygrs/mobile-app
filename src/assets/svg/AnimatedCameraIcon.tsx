@@ -2,8 +2,13 @@
 
 import * as React from 'react';
 import {ColorValue} from 'react-native';
-import Animated, {useAnimatedProps} from 'react-native-reanimated';
+import Animated, {
+  createAnimatedPropAdapter,
+  processColor,
+  useAnimatedProps,
+} from 'react-native-reanimated';
 import Svg, {Path} from 'react-native-svg';
+import {rem} from 'rn-units';
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 
@@ -14,13 +19,34 @@ type AnimatedCameraIconProps = {
 };
 
 export const AnimatedCameraIcon = ({
-  width = 20,
-  height = 20,
+  width = rem(20),
+  height = rem(20),
   animatedColor,
 }: AnimatedCameraIconProps) => {
-  const animatedProps = useAnimatedProps(() => ({
-    stroke: animatedColor.value,
-  }));
+  const animatedProps = useAnimatedProps(
+    () => {
+      return {
+        stroke: animatedColor.value,
+      };
+    },
+    [],
+    createAnimatedPropAdapter(
+      props => {
+        console.log(props, 'props');
+        if (props?.stroke) {
+          props.stroke = {
+            type: 0,
+            payload:
+              (typeof props.stroke === 'string' ||
+                typeof props.stroke === 'number') &&
+              processColor(props.stroke),
+          };
+        }
+      },
+      ['stroke'],
+    ),
+  );
+
   return (
     <Svg width={width} height={height} viewBox="0 0 20 20" fill="none">
       <AnimatedPath
