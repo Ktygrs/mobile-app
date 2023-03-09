@@ -45,8 +45,8 @@ export const BadgeList = ({
       const inactiveImage = `${[
         item.type,
       ]}0_achieved_false` as keyof typeof Images.badges;
-      const ActiveImage = Images.badges[image] as React.ElementType;
-      const InactiveImage = Images.badges[inactiveImage] as React.ElementType;
+      const ActiveImage = Images.badges[image];
+      const InactiveImage = Images.badges[inactiveImage];
 
       const value = item.index + 1;
       const total = item.lastIndex + 1;
@@ -54,8 +54,8 @@ export const BadgeList = ({
       return (
         <BadgeCard
           style={index === 0 && styles.firstItem}
-          activeImage={<ActiveImage />}
-          inactiveImage={<InactiveImage />}
+          activeImage={ActiveImage}
+          inactiveImage={InactiveImage}
           title={item.name}
           category={item.type}
           progressText={t('profile.progress_text', {value, total})}

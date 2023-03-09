@@ -36,7 +36,7 @@ export const BadgeCard = ({
   achievingRange,
   connector = {},
 }: Props) => {
-  const image = `${[type]}${index}_achieved_${achieved}`;
+  const imagePath = `${[type]}${index}_achieved_${achieved}`;
 
   let description = '';
 
@@ -56,9 +56,7 @@ export const BadgeCard = ({
     )}`;
   }
 
-  const ImageSvg = Images.badges[
-    image as keyof typeof Images.badges
-  ] as React.ElementType;
+  const image = Images.badges[imagePath as keyof typeof Images.badges];
 
   return (
     <>
@@ -71,7 +69,7 @@ export const BadgeCard = ({
       <ImageCardCompact
         title={name}
         description={description}
-        svgIcon={<ImageSvg width={rem(76)} height={rem(76)} />}
+        image={image}
         renderBody={() => <BadgeProgress value={percentageOfUsersInProgress} />}
         containerStyle={styles.containerActive}
       />

@@ -11,8 +11,16 @@ import {useUpdateHiddenProfileElements} from '@store/modules/Account/hooks/useUp
 import {ClosedEye} from '@svg/ClosedEye';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
-import React, {memo, ReactNode, useCallback} from 'react';
-import {StyleProp, StyleSheet, Text, View, ViewStyle} from 'react-native';
+import React, {memo, useCallback} from 'react';
+import {
+  Image,
+  ImageSourcePropType,
+  StyleProp,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+} from 'react-native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import {rem} from 'rn-units';
 
@@ -21,8 +29,8 @@ type Props = {
   category: BadgeType;
   progressText: string;
   progressValue: number;
-  activeImage: ReactNode;
-  inactiveImage: ReactNode;
+  activeImage: ImageSourcePropType;
+  inactiveImage: ImageSourcePropType;
   hidden?: boolean;
   isProfilePrivacyEditMode?: boolean;
   style?: StyleProp<ViewStyle>;
@@ -57,9 +65,10 @@ export const BadgeCard = memo(
     return (
       <Touchable onPress={onBadgePress}>
         <View style={[styles.container, commonStyles.shadow, style]}>
-          <View style={styles.icon}>
-            {hidden ? inactiveImage : activeImage}
-          </View>
+          <Image
+            style={styles.icon}
+            source={hidden ? inactiveImage : activeImage}
+          />
           {hidden ? (
             <>
               <ClosedEye height={20} width={20} color={COLORS.secondary} />
