@@ -12,7 +12,7 @@ export type ElementMeasurements = {
   pageY: number;
 };
 
-export type WalkThroughElementData = {
+export type WalkthroughElementData = {
   getRef: () => RefObject<View> | null;
   getTop: (measurements: ElementMeasurements) => number;
   render: (measurements: ElementMeasurements) => ReactNode;
@@ -30,7 +30,7 @@ export type WalkthroughStepKey =
   | 'tierOneEarnings'
   | 'ping';
 
-export type WalkThroughStepStaticData = {
+export type WalkthroughStepStaticData = {
   key: WalkthroughStepKey;
   version: number;
   title: string;
@@ -42,6 +42,6 @@ export type WalkThroughStepStaticData = {
   after?: () => void;
 };
 
-export interface WalkThroughStep extends WalkThroughStepStaticData {
-  elementData?: WalkThroughElementData;
+export interface WalkthroughStep extends WalkthroughStepStaticData {
+  elementData?: WalkthroughElementData;
 }

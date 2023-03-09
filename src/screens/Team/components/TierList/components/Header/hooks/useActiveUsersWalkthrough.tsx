@@ -2,8 +2,8 @@
 
 import {ReferralType} from '@api/user/types';
 import {ActiveUsers} from '@screens/Team/components/TierList/components/Header/components/ActiveUsers';
-import {WalkThroughElementContainer} from '@screens/WalkThrough/components/WalkThroughElementContainer';
-import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
+import {WalkthroughElementContainer} from '@screens/Walkthrough/components/WalkthroughElementContainer';
+import {useSetWalkthroughElementData} from '@store/modules/Walkthrough/hooks/useSetWalkthroughElementData';
 import {useEffect, useRef} from 'react';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
@@ -37,11 +37,11 @@ export const useActiveUsersWalkthrough = ({
             const left =
               measurements.pageX - WALKTHROUGH_ELEMENT_CONTAINER_PADDING * 2;
             return (
-              <WalkThroughElementContainer
+              <WalkthroughElementContainer
                 outerStyle={[styles.outerContainer, {left}]}
                 innerStyle={styles.innerContainer}>
                 <ActiveUsers referralType={referralType} />
-              </WalkThroughElementContainer>
+              </WalkthroughElementContainer>
             );
           },
         },

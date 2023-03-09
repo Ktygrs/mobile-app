@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {AllowContactsButton} from '@screens/Team/components/Contacts/components/ContactsPermissions/components/AllowContactsButton';
-import {WalkThroughElementContainer} from '@screens/WalkThrough/components/WalkThroughElementContainer';
+import {WalkthroughElementContainer} from '@screens/Walkthrough/components/WalkthroughElementContainer';
 import {isPermissionGrantedSelector} from '@store/modules/Permissions/selectors';
-import {WalkThroughActions} from '@store/modules/WalkThrough/actions';
-import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
+import {WalkthroughActions} from '@store/modules/Walkthrough/actions';
+import {useSetWalkthroughElementData} from '@store/modules/Walkthrough/hooks/useSetWalkthroughElementData';
 import {useEffect, useRef} from 'react';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
@@ -26,7 +26,7 @@ export const useAllowContactsWalkthrough = () => {
 
   useEffect(() => {
     if (hasContactsPermissions) {
-      dispatch(WalkThroughActions.RESTART_WALK_THROUGH.STATE.create());
+      dispatch(WalkthroughActions.RESTART_WALKTHROUGH.STATE.create());
     }
   }, [dispatch, hasContactsPermissions]);
 
@@ -37,11 +37,11 @@ export const useAllowContactsWalkthrough = () => {
         getRef: () => elementRef,
         getTop: measurements => measurements.pageY - CONTAINER_PADDING * 2,
         render: () => (
-          <WalkThroughElementContainer
+          <WalkthroughElementContainer
             outerStyle={styles.outerContainer}
             innerStyle={styles.innerContainer}>
             <AllowContactsButton />
-          </WalkThroughElementContainer>
+          </WalkthroughElementContainer>
         ),
       },
     });

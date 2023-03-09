@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {UserListPingButton} from '@components/ListItems/UserListItem/components/UserListPingButton';
-import {WalkThroughElementContainer} from '@screens/WalkThrough/components/WalkThroughElementContainer';
-import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
+import {WalkthroughElementContainer} from '@screens/Walkthrough/components/WalkthroughElementContainer';
+import {useSetWalkthroughElementData} from '@store/modules/Walkthrough/hooks/useSetWalkthroughElementData';
 import {useRef} from 'react';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
@@ -26,11 +26,11 @@ export const usePingWalkthrough = ({userId}: {userId: string}) => {
         render: measurements => {
           const left = measurements.pageX - CONTAINER_PADDING * 2;
           return (
-            <WalkThroughElementContainer
+            <WalkthroughElementContainer
               outerStyle={[styles.outerContainer, {left}]}
               innerStyle={styles.innerContainer}>
               <UserListPingButton userId={userId} />
-            </WalkThroughElementContainer>
+            </WalkthroughElementContainer>
           );
         },
       },

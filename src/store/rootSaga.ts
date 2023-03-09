@@ -25,7 +25,7 @@ import {rootReferralsSaga} from './modules/Referrals/sagas';
 import {rootTokenomicsSaga} from './modules/Tokenomics/sagas';
 import {rootUsersSaga} from './modules/Users/sagas';
 import {rootValidationSaga} from './modules/Validation/sagas';
-import {rootWalkthroughSaga} from './modules/WalkThrough/sagas';
+import {rootWalkthroughSaga} from './modules/Walkthrough/sagas';
 
 export function* rootSaga(): SagaIterator {
   const sagas = [

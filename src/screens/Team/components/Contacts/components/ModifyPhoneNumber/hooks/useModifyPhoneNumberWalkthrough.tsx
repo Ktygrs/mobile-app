@@ -4,8 +4,8 @@ import {UPDATE_ACCOUNT_FIELD_BUTTON_OFFSET} from '@components/Forms/components/U
 import {PhoneNumberInput} from '@components/Inputs/PhoneNumberInput';
 import {PrimaryButton} from '@components/PrimaryButton';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
-import {WalkThroughElementContainer} from '@screens/WalkThrough/components/WalkThroughElementContainer';
-import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
+import {WalkthroughElementContainer} from '@screens/Walkthrough/components/WalkthroughElementContainer';
+import {useSetWalkthroughElementData} from '@store/modules/Walkthrough/hooks/useSetWalkthroughElementData';
 import {t} from '@translations/i18n';
 import React, {useRef} from 'react';
 import {StyleSheet, View} from 'react-native';
@@ -32,7 +32,7 @@ export const useModifyPhoneNumberWalkthrough = () => {
           );
         },
         render: () => (
-          <WalkThroughElementContainer
+          <WalkthroughElementContainer
             outerStyle={styles.outerContainer}
             innerStyle={styles.innerContainer}
             pointerEvents={'none'}>
@@ -45,7 +45,7 @@ export const useModifyPhoneNumberWalkthrough = () => {
               text={t('confirm_phone.button')}
               style={styles.button}
             />
-          </WalkThroughElementContainer>
+          </WalkthroughElementContainer>
         ),
       },
     });

@@ -8,7 +8,7 @@ import {Segment} from '@components/SegmentedControl/components/Segment';
 import {SegmentIndicator} from '@components/SegmentedControl/components/SegmentIndicator';
 import {COLORS} from '@constants/colors';
 import {SEGMENTS} from '@screens/Team/components/SegmentedContent/segments';
-import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
+import {useSetWalkthroughElementData} from '@store/modules/Walkthrough/hooks/useSetWalkthroughElementData';
 import {useRef} from 'react';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';

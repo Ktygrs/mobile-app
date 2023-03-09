@@ -3,7 +3,7 @@
 import {
   CIRCLE_DIAMETER,
   MAX_CIRCLE_OFFSCREEN,
-} from '@screens/WalkThrough/constants';
+} from '@screens/Walkthrough/constants';
 import {useMemo} from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {rem, screenHeight} from 'rn-units/index';

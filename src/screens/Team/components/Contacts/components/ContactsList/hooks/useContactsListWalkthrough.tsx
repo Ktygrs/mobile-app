@@ -9,8 +9,8 @@ import {ContactsListDummy} from '@screens/Team/components/Contacts/components/Co
 import {SEARCH_INPUT_TOP_OFFSET} from '@screens/Team/components/Header/components/Search';
 import {SEGMENTED_CONTROL_PADDING_TOP} from '@screens/Team/components/SegmentedContent';
 import {SEGMENTS} from '@screens/Team/components/SegmentedContent/segments';
-import {WalkThroughElementContainer} from '@screens/WalkThrough/components/WalkThroughElementContainer';
-import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
+import {WalkthroughElementContainer} from '@screens/Walkthrough/components/WalkthroughElementContainer';
+import {useSetWalkthroughElementData} from '@store/modules/Walkthrough/hooks/useSetWalkthroughElementData';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -36,7 +36,7 @@ export const useContactsListWalkthrough = () => {
           );
         },
         render: () => (
-          <WalkThroughElementContainer
+          <WalkthroughElementContainer
             outerStyle={styles.outerContainer}
             innerStyle={styles.innerContainer}
             pointerEvents={'none'}>
@@ -44,7 +44,7 @@ export const useContactsListWalkthrough = () => {
             <View style={styles.segmentedControl}>
               <SegmentedControl segments={SEGMENTS} initialIndex={0} />
             </View>
-          </WalkThroughElementContainer>
+          </WalkthroughElementContainer>
         ),
       },
     });

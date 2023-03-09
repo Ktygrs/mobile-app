@@ -3,11 +3,11 @@
 import {Touchable} from '@components/Touchable';
 import {MIDDLE_BUTTON_HIT_SLOP} from '@constants/styles';
 import {Images} from '@images';
-import {NextButton} from '@screens/WalkThrough/components/StepCircle/components/NextButton';
-import {useCirclePosition} from '@screens/WalkThrough/components/StepCircle/hooks/useCirclePosition';
-import {useParseDescription} from '@screens/WalkThrough/components/StepCircle/hooks/useParseDescription';
-import {CIRCLE_DIAMETER} from '@screens/WalkThrough/constants';
-import {WalkThroughStep} from '@store/modules/WalkThrough/types';
+import {NextButton} from '@screens/Walkthrough/components/StepCircle/components/NextButton';
+import {useCirclePosition} from '@screens/Walkthrough/components/StepCircle/hooks/useCirclePosition';
+import {useParseDescription} from '@screens/Walkthrough/components/StepCircle/hooks/useParseDescription';
+import {CIRCLE_DIAMETER} from '@screens/Walkthrough/constants';
+import {WalkthroughStep} from '@store/modules/Walkthrough/types';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React from 'react';
@@ -16,7 +16,7 @@ import Animated, {AnimatedStyleProp} from 'react-native-reanimated';
 import {rem, screenWidth} from 'rn-units';
 
 type Props = {
-  step: WalkThroughStep;
+  step: WalkthroughStep;
   totalSteps: number;
   stepIndex: number;
   elementHeight: number | undefined;

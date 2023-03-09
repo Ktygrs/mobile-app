@@ -2,8 +2,8 @@
 
 import {ReferralType} from '@api/user/types';
 import {Earnings} from '@screens/Team/components/TierList/components/Header/components/Earnings';
-import {WalkThroughElementContainer} from '@screens/WalkThrough/components/WalkThroughElementContainer';
-import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
+import {WalkthroughElementContainer} from '@screens/Walkthrough/components/WalkthroughElementContainer';
+import {useSetWalkthroughElementData} from '@store/modules/Walkthrough/hooks/useSetWalkthroughElementData';
 import {useEffect, useRef} from 'react';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
@@ -34,11 +34,11 @@ export const useEarningsWalkthrough = ({
           render: measurements => {
             const left = measurements.pageX - CONTAINER_PADDING * 2;
             return (
-              <WalkThroughElementContainer
+              <WalkthroughElementContainer
                 outerStyle={[styles.outerContainer, {left}]}
                 innerStyle={styles.innerContainer}>
                 <Earnings referralType={referralType} />
-              </WalkThroughElementContainer>
+              </WalkthroughElementContainer>
             );
           },
         },

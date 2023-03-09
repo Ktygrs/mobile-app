@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {store} from '@store/configureStore';
-import {WalkThroughActions} from '@store/modules/WalkThrough/actions';
-import {isStepHasToBeShownSelector} from '@store/modules/WalkThrough/selectors';
+import {WalkthroughActions} from '@store/modules/Walkthrough/actions';
+import {isStepHasToBeShownSelector} from '@store/modules/Walkthrough/selectors';
 import {
-  WalkThroughElementData,
+  WalkthroughElementData,
   WalkthroughStepKey,
-} from '@store/modules/WalkThrough/types';
+} from '@store/modules/Walkthrough/types';
 import {useCallback} from 'react';
 import {useDispatch} from 'react-redux';
 
@@ -18,14 +18,14 @@ export function useSetWalkthroughElementData() {
       elementData,
     }: {
       stepKey: WalkthroughStepKey;
-      elementData: WalkThroughElementData;
+      elementData: WalkthroughElementData;
     }) => {
       const isStepHasToBeShown = isStepHasToBeShownSelector(stepKey)(
         store.getState(),
       );
       if (isStepHasToBeShown) {
         dispatch(
-          WalkThroughActions.SET_WALK_THROUGH_STEP_ELEMENT_DATA.STATE.create({
+          WalkthroughActions.SET_WALKTHROUGH_STEP_ELEMENT_DATA.STATE.create({
             elementData,
             stepKey,
           }),

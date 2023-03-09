@@ -3,8 +3,8 @@
 import {
   ANIMATION_CONFIG,
   ANIMATION_DELAY,
-} from '@screens/WalkThrough/constants';
-import {WalkThroughStep} from '@store/modules/WalkThrough/types';
+} from '@screens/Walkthrough/constants';
+import {WalkthroughStep} from '@store/modules/Walkthrough/types';
 import {useCallback, useEffect} from 'react';
 import {
   cancelAnimation,
@@ -19,7 +19,7 @@ export const useAnimatedStyles = ({
   step,
   elementHeight,
 }: {
-  step: WalkThroughStep;
+  step: WalkthroughStep;
   elementHeight: number | undefined;
 }) => {
   const elementOpacity = useSharedValue(0);

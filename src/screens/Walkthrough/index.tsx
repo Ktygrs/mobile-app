@@ -2,23 +2,18 @@
 
 import {COLORS} from '@constants/colors';
 import {MainStackParamList} from '@navigation/Main';
-import {RouteProp} from '@react-navigation/native';
-import {StepCircle} from '@screens/WalkThrough/components/StepCircle';
-import {useAnimatedStyles} from '@screens/WalkThrough/hooks/useAnimatedStyles';
-import {WalkThroughActions} from '@store/modules/WalkThrough/actions';
-import {ElementMeasurements} from '@store/modules/WalkThrough/types';
+import {RouteProp, useRoute} from '@react-navigation/native';
+import {StepCircle} from '@screens/Walkthrough/components/StepCircle';
+import {useAnimatedStyles} from '@screens/Walkthrough/hooks/useAnimatedStyles';
+import {WalkthroughActions} from '@store/modules/Walkthrough/actions';
+import {ElementMeasurements} from '@store/modules/Walkthrough/types';
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import Animated from 'react-native-reanimated';
 import {useDispatch} from 'react-redux';
 
-type WalkThroughRouteProps = RouteProp<MainStackParamList, 'WalkThrough'>;
-
-interface WalkThroughProps {
-  route: WalkThroughRouteProps;
-}
-
-export function WalkThrough({route}: WalkThroughProps) {
+export function Walkthrough() {
+  const route = useRoute<RouteProp<MainStackParamList, 'Walkthrough'>>();
   const {step, total, index} = route.params;
 
   const [elementMeasurements, setElementMeasurements] =
@@ -34,7 +29,7 @@ export function WalkThrough({route}: WalkThroughProps) {
   const onNext = () => {
     runCloseAnimation(() => {
       dispatch(
-        WalkThroughActions.COMPLETE_WALK_THROUGH_STEP.STATE.create({
+        WalkthroughActions.COMPLETE_WALKTHROUGH_STEP.STATE.create({
           stepKey: step.key,
         }),
       );
@@ -43,7 +38,7 @@ export function WalkThrough({route}: WalkThroughProps) {
 
   const onSkip = () => {
     runCloseAnimation(() => {
-      dispatch(WalkThroughActions.SKIP_WALK_THROUGH.STATE.create());
+      dispatch(WalkthroughActions.SKIP_WALKTHROUGH.STATE.create());
     });
   };
 

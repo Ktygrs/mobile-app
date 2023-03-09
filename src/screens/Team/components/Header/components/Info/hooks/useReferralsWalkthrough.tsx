@@ -3,8 +3,8 @@
 import {COLORS} from '@constants/colors';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
 import {ReferralsCell} from '@screens/Team/components/Header/components/Info/components/ReferralsCell';
-import {WalkThroughElementContainer} from '@screens/WalkThrough/components/WalkThroughElementContainer';
-import {useSetWalkthroughElementData} from '@store/modules/WalkThrough/hooks/useSetWalkthroughElementData';
+import {WalkthroughElementContainer} from '@screens/Walkthrough/components/WalkthroughElementContainer';
+import {useSetWalkthroughElementData} from '@store/modules/Walkthrough/hooks/useSetWalkthroughElementData';
 import {useRef} from 'react';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
@@ -26,11 +26,11 @@ export const useReferralsWalkthrough = () => {
           return measurements.pageY - CONTAINER_VERTICAL_PADDING * 2;
         },
         render: () => (
-          <WalkThroughElementContainer
+          <WalkthroughElementContainer
             outerStyle={styles.outerContainer}
             innerStyle={styles.innerContainer}>
             <ReferralsCell color={COLORS.primaryDark} />
-          </WalkThroughElementContainer>
+          </WalkthroughElementContainer>
         ),
       },
     });

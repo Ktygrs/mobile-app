@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {IceLabel} from '@components/Labels/IceLabel';
-import {WalkThroughStep} from '@store/modules/WalkThrough/types';
+import {WalkthroughStep} from '@store/modules/Walkthrough/types';
 import {replaceString, tagRegex} from '@translations/i18n';
 import React, {useMemo} from 'react';
 import {Linking, StyleSheet, Text} from 'react-native';
 
 type Props = {
-  step: WalkThroughStep | undefined;
+  step: WalkthroughStep | undefined;
 };
 
 export function useParseDescription({step}: Props) {

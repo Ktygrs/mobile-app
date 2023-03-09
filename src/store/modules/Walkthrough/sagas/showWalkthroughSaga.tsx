@@ -4,13 +4,13 @@ import {User} from '@api/user/types';
 import {getCurrentRoute, goBack, navigate} from '@navigation/utils';
 import {AccountActions} from '@store/modules/Account/actions';
 import {userSelector} from '@store/modules/Account/selectors';
-import {WalkThroughActions} from '@store/modules/WalkThrough/actions';
-import {walkthroughStepCandidatesSelector} from '@store/modules/WalkThrough/selectors';
-import {WALK_THROUGH_STEPS} from '@store/modules/WalkThrough/steps';
+import {WalkthroughActions} from '@store/modules/Walkthrough/actions';
+import {walkthroughStepCandidatesSelector} from '@store/modules/Walkthrough/selectors';
+import {WALKTHROUGH_STEPS} from '@store/modules/Walkthrough/steps';
 import {
-  WalkThroughStep,
+  WalkthroughStep,
   WalkthroughStepKey,
-} from '@store/modules/WalkThrough/types';
+} from '@store/modules/Walkthrough/types';
 import {
   call,
   delay,
@@ -20,7 +20,7 @@ import {
   take,
 } from 'redux-saga/effects';
 
-export function* showWalkThroughSaga() {
+export function* showWalkthroughSaga() {
   while (true) {
     yield call(waitForWalkthroughStepCandidates);
     yield delay(1000);
@@ -37,7 +37,7 @@ export function* showWalkThroughSaga() {
       }
 
       yield navigate({
-        name: 'WalkThrough',
+        name: 'Walkthrough',
         params: {step, index: i, total: steps.length},
       });
 
@@ -45,13 +45,13 @@ export function* showWalkThroughSaga() {
       yield call(markWalkthroughStep, user, step);
 
       const action: ReturnType<
-        | typeof WalkThroughActions.COMPLETE_WALK_THROUGH_STEP.STATE.create
-        | typeof WalkThroughActions.SKIP_WALK_THROUGH.STATE.create
-        | typeof WalkThroughActions.RESTART_WALK_THROUGH.STATE.create
+        | typeof WalkthroughActions.COMPLETE_WALKTHROUGH_STEP.STATE.create
+        | typeof WalkthroughActions.SKIP_WALKTHROUGH.STATE.create
+        | typeof WalkthroughActions.RESTART_WALKTHROUGH.STATE.create
       > = yield take([
-        WalkThroughActions.COMPLETE_WALK_THROUGH_STEP.STATE.type,
-        WalkThroughActions.SKIP_WALK_THROUGH.STATE.type,
-        WalkThroughActions.RESTART_WALK_THROUGH.STATE.type,
+        WalkthroughActions.COMPLETE_WALKTHROUGH_STEP.STATE.type,
+        WalkthroughActions.SKIP_WALKTHROUGH.STATE.type,
+        WalkthroughActions.RESTART_WALKTHROUGH.STATE.type,
       ]);
 
       if (step.after) {
@@ -59,13 +59,13 @@ export function* showWalkThroughSaga() {
       }
 
       if (
-        action.type === WalkThroughActions.SKIP_WALK_THROUGH.STATE.type ||
-        action.type === WalkThroughActions.RESTART_WALK_THROUGH.STATE.type ||
+        action.type === WalkthroughActions.SKIP_WALKTHROUGH.STATE.type ||
+        action.type === WalkthroughActions.RESTART_WALKTHROUGH.STATE.type ||
         isLast
       ) {
         yield call(closeWalkthrough);
 
-        if (action.type === WalkThroughActions.SKIP_WALK_THROUGH.STATE.type) {
+        if (action.type === WalkthroughActions.SKIP_WALKTHROUGH.STATE.type) {
           yield call(markAllWalkthroughSteps, user);
         }
 
@@ -82,7 +82,7 @@ function* closeWalkthrough() {
   /**
    * Walkthrough might be already closed e.g. as a result of step.after
    */
-  if (currentRoute?.name === 'WalkThrough') {
+  if (currentRoute?.name === 'Walkthrough') {
     yield goBack();
   }
 }
@@ -95,27 +95,25 @@ function* waitForWalkthroughStepCandidates() {
       >
     ).length === 0
   ) {
-    yield take(
-      WalkThroughActions.SET_WALK_THROUGH_STEP_ELEMENT_DATA.STATE.type,
-    );
+    yield take(WalkthroughActions.SET_WALKTHROUGH_STEP_ELEMENT_DATA.STATE.type);
   }
 }
 
-function* markWalkthroughStep(user: User, step: WalkThroughStep) {
+function* markWalkthroughStep(user: User, step: WalkthroughStep) {
   yield put(
     AccountActions.UPDATE_ACCOUNT.START.create(
       {
         clientData: {
           ...(user.clientData ?? {}),
-          walkTroughProgress: {
-            ...(user.clientData?.walkTroughProgress ?? {}),
+          walkthroughProgress: {
+            ...(user.clientData?.walkthroughProgress ?? {}),
             [step.key]: {version: step.version},
           },
         },
       },
       function* (freshUser) {
         if (
-          freshUser.clientData?.walkTroughProgress?.[step.key]?.version !==
+          freshUser.clientData?.walkthroughProgress?.[step.key]?.version !==
           step.version
         ) {
           markWalkthroughStep(freshUser, step);
@@ -127,7 +125,7 @@ function* markWalkthroughStep(user: User, step: WalkThroughStep) {
 }
 
 function* markAllWalkthroughSteps(user: User) {
-  const walkTroughProgress = WALK_THROUGH_STEPS.reduce<{
+  const walkthroughProgress = WALKTHROUGH_STEPS.reduce<{
     [key in WalkthroughStepKey]?: {version: number};
   }>((result, step) => {
     result[step.key] = {version: step.version};
@@ -137,7 +135,7 @@ function* markAllWalkthroughSteps(user: User) {
   yield put(
     AccountActions.UPDATE_ACCOUNT.START.create(
       {
-        clientData: {...(user.clientData ?? {}), walkTroughProgress},
+        clientData: {...(user.clientData ?? {}), walkthroughProgress},
       },
       function* (freshUser) {
         markAllWalkthroughSteps(freshUser);

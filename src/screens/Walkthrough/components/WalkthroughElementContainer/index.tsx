@@ -13,7 +13,7 @@ interface Props extends ViewProps {
 
 const BORDER_RADIUS = rem(20);
 
-export const WalkThroughElementContainer = ({
+export const WalkthroughElementContainer = ({
   children,
   innerStyle,
   outerStyle,

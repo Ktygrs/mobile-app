@@ -2,7 +2,7 @@
 
 import {COLORS} from '@constants/colors';
 import {navigate} from '@navigation/utils';
-import {WalkThroughStepStaticData} from '@store/modules/WalkThrough/types';
+import {WalkthroughStepStaticData} from '@store/modules/Walkthrough/types';
 import {AddressBookIcon} from '@svg/AddressBookIcon';
 import {CheckMarkFramedIcon} from '@svg/CheckMarkFramedIcon';
 import {ContactsIcon} from '@svg/ContactsIcon';
@@ -17,7 +17,7 @@ import React from 'react';
 import {delay} from 'redux-saga/effects';
 import {rem} from 'rn-units';
 
-export const WALK_THROUGH_STEPS: WalkThroughStepStaticData[] = [
+export const WALKTHROUGH_STEPS: WalkthroughStepStaticData[] = [
   {
     key: 'allowContacts',
     version: 1,

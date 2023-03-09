@@ -49,11 +49,11 @@ import {PersonalInformation} from '@screens/SettingsFlow/PersonalInformation';
 import {Settings} from '@screens/SettingsFlow/Settings';
 import {Staking} from '@screens/Staking';
 import {Team} from '@screens/Team';
-import {WalkThrough} from '@screens/WalkThrough';
+import {Walkthrough} from '@screens/Walkthrough';
 import {ActiveTabActions, Tab} from '@store/modules/ActiveTab/actions';
 import {useSubscribeToPushNotifications} from '@store/modules/PushNotifications/hooks/useSubscribeToPushNotifications';
 import {StatsPeriod} from '@store/modules/Stats/types';
-import {WalkThroughStep} from '@store/modules/WalkThrough/types';
+import {WalkthroughStep} from '@store/modules/Walkthrough/types';
 import React, {ComponentType, ReactNode, RefObject} from 'react';
 import {Image, View} from 'react-native';
 import {Contact} from 'react-native-contacts';
@@ -115,7 +115,7 @@ export type MainStackParamList = {
   UserProfile: {userId: string} | undefined;
   Roles: {userId?: string} | undefined;
   Badges: {category?: BadgeCategory; userId?: string};
-  WalkThrough: {step: WalkThroughStep; total: number; index: number};
+  Walkthrough: {step: WalkthroughStep; total: number; index: number};
   ProfilePrivacyEditStep1: undefined;
   ProfilePrivacyEditStep2: undefined;
   ProfilePrivacyEditStep3: undefined;
@@ -334,8 +334,8 @@ export function MainNavigator() {
         options={badgesOptions}
       />
       <MainStack.Screen
-        name="WalkThrough"
-        component={WalkThrough}
+        name="Walkthrough"
+        component={Walkthrough}
         options={modalOptions}
       />
       <MainStack.Screen
