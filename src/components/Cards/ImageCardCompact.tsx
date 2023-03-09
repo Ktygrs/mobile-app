@@ -33,7 +33,7 @@ export const ImageCardCompact = ({
 }: Props) => {
   return (
     <View style={[styles.container, commonStyles.shadow, containerStyle]}>
-      <Image style={styles.icon} source={image} />
+      <Image style={styles.icon} resizeMode="contain" source={image} />
 
       <View style={styles.info}>
         <Text
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   },
   info: {
     flex: 1,
-    marginLeft: rem(20),
+    marginLeft: rem(14),
     marginTop: rem(4),
     justifyContent: 'center',
   },

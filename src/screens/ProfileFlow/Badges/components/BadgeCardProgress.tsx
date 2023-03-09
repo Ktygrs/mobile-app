@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
   labelContainer: {
     flexDirection: 'row',
     alignItems: 'flex-end',
+    justifyContent: 'flex-end',
   },
   percValueText: {
     marginRight: rem(6),

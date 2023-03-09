@@ -40,20 +40,38 @@ export const BadgeCard = ({
 
   let description = '';
 
-  if (achievingRange.fromInclusive && achievingRange.toInclusive) {
-    description = `${achievingRange.fromInclusive}-${
-      achievingRange.toInclusive
-    } ${t(`profile.badge_types.${type}.description`)}`;
-  }
-  if (!achievingRange?.toInclusive && achievingRange?.fromInclusive) {
-    description = `> ${achievingRange?.fromInclusive - 1} ${t(
-      `profile.badge_types.${type}.description`,
-    )}`;
-  }
-  if (!achievingRange?.fromInclusive && achievingRange?.toInclusive) {
-    description = `< ${achievingRange?.toInclusive + 1} ${t(
-      `profile.badge_types.${type}.description`,
-    )}`;
+  if (type === 'level') {
+    if (achievingRange.fromInclusive && achievingRange.toInclusive) {
+      description = `${t(`profile.badge_types.${type}.description`)} ${
+        achievingRange.fromInclusive
+      }-${achievingRange.toInclusive}`;
+    }
+    if (!achievingRange?.toInclusive && achievingRange?.fromInclusive) {
+      description = `${t(`profile.badge_types.${type}.description`)} ${
+        achievingRange?.fromInclusive - 1
+      }+`;
+    }
+    if (!achievingRange?.fromInclusive && achievingRange?.toInclusive) {
+      description = `${t(`profile.badge_types.${type}.description`)} < ${
+        achievingRange?.toInclusive + 1
+      } `;
+    }
+  } else {
+    if (achievingRange.fromInclusive && achievingRange.toInclusive) {
+      description = `${achievingRange.fromInclusive}-${
+        achievingRange.toInclusive
+      } ${t(`profile.badge_types.${type}.description`)}`;
+    }
+    if (!achievingRange?.toInclusive && achievingRange?.fromInclusive) {
+      description = `${achievingRange?.fromInclusive - 1}+ ${t(
+        `profile.badge_types.${type}.description`,
+      )}`;
+    }
+    if (!achievingRange?.fromInclusive && achievingRange?.toInclusive) {
+      description = `< ${achievingRange?.toInclusive + 1} ${t(
+        `profile.badge_types.${type}.description`,
+      )}`;
+    }
   }
 
   const image = Images.badges[imagePath as keyof typeof Images.badges];

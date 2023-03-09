@@ -61,7 +61,7 @@ export const CurrentRoleCard = ({
             <View style={styles.info}>
               {hidden ? (
                 <View style={styles.hiddenContainer}>
-                  <ClosedEye height={24} width={24} />
+                  <ClosedEye height={rem(24)} width={rem(24)} />
                   <Text style={styles.hiddenText}>
                     {t('global.data_hidden')}
                   </Text>

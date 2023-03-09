@@ -67,11 +67,16 @@ export const BadgeCard = memo(
         <View style={[styles.container, commonStyles.shadow, style]}>
           <Image
             style={styles.icon}
+            resizeMode="contain"
             source={hidden ? inactiveImage : activeImage}
           />
           {hidden ? (
             <>
-              <ClosedEye height={20} width={20} color={COLORS.secondary} />
+              <ClosedEye
+                height={rem(20)}
+                width={rem(20)}
+                color={COLORS.secondary}
+              />
               <Text style={styles.hiddenText} numberOfLines={1}>
                 {t('profile.data_is_hidden')}
               </Text>
