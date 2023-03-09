@@ -2,7 +2,7 @@
 
 import {store} from '@store/configureStore';
 import {WalkthroughActions} from '@store/modules/Walkthrough/actions';
-import {isStepHasToBeShownSelector} from '@store/modules/Walkthrough/selectors';
+import {shouldDisplayStepSelector} from '@store/modules/Walkthrough/selectors';
 import {
   WalkthroughElementData,
   WalkthroughStepKey,
@@ -20,7 +20,7 @@ export function useSetWalkthroughElementData() {
       stepKey: WalkthroughStepKey;
       elementData: WalkthroughElementData;
     }) => {
-      const isStepHasToBeShown = isStepHasToBeShownSelector(stepKey)(
+      const isStepHasToBeShown = shouldDisplayStepSelector(stepKey)(
         store.getState(),
       );
       if (isStepHasToBeShown) {

@@ -33,7 +33,7 @@ export const walkthroughStepCandidatesSelector = createSelector(
   },
 );
 
-export const isStepHasToBeShownSelector =
+export const shouldDisplayStepSelector =
   (stepKey: WalkthroughStepKey) => (state: RootState) => {
     const user = userSelector(state);
     const stepSeenVersion =
