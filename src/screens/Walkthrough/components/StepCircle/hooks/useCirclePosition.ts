@@ -37,7 +37,7 @@ export function useCirclePosition({
               Math.min(rem(10), aboveSpace - CIRCLE_DIAMETER),
           };
         } else {
-          return {top: -MAX_CIRCLE_OFFSCREEN + topInset};
+          return {top: topInset - MAX_CIRCLE_OFFSCREEN};
         }
       } else {
         if (CIRCLE_DIAMETER < belowSpace) {
@@ -48,7 +48,7 @@ export function useCirclePosition({
               Math.min(rem(10), belowSpace - CIRCLE_DIAMETER),
           };
         } else {
-          return {bottom: -MAX_CIRCLE_OFFSCREEN + bottomInset};
+          return {bottom: bottomInset - MAX_CIRCLE_OFFSCREEN};
         }
       }
     }
