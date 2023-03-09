@@ -115,7 +115,9 @@ export type MainStackParamList = {
   UserProfile: {userId: string} | undefined;
   Roles: {userId?: string} | undefined;
   Badges: {category?: BadgeCategory; userId?: string};
-  Walkthrough: {step: WalkthroughStep; total: number; index: number};
+  Walkthrough:
+    | {step: WalkthroughStep; total: number; index: number}
+    | undefined;
   ProfilePrivacyEditStep1: undefined;
   ProfilePrivacyEditStep2: undefined;
   ProfilePrivacyEditStep3: undefined;

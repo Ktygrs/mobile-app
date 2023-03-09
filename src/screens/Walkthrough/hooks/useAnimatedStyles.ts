@@ -19,7 +19,7 @@ export const useAnimatedStyles = ({
   step,
   elementHeight,
 }: {
-  step: WalkthroughStep;
+  step: WalkthroughStep | undefined;
   elementHeight: number | undefined;
 }) => {
   const elementOpacity = useSharedValue(0);

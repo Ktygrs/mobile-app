@@ -29,6 +29,17 @@ export function* showWalkthroughSaga() {
       WalkthroughActions.SET_WALKTHROUGH_STEP_ELEMENT_DATA.STATE.type,
     );
 
+    /**
+     * Navigating to Walkthrough as soon as we get step candidates
+     * to block the ui from changing the screen / scrolling / etc
+     */
+    yield navigate({name: 'Walkthrough', params: undefined});
+
+    /**
+     * Waiting 1 second so all the candidates on the screen are set.
+     * E.g. elements within the BottomSheet are rerendered several times
+     * before the final position is set
+     */
     yield delay(1000);
 
     const steps: ReturnType<typeof walkthroughStepCandidatesSelector> =
