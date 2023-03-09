@@ -1,10 +1,8 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {FormattedNumber} from '@components/Labels/FormattedNumber';
 import {IceLabel} from '@components/Labels/IceLabel';
 import {COLORS} from '@constants/colors';
 import {commonStyles} from '@constants/styles';
-import {useAnimatedNumber} from '@hooks/useAnimatedNumber';
 import {PAGE_HEIGHT} from '@screens/HomeFlow/Home/components/Pager';
 import {miningRatesSelector} from '@store/modules/Tokenomics/selectors';
 import {CoinsStackIcon} from '@svg/CoinsStackIcon';
@@ -12,48 +10,18 @@ import {MiningHammerIcon} from '@svg/MiningHammerIcon';
 import {StarIcon} from '@svg/StarIcon';
 import {TeamIcon} from '@svg/TeamIcon';
 import {t} from '@translations/i18n';
-import {formatNumberString, parseNumber} from '@utils/numbers';
+import {parseNumber} from '@utils/numbers';
 import {font} from '@utils/styles';
 import React, {memo} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {rem} from 'rn-units';
 
+import {IconValueText} from './components/IconValueText';
+import {MiningRateValue} from './components/MiningRateValue';
+
 export const MiningRate = memo(() => {
   const miningRates = useSelector(miningRatesSelector);
-
-  const animatedMiningRatesTotalAmount = useAnimatedNumber(
-    parseNumber(miningRates?.total.amount ?? '0') *
-      {
-        positive: 1,
-        negative: -1,
-        none: 1,
-      }[miningRates?.type ?? 'none'],
-    v => `${v > 0 ? '+' : ''}${formatNumberString(String(v))}`,
-  );
-
-  const animatedMiningRatesBaseAmount = useAnimatedNumber(
-    parseNumber(miningRates?.base.amount ?? '0') *
-      {
-        positive: 1,
-        negative: -1,
-        none: 1,
-      }[miningRates?.type ?? 'none'],
-    v => `${v > 0 ? '+' : ''}${formatNumberString(String(v))}`,
-  );
-
-  const animatedMiningRatesTotalBonusesTier = useAnimatedNumber(
-    (miningRates?.total.bonuses?.t1 ?? 0) +
-      (miningRates?.total.bonuses?.t2 ?? 0),
-  );
-
-  const animatedMiningRateTotalBonusesExtra = useAnimatedNumber(
-    miningRates?.total.bonuses?.extra ?? 0,
-  );
-
-  const animatedMiningRateTotalBonusesPreStaking = useAnimatedNumber(
-    miningRates?.total.bonuses?.preStaking ?? 0,
-  );
 
   if (!miningRates) {
     //TODO: add loading
@@ -67,13 +35,20 @@ export const MiningRate = memo(() => {
         <Text style={styles.miningRateText}>{t('home.mining_rate.title')}</Text>
       </View>
       <View style={styles.miningRate}>
-        <FormattedNumber
-          trim
-          containerStyle={styles.miningValueContainer}
-          number={animatedMiningRatesTotalAmount}
+        <MiningRateValue
+          style={styles.miningValueContainer}
           bodyStyle={styles.miningValueText}
           decimalsStyle={styles.miningValueDecimalsText}
+          value={
+            parseNumber(miningRates?.total.amount ?? '0') *
+            {
+              positive: 1,
+              negative: -1,
+              none: 1,
+            }[miningRates?.type ?? 'none']
+          }
         />
+
         <IceLabel
           textStyle={styles.rateValueText}
           iconOffsetY={-1}
@@ -88,13 +63,21 @@ export const MiningRate = memo(() => {
       </View>
       <View style={styles.baseContainer}>
         <Text style={styles.baseTitleText}>{t('home.mining_rate.base')}</Text>
-        <FormattedNumber
-          trim
-          containerStyle={styles.baseValueContainer}
-          number={animatedMiningRatesBaseAmount}
+
+        <MiningRateValue
+          style={styles.baseValueContainer}
           bodyStyle={styles.baseValueText}
           decimalsStyle={styles.baseDecimalsText}
+          value={
+            parseNumber(miningRates?.base.amount ?? '0') *
+            {
+              positive: 1,
+              negative: -1,
+              none: 1,
+            }[miningRates?.type ?? 'none']
+          }
         />
+
         <IceLabel
           textStyle={styles.baseValueText}
           iconOffsetY={-1}
@@ -105,15 +88,22 @@ export const MiningRate = memo(() => {
       <View style={styles.iconsContainer}>
         <View style={styles.iconContainer}>
           <TeamIcon />
-          <Text style={styles.iconValueText}>
-            {`+${animatedMiningRatesTotalBonusesTier}%`}
-          </Text>
+
+          <IconValueText
+            style={styles.iconValueText}
+            value={
+              (miningRates?.total.bonuses?.t1 ?? 0) +
+              (miningRates?.total.bonuses?.t2 ?? 0)
+            }
+          />
         </View>
         <View style={styles.iconContainer}>
           <StarIcon />
-          <Text style={styles.iconValueText}>
-            {`+${animatedMiningRateTotalBonusesExtra}%`}
-          </Text>
+
+          <IconValueText
+            style={styles.iconValueText}
+            value={miningRates?.total.bonuses?.extra ?? 0}
+          />
         </View>
         <View style={styles.iconContainer}>
           <CoinsStackIcon
@@ -121,9 +111,11 @@ export const MiningRate = memo(() => {
             width={rem(14)}
             height={rem(14)}
           />
-          <Text style={styles.iconValueText}>
-            {`+${animatedMiningRateTotalBonusesPreStaking}%`}
-          </Text>
+
+          <IconValueText
+            style={styles.iconValueText}
+            value={miningRates?.total.bonuses?.preStaking ?? 0}
+          />
         </View>
       </View>
     </View>

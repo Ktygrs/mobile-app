@@ -1,11 +1,9 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {FormattedNumber} from '@components/Labels/FormattedNumber';
 import {IceLabel} from '@components/Labels/IceLabel';
 import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {commonStyles, SMALL_BUTTON_HIT_SLOP} from '@constants/styles';
-import {useAnimatedNumber} from '@hooks/useAnimatedNumber';
 import {MainNavigationParams} from '@navigation/Main';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -18,12 +16,14 @@ import {ArrowDown} from '@svg/ArrowDown';
 import {ArrowUp} from '@svg/ArrowUp';
 import {InfoOutlineIcon} from '@svg/InfoOutlineIcon';
 import {t} from '@translations/i18n';
-import {formatNumberString, parseNumber} from '@utils/numbers';
 import {font} from '@utils/styles';
-import React, {memo, useMemo} from 'react';
+import React, {memo} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {isAndroid, rem} from 'rn-units';
+
+import {BalanceValue} from './components/BalanceValue';
+import {MiningRateValue} from './components/MiningRateValue';
 
 const INFO_ICON_SIZE = rem(16);
 
@@ -33,41 +33,6 @@ export const Wallet = memo(() => {
 
   const navigation =
     useNavigation<NativeStackNavigationProp<MainNavigationParams>>();
-
-  const animatedBalanceSummary = useAnimatedNumber(
-    parseNumber(balanceSummary?.total ?? '0'),
-    v => formatNumberString(String(v)),
-  );
-
-  const animatedMiningRatesTotalAmount = useAnimatedNumber(
-    parseNumber(miningRates?.total.amount ?? '0') *
-      {
-        positive: 1,
-        negative: -1,
-        none: 1,
-      }[miningRates?.type ?? 'none'],
-    v => `${v > 0 ? '+' : ''}${formatNumberString(String(v))}`,
-  );
-
-  const rateValueTextStyle = useMemo(() => {
-    const firstSign = animatedMiningRatesTotalAmount.slice(0, 1);
-
-    switch (firstSign) {
-      case '+':
-        return {
-          color: COLORS.shamrock,
-        };
-
-      case '-':
-        return {
-          color: COLORS.attention,
-        };
-    }
-
-    return {
-      color: COLORS.white,
-    };
-  }, [animatedMiningRatesTotalAmount]);
 
   if (!balanceSummary || !miningRates) {
     //TODO: add loading
@@ -98,13 +63,9 @@ export const Wallet = memo(() => {
               none: '',
             }[miningRates.type]
           }
-          <FormattedNumber
-            containerStyle={styles.balanceValueContainer}
-            number={animatedBalanceSummary}
-            bodyStyle={styles.balanceValueText}
-            decimalsStyle={styles.balanceValueDecimalsText}
-            trim
-          />
+
+          <BalanceValue style={styles.balanceValueContainer} />
+
           <IceLabel
             textStyle={styles.balanceCurrencyText}
             iconOffsetY={isAndroid ? -2 : 0}
@@ -124,13 +85,9 @@ export const Wallet = memo(() => {
       </View>
       <View style={styles.miningRate}>
         <Text style={styles.rateLabelText}>{t('home.wallet.rate')}</Text>
-        <FormattedNumber
-          containerStyle={styles.rateValueContainer}
-          bodyStyle={rateValueTextStyle}
-          decimalsStyle={rateValueTextStyle}
-          number={animatedMiningRatesTotalAmount}
-          trim
-        />
+
+        <MiningRateValue style={styles.rateValueContainer} />
+
         <IceLabel
           textStyle={styles.rateValueText}
           iconOffsetY={0}
@@ -174,13 +131,6 @@ const styles = StyleSheet.create({
     marginLeft: rem(10),
     marginRight: rem(6),
   },
-  balanceValueText: {
-    ...font(32, 38.4, 'black'),
-  },
-  balanceValueDecimalsText: {
-    alignSelf: 'flex-start',
-    ...font(15, 20, 'semibold'),
-  },
   balanceCurrencyText: {
     ...font(24, 28.8, 'semibold'),
   },
@@ -202,10 +152,6 @@ const styles = StyleSheet.create({
   },
   rateValueText: {
     ...font(17, 20.4, 'bold'),
-  },
-  rateValueDecimalsText: {
-    ...font(10, 12, 'bold'),
-    alignSelf: 'flex-start',
   },
   infoButton: {
     position: 'absolute',
