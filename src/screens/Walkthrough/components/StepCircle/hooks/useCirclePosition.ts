@@ -2,11 +2,12 @@
 
 import {
   CIRCLE_DIAMETER,
+  CIRCLE_TO_ELEMENT_OFFSET,
   MAX_CIRCLE_OFFSCREEN,
 } from '@screens/Walkthrough/constants';
 import {useMemo} from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {rem, screenHeight} from 'rn-units/index';
+import {screenHeight} from 'rn-units/index';
 
 type Props = {
   elementHeight?: number;
@@ -19,7 +20,7 @@ export function useCirclePosition({
   elementTop,
   circlePosition,
 }: Props) {
-  const {top: topInset, bottom: bottomInset} = useSafeAreaInsets();
+  const {top: topInset} = useSafeAreaInsets();
   return useMemo(() => {
     if (elementTop && elementHeight) {
       const aboveSpace = elementTop;
@@ -34,10 +35,15 @@ export function useCirclePosition({
             top:
               aboveSpace -
               CIRCLE_DIAMETER -
-              Math.min(rem(10), aboveSpace - CIRCLE_DIAMETER),
+              Math.min(CIRCLE_TO_ELEMENT_OFFSET, aboveSpace - CIRCLE_DIAMETER),
           };
         } else {
-          return {top: topInset - MAX_CIRCLE_OFFSCREEN};
+          return {
+            top: Math.max(
+              aboveSpace - CIRCLE_DIAMETER - CIRCLE_TO_ELEMENT_OFFSET,
+              topInset - MAX_CIRCLE_OFFSCREEN,
+            ),
+          };
         }
       } else {
         if (CIRCLE_DIAMETER < belowSpace) {
@@ -45,12 +51,17 @@ export function useCirclePosition({
             top:
               elementTop +
               elementHeight +
-              Math.min(rem(10), belowSpace - CIRCLE_DIAMETER),
+              Math.min(CIRCLE_TO_ELEMENT_OFFSET, belowSpace - CIRCLE_DIAMETER),
           };
         } else {
-          return {bottom: bottomInset - MAX_CIRCLE_OFFSCREEN};
+          return {
+            top: Math.min(
+              elementTop + elementHeight + CIRCLE_TO_ELEMENT_OFFSET,
+              screenHeight - CIRCLE_DIAMETER + MAX_CIRCLE_OFFSCREEN,
+            ),
+          };
         }
       }
     }
-  }, [elementTop, elementHeight, circlePosition, topInset, bottomInset]);
+  }, [elementTop, elementHeight, circlePosition, topInset]);
 }
