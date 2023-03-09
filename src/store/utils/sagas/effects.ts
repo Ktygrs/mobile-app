@@ -71,10 +71,13 @@ export function takeLeadingEveryUnique<
   });
 }
 
-export function* waitForSelector(selector: (state: RootState) => boolean) {
+export function* waitForSelector(
+  selector: (state: RootState) => boolean,
+  actionType = '*',
+) {
   while (
     ((yield select(selector)) as SagaReturnType<typeof selector>) === false
   ) {
-    yield take('*');
+    yield take(actionType);
   }
 }

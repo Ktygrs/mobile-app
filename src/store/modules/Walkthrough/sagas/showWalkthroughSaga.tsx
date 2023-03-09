@@ -11,6 +11,7 @@ import {
   WalkthroughStep,
   WalkthroughStepKey,
 } from '@store/modules/Walkthrough/types';
+import {waitForSelector} from '@store/utils/sagas/effects';
 import {
   call,
   delay,
@@ -22,7 +23,12 @@ import {
 
 export function* showWalkthroughSaga() {
   while (true) {
-    yield call(waitForWalkthroughStepCandidates);
+    yield call(
+      waitForSelector,
+      state => walkthroughStepCandidatesSelector(state).length > 0,
+      WalkthroughActions.SET_WALKTHROUGH_STEP_ELEMENT_DATA.STATE.type,
+    );
+
     yield delay(1000);
 
     const steps: ReturnType<typeof walkthroughStepCandidatesSelector> =
@@ -84,18 +90,6 @@ function* closeWalkthrough() {
    */
   if (currentRoute?.name === 'Walkthrough') {
     yield goBack();
-  }
-}
-
-function* waitForWalkthroughStepCandidates() {
-  while (
-    (
-      (yield select(walkthroughStepCandidatesSelector)) as ReturnType<
-        typeof walkthroughStepCandidatesSelector
-      >
-    ).length === 0
-  ) {
-    yield take(WalkthroughActions.SET_WALKTHROUGH_STEP_ELEMENT_DATA.STATE.type);
   }
 }
 
