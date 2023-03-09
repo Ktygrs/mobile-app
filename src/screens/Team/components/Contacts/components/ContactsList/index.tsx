@@ -13,13 +13,7 @@ import {
   useGetContactSegments,
 } from '@screens/Team/components/Contacts/components/ContactsList/hooks/useGetContactSegments';
 import React from 'react';
-import {
-  SectionList,
-  StyleProp,
-  StyleSheet,
-  View,
-  ViewStyle,
-} from 'react-native';
+import {StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
 import {rem} from 'rn-units';
 
 type Props = {
@@ -27,6 +21,8 @@ type Props = {
   addCollapsedSnapPointListener: (key: string, listener: () => void) => void;
   containerStyle?: StyleProp<ViewStyle>;
 };
+
+export const CONTACTS_LIST_PADDING_TOP = rem(16);
 
 export const ContactsList = ({
   focused,
@@ -73,30 +69,10 @@ export const ContactsList = ({
   );
 };
 
-export const ContactsListDummy = ({
-  containerStyle,
-}: {
-  containerStyle?: StyleProp<ViewStyle>;
-}) => {
-  const {sections} = useGetContactSegments(false);
-
-  const {renderItem, renderSectionHeader} = useContactsListRenderItems();
-
-  return (
-    <SectionList<ContactSectionDataItem, ContactSection>
-      contentContainerStyle={[styles.container, containerStyle]}
-      sections={sections}
-      renderItem={renderItem}
-      renderSectionHeader={renderSectionHeader}
-      showsVerticalScrollIndicator={false}
-    />
-  );
-};
-
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: SCREEN_SIDE_OFFSET,
-    paddingTop: rem(16),
+    paddingTop: CONTACTS_LIST_PADDING_TOP,
   },
   loadingIndicator: {
     alignItems: 'center',
