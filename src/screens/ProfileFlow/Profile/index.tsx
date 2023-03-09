@@ -219,5 +219,5 @@ const styles = StyleSheet.create({
     marginHorizontal: rem(20),
     textAlign: 'center',
   },
-  inviteSection: {marginTop: 15},
+  inviteSection: {marginTop: rem(15)},
 });

@@ -32,7 +32,6 @@ export const AnimatedCameraIcon = ({
     [],
     createAnimatedPropAdapter(
       props => {
-        console.log(props, 'props');
         if (props?.stroke) {
           props.stroke = {
             type: 0,

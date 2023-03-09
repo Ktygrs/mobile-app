@@ -5,17 +5,19 @@ import {Avatar, AvatarProps} from '@components/Avatar/Avatar';
 import {Touchable} from '@components/Touchable';
 import {COLORS} from '@constants/colors';
 import {MIDDLE_BUTTON_HIT_SLOP} from '@constants/styles';
-import {useActionSheetUpdateAvatar} from '@hooks/useActionSheetUpdateAvatar';
+import {
+  CroppedImage,
+  useActionSheetUpdateAvatar,
+} from '@hooks/useActionSheetUpdateAvatar';
 import {CameraIcon} from '@svg/CameraIcon';
 import React, {memo} from 'react';
 import {StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
-import {Image as CropImage} from 'react-native-image-crop-picker';
 import {rem} from 'rn-units';
 
 const PEN_SIZE = rem(32);
 
 type Props = {
-  onChange: (image: CropImage | null) => void;
+  onChange: (image: CroppedImage | null) => void;
   containerStyle?: StyleProp<ViewStyle>;
   loading?: boolean;
 } & AvatarProps;
@@ -57,8 +59,8 @@ const styles = StyleSheet.create({
     height: PEN_SIZE,
     borderRadius: PEN_SIZE / 2,
     backgroundColor: COLORS.white,
-    marginHorizontal: 10,
-    marginVertical: 10,
+    marginHorizontal: rem(10),
+    marginVertical: rem(10),
   },
   activityIndicator: {
     ...StyleSheet.absoluteFillObject,

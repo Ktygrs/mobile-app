@@ -5,7 +5,7 @@ import * as React from 'react';
 import Svg, {Circle, Path, SvgProps} from 'react-native-svg';
 import {rem} from 'rn-units';
 
-export const GreenInfoIcon = ({
+export const BorderedInfoIcon = ({
   color = COLORS.shamrock,
   width = rem(16),
   height = rem(16),

@@ -9,10 +9,11 @@ import {CameraIcon} from '@svg/CameraIcon';
 import {ImageIcon} from '@svg/ImageIcon';
 import {t} from '@translations/i18n';
 import {useEffect, useState} from 'react';
-import {Image as CropImage} from 'react-native-image-crop-picker';
+
+export type CroppedImage = {mime: string; path: string};
 
 type Props = {
-  onChange: (image: CropImage | null) => void;
+  onChange: (image: CroppedImage | null) => void;
   uri?: string;
 };
 
@@ -20,7 +21,7 @@ export const useActionSheetUpdateAvatar = ({onChange, uri}: Props) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<MainStackParamList>>();
 
-  const [localImage, setLocalImage] = useState<CropImage | null>(null);
+  const [localImage, setLocalImage] = useState<CroppedImage | null>(null);
 
   const {openPicker} = usePickImage({
     onImageSelected: image => {

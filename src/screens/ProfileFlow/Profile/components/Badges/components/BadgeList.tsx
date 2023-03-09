@@ -10,7 +10,7 @@ import {
 } from '@screens/ProfileFlow/Profile/components/Badges/components/BadgeCard';
 import {t} from '@translations/i18n';
 import React, {useCallback} from 'react';
-import {FlatList, StyleSheet} from 'react-native';
+import {FlatList, ListRenderItem, StyleSheet} from 'react-native';
 import {rem} from 'rn-units';
 
 type Props = {
@@ -33,27 +33,27 @@ export const BadgeList = ({
   const hidden =
     user?.hiddenProfileElements?.includes('badges') && isPrivacyInfoShown;
 
-  const renderItem = useCallback(
-    ({item, index}: {item: SummaryBadge | null; index: number}) => {
+  const renderItem: ListRenderItem<SummaryBadge> = useCallback(
+    ({item, index}) => {
       if (item === null) {
         return <BadgeCardSkeleton />;
       }
 
-      const image = `${[item.type]}0_achieved_true`;
-      const inactiveImage = `${[item.type]}0_achieved_false`;
-      const ActiveImage = Images.badges[
-        image as keyof typeof Images.badges
-      ] as React.ElementType;
-      const InactiveImage = Images.badges[
-        inactiveImage as keyof typeof Images.badges
-      ] as React.ElementType;
+      const image = `${[
+        item.type,
+      ]}0_achieved_true` as keyof typeof Images.badges;
+      const inactiveImage = `${[
+        item.type,
+      ]}0_achieved_false` as keyof typeof Images.badges;
+      const ActiveImage = Images.badges[image] as React.ElementType;
+      const InactiveImage = Images.badges[inactiveImage] as React.ElementType;
 
       const value = item.index + 1;
       const total = item.lastIndex + 1;
 
       return (
         <BadgeCard
-          isFirstItem={index === 0}
+          style={index === 0 && styles.firstItem}
           activeImage={<ActiveImage />}
           inactiveImage={<InactiveImage />}
           title={item.name}
@@ -91,5 +91,8 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white02opacity,
     borderTopLeftRadius: rem(20),
     borderBottomLeftRadius: rem(20),
+  },
+  firstItem: {
+    marginLeft: 0,
   },
 });

@@ -3,7 +3,7 @@
 import {InviteButton} from '@components/InviteButton';
 import {LINKS} from '@constants/links';
 import {SCREEN_SIDE_OFFSET} from '@constants/styles';
-import {GreenInfoIcon} from '@svg/GreenInfoIcon';
+import {BorderedInfoIcon} from '@svg/BorderedInfoIcon';
 import {t} from '@translations/i18n';
 import {openLinkWithInAppBrowser} from '@utils/device';
 import {font} from '@utils/styles';
@@ -34,7 +34,7 @@ export const Invite = memo(({style}: Props) => (
             url: LINKS.TEAM,
           })
         }>
-        <GreenInfoIcon />
+        <BorderedInfoIcon />
       </Pressable>
     </Text>
   </View>

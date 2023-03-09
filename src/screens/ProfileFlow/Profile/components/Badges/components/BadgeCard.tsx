@@ -12,7 +12,7 @@ import {ClosedEye} from '@svg/ClosedEye';
 import {t} from '@translations/i18n';
 import {font} from '@utils/styles';
 import React, {memo, ReactNode, useCallback} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleProp, StyleSheet, Text, View, ViewStyle} from 'react-native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import {rem} from 'rn-units';
 
@@ -25,7 +25,7 @@ type Props = {
   inactiveImage: ReactNode;
   hidden?: boolean;
   isProfilePrivacyEditMode?: boolean;
-  isFirstItem?: boolean;
+  style?: StyleProp<ViewStyle>;
 };
 
 export const BadgeCard = memo(
@@ -38,7 +38,7 @@ export const BadgeCard = memo(
     progressValue,
     hidden = false,
     isProfilePrivacyEditMode = false,
-    isFirstItem,
+    style,
   }: Props) => {
     const navigation =
       useNavigation<NativeStackNavigationProp<ProfileTabStackParamList>>();
@@ -56,12 +56,7 @@ export const BadgeCard = memo(
 
     return (
       <Touchable onPress={onBadgePress}>
-        <View
-          style={[
-            styles.container,
-            commonStyles.shadow,
-            isFirstItem && styles.firstItem,
-          ]}>
+        <View style={[styles.container, commonStyles.shadow, style]}>
           <View style={styles.icon}>
             {hidden ? inactiveImage : activeImage}
           </View>
@@ -160,8 +155,5 @@ const styles = StyleSheet.create({
   hiddenText: {
     marginTop: rem(7),
     ...font(14, 17, 'bold', 'secondary'),
-  },
-  firstItem: {
-    marginLeft: 0,
   },
 });

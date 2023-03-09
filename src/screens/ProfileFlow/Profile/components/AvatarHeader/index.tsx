@@ -200,11 +200,10 @@ export const AvatarHeader = memo(
     return (
       <Animated.View style={[styles.container, extraPadding, shadowStyle]}>
         <View
-          style={
-            user?.hiddenProfileElements?.length
-              ? styles.leftContainer
-              : styles.leftSmallContainer
-          }>
+          style={[
+            styles.leftContainer,
+            !user?.hiddenProfileElements?.length && styles.leftSmallContainer,
+          ]}>
           <BackButton
             containerStyle={styles.backButton}
             color={COLORS.primaryDark}
@@ -217,7 +216,7 @@ export const AvatarHeader = memo(
                 <AvatarSkeleton />
               ) : (
                 <>
-                  {user && (
+                  {user ? (
                     <Avatar
                       uri={localImage?.path ?? uri}
                       style={styles.image}
@@ -226,8 +225,7 @@ export const AvatarHeader = memo(
                       touchableStyle={styles.touchableAvatar}
                       allowFullScreen={true}
                     />
-                  )}
-                  {!user && (
+                  ) : (
                     <Image
                       source={NOT_FOUND}
                       resizeMode="stretch"
@@ -272,11 +270,10 @@ export const AvatarHeader = memo(
           )}
         </View>
         <View
-          style={
-            user?.hiddenProfileElements?.length
-              ? styles.rightContainer
-              : styles.rightSmallContainer
-          }>
+          style={[
+            styles.rightContainer,
+            !user?.hiddenProfileElements?.length && styles.rightSmallContainer,
+          ]}>
           {isOwner && user && user?.hiddenProfileElements?.length && (
             <ShowPrivacyButton
               containerStyle={styles.showPrivacyButton}
@@ -324,11 +321,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   rightSmallContainer: {
-    paddingRight: rem(16),
-    alignSelf: 'center',
     minWidth: MIN_WIDTH_SMALL_SIDE_CONTAINERS,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
   },
   leftContainer: {
     paddingLeft: rem(16),
@@ -336,8 +329,6 @@ const styles = StyleSheet.create({
     minWidth: MIN_WIDTH_SIDE_CONTAINERS,
   },
   leftSmallContainer: {
-    paddingLeft: rem(16),
-    alignSelf: 'center',
     minWidth: MIN_WIDTH_SMALL_SIDE_CONTAINERS,
   },
   imageContainer: {
@@ -381,8 +372,8 @@ const styles = StyleSheet.create({
     borderRadius: PEN_SIZE / 2,
     borderColor: COLORS.white,
     backgroundColor: COLORS.white,
-    marginHorizontal: 10,
-    marginVertical: 10,
+    marginHorizontal: rem(10),
+    marginVertical: rem(10),
   },
-  showPrivacyButton: {marginRight: 16},
+  showPrivacyButton: {marginRight: rem(16)},
 });
