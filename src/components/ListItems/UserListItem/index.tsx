@@ -25,9 +25,6 @@ export const SKELETONS_PER_SCREEN = Math.ceil(
   screenHeight / (SKELETON_HEIGHT + SKELETON_MARGIN),
 );
 
-export const FLAG_MARGIN_LEFT = rem(12);
-export const FLAG_FONT_SIZE = 26;
-
 export const UserListItem = memo(
   ({
     userId,
