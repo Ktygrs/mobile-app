@@ -109,6 +109,11 @@ function* closeWalkthrough() {
 
 function* markWalkthroughStep(user: User, step: WalkthroughStep) {
   yield put(
+    WalkthroughActions.SET_WALKTHROUGH_STEP_SEEN.STATE.create({
+      stepKey: step.key,
+    }),
+  );
+  yield put(
     AccountActions.UPDATE_ACCOUNT.START.create(
       {
         clientData: {

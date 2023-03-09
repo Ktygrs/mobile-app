@@ -16,6 +16,10 @@ const SET_WALKTHROUGH_STEP_ELEMENT_DATA = createAction(
   },
 );
 
+const SET_WALKTHROUGH_STEP_SEEN = createAction('SET_WALKTHROUGH_STEP_SEEN', {
+  STATE: (payload: {stepKey: WalkthroughStepKey}) => payload,
+});
+
 const COMPLETE_WALKTHROUGH_STEP = createAction('COMPLETE_WALKTHROUGH_STEP', {
   STATE: (payload: {stepKey: WalkthroughStepKey}) => payload,
 });
@@ -30,6 +34,7 @@ const RESTART_WALKTHROUGH = createAction('RESTART_WALKTHROUGH', {
 
 export const WalkthroughActions = Object.freeze({
   SET_WALKTHROUGH_STEP_ELEMENT_DATA,
+  SET_WALKTHROUGH_STEP_SEEN,
   COMPLETE_WALKTHROUGH_STEP,
   SKIP_WALKTHROUGH,
   RESTART_WALKTHROUGH,

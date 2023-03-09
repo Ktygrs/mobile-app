@@ -10,8 +10,12 @@ import {
 import {RootState} from '@store/rootReducer';
 
 export const walkthroughStepCandidatesSelector = createSelector(
-  [userSelector, (state: RootState) => state.walkthrough.stepElements],
-  (user, stepElements) => {
+  [
+    userSelector,
+    (state: RootState) => state.walkthrough.stepElements,
+    (state: RootState) => state.walkthrough.seenSteps,
+  ],
+  (user, stepElements, seenSteps) => {
     if (!user) {
       return [];
     }
@@ -19,7 +23,11 @@ export const walkthroughStepCandidatesSelector = createSelector(
     return WALKTHROUGH_STEPS.reduce<WalkthroughStep[]>((result, step) => {
       const stepSeenVersion =
         user.clientData?.walkthroughProgress?.[step.key]?.version ?? 0;
-      if (step.version > stepSeenVersion && !!stepElements[step.key]) {
+      if (
+        step.version > stepSeenVersion &&
+        !!stepElements[step.key] &&
+        !seenSteps[step.key]
+      ) {
         return [
           ...result,
           {
