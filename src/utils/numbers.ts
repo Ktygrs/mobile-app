@@ -48,16 +48,25 @@ export function parseNumber(input: string) {
  * Format string with a number to be exactly with "fractionDigits" decimals
  * 1,234,567.123456789 -> 1,234,567.12
  * 1,234,567.1 -> 1,234,567.10
+ * 1234567.1 -> 1,234,567.10
  */
 export function formatNumberString(input: string, fractionDigits: number = 2) {
   const [whole, decimals] = input.split('.');
 
+  /**
+   * Remove all non-numbers except '+' and '-'.
+   * Add ',' for every 3 digits
+   */
+  const formattedWhole = whole
+    .replace(/[^0-9+-]/g, '')
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
   if (!fractionDigits) {
-    return whole;
+    return formattedWhole;
   }
 
   return (
-    whole +
+    formattedWhole +
     '.' +
     (decimals ?? '').substring(0, fractionDigits).padEnd(fractionDigits, '0')
   );
