@@ -11,7 +11,7 @@ import React, {useEffect, useRef} from 'react';
 import {View} from 'react-native';
 
 export const MiningButton = () => {
-  const initialRender = useRef(true);
+  const userInteractedWithButton = useRef(false);
   const {
     stateConfig,
     miningStateTooltipSeen,
@@ -22,14 +22,19 @@ export const MiningButton = () => {
   const {lottieWrapperRef, showStackingModal} = useStackingModal();
 
   useEffect(() => {
-    if (stateConfig.showStackingModalOnTransition && !initialRender.current) {
+    if (
+      stateConfig.showStackingModalOnTransition &&
+      userInteractedWithButton.current
+    ) {
       showStackingModal();
     }
-    initialRender.current = false;
-  }, [showStackingModal, stateConfig.showStackingModalOnTransition]);
+    userInteractedWithButton.current = false;
+  }, [showStackingModal, stateConfig]);
 
   const gestureHandler = (gesture: 'onTap' | 'onLongPress') => {
     return async () => {
+      userInteractedWithButton.current = true;
+
       const gestureConfig = stateConfig[gesture];
 
       if (!gestureConfig) {
