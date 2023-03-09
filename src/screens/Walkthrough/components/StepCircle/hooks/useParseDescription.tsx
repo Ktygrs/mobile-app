@@ -3,8 +3,9 @@
 import {IceLabel} from '@components/Labels/IceLabel';
 import {WalkthroughStep} from '@store/modules/Walkthrough/types';
 import {replaceString, tagRegex} from '@translations/i18n';
+import {openLinkWithInAppBrowser} from '@utils/device';
 import React, {useMemo} from 'react';
-import {Linking, StyleSheet, Text} from 'react-native';
+import {StyleSheet, Text} from 'react-native';
 
 type Props = {
   step: WalkthroughStep | undefined;
@@ -32,7 +33,9 @@ export function useParseDescription({step}: Props) {
               key={match + index}
               style={styles.underlineText}
               onPress={() => {
-                Linking.openURL(step.link ?? '');
+                if (step.link) {
+                  openLinkWithInAppBrowser({url: step.link});
+                }
               }}>
               {match}
             </Text>
