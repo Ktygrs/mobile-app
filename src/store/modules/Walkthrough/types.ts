@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
+import {NewsWalkthroughStepKey} from '@store/modules/Walkthrough/steps/news';
+import {TeamWalkthroughStepKey} from '@store/modules/Walkthrough/steps/team';
 import {ReactNode, RefObject} from 'react';
 import {View} from 'react-native';
 
@@ -19,19 +21,11 @@ export type WalkthroughElementData = {
 };
 
 export type WalkthroughStepKey =
-  | 'allowContacts'
-  | 'confirmPhone'
-  | 'contactsList'
-  | 'referrals'
-  | 'earnings'
-  | 'segmentedControlTierOne'
-  | 'segmentedControlTierTwo'
-  | 'activeUsers'
-  | 'tierOneEarnings'
-  | 'ping';
+  | TeamWalkthroughStepKey
+  | NewsWalkthroughStepKey;
 
-export type WalkthroughStepStaticData = {
-  key: WalkthroughStepKey;
+export type WalkthroughStepStaticData<T> = {
+  key: T;
   version: number;
   title: string;
   description: string;
@@ -42,6 +36,7 @@ export type WalkthroughStepStaticData = {
   after?: () => void;
 };
 
-export interface WalkthroughStep extends WalkthroughStepStaticData {
+export interface WalkthroughStep
+  extends WalkthroughStepStaticData<WalkthroughStepKey> {
   elementData?: WalkthroughElementData;
 }
