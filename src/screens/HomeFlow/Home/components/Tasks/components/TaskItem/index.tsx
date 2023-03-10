@@ -33,7 +33,15 @@ const TaskIcon = memo(({type}: TaskIconProps) => {
   return TASKS[type].icon;
 });
 
-export const TaskItem = ({task, active}: {task: Task; active: boolean}) => {
+export const TaskItem = ({
+  task,
+  active,
+  isLastItem,
+}: {
+  task: Task;
+  active: boolean;
+  isLastItem: boolean;
+}) => {
   const {iconBgColor, title, description, onPress} = useTaskItem(task.type);
   const isLocked = !task.completed && !active;
 
@@ -42,6 +50,7 @@ export const TaskItem = ({task, active}: {task: Task; active: boolean}) => {
       style={[
         styles.container,
         active && [styles.containerActive, commonStyles.shadow],
+        isLastItem && styles.lastItem,
       ]}
       disabled={!active}
       onPress={onPress}>
@@ -131,4 +140,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  lastItem: {marginBottom: rem(10)},
 });

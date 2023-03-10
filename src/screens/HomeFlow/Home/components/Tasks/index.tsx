@@ -96,6 +96,7 @@ export const Tasks = memo(() => {
               key={task.type}
               task={task}
               active={index === currentActiveTaskIndex}
+              isLastItem={index === tasks.length - 1}
             />
           ))}
         </Animated.View>
