@@ -10,6 +10,8 @@ export function* completeStartMiningTaskSaga() {
   );
 
   if (task && !task.completed) {
-    yield put(TasksActions.COMPLETE_CURRENT_ACTIVE_TASK.STATE.create());
+    yield put(
+      TasksActions.TASK_MARK_COMPLETED.START.create({taskType: 'start_mining'}),
+    );
   }
 }

@@ -56,11 +56,12 @@ export const JoinTelegramPopUp = () => {
   };
 
   const handleConfirmation = () => {
-    /** TODO: achievements: replace with update account call when api is connected
-     * call completeJoinTelegramAchievementSaga on UPDATE_ACCOUNT.SUCCESS
-     */
-
-    dispatch(TasksActions.COMPLETE_CURRENT_ACTIVE_TASK.STATE.create());
+    const tgUsername = text.replace('@', '');
+    dispatch(
+      TasksActions.TELEGRAM_MARK_COMPLETED.STATE.create({
+        telegramUserHandle: tgUsername,
+      }),
+    );
     navigation.goBack();
   };
 

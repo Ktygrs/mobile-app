@@ -3,8 +3,9 @@
 import {AccountActions} from '@store/modules/Account/actions';
 import {ReferralsActions} from '@store/modules/Referrals/actions';
 import {TasksActions} from '@store/modules/Tasks/actions';
+import {completeFollowOnTwitterTaskSaga} from '@store/modules/Tasks/sagas/completeFollowOnTwitterTaskSaga';
 import {completeInviteFriendsTaskSaga} from '@store/modules/Tasks/sagas/completeInviteFriendsTaskSaga';
-import {completeNextTaskSaga} from '@store/modules/Tasks/sagas/completeNextTaskSaga';
+import {completeJoinTelegramTaskSaga} from '@store/modules/Tasks/sagas/completeJoinTelegramTaskSaga';
 import {completeStartMiningTaskSaga} from '@store/modules/Tasks/sagas/completeStartMiningTaskSaga';
 import {completeUploadProfileTaskSaga} from '@store/modules/Tasks/sagas/completeUploadProfileTaskSaga';
 import {loadTasksSaga} from '@store/modules/Tasks/sagas/loadTasksSaga';
@@ -21,10 +22,6 @@ export function* rootTasksSaga() {
       taskMarkCompletedSaga,
     ),
     takeLeading(
-      TasksActions.COMPLETE_CURRENT_ACTIVE_TASK.STATE.type,
-      completeNextTaskSaga,
-    ),
-    takeLeading(
       TokenomicsActions.START_MINING_SESSION.SUCCESS.type,
       completeStartMiningTaskSaga,
     ),
@@ -35,6 +32,14 @@ export function* rootTasksSaga() {
     takeLeading(
       ReferralsActions.GET_REFERRALS({referralType: 'T1'})('T1').START.type,
       completeInviteFriendsTaskSaga,
+    ),
+    takeLeading(
+      TasksActions.TWITTER_MARK_COMPLETED.STATE.type,
+      completeFollowOnTwitterTaskSaga,
+    ),
+    takeLeading(
+      TasksActions.TELEGRAM_MARK_COMPLETED.STATE.type,
+      completeJoinTelegramTaskSaga,
     ),
   ]);
 }

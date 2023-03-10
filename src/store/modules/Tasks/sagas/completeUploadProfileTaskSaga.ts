@@ -27,7 +27,11 @@ export function* completeUploadProfileTaskSaga() {
   if (isSuccessUpdate && checkProp(updatePayload, 'userInfo')) {
     const userInfo = updatePayload.userInfo as Partial<User>;
     if (userInfo.profilePicture && task && !task.completed) {
-      yield put(TasksActions.COMPLETE_CURRENT_ACTIVE_TASK.STATE.create());
+      yield put(
+        TasksActions.TASK_MARK_COMPLETED.START.create({
+          taskType: 'upload_profile_picture',
+        }),
+      );
     }
   }
 }

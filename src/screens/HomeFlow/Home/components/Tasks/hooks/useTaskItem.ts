@@ -32,7 +32,7 @@ export function useTaskItem(type: TaskType) {
       case 'follow_us_on_twitter':
         Linking.canOpenURL(LINKS.TWITTER_SCHEME)
           .then(supported => {
-            dispatch(TasksActions.COMPLETE_CURRENT_ACTIVE_TASK.STATE.create());
+            dispatch(TasksActions.TWITTER_MARK_COMPLETED.STATE.create());
             if (supported) {
               return Linking.openURL(LINKS.TWITTER_APP_URL);
             } else {

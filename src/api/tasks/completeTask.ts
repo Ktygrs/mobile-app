@@ -1,18 +1,22 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {buildFormData, patch} from '@api/client';
-import {Task} from '@api/tasks/types';
+import {put} from '@api/client';
+import {TaskType} from '@api/tasks/types';
 
+interface TaskData {
+  telegramUserHandle?: string;
+  twitterUserHandle?: string;
+}
 interface Params {
-  name: string;
+  taskType: TaskType;
+  userId: string;
+  data?: TaskData;
 }
 
-export function completeTask({name}: Params) {
-  return patch<FormData, Task[]>(
-    '/achievements',
-    buildFormData({
-      name,
-      completed: true,
-    }),
-  );
+export function completeTask({taskType, userId, data}: Params) {
+  return put<Params, null>(`/tasks/${taskType}/users/${userId}`, {
+    taskType,
+    userId,
+    data,
+  });
 }
