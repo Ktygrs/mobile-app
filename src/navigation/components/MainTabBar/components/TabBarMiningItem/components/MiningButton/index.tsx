@@ -10,7 +10,11 @@ import {hapticFeedback} from '@utils/device';
 import React, {useEffect, useRef} from 'react';
 import {View} from 'react-native';
 
-export const MiningButton = () => {
+interface Props {
+  onPress?(): void;
+}
+
+export const MiningButton = ({onPress}: Props) => {
   const userInteractedWithButton = useRef(false);
   const {
     stateConfig,
@@ -33,6 +37,11 @@ export const MiningButton = () => {
 
   const gestureHandler = (gesture: 'onTap' | 'onLongPress') => {
     return async () => {
+      if (onPress && gesture === 'onTap') {
+        onPress();
+        return null;
+      }
+
       userInteractedWithButton.current = true;
 
       const gestureConfig = stateConfig[gesture];

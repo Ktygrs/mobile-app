@@ -72,7 +72,9 @@ export type MainStackParamList = {
   Tooltip: {
     position: 'above' | 'below';
     targetRef: RefObject<View>;
-    TargetComponent: ComponentType<unknown>;
+    TargetComponent: ComponentType<{
+      onPress?(): void;
+    }>;
     DescriptionComponent: ComponentType<unknown>;
     targetCircleSize?: number;
     descriptionOffset?: number;
