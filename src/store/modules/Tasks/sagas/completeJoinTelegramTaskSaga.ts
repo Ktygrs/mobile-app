@@ -18,7 +18,7 @@ export function* completeJoinTelegramTaskSaga(
   if (task && !task.completed) {
     yield put(
       TasksActions.TASK_MARK_COMPLETED.START.create({
-        taskType: 'join_telegram',
+        type: 'join_telegram',
         data: {
           telegramUserHandle,
         },

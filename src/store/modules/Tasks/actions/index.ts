@@ -12,7 +12,7 @@ const GET_TASKS = createAction('GET_TASKS', {
 });
 
 const TASK_MARK_COMPLETED = createAction('TASK_MARK_COMPLETED', {
-  START: (payload: {taskType: TaskType; data?: TaskData}) => payload,
+  START: (payload: {type: TaskType; data?: TaskData}) => payload,
 });
 
 const TWITTER_MARK_COMPLETED = createAction('TWITTER_MARK_COMPLETED', {

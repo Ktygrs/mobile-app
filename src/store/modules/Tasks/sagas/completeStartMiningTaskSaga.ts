@@ -11,7 +11,7 @@ export function* completeStartMiningTaskSaga() {
 
   if (task && !task.completed) {
     yield put(
-      TasksActions.TASK_MARK_COMPLETED.START.create({taskType: 'start_mining'}),
+      TasksActions.TASK_MARK_COMPLETED.START.create({type: 'start_mining'}),
     );
   }
 }

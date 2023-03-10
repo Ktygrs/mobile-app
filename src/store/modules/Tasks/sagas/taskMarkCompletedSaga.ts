@@ -18,12 +18,12 @@ export function* taskMarkCompletedSaga(
   const tasks: ReturnType<typeof tasksSelector> = yield select(tasksSelector);
 
   try {
-    const {taskType, data} = action.payload;
+    const {type, data} = action.payload;
 
-    yield call(Api.tasks.completeTask, {taskType, userId, data});
+    yield call(Api.tasks.completeTask, {type, userId, data});
 
-    const updatedTasks = [...tasks].map(item => {
-      if (item.type === taskType) {
+    const updatedTasks = tasks.map(item => {
+      if (item.type === type) {
         return Object.assign({}, item, {completed: true});
       }
       return item;

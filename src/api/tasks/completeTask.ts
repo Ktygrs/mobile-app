@@ -8,14 +8,14 @@ interface TaskData {
   twitterUserHandle?: string;
 }
 interface Params {
-  taskType: TaskType;
+  type: TaskType;
   userId: string;
   data?: TaskData;
 }
 
-export function completeTask({taskType, userId, data}: Params) {
-  return put<Params, null>(`/tasks/${taskType}/users/${userId}`, {
-    taskType,
+export function completeTask({type, userId, data}: Params) {
+  return put<Params, null>(`/tasks/${type}/users/${userId}`, {
+    type,
     userId,
     data,
   });

@@ -68,8 +68,8 @@ export const JoinTelegramPopUp = () => {
   return (
     <KeyboardAvoider>
       <TouchableWithoutFeedback onPress={onPressOutside}>
-        <View style={[styles.background]}>
-          <View style={[styles.container]} {...stopPropagation}>
+        <View style={styles.background}>
+          <View style={styles.container} {...stopPropagation}>
             <Image
               resizeMode={'contain'}
               style={styles.image}

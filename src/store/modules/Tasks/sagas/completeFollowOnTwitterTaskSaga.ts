@@ -12,7 +12,7 @@ export function* completeFollowOnTwitterTaskSaga() {
   if (task && !task.completed) {
     yield put(
       TasksActions.TASK_MARK_COMPLETED.START.create({
-        taskType: 'follow_us_on_twitter',
+        type: 'follow_us_on_twitter',
         data: {
           /** TODO: tasks: replace with real twitter username when twitter
            auth api will be connected */

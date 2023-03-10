@@ -29,7 +29,7 @@ export function* completeUploadProfileTaskSaga() {
     if (userInfo.profilePicture && task && !task.completed) {
       yield put(
         TasksActions.TASK_MARK_COMPLETED.START.create({
-          taskType: 'upload_profile_picture',
+          type: 'upload_profile_picture',
         }),
       );
     }

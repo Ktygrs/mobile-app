@@ -21,7 +21,7 @@ export function* completeInviteFriendsTaskSaga() {
   ) {
     yield put(
       TasksActions.TASK_MARK_COMPLETED.START.create({
-        taskType: 'invite_friends',
+        type: 'invite_friends',
       }),
     );
   }
