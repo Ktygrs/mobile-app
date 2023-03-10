@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import {AccountActions} from '@store/modules/Account/actions';
-import {ReferralsActions} from '@store/modules/Referrals/actions';
 import {TasksActions} from '@store/modules/Tasks/actions';
 import {completeFollowOnTwitterTaskSaga} from '@store/modules/Tasks/sagas/completeFollowOnTwitterTaskSaga';
 import {completeInviteFriendsTaskSaga} from '@store/modules/Tasks/sagas/completeInviteFriendsTaskSaga';
@@ -30,7 +29,7 @@ export function* rootTasksSaga() {
       completeUploadProfileTaskSaga,
     ),
     takeLeading(
-      ReferralsActions.GET_REFERRALS({referralType: 'T1'})('T1').START.type,
+      AccountActions.GET_ACCOUNT.SUCCESS.type,
       completeInviteFriendsTaskSaga,
     ),
     takeLeading(

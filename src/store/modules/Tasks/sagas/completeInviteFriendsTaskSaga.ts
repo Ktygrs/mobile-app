@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 
-import {referralsSelector} from '@store/modules/Referrals/selectors';
+import {userSelector} from '@store/modules/Account/selectors';
 import {TasksActions} from '@store/modules/Tasks/actions';
 import {taskByTypeSelector} from '@store/modules/Tasks/selectors';
 import {put, select} from 'redux-saga/effects';
@@ -10,14 +10,15 @@ export function* completeInviteFriendsTaskSaga() {
     taskByTypeSelector({type: 'invite_friends'}),
   );
 
-  const {total} = yield select(referralsSelector({referralType: 'T1'}));
+  const user: ReturnType<typeof userSelector> = yield select(userSelector);
 
   const requiredInvitesCount = task?.data?.requiredQuantity;
   if (
     task &&
     !task.completed &&
     requiredInvitesCount &&
-    total >= requiredInvitesCount
+    user?.t1ReferralCount &&
+    user?.t1ReferralCount >= requiredInvitesCount
   ) {
     yield put(
       TasksActions.TASK_MARK_COMPLETED.START.create({
