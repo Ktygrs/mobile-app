@@ -14,7 +14,11 @@ export function* checkRateAppConditionSaga() {
     typeof RateAppSelectors.getSuccessStartMiningCount
   > = yield select(RateAppSelectors.getSuccessStartMiningCount);
 
-  if (!isRateAppShown && successStartMiningCount >= START_MINING_COUNT) {
+  if (
+    !isRateAppShown &&
+    successStartMiningCount >= START_MINING_COUNT &&
+    successStartMiningCount % START_MINING_COUNT === 0
+  ) {
     yield put(RateAppActions.SHOW_RATE_APP.START.create());
   }
 }
