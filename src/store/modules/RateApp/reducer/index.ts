@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {AccountActions} from '@store/modules/Account/actions';
 import {RateAppActions} from '@store/modules/RateApp/actions';
 import {TokenomicsActions} from '@store/modules/Tokenomics/actions';
 import produce from 'immer';
@@ -14,6 +15,7 @@ export interface State {
 type Actions = ReturnType<
   | typeof TokenomicsActions.START_MINING_SESSION.SUCCESS.create
   | typeof RateAppActions.SHOW_RATE_APP.SUCCESS.create
+  | typeof AccountActions.SIGN_OUT.SUCCESS.create
 >;
 
 const INITIAL_STATE: State = {
@@ -31,6 +33,12 @@ function reducer(state = INITIAL_STATE, action: Actions): State {
       case RateAppActions.SHOW_RATE_APP.SUCCESS.type:
         draft.isRateAppShown = true;
         break;
+
+      case AccountActions.SIGN_OUT.SUCCESS.type:
+        return {
+          ...INITIAL_STATE,
+          isRateAppShown: draft.isRateAppShown,
+        };
     }
   });
 }
