@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     marginTop: rem(20),
-    height: rem(103),
+    height: rem(102),
     overflow: 'hidden',
   },
   ladderContainer: {

@@ -28,8 +28,8 @@ export const Badges = memo(({user}: Props) => {
     () => navigation.navigate('Badges', {userId: user?.id}),
     [navigation, user],
   );
-  const [loading, setLoading] = useState(true);
-  setTimeout(() => setLoading(false), 2000);
+  const [loading, setLoading] = useState(false);
+  setTimeout(() => setLoading(false), 0);
 
   const title = isOwner
     ? t('profile.my_badges.title')
