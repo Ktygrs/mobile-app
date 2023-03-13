@@ -42,8 +42,9 @@ export const TaskItem = ({
   active: boolean;
   isLastItem: boolean;
 }) => {
-  const {iconBgColor, title, description, onPress} = useTaskItem(task.type);
-  const isLocked = !task.completed && !active;
+  const {iconBgColor, title, description, allBeforeCompleted, onPress} =
+    useTaskItem(task.type);
+  const isLocked = (!task.completed || !allBeforeCompleted) && !active;
 
   return (
     <Touchable
@@ -54,7 +55,7 @@ export const TaskItem = ({
       ]}
       disabled={!active}
       onPress={onPress}>
-      {task.completed ? (
+      {task.completed && allBeforeCompleted ? (
         <TaskCompletedSvg
           fill={COLORS.shamrock}
           width={BULLET_POINT_ICON_SIZE}

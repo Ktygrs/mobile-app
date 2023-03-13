@@ -29,3 +29,22 @@ export const hasUncompletedTasksSelector = createSelector(
     return tasks.some(task => !task.completed);
   },
 );
+
+const getTasksAllCompletedBeforeTypeSelector = createSelector(
+  [
+    (state: RootState) => state.tasks.list,
+    (_state: RootState, {type}: Options) => type,
+  ],
+  (tasks, type) => {
+    const typeIndex = tasks.findIndex(task => task.type === type);
+    const itemsBeforeType = tasks.slice(0, typeIndex);
+    const allBeforeCompleted = itemsBeforeType.every(
+      taskItem => taskItem.completed,
+    );
+    return allBeforeCompleted;
+  },
+);
+
+export const tasksAllCompletedBeforeTypeSelector =
+  (options: Options) => (state: RootState) =>
+    getTasksAllCompletedBeforeTypeSelector(state, options);

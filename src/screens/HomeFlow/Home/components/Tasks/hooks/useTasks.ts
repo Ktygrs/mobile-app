@@ -36,8 +36,17 @@ export function useTasks() {
       }
     }, [tasks, currentTasks]),
   );
+  const currentActiveTaskIndex = tasks.findIndex(task => !task.completed);
+
+  const countCompletedItems = tasks.slice(0, currentActiveTaskIndex).length;
+
+  const areAllTasksCompleted =
+    tasks.length > 0 && countCompletedItems === tasks.length;
 
   return {
     tasks: currentTasks,
+    currentActiveTaskIndex,
+    countCompletedItems,
+    areAllTasksCompleted,
   };
 }

@@ -18,14 +18,12 @@ import Animated, {useAnimatedStyle, withTiming} from 'react-native-reanimated';
 import {rem} from 'rn-units';
 
 export const Tasks = memo(() => {
-  const {tasks} = useTasks();
-
-  const currentActiveTaskIndex = tasks.findIndex(task => !task.completed);
-
-  const countCompletedItems = tasks.filter(v => v.completed).length;
-
-  const areAllTasksCompleted =
-    tasks.length > 0 && countCompletedItems === tasks.length;
+  const {
+    tasks,
+    currentActiveTaskIndex,
+    countCompletedItems,
+    areAllTasksCompleted,
+  } = useTasks();
 
   const [isExpanded, setIsExpanded] = useState(!areAllTasksCompleted);
 

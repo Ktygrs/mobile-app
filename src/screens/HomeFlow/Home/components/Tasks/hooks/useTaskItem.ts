@@ -8,16 +8,20 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {TASKS} from '@screens/HomeFlow/Home/components/Tasks/tasks';
 import {logError} from '@services/logging';
 import {TasksActions} from '@store/modules/Tasks/actions';
+import {tasksAllCompletedBeforeTypeSelector} from '@store/modules/Tasks/selectors';
 import {TokenomicsActions} from '@store/modules/Tokenomics/actions';
 import {t} from '@translations/i18n';
 import {openLinkWithInAppBrowser} from '@utils/device';
 import {useCallback} from 'react';
 import {Linking} from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 export function useTaskItem(type: TaskType) {
   const navigation =
     useNavigation<NativeStackNavigationProp<MainNavigationParams>>();
+  const allBeforeCompleted: ReturnType<
+    ReturnType<typeof tasksAllCompletedBeforeTypeSelector>
+  > = useSelector(tasksAllCompletedBeforeTypeSelector({type}));
 
   const dispatch = useDispatch();
 
@@ -56,6 +60,7 @@ export function useTaskItem(type: TaskType) {
     title: t(`home.tasks.${type}.title`),
     description: t(`home.tasks.${type}.description`),
     iconBgColor: TASKS[type].iconBgColor,
+    allBeforeCompleted,
     onPress,
   };
 }
