@@ -366,8 +366,8 @@ export type Translations = {
   'search.search_by_country': null;
   'search.search_for_users': null;
   'tabbar.mining_inactive_tooltip': null;
-  'tabbar.mining_reset_tooltip': null;
-  'tabbar.mining_holiday_reset_tooltip': null;
+  'tabbar.mining_extend_tooltip': null;
+  'tabbar.mining_holiday_extend_tooltip': null;
   'tabbar.mining_holiday_active': null;
   'invite_friend.invite_button': null;
   'invite_friend.button_title': null;

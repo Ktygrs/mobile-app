@@ -42,7 +42,7 @@ export const MiningButtonConfig: {
   },
   restart: {
     animation: LottieAnimations.miningRestart,
-    tooltip: t('tabbar.mining_reset_tooltip'),
+    tooltip: t('tabbar.mining_extend_tooltip'),
     onTap: {
       showStackingModal: true,
     },
@@ -54,7 +54,7 @@ export const MiningButtonConfig: {
   },
   expire: {
     animation: LottieAnimations.miningExpire,
-    tooltip: t('tabbar.mining_reset_tooltip'),
+    tooltip: t('tabbar.mining_extend_tooltip'),
     onTap: {
       showStackingModal: true,
     },
@@ -74,7 +74,7 @@ export const MiningButtonConfig: {
   },
   holidayRestart: {
     animation: LottieAnimations.miningHolidayRestart,
-    tooltip: t('tabbar.mining_holiday_reset_tooltip', {
+    tooltip: t('tabbar.mining_holiday_extend_tooltip', {
       seconds: MINING_LONG_PRESS_ACTIVATION_SEC,
     }),
     onTap: {
@@ -88,7 +88,7 @@ export const MiningButtonConfig: {
   },
   holidayExpire: {
     animation: LottieAnimations.miningHolidayExpire,
-    tooltip: t('tabbar.mining_holiday_reset_tooltip', {
+    tooltip: t('tabbar.mining_holiday_extend_tooltip', {
       seconds: MINING_LONG_PRESS_ACTIVATION_SEC,
     }),
     onTap: {

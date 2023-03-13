@@ -525,8 +525,8 @@
   },
   "tabbar": {
     "mining_inactive_tooltip": "Atingeți aici pentru a începe prima dvs. sesiune de minerit",
-    "mining_reset_tooltip": "apasa pentru {{seconds}} secunde pentru a vă reseta sesiunea de mining",
-    "mining_holiday_reset_tooltip": "Folosiți o zi liberă!  {{seconds}} secunde pentru a vă reseta sesiunea de mining",
+    "mining_extend_tooltip": "apasa pentru {{seconds}} secunde pentru a vă reseta sesiunea de mining",
+    "mining_holiday_extend_tooltip": "Folosiți o zi liberă!  {{seconds}} secunde pentru a vă reseta sesiunea de mining",
     "mining_holiday_active": "Folosiți o zi liberă!"
   },
   "invite_friend": {

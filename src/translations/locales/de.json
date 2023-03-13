@@ -507,8 +507,8 @@
   },
   "tabbar": {
     "mining_inactive_tooltip": "Tippen Sie hier, um Ihre erste Mining-Sitzung zu starten",
-    "mining_reset_tooltip": "Drücken Sie für {{seconds}} Sekunden, um Ihre Mining-Sitzung zurückzusetzen",
-    "mining_holiday_reset_tooltip": "Sie verwenden einen arbeitsfreien Tag!  {{seconds}} Sekunden, um Ihre Mining-Sitzung zurückzusetzen",
+    "mining_extend_tooltip": "Drücken Sie für {{seconds}} Sekunden, um Ihre Mining-Sitzung zurückzusetzen",
+    "mining_holiday_extend_tooltip": "Sie verwenden einen arbeitsfreien Tag!  {{seconds}} Sekunden, um Ihre Mining-Sitzung zurückzusetzen",
     "mining_holiday_active": "Sie verwenden einen arbeitsfreien Tag!"
   },
   "invite_friend": {
