@@ -526,8 +526,8 @@
   },
   "tabbar": {
     "mining_inactive_tooltip": "Tap here to start your first check-in session",
-    "mining_extend_tooltip": "Press for 1 second to reset your check-in session",
-    "mining_holiday_extend_tooltip": "You are using a Day Off! Press for 1 second to reset your check-in session",
+    "mining_reset_tooltip": "Press for 1 second to extend your check-in session",
+    "mining_holiday_reset_tooltip": "You are using a Day Off! Press for 1 second to extend your check-in session",
     "mining_holiday_active": "You are using a Day Off!"
   },
   "invite_friend": {
