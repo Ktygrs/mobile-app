@@ -24,7 +24,7 @@ export const EVENT_NAMES = {
   TERMS_OF_SERVICE: 'Terms of Service',
   PRIVACY_POLICY: 'Privacy Policy',
   SEND_FEEDBACK: 'Send Feedback',
-  TAP_TO_MINE: 'Tab To Mine',
+  TAP_TO_MINE: 'Tap To Mine',
   TEAM_NUMBER_CONFIRMED: 'Team Number Confirmed',
   LOGIN: 'Login',
   REGISTER: 'Register',

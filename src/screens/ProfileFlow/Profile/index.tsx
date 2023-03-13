@@ -24,7 +24,7 @@ import {t} from '@translations/i18n';
 import {e164PhoneNumber} from '@utils/phoneNumber';
 import {font} from '@utils/styles';
 import React, {memo, useEffect, useState} from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, PixelRatio, StyleSheet, Text, View} from 'react-native';
 import {Contact} from 'react-native-contacts';
 import Animated, {
   useAnimatedScrollHandler,
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     marginTop: rem(20),
-    height: rem(102),
+    height: PixelRatio.roundToNearestPixel(rem(102)),
     overflow: 'hidden',
   },
   ladderContainer: {
